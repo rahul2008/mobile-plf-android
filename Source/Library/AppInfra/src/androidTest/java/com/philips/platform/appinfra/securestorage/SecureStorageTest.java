@@ -49,7 +49,7 @@ public class SecureStorageTest extends MockitoTestCase {
 
         SecureStorage secureStorageMock = mock(SecureStorage.class);
 
-        SecureStorageError sse = new SecureStorageError();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
 
         assertFalse(mSecureStorage.storeValueForKey("", "value",sse));
         assertFalse(mSecureStorage.storeValueForKey("", "",sse));
@@ -67,7 +67,7 @@ public class SecureStorageTest extends MockitoTestCase {
         }
 
     public void testFetchValuetForKey() throws Exception {
-        SecureStorageError sse = new SecureStorageError();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertNull(mSecureStorage.fetchValueForKey(null,sse));
         assertNull(mSecureStorage.fetchValueForKey("",sse));
         assertNull(mSecureStorage.fetchValueForKey("NotSavedKey",sse));
@@ -99,7 +99,7 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testHappyPath()throws Exception {
         String valueStored= "value";
         String keyStored= "key";
-        SecureStorageError sse = new SecureStorageError();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
 //        assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         assertTrue(mSecureStorage.removeValueForKey(keyStored));
@@ -109,7 +109,7 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testMultipleCallIndependentMethods()throws Exception {
         String valueStored= "value";
         String keyStored= "key";
-        SecureStorageError sse = new SecureStorageError();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         int iCount;
         for(iCount=0;iCount<10;iCount++){
             assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
@@ -127,7 +127,7 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testMultipleCallSequentialMethods()throws Exception {
         String valueStored= "value";
         String keyStored= "key";
-        SecureStorageError sse = new SecureStorageError();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         int iCount;
         for(iCount=0;iCount<10;iCount++){
             assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
@@ -140,7 +140,7 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testLargeValue()throws Exception {
         String valueStored= getLargeString();
         String keyStored= "keyLarge";
-        SecureStorageError sse = new SecureStorageError();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
         assertNotNull(mSecureStorage.fetchValueForKey(keyStored,sse));
         assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored,sse));

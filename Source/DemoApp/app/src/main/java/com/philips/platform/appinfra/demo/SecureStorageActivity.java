@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageError;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 
@@ -41,7 +40,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                SecureStorageError sseStore = new SecureStorageError(); // to get error code if any
+                SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
                 decryptedDataTextView.setText(null);
 
                 boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
@@ -63,7 +62,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                SecureStorageError sse = new SecureStorageError(); // to get error code if any
+                SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
                 String decryptedData= mSecureStorage.fetchValueForKey(userKey.getText().toString(),sse);
                 if(null!=sse.getErrorCode())
                 {

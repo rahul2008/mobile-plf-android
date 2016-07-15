@@ -37,4 +37,19 @@ public  interface SecureStorageInterface {
      * @return  denote delete operation success or failure
      */
     public boolean removeValueForKey(String userKey);
+
+    public class SecureStorageError {
+        public  enum  secureStorageError {AccessKeyFailure, UnknownKey , EncryptionError, DecryptionError, StoreError   , NoDataFoundForKey };
+        private secureStorageError errorCode = null;
+        public secureStorageError getErrorCode() {
+            return errorCode;
+        }
+
+        void setErrorCode(secureStorageError errorCode) {
+            this.errorCode = errorCode;
+        }
+
+
+
+    }
 }
