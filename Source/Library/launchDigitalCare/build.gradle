@@ -47,8 +47,9 @@ android {
         debug {
             //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
             minifyEnabled true
+            proguardFile 'proguard.pro'
             //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
+           // proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
         }
     }
 
