@@ -124,7 +124,9 @@ public class UserWithProducts {
     }
 
     public void sendErrorCallBack(final RegisteredProduct registeredProduct) {
-        appListener.onProdRegFailed(registeredProduct, getUserProduct());
+        if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct))
+            appListener.onProdRegFailed(registeredProduct, getUserProduct());
+
     }
 
     protected boolean isFailedOnInvalidInput(final RegisteredProduct registeredProduct) {
@@ -333,7 +335,8 @@ public class UserWithProducts {
     }
 
     private void sendSuccessFullCallBack(final RegisteredProduct registeredProduct) {
-        appListener.onProdRegSuccess(registeredProduct, getUserProduct());
+        if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct))
+            appListener.onProdRegSuccess(registeredProduct, getUserProduct());
     }
 
     protected void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {

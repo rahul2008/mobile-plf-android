@@ -238,4 +238,9 @@ public class RegistrationRequest extends PrxRequest {
         ProdRegLogger.d(getClass() + "", url);
         return url;
     }
+
+    @Override
+    public int getRequestTimeOut() {
+        return 30000;
+    }
 }

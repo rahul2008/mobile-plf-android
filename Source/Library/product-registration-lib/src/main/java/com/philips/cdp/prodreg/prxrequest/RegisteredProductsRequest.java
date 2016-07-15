@@ -96,4 +96,9 @@ public class RegisteredProductsRequest extends PrxRequest {
     public Catalog getCatalog() {
         return Catalog.DEFAULT;
     }
+
+    @Override
+    public int getRequestTimeOut() {
+        return 30000;
+    }
 }

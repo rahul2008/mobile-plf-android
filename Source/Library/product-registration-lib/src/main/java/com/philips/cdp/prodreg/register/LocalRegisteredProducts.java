@@ -99,7 +99,23 @@ public class LocalRegisteredProducts {
             }
             localRegisteredProducts.add(registeredProduct);
         }
+        removeCachedRegisteredProducts(Arrays.asList(products), localRegisteredProducts);
         getProdRegCache().storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, getGSon().toJson(localRegisteredProducts));
+    }
+
+    private Set<RegisteredProduct> removeCachedRegisteredProducts(final List<RegisteredProduct> products, final Set<RegisteredProduct> localRegisteredProducts) {
+        /*for (RegisteredProduct registeredProduct : localRegisteredProducts) {
+            if (registeredProduct.getRegistrationState() != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED && !products.contains(registeredProduct)) {
+                localRegisteredProducts.remove(registeredProduct);
+            }
+        }*/
+        for (final java.util.Iterator<RegisteredProduct> itr = localRegisteredProducts.iterator(); itr.hasNext(); ) {
+            final RegisteredProduct registeredProduct = itr.next();
+            if (registeredProduct.getRegistrationState() != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED && !products.contains(registeredProduct)) {
+                itr.remove();
+            }
+        }
+        return localRegisteredProducts;
     }
 
     public LocalRegisteredProducts getLocalRegisteredProducts() {

@@ -98,4 +98,9 @@ public class ProductSummaryRequest extends PrxRequest {
     public void setCtn(final String mCtn) {
         this.mCtn = mCtn;
     }
+
+    @Override
+    public int getRequestTimeOut() {
+        return 30000;
+    }
 }

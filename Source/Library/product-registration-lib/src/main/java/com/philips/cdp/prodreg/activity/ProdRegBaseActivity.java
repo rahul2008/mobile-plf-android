@@ -122,6 +122,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
         Bundle bundleExtras = getIntent().getExtras();
         int startAnimation = bundleExtras.getInt(ProdRegConstants.START_ANIMATION_ID);
         int endAnimation = bundleExtras.getInt(ProdRegConstants.STOP_ANIMATION_ID);
+        int orientation = bundleExtras.getInt(ProdRegConstants.SCREEN_ORIENTATION);
 
         if (startAnimation == 0 && endAnimation == 0) {
             return;
@@ -136,6 +137,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
         final int mExitAnimation = getApplicationContext().getResources().getIdentifier(endAnim, "anim",
                 packageName);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
+        setRequestedOrientation(orientation);
     }
 
     private void initCustomActionBar() {
