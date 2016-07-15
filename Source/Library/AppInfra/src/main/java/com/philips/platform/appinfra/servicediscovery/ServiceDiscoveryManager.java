@@ -302,14 +302,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
         Map<String,ServiceUrlandLocale> responseMap= new HashMap<String,ServiceUrlandLocale>();
 
-       if(mOnGetServiceUrlListener != null){
+       if(mOnGetServiceUrlListener != null && serviceIds!= null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-        }else if(mOnGetServiceUrlListener!=null){
+        }else if(mOnGetServiceUrlListener!=null && serviceIds!= null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
             } catch (MalformedURLException e) {
