@@ -68,4 +68,11 @@
         android:layout_height="wrap_content"
         android:text="@string/pair"/>
 
+    <Button
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/buttonUnPair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unpair"/>
+
 </LinearLayout>
