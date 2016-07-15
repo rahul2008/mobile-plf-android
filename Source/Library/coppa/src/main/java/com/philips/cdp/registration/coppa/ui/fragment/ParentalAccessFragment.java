@@ -145,6 +145,7 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
     }
 
     private void showParentalAccessDailog() {
+        mBtnUnderAge.setEnabled(false);
         String minAgeLimitTest = getActivity().getString(R.string.reg_Coppa_Age_Verification_UnderAge_Alert_Txt);
         int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         minAgeLimitTest = String.format(minAgeLimitTest, minAge);
@@ -157,6 +158,7 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
 
         @Override
         public void onClick(View view) {
+            mBtnUnderAge.setEnabled(true);
             RegCoppaAlertDialog.dismissDialog();
         }
     };
