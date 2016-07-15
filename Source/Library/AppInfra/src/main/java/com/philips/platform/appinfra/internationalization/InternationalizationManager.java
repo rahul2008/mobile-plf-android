@@ -37,7 +37,7 @@ public class InternationalizationManager implements InternationalizationInterfac
     public Locale getUILocale() {
         if (Locale.getDefault() != null) {
             if (mAppInfra.getTagging() != null) {
-                mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyLocal", "ValueLocal");
+                mAppInfra.getTagging().trackActionWithInfo("InternationalizationPage", "KeyLocal", "ValueLocal");
             }
 
             return Locale.getDefault();
@@ -54,7 +54,7 @@ public class InternationalizationManager implements InternationalizationInterfac
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Country", mCountry);
             if (mCountry != null) {
                 if (mAppInfra.getTagging() != null) {
-                    mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyCountry", "ValueCountry");
+                    mAppInfra.getTagging().trackActionWithInfo("InternationalizationPage", "KeyCountry", "ValueCountry");
                 }
                 return mCountry.toUpperCase();
             }

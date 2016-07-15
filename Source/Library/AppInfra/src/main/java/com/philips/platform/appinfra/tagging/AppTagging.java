@@ -238,11 +238,7 @@ public class AppTagging implements AppTaggingInterface {
     }
 
 
-    @Override
-    public void trackPageWithInfo(String pageName, String key, String value) {
 
-        track(pageName, key, value, null);
-    }
     private void track(String pageName, String key, String value, Map<String, String> paramMap){
 
         if(key!=null && value!=null){
@@ -271,6 +267,11 @@ public class AppTagging implements AppTaggingInterface {
         prevPage = pageName;
     }
 
+    @Override
+    public void trackPageWithInfo(String pageName, String key, String value) {
+
+        track(pageName, key, value, null);
+    }
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 

@@ -132,13 +132,14 @@ public class AppInfra implements AppInfraInterface {
         public AppInfra build(Context pContext) {
 
             AppInfra ai = new AppInfra(pContext);
-            ai.setTimeSync(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
+            ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
+            ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
            // ai.setLogging(new AppInfraLogging(ai));
 
-            ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
+
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
 
@@ -187,7 +188,7 @@ public class AppInfra implements AppInfraInterface {
         appInfraContext = pContext;
     }
 
-    private void setTimeSync(TimeInterface mTimeSyncInterface) {
+    private void setTime(TimeInterface mTimeSyncInterface) {
         this.mTimeSyncInterface = mTimeSyncInterface;
     }
 
