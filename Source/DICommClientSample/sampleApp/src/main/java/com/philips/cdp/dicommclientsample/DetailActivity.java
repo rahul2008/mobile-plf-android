@@ -59,6 +59,13 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.buttonUnPair).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startUnpairing();
+            }
+        });
+
         updateLightSwitchView(currentPurifier.getAirPort());
         updateDeviceNameView(currentPurifier.getDevicePort());
 
@@ -149,6 +156,31 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         pairingHandler.startPairing();
+    }
+
+    private void startUnpairing() {
+
+        final AirPurifier purifier = this.currentPurifier;
+        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(purifier, new PairingListener<AirPurifier>() {
+
+            @Override
+            public void onPairingSuccess(final AirPurifier appliance) {
+                Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
+
+                DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
+                discoveryManager.insertApplianceToDatabase(appliance);
+
+                showToast("Unpaired successfully");
+            }
+
+            @Override
+            public void onPairingFailed(final AirPurifier appliance) {
+                Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
+                showToast("Pairing failed");
+            }
+        });
+
+        pairingHandler.initializeRelationshipRemoval();
     }
 
     private void showToast(final String message) {
