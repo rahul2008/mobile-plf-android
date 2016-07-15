@@ -2,7 +2,6 @@ package com.philips.platform.modularui.cocointerface;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +16,6 @@ import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 
 /**
@@ -25,15 +23,34 @@ import com.philips.platform.appframework.userregistrationscreen.UserRegistration
  */
 
 public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListener,RegistrationTitleBarListener {
+
+    private UICoCoUserRegImpl(){
+
+    }
+
+    private static UICoCoUserRegImpl instance = new UICoCoUserRegImpl();
+
+    public static UICoCoUserRegImpl getInstance(){
+        if(null == instance){
+            instance = new UICoCoUserRegImpl();
+        }
+        return instance;
+    }
     Context context;
     User userObject;
-
+    public interface SetStateCallBack{
+        void setNextState(Context contexts);
+    }
+    SetStateCallBack setStateCallBack;
 
     public User getUserObject(Context context) {
         userObject = new User(context);
         return userObject;
     }
 
+    public void registerForNextState(SetStateCallBack setStateCallBack){
+        this.setStateCallBack = setStateCallBack;
+    }
     @Override
     public void loadPlugIn(Context context) {
         this.context = context;
@@ -88,12 +105,7 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            activity.startActivity(new Intent(activity, HomeActivity.class));
-            /*if(context instanceof WelcomeActivity) {
-                activity.startActivity(new Intent(activity, HomeActivity.class));
-            } else if(context instanceof HomeActivity){
-                activity.finish();
-            }*/
+            setStateCallBack.setNextState(context);
         }
 
     }

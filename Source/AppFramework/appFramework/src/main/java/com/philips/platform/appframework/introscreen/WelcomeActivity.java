@@ -98,7 +98,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new IntroductionScreenPresenter();
+        presenter = new WelcomePresenter();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.af_welcome_activity);

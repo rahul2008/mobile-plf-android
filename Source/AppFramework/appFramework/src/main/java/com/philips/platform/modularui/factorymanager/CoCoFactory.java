@@ -30,7 +30,7 @@ public class CoCoFactory {
             case UIConstants.UI_COCO_PRODUCT_REGISTRATION:
                 return new UICoCoProdRegImpl();
             case UIConstants.UI_COCO_USER_REGISTRATION:
-                return new UICoCoUserRegImpl();
+                return UICoCoUserRegImpl.getInstance();
             case UIConstants.UI_COCO_CONSUMER_CARE:
                 return new UICoCoConsumerCareImpl();
             default:
