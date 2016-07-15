@@ -29,16 +29,18 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
+/**
+ * ConfirmationHandler class handle coppa 2nd constent .
+ */
+
 public class ConfirmationHandler implements RefreshUserHandler {
 
-    private CoppaExtension mCoppaExtension;
+    final private CoppaExtension mCoppaExtension;
     private String mTaggingState;
     private String mTaggingKey;
-    private String mTaggignValue;
-    private Context mContext;
-    private User mUser;
-    public static FragmentManager mFragmentManager;
-
+    final private Context mContext;
+    final private User mUser;
+    private static FragmentManager mFragmentManager;
     private ParentalApprovalFragment mParentalApprovalFragment;
     private ParentalConsentFragment mParentalConsentFragment;
 
@@ -48,7 +50,8 @@ public class ConfirmationHandler implements RefreshUserHandler {
         mUser = new User(mContext);
     }
 
-    public void agreeConfirmation(final String taggingState, final String taggingKey, ParentalConsentFragment parentalConsentFragment) {
+    public void agreeConfirmation(final String taggingState, final String taggingKey,
+                                  ParentalConsentFragment parentalConsentFragment) {
         mParentalConsentFragment = parentalConsentFragment;
         mTaggingState = taggingState;
         mTaggingKey = taggingKey;
@@ -56,41 +59,46 @@ public class ConfirmationHandler implements RefreshUserHandler {
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                mCoppaExtension.updateCoppaConsentConfirmationStatus(true, new CoppaConsentUpdateCallback() {
-                    @Override
-                    public void onSuccess() {
-                        //2nd Consent
-                        mUser.refreshUser(new RefreshUserHandler() {
+                mCoppaExtension.updateCoppaConsentConfirmationStatus(true,
+                        new CoppaConsentUpdateCallback() {
                             @Override
-                            public void onRefreshUserSuccess() {
-                                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalConsentFragment.getActivity());
+                            public void onSuccess() {
+                                //2nd Consent
+                                mUser.refreshUser(new RefreshUserHandler() {
+                                    @Override
+                                    public void onRefreshUserSuccess() {
+                                        if (RegistrationCoppaHelper.getInstance().
+                                                getUserRegistrationListener() != null) {
+                                            RegistrationCoppaHelper.getInstance().
+                                                    getUserRegistrationListener().
+                                                    notifyonUserRegistrationCompleteEventOccurred(
+                                                            mParentalConsentFragment.getActivity());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onRefreshUserFailed(final int error) {
+                                        AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
+                                        handleFailure();
+                                    }
+                                });
+                                AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
+                                mParentalConsentFragment.hideRefreshProgress();
+                            }
+
+                            @Override
+                            public void onFailure(int errorCode) {
+                                AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
+                                mParentalConsentFragment.hideRefreshProgress();
+                                if (errorCode == -1) {
+                                    Toast.makeText(mParentalApprovalFragment.getContext(),
+                                            mParentalApprovalFragment.getContext().
+                                                    getResources().getString(
+                                                    R.string.reg_JanRain_Server_Connection_Failed)
+                                            , Toast.LENGTH_SHORT).show();
                                 }
                             }
-
-                            @Override
-                            public void onRefreshUserFailed(final int error) {
-                                AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
-                                handleFailure();
-                            }
                         });
-                        AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
-                        mParentalConsentFragment.hideRefreshProgress();
-                        /*if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
-                        }*/
-                    }
-
-                    @Override
-                    public void onFailure(int errorCode) {
-                        AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
-                        mParentalConsentFragment.hideRefreshProgress();
-                        if (errorCode == -1) {
-                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
-                                    , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
             }
 
             @Override
@@ -111,25 +119,35 @@ public class ConfirmationHandler implements RefreshUserHandler {
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                mCoppaExtension.updateCoppaConsentConfirmationStatus(false, new CoppaConsentUpdateCallback() {
-                    @Override
-                    public void onSuccess() {
-                        mParentalConsentFragment.getRegistrationFragment().hideRefreshProgress();
-                        mCoppaExtension.buildConfiguration();
-                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalConsentFragment.getActivity());
-                        }
-                    }
+                mCoppaExtension.updateCoppaConsentConfirmationStatus(false,
+                        new CoppaConsentUpdateCallback() {
+                            @Override
+                            public void onSuccess() {
+                                mParentalConsentFragment.getRegistrationFragment().
+                                        hideRefreshProgress();
+                                mCoppaExtension.buildConfiguration();
+                                if (RegistrationCoppaHelper.getInstance().
+                                        getUserRegistrationListener() != null) {
+                                    RegistrationCoppaHelper.getInstance().
+                                            getUserRegistrationListener().
+                                            notifyonUserRegistrationCompleteEventOccurred(
+                                                    mParentalConsentFragment.getActivity());
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(int errorCode) {
-                        mParentalConsentFragment.getRegistrationFragment().hideRefreshProgress();
-                        if (errorCode == -1) {
-                            Toast.makeText(mParentalConsentFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
-                                    , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                            @Override
+                            public void onFailure(int errorCode) {
+                                mParentalConsentFragment.getRegistrationFragment().
+                                        hideRefreshProgress();
+                                if (errorCode == -1) {
+                                    Toast.makeText(mParentalConsentFragment.getContext(),
+                                            mParentalApprovalFragment.getContext().
+                                                    getResources().getString(
+                                                    R.string.reg_JanRain_Server_Connection_Failed)
+                                            , Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
 
             @Override
@@ -149,10 +167,10 @@ public class ConfirmationHandler implements RefreshUserHandler {
         mCoppaExtension.buildConfiguration();
         RLog.i("ConsentStatus", "Status :  " + mCoppaExtension.getCoppaEmailConsentStatus());
 
-        updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
+        updateUiBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }
 
-    private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus) {
+    private void updateUiBasedOnConsentStatus(final CoppaStatus coppaStatus) {
         if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
             //show thank you and 24 hour screen
             addParentalConsentFragment(coppaStatus);
@@ -161,7 +179,9 @@ public class ConfirmationHandler implements RefreshUserHandler {
             addParentalConsentFragment(coppaStatus);
         } else {
             if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                        notifyonUserRegistrationCompleteEventOccurred(
+                                mParentalApprovalFragment.getActivity());
             }
         }
     }
@@ -175,7 +195,9 @@ public class ConfirmationHandler implements RefreshUserHandler {
     private void handleFailure() {
         mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
 
-        Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
+        Toast.makeText(mParentalApprovalFragment.getContext(),
+                mParentalApprovalFragment.getContext().getResources().getString(
+                        R.string.reg_JanRain_Server_Connection_Failed)
                 , Toast.LENGTH_SHORT).show();
     }
 
@@ -183,16 +205,20 @@ public class ConfirmationHandler implements RefreshUserHandler {
         mFragmentManager = mParentalApprovalFragment.getParentFragment().getChildFragmentManager();
         if (mFragmentManager != null) {
             try {
-                ParentalCaringSharingFragment parentalCaringSharingFragment = new ParentalCaringSharingFragment();
-                Bundle bundle = new Bundle();
+                ParentalCaringSharingFragment parentalCaringSharingFragment =
+                        new ParentalCaringSharingFragment();
+                final Bundle bundle = new Bundle();
                 bundle.putString(RegConstants.COPPA_STATUS, coppaStatus.toString());
                 parentalCaringSharingFragment.setArguments(bundle);
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalCaringSharingFragment, "Parental Access");
+                final FragmentTransaction fragmentTransaction =
+                        mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container,
+                        parentalCaringSharingFragment, "Parental Access");
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 RLog.e(RLog.EXCEPTION,
-                        "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
+                        "RegistrationCoppaFragment :FragmentTransaction" +
+                                " Exception occured in addFragment  :"
                                 + e.getMessage());
             }
         }

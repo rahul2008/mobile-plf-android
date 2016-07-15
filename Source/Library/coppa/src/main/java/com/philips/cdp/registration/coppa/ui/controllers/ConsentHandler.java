@@ -33,12 +33,12 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
  */
 public class ConsentHandler implements RefreshUserHandler {
 
-    private CoppaExtension mCoppaExtension;
+    final private CoppaExtension mCoppaExtension;
     private String mTaggingState;
     private String mTaggingKey;
     private final Context mContext;
     private final User mUser;
-    public static FragmentManager mFragmentManager;
+    private static FragmentManager mFragmentManager;
 
     private ParentalApprovalFragment mParentalApprovalFragment;
 
@@ -159,10 +159,10 @@ public class ConsentHandler implements RefreshUserHandler {
         mCoppaExtension.buildConfiguration();
         RLog.i("ConsentStatus", "Status :  " + mCoppaExtension.getCoppaEmailConsentStatus());
         mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
-        updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
+        updateUiBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }
 
-    private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus) {
+    private void updateUiBasedOnConsentStatus(final CoppaStatus coppaStatus) {
         if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
             completeConsentActions(coppaStatus);
         } else if (coppaStatus == CoppaStatus.kDICOPPAConfirmationGiven) {
@@ -207,12 +207,12 @@ public class ConsentHandler implements RefreshUserHandler {
         mFragmentManager = mParentalApprovalFragment.getParentFragment().getChildFragmentManager();
         if (mFragmentManager != null) {
             try {
-                ParentalCaringSharingFragment parentalCaringSharingFragment = new
+                final ParentalCaringSharingFragment parentalCaringSharingFragment = new
                         ParentalCaringSharingFragment();
-                Bundle bundle = new Bundle();
+                final Bundle bundle = new Bundle();
                 bundle.putString(RegConstants.COPPA_STATUS, coppaStatus.toString());
                 parentalCaringSharingFragment.setArguments(bundle);
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container,
                         parentalCaringSharingFragment, "Parental Access");
                 fragmentTransaction.commitAllowingStateLoss();

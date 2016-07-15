@@ -33,7 +33,9 @@
                     android:layout_marginTop="0dip"
                     android:paddingLeft="0dip"
                     android:text="@string/reg_Coppa_Give_Deny_Title_Txt"
+                    android:textColor="@color/reg_coppa_confirm_title_color"
                     android:visibility="gone"
+                    android:textStyle="bold"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView

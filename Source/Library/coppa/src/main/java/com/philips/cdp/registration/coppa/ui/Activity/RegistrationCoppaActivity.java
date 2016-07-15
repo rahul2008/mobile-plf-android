@@ -29,14 +29,19 @@ import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
+/**
+ * Registration Coppa Actitivty handle back navigation and loading all Fragments
+ */
+
+
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
     private boolean isAccountSettings = true;
     private boolean isParentalConsent;
     private TextView ivBack;
-    private Handler mSiteCatalistHandler = new Handler();
-    private Runnable mPauseSiteCatalystRunnable = new Runnable() {
+    final private Handler mSiteCatalistHandler = new Handler();
+    final private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
         @Override
         public void run() {
@@ -44,7 +49,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         }
     };
 
-    private Runnable mResumeSiteCatalystRunnable = new Runnable() {
+    final private Runnable mResumeSiteCatalystRunnable = new Runnable() {
 
         @Override
         public void run() {
@@ -56,7 +61,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
             isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
@@ -76,6 +81,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         try {
             alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
         } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         setContentView(R.layout.reg_activity_coppa_registration);
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
@@ -91,7 +97,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
+        final int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
                 Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
@@ -99,7 +105,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
+        final int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
                 Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
