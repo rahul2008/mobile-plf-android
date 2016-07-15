@@ -105,7 +105,12 @@ public class ProdRegBaseActivity extends UiKitActivity {
             fragLauncher.setFirstLaunch(isFirstLaunch);
             ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
                 @Override
-                public void onProdRegExit(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
+                public void onProdRegContinue(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
+                }
+
+                @Override
+                public void onProdRegBack(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
+
                 }
             });
         } catch (IllegalStateException e) {

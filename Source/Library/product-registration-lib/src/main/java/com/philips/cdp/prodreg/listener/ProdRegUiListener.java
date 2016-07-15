@@ -9,5 +9,6 @@ import com.philips.cdp.prodreg.register.UserWithProducts;
  */
 public interface ProdRegUiListener {
 
-    void onProdRegExit(RegisteredProduct registeredProduct, UserWithProducts userWithProduct);
+    void onProdRegContinue(RegisteredProduct registeredProduct, UserWithProducts userWithProduct);
+    void onProdRegBack(RegisteredProduct registeredProduct, UserWithProducts userWithProduct);
 }

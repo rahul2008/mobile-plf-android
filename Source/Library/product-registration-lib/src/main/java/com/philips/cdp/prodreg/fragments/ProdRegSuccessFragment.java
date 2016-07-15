@@ -53,7 +53,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
                 ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
                 final ProdRegUiListener prodRegUiListener = ProdRegUiHelper.getInstance().getProdRegUiListener();
                 if (prodRegUiListener != null)
-                    prodRegUiListener.onProdRegExit(registeredProduct, new ProdRegHelper().getSignedInUserWithProducts());
+                    prodRegUiListener.onProdRegContinue(registeredProduct, new ProdRegHelper().getSignedInUserWithProducts());
             }
         }
     }
