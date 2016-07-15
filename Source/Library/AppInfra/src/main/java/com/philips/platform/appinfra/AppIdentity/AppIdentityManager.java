@@ -29,10 +29,11 @@ public class AppIdentityManager implements AppIdentityInterface {
     public String mAppName;
     public String mAppVersion;
     public String mServiceDiscoveryEnvironment;
-    public String mAppLocalizedNAme;
+    public String mLocalizedAppName;
     public String micrositeId;
     public String sector;
     public String mAppState;
+
 
 
     @Override
@@ -43,15 +44,31 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     @Override
     public String getAppVersion() {
-//        if(mAppInfra.getTagging()!=null){
-//            mAppInfra.getTagging().trackActionWithInfo("AppIndentityPage", "KeyAppIdentity", "ValueAppIdentity");
-//        }
         return mAppVersion;
     }
 
     @Override
-    public String getAppState() {
-        return mAppState;
+    public AppState getAppState() {
+        AppState mAppStateEnum = null;
+        if(mAppState.equalsIgnoreCase("DEVELOPMENT")){
+            mAppStateEnum =  AppState.DEVELOPMENT;
+        }
+        if(mAppState.equalsIgnoreCase("TEST")){
+            mAppStateEnum =  AppState.DEVELOPMENT;
+        }
+        if(mAppState.equalsIgnoreCase("STAGING")){
+            mAppStateEnum =  AppState.DEVELOPMENT;
+        }
+        if(mAppState.equalsIgnoreCase("ACCEPTANCE")){
+            mAppStateEnum = AppState.DEVELOPMENT;
+        }
+        if(mAppState.equalsIgnoreCase("PRODUCTION")){
+            mAppStateEnum = AppState.DEVELOPMENT;
+        }
+        if(mAppStateEnum != null){
+            return mAppStateEnum;
+        }
+        return mAppStateEnum;
     }
 
     @Override
@@ -61,8 +78,8 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 
     @Override
-    public String getAppLocalizedNAme() {
-        return mAppLocalizedNAme;
+    public String getLocalizedAppName() {
+        return mLocalizedAppName;
     }
 
 
@@ -134,7 +151,7 @@ public class AppIdentityManager implements AppIdentityInterface {
                         /* Vertical App should have this string defined for all supported language files
                         *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
                         * */
-                        mAppLocalizedNAme = context.getResources().getString(R.string.localized_commercial_app_name);
+                        mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
 
                         mAppVersion = String.valueOf(pInfo.versionName);
 
@@ -148,7 +165,7 @@ public class AppIdentityManager implements AppIdentityInterface {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppState",""+getAppState());
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppName",""+getAppName());
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppVersion",""+getAppVersion());
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppLocalizedNAme",""+getAppLocalizedNAme());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppLocalizedNAme",""+getLocalizedAppName());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

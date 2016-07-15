@@ -31,7 +31,7 @@ import java.util.TimeZone;
 /**
  * Created by 310243577 on 6/27/2016.
  */
-public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInterface {
+public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterface {
 
 
     private final String TAG = "TimeSyncSntpClient";

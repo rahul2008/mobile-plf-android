@@ -10,13 +10,13 @@ import android.app.Application;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 /**
  * Created by deepakpanigrahi on 5/18/16.
  */
 public class AppInfraApplication extends Application {
-     public static AIAppTaggingInterface mAIAppTaggingInterface;
+     public static AppTaggingInterface mAIAppTaggingInterface;
      public static AppInfraInterface gAppInfra;
     @Override
     public void onCreate() {

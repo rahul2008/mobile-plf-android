@@ -39,8 +39,8 @@ private final String componentNameAndVersion;
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
         builder.append("[");
-        if(mappInfra != null && mappInfra.getTimeSync()!=null){
-            builder.append(mappInfra.getTimeSync().getUTCTime()).append("]");
+        if(mappInfra != null && mappInfra.getTime()!=null){
+            builder.append(mappInfra.getTime().getUTCTime()).append("]");
         }
 
         String componentName = "NA"; // Default component name

@@ -8,6 +8,8 @@ package com.philips.platform.appinfra.appidentity;
 
 public interface AppIdentityInterface {
 
+    enum AppState {DEVELOPMENT,TEST,STAGING,ACCEPTANCE,PRODUCTION};
+
     /**
      * Gets app name.
      *
@@ -27,14 +29,14 @@ public interface AppIdentityInterface {
      *
      * @return the app state
      */
-    public String getAppState();
+    public AppState getAppState();
 
     /**
      * Gets app localized n ame.
      *
      * @return the app localized n ame
      */
-    public String getAppLocalizedNAme();
+    public String getLocalizedAppName();
 
     /**
      * Gets microsite id.

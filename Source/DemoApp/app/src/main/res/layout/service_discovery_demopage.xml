@@ -42,20 +42,6 @@
     <Button
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Get Service by Lang"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/getservice_by_lang" />
-
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Get Service by Country"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/getservice_by_country" />
-
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
         android:text="Get Home country"
         android:id="@+id/gethome_country_btn"
         android:layout_gravity="center_horizontal" />

@@ -6,7 +6,6 @@
 package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.adobe.mobile.MobilePrivacyStatus;
 
@@ -16,7 +15,7 @@ import java.util.Map;
 /**
  * The interface Ai app tagging interface.
  */
-public interface AIAppTaggingInterface {
+public interface AppTaggingInterface {
 
     /**
      * The enum Privacy status.
@@ -31,7 +30,7 @@ public interface AIAppTaggingInterface {
      * @param componentVersion the component version
      * @return the appinfra app tagging interface
      */
-    public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion);
+    public AppTaggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
     /**
      * Sets privacy consent.
@@ -52,7 +51,7 @@ public interface AIAppTaggingInterface {
      *
      * @return the privacy consent
      */
-    public MobilePrivacyStatus getPrivacyConsent();
+    public PrivacyStatus getPrivacyConsent();
 
     /**
      * Track page with info.

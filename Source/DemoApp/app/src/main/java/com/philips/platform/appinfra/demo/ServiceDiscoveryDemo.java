@@ -17,10 +17,9 @@ import java.net.URL;
 /**
  * Created by 310238655 on 6/7/2016.
  */
-public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetServicesListener, ServiceDiscoveryInterface.OnGetServiceLocaleListener, ServiceDiscoveryInterface.OnGetServiceUrlListener, ServiceDiscoveryInterface.OnGetHomeCountryListener {
+public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetServiceLocaleListener, ServiceDiscoveryInterface.OnGetServiceUrlListener, ServiceDiscoveryInterface.OnGetHomeCountryListener {
 
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    ServiceDiscoveryInterface.OnGetServicesListener mOnGetServicesListener = null;
     ServiceDiscoveryInterface.OnGetServiceLocaleListener mOnGetServiceLocaleListener = null;
     ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
     ServiceDiscoveryInterface.OnGetHomeCountryListener mOnGetHomeCountryListener = null;
@@ -34,8 +33,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appInfra = AppInfraApplication.gAppInfra;
-        mServiceDiscoveryInterface = appInfra.getServiceDiscoveryInterface();
-        mOnGetServicesListener=this;
+        mServiceDiscoveryInterface = appInfra.getServiceDiscovery();
         mOnGetServiceLocaleListener=this;
         mOnGetServiceUrlListener=this;
         mOnGetHomeCountryListener=this;
@@ -43,20 +41,18 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         setContentView(R.layout.service_discovery_demopage);
 
         idEditText = (EditText) findViewById(R.id.serviceid_editText);
-        Button localbyLang = (Button) findViewById(R.id.getlocal_by_lang_button);
-        Button localbyCountry = (Button) findViewById(R.id.getlocal_by_country_butn);
+        Button localeByLang = (Button) findViewById(R.id.getlocal_by_lang_button);
+        Button localeByCountry = (Button) findViewById(R.id.getlocal_by_country_butn);
         Button urlbyLang = (Button) findViewById(R.id.geturl_by_country_btn);
         Button urlbyCountry = (Button) findViewById(R.id.geturl_by_lang_buttn);
         Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
         Button setHomeCountrybtn = (Button) findViewById(R.id.sethomecountry_btn);
 
-        Button getservicecountryBtn = (Button) findViewById(R.id.getservice_by_country);
-        Button getservicelangBtn = (Button) findViewById(R.id.getservice_by_lang);
         editTextData= idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2) ;
 
-        localbyLang.setOnClickListener(new View.OnClickListener() {
+        localeByLang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -66,7 +62,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
             }
         });
-        localbyCountry.setOnClickListener(new View.OnClickListener() {
+        localeByCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editTextData= idEditText.getText().toString();
@@ -101,38 +97,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //                mServiceDiscoveryInterface.setHomeCountry();
             }
         });
-        getservicelangBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                mServiceDiscoveryInterface.getServicesWithLanguagePreference(editTextData, mOnGetServicesListener );
-            }
-        });
-        getservicecountryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mServiceDiscoveryInterface.getServicesWithCountryPreference(editTextData, mOnGetServicesListener );
-            }
-        });
-//        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("ServiceDiscoveryDemoPage", "SDKEy", "SDValue");
-//        mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
-//            @Override
-//            public void onError(ERRORVALUES error, String message) {
-//                Log.i("ERRORVALUES", ""+error);
-//
-//            }
-//
-//            @Override
-//            public void onSuccess() {
-//                Log.i("refresh", "refresh");
-//                mServiceDiscoveryInterface.getServicesWithCountryPreference("userreg.janrain.cdn",mOnGetServicesListener );
-////                mServiceDiscoveryInterface.getServicesWithLanguagePreference("userreg.janrain.cdn",mOnGetServicesListener );
-////                mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.cdn",mOnGetServiceLocaleListener );
-////                mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.cdn",mOnGetServiceLocaleListener );
-////                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.cdn",mOnGetServiceUrlListener );
-////                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("userreg.janrain.cdn",mOnGetServiceUrlListener );
-//            }
-//        });
     }
 
     @Override

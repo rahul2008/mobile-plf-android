@@ -66,10 +66,10 @@ public interface ServiceDiscoveryInterface {
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
      */
-    interface OnGetServicesListener extends OnErrorListener {
-//        void onSuccess(Map<String, ServiceUrlandLocale> services);
-            void onSuccess(String services);
-    }
+//    interface OnGetServicesListener extends OnErrorListener {
+////        void onSuccess(Map<String, ServiceUrlandLocale> services);
+//            void onSuccess(String services);
+//    }
 
     /**
      * This is the callback method from refresh() API.
@@ -128,7 +128,7 @@ public interface ServiceDiscoveryInterface {
      *                 and their URL + locale (value), the value will be null if the service is unknown;
      *                 or returns onError the error code when retrieval failed.
      */
-    void getServicesWithLanguagePreference(String serviceIds, OnGetServicesListener listener);
+//    void getServicesWithLanguagePreference(String serviceIds, OnGetServicesListener listener);
     /**
      * Returns the URLs + locales for a set of services with a preference for the current home country.
      * @param serviceIds list of service names for which the URL + locale are to be retrieved
@@ -136,7 +136,7 @@ public interface ServiceDiscoveryInterface {
      *                 and their URL + locale (value), the value will be null if the service is unknown;
      *                 or returns onError the error code when retrieval failed.
      */
-    void getServicesWithCountryPreference(String serviceIds, OnGetServicesListener listener);
+//    void getServicesWithCountryPreference(String serviceIds, OnGetServicesListener listener);
 
     /**
      * Start negotiation with cloud service for the list of service for this application. List is based on sector, microsite, home country, and language.

@@ -4,14 +4,13 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 /**
  * Created by 310238655 on 7/4/2016.
  */
 public class TimeSyncTest extends MockitoTestCase {
 
-    TimeSyncInterface mTimeSyncInterface=null;
+    TimeInterface mTimeSyncInterface=null;
     // Context context = Mockito.mock(Context.class);
 
     private Context context;

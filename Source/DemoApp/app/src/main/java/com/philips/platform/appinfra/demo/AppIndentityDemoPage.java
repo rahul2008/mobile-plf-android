@@ -26,15 +26,15 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         mAppIdentityInterface = appInfra.getAppIdentity();
 
         ((TextView) findViewById(R.id.appNameValue)).setText(mAppIdentityInterface.getAppName());
-        ((TextView) findViewById(R.id.localizedAppValue)).setText(mAppIdentityInterface.getAppLocalizedNAme());
+        ((TextView) findViewById(R.id.localizedAppValue)).setText(mAppIdentityInterface.getLocalizedAppName());
         ((TextView) findViewById(R.id.appVersionValue)).setText(mAppIdentityInterface.getAppVersion());
-        ((TextView) findViewById(R.id.appStateValue)).setText(mAppIdentityInterface.getAppState());
+        ((TextView) findViewById(R.id.appStateValue)).setText(mAppIdentityInterface.getAppState().toString());
         ((TextView) findViewById(R.id.micrositeIdValue)).setText(mAppIdentityInterface.getMicrositeId());
         ((TextView) findViewById(R.id.sectorValue)).setText(mAppIdentityInterface.getSector());
         ((TextView) findViewById(R.id.servicediscoveryvalue)).setText(mAppIdentityInterface.getServiceDiscoveryEnvironment());
 
 
-        Log.i("getAppLocalizedNAme", "" + mAppIdentityInterface.getAppLocalizedNAme());
+        Log.i("getAppLocalizedNAme", "" + mAppIdentityInterface.getLocalizedAppName());
         Log.i("getSector", "" + mAppIdentityInterface.getSector());
         Log.i("getMicrositeId", "" + mAppIdentityInterface.getMicrositeId());
         Log.i("getAppName", "" + mAppIdentityInterface.getAppName());

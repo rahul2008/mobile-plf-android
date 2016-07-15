@@ -15,17 +15,14 @@ import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.GlobalStore;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
-public class AppTagging implements AIAppTaggingInterface {
+public class AppTagging implements AppTaggingInterface {
     private static String componentVersionKey;
 
     private static String newFieldKey;
@@ -47,12 +44,12 @@ public class AppTagging implements AIAppTaggingInterface {
     Context context ;
 
     private static String[] defaultValues = {
-            AIAppTaggingConstants.LANGUAGE_KEY,
-            AIAppTaggingConstants.APPSID_KEY,
-            AIAppTaggingConstants.COMPONENT_ID,
-            AIAppTaggingConstants.COMPONENT_VERSION,
+            AppTaggingConstants.LANGUAGE_KEY,
+            AppTaggingConstants.APPSID_KEY,
+            AppTaggingConstants.COMPONENT_ID,
+            AppTaggingConstants.COMPONENT_VERSION,
 
-            AIAppTaggingConstants.UTC_TIMESTAMP_KEY
+            AppTaggingConstants.UTC_TIMESTAMP_KEY
 
 
     };
@@ -97,14 +94,14 @@ public class AppTagging implements AIAppTaggingInterface {
     private Map<String, Object> addAnalyticsDataObject() {
         Map<String, Object> contextData = new HashMap<String, Object>();
 
-        contextData.put(AIAppTaggingConstants.LANGUAGE_KEY, getLanguage());
-//        contextData.put(AIAppTaggingConstants.CURRENCY_KEY, getCurrency());
+        contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
+//        contextData.put(AppTaggingConstants.CURRENCY_KEY, getCurrency());
 
-        contextData.put(AIAppTaggingConstants.APPSID_KEY, getAppsId());
-        contextData.put(AIAppTaggingConstants.COMPONENT_ID, getComponentId());
-        contextData.put(AIAppTaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
-        contextData.put(AIAppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
-        contextData.put(AIAppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
+        contextData.put(AppTaggingConstants.APPSID_KEY, getAppsId());
+        contextData.put(AppTaggingConstants.COMPONENT_ID, getComponentId());
+        contextData.put(AppTaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
+        contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
+        contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         if (null != getNewKey() && null != getNewValue()) {
 
             if(!getNewKey().contains(",") && !getNewValue().contains(",") ){
@@ -148,8 +145,8 @@ public class AppTagging implements AIAppTaggingInterface {
     private String getUTCTimestamp() {
         String UTCtime = null;
 
-        if(mAppInfra.getTimeSync() != null){
-            UTCtime=mAppInfra.getTimeSync().getUTCTime();
+        if(mAppInfra.getTime() != null){
+            UTCtime=mAppInfra.getTime().getUTCTime();
             mUTCTimestamp = UTCtime;
             Log.i("mUTCTimestamp", ""+mUTCTimestamp);
         }
@@ -190,7 +187,7 @@ public class AppTagging implements AIAppTaggingInterface {
     }
 
     @Override
-    public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
+    public AppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
         return new AppTaggingWrapper(mAppInfra, componentId, componentVersion);
     }
 
@@ -218,8 +215,26 @@ public class AppTagging implements AIAppTaggingInterface {
         mGlobalStore.setValue(prevPage);
     }
     @Override
-    public MobilePrivacyStatus getPrivacyConsent() {
-        return Config.getPrivacyStatus();
+    public PrivacyStatus getPrivacyConsent() {
+
+        MobilePrivacyStatus mMobilePrivacyStatus=  Config.getPrivacyStatus();
+        PrivacyStatus mPrivacyStatus = null;
+        switch (mMobilePrivacyStatus) {
+            case MOBILE_PRIVACY_STATUS_OPT_IN:
+                mPrivacyStatus= PrivacyStatus.OPTIN;
+                break;
+            case MOBILE_PRIVACY_STATUS_OPT_OUT:
+                mPrivacyStatus = PrivacyStatus.OPTOUT;
+                break;
+            case MOBILE_PRIVACY_STATUS_UNKNOWN:
+                mPrivacyStatus = PrivacyStatus.UNKNOWN;
+                break;
+
+        }
+        if(mPrivacyStatus != null){
+            return mPrivacyStatus;
+        }
+        return null;
     }
 
 
@@ -249,7 +264,7 @@ public class AppTagging implements AIAppTaggingInterface {
 
         contextData = addAnalyticsDataObject();
         if (null != prevPage) {
-            contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
+            contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
         Analytics.trackState(pageName, contextData);
 

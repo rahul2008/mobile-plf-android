@@ -5,7 +5,7 @@
  */
 package com.philips.platform.appinfra.tagging;
 
-public class AIAppTaggingConstants {
+public class AppTaggingConstants {
 
 //    public static final String DEFAULT_CURRENCY = "EUR";
 

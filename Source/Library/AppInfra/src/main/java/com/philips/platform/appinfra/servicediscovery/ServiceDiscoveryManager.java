@@ -9,6 +9,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -72,26 +73,30 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         idntityManager.loadJSONFromAsset();
         InternationalizationManager localmanager= new InternationalizationManager(mAppInfra);
         localmanager.getUILocale();
-        String mState = idntityManager.getAppState();
+        AppIdentityInterface.AppState mState = idntityManager.getAppState();
         String mEnvironment = idntityManager.getServiceDiscoveryEnvironment();
         String tags = null;
         String environment = null;
-if(mState!=null && mEnvironment!=null){
-    if(mState.equalsIgnoreCase("DEVELOPMENT")){
-        tags="apps%2b%2benv%2bdev";
+    if(mState!=null && mEnvironment!=null){
+    switch(mState) {
+        case DEVELOPMENT:
+            tags="apps%2b%2benv%2bdev";
+            break;
+        case STAGING:
+            tags="apps%2b%2benv%2bstage";
+            break;
+        case ACCEPTANCE:
+            tags="apps%2b%2benv%2bacc";
+            break;
+        case TEST:
+            tags="apps%2b%2benv%2btest";
+            break;
+        case PRODUCTION:
+            tags="apps%2b%2benv%2bprod";
+            break;
+
     }
-    else if(mState.equalsIgnoreCase("TEST")){
-        tags="apps%2b%2benv%2btest";
-    }
-    else if(mState.equalsIgnoreCase("STAGING")){
-        tags="apps%2b%2benv%2bstage";
-    }
-    else if(mState.equalsIgnoreCase("ACCEPTANCE")){
-        tags="apps%2b%2benv%2bacc";
-    }
-    else if(mState.equalsIgnoreCase("PRODUCTION")){
-        tags="apps%2b%2benv%2bprod";
-    }
+
     if(mEnvironment.equalsIgnoreCase("PRODUCTION") ){
         environment = "www.philips.com";
     }
@@ -161,7 +166,7 @@ if(mState!=null && mEnvironment!=null){
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
         mServiceUrlWithLanguagePreference = true;
         if(isDataAvailable){
-            filteredDataForServices(serviceId, null, listener, null, null);
+            filteredDataForServices(serviceId, null, listener, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -171,7 +176,7 @@ if(mState!=null && mEnvironment!=null){
 
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId, null, listener, null, null);
+                    filteredDataForServices(serviceId, null, listener, null);
                 }
             }));
         }
@@ -183,7 +188,7 @@ if(mState!=null && mEnvironment!=null){
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
         mServiceUrlWithCountryPreference = true;
         if(isDataAvailable){
-            filteredDataForServices(serviceId, null, listener, null, null);
+            filteredDataForServices(serviceId, null, listener, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -193,7 +198,7 @@ if(mState!=null && mEnvironment!=null){
 
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId,null,  listener, null, null);
+                    filteredDataForServices(serviceId,null,  listener, null);
                 }
             }));
         }
@@ -206,7 +211,7 @@ if(mState!=null && mEnvironment!=null){
         mServiceLocaleWithLanguagePreference = true;
 
         if(isDataAvailable){
-            filteredDataForServices(serviceId,listener, null, null, null);
+            filteredDataForServices(serviceId,listener, null, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -216,7 +221,7 @@ if(mState!=null && mEnvironment!=null){
 
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId, listener,null, null, null);
+                    filteredDataForServices(serviceId, listener,null, null);
                 }
             }));
         }
@@ -228,7 +233,7 @@ if(mState!=null && mEnvironment!=null){
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
         mServiceLocaleWithCountryPreference = true;
         if(isDataAvailable){
-            filteredDataForServices(serviceId, listener, null, null, null);
+            filteredDataForServices(serviceId, listener, null, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -238,7 +243,7 @@ if(mState!=null && mEnvironment!=null){
 
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId, listener, null, null, null);
+                    filteredDataForServices(serviceId, listener, null, null);
                 }
             }));
         }
@@ -247,52 +252,52 @@ if(mState!=null && mEnvironment!=null){
 
 
 
-    @Override
-    public void getServicesWithLanguagePreference(final String serviceIds, final OnGetServicesListener listener) {
-        mServicesWithLanguagePreferenceMultiple = true;
-        if(isDataAvailable){
-            filteredDataForServices(serviceIds,null, null, null, listener);
-        }else{
-            refresh((new OnRefreshListener() {
-                @Override
-                public void onError(ERRORVALUES error, String message) {
+//    @Override
+//    public void getServicesWithLanguagePreference(final String serviceIds, final OnGetServicesListener listener) {
+//        mServicesWithLanguagePreferenceMultiple = true;
+//        if(isDataAvailable){
+//            filteredDataForServices(serviceIds,null, null, null, listener);
+//        }else{
+//            refresh((new OnRefreshListener() {
+//                @Override
+//                public void onError(ERRORVALUES error, String message) {
+//
+//                }
+//
+//                @Override
+//                public void onSuccess() {
+//                    filteredDataForServices(serviceIds,null, null, null, listener);
+//                }
+//            }));
+//        }
+//
+//    }
 
-                }
 
-                @Override
-                public void onSuccess() {
-                    filteredDataForServices(serviceIds,null, null, null, listener);
-                }
-            }));
-        }
+//    @Override
+//    public void getServicesWithCountryPreference(final String serviceIds, final OnGetServicesListener listener) {
+//        mmServiceUrlWithCountryPreferenceMultiple = true;
+//
+//        if(isDataAvailable){
+//            filteredDataForServices(serviceIds,null, null, null, listener);
+//        }else{
+//            refresh((new OnRefreshListener() {
+//                @Override
+//                public void onError(ERRORVALUES error, String message) {
+//                    //Log.i("onError", ""+"refresh  Error");
+//                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"Service Discovery onError","refresh  Error");
+//                }
+//
+//                @Override
+//                public void onSuccess() {
+//                    filteredDataForServices(serviceIds,null, null, null, listener);
+//                }
+//            }));
+//        }
+//
+//    }
 
-    }
-
-
-    @Override
-    public void getServicesWithCountryPreference(final String serviceIds, final OnGetServicesListener listener) {
-        mmServiceUrlWithCountryPreferenceMultiple = true;
-
-        if(isDataAvailable){
-            filteredDataForServices(serviceIds,null, null, null, listener);
-        }else{
-            refresh((new OnRefreshListener() {
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    //Log.i("onError", ""+"refresh  Error");
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"Service Discovery onError","refresh  Error");
-                }
-
-                @Override
-                public void onSuccess() {
-                    filteredDataForServices(serviceIds,null, null, null, listener);
-                }
-            }));
-        }
-
-    }
-
-    private void filteredDataForServices(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener, OnGetServiceUrlListener mOnGetServiceUrlListener, OnGetHomeCountryListener mOnGetHomeCountryListener, OnGetServicesListener mOnGetServicesListener){
+    private void filteredDataForServices(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener, OnGetServiceUrlListener mOnGetServiceUrlListener, OnGetHomeCountryListener mOnGetHomeCountryListener){
 
 
         Map<String,ServiceUrlandLocale> responseMap= new HashMap<String,ServiceUrlandLocale>();
@@ -300,7 +305,6 @@ if(mState!=null && mEnvironment!=null){
        if(mOnGetServiceUrlListener != null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds)));
-//                mServiceUrlWithLanguagePreference = false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -308,26 +312,22 @@ if(mState!=null && mEnvironment!=null){
         }else if(mOnGetServiceUrlListener!=null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
-//                mServiceUrlWithCountryPreference = false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
         }else if(mOnGetServiceLocaleListener!=null){
            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
-//           mServiceLocaleWithLanguagePreference = false;
 
         }else if(mOnGetServiceLocaleListener!=null){
            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
-//           mServiceLocaleWithCountryPreference = false;
-        }else if(mOnGetServicesListener!=null){
-            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
-//           mServicesWithLanguagePreferenceMultiple = false;
-
-        }else if(mOnGetServicesListener!=null){
-            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
-//           mmServiceUrlWithCountryPreferenceMultiple = false;
         }
+//       else if(mOnGetServicesListener!=null){
+//            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
+//
+//        }else if(mOnGetServicesListener!=null){
+//            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
+//        }
 
 
         //this is future implementaion
@@ -378,7 +378,6 @@ if(mState!=null && mEnvironment!=null){
         if(RequestManager.mServiceDiscovery != null){
             if(RequestManager.mServiceDiscovery.isSuccess()){
                 isDataAvailable = true;
-//                listener.onSuccess();
             }
         }
     }

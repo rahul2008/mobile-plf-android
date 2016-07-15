@@ -1,16 +1,13 @@
 package com.philips.platform.appinfra.demo;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.timesync.TimeSyncInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,7 +18,7 @@ import java.util.Date;
  */
 public class TimeSyncDemo extends AppCompatActivity {
 
-    TimeSyncInterface mTimeSyncInterface;
+    TimeInterface mTimeSyncInterface;
     SimpleDateFormat formatter;
      String dateString;
 
@@ -38,7 +35,7 @@ public class TimeSyncDemo extends AppCompatActivity {
         Button refreshButton = (Button) findViewById(R.id.refreshbutton);
 
 
-        mTimeSyncInterface= AppInfraApplication.gAppInfra.getTimeSync();
+        mTimeSyncInterface= AppInfraApplication.gAppInfra.getTime();
         Calendar c = Calendar.getInstance();
 
 

@@ -5,8 +5,8 @@ import com.philips.platform.appinfra.internationalization.InternationalizationIn
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 /**
  * The interface App infra interface.
@@ -45,19 +45,19 @@ public interface AppInfraInterface {
      *
      * @return the service discovery interface
      */
-    public ServiceDiscoveryInterface getServiceDiscoveryInterface();
+    public ServiceDiscoveryInterface getServiceDiscovery();
 
     /**
      * Gets tagging.
      *
      * @return the tagging
      */
-    public AIAppTaggingInterface getTagging();
+    public AppTaggingInterface getTagging();
 
     /**
      * Gets time sync.
      *
      * @return the time sync
      */
-    public TimeSyncInterface getTimeSync();
+    public TimeInterface getTime();
 }

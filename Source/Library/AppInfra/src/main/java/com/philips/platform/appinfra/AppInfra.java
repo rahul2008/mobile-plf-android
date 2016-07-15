@@ -18,8 +18,8 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 import com.philips.platform.appinfra.tagging.AppTagging;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 /**
@@ -30,13 +30,13 @@ public class AppInfra implements AppInfraInterface {
 
     private SecureStorageInterface secureStorage;
     private LoggingInterface logger;
-    private AIAppTaggingInterface tagging;
+    private AppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
     private final static String APP_INFRA_VERSION = "1.1.0-rc5";
     private AppIdentityInterface appIdentity;
     private InternationalizationInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
-    private TimeSyncInterface mTimeSyncInterface;
+    private TimeInterface mTimeSyncInterface;
 
 
     /**
@@ -52,11 +52,11 @@ public class AppInfra implements AppInfraInterface {
         private SecureStorageInterface secStor;
         private LoggingInterface logger; // builder logger
         private LoggingInterface aiLogger; // app infra logger
-        private AIAppTaggingInterface tagging;
+        private AppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
         private InternationalizationInterface local;
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
-        private TimeSyncInterface mTimeSyncInterfaceBuilder;
+        private TimeInterface mTimeSyncInterfaceBuilder;
 
         /**
          * Instantiates a new Builder.
@@ -112,7 +112,7 @@ public class AppInfra implements AppInfraInterface {
             return this;
         }
 
-        public Builder setTagging(AIAppTaggingInterface aIAppTaggingInterface) {
+        public Builder setTagging(AppTaggingInterface aIAppTaggingInterface) {
             tagging = aIAppTaggingInterface;
             return this;
         }
@@ -153,7 +153,7 @@ public class AppInfra implements AppInfraInterface {
     }
 
     @Override
-    public TimeSyncInterface getTimeSync() {
+    public TimeInterface getTime() {
         return mTimeSyncInterface;
     }
 
@@ -178,7 +178,7 @@ public class AppInfra implements AppInfraInterface {
     }
 
     @Override
-    public ServiceDiscoveryInterface getServiceDiscoveryInterface() {
+    public ServiceDiscoveryInterface getServiceDiscovery() {
         return mServiceDiscoveryInterface;
     }
 
@@ -187,7 +187,7 @@ public class AppInfra implements AppInfraInterface {
         appInfraContext = pContext;
     }
 
-    private void setTimeSync(TimeSyncInterface mTimeSyncInterface) {
+    private void setTimeSync(TimeInterface mTimeSyncInterface) {
         this.mTimeSyncInterface = mTimeSyncInterface;
     }
 
@@ -200,7 +200,7 @@ public class AppInfra implements AppInfraInterface {
         appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), APP_INFRA_VERSION);
     }
 
-    private void setTagging(AIAppTaggingInterface tagg) {
+    private void setTagging(AppTaggingInterface tagg) {
         tagging = tagg;
 
     }
@@ -221,7 +221,7 @@ public class AppInfra implements AppInfraInterface {
     }
 
 
-    public AIAppTaggingInterface getTagging() {
+    public AppTaggingInterface getTagging() {
         return tagging;
     }
 
