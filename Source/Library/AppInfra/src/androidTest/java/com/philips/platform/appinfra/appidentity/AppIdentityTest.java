@@ -27,7 +27,7 @@ public class AppIdentityTest extends MockitoTestCase {
         assertNotNull(mAppIdentityManager);
     }
     public void testHappyPath()throws Exception {
-        assertNotNull(mAppIdentityManager.getAppLocalizedNAme());
+        assertNotNull(mAppIdentityManager.getLocalizedAppName());
         assertNotNull(mAppIdentityManager.getAppName());
         assertNotNull(mAppIdentityManager.getAppState());
         assertNotNull(mAppIdentityManager.getAppVersion());

@@ -23,7 +23,7 @@ public class TimeSyncTest extends MockitoTestCase {
         assertNotNull(context);
         mAppInfra =  new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mTimeSyncInterface = mAppInfra.getTimeSync();
+        mTimeSyncInterface = mAppInfra.getTime();
         assertNotNull(mTimeSyncInterface);
     }
     public void testUTCTimeHappyPath()throws Exception {

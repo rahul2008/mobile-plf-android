@@ -27,7 +27,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         assertNotNull(context);
         mAppInfra =  new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mServiceDiscoveryManager = mAppInfra.getServiceDiscoveryInterface();
+        mServiceDiscoveryManager = mAppInfra.getServiceDiscovery();
         assertNotNull(mServiceDiscoveryManager);
     }
     public void testgetServiceUrlWithLanguagePreference()throws Exception{
@@ -85,34 +85,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
             }
         });
     }
-    public void testgetServicesWithLanguagePreference()throws Exception{
-        mServiceDiscoveryManager.getServicesWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServicesListener() {
 
 
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-
-            }
-
-            @Override
-            public void onSuccess(String services) {
-                assertNotNull(services);
-            }
-        });
-    }
-    public void testgetServicesWithCountryPreference()throws Exception{
-        mServiceDiscoveryManager.getServicesWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServicesListener() {
-
-
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-
-            }
-
-            @Override
-            public void onSuccess(String services) {
-                assertNotNull(services);
-            }
-        });
-    }
 }
