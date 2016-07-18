@@ -2,6 +2,7 @@ package com.philips.cdp.prodreg.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -130,16 +131,16 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         switch (v.getId()) {
 
             case R.id.pr_activity_a:
-                makeRegistrationRequest(true, "a");
+                makeRegistrationRequest(true, "app_flow");
                 break;
             case R.id.pr_activity_b:
-                makeRegistrationRequest(true, "b");
+                makeRegistrationRequest(true, "user_flow");
                 break;
             case R.id.pr_fragment_a:
-                makeRegistrationRequest(false, "a");
+                makeRegistrationRequest(false, "app_flow");
                 break;
             case R.id.pr_fragment_b:
-                makeRegistrationRequest(false, "b");
+                makeRegistrationRequest(false, "user_flow");
                 break;
             case R.id.toggbutton:
                 eMailConfiguration = toggleButton.isChecked();
@@ -190,8 +191,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     }
 
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
-        ArrayList<Product> regProdList = new ArrayList<Product>();
-        regProdList.add(product);
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
         ProdRegConfig prodRegConfig;
         if (!isActivity) {
             FragmentLauncher fragLauncher = new FragmentLauncher(
@@ -203,41 +204,36 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 }
             });
             fragLauncher.setAnimation(0, 0);
-            if (type.equalsIgnoreCase("a")) {
-                prodRegConfig = new ProdRegConfig(regProdList, true);
+            if (type.equalsIgnoreCase("app_flow")) {
+                prodRegConfig = new ProdRegConfig(products, true);
             } else {
-                prodRegConfig = new ProdRegConfig(regProdList, false);
+                prodRegConfig = new ProdRegConfig(products, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, prodRegConfig, new ProdRegUiListener() {
-                @Override
-                public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
-                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");
-                }
-
-                @Override
-                public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
-                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getProdRegError() + "");
-                }
-            });
+            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, prodRegConfig, getProdRegUiListener());
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
-            if (type.equalsIgnoreCase("a")) {
-                prodRegConfig = new ProdRegConfig(regProdList, true);
+            if (type.equalsIgnoreCase("app_flow")) {
+                prodRegConfig = new ProdRegConfig(products, true);
             } else {
-                prodRegConfig = new ProdRegConfig(regProdList, false);
+                prodRegConfig = new ProdRegConfig(products, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, prodRegConfig, new ProdRegUiListener() {
-                @Override
-                public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
-                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");
-                }
-
-                @Override
-                public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
-                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getProdRegError() + "");
-                }
-            });
+            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, prodRegConfig, getProdRegUiListener());
         }
+    }
+
+    @NonNull
+    private ProdRegUiListener getProdRegUiListener() {
+        return new ProdRegUiListener() {
+            @Override
+            public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
+                ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");
+            }
+
+            @Override
+            public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
+                ProdRegLogger.v(getTag(), registeredProduct.get(0).getProdRegError() + "");
+            }
+        };
     }
 
     @Override

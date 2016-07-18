@@ -130,7 +130,6 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     }
 
     public void testRegisterEvent() {
-//        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);

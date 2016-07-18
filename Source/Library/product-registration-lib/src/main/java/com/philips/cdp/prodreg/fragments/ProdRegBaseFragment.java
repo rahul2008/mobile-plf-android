@@ -20,9 +20,11 @@ import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
 
 import java.util.List;
 
@@ -82,6 +84,41 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
         }
     }
 
+    protected void showFragment(Fragment fragment) {
+        final FragmentActivity fragmentActivity = getActivity();
+        if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
+            addFragment(fragment, fragmentActivity, getId());
+        }
+    }
+
+    protected void hideKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * Updating action bar title. The text has to be updated at each fragment
+     * seletion/creation.
+     */
+    private void setActionbarTitle() {
+        if (mActionbarUpdateListener != null)
+            mActionbarUpdateListener.updateActionbar(getActionbarTitle());
+    }
+
+    private void handleCallBack(final boolean onBack) {
+        final ProdRegUiListener prodRegUiListener = ProdRegUiHelper.getInstance().getProdRegUiListener();
+        final UserWithProducts signedInUserWithProducts = new ProdRegHelper().getSignedInUserWithProducts();
+        if (onBack && prodRegUiListener != null)
+            prodRegUiListener.onProdRegBack(getRegisteredProducts(), signedInUserWithProducts);
+        else if (prodRegUiListener != null)
+            prodRegUiListener.onProdRegContinue(getRegisteredProducts(), signedInUserWithProducts);
+    }
+
     private void addFragment(final Fragment fragment, final FragmentActivity fragmentActivity, final int containerId) {
         try {
             FragmentTransaction fragmentTransaction = fragmentActivity
@@ -119,36 +156,6 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
             mExitAnimation = fragmentActivity.getResources().getIdentifier(endAnim, "anim",
                     packageName);
         }
-    }
-
-    protected void showFragment(Fragment fragment) {
-        final FragmentActivity fragmentActivity = getActivity();
-        if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-            addFragment(fragment, fragmentActivity, getId());
-        }
-    }
-
-    protected void hideKeyboard() {
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager inputManager = (InputMethodManager) getActivity()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
-
-    /**
-     * Updating action bar title. The text has to be updated at each fragment
-     * seletion/creation.
-     */
-    private void setActionbarTitle() {
-        updateActionbar();
-    }
-
-    private void updateActionbar() {
-        if (mActionbarUpdateListener != null)
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle());
     }
 
     protected void showAlertOnError(final int statusCode) {
@@ -201,13 +208,6 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
             }
         }
         return false;
-    }
-
-    private void handleCallBack(final boolean onBack) {
-        if (onBack)
-            ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegBack(getRegisteredProducts(), new ProdRegHelper().getSignedInUserWithProducts());
-        else
-            ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegContinue(getRegisteredProducts(), new ProdRegHelper().getSignedInUserWithProducts());
     }
 
     @Override

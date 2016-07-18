@@ -10,18 +10,18 @@ import java.util.ArrayList;
  */
 public class ProdRegConfig {
     private ArrayList<Product> products;
-    private boolean isFirstLaunch;
+    private boolean isAppLaunch;
 
-    public ProdRegConfig(final ArrayList<Product> products, final boolean isFirstLaunch) {
+    public ProdRegConfig(final ArrayList<Product> products, final boolean isAppLaunch) {
         this.products = products;
-        this.isFirstLaunch = isFirstLaunch;
+        this.isAppLaunch = isAppLaunch;
     }
 
     public ArrayList<Product> getProducts() {
         return products;
     }
 
-    public boolean isFirstLaunch() {
-        return isFirstLaunch;
+    public boolean isAppLaunch() {
+        return isAppLaunch;
     }
 }
