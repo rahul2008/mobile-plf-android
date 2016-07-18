@@ -12,7 +12,8 @@
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_toLeftOf="@+id/delivery_mode_price"
         android:layout_marginStart="@dimen/iap_product_detail_left_padding"
-        android:text="@string/iap_delivery_method"/>
+        android:layout_alignParentStart="true"
+        android:text="@string/iap_delivery_via"/>
     <TextView
         android:id="@+id/delivery_date"
         android:layout_below="@id/delivery_mode_name"

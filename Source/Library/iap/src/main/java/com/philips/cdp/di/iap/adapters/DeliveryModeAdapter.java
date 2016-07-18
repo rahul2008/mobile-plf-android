@@ -37,8 +37,8 @@ public class DeliveryModeAdapter extends ArrayAdapter<DeliveryModes> {
 
         DeliveryModes modes = mModes.get(position);
 
-
-        mDeliveryModeName.setText(modes.getName());
+        if(modes.getName() != null && !modes.getName().equals(""))
+            mDeliveryModeName.setText(modes.getName());
         mDeliveryModeDate.setText(modes.getDescription());
         mDelivertModePrice.setText(modes.getDeliveryCost().getFormattedValue());
 
