@@ -20,6 +20,7 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
 import java.util.HashMap;
@@ -28,6 +29,9 @@ import java.util.Map;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ChatNowFragment extends DigitalCareBaseFragment {
+
+    private static final String TAG = ChatNowFragment.class.getSimpleName();
+
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
@@ -36,6 +40,8 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        DigiCareLogger.i(TAG, "Showing Chat Now Screen");
 
         if (mView == null) {
             mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
@@ -74,7 +80,10 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     }
 
     private String getChatUrl() {
-        return getResources().getString(R.string.live_chat_url);
+        String chatLink = null;
+        DigiCareLogger.i(TAG, "Chat Url Link : " + chatLink);
+        chatLink = getResources().getString(R.string.live_chat_url);
+        return chatLink;
     }
 
     @Override
