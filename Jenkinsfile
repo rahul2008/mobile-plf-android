@@ -1,5 +1,6 @@
 node('Android') {
     stage 'Checkout'
+    sh 'git clean -ffdx'
     checkout scm
 
     stage 'Build'
