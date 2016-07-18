@@ -90,6 +90,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
 
         DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(applianceFactory, applianceDatabase, networkMonitor);
+        discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
         mInstance = discoveryManager;
         return discoveryManager;
     }
@@ -105,9 +106,8 @@ public class DiscoveryManager<T extends DICommAppliance> {
         mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
         initializeAppliancesMapFromDataBase();
 
-        mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), mHandlerCallback);
-
         mNetwork = networkMonitor;
+
         mNetwork.setListener(mNetworkChangedCallback);
         if (mDiscoveryEventListenersList == null) {
             mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();

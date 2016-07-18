@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
 
 public class SsdpServiceHelperThreadTest extends RobolectricTest {
 
@@ -26,8 +25,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 	@Before
 	public void setUp() throws Exception {
 
-		mService = mock(SsdpService.class);
-		mHelper = new SsdpServiceHelper(mService, null);
+		mHelper = new SsdpServiceHelper(null, null);
 		mHelper.setStopDelayForTesting(STOPSSDP_TESTDELAY);
 	}
 
