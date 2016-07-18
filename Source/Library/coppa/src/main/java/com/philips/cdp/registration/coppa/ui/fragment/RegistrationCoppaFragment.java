@@ -63,6 +63,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private static boolean isParentConsentRequested;
 
+    private static boolean isParentalFragmentLaunched;
+
     private static int lastKnownResourceId = -99;
 
     private CoppaExtension coppaExtension;
@@ -93,16 +95,20 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RLog.d("RegistrationCoppaFragment", "isAccountSettings : " + isAccountSettings);
         RLog.d("RegistrationCoppaFragment", "isParentConsentRequested : "
                 + isParentConsentRequested);
-        super.onCreate(savedInstanceState);
+
         lastKnownResourceId = -99;
         coppaExtension = new CoppaExtension(getContext());
+        if(savedInstanceState != null){
+            savedInstanceState.putBoolean("isRegistrationLaunched", isRegistrationLunched);
+
+        }
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mActivity = getActivity();
-        this.setOnUpdateTitleListener((RegistrationCoppaActivity) mActivity);
         final View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -161,11 +167,21 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("isRegistrationLaunched", isRegistrationLunched);
         super.onSaveInstanceState(outState);
     }
 
+    private static boolean isRegistrationLunched;
+
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            isRegistrationLunched = savedInstanceState.getBoolean("isRegistrationLaunched");
+            if (!isRegistrationLunched) {
+                this.setOnUpdateTitleListener((RegistrationCoppaActivity) getActivity());
+            }
+        }
+
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -388,8 +404,11 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             });
             final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(registrationFragment.getTag());
+
             fragmentTransaction.add(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
+
+            isRegistrationLunched = true;
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -528,7 +547,10 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 @Override
                 public void onUserRegistrationComplete(Activity activity) {
                     //Launch the Approval fragment
+                    isRegistrationLunched = false;
+                    isParentalFragmentLaunched = true;
                     showRefreshProgress(activity);
+
                     final User user = new User(activity.getApplicationContext());
                     user.refreshLoginSession(new RefreshLoginSessionHandler() {
                         @Override
@@ -604,6 +626,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private static void handleConsentState() {
         RLog.i("Coppa Consent", "Handle Consent State");
+
         CoppaExtension mCoppaExtension;
         mCoppaExtension = new CoppaExtension(getParentActivity().getApplicationContext());
         mCoppaExtension.buildConfiguration();

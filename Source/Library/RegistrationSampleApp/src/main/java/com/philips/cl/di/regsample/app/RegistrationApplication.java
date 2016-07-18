@@ -101,7 +101,7 @@ public class RegistrationApplication extends Application {
         HashMap<String, String> ageMap = new HashMap<>();
         ageMap.put("NL", "16");
         ageMap.put("GB", "16");
-        ageMap.put("default", "16");
+        ageMap.put("DEFAULT", "16");
         RegistrationDynamicConfiguration.getInstance().getFlow().setMinAgeLimit(ageMap);
 
         //Configure Signin Providers
@@ -120,7 +120,7 @@ public class RegistrationApplication extends Application {
 
         providers.put("NL", values1);
         providers.put("US", values2);
-        providers.put("default", values3);
+        providers.put("DEFAULT", values3);
         RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
 
         //Configure HSDP

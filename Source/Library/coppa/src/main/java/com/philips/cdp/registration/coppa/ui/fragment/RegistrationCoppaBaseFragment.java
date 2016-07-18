@@ -25,6 +25,7 @@ import android.widget.ScrollView;
 
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -36,6 +37,7 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     private int mLeftRightMarginPort;
 
     private int mLeftRightMarginLand;
+    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -51,6 +53,9 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         this.mPrevTitleResourceId = mPrevTitleResourceId;
     }
 
+    public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
+        this.mRegistrationUpdateTitleListener = listener;
+    }
     private int mPrevTitleResourceId = -99;
 
     protected static int mWidth = 0;
