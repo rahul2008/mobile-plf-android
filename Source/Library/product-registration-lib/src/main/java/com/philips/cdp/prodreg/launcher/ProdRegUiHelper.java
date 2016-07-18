@@ -146,7 +146,7 @@ public class ProdRegUiHelper {
         RegisteredProduct registeredProduct = null;
         if (currentProduct != null) {
             registeredProduct = new RegisteredProduct(currentProduct.getCtn(), currentProduct.getSector(), currentProduct.getCatalog());
-            registeredProduct.setSerialNumber(currentProduct.getSerialNumber());
+            registeredProduct.setSerialNumber(currentProduct.getSerialNumber().trim());
             registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
             registeredProduct.sendEmail(currentProduct.getEmail());
             registeredProduct.setFriendlyName(currentProduct.getFriendlyName());
