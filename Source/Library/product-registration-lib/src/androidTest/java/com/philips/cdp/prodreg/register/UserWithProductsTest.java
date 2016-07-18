@@ -47,6 +47,7 @@ public class UserWithProductsTest extends MockitoTestCase {
     private ErrorHandler errorHandlerMock;
     private ProdRegListener prodRegListener;
     private User userMock;
+    private RegisteredProduct currentRegisteredProduct;
 
     @Rule
 
@@ -56,6 +57,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
         userWithProductsMock = mock(UserWithProducts.class);
         userMock = mock(User.class);
+        currentRegisteredProduct = mock(RegisteredProduct.class);
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
         prodRegListener = mock(ProdRegListener.class);
         errorHandlerMock = mock(ErrorHandler.class);
@@ -82,6 +84,11 @@ public class UserWithProductsTest extends MockitoTestCase {
             @Override
             protected User getUser() {
                 return userMock;
+            }
+
+            @Override
+            public RegisteredProduct getCurrentRegisteredProduct() {
+                return currentRegisteredProduct;
             }
         };
     }

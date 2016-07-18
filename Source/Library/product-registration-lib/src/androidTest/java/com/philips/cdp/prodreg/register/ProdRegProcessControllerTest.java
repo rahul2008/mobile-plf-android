@@ -32,7 +32,7 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
     private ProdRegProcessController prodRegProcessController;
     private ProdRegProcessController.ProcessControllerCallBacks processControllerCallBacksMock;
     private FragmentActivity fragmentActivity;
-    private Product productMock;
+    private RegisteredProduct productMock;
     private Bundle bundle;
     private User userMock;
     private ProdRegHelper prodRegHelperMock;
@@ -46,7 +46,7 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         fragmentActivity = mock(FragmentActivity.class);
         processControllerCallBacksMock = mock(ProdRegProcessController.ProcessControllerCallBacks.class);
         metadataListenerMock = mock(MetadataListener.class);
-        productMock = mock(Product.class);
+        productMock = mock(RegisteredProduct.class);
         userMock = mock(User.class);
         prodRegHelperMock = mock(ProdRegHelper.class);
         prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
@@ -84,7 +84,7 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
                 return prodRegRegistrationFragmentMock;
             }
         };
-        final ArrayList<Product> products = new ArrayList<>();
+        final ArrayList<RegisteredProduct> products = new ArrayList<>();
         when(productMock.getCtn()).thenReturn("HC5410/83");
         when(productMock.getSerialNumber()).thenReturn("1344");
         products.add(productMock);

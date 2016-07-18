@@ -20,6 +20,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.launcher.ProdRegConfig;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
@@ -191,6 +192,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
         ArrayList<Product> regProdList = new ArrayList<Product>();
         regProdList.add(product);
+        ProdRegConfig prodRegConfig;
         if (!isActivity) {
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, R.id.parent_layout, new ActionbarUpdateListener() {
@@ -202,9 +204,11 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             });
             fragLauncher.setAnimation(0, 0);
             if (type.equalsIgnoreCase("a")) {
-                fragLauncher.setFirstLaunch(true);
+                prodRegConfig = new ProdRegConfig(regProdList, true);
+            } else {
+                prodRegConfig = new ProdRegConfig(regProdList, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
+            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, prodRegConfig, new ProdRegUiListener() {
                 @Override
                 public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                     ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");
@@ -218,9 +222,11 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, -1);
             if (type.equalsIgnoreCase("a")) {
-                activityLauncher.setFirstLaunch(true);
+                prodRegConfig = new ProdRegConfig(regProdList, true);
+            } else {
+                prodRegConfig = new ProdRegConfig(regProdList, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, regProdList, new ProdRegUiListener() {
+            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, prodRegConfig, new ProdRegUiListener() {
                 @Override
                 public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                     ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");

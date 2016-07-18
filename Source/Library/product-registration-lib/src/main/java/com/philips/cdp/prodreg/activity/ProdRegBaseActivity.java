@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.launcher.ProdRegConfig;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -99,9 +100,9 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 }
             });
             fragLauncher.setAnimation(0, 0);
-            fragLauncher.setFirstLaunch(isFirstLaunch);
             final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
-            prodRegUiHelper.invokeProductRegistration(fragLauncher, regProdList, prodRegUiHelper.getProdRegUiListener());
+            final ProdRegConfig prodRegConfig = new ProdRegConfig(regProdList, isFirstLaunch);
+            prodRegUiHelper.invokeProductRegistration(fragLauncher, prodRegConfig, prodRegUiHelper.getProdRegUiListener());
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }

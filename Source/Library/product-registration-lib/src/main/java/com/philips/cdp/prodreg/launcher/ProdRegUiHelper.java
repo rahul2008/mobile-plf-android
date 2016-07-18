@@ -13,7 +13,6 @@
 
 package com.philips.cdp.prodreg.launcher;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,8 +36,9 @@ public class ProdRegUiHelper {
     private static int mContainerId;
     private static ProdRegUiHelper prodRegUiHelper;
     private UiLauncher mUiLauncher;
-    private ArrayList<RegisteredProduct> productList;
     private ProdRegUiListener prodRegUiListener;
+    private ArrayList<RegisteredProduct> registeredProducts;
+
     /*
          * Initialize everything(resources, variables etc) required for Product Registration.
          * Hosting app, which will integrate this Product Registration, has to pass app
@@ -65,13 +65,13 @@ public class ProdRegUiHelper {
      * <p> 1) Please consider the string "product_registration" to identify the MainScreen Fragment as a
      * Fragment ID. </p>
      */
-    private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
+    private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegConfig prodRegConfig) {
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         final Bundle arguments = new Bundle();
-        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, productList);
+        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
 
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
-        if (fragmentLauncher.isFirstLaunch()) {
+        if (prodRegConfig.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(arguments);
             prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
@@ -84,23 +84,23 @@ public class ProdRegUiHelper {
         }
     }
 
-    public void invokeProductRegistration(final UiLauncher uiLauncher, final ArrayList<Product> products, final ProdRegUiListener prodRegUiListener) {
+    public void invokeProductRegistration(final UiLauncher uiLauncher, final ProdRegConfig prodRegConfig, final ProdRegUiListener prodRegUiListener) {
         this.mUiLauncher = uiLauncher;
-        createRegisteredProductsList(products);
+        createRegisteredProductsList(prodRegConfig.getProducts());
         this.prodRegUiListener = prodRegUiListener;
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            invokeProductRegistrationAsActivity(activityLauncher.getFragmentActivity(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
+            invokeProductRegistrationAsActivity(activityLauncher, prodRegConfig);
         } else {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeProductRegistrationAsFragment(fragmentLauncher);
+            invokeProductRegistrationAsFragment(fragmentLauncher, prodRegConfig);
         }
     }
 
     private void createRegisteredProductsList(final ArrayList<Product> products) {
-        productList = new ArrayList<>();
+        registeredProducts = new ArrayList<>();
         for (Product product : products) {
-            this.productList.add(mapToRegisteredProduct(product));
+            registeredProducts.add(mapToRegisteredProduct(product));
         }
     }
 
@@ -112,19 +112,18 @@ public class ProdRegUiHelper {
      * <p> Invoking Product Registration Component from the Intent. </p>
      * <b> Note: </b> Please make sure to set the Locale before invoking this method.
      *
-     * @param startAnimation Animation resource ID.
-     * @param endAnimation   Animation Resource ID.
-     * @param orientation    Orientation
+     * @param activityLauncher launcher which includes orientation, start and end animation.
+     * @param prodRegConfig   product registration configuration.
      */
-    private void invokeProductRegistrationAsActivity(Context context, int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
+    private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final ProdRegConfig prodRegConfig) {
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
-        Intent intent = new Intent(context, ProdRegBaseActivity.class);
-        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, productList);
-        intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);
-        intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, endAnimation);
-        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, mUiLauncher.isFirstLaunch());
-        intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());
-        context.startActivity(intent);
+        Intent intent = new Intent(activityLauncher.getFragmentActivity(), ProdRegBaseActivity.class);
+        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+        intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
+        intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
+        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegConfig.isFirstLaunch());
+        intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
+        activityLauncher.getFragmentActivity().startActivity(intent);
     }
 
     public boolean onBackPressed(FragmentActivity fragmentActivity) {

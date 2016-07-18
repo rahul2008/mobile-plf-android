@@ -8,7 +8,6 @@ public class UiLauncher {
 
     protected int mEnterAnimation;
     protected int mExitAnimation;
-    private boolean isFirstLaunch;
 
     public UiLauncher() {
     }
@@ -25,13 +24,4 @@ public class UiLauncher {
         this.mEnterAnimation = enterAnimation;
         this.mExitAnimation = exitAnimation;
     }
-
-    public boolean isFirstLaunch() {
-        return isFirstLaunch;
-    }
-
-    public void setFirstLaunch(final boolean firstLaunch) {
-        this.isFirstLaunch = firstLaunch;
-    }
-
 }

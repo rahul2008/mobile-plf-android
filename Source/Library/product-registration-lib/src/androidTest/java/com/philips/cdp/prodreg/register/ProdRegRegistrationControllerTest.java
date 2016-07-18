@@ -18,7 +18,6 @@ import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -117,10 +116,6 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         verify(registerControllerCallBacksMock).requireFields(true, false);
         verify(registerControllerCallBacksMock).setSummaryView(summaryDataMock);
         verify(registerControllerCallBacksMock).setProductView(registeredProductMock);
-        verify(registeredProductMock, atLeastOnce()).setSerialNumber(registeredProductMock.getSerialNumber());
-        verify(registeredProductMock, atLeastOnce()).setPurchaseDate(registeredProductMock.getPurchaseDate());
-        verify(registeredProductMock, atLeastOnce()).sendEmail(registeredProductMock.getEmail());
-        verify(registeredProductMock, atLeastOnce()).setFriendlyName(registeredProductMock.getFriendlyName());
     }
 
     public void testIsValidSerialNumber() {

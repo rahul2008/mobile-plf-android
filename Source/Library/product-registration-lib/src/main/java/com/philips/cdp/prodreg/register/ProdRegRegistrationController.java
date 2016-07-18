@@ -179,8 +179,7 @@ public class ProdRegRegistrationController {
                     ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
                     ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
-                    registeredProducts.remove(registeredProduct);
-                    registeredProducts.add(registeredProduct);
+                    updateRegisteredProductsList(registeredProduct);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
                     bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
@@ -199,8 +198,7 @@ public class ProdRegRegistrationController {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
                         final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
-                        registeredProducts.remove(registeredProduct);
-                        registeredProducts.add(registeredProduct);
+                        updateRegisteredProductsList(registeredProduct);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
                         connectionFragment.setArguments(bundle);
@@ -225,10 +223,12 @@ public class ProdRegRegistrationController {
     }
 
     public List<RegisteredProduct> getRegisteredProducts() {
-        if (registeredProducts.contains(registeredProduct)) {
-            registeredProducts.remove(registeredProduct);
-            registeredProducts.add(registeredProduct);
-        }
+        updateRegisteredProductsList(registeredProduct);
         return registeredProducts;
+    }
+
+    private void updateRegisteredProductsList(final RegisteredProduct registeredProduct) {
+        registeredProducts.remove(registeredProduct);
+        registeredProducts.add(registeredProduct);
     }
 }

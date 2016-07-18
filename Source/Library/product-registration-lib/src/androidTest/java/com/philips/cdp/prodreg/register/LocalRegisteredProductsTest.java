@@ -89,7 +89,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         assertEquals(registeredProducts.size(), 4);
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProduct});
-        assertEquals(registeredProducts.size(), 4);
+        assertEquals(registeredProducts.size(), 3);
     }
 
     public void testGetRegisteredProducts() {
