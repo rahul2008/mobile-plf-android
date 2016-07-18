@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
-import com.philips.cdp.prodreg.listener.ProdRegUiListener;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -23,10 +23,16 @@ import com.philips.cdp.product_registration_lib.R;
 public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegSuccessFragment.class.getName();
+    private ArrayList<RegisteredProduct> regProdList;
 
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
+    public List<RegisteredProduct> getRegisteredProducts() {
+        return regProdList;
     }
 
     @Override
@@ -37,7 +43,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onBackPressed();
+                clearFragmentStack(false);
             }
         });
         return view;
@@ -49,11 +55,9 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         final Bundle arguments = getArguments();
         if (arguments != null) {
             RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             if (registeredProduct != null) {
                 ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
-                final ProdRegUiListener prodRegUiListener = ProdRegUiHelper.getInstance().getProdRegUiListener();
-                if (prodRegUiListener != null)
-                    prodRegUiListener.onProdRegContinue(registeredProduct, new ProdRegHelper().getSignedInUserWithProducts());
             }
         }
     }
@@ -62,7 +66,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     public boolean onBackPressed() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            return clearFragmentStack();
+            return clearFragmentStack(true);
         }
         return true;
     }

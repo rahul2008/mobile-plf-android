@@ -239,8 +239,4 @@ public class RegistrationRequest extends PrxRequest {
         return url;
     }
 
-    @Override
-    public int getRequestTimeOut() {
-        return 30000;
-    }
 }

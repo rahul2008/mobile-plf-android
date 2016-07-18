@@ -16,10 +16,15 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.cdp.prodreg.register.ProdRegHelper;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -33,6 +38,8 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     private int mExitAnimation = 0;
 
     public abstract String getActionbarTitle();
+
+    public abstract List<RegisteredProduct> getRegisteredProducts();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -181,17 +188,26 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
         }
     }
 
-    public boolean clearFragmentStack() {
+    public boolean clearFragmentStack(boolean onBack) {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             if (activity instanceof ProdRegBaseActivity) {
                 activity.finish();
+                handleCallBack(onBack);
             } else {
                 FragmentManager fragManager = activity.getSupportFragmentManager();
+                handleCallBack(onBack);
                 return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         return false;
+    }
+
+    private void handleCallBack(final boolean onBack) {
+        if (onBack)
+            ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegBack(getRegisteredProducts(), new ProdRegHelper().getSignedInUserWithProducts());
+        else
+            ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegContinue(getRegisteredProducts(), new ProdRegHelper().getSignedInUserWithProducts());
     }
 
     @Override

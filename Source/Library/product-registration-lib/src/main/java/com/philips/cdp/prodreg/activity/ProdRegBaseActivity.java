@@ -25,11 +25,8 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
-import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -103,16 +100,8 @@ public class ProdRegBaseActivity extends UiKitActivity {
             });
             fragLauncher.setAnimation(0, 0);
             fragLauncher.setFirstLaunch(isFirstLaunch);
-            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
-                @Override
-                public void onProdRegContinue(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
-                }
-
-                @Override
-                public void onProdRegBack(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
-
-                }
-            });
+            final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
+            prodRegUiHelper.invokeProductRegistration(fragLauncher, regProdList, prodRegUiHelper.getProdRegUiListener());
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }

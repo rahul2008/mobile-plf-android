@@ -19,7 +19,11 @@ import com.philips.cdp.prodreg.constants.EnhancedLinkMovementMethod;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -28,10 +32,16 @@ import com.philips.cdp.product_registration_lib.R;
 public class ProdRegConnectionFragment extends ProdRegBaseFragment implements ProdRegBackListener {
 
     public static final String TAG = ProdRegConnectionFragment.class.getName();
+    private List<RegisteredProduct> registeredProducts;
 
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
+    public List<RegisteredProduct> getRegisteredProducts() {
+        return registeredProducts;
     }
 
     @Override
@@ -72,10 +82,19 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
     }
 
     @Override
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            registeredProducts = (ArrayList<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+        }
+    }
+
+    @Override
     public boolean onBackPressed() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            return clearFragmentStack();
+            return clearFragmentStack(true);
         }
         return true;
     }

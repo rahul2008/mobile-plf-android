@@ -27,6 +27,7 @@ import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class ProdRegUiHelper {
     private static int mContainerId;
     private static ProdRegUiHelper prodRegUiHelper;
     private UiLauncher mUiLauncher;
-    private ArrayList<Product> productList;
+    private ArrayList<RegisteredProduct> productList;
     private ProdRegUiListener prodRegUiListener;
     /*
          * Initialize everything(resources, variables etc) required for Product Registration.
@@ -67,8 +68,7 @@ public class ProdRegUiHelper {
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         final Bundle arguments = new Bundle();
-        ArrayList<Product> registeredProducts = new ArrayList<>(productList);
-        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, productList);
 
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         if (fragmentLauncher.isFirstLaunch()) {
@@ -86,7 +86,7 @@ public class ProdRegUiHelper {
 
     public void invokeProductRegistration(final UiLauncher uiLauncher, final ArrayList<Product> products, final ProdRegUiListener prodRegUiListener) {
         this.mUiLauncher = uiLauncher;
-        this.productList = products;
+        createRegisteredProductsList(products);
         this.prodRegUiListener = prodRegUiListener;
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
@@ -94,6 +94,13 @@ public class ProdRegUiHelper {
         } else {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeProductRegistrationAsFragment(fragmentLauncher);
+        }
+    }
+
+    private void createRegisteredProductsList(final ArrayList<Product> products) {
+        productList = new ArrayList<>();
+        for (Product product : products) {
+            this.productList.add(mapToRegisteredProduct(product));
         }
     }
 
@@ -134,5 +141,17 @@ public class ProdRegUiHelper {
 
     public ProdRegUiListener getProdRegUiListener() {
         return prodRegUiListener;
+    }
+
+    private RegisteredProduct mapToRegisteredProduct(final Product currentProduct) {
+        RegisteredProduct registeredProduct = null;
+        if (currentProduct != null) {
+            registeredProduct = new RegisteredProduct(currentProduct.getCtn(), currentProduct.getSector(), currentProduct.getCatalog());
+            registeredProduct.setSerialNumber(currentProduct.getSerialNumber());
+            registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
+            registeredProduct.sendEmail(currentProduct.getEmail());
+            registeredProduct.setFriendlyName(currentProduct.getFriendlyName());
+        }
+        return registeredProduct;
     }
 }

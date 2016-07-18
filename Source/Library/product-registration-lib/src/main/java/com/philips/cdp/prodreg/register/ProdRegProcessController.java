@@ -34,13 +34,15 @@ public class ProdRegProcessController {
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
     }
-    private Product currentProduct;
+
+    private RegisteredProduct currentProduct;
     private ProcessControllerCallBacks processControllerCallBacks;
     private Bundle dependencyBundle;
     private boolean launchedRegistration = false;
     private boolean isApiCallingProgress = false;
     private FragmentActivity fragmentActivity;
     private User user;
+    private ArrayList<RegisteredProduct> registeredProducts;
 
     public ProdRegProcessController(final ProcessControllerCallBacks processControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.processControllerCallBacks = processControllerCallBacks;
@@ -51,13 +53,14 @@ public class ProdRegProcessController {
 
     public void process(final Bundle arguments) {
         if (arguments != null) {
-            ArrayList<Product> regProdList = (ArrayList<Product>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            if (regProdList != null) {
-                currentProduct = regProdList.get(0);
+            registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            dependencyBundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            if (registeredProducts != null) {
+                currentProduct = registeredProducts.get(0);
                 if (getUser().isUserSignIn()) {
                     //Signed in case
                     if (!isApiCallingProgress) {
-                        getRegisteredProducts();
+                        getRemoteRegisteredProducts();
                     }
                 } else {
                     //Not signed in
@@ -77,7 +80,7 @@ public class ProdRegProcessController {
         }
     }
 
-    private void getRegisteredProducts() {
+    private void getRemoteRegisteredProducts() {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
             ProdRegHelper prodRegHelper = getProdRegHelper();
             isApiCallingProgress = true;
@@ -99,7 +102,11 @@ public class ProdRegProcessController {
                     currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
                 } else {
                     processControllerCallBacks.dismissLoadingDialog();
-                    processControllerCallBacks.showFragment(getConnectionFragment());
+                    final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
+                    connectionFragment.setArguments(bundle);
+                    processControllerCallBacks.showFragment(connectionFragment);
                 }
             }
         };
@@ -165,7 +172,7 @@ public class ProdRegProcessController {
         return new ProdRegRegistrationFragment();
     }
 
-    private boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final Product product) {
+    private boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct product) {
         for (RegisteredProduct result : registeredProducts) {
             if (product.getCtn().equalsIgnoreCase(result.getCtn()) && product.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
                 return true;
@@ -188,5 +195,9 @@ public class ProdRegProcessController {
 
     protected User getUser() {
         return user;
+    }
+
+    public List<RegisteredProduct> getRegisteredProductsList() {
+        return registeredProducts;
     }
 }

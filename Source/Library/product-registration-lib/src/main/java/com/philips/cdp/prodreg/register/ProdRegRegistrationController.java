@@ -23,6 +23,9 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProdRegRegistrationController {
 
     public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
@@ -44,6 +47,7 @@ public class ProdRegRegistrationController {
     private RegisteredProduct registeredProduct;
     private FragmentActivity fragmentActivity;
     private User user;
+    private ArrayList<RegisteredProduct> registeredProducts;
 
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
@@ -53,7 +57,11 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
-            registerControllerCallBacks.showFragment(getSuccessFragment());
+            final ProdRegSuccessFragment prodRegSuccessFragment = getSuccessFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            prodRegSuccessFragment.setArguments(bundle);
+            registerControllerCallBacks.showFragment(prodRegSuccessFragment);
         }
     }
 
@@ -69,8 +77,8 @@ public class ProdRegRegistrationController {
 
     public void init(final Bundle bundle) {
         if (bundle != null) {
-            final Product currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
-            mapToRegisteredProduct(currentProduct);
+            registeredProducts = (ArrayList<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            registeredProduct = (RegisteredProduct) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
             updateSummaryView(summaryData);
@@ -78,17 +86,6 @@ public class ProdRegRegistrationController {
         } else {
             registerControllerCallBacks.exitProductRegistration();
         }
-    }
-
-    private RegisteredProduct mapToRegisteredProduct(final Product currentProduct) {
-        if (currentProduct != null) {
-            registeredProduct = new RegisteredProduct(currentProduct.getCtn(), currentProduct.getSector(), currentProduct.getCatalog());
-            registeredProduct.setSerialNumber(currentProduct.getSerialNumber());
-            registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
-            registeredProduct.sendEmail(currentProduct.getEmail());
-            registeredProduct.setFriendlyName(currentProduct.getFriendlyName());
-        }
-        return registeredProduct;
     }
 
     private void updateSummaryView(final Data summaryData) {
@@ -183,6 +180,7 @@ public class ProdRegRegistrationController {
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
+                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
                     fragment.setArguments(bundle);
                     registerControllerCallBacks.showFragment(fragment);
                 }
@@ -196,7 +194,11 @@ public class ProdRegRegistrationController {
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        registerControllerCallBacks.showFragment(getConnectionFragment());
+                        final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+                        connectionFragment.setArguments(bundle);
+                        registerControllerCallBacks.showFragment(connectionFragment);
                     }
                 }
             }
@@ -214,5 +216,9 @@ public class ProdRegRegistrationController {
 
     protected RegisteredProduct getRegisteredProduct() {
         return registeredProduct;
+    }
+
+    public List<RegisteredProduct> getRegisteredProducts() {
+        return registeredProducts;
     }
 }

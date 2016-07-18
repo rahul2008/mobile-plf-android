@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -204,13 +205,11 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             }
             ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
                 @Override
-                public void onProdRegContinue(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
-
+                public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                 }
 
                 @Override
-                public void onProdRegBack(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
-
+                public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                 }
             });
         } else {
@@ -220,13 +219,11 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             }
             ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, regProdList, new ProdRegUiListener() {
                 @Override
-                public void onProdRegContinue(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
-
+                public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                 }
 
                 @Override
-                public void onProdRegBack(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
-
+                public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                 }
             });
         }

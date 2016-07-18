@@ -11,10 +11,13 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -28,6 +31,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
+    public List<RegisteredProduct> getRegisteredProducts() {
+        return prodRegProcessController.getRegisteredProductsList();
     }
 
     @Override
@@ -70,7 +78,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
                 dismissAlertOnError();
                 final FragmentActivity activity = getActivity();
                 if (activity != null && !activity.isFinishing()) {
-                    clearFragmentStack();
+                    clearFragmentStack(true);
                 }
             }
         };
@@ -78,7 +86,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public void exitProductRegistration() {
-        clearFragmentStack();
+        clearFragmentStack(true);
     }
 
     @Override

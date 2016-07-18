@@ -38,6 +38,11 @@ public class ProdRegProductsFragment extends ProdRegBaseFragment {
         return getActivity().getString(R.string.PPR_NavBar_Title);
     }
 
+    @Override
+    public List<RegisteredProduct> getRegisteredProducts() {
+        return null;
+    }
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {

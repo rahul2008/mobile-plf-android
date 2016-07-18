@@ -12,7 +12,10 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -26,6 +29,11 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
+    public List<RegisteredProduct> getRegisteredProducts() {
+        return null;
     }
 
     @Override

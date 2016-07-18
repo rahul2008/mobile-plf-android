@@ -40,6 +40,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -82,6 +83,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
+    public List<RegisteredProduct> getRegisteredProducts() {
+        return prodRegRegistrationController.getRegisteredProducts();
     }
 
     @Override
@@ -224,7 +230,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public boolean onBackPressed() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            return clearFragmentStack();
+            return clearFragmentStack(true);
         }
         return true;
     }
@@ -241,7 +247,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void exitProductRegistration() {
-        clearFragmentStack();
+        clearFragmentStack(true);
     }
 
     @Override
