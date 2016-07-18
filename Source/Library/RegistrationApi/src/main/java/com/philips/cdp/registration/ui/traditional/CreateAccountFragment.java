@@ -203,12 +203,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
             mBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
         }
-        if(mCbTerms.isCBChecked()){
+        if(mCbTerms.isChecked()){
             isSavedCBTermsChecked = true;
             mBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
             mBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
         }
-        if(mCbAcceptTerms.isCBChecked()){
+        if(mCbAcceptTerms.isChecked()){
             isSavedCbAcceptTermsChecked = true;
             mBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
             mBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));

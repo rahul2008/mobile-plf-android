@@ -85,13 +85,6 @@ public class XCheckBox extends LinearLayout {
         }
     }
 
-    public boolean isCBChecked(){
-        if(checkBoxTick.getVisibility() == View.VISIBLE){
-            return true;
-        }
-        return false;
-    }
-
     public void setEnabled(boolean isChecked) {
         textLayoutParent.setEnabled(isChecked);
     }
@@ -121,6 +114,9 @@ public class XCheckBox extends LinearLayout {
     }
 
     public boolean isChecked() {
-        return isChecked;
+        if(checkBoxTick.getVisibility() == View.VISIBLE){
+            return true;
+        }
+        return false;
     }
 }

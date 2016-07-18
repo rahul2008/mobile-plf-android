@@ -196,12 +196,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onSaveInstanceState(Bundle outState) {
         mSavedBundle = outState;
         super.onSaveInstanceState(mSavedBundle);
-        if(mCbTerms.isCBChecked()){
+        if(mCbTerms.isChecked()){
             isSavedCBTermsChecked = true;
             mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
             mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
         }
-        if(mCbAcceptTerms.isCBChecked()){
+        if(mCbAcceptTerms.isChecked()){
             isSavedCbAcceptTermsChecked = true;
             mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
             mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
