@@ -448,7 +448,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
 
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (!RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             linifyPrivercyPolicyOnly(pTvPrivacyPolicy);
         } else {
             linifyPrivacyPolicyAndTerms(pTvPrivacyPolicy);
