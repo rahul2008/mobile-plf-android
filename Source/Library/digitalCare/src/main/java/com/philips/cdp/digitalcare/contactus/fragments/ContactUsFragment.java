@@ -142,7 +142,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSdkVersion = Build.VERSION.SDK_INT;
-        DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
+      /*  DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");*/
         isFirstTimeCdlsCall = true;
 
         // mTwitterProgresshandler = new Handler();
@@ -153,8 +153,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
-                + mView);
+        /*DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
+                + mView);*/
 
         prefs = getActivity().getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
@@ -177,9 +177,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DigiCareLogger.i(TAG,
+       /* DigiCareLogger.i(TAG,
                 "ContactUsFragment : onActivityCreated : mConactUsParent == "
-                        + mContactUsParent);
+                        + mContactUsParent);*/
         // if (mContactUsParent == null) {
         // mTwitterProgresshandler = new Handler();
 
@@ -372,7 +372,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         isEmailButtonEnabled();
         if (isAdded()) {
             closeProgressDialog();
-            DigiCareLogger.i(TAG, "onResponseReceived : " + response);
+           /* DigiCareLogger.i(TAG, "onResponseReceived : " + response);*/
             if (response != null && isAdded()) {
                 mCdlsResponseStr = response;
                 parseCdlsResponse(response);

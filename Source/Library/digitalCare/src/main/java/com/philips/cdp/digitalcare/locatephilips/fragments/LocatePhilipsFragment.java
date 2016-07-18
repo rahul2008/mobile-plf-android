@@ -158,19 +158,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         @Override
         public void onLocationChanged(Location location) {
-            DigiCareLogger.i(TAG, "LocationListener Changed..");
+          /*  DigiCareLogger.i(TAG, "LocationListener Changed..");*/
             updateWithNewLocation(location);
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            DigiCareLogger.i(TAG, "Location Listener Disabled");
+           /* DigiCareLogger.i(TAG, "Location Listener Disabled");*/
             updateWithNewLocation(null);
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-            DigiCareLogger.i(TAG, "Location Listener Enabled");
+          /*  DigiCareLogger.i(TAG, "Location Listener Enabled");*/
         }
 
         @Override
@@ -188,7 +188,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                     break;
 
                 default:
-                    DigiCareLogger.i(TAG, "Default in onStatusChanged");
+                   /* DigiCareLogger.i(TAG, "Default in onStatusChanged");*/
                     break;
             }
         }
@@ -341,7 +341,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onResponseReceived(String response) {
-        DigiCareLogger.i(TAG, "Response : " + response);
+        DigiCareLogger.v(TAG, "Response : " + response);
         closeProgressDialog();
         if (response != null && isAdded()) {
             AtosResponseParser atosResponseParser = new AtosResponseParser(
@@ -456,7 +456,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     private void getCurrentLocation() {
         if (isProviderAvailable() && (provider != null)) {
-            DigiCareLogger.i(TAG, "Provider is [" + provider + "]");
+            DigiCareLogger.v(TAG, "Provider is [" + provider + "]");
             locateCurrentPosition();
         }
     }
@@ -593,7 +593,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
                     if (isProviderAvailable() && (provider != null)) {
-                        DigiCareLogger.i(TAG, "Provider is [" + provider + "]");
+                       /* DigiCareLogger.i(TAG, "Provider is [" + provider + "]");*/
                         getCurrentLocation();
                     }
                 } else {
@@ -656,7 +656,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         mPolyline = mMap.addPolyline(polylineOpt);
                         mLocateNearProgressBar.setVisibility(View.GONE);
                     } else {
-                        DigiCareLogger.i(TAG,
+                        DigiCareLogger.e(TAG,
                                 "MAP is null, So unable to polyline");
                     }
                     if (mPolyline != null)
@@ -679,7 +679,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
             where = "latitude : " + lat + "\n longitude : " + lng
                     + "\n speed: " + speed + "\nProvider: " + provider;
-            DigiCareLogger.i(TAG, where);
+            DigiCareLogger.v(TAG, where);
             setMapType(lat, lng);
             mSourceLat = lat;
             mSourceLng = lng;
@@ -693,7 +693,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         } else {
             where = "No location found.";
         }
-        DigiCareLogger.i(TAG, where);
+        /*DigiCareLogger.i(TAG, where);*/
     }
 
     @Override
@@ -910,12 +910,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                             AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
             if (mAtosResponse != null && mPhoneNumber != null && !mAtosResponse.getSuccess()) {
-                DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel()
+                DigiCareLogger.e(TAG, mAtosResponse.getCdlsErrorModel()
                         .getErrorMessage());
             } else if (mUtils.isSimAvailable(getActivity())) {
                 callPhilips();
             } else if (!mUtils.isSimAvailable(getActivity())) {
-                DigiCareLogger.i(TAG, "Check the SIM");
+                DigiCareLogger.v(TAG, "Check the SIM");
                 showAlert(getActivity().getString(R.string.check_sim));
             }
         }

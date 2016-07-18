@@ -29,7 +29,7 @@ public class AtosResponseParser {
 
 	public AtosResponseParser(AtosParsingCallback parsingCompletedCallback) {
 		mParsingCompletedCallback = parsingCompletedCallback;
-		DigiCareLogger.i(TAG, "ParserController constructor : ");
+		/*DigiCareLogger.i(TAG, "ParserController constructor : ");*/
 	}
 
 	/*

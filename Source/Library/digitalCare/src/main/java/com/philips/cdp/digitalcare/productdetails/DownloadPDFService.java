@@ -92,7 +92,7 @@ public class DownloadPDFService extends Service {
         if (null != intent) {
             mHelpManualUrl = intent.getStringExtra("HELP_MANUAL_PDF_URL");
             mHelpManualFileName = intent.getStringExtra("HELP_MANUAL_PDF_FILE_NAME");
-            DigiCareLogger.i(TAG, "onStartCommand url: " + mHelpManualUrl + " filename: " + mHelpManualFileName);
+            DigiCareLogger.v(TAG, "onStartCommand url: " + mHelpManualUrl + " filename: " + mHelpManualFileName);
 
             new DownloadFile(getApplicationContext()).execute(mHelpManualUrl, mHelpManualFileName);
         }
@@ -142,7 +142,7 @@ public class DownloadPDFService extends Service {
                 connection.setConnectTimeout(TIMEOUT_VALUE);
                 connection.setReadTimeout(TIMEOUT_VALUE);
                 connection.connect();
-                DigiCareLogger.i(TAG, "connected");
+             /*   DigiCareLogger.i(TAG, "connected");*/
                 // this will be useful so that you can show a typical 0-100% progress bar
                 int fileLength = connection.getContentLength();
 
@@ -179,7 +179,7 @@ public class DownloadPDFService extends Service {
                 DigiCareLogger.e(TAG, "Error downloading file " + e.getMessage());
                 return false;
             }
-            DigiCareLogger.i(TAG, "Download completed");
+           /* DigiCareLogger.i(TAG, "Download completed");*/
             return true;
         }
 
@@ -214,7 +214,7 @@ public class DownloadPDFService extends Service {
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
 
-            DigiCareLogger.i(TAG, "onProgressUpdate progress: " + progress[0]);
+           // DigiCareLogger.i(TAG, "onProgressUpdate progress: " + progress[0]);
             mBuilder.setContentText(mContext.getResources().getString(R.string.download_ticker));
             mBuilder.setContentInfo(progress[0] + "%");
             mBuilder.setProgress(100, progress[0], false);

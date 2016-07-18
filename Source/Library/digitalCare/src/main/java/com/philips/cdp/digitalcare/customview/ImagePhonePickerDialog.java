@@ -50,7 +50,7 @@ public class ImagePhonePickerDialog extends Dialog implements
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		DigiCareLogger.i(TAG, "onCreate");
+		/*DigiCareLogger.i(TAG, "onCreate");*/
 		setDialogDimension();
 		getWindow().setBackgroundDrawable(new ColorDrawable(0));
 		ProductImageSelectorView mViewObject = new ProductImageSelectorView(

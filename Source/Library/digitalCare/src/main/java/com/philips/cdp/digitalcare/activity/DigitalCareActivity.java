@@ -59,7 +59,7 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        DigiCareLogger.i(DigiCareLogger.FRAGMENT, "--> BaseActivity protected onSaveInstanceState");
+       /* DigiCareLogger.i(DigiCareLogger.FRAGMENT, "--> BaseActivity protected onSaveInstanceState");*/
         int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }

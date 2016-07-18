@@ -143,9 +143,9 @@ public class TabletPopupWindow extends PopupWindow {
 		 * }
 		 */
 		computePointerLocation(anchor, xoff);
-		DigiCareLogger.i(TAG, "Compute Location Anchor : " + anchor
+		/*DigiCareLogger.i(TAG, "Compute Location Anchor : " + anchor
 				+ " & xOff : " + xoff);
-		super.showAsDropDown(anchor, xoff, yoff);
+		*/super.showAsDropDown(anchor, xoff, yoff);
 	}
 
 	private void computePointerLocation(View anchor, int xoff) {

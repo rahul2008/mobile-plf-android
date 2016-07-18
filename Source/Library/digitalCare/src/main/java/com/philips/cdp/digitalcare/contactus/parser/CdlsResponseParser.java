@@ -33,21 +33,21 @@ public class CdlsResponseParser {
 
     public CdlsResponseParser(CdlsParsingCallback parsingCompletedCallback) {
         mParsingCompletedCallback = parsingCompletedCallback;
-        DigiCareLogger.i(TAG, "ParserController constructor : ");
+      /*  DigiCareLogger.i(TAG, "ParserController constructor : ");*/
     }
 
     /*
      * This method will create CDLS bean object and pass back to calling class.
      */
     public void parseCdlsResponse(String response) {
-        DigiCareLogger.i(TAG, "response : " + response);
+      /*  DigiCareLogger.i(TAG, "response : " + response);*/
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(response);
             boolean success = jsonObject
                     .optBoolean(DigitalCareConstants.CDLS_SUCCESS_KEY);
 
-            DigiCareLogger.i(TAG, "response : " + response);
+           /* DigiCareLogger.i(TAG, "response : " + response);*/
             if (success) {
                 JSONObject jsonObjectData = jsonObject
                         .optJSONObject(DigitalCareConstants.CDLS_DATA_KEY);

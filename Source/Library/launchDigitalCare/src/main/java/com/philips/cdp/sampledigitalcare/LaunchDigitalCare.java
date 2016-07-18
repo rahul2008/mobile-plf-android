@@ -24,11 +24,15 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +109,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-                // Digital care initialization
+        // Digital care initialization
         initializeDigitalCareLibrary();
 
 
@@ -189,6 +193,13 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     }
 
     private void initializeDigitalCareLibrary() {
+
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
+        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("ConsumerCare", "4.0.0");
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
+
 //  localeManager.setInputLocale("ar", "SA");
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
