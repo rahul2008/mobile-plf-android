@@ -26,6 +26,10 @@ import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.List;
 import java.util.Locale;
@@ -108,6 +112,20 @@ public class ProductModelSelectionHelper {
     public UiLauncher getLauncherType() {
         return mLauncherType;
     }
+
+
+    public AppInfraInterface getAPPInfraInstance() {
+        return AppInfraSingleton.getInstance();
+    }
+
+    public AIAppTaggingInterface getTaggingInterface() {
+        return getAPPInfraInstance().getTagging();
+    }
+
+    public LoggingInterface getLoggerInterface() {
+        return getAPPInfraInstance().getLogging();
+    }
+
 
     public void invokeProductSelection(final UiLauncher uiLauncher, final ProductModelSelectionType productModelSelectionType) {
         if (uiLauncher == null || productModelSelectionType == null) {
