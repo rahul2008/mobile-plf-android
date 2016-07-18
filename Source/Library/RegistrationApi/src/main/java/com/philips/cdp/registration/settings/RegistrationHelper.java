@@ -13,7 +13,6 @@ import android.content.Context;
 
 import com.philips.cdp.localematch.BuildConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
-//import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -26,12 +25,12 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.Locale;
+
+//import com.philips.cdp.registration.BuildConfig;
 
 /**
  * {@code RegistrationHelper} class represents the entry point for User Registration component.

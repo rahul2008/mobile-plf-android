@@ -38,7 +38,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.json.JSONObject;
 
@@ -232,7 +232,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         User mUser = new User(mActivity.getApplicationContext());
         if (isAccountSettings) {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
                         getAppInfraInstance().getTagging();
                 aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
@@ -250,7 +250,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
                         getAppInfraInstance().getTagging();
                 aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);

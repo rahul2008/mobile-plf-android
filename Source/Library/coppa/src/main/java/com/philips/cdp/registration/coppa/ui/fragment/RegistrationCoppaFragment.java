@@ -42,7 +42,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 public class RegistrationCoppaFragment extends Fragment implements NetworStateListener,
         OnClickListener {
@@ -78,12 +78,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 getRegistrationApiVersion());
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
 
-        AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
                 getAppInfraInstance().getTagging();
         aiAppTaggingInterface.createInstanceForComponent("User Registration",
                 RegistrationHelper.getRegistrationApiVersion());
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
