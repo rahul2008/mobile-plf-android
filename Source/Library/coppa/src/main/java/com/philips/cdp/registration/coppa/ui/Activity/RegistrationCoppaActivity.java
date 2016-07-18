@@ -193,7 +193,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         //ivBack.setVisibility(View.INVISIBLE);
         ivBack.setVisibility(View.VISIBLE);
         final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceId));
+        if(titleResourceId > 0){
+            tvTitle.setText(getString(titleResourceId));
+        }
     }
 
     @Override
@@ -201,7 +203,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         // update title and show back
         ivBack.setVisibility(View.VISIBLE);
         final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceId));
+        if(titleResourceId > 0){
+            tvTitle.setText(getString(titleResourceId));
+        }
     }
 
     @Override
@@ -209,6 +213,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         // update title and show back
         //ivBack.setVisibility(View.INVISIBLE);
         final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceId));
+        if(titleResourceId > 0){
+           tvTitle.setText(getString(titleResourceId));
+        }
     }
 }
