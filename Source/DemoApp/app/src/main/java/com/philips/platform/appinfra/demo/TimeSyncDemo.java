@@ -11,7 +11,6 @@ import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by 310238655 on 6/30/2016.
@@ -19,8 +18,6 @@ import java.util.Date;
 public class TimeSyncDemo extends AppCompatActivity {
 
     TimeInterface mTimeSyncInterface;
-    SimpleDateFormat formatter;
-     String dateString;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,23 +31,18 @@ public class TimeSyncDemo extends AppCompatActivity {
         Button localTimeUpdateButton = (Button) findViewById(R.id.localtimebutton);
         Button refreshButton = (Button) findViewById(R.id.refreshbutton);
 
-
-        mTimeSyncInterface= AppInfraApplication.gAppInfra.getTime();
-        Calendar c = Calendar.getInstance();
-
+        mTimeSyncInterface = AppInfraApplication.gAppInfra.getTime();
 
         AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "SDKEy", "SDValue");
-        formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
-         dateString = formatter.format(c.getTime());
-        localTimeTextvalue.setText(dateString);
+        localTimeTextvalue.setText(getDeviceTime());
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
-        Log.i("TimeSyncDemo", "UTCTime  "+mTimeSyncInterface.getUTCTime());
+        Log.i("TimeSyncDemo", "UTCTime  " + mTimeSyncInterface.getUTCTime());
 
         localTimeUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dateString = formatter.format(new Date());
-                localTimeTextvalue.setText(dateString);
+
+                localTimeTextvalue.setText(getDeviceTime());
             }
         });
         refreshButton.setOnClickListener(new View.OnClickListener() {
@@ -61,4 +53,11 @@ public class TimeSyncDemo extends AppCompatActivity {
             }
         });
     }
+
+    public String getDeviceTime() {
+        final Calendar c = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
+        return formatter.format(c.getTime());
+    }
+
 }
