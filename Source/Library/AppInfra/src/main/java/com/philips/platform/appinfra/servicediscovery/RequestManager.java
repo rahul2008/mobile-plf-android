@@ -237,7 +237,7 @@ public class RequestManager{
     }
     private void setSSLSocketFactory() {
         if(this.isHttpsRequest) {
-            SSLCertificateManager.setSSLSocketFactory();
+            SSLCertificateManager.disableAllServerCertificateChecking();
         }
 
     }
