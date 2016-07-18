@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
