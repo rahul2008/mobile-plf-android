@@ -65,10 +65,11 @@
             android:layout_height="@dimen/iap_divider_height"
             android:background="?attr/uikit_listDividerColor" />
 
-        <android.support.v7.widget.RecyclerView
+        <LinearLayout
             android:id="@+id/product_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
 
 
         <RelativeLayout

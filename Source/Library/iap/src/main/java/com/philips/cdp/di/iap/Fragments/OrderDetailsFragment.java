@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.OrderDetailAdapter;
 import com.philips.cdp.di.iap.controller.OrderController;
@@ -26,6 +28,7 @@ import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -58,6 +61,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private OrderController mController;
     private View mPaymentDivider;
     private TextView mShippingStatus;
+    private LinearLayout mProductListView;
 
 
     @Override
@@ -88,14 +92,14 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mCancelOrder.setOnClickListener(this);
        LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
         mTrackOrderLayout.setOnClickListener(this);
-        RecyclerView mProductListView = (RecyclerView) view.findViewById(R.id.product_detail);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mProductListView.setLayoutManager(layoutManager);
-        mProductListView.setNestedScrollingEnabled(false);
+        mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
+      //  RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+    //    mProductListView.setLayoutManager(layoutManager);
+   //     mProductListView.setNestedScrollingEnabled(false);
         mShippingStatus = (TextView) view.findViewById(R.id.shipping_status);
 
         mAdapter = new OrderDetailAdapter(mContext, mProducts);
-        mProductListView.setAdapter(mAdapter);
+  //      mProductListView.setAdapter(mAdapter);
         mPaymentDivider = view.findViewById(R.id.payment_divider);
 
         Bundle bundle = getArguments();
@@ -170,16 +174,37 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         ArrayList<ProductData> productList = mController.getProductData(detailList);
         mProducts.clear();
         for (ProductData product : productList)
-            mProducts.add(product);
+        {
+            View productInfo = View.inflate(mContext, R.layout.iap_order_details_item, null);
+            mProductListView.addView(productInfo);
+            ((TextView)productInfo.findViewById(R.id.tv_productName)).setText(product.getProductTitle());
+            ((TextView)productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(product.getQuantity()));
+            ((TextView)productInfo.findViewById(R.id.tv_total_price)).setText(product.getFormatedPrice());
+            ((TextView)productInfo.findViewById(R.id.ctn_no)).setText(product.getCtnNumber());
+            getNetworkImage(((NetworkImageView)productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
+        }
+       //     mProducts.add(product);
         mAdapter.notifyDataSetChanged();
         int totalQuantity = 0;
-        for (ProductData data : mProducts) {
+        for (ProductData data : productList) {
             totalQuantity += data.getQuantity();
         }
         mTvQuantity.setText(" (" + totalQuantity + " items)");
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
 
+    }
+
+    private void getNetworkImage(final NetworkImageView networkImage, final String imageURL) {
+        ImageLoader mImageLoader;
+        // Instantiate the RequestQueue.
+        mImageLoader = NetworkImageLoader.getInstance(mContext)
+                .getImageLoader();
+
+        mImageLoader.get(imageURL, ImageLoader.getImageListener(networkImage,
+                R.drawable.no_icon, android.R.drawable
+                        .ic_dialog_alert));
+        networkImage.setImageUrl(imageURL, mImageLoader);
     }
 
     @Override
