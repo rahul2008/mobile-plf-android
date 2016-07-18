@@ -119,6 +119,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
+        actionBarTitle.setGravity(Gravity.CENTER_HORIZONTAL);
 
         actionBarCount = (TextView) findViewById(R.id.hamburger_count);
         actionBarCount.setVisibility(View.GONE);

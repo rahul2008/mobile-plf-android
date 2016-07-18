@@ -46,9 +46,9 @@ import java.util.Locale;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
 
-    String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
+    private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     int count = 0;
-    List<String> list = Arrays.asList(configurationType);
+    private List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
     private TextView txt_title, configurationTextView;
     private Spinner spinner;
