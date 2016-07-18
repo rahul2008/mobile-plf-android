@@ -20,7 +20,6 @@ import com.philips.cdp.dicommclient.testutil.TestAppliance;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,24 +61,11 @@ public class DiscoveryManagerTest extends RobolectricTest {
         mMockedNetworkMonitor = mock(NetworkMonitor.class);
 
         mDiscoveryManager = new DiscoveryManager<TestAppliance>(mTestApplianceFactory, mMockedApplianceDatabase, mMockedNetworkMonitor);
-
+        mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
         mListener = mock(DiscoveryEventListener.class);
 
         mDiscoveryManager.addDiscoveryEventListener(mListener);
-//
-//		mDiscoveryManager.setDummyNetworkMonitorForTesting(mMockedNetworkMonitor);
     }
-
-    @Override
-    protected void tearDown() throws Exception {
-        // Clean up resources
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
-        super.tearDown();
-    }
-
-    // TODO add unit tests for SSDP events
-    // TODO add unit tests for Network events
 
     private void setAppliancesList(TestAppliance[] appliancesList) {
         if (appliancesList == null || appliancesList.length == 0) {
@@ -96,77 +82,55 @@ public class DiscoveryManagerTest extends RobolectricTest {
     // ***** START TESTS FOR START/STOP METHODS *****
     @Test
     public void testOnStartNoNetwork() {
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
         NetworkMonitor monitor = mock(NetworkMonitor.class);
-
-        DiscoveryManager manager = DiscoveryManager.getInstance();
         when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
-        manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
-        manager.setDummyNetworkMonitorForTesting(monitor);
+        mDiscoveryManager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+        mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 
-        manager.start();
+        mDiscoveryManager.start();
+
         verify(ssdpHelper, never()).startDiscoveryAsync();
         verify(ssdpHelper, never()).stopDiscoveryAsync();
-
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
     }
 
     @Test
     public void testOnStartMobile() {
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
         NetworkMonitor monitor = mock(NetworkMonitor.class);
 
-        DiscoveryManager manager = DiscoveryManager.getInstance();
         when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
-        manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
-        manager.setDummyNetworkMonitorForTesting(monitor);
+        mDiscoveryManager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+        mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 
-        manager.start();
+        mDiscoveryManager.start();
         verify(ssdpHelper, never()).startDiscoveryAsync();
         verify(ssdpHelper, never()).stopDiscoveryAsync();
-
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
     }
 
     @Test
     public void testOnStartWifi() {
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
-
         NetworkMonitor monitor = mock(NetworkMonitor.class);
-
-        DiscoveryManager manager = DiscoveryManager.getInstance();
         when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
-        manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+        mDiscoveryManager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+        mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 
-        manager.setDummyNetworkMonitorForTesting(monitor);
+        mDiscoveryManager.start();
 
-        manager.start();
         verify(ssdpHelper).startDiscoveryAsync();
         verify(ssdpHelper, never()).stopDiscoveryAsync();
-
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
     }
 
     @Test
     public void testOnStop() {
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
+        mDiscoveryManager.setDummySsdpServiceHelperForTesting(ssdpHelper);
 
-        DiscoveryManager manager = DiscoveryManager.getInstance();
-        manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+        mDiscoveryManager.stop();
 
-        manager.stop();
         verify(ssdpHelper, never()).startDiscoveryAsync();
         verify(ssdpHelper).stopDiscoveryAsync();
-
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
     }
 
 // ***** STOP TESTS FOR START/STOP METHODS *****

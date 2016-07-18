@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample;
 
 import android.os.Bundle;
@@ -19,11 +23,10 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
 
@@ -53,6 +56,13 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 startPairing();
+            }
+        });
+
+        findViewById(R.id.buttonUnPair).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startUnpairing();
             }
         });
 
@@ -116,7 +126,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    private void updateLightSwitchView(final AirPort port) {
+    private void updateLightSwitchView(final AirPort<? extends AirPortProperties> port) {
         AirPortProperties properties = port.getPortProperties();
         if (properties != null) {
             lightSwitch.setChecked(properties.getLightOn());
@@ -146,6 +156,31 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         pairingHandler.startPairing();
+    }
+
+    private void startUnpairing() {
+
+        final AirPurifier purifier = this.currentPurifier;
+        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(purifier, new PairingListener<AirPurifier>() {
+
+            @Override
+            public void onPairingSuccess(final AirPurifier appliance) {
+                Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
+
+                DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
+                discoveryManager.insertApplianceToDatabase(appliance);
+
+                showToast("Unpaired successfully");
+            }
+
+            @Override
+            public void onPairingFailed(final AirPurifier appliance) {
+                Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
+                showToast("Pairing failed");
+            }
+        });
+
+        pairingHandler.initializeRelationshipRemoval();
     }
 
     private void showToast(final String message) {

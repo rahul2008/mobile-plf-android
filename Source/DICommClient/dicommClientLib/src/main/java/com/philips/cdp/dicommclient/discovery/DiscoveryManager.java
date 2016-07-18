@@ -1,8 +1,7 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
  */
-
 package com.philips.cdp.dicommclient.discovery;
 
 import android.content.Context;
@@ -91,6 +90,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
 
         DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(applianceFactory, applianceDatabase, networkMonitor);
+        discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
         mInstance = discoveryManager;
         return discoveryManager;
     }
@@ -106,9 +106,8 @@ public class DiscoveryManager<T extends DICommAppliance> {
         mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
         initializeAppliancesMapFromDataBase();
 
-        mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), mHandlerCallback);
-
         mNetwork = networkMonitor;
+
         mNetwork.setListener(mNetworkChangedCallback);
         if (mDiscoveryEventListenersList == null) {
             mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
@@ -350,7 +349,6 @@ public class DiscoveryManager<T extends DICommAppliance> {
         if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
             existingAppliance.getNetworkNode().setEncryptionKey(null);
             existingAppliance.getNetworkNode().setBootId(networkNode.getBootId());
-            existingAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
             DICommLog.d(DICommLog.PAIRING, "Discovery-Boot id changed pairing set to false");
         }
 
@@ -621,6 +619,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         String modelName = ssdpDevice.getModelName();
         String networkSsid = mNetwork.getLastKnownNetworkSsid();
         Long bootId = -1l;
+        String modelNumber = ssdpDevice.getModelNumber();
         try {
             bootId = Long.parseLong(deviceModel.getBootID());
         } catch (NumberFormatException e) {
@@ -632,6 +631,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         networkNode.setCppId(cppId);
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
+        networkNode.setModelType(modelNumber);
         networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);

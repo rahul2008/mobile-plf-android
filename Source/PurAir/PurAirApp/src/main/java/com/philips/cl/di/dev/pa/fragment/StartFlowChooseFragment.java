@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -46,6 +43,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StartFlowChooseFragment extends BaseFragment implements
 OnClickListener, StartFlowListener, DiscoveryEventListener, OnItemClickListener {
@@ -194,7 +194,7 @@ OnClickListener, StartFlowListener, DiscoveryEventListener, OnItemClickListener 
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
 		final WifiPort wifiPort = selectedPurifier.getWifiPort();
-		wifiPort.removePortListener(new DICommPortListener() {
+		wifiPort.addPortListener(new DICommPortListener() {
             
             @Override
             public void onPortUpdate(DICommPort<?> port) {

@@ -3,6 +3,20 @@
 Release notes for DiComm
 ================================================================================
 
+Version v1.1.3
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+### New features:
+* BG-294 Added impementation for getModelNumber in NetworkNode so it is possible to distinguish between appliance models in ApplianceFactory
+--------------------------------------------------------------------------------
+### Bugs fixed:
+* DE12042 Rebooting appliance no longer removes pairing relationships 
+* DE????? When requesting removal of backend relations then the reletions are actually removed  
+--------------------------------------------------------------------------------
+### Known issues:
+================================================================================
+
 Version v1.1.2
 --------------------------------------------------------------------------------
 

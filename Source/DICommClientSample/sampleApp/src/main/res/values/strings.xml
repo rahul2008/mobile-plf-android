@@ -8,6 +8,7 @@
     <string name="device_name">Device name</string>
     <string name="set">Set</string>
     <string name="pair">Pair</string>
+    <string name="unpair">Disengage</string>
     <string name="my_id">My ID:</string>
 
     <string-array name="fan_speed_array">
