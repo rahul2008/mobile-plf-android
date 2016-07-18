@@ -194,9 +194,15 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     private void initializeDigitalCareLibrary() {
 
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
-        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
+        AIAppTaggingInterface aiAppTaggingInterface = DigitalCareConfigManager.getInstance().getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.createInstanceForComponent("ConsumerCare", "4.0.0");
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);*/
+        if (AppInfraSingleton.getInstance() == null)
+            AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
+        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("ConsumerCare", "6.0.0.1");
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
 

@@ -58,6 +58,9 @@ import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.List;
 import java.util.Locale;
@@ -627,6 +630,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
     private void launchProductSelectionFragmentComponent() {
      /*   DigiCareLogger.i("testing", "Support -- Fragment Invoke");*/
+
+
+       /* AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));
+        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("ProductSelection", "4.0.0");
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);*/
+
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
         }
@@ -671,6 +682,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     }
 
     private void launchProductSelectionActivityComponent() {
+
+        /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));
+        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("ProductSelection", "4.0.0");
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);*/
+
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
         }
