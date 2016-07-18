@@ -8,31 +8,17 @@
 
 package com.philips.cdp.registration.settings.test;
 
-import android.app.Activity;
-import android.content.res.AssetManager;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.configuration.ConfigurationParser;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.UserRegistrationHelper;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
-//import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.mockito.Mockito;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
-import java.util.Scanner;
+
+//import com.philips.cdp.tagging.Tagging;
 
 /**
  * Created by 310202337 on 10/13/2015.
@@ -55,10 +41,10 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 //        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 //        Tagging.setLaunchingPageName("demoapp:home");
         AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity().getApplicationContext()));
-        AIAppTaggingInterface aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
+        AppTaggingInterface aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
         aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         mRegistrationHelper = RegistrationHelper.getInstance();
        // mRegistrationHelper.initializeUserRegistration(getInstrumentation().getTargetContext(), locale);
         //mEmailValidator = mock(EmailValidator.class);
