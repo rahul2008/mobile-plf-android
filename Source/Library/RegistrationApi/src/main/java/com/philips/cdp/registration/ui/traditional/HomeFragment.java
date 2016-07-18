@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -467,8 +466,70 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
+        if (!RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+            linifyPrivercyPolicyOnly(pTvPrivacyPolicy);
+        } else {
+            linifyPrivacyPolicyAndTerms(pTvPrivacyPolicy);
+        }
+    }
 
-        String privacyPolicyText = getString(R.string.reg_LegalNoticeText);
+    private void linifyPrivacyPolicyAndTerms(TextView pTvPrivacyPolicy) {
+        String privacyPolicyText = getString(R.string.reg_LegalNoticeText_With_Terms_And_Conditions);
+        privacyPolicyText = String.format(privacyPolicyText,
+                getString(R.string.reg_PrivacyNoticeText),
+                getString(R.string.reg_TermsAndConditionsText));
+        mTvWelcomeDesc.setText(privacyPolicyText);
+
+        String privacy = mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
+        String terms = mContext.getResources().getString(R.string.reg_TermsAndConditionsText);
+
+        SpannableString spanableString = new SpannableString(privacyPolicyText);
+
+        int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
+                privacy.toLowerCase());
+
+
+        spanableString.setSpan(privacyClickListener, privacyStartIndex, privacyStartIndex + privacy.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        int termStartIndex = privacyPolicyText.toLowerCase().indexOf(
+                terms.toLowerCase());
+
+
+        spanableString.setSpan(termsClickListener, termStartIndex, termStartIndex + terms.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        removeUnderlineFromLink(spanableString);
+
+        pTvPrivacyPolicy.setText(spanableString);
+        pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
+        pTvPrivacyPolicy.setLinkTextColor(getResources().getColor(
+                R.color.reg_hyperlink_highlight_color));
+        pTvPrivacyPolicy.setHighlightColor(getResources().getColor(android.R.color.transparent));
+    }
+
+    private ClickableSpan privacyClickListener = new ClickableSpan() {
+
+        @Override
+        public void onClick(View widget) {
+            handlePrivacyPolicy();
+        }
+
+    };
+
+    private ClickableSpan termsClickListener = new ClickableSpan() {
+
+        @Override
+        public void onClick(View widget) {
+            handleTermsCondition();
+        }
+
+    };
+
+    private void linifyPrivercyPolicyOnly(TextView pTvPrivacyPolicy) {
+        String privacyPolicyText = getString(R.string.LegalNoticeForPrivacy);
         privacyPolicyText = String.format(privacyPolicyText, getString(R.string.reg_PrivacyNoticeText));
         mTvWelcomeDesc.setText(privacyPolicyText);
 
@@ -478,14 +539,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
                 privacy.toLowerCase());
 
-        spanableString.setSpan(new ClickableSpan() {
-
-                                   @Override
-                                   public void onClick(View widget) {
-                                       handlePrivacyPolicy();
-                                   }
-
-                               }, privacyStartIndex, privacyStartIndex + privacy.length(),
+        spanableString.setSpan(privacyClickListener, privacyStartIndex, privacyStartIndex + privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         removeUnderlineFromLink(spanableString);
