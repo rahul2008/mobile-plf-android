@@ -50,7 +50,7 @@ public class ActivityLauncher extends UiLauncher {
         return this.mScreenOrientation;
     }
 
-    public int getmUiKitTheme() {
+    public int getUiKitTheme() {
         return this.mUiKitTheme;
     }
 

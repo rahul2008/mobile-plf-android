@@ -84,6 +84,11 @@ public class ProdRegUiHelper {
         }
     }
 
+    /**
+     * @param uiLauncher        - Launcher to differentiate activity or fragment
+     * @param prodRegConfig     - Product registration config class to define products and app flow
+     * @param prodRegUiListener - Callbacks to be registered for back and continue button
+     */
     public void invokeProductRegistration(final UiLauncher uiLauncher, final ProdRegConfig prodRegConfig, final ProdRegUiListener prodRegUiListener) {
         this.mUiLauncher = uiLauncher;
         createRegisteredProductsList(prodRegConfig.getProducts());
@@ -104,6 +109,10 @@ public class ProdRegUiHelper {
         }
     }
 
+    /**
+     *
+     * @return - returns the launcher type
+     */
     public UiLauncher getUiLauncher() {
         return mUiLauncher;
     }
@@ -123,6 +132,7 @@ public class ProdRegUiHelper {
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
         intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegConfig.isFirstLaunch());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
+        intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
         activityLauncher.getFragmentActivity().startActivity(intent);
     }
 

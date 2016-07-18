@@ -228,7 +228,9 @@ public class ProdRegRegistrationController {
     }
 
     private void updateRegisteredProductsList(final RegisteredProduct registeredProduct) {
-        registeredProducts.remove(registeredProduct);
-        registeredProducts.add(registeredProduct);
+        if (registeredProducts != null) {
+            registeredProducts.remove(registeredProduct);
+            registeredProducts.add(registeredProduct);
+        }
     }
 }

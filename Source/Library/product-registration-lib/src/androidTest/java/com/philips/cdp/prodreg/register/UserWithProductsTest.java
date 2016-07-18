@@ -47,7 +47,6 @@ public class UserWithProductsTest extends MockitoTestCase {
     private ErrorHandler errorHandlerMock;
     private ProdRegListener prodRegListener;
     private User userMock;
-    private RegisteredProduct currentRegisteredProduct;
 
     @Rule
 
@@ -57,7 +56,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
         userWithProductsMock = mock(UserWithProducts.class);
         userMock = mock(User.class);
-        currentRegisteredProduct = mock(RegisteredProduct.class);
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
         prodRegListener = mock(ProdRegListener.class);
         errorHandlerMock = mock(ErrorHandler.class);
@@ -84,11 +82,6 @@ public class UserWithProductsTest extends MockitoTestCase {
             @Override
             protected User getUser() {
                 return userMock;
-            }
-
-            @Override
-            public RegisteredProduct getCurrentRegisteredProduct() {
-                return currentRegisteredProduct;
             }
         };
     }
@@ -391,6 +384,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         when(responseData.getData()).thenReturn(data);
 
         when(data.getWarrantyEndDate()).thenReturn("2016-03-22");
+        userWithProducts.setCurrentRegisteredProduct(product);
         responseListener.onResponseSuccess(responseData);
         verify(product).setRegistrationState(RegistrationState.REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(product);
@@ -588,6 +582,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct);
         registeredProducts.add(registeredProduct1);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(false);
+        userWithProducts.setCurrentRegisteredProduct(registeredProduct);
         userWithProducts.registerCachedProducts(registeredProducts);
 
         verify(userWithProductsMock).updateLocaleCache(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
@@ -603,6 +598,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         RegisteredProductsListener registeredProductsListener = userWithProducts.getRegisteredProductsListener(registeredProductMock);
         final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(registeredProductMock);
+        userWithProducts.setCurrentRegisteredProduct(registeredProductMock);
         registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
         verify(prodRegListener).onProdRegFailed(registeredProductMock, userWithProductsMock);
         RegisteredProduct registeredProductMock1 = mock(RegisteredProduct.class);

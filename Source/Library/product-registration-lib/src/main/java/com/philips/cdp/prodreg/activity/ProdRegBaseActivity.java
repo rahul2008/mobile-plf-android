@@ -58,12 +58,20 @@ public class ProdRegBaseActivity extends UiKitActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setUiKitThemeIfRequired();
         initCustomActionBar();
         setContentView(R.layout.prodreg_activity);
         animateThisScreen();
         if (savedInstanceState == null) {
             showFragment();
         }
+    }
+
+    private void setUiKitThemeIfRequired() {
+        final Bundle extras = getIntent().getExtras();
+        int theme = extras.getInt(ProdRegConstants.UI_KIT_THEME);
+        if (theme != 0)
+            setTheme(theme);
     }
 
     @Override

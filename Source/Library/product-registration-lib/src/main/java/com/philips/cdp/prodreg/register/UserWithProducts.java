@@ -382,4 +382,8 @@ public class UserWithProducts {
         }
         return null;
     }
+
+    protected void setCurrentRegisteredProduct(final RegisteredProduct currentRegisteredProduct) {
+        this.currentRegisteredProduct = currentRegisteredProduct;
+    }
 }

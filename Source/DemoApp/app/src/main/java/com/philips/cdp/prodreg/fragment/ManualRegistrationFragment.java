@@ -220,7 +220,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 }
             });
         } else {
-            ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, -1);
+            ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("a")) {
                 prodRegConfig = new ProdRegConfig(regProdList, true);
             } else {
