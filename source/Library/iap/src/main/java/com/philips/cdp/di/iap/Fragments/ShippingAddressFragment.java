@@ -598,7 +598,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
         if (mAddressFieldsHashmap != null)
             addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
-        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
+       // addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.PHONE_2, "");
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
@@ -621,7 +621,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOne.setText(mAddressFieldsHashmap.get(ModelConstants.DEFAULT_ADDRESS));
+        mEtAddressLineOne.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_1));
         mEtAddressLineTwo.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_2));
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));

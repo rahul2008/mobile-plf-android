@@ -294,7 +294,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
         addressHashMap.put(ModelConstants.TOWN, address.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
-        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
+      //  addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
         addressHashMap.put(ModelConstants.PHONE_1, address.getPhone1());
 
         if (address.getRegion() != null) {
