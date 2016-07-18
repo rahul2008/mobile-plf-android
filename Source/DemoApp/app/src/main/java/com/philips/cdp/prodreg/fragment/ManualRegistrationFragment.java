@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
@@ -206,10 +207,12 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
                 @Override
                 public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
+                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");
                 }
 
                 @Override
                 public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
+                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getProdRegError() + "");
                 }
             });
         } else {
@@ -220,10 +223,12 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, regProdList, new ProdRegUiListener() {
                 @Override
                 public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
+                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");
                 }
 
                 @Override
                 public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
+                    ProdRegLogger.v(getTag(), registeredProduct.get(0).getProdRegError() + "");
                 }
             });
         }
