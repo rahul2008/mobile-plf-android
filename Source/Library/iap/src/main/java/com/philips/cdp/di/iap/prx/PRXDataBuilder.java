@@ -22,6 +22,7 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PRXDataBuilder {
 
@@ -49,6 +50,12 @@ public class PRXDataBuilder {
             }else {
                 executeRequest(ctn,prepareSummaryRequest(ctn));
             }
+
+        }
+        if (mDataLoadListener != null && mProudctUpdateCount == mCtns.size()) {
+            Message result = Message.obtain();
+            result.obj = mPRXProductData;
+            mDataLoadListener.onModelDataLoadFinished(result);
         }
     }
 
