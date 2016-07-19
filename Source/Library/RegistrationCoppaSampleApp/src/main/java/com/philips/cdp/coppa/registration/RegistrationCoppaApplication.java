@@ -75,11 +75,11 @@ public class RegistrationCoppaApplication extends Application {
 
         //Configure JanRain
         RegistrationClientId registrationClientId = new RegistrationClientId();
-        registrationClientId.setDevelopmentId("ad7nn99y2mv5berw5jxewzagazafbyhu");
-        registrationClientId.setTestingId("xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7");
-        registrationClientId.setEvaluationId("4r36zdbeycca933nufcknn2hnpsz6gxu");
+        registrationClientId.setDevelopmentId("8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
+        registrationClientId.setTestingId("g52bfma28yjbd24hyjcswudwedcmqy7c");
+        registrationClientId.setEvaluationId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         registrationClientId.setStagingId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        registrationClientId.setProductionId("mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3");
+        registrationClientId.setProductionId("9z23k3q8bhqyfwx78aru6bz8zksga54u");
         RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration().setClientIds(registrationClientId);
 
         //Configure PIL

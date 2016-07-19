@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
-import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
+import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmentController;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;

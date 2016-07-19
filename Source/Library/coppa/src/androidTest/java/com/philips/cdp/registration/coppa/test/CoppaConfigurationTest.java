@@ -17,7 +17,7 @@ import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
-import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
+import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.security.SecureStorage;
@@ -40,9 +40,7 @@ import static com.janrain.android.utils.LogUtils.throwDebugException;
  */
 public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<RegistrationCoppaActivity> {
 
-        public CoppaConfigurationTest() {
-                super(RegistrationCoppaActivity.class);
-        }
+        private static LoggingInterface mLoggingInterface;
         JSONObject signed_user ;
         String COPPA_CONFIRMED_SIGNED_USER = "{\n" +
                 "\t\"original\": {\n" +
@@ -504,7 +502,10 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
                 "\t}\n" +
                 "}";
         Context context;// = getActivity();
-        private static LoggingInterface mLoggingInterface;
+        public CoppaConfigurationTest() {
+                super(RegistrationCoppaActivity.class);
+        }
+
         @Override
         protected void setUp() throws Exception {
                 super.setUp();

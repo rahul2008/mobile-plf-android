@@ -8,7 +8,6 @@
 
 package com.philips.cdp.registration.coppa.utils;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
+import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;

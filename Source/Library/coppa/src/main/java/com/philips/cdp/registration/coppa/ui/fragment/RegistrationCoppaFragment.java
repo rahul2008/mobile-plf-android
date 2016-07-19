@@ -26,7 +26,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
-import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
+import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
@@ -52,22 +52,242 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private static FragmentManager mFragmentManager;
 
     private static Activity mActivity;
-
-    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
-
-    private int titleResourceId = -99;
-
-    private boolean isAccountSettings = true;
-
     private static boolean isParentalConsent = true;
-
     private static boolean isParentConsentRequested;
-
     private static boolean isParentalFragmentLaunched;
-
     private static int lastKnownResourceId = -99;
+    private static boolean isRegistrationLunched;
+    private static ProgressDialog mProgressDialog;
+    private static UserRegistrationListener mUserRegistrationListener =
+            new UserRegistrationListener() {
+                @Override
+                public void onUserRegistrationComplete(Activity activity) {
+                    //Launch the Approval fragment
+                    isRegistrationLunched = false;
+                    isParentalFragmentLaunched = true;
+                    showRefreshProgress(activity);
 
+                    final User user = new User(activity.getApplicationContext());
+                    user.refreshLoginSession(new RefreshLoginSessionHandler() {
+                        @Override
+                        public void onRefreshLoginSessionSuccess() {
+                            user.refreshUser(new RefreshUserHandler() {
+                                @Override
+                                public void onRefreshUserSuccess() {
+                                    hideRefreshProgress();
+                                    handleConsentState();
+                                }
+
+                                @Override
+                                public void onRefreshUserFailed(int error) {
+                                    hideRefreshProgress();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onRefreshLoginSessionFailedWithError(int error) {
+                            hideRefreshProgress();
+                        }
+
+                        @Override
+                        public void onRefreshLoginSessionInProgress(String message) {
+                            hideRefreshProgress();
+                        }
+                    });
+                }
+
+                @Override
+                public void onPrivacyPolicyClick(Activity activity) {
+                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                                notifyOnPrivacyPolicyClickEventOccurred(activity);
+                    }
+                }
+
+                @Override
+                public void onTermsAndConditionClick(Activity activity) {
+                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                                notifyOnTermsAndConditionClickEventOccurred(activity);
+                    }
+                }
+
+                @Override
+                public void onUserLogoutSuccess() {
+                    replaceWithParentalAccess();
+                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                                notifyOnUserLogoutSuccess();
+                    }
+                }
+
+                @Override
+                public void onUserLogoutFailure() {
+                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                                notifyOnUserLogoutFailure();
+                    }
+                }
+
+                @Override
+                public void onUserLogoutSuccessWithInvalidAccessToken() {
+                    replaceWithParentalAccess();
+                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                                notifyOnLogoutSuccessWithInvalidAccessToken();
+                    }
+                }
+            };
+    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
+    private int titleResourceId = -99;
+    private boolean isAccountSettings = true;
     private CoppaExtension coppaExtension;
+
+    public static void replaceWithParentalAccess() {
+
+        try {
+            performReplaceWithPerentalAccess();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationCoppaFragment :FragmentTransaction Exception " +
+                            "occured in before scheduling  :"
+                            + e.getMessage());
+            RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(),
+                    "doPopBackStack", true);
+        }
+    }
+
+    private static void performReplaceWithPerentalAccess() {
+
+        if (mFragmentManager != null) {
+            mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            final ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
+            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment,
+                    "Parental Access");
+            fragmentTransaction.commitAllowingStateLoss();
+            RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(),
+                    "doPopBackStack", false);
+        }
+    }
+
+    public static Activity getParentActivity() {
+        return mActivity;
+    }
+
+    private static void addParentalApprovalFragment() {
+        //update coppa with prev as registration and adding on top
+
+        if (mFragmentManager != null) {
+            try {
+                final ParentalApprovalFragment parentalAccessFragment =
+                        new ParentalApprovalFragment();
+                final int count = mFragmentManager.getBackStackEntryCount();
+                RegistrationFragment registrationFragment = null;
+                if (count != 0 && registrationFragment instanceof RegistrationFragment) {
+                    registrationFragment = (RegistrationFragment)
+                            mFragmentManager.getFragments().get(count);
+                }
+                if (registrationFragment != null) {
+                    parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
+                }
+                final FragmentTransaction fragmentTransaction =
+                        mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container,
+                        parentalAccessFragment, "Parental Access");
+                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                RLog.e(RLog.EXCEPTION,
+                        "RegistrationCoppaFragment :FragmentTransaction Exception" +
+                                " occured in addFragment  :" + e.getMessage());
+            }
+        }
+    }
+
+    private static void addParentalApprovalFragmentonLaunch() {
+        //update coppa with prev as registration and adding on top
+
+        if (mFragmentManager != null) {
+            try {
+                ParentalApprovalFragment parentalAccessFragment = new ParentalApprovalFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(RegConstants.IS_FROM_PARENTAL_CONSENT, isParentalConsent);
+                parentalAccessFragment.setArguments(bundle);
+                int count = mFragmentManager.getBackStackEntryCount();
+                RegistrationFragment registrationFragment = null;
+                if (count != 0 && registrationFragment instanceof RegistrationFragment) {
+                    registrationFragment = (RegistrationFragment)
+                            mFragmentManager.getFragments().get(count);
+                }
+                if (registrationFragment != null) {
+                    parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
+                }
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container,
+                        parentalAccessFragment, "Parental Access");
+                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                RLog.e(RLog.EXCEPTION,
+                        "RegistrationCoppaFragment :FragmentTransaction Exception " +
+                                "occured in addFragment  :" + e.getMessage());
+            }
+        }
+    }
+
+    public static void showRefreshProgress(Activity activity) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(activity, R.style.reg_Custom_loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+        } else {
+            mProgressDialog.show();
+        }
+    }
+
+    public static void hideRefreshProgress() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
+    private static void handleConsentState() {
+        RLog.i("Coppa Consent", "Handle Consent State");
+
+        CoppaExtension mCoppaExtension;
+        mCoppaExtension = new CoppaExtension(getParentActivity().getApplicationContext());
+        mCoppaExtension.buildConfiguration();
+        if (!isParentConsentRequested) {
+            if (mCoppaExtension.getCoppaEmailConsentStatus() ==
+                    CoppaStatus.kDICOPPAConfirmationGiven ||
+                    mCoppaExtension.getCoppaEmailConsentStatus() ==
+                            CoppaStatus.kDICOPPAConsentNotGiven ||
+                    mCoppaExtension.getCoppaEmailConsentStatus() ==
+                            CoppaStatus.kDICOPPAConfirmationNotGiven) {
+                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                            notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
+                }
+            } else {
+                addParentalApprovalFragmentonLaunch();
+            }
+        } else {
+            addParentalApprovalFragmentonLaunch();
+            isParentConsentRequested = false;
+        }
+    }
+
+    public static UserRegistrationListener getUserRegistrationListener() {
+        return mUserRegistrationListener;
+    }
+
+    private static void trackPage(String currPage) {
+        AppTagging.trackPage(currPage);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -171,8 +391,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         super.onSaveInstanceState(outState);
     }
 
-    private static boolean isRegistrationLunched;
-
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -270,34 +488,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    public static void replaceWithParentalAccess() {
-
-        try {
-            performReplaceWithPerentalAccess();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception " +
-                            "occured in before scheduling  :"
-                            + e.getMessage());
-            RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(),
-                    "doPopBackStack", true);
-        }
-    }
-
-    private static void performReplaceWithPerentalAccess() {
-
-        if (mFragmentManager != null) {
-            mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            final ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
-            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment,
-                    "Parental Access");
-            fragmentTransaction.commitAllowingStateLoss();
-            RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(),
-                    "doPopBackStack", false);
-        }
-    }
-
     public void addParentalConfirmFragment() {
         final ParentalAccessConfirmFragment parentalAccessConfirmFragment =
                 new ParentalAccessConfirmFragment();
@@ -341,10 +531,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     "RegistrationCoppaFragment : Janrain reinitialization with locale : "
                             + RegistrationHelper.getInstance().getLocale(getContext()));
         }
-    }
-
-    public static Activity getParentActivity() {
-        return mActivity;
     }
 
     public int getFragmentBackStackCount() {
@@ -459,202 +645,5 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     "RegistrationCoppaActivity :FragmentTransaction Exception " +
                             "occured in addFragment  :" + e.getMessage());
         }
-    }
-
-    private static void addParentalApprovalFragment() {
-        //update coppa with prev as registration and adding on top
-
-        if (mFragmentManager != null) {
-            try {
-                final ParentalApprovalFragment parentalAccessFragment =
-                        new ParentalApprovalFragment();
-                final int count = mFragmentManager.getBackStackEntryCount();
-                RegistrationFragment registrationFragment = null;
-                if (count != 0 && registrationFragment instanceof RegistrationFragment) {
-                    registrationFragment = (RegistrationFragment)
-                            mFragmentManager.getFragments().get(count);
-                }
-                if (registrationFragment != null) {
-                    parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
-                }
-                final FragmentTransaction fragmentTransaction =
-                        mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container,
-                        parentalAccessFragment, "Parental Access");
-                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
-                fragmentTransaction.commitAllowingStateLoss();
-            } catch (IllegalStateException e) {
-                RLog.e(RLog.EXCEPTION,
-                        "RegistrationCoppaFragment :FragmentTransaction Exception" +
-                                " occured in addFragment  :" + e.getMessage());
-            }
-        }
-    }
-
-    private static void addParentalApprovalFragmentonLaunch() {
-        //update coppa with prev as registration and adding on top
-
-        if (mFragmentManager != null) {
-            try {
-                ParentalApprovalFragment parentalAccessFragment = new ParentalApprovalFragment();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(RegConstants.IS_FROM_PARENTAL_CONSENT, isParentalConsent);
-                parentalAccessFragment.setArguments(bundle);
-                int count = mFragmentManager.getBackStackEntryCount();
-                RegistrationFragment registrationFragment = null;
-                if (count != 0 && registrationFragment instanceof RegistrationFragment) {
-                    registrationFragment = (RegistrationFragment)
-                            mFragmentManager.getFragments().get(count);
-                }
-                if (registrationFragment != null) {
-                    parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
-                }
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container,
-                        parentalAccessFragment, "Parental Access");
-                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
-                fragmentTransaction.commitAllowingStateLoss();
-            } catch (IllegalStateException e) {
-                RLog.e(RLog.EXCEPTION,
-                        "RegistrationCoppaFragment :FragmentTransaction Exception " +
-                                "occured in addFragment  :" + e.getMessage());
-            }
-        }
-    }
-
-    private static ProgressDialog mProgressDialog;
-
-    public static void showRefreshProgress(Activity activity) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(activity, R.style.reg_Custom_loaderTheme);
-            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-        } else {
-            mProgressDialog.show();
-        }
-    }
-
-    public static void hideRefreshProgress() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
-    }
-
-    private static UserRegistrationListener mUserRegistrationListener =
-            new UserRegistrationListener() {
-                @Override
-                public void onUserRegistrationComplete(Activity activity) {
-                    //Launch the Approval fragment
-                    isRegistrationLunched = false;
-                    isParentalFragmentLaunched = true;
-                    showRefreshProgress(activity);
-
-                    final User user = new User(activity.getApplicationContext());
-                    user.refreshLoginSession(new RefreshLoginSessionHandler() {
-                        @Override
-                        public void onRefreshLoginSessionSuccess() {
-                            user.refreshUser(new RefreshUserHandler() {
-                                @Override
-                                public void onRefreshUserSuccess() {
-                                    hideRefreshProgress();
-                                    handleConsentState();
-                                }
-
-                                @Override
-                                public void onRefreshUserFailed(int error) {
-                                    hideRefreshProgress();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionFailedWithError(int error) {
-                            hideRefreshProgress();
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionInProgress(String message) {
-                            hideRefreshProgress();
-                        }
-                    });
-                }
-
-                @Override
-                public void onPrivacyPolicyClick(Activity activity) {
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnPrivacyPolicyClickEventOccurred(activity);
-                    }
-                }
-
-                @Override
-                public void onTermsAndConditionClick(Activity activity) {
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnTermsAndConditionClickEventOccurred(activity);
-                    }
-                }
-
-                @Override
-                public void onUserLogoutSuccess() {
-                    replaceWithParentalAccess();
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnUserLogoutSuccess();
-                    }
-                }
-
-                @Override
-                public void onUserLogoutFailure() {
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnUserLogoutFailure();
-                    }
-                }
-
-                @Override
-                public void onUserLogoutSuccessWithInvalidAccessToken() {
-                    replaceWithParentalAccess();
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnLogoutSuccessWithInvalidAccessToken();
-                    }
-                }
-            };
-
-    private static void handleConsentState() {
-        RLog.i("Coppa Consent", "Handle Consent State");
-
-        CoppaExtension mCoppaExtension;
-        mCoppaExtension = new CoppaExtension(getParentActivity().getApplicationContext());
-        mCoppaExtension.buildConfiguration();
-        if (!isParentConsentRequested) {
-            if (mCoppaExtension.getCoppaEmailConsentStatus() ==
-                    CoppaStatus.kDICOPPAConfirmationGiven ||
-                    mCoppaExtension.getCoppaEmailConsentStatus() ==
-                            CoppaStatus.kDICOPPAConsentNotGiven ||
-                    mCoppaExtension.getCoppaEmailConsentStatus() ==
-                            CoppaStatus.kDICOPPAConfirmationNotGiven) {
-                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                            notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
-                }
-            } else {
-                addParentalApprovalFragmentonLaunch();
-            }
-        } else {
-            addParentalApprovalFragmentonLaunch();
-            isParentConsentRequested = false;
-        }
-    }
-
-    public static UserRegistrationListener getUserRegistrationListener() {
-        return mUserRegistrationListener;
-    }
-
-    private static void trackPage(String currPage) {
-        AppTagging.trackPage(currPage);
     }
 }
