@@ -14,6 +14,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import junit.framework.Assert;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,6 +70,7 @@ public class AppIdentityManager implements AppIdentityInterface {
         if(mAppStateEnum != null){
             return mAppStateEnum;
         }
+
         return mAppStateEnum;
     }
 
@@ -134,6 +137,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
                     }else{
                         mServiceDiscoveryEnvironment= null;
+                        Assert.fail("Please set Config File (AppIdentity.json) to proper data");
                     }
                     if(mAppState.equalsIgnoreCase("DEVELOPMENT")&& mAppState.length()==11 || mAppState.equalsIgnoreCase("TEST")&& mAppState.length()==4 || mAppState.equalsIgnoreCase("STAGING")&& mAppState.length()==7 || mAppState.equalsIgnoreCase("ACCEPTANCE")&& mAppState.length()==10 ||mAppState.equalsIgnoreCase("PRODUCTION")&& mAppState.length()==10){
 
@@ -141,6 +145,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
                     }else{
                         mAppState= null;
+                        Assert.fail("Please set Config File (AppIdentity.json) to proper data");
                     }
                     try {
                         PackageInfo pInfo = null;
