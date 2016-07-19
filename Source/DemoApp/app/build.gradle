@@ -4,30 +4,34 @@ apply plugin: 'pmd'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.philips.cdp.demo"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 3
-        versionName "1.0.1"
+        versionName "1.0.2.rc7"
         testApplicationId "com.philips.cdp.demo.androidTest"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         generatedDensities = []
-
+        multiDexEnabled true
+    }
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
         }
         debug {
             debuggable true
             minifyEnabled false
-            shrinkResources true
+            shrinkResources false
+            proguardFiles 'proguard-rules.pro'
             testCoverageEnabled true
         }
     }
@@ -52,12 +56,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.0.1"
+            versionName "1.0.2.rc7"
         }
         device {
             applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.0.1"
+            versionName "1.0.2.rc7"
         }
     }
 
@@ -75,15 +79,19 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
     compile project(':product-registration-lib')
-
+    compile 'com.android.support:multidex:1.0.1'
     //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
     androidTestCompile 'junit:junit:4.12'
-    androidTestCompile "org.mockito:mockito-core:1.9.5"
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+
+    androidTestCompile "com.android.support.test:runner:0.5"
+    androidTestCompile "com.android.support.test:rules:0.5"
+    //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {

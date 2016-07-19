@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.RegistrationState;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.registration.User;
 
 import org.mockito.Mock;
@@ -28,7 +29,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     private LocalRegisteredProducts localRegisteredProducts;
     private Context context;
     @Mock
-    private LocalSharedPreference localSharedPreference;
+    private ProdRegCache prodRegCache;
     private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
     private Gson gson;
 
@@ -52,8 +53,8 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
             }
 
             @Override
-            public LocalSharedPreference getLocalSharedPreference() {
-                return localSharedPreference;
+            public ProdRegCache getProdRegCache() {
+                return prodRegCache;
             }
         };
     }
@@ -69,7 +70,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         when(registeredProductMock.getCtn()).thenReturn("ctn");
         localRegisteredProducts.store(registeredProductMock);
         assertEquals(registeredProducts.size(), 4);
-        verify(localSharedPreference).storeData(LocalRegisteredProducts.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        verify(prodRegCache).storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     public void testUpdateRegisteredProducts() {
@@ -77,7 +78,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         when(registeredProductMock.getCtn()).thenReturn("ctn");
         localRegisteredProducts.updateRegisteredProducts(registeredProductMock);
         assertEquals(registeredProducts.size(), 4);
-        verify(localSharedPreference).storeData(LocalRegisteredProducts.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        verify(prodRegCache).storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     public void testSyncLocalCache() {
@@ -86,6 +87,9 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         when(registeredProductMock.getRegistrationState()).thenReturn(RegistrationState.REGISTERED);
         localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProductMock});
         assertEquals(registeredProducts.size(), 4);
+        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
+        localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProduct});
+        assertEquals(registeredProducts.size(), 3);
     }
 
     public void testGetRegisteredProducts() {
@@ -116,5 +120,32 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
             }
         };
         assertTrue(localRegisteredProducts.getUniqueRegisteredProducts().size() == 1);
+    }
+
+    public void testRemoveProductFromCache() {
+        User userMock = mock(User.class);
+        RegisteredProduct registeredProductMock = new RegisteredProduct("ctn", null, null);
+        when(userMock.isUserSignIn()).thenReturn(true);
+        final ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
+        localRegisteredProducts = new LocalRegisteredProducts(context, userMock) {
+            @Override
+            protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
+                return registeredProducts;
+            }
+
+            @Override
+            protected ProdRegCache getProdRegCache() {
+                return prodRegCacheMock;
+            }
+
+            @NonNull
+            @Override
+            protected Gson getGSon() {
+                return gson;
+            }
+        };
+        localRegisteredProducts.removeProductFromCache(registeredProductMock);
+        assertEquals(registeredProducts.size(), 2);
+        verify(prodRegCacheMock).storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 }

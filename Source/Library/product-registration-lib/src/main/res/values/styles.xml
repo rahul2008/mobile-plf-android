@@ -5,4 +5,74 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="ProductRegistrationHeaderTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">22sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegistrationSubTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegistrationConnectHeaderTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegistrationConnectSubTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegistrationProductHeaderTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
+    <style name="ProductRegistrationProductSubTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegistrationCtnTheme">
+        <item name="android:textColor">@color/uikit_enricher4</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="DateOfPurchaseStyle">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="DatePickerStyle">
+        <item name="android:textColor">#0066a1</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="Prod_Reg_Generic_Style">
+        <item name="android:paddingLeft">@dimen/pr_left_padding_sm</item>
+        <item name="android:paddingRight">@dimen/pr_right_padding_sm</item>
+        <item name="android:paddingTop">@dimen/pr_top_padding_sm</item>
+        <item name="android:paddingBottom">@dimen/pr_bottom_padding_sm</item>
+
+    </style>
 </resources>

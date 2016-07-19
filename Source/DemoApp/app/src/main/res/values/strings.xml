@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProductRegistration</string>
+    <string name="app_name">Product Registration</string>
     <string name="action_settings">Settings</string>
     <string name="enter_ctn_number">Enter CTN number</string>
     <string name="user_registration">User Registration</string>

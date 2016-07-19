@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout style="@style/Prod_Reg_Generic_Style"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/reg_more_btn_layout"
+        android:layout_marginBottom="@dimen/scroll_view_bottom_padding"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pr_success_title_textview"
+                style="@style/ProductRegistrationHeaderTitleTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/PPR_RegSuccess_Lbltxt"/>
+
+
+            <TextView
+                android:id="@+id/pr_success_more_textview"
+                style="@style/ProductRegistrationSubTitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pr_success_title_textview"
+                android:layout_marginTop="@dimen/pr_top_padding_sm"
+                android:text="@string/prod_reg_success_conf_message"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/reg_more_btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/pr_d_value_sm"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/continueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_text"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/register_next_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:text="@string/register_next"
+            android:textAllCaps="false"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/back_to_list_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:text="@string/back_to_list"
+            android:textAllCaps="false"
+            android:visibility="gone"/>
+    </LinearLayout>
+</RelativeLayout>

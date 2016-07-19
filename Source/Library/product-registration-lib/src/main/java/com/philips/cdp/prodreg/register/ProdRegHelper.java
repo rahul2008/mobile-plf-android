@@ -14,6 +14,7 @@ import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 /**
  * <b> Helper class used to process product registration backend calls</b>
@@ -21,16 +22,20 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 public class ProdRegHelper {
 
     private static Context context;
-    private static ProdRegListener prodRegListener;
     private static UserRegistrationListener userRegistrationListener;
+    private static ProdRegHelper prodRegHelper;
+    private ProdRegListener prodRegListener;
 
     @NonNull
     private static UserRegistrationListener getUserRegistrationListener() {
         userRegistrationListener = new UserRegistrationListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
+                if (activity != null && activity instanceof RegistrationActivity) {
+                    activity.finish();
+                }
                 final User user = new User(context);
-                new UserWithProducts(context, new User(context), prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
+                final ProdRegListener prodRegListener = new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                     }
@@ -38,7 +43,9 @@ public class ProdRegHelper {
                     @Override
                     public void onProdRegFailed(final RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                     }
-                });
+                };
+                new ProdRegHelper().addProductRegistrationListener(prodRegListener);
+                new UserWithProducts(context, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts());
             }
 
             @Override
@@ -64,6 +71,13 @@ public class ProdRegHelper {
         return userRegistrationListener;
     }
 
+ /*   public static ProdRegHelper getInstance() {
+        if (prodRegHelper == null) {
+            prodRegHelper = new ProdRegHelper();
+        }
+        return prodRegHelper;
+    }*/
+
     /**
      * API to be called to initialize product registration
      *
@@ -80,10 +94,10 @@ public class ProdRegHelper {
      * @param listener - Pass listener instance to listen for call backs
      */
     public void addProductRegistrationListener(final ProdRegListener listener) {
-        prodRegListener = listener;
+        this.prodRegListener = listener;
     }
 
-    public void removeProductRegistrationListener() {
+    public void removeProductRegistrationListener(final ProdRegListener prodRegListener) {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
     }
 

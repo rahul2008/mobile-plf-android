@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.model.metadata;
 
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 
@@ -58,8 +57,6 @@ public class ProductMetadataResponseTest extends InstrumentationTestCase {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
-
             ProductMetadataResponse productMetaData = (ProductMetadataResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
             ProductMetadataResponseData mResponseData = productMetaData.getData();
             assertNotNull(mResponseData);
@@ -67,7 +64,6 @@ public class ProductMetadataResponseTest extends InstrumentationTestCase {
             ProductMetadataResponseData productData = setMetadataObject(mResponseData);
             TestAssertionOnResponse(mResponseData, productData);
         } catch (Exception e) {
-            Log.d(TAG, "IO " + e);
         }
     }
 

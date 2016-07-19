@@ -1,12 +1,14 @@
 package com.philips.cdp.prodreg.error;
 
+import android.content.Context;
+
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.cdp.product_registration_lib.R;
 
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -19,62 +21,96 @@ public class ErrorHandlerTest extends MockitoTestCase {
 
     ErrorHandler errorHandler;
     private UserWithProducts userWithProductsMock;
+    private Context context;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         userWithProductsMock = mock(UserWithProducts.class);
         errorHandler = new ErrorHandler();
+        context = getInstrumentation().getContext();
     }
 
     public void testErrorHandle() {
 
-        ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         RegisteredProduct product = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INVALID_CTN.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(product, userWithProductsMock);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INVALID_CTN.getCode());
         verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.INVALID_CTN, RegistrationState.FAILED);
 
-        RegisteredProduct product1 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INVALID_SERIALNUMBER.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product1, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product1, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INVALID_SERIALNUMBER.getCode());
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
 
-        RegisteredProduct product2 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INVALID_VALIDATION.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product2, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product2, ProdRegError.INVALID_VALIDATION, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INVALID_VALIDATION.getCode());
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.INVALID_VALIDATION, RegistrationState.FAILED);
 
-        RegisteredProduct product3 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product3, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product3, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.NO_INTERNET_AVAILABLE.getCode());
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
 
-        RegisteredProduct product4 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product4, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product4, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.INTERNAL_SERVER_ERROR.getCode());
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.FAILED);
 
-        RegisteredProduct product6 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.TIME_OUT.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product6, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product6, ProdRegError.TIME_OUT, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.TIME_OUT.getCode());
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.TIME_OUT, RegistrationState.FAILED);
 
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock);
-        verify(userWithProductsMock).onAccessTokenExpire(product, prodRegListenerMock);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.ACCESS_TOKEN_INVALID.getCode());
+        verify(userWithProductsMock).onAccessTokenExpire(product);
 
-        RegisteredProduct product8 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, 600, prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product8, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product8, ProdRegError.UNKNOWN, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, 600);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.UNKNOWN, RegistrationState.FAILED);
 
-        RegisteredProduct product9 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, 511, prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product9, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product9, ProdRegError.NETWORK_ERROR, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, 511);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.NETWORK_ERROR, RegistrationState.FAILED);
 
-        errorHandler.handleError(userWithProductsMock, product, 1, prodRegListenerMock);
-        verify(prodRegListenerMock, atLeastOnce()).onProdRegFailed(product9, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCache(product9, ProdRegError.PARSE_ERROR, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, 1);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.PARSE_ERROR, RegistrationState.FAILED);
+
+        errorHandler.handleError(userWithProductsMock, product, 507);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE, RegistrationState.FAILED);
+    }
+
+    public void testGetError() {
+        ProdRegErrorMap prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_DATE.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Enter_Purchase_Date_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Req_Purchase_Date_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_CTN.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Product_Not_Found_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Product_Not_Found_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.PRODUCT_ALREADY_REGISTERED.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Already_Registered_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Already_Registered_title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.ACCESS_TOKEN_INVALID.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Authentication_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Authentication_Fail_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.NO_INTERNET_AVAILABLE.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_No_Internet_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_No_Internet_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INTERNAL_SERVER_ERROR.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Communication_Err_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.TIME_OUT.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Communication_Err_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.NETWORK_ERROR.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Network_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Network_Err_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_SERIALNUMBER.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_SerialNum_Format_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Invalid_SerialNum_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Invalid_Date_And_serial_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Invalid_Date_And_serial_title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.UNKNOWN.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unknown_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Unknown_title));
     }
 }

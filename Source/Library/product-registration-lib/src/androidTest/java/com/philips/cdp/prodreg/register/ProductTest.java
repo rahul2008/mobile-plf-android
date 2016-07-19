@@ -7,8 +7,11 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.listener.MetadataListener;
+import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
+import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
+import com.philips.cdp.prodreg.prxrequest.ProductSummaryRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -31,6 +34,7 @@ public class ProductTest extends MockitoTestCase {
         super.setUp();
         product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER);
         context = getInstrumentation().getContext();
+        assertTrue(product.getRequestManager(context) instanceof RequestManager);
     }
 
     public void testProductMetadataCallInvoked() {
@@ -62,6 +66,36 @@ public class ProductTest extends MockitoTestCase {
         assertTrue(productMetadataRequest1 instanceof ProductMetadataRequest);
     }
 
+    public void testProductSummaryCallInvoked() {
+        final RequestManager requestManager = mock(RequestManager.class);
+        final ResponseListener responseListener = mock(ResponseListener.class);
+        final SummaryListener summaryListener = mock(SummaryListener.class);
+        final ProductSummaryRequest productSummaryRequest = mock(ProductSummaryRequest.class);
+        Product product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER) {
+            @NonNull
+            @Override
+            RequestManager getRequestManager(final Context context) {
+                return requestManager;
+            }
+
+            @NonNull
+            @Override
+            protected ProductSummaryRequest getProductSummaryRequest(final Product product) {
+                return productSummaryRequest;
+            }
+
+            @NonNull
+            @Override
+            ResponseListener getPrxResponseListenerForSummary(final SummaryListener metadataListener) {
+                return responseListener;
+            }
+        };
+        product.getProductSummary(context, product, summaryListener);
+        verify(requestManager).executeRequest(productSummaryRequest, responseListener);
+        final ProductSummaryRequest productSummaryRequest1 = product.getProductSummaryRequest(product);
+        assertTrue(productSummaryRequest1 instanceof ProductSummaryRequest);
+    }
+
     public void testGetPrxResponseListener() {
         final Product productMock = mock(Product.class);
         Product product = new Product(null, Sector.B2C, Catalog.CONSUMER) {
@@ -78,6 +112,24 @@ public class ProductTest extends MockitoTestCase {
         verify(metadataListener).onMetadataResponse(responseDataMock);
         responseListener.onResponseError(new PrxError("test", 8));
         verify(metadataListener).onErrorResponse("test", 8);
+    }
+
+    public void testGetPrxResponseListenerSummary() {
+        final Product productMock = mock(Product.class);
+        Product product = new Product(null, Sector.B2C, Catalog.CONSUMER) {
+            @Override
+            protected Product getProduct() {
+                return productMock;
+            }
+        };
+        SummaryListener summaryListener = mock(SummaryListener.class);
+        assertTrue(product.getPrxResponseListenerForSummary(summaryListener) instanceof ResponseListener);
+        ResponseListener responseListener = product.getPrxResponseListenerForSummary(summaryListener);
+        ProductSummaryResponse responseDataMock = mock(ProductSummaryResponse.class);
+        responseListener.onResponseSuccess(responseDataMock);
+        verify(summaryListener).onSummaryResponse(responseDataMock);
+        responseListener.onResponseError(new PrxError("test", 8));
+        verify(summaryListener).onErrorResponse("test", 8);
     }
 
     public void testProductGetMethods() {

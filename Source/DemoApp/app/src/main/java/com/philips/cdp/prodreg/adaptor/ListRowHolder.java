@@ -1,9 +1,11 @@
-package com.philips.cdp.prodreg;
+package com.philips.cdp.prodreg.adaptor;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.R;
+import com.philips.cdp.prodreg.fragment.ProductListFragment;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
@@ -27,7 +29,7 @@ public class ListRowHolder extends RecyclerView.ViewHolder {
         this.mErrorStatus = (TextView) itemView.findViewById(R.id.txt_errorstatus);
     }
 
-    public void bind(final RegisteredProduct registeredProduct, final RegisteredProductsList.OnItemClickListener listener) {
+    public void bind(final RegisteredProduct registeredProduct, final ProductListFragment.OnItemClickListener listener) {
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

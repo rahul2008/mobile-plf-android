@@ -4,24 +4,28 @@ apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
 def coverageSourceDirs = [
-        '../Library/product-registration-lib/src/main/java'
+        '../Library/product-registration-lib/src/androidTest/java/com/philips/cdp/prodreg'
 ]
 buildscript {
     repositories {
-        maven {url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'}
-	    maven {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
                 username = "readonly"
-                password = "readonly"}
-			}
-		}
+                password = "readonly"
+            }
+        }
+        jcenter()
+    }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
+
     }
 }
 
@@ -30,12 +34,15 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
+apply from: 'localization.gradle'
+
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 allprojects {
-	repositories {
+    repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -60,12 +67,13 @@ allprojects {
         flatDir {
             dirs 'libs'
         }
+        jcenter()
     }
 }
 
-    
-    group = 'com.philips.cdp'
-	version = objcdp.getVersion()
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -94,23 +102,25 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============	
-	
+
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.2.rc7"
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
@@ -122,7 +132,6 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            shrinkResources true
             testCoverageEnabled true
         }
     }
@@ -156,17 +165,17 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0', ext: 'aar') {
-        transitive = true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '6.0.0', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '6.0.6', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.1.0', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.2', ext: 'aar') {
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0-rc.8', ext: 'aar') {
+        transitive = true
+    }
+
 
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
@@ -213,7 +222,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../app/build/intermediates/classes/debug',
+            dir: '../product-registration-lib/build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
                        '**/*$ViewInjector*.*',
@@ -221,13 +230,21 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/listener/*.class',
                        '**/prxrequest/*.class',
                        '**/localcache/*.class',
+                       '**/activity/*.class',
+                       '**/adaptor/*.class',
+                       '**/constants/*.class',
+                       '**/fragments/*.class',
+                       '**/imagehandler/*.class',
+                       '**/launcher/*.class',
+                       '**/logging/*.class',
+                       '**/tagging/*.class',
                        '**/BuildConfig.*',
                        '**/Manifest*.*']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../Library/product-registration-lib/build/jacoco/testDebugUnitTest.exec')
+    executionData = files('../product-registration-lib/build/jacoco/testDebugUnitTest.exec')
 
     reports {
         xml.enabled = true

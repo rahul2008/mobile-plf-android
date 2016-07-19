@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/pr_first_launch_padding_left"
+                android:paddingRight="@dimen/pr_first_launch_padding_right"
+                android:paddingTop="@dimen/pr_first_launch_padding_top">
+
+
+    <TextView
+        android:id="@+id/pr_all_success_textview"
+        style="@style/ProductRegistrationConnectHeaderTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/PPR_AllProducts_Registered_Lbltxt"/>
+
+    <TextView
+        android:id="@+id/link_tv"
+        style="@style/ProductRegistrationConnectSubTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pr_all_success_textview"
+        android:layout_marginTop="@dimen/pr_d_value_tablet"
+        android:text="@string/PPR_Do_You_Want_To_Reg_Lbltxt"/>
+
+
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/link_tv"
+        android:layout_marginTop="@dimen/pr_d_value_tablet"
+        android:text="Back"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/connect_product_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back_btn"
+        android:layout_gravity="bottom|center"
+        android:layout_marginTop="@dimen/pr_c_value_tablet"
+        android:text="@string/PPR_Connect_Product_Btntxt"
+        android:textAllCaps="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>

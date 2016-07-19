@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.error;
+package com.philips.cdp.prodreg.constants;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination

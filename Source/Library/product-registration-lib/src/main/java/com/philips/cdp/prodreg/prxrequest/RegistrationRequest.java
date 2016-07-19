@@ -2,8 +2,8 @@ package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -22,6 +22,8 @@ import java.util.Map;
  * consent of the copyright holder.
 */
 public class RegistrationRequest extends PrxRequest {
+
+    private static final String TAG = RegistrationRequest.class.getSimpleName();
 
     private String ctn = null;
     private String accessToken;
@@ -231,9 +233,10 @@ public class RegistrationRequest extends PrxRequest {
         try {
             url = java.net.URLDecoder.decode(url, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            ProdRegLogger.e(TAG, e.getMessage());
         }
-        Log.d(getClass() + "", url);
+        ProdRegLogger.d(getClass() + "", url);
         return url;
     }
+
 }
