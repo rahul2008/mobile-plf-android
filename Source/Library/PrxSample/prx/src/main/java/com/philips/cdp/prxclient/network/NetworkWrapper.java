@@ -51,14 +51,14 @@ public class NetworkWrapper {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.setShouldCache(true);
         isHttpsRequest = url.startsWith("https");
-     //   setSSLSocketFactory(); //MAIL-253
+        setSSLSocketFactory();
         mVolleyRequest.add(request);
     }
 
-   /* private void setSSLSocketFactory() {
+    private void setSSLSocketFactory() {
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
-    }*/
+    }
 
 
     private Response.ErrorListener getVolleyErrorListener(final ResponseListener listener) {
