@@ -31,7 +31,6 @@ public class NetworkWrapper {
     private static final String TAG = NetworkWrapper.class.getSimpleName();
     private Context mContext = null;
     private RequestQueue mVolleyRequest;
-    private boolean isHttpsRequest = false;
 
     public NetworkWrapper(Context context) {
         mContext = context;
@@ -50,15 +49,13 @@ public class NetworkWrapper {
                 prxRequest.getMaxRetries(),
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.setShouldCache(true);
-        isHttpsRequest = url.startsWith("https");
-        setSSLSocketFactory();
+        if (url.startsWith("https") && (url.contains("tst.philips") || url.contains("acc.philips"))){
+            SSLCertificateManager.disableAllServerCertificateChecking();
+        }
         mVolleyRequest.add(request);
     }
 
-    private void setSSLSocketFactory() {
-        if (isHttpsRequest)
-            SSLCertificateManager.setSSLSocketFactory();
-    }
+
 
 
     private Response.ErrorListener getVolleyErrorListener(final ResponseListener listener) {

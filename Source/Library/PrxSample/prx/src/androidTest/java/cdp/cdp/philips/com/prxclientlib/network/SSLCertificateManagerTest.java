@@ -22,7 +22,7 @@ public class SSLCertificateManagerTest extends InstrumentationTestCase {
     }
 
     public void testSetSSLSocketFactory() throws Exception {
-        sslCertificateManager.setSSLSocketFactory();
+        sslCertificateManager.disableAllServerCertificateChecking();
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(final String hostname, final SSLSession session) {
