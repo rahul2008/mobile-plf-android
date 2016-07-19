@@ -52,10 +52,19 @@ public class RLog {
 
     public static void init(final Context context){
         mContext = context;
+
         mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().getLogging().createInstanceForComponent("Registration","Registration");
         mLoggingInterface.enableConsoleLog(false);
         mLoggingInterface.enableFileLog(true);
 
+    }
+
+    public static void initForTesting(final Context context){
+        mContext = context;
+
+        mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().getLogging().createInstanceForComponent("Registration","Registration");
+        mLoggingInterface.enableConsoleLog(false);
+        mLoggingInterface.enableFileLog(false);
     }
 
     public static void disableLogging() {
