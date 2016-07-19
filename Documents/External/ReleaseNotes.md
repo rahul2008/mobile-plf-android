@@ -12,7 +12,7 @@ Version v1.1.3
 --------------------------------------------------------------------------------
 ### Bugs fixed:
 * DE12042 Rebooting appliance no longer removes pairing relationships 
-* DE????? When requesting removal of backend relations then the reletions are actually removed  
+* DE11897 When requesting removal of backend relations then the reletions are actually removed  
 
 --------------------------------------------------------------------------------
 ### Known issues:
