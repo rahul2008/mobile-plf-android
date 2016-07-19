@@ -1,0 +1,33 @@
+import com.github.jrubygradle.JRubyExec
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:0.1.17'
+    }
+}
+apply plugin: 'com.github.jruby-gradle.base'
+
+dependencies{
+    jrubyExec 'rubygems:roo:2.0.0'
+}
+
+task runLocalizationScript(type: JRubyExec) {
+    description 'Run localization ruby script to generated translations strings'
+    group 'Localization'
+
+    script "${getRootFolder()}/hor-productregistration-localization/Android/android_parse_csv_to_strings.rb"
+    gemWorkDir "${System.properties['user.home']}/.gradle-jruby"
+}
+
+def getRootFolder() {
+    // Triple double-quotes for the breaklines
+    def rootFolder = """git rev-parse --show-toplevel""".execute().text.trim()
+
+    print "RootFolder:  ${rootFolder}"
+
+    return rootFolder
+}

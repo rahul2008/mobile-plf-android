@@ -16,6 +16,7 @@ buildscript {
                 password = "readonly"
             }
         }
+        jcenter()
     }
 
     dependencies {
@@ -23,6 +24,8 @@ buildscript {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
+
     }
 }
 
@@ -31,6 +34,8 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
+apply from: 'localization.gradle'
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -62,6 +67,7 @@ allprojects {
         flatDir {
             dirs 'libs'
         }
+        jcenter()
     }
 }
 
