@@ -48,11 +48,23 @@
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_agree_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/reg_margin_bottom"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_parental_consent_reconfirm_confirm"
                     style="@style/reg_style_btn"
-                    android:layout_height="@dimen/reg_btn_height"
-                    android:layout_marginTop="@dimen/reg_marginTopButton"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:enabled="true"
                     android:text="@string/reg_Coppa_Reconfirm_Button_Txt"
                     android:visibility="visible"
@@ -61,8 +73,7 @@
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_parental_consent_reconfirm_cancel"
                     style="@style/reg_forgot_password"
-                    android:layout_height="@dimen/reg_btn_height"
-                    android:layout_marginTop="@dimen/reg_marginTopButton"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:background="@drawable/reg_btn_forgot_selector"
                     android:enabled="true"
                     android:text="@string/reg_Coppa_Reject_Button_Txt"
