@@ -8,10 +8,10 @@
  */
 package com.philips.cdp.prodreg.activity;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
@@ -26,6 +26,7 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegConfig;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
@@ -84,11 +85,6 @@ public class ProdRegBaseActivity extends UiKitActivity {
     protected void onResume() {
         mSiteCatListHandler.post(mResumeSiteCatalystRunnable);
         super.onResume();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 
     protected void showFragment() {
@@ -169,11 +165,12 @@ public class ProdRegBaseActivity extends UiKitActivity {
 
     @Override
     public void onBackPressed() {
-
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager
+                .findFragmentById(R.id.mainContainer);
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
-        } else if (!ProdRegUiHelper.getInstance().onBackPressed(this)) {
+        } else if (currentFrag != null && currentFrag instanceof ProdRegBackListener && !((ProdRegBackListener) currentFrag).onBackPressed()) {
             super.onBackPressed();
         }
     }
@@ -181,7 +178,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
     @Override
     public void onSaveInstanceState(final Bundle outState, final PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        outState.putBoolean("test", true);
+        outState.putBoolean("retain_state", true);
     }
 
     @Override

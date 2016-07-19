@@ -15,15 +15,11 @@ package com.philips.cdp.prodreg.launcher;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -31,13 +27,14 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 
 import java.util.ArrayList;
 
+/**
+ * Product registration helper class used to invoke product registration
+ */
 public class ProdRegUiHelper {
 
-    private static int mContainerId;
     private static ProdRegUiHelper prodRegUiHelper;
     private UiLauncher mUiLauncher;
     private ProdRegUiListener prodRegUiListener;
-    private ArrayList<RegisteredProduct> registeredProducts;
 
     /*
          * Initialize everything(resources, variables etc) required for Product Registration.
@@ -58,40 +55,12 @@ public class ProdRegUiHelper {
     }
 
     /**
-     * <p> Invoking ProductRegistration component features to your Fragment Container. Please use this
-     * method.
-     * </p>
-     * <b>Note: </b>
-     * <p> 1) Please consider the string "product_registration" to identify the MainScreen Fragment as a
-     * Fragment ID. </p>
-     */
-    private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegConfig prodRegConfig) {
-        mContainerId = fragmentLauncher.getParentContainerResourceID();
-        final Bundle arguments = new Bundle();
-        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-
-        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
-        if (prodRegConfig.isAppLaunch()) {
-            ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
-            prodRegFirstLaunchFragment.setArguments(arguments);
-            prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
-                    fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
-        } else {
-            ProdRegProcessFragment prodRegProcessFragment = new ProdRegProcessFragment();
-            prodRegProcessFragment.setArguments(arguments);
-            prodRegProcessFragment.showFragment(prodRegProcessFragment,
-                    fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
-        }
-    }
-
-    /**
      * @param uiLauncher        - Launcher to differentiate activity or fragment
      * @param prodRegConfig     - Product registration config class to define products and app flow
      * @param prodRegUiListener - Callbacks to be registered for back and continue button
      */
     public void invokeProductRegistration(final UiLauncher uiLauncher, final ProdRegConfig prodRegConfig, final ProdRegUiListener prodRegUiListener) {
         this.mUiLauncher = uiLauncher;
-        createRegisteredProductsList(prodRegConfig.getProducts());
         this.prodRegUiListener = prodRegUiListener;
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
@@ -102,11 +71,12 @@ public class ProdRegUiHelper {
         }
     }
 
-    private void createRegisteredProductsList(final ArrayList<Product> products) {
-        registeredProducts = new ArrayList<>();
+    private ArrayList<RegisteredProduct> getRegisteredProductsList(final ArrayList<Product> products) {
+        final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         for (Product product : products) {
             registeredProducts.add(mapToRegisteredProduct(product));
         }
+        return registeredProducts;
     }
 
     /**
@@ -127,7 +97,7 @@ public class ProdRegUiHelper {
     private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final ProdRegConfig prodRegConfig) {
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         Intent intent = new Intent(activityLauncher.getFragmentActivity(), ProdRegBaseActivity.class);
-        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prodRegConfig.getProducts());
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
         intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegConfig.isAppLaunch());
@@ -136,18 +106,36 @@ public class ProdRegUiHelper {
         activityLauncher.getFragmentActivity().startActivity(intent);
     }
 
-    public boolean onBackPressed(FragmentActivity fragmentActivity) {
-        FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-        if (fragmentManager != null && !fragmentActivity.isFinishing()) {
-            Fragment currentFrag = fragmentManager
-                    .findFragmentById(mContainerId);
-            if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
-                return ((ProdRegBackListener) currentFrag).onBackPressed();
-            }
+    /**
+     * <p> Invoking ProductRegistration component features to your Fragment Container. Please use this
+     * method.
+     * </p>
+     * <b>Note: </b>
+     * <p> 1) Please consider the string "product_registration" to identify the MainScreen Fragment as a
+     * Fragment ID. </p>
+     */
+    private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegConfig prodRegConfig) {
+        final Bundle arguments = new Bundle();
+        final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegConfig.getProducts());
+        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+
+        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
+        if (prodRegConfig.isAppLaunch()) {
+            ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
+            prodRegFirstLaunchFragment.setArguments(arguments);
+            prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
+                    fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
+        } else {
+            ProdRegProcessFragment prodRegProcessFragment = new ProdRegProcessFragment();
+            prodRegProcessFragment.setArguments(arguments);
+            prodRegProcessFragment.showFragment(prodRegProcessFragment,
+                    fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
         }
-        return false;
     }
 
+    /**
+     * @return - returns the instance of listener set
+     */
     public ProdRegUiListener getProdRegUiListener() {
         return prodRegUiListener;
     }

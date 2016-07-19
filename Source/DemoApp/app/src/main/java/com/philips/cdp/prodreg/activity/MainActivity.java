@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 
@@ -99,7 +100,15 @@ public class MainActivity extends UiKitActivity {
 
     @Override
     public void onBackPressed() {
-        if (!ProdRegUiHelper.getInstance().onBackPressed(this)) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean backState = false;
+        Fragment currentFrag = fragmentManager
+                .findFragmentById(R.id.parent_layout);
+        if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
+            backState = ((ProdRegBackListener) currentFrag).onBackPressed();
+        }
+
+        if (!backState) {
             super.onBackPressed();
         }
     }
