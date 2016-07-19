@@ -60,9 +60,10 @@
 
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_parental_consent_reconfirm_cancel"
-                    style="@style/reg_style_btn"
+                    style="@style/reg_forgot_password"
                     android:layout_height="@dimen/reg_btn_height"
                     android:layout_marginTop="@dimen/reg_marginTopButton"
+                    android:background="@drawable/reg_btn_forgot_selector"
                     android:enabled="true"
                     android:text="@string/reg_Coppa_Reject_Button_Txt"
                     android:visibility="visible"

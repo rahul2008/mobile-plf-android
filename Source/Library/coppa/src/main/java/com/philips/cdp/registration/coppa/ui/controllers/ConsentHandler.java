@@ -33,13 +33,12 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
  */
 public class ConsentHandler implements RefreshUserHandler {
 
+    private static FragmentManager mFragmentManager;
     final private CoppaExtension mCoppaExtension;
-    private String mTaggingState;
-    private String mTaggingKey;
     private final Context mContext;
     private final User mUser;
-    private static FragmentManager mFragmentManager;
-
+    private String mTaggingState;
+    private String mTaggingKey;
     private ParentalApprovalFragment mParentalApprovalFragment;
 
     public ConsentHandler(CoppaExtension coppaExtension, Context context) {

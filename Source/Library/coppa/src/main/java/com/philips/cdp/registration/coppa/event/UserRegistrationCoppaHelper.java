@@ -19,7 +19,7 @@ public class UserRegistrationCoppaHelper {
 
     private static volatile UserRegistrationCoppaHelper eventHelper;
 
-    private CopyOnWriteArrayList<UserRegistrationCoppaListener> userRegistrationListeners;
+    final private CopyOnWriteArrayList<UserRegistrationCoppaListener> userRegistrationListeners;
 
     private UserRegistrationCoppaHelper() {
         userRegistrationListeners = new CopyOnWriteArrayList<UserRegistrationCoppaListener>();
@@ -86,7 +86,7 @@ public class UserRegistrationCoppaHelper {
     public synchronized void notifyonUserRegistrationCompleteEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
-                for (UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
+                for (final UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
                     if (eventListener != null) {
                         eventListener.onUserRegistrationComplete(activity);
                     }
@@ -103,7 +103,7 @@ public class UserRegistrationCoppaHelper {
     public synchronized void notifyOnPrivacyPolicyClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
-                for (UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
+                for (final UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
                     if (eventListener != null) {
                         eventListener.onPrivacyPolicyClick(activity);
                     }
@@ -120,7 +120,7 @@ public class UserRegistrationCoppaHelper {
     public synchronized void notifyOnTermsAndConditionClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
-                for (UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
+                for (final UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
                     if (eventListener != null) {
                         eventListener.onTermsAndConditionClick(activity);
                     }
@@ -135,7 +135,7 @@ public class UserRegistrationCoppaHelper {
     public synchronized void notifyOnUserLogoutSuccess() {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
-                for (UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
+                for (final UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
                     if (eventListener != null) {
                         eventListener.onUserLogoutSuccess();
                     }
@@ -150,7 +150,7 @@ public class UserRegistrationCoppaHelper {
     public synchronized void notifyOnUserLogoutFailure() {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
-                for (UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
+                for (final UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
                     if (eventListener != null) {
                         eventListener.onUserLogoutFailure();
                     }
@@ -165,7 +165,7 @@ public class UserRegistrationCoppaHelper {
     public synchronized void notifyOnLogoutSuccessWithInvalidAccessToken() {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
-                for (UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
+                for (final UserRegistrationCoppaListener eventListener : userRegistrationListeners) {
                     if (eventListener != null) {
                         eventListener.onUserLogoutSuccessWithInvalidAccessToken();
                     }

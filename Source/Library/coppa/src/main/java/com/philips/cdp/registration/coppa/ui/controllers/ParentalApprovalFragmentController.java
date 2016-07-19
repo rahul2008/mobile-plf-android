@@ -43,14 +43,25 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     private boolean isParentalConsent = false;
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
-    public static FragmentManager mFragmentManager;
+    private FragmentManager mFragmentManager;
+    private View.OnClickListener mOkBtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RegCoppaAlertDialog.dismissDialog();
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
+                        notifyonUserRegistrationCompleteEventOccurred(
+                                mParentalApprovalFragment.getActivity());
+            }
+        }
+    };
 
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
         mParentalApprovalFragment = fragment;
         if (mParentalApprovalFragment.getRegistrationFragment().getParentActivity() != null) {
             mCoppaExtension = new CoppaExtension(mParentalApprovalFragment.getRegistrationFragment()
                     .getParentActivity().getApplicationContext());
-            Bundle bunble = mParentalApprovalFragment.getArguments();
+            final Bundle bunble = mParentalApprovalFragment.getArguments();
             if (bunble != null) {
                 isParentalConsent = bunble.getBoolean(RegConstants.IS_FROM_PARENTAL_CONSENT, false);
             }
@@ -82,18 +93,6 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }
 
-    private View.OnClickListener mOkBtnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            RegCoppaAlertDialog.dismissDialog();
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                        notifyonUserRegistrationCompleteEventOccurred(
-                                mParentalApprovalFragment.getActivity());
-            }
-        }
-    };
-
     @Override
     public void onRefreshUserFailed(int error) {
         mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
@@ -117,10 +116,10 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
             try {
                 ParentalCaringSharingFragment parentalCaringSharingFragment = new
                         ParentalCaringSharingFragment();
-                Bundle bundle = new Bundle();
+                final Bundle bundle = new Bundle();
                 bundle.putString(RegConstants.COPPA_STATUS, coppaStatus.toString());
                 parentalCaringSharingFragment.setArguments(bundle);
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container,
                         parentalCaringSharingFragment, "Parental Access");
                 fragmentTransaction.commitAllowingStateLoss();
@@ -255,8 +254,8 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         mFragmentManager = mParentalApprovalFragment.getParentFragment().getChildFragmentManager();
         if (mFragmentManager != null) {
             try {
-                ParentalConsentFragment parentalConsentFragment = new ParentalConsentFragment();
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                final ParentalConsentFragment parentalConsentFragment = new ParentalConsentFragment();
+                final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalConsentFragment,
                         "Parental Access");
                 fragmentTransaction.commitAllowingStateLoss();
