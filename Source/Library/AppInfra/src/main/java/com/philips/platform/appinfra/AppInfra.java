@@ -60,6 +60,7 @@ public class AppInfra implements AppInfraInterface {
 
         /**
          * Instantiates a new Builder.
+         * It can be configured with Builder setter methods
          */
         public Builder() {
             secStor = null;
@@ -73,20 +74,9 @@ public class AppInfra implements AppInfraInterface {
         }
 
 
-        /**
-         * Sets a local logger for App Infra.
-         *
-         * @param loggingInterface the logging interface
-         * @return the appinfra logger
-         */
-        public Builder setAiLogger(LoggingInterface loggingInterface) {
-            aiLogger = loggingInterface;
-            return this;
-        }
-
 
         /**
-         * Sets Builder logging.
+         * Sets Builder logging overriding the default implementation.
          *
          * @param log the log
          * @return the logging
@@ -97,7 +87,7 @@ public class AppInfra implements AppInfraInterface {
         }
 
         /**
-         * Sets Builder secure storage.
+         * Sets Builder secure storage overriding the default implementation.
          *
          * @param secureStorage the secure storage
          * @return the secure storage
@@ -107,26 +97,45 @@ public class AppInfra implements AppInfraInterface {
             return this;
         }
 
+
+        /**
+         * Sets Builder service discovery overriding the default implementation.
+         *
+         * @param serviceDiscoveryInterface the service discovery interface
+         * @return the service discovery
+         */
         public Builder setServiceDiscovery(ServiceDiscoveryInterface serviceDiscoveryInterface) {
             mServiceDiscoveryInterface = serviceDiscoveryInterface;
             return this;
         }
 
+        /**
+         * Sets Builder tagging overriding the default implementation.
+         *
+         * @param aIAppTaggingInterface the a i app tagging interface
+         * @return the tagging
+         */
         public Builder setTagging(AppTaggingInterface aIAppTaggingInterface) {
             tagging = aIAppTaggingInterface;
             return this;
         }
 
-        public Builder setTimeSynce(TimeSyncSntpClient timeSyncSntpClient) {
+        /**
+         * Sets Builder time sync overriding the default implementation.
+         *
+         * @param timeSyncSntpClient the time sync sntp client
+         * @return the time sync
+         */
+        public Builder setTimeSync(TimeSyncSntpClient timeSyncSntpClient) {
             mTimeSyncInterfaceBuilder = timeSyncSntpClient;
             return this;
         }
 
 
         /**
-         * Build App Infra instance with give feature instances overriding the default implementation.
-         *
-         * @param pContext context
+         * Actual AppInfra object is created here.
+         * Once build is called AppInfra is created in memory and cannot be modified during runtime.
+         * @param pContext Application Context
          * @return the app infra
          */
         public AppInfra build(Context pContext) {
