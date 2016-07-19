@@ -244,7 +244,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         }
         ArrayList<OrderDetail> detailList = new ArrayList<>();
         detailList.add(detail);
-        mController.makePrxCall(detailList, this);
+        mController.requestPrxData(detailList, this);
 
         if (detail.getTotalPriceWithTax() != null)
             mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());

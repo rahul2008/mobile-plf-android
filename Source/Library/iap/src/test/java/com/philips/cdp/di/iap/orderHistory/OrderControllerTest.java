@@ -91,7 +91,7 @@ public class OrderControllerTest {
                 assertTrue(msg.obj instanceof OrderDetail);
                 final ArrayList<OrderDetail> detail = new ArrayList<>();
                 detail.add((OrderDetail)msg.obj);
-                mController.makePrxCall(detail, new AbstractModel.DataLoadListener() {
+                mController.requestPrxData(detail, new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(Message msg) {
                         assertTrue(msg.obj instanceof HashMap);

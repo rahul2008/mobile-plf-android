@@ -85,34 +85,18 @@ public class OrderController implements AbstractModel.DataLoadListener {
         }
     }
 
-    public void makePrxCall(final List<OrderDetail> details, AbstractModel.DataLoadListener listener) {
-        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
-        ArrayList<String> productsToBeShown = new ArrayList<>();
-        String ctn;
-        CartModelContainer cartModelContainer = CartModelContainer.getInstance();
-
-        for(OrderDetail detail : details)
-        {
+    public void requestPrxData(final List<OrderDetail> details, AbstractModel.DataLoadListener listener)
+    {
+        ArrayList<String> ctnToBeRequested = new ArrayList<>();
+        for (OrderDetail detail : details) {
             List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
             for (Entries entry : entries) {
-                ctn = entry.getProduct().getCode();
-                productsToBeShown.add(ctn);
-                if (!cartModelContainer.isPRXDataPresent(ctn)) {
-                    ctnsToBeRequestedForPRX.add(ctn);
-                }
+                ctnToBeRequested.add(entry.getProduct().getCode());
             }
         }
+        PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnToBeRequested, listener);
+        builder.preparePRXDataRequest();
 
-        if (ctnsToBeRequestedForPRX.size() > 0) {
-            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX, listener);
-            builder.preparePRXDataRequest();
-        } else {
-            HashMap<String, SummaryModel> prxModel = new HashMap<>();
-            for (String ctnPresent : productsToBeShown) {
-                prxModel.put(ctnPresent, cartModelContainer.getProductData(ctnPresent));
-            }
-            mOrderListener.updateUiOnProductList();
-        }
     }
 
     public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {

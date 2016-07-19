@@ -385,23 +385,13 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     private void makePrxCall(final Carts mCarts) {
         ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
         List<EntriesEntity> entries = mCarts.getCarts().get(0).getEntries();
-        //ArrayList<String> productsToBeShown = new ArrayList<>();
-        String ctn;
 
-        CartModelContainer cartModelContainer = CartModelContainer.getInstance();
         for (EntriesEntity entry : entries) {
-            ctn = entry.getProduct().getCode();
-            //productsToBeShown.add(ctn);
-            if (!cartModelContainer.isPRXDataPresent(ctn)) {
-                ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
-            }
+            ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
         }
-        if (ctnsToBeRequestedForPRX.size() > 0) {
-            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX, this);
-            builder.preparePRXDataRequest();
-        } else {
-            notifyListChanged();
-        }
+        PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX, this);
+        builder.preparePRXDataRequest();
+
     }
 
 }

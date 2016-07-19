@@ -78,9 +78,6 @@ public class ProductCatalogHelper {
             for (String product : planBProductList) {
                 ctn = product;
                 productsToBeShown.add(ctn);
-                if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
-                    ctnsToBeRequestedForPRX.add(ctn);
-                }
             }
         } else {
             if (productData != null) {
@@ -89,32 +86,15 @@ public class ProductCatalogHelper {
                 for (ProductsEntity entry : productsEntities) {
                     ctn = entry.getCode();
                     productsToBeShown.add(ctn);
-                    if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
-                        ctnsToBeRequestedForPRX.add(entry.getCode());
-                    }
                 }
             }
         }
-        prxRequest(planBProductList, productData, ctnsToBeRequestedForPRX, productsToBeShown);
+        PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
+                mGetProductCatalogListener);
+        builder.preparePRXDataRequest();
+        //prxRequest(planBProductList, productData, ctnsToBeRequestedForPRX, productsToBeShown);
     }
 
-    private void prxRequest(ArrayList<String> planBProductList, Products productData, ArrayList<String> ctnsToBeRequestedForPRX, ArrayList<String> productsToBeShown) {
-        if (ctnsToBeRequestedForPRX.size() > 0) {
-            PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
-                    mGetProductCatalogListener);
-            builder.preparePRXDataRequest();
-        } else {
-            HashMap<String, SummaryModel> prxModel = new HashMap<>();
-            for (String ctnPresent : productsToBeShown) {
-                prxModel.put(ctnPresent, CartModelContainer.getInstance().getProductData(ctnPresent));
-            }
-            ArrayList<ProductCatalogData> productCatalogDatas = mergeResponsesFromHybrisAndPRX(planBProductList, productData, prxModel);
-            PaginationEntity pagination = null;
-            if (productData != null)
-                pagination = productData.getPagination();
-            refreshList(productCatalogDatas, pagination);
-        }
-    }
 
     public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
         if (mLoadListener != null) {

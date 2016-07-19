@@ -182,13 +182,6 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
         if (mProductCatalogHelper.processPRXResponse(msg, IAPHandler.mProductCTNs, mProductData))
             return;
-//        if (IAPHandler.mProductCTNs == null && mProductCatalogHelper.processPRXResponse(msg, mProductData))
-//            return;
-//        if (IAPHandler.mProductCTNs != null && mProductCatalogHelper.processPRXResponse(msg, IAPHandler.mProductCTNs))
-//            return;
-        /*if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();*/
-
     }
 
     public boolean processHybrisRequestForGetProductCatalogData(final Message msg) {

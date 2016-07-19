@@ -45,7 +45,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private RecyclerView mRecyclerView;
     private TextView mEmptyCatalogText;
     private int mTotalResults = 0;
-    private final int PAGE_SIZE = 5;
+    private final int PAGE_SIZE = 20;
     private int mCurrentPage = 0;
     private int mRemainingProducts = 0;
     private boolean mIsLoading = false;

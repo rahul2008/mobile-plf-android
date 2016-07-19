@@ -216,7 +216,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     private void updateProductDetails(List<OrderDetail> orderDetails) {
         if (mController == null)
             mController = new OrderController(mContext, this);
-        mController.makePrxCall(orderDetails, this);
+        mController.requestPrxData(orderDetails, this);
     }
 
     @SuppressWarnings({"rawtype", "unchecked"})
