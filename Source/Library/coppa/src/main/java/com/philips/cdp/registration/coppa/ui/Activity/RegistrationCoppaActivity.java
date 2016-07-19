@@ -6,7 +6,7 @@
  *
  */
 
-package com.philips.cdp.registration.coppa.ui.Activity;
+package com.philips.cdp.registration.coppa.ui.activity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -37,9 +37,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
-    private boolean isAccountSettings = true;
-    private boolean isParentalConsent;
-    private TextView ivBack;
     final private Handler mSiteCatalistHandler = new Handler();
     final private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -48,7 +45,6 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             AppTagging.pauseCollectingLifecycleData();
         }
     };
-
     final private Runnable mResumeSiteCatalystRunnable = new Runnable() {
 
         @Override
@@ -56,6 +52,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             AppTagging.collectLifecycleData(RegistrationCoppaActivity.this);
         }
     };
+    private boolean isAccountSettings = true;
+    private boolean isParentalConsent;
+    private TextView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,6 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         try {
             alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
         } catch (NullPointerException e) {
-            e.printStackTrace();
         }
         setContentView(R.layout.reg_activity_coppa_registration);
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
