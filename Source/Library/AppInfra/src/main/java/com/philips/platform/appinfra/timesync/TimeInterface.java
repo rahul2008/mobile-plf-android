@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.timesync;
 
+import java.util.Date;
+
 /**
  * Created by 310238655 on 6/30/2016.
  */
@@ -16,7 +18,7 @@ public interface TimeInterface {
      *
      * @return the utc time
      */
-    public String getUTCTime();
+    public Date getUTCTime();
 
     /**
      * Refresh time.

@@ -48,8 +48,9 @@ public class TimeSyncDemo extends AppCompatActivity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
                 mTimeSyncInterface.refreshTime();
-                utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
+                utcTimeTextvalue.setText(formatter.format(mTimeSyncInterface.getUTCTime()));
             }
         });
     }

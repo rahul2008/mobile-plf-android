@@ -29,19 +29,19 @@ public class AppTagging implements AppTaggingInterface {
 
     private static String newFieldValue;
 
-    private static String componentVersionVersionValue ;
+    private static String componentVersionVersionValue;
     private static String mLanguage;
-//    private static String mCountry;
+    //    private static String mCountry;
     private static String mAppsIdkey;
     private static String mLocalTimestamp;
     private static String mUTCTimestamp;
     private static String prevPage;
 
 
-    private AppInfra mAppInfra;
+     AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
-    Context context ;
+    Context context;
 
     private static String[] defaultValues = {
             AppTaggingConstants.LANGUAGE_KEY,
@@ -71,23 +71,22 @@ public class AppTagging implements AppTaggingInterface {
 
     }
 
-    private void init(Locale locale, Context context,String appName){
+    private void init(Locale locale, Context context, String appName) {
         mlocale = locale;
         mcontext = context;
         prevPage = appName;
         Config.setContext(context);
         mGlobalStore = GlobalStore.getInstance();
-        if(mGlobalStore.getValue()!=null){
-            prevPage= mGlobalStore.getValue();
+        if (mGlobalStore.getValue() != null) {
+            prevPage = mGlobalStore.getValue();
         }
-        if(appName == null){
+        if (appName == null) {
             throw new RuntimeException("Please set app name for tagging library");
         }
     }
 
 
-
-    public void setDebuggable(final boolean enable){
+    public void setDebuggable(final boolean enable) {
         Config.setDebugLogging(enable);
     }
 
@@ -104,7 +103,7 @@ public class AppTagging implements AppTaggingInterface {
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         if (null != getNewKey() && null != getNewValue()) {
 
-            if(!getNewKey().contains(",") && !getNewValue().contains(",") ){
+            if (!getNewKey().contains(",") && !getNewValue().contains(",")) {
                 contextData.put(getNewKey(), getNewValue());
             }
 
@@ -112,9 +111,10 @@ public class AppTagging implements AppTaggingInterface {
 
         return contextData;
     }
-    private String getAppsId(){
-        if(mAppsIdkey == null){
-            mAppsIdkey= Analytics.getTrackingIdentifier();
+
+    private String getAppsId() {
+        if (mAppsIdkey == null) {
+            mAppsIdkey = Analytics.getTrackingIdentifier();
         }
 
         return mAppsIdkey;
@@ -124,18 +124,21 @@ public class AppTagging implements AppTaggingInterface {
         AppTagging.newFieldKey = newFieldkey;
 
     }
+
     private void setNewValue(String newFieldvalue) {
         AppTagging.newFieldValue = newFieldvalue;
     }
-    private String getNewKey(){
+
+    private String getNewKey() {
         return newFieldKey;
     }
-    private String getNewValue(){
+
+    private String getNewValue() {
         return newFieldValue;
     }
 
-    private String getLanguage(){
-        if(mLanguage == null){
+    private String getLanguage() {
+        if (mLanguage == null) {
             mLanguage = mlocale.getLanguage();
         }
         return mLanguage;
@@ -145,42 +148,40 @@ public class AppTagging implements AppTaggingInterface {
     private String getUTCTimestamp() {
         String UTCtime = null;
 
-        if(mAppInfra.getTime() != null){
-            UTCtime=mAppInfra.getTime().getUTCTime();
+        if (mAppInfra.getTime() != null) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+
+            UTCtime =   df.format(mAppInfra.getTime().getUTCTime());
             mUTCTimestamp = UTCtime;
-            Log.i("mUTCTimestamp", ""+mUTCTimestamp);
+            Log.i("mUTCTimestamp", "" + mUTCTimestamp);
         }
 
-        if(mUTCTimestamp!=null){
+        if (mUTCTimestamp != null) {
             return mUTCTimestamp;
         }
         return mUTCTimestamp;
     }
 
     private String getLocalTimestamp() {
-
-
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
-            String formattedDate = df.format(c.getTime());
-            mLocalTimestamp = formattedDate;
-
-
-        if(mLocalTimestamp != null){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+        String formattedDate = df.format(c.getTime());
+        mLocalTimestamp = formattedDate;
+        if (mLocalTimestamp != null) {
             return mLocalTimestamp;
         }
         return mLocalTimestamp;
     }
 
     private String getComponentId() {
-        if(mComponentID == null){
+        if (mComponentID == null) {
             mComponentID = "DefaultText";
         }
         return mComponentID;
     }
 
     private String getComponentVersionVersionValue() {
-        if(mComponentVersion == null){
+        if (mComponentVersion == null) {
             mComponentVersion = "DefalutValue";
         }
         return mComponentVersion;
@@ -214,14 +215,15 @@ public class AppTagging implements AppTaggingInterface {
         prevPage = previousPage;
         mGlobalStore.setValue(prevPage);
     }
+
     @Override
     public PrivacyStatus getPrivacyConsent() {
 
-        MobilePrivacyStatus mMobilePrivacyStatus=  Config.getPrivacyStatus();
+        MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
         PrivacyStatus mPrivacyStatus = null;
         switch (mMobilePrivacyStatus) {
             case MOBILE_PRIVACY_STATUS_OPT_IN:
-                mPrivacyStatus= PrivacyStatus.OPTIN;
+                mPrivacyStatus = PrivacyStatus.OPTIN;
                 break;
             case MOBILE_PRIVACY_STATUS_OPT_OUT:
                 mPrivacyStatus = PrivacyStatus.OPTOUT;
@@ -231,23 +233,22 @@ public class AppTagging implements AppTaggingInterface {
                 break;
 
         }
-        if(mPrivacyStatus != null){
+        if (mPrivacyStatus != null) {
             return mPrivacyStatus;
         }
         return null;
     }
 
 
+    private void track(String pageName, String key, String value, Map<String, String> paramMap) {
 
-    private void track(String pageName, String key, String value, Map<String, String> paramMap){
-
-        if(key!=null && value!=null){
-            if(!Arrays.asList(defaultValues).contains(key)){
+        if (key != null && value != null) {
+            if (!Arrays.asList(defaultValues).contains(key)) {
 
                 setNewKey(key);
                 setNewValue(value);
             }
-        }else{
+        } else {
             for (Map.Entry<String, String> entry : paramMap.entrySet()) {
                 if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
 
@@ -272,10 +273,11 @@ public class AppTagging implements AppTaggingInterface {
 
         track(pageName, key, value, null);
     }
+
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 
-       track(pageName, null, null, paramMap);
+        track(pageName, null, null, paramMap);
 
     }
 
@@ -285,13 +287,14 @@ public class AppTagging implements AppTaggingInterface {
 
         track(pageName, key, value, null);
 
-        }
+    }
 
 
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
         track(pageName, null, null, paramMap);
     }
+
     @Override
     public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict) {
         Config.collectLifecycleData(context, paramDict);

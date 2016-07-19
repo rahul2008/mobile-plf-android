@@ -343,20 +343,20 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
 
 
     @Override
-    public String getUTCTime() {
-        String mNtpDate = null;
+    public Date getUTCTime() {
+        Date mNtpDate = null;
+        DateFormat date_format = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
         try {
             if (mNtpTime == 0L) {
-                DateFormat DATE_FORMAT = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
+                date_format = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
                 Date UTCdate = new Date(mNtpTime);
-                DATE_FORMAT.format(UTCdate);
-                Log.i("DATE_FORMAT", "" + DATE_FORMAT.format(UTCdate));
+                date_format.format(UTCdate);
+                Log.i("DATE_FORMAT", "" + date_format.format(UTCdate));
                 refreshTime();
-                mNtpDate = getCurrentTime();
+                mNtpDate = date_format.parse(getCurrentTime());
             } else {
-                mNtpDate = getCurrentTime();
+                mNtpDate = date_format.parse(getCurrentTime());
             }
-
         } catch (Exception e) {
             Log.i("Error", "" + e);
         }
