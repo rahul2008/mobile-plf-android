@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.session;
 import java.util.Locale;
 
 public class NetworkConstants {
-
+    public final static int DEFAULT_TIMEOUT_MS = 30000; //30 SECONDS
     public static final String IAP_ASSET_URL = "IAP_ASSET_URL";
     /**
      * Prx data

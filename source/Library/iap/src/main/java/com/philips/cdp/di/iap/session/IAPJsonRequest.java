@@ -23,8 +23,6 @@ import java.util.Map;
 
 public class IAPJsonRequest extends Request<JSONObject> {
 
-    private final static int DEFAULT_TIMEOUT_MS = 30000; //30 SECONDS
-
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params;
@@ -42,7 +40,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
     @Override
     public Request<?> setRetryPolicy(final RetryPolicy retryPolicy) {
         return super.setRetryPolicy(new DefaultRetryPolicy(
-                DEFAULT_TIMEOUT_MS,
+                NetworkConstants.DEFAULT_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }

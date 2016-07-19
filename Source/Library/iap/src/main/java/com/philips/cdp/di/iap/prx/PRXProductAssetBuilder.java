@@ -12,6 +12,7 @@ import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -147,6 +148,7 @@ public class PRXProductAssetBuilder {
         productAssetBuilder.setSector(Sector.B2C);
         productAssetBuilder.setLocaleMatchResult(locale);
         productAssetBuilder.setCatalog(Catalog.CONSUMER);
+        productAssetBuilder.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
         return productAssetBuilder;
     }
 
