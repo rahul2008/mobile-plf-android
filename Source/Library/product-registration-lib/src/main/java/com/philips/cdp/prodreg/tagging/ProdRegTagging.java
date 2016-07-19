@@ -6,7 +6,7 @@ import android.os.Build;
 import com.adobe.mobile.Analytics;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Currency;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class ProdRegTagging {
 
     private static ProdRegTagging prodRegTagging;
-    private static AIAppTaggingInterface aiAppTaggingInterface;
+    private static AppTaggingInterface aiAppTaggingInterface;
 
     private ProdRegTagging() {
     }
@@ -31,7 +31,7 @@ public class ProdRegTagging {
         if (prodRegTagging == null) {
             prodRegTagging = new ProdRegTagging();
             aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
-            aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
+            aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         }
         return prodRegTagging;
     }
@@ -57,7 +57,7 @@ public class ProdRegTagging {
         return date;
     }
 
-    public AIAppTaggingInterface getAiAppTaggingInterface() {
+    public AppTaggingInterface getAiAppTaggingInterface() {
         return aiAppTaggingInterface;
     }
 

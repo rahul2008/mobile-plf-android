@@ -12,13 +12,13 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
 public class ProductRegistrationApplication extends Application {
 
-    public static AIAppTaggingInterface mAIAppTaggingInterface;
+    public static AppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface AILoggingInterface;
 
