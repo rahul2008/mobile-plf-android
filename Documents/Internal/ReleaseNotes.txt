@@ -248,3 +248,11 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	4. PRA-274 - Please enter date of purchase error message should be removed in semi automatic product registration page.
 	5. PRA-262 - Option is not available for user to modify the product name as per the his/her wish
 	
+	Version - 1.0.2.rc7                        Date: 19-07-2016
+----------------------------------------------------------------
+	Following issues are fixed
+	
+	1. PRA-274 - Please enter date of purchase error message should be removed in semi automatic product registration page.
+	2. PRA-165 - callback registering listeners inside demo app and PR component
+	3. PRA-296(UI-Kit) - Application getting crash on randomly when app sent background and open the others app
+
