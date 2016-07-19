@@ -1,5 +1,8 @@
 com.philips.platform.appinfra
+com.philips.platform.appinfra.appidentity
+com.philips.platform.appinfra.internationalization
 com.philips.platform.appinfra.logging
 com.philips.platform.appinfra.securestorage
 com.philips.platform.appinfra.servicediscovery
 com.philips.platform.appinfra.tagging
+com.philips.platform.appinfra.timesync
