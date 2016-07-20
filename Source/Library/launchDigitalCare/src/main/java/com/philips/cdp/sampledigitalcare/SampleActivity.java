@@ -33,7 +33,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
-    private FragmentManager fragmentManager = null;
+    private FragmentManager mFragmentManager = null;
     private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
         @Override
@@ -80,7 +80,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
             enableActionBarHome();
 
             DigitalCareConfigManager.getInstance();
-            fragmentManager = getSupportFragmentManager();
+            mFragmentManager = getSupportFragmentManager();
         }
     }
 
@@ -93,21 +93,25 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         mActionBarArrow.setOnClickListener(this);
     }
 
-    private boolean backstackFragment() {
+    private boolean previousFragment() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-//            enableActionBarHome();
-            fragmentManager.popBackStack();
-            removeCurrentFragment();
+            removeFromStack();
         }
         return true;
     }
 
-    private void removeCurrentFragment() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+    private void removeFromStack() {
+        mFragmentManager.popBackStack();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        removeCurrentFragment(transaction);
+    }
 
-        Fragment currentFrag = fragmentManager
+    private void removeCurrentFragment(FragmentTransaction transaction) {
+
+
+        Fragment currentFrag = mFragmentManager
                 .findFragmentById(R.id.mainContainer);
 
         if (currentFrag != null) {
@@ -131,7 +135,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return backstackFragment();
+            return previousFragment();
         } else if (keyCode == KeyEvent.KEYCODE_MENU) {
             return true;
         }
@@ -144,6 +148,6 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         if (_id == R.id.sample_home_icon) {
             finish();
         } else if (_id == R.id.sample_back_to_home_img)
-            backstackFragment();
+            previousFragment();
     }
 }
