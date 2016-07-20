@@ -73,6 +73,8 @@ public class ErrorHandler {
             return new ProdRegErrorMap(context.getString(R.string.PPR_Network_Err_Title), context.getString(R.string.PPR_Network_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_Date_And_serial_title), context.getString(R.string.PPR_Invalid_Date_And_serial_ErrMsg));
+        } else if (statusCode == ProdRegError.MISSING_CTN.getCode()) {
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Missing_Ctn_Title), context.getString(R.string.PPR_Missing_Ctn_ErrMsg));
         } else {
             return new ProdRegErrorMap(context.getString(R.string.PPR_Unknown_title), context.getString(R.string.PPR_Unknown_ErrMsg));
         }

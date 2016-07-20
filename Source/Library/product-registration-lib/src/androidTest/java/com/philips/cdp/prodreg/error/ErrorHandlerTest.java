@@ -112,5 +112,9 @@ public class ErrorHandlerTest extends MockitoTestCase {
         prodRegErrorMap = errorHandler.getError(context, ProdRegError.UNKNOWN.getCode());
         assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unknown_ErrMsg));
         assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Unknown_title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.MISSING_CTN.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Missing_Ctn_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Missing_Ctn_Title));
     }
 }

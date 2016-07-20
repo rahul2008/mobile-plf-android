@@ -31,7 +31,7 @@ public class Product implements Serializable {
     private Sector sector;
     private Catalog catalog;
     private String locale;
-    private boolean shouldSendEmailAfterRegistration;
+    private boolean shouldSendEmailAfterRegistration = true;
     private String friendlyName;
 
     public Product(String productModelNumber, Sector sector, Catalog catalog) {

@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
@@ -99,7 +101,13 @@ public class ProdRegProcessController {
             @Override
             public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 if (!isCtnRegistered(registeredProducts, currentProduct) && fragmentActivity != null && !fragmentActivity.isFinishing()) {
-                    currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
+                    if (!TextUtils.isEmpty(currentProduct.getCtn()))
+                        currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
+                    else {
+                        currentProduct.setProdRegError(ProdRegError.MISSING_CTN);
+                        processControllerCallBacks.dismissLoadingDialog();
+                        processControllerCallBacks.showAlertOnError(ProdRegError.MISSING_CTN.getCode());
+                    }
                 } else {
                     processControllerCallBacks.dismissLoadingDialog();
                     final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
@@ -198,6 +206,14 @@ public class ProdRegProcessController {
     }
 
     public List<RegisteredProduct> getRegisteredProductsList() {
+        updateRegisteredProductsList(currentProduct);
         return registeredProducts;
+    }
+
+    private void updateRegisteredProductsList(final RegisteredProduct registeredProduct) {
+        if (registeredProducts != null) {
+            registeredProducts.remove(registeredProduct);
+            registeredProducts.add(registeredProduct);
+        }
     }
 }
