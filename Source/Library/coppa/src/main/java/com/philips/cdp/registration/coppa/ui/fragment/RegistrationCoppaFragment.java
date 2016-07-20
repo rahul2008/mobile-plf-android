@@ -196,7 +196,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                         mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container,
                         parentalAccessFragment, "Parental Access");
-                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 RLog.e(RLog.EXCEPTION,
@@ -227,7 +227,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container,
                         parentalAccessFragment, "Parental Access");
-                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 RLog.e(RLog.EXCEPTION,
@@ -399,7 +399,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 this.setOnUpdateTitleListener((RegistrationCoppaActivity) getActivity());
             }
         }
-
         super.onViewStateRestored(savedInstanceState);
     }
 
