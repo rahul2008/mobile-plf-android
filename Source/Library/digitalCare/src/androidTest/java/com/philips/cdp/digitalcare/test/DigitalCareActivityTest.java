@@ -112,6 +112,12 @@ public class DigitalCareActivityTest extends
 
     }
 
+
+    public void testConsumerCareActivity()
+    {
+           testDigitalCareActivity();
+    }
+
     private Bundle getBundleWithValue() {
         Bundle bundle = new Bundle();
         bundle.putString("digitalCare", "CoCo");

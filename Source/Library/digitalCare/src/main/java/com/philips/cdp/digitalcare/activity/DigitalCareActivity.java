@@ -34,7 +34,7 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
     private ProductImageHelper mImage = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         int alwaysFinishActivity = 0;
@@ -57,14 +57,14 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
        /* DigiCareLogger.i(DigiCareLogger.FRAGMENT, "--> BaseActivity protected onSaveInstanceState");*/
         int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
-    private void animateThisScreen() {
+    public void animateThisScreen() {
         Bundle bundleExtras = getIntent().getExtras();
 
         String startAnim = null;
