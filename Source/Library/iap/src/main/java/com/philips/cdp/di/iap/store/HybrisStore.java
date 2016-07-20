@@ -45,7 +45,8 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
 
     private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
-    private static final String SUFFIX_GET_DELIVERY_MODE = "/deliverymodes" + LANG;
+    //LANG to be added to delivery mode once hybris comes with the fix.
+    private static final String SUFFIX_GET_DELIVERY_MODE = "/deliverymodes";
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
