@@ -31,7 +31,9 @@ import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,11 +60,13 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         setContentView(R.layout.main);
 
 
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
-        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
-        aiAppTaggingInterface.createInstanceForComponent("ProductSelection", "4.0.0");
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
+        AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+
+
+        LoggingInterface appInfraLogging = ProductModelSelectionHelper.getInstance().getLoggerInterface();
 
         change_theme = (Button) findViewById(R.id.change_theme);
         mAddButton = (ImageButton) findViewById(R.id.addimageButton);
@@ -152,12 +156,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.buttonActivity:
                 launchProductSelectionAsActivity();
-                ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
+                //ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.buttonFragment:
                 launchProductSelectionAsFragment();
-                ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
+              //  ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.addimageButton:

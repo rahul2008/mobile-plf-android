@@ -1,6 +1,5 @@
 package com.philips.cdp.productselection.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -20,15 +19,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.R;
-import com.philips.cdp.tagging.Tagging;
+
+//import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 /**
  * ProductSelectionBaseActivity is the main container class which can contain Digital Care fragments.
@@ -97,13 +96,14 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Tagging.collectLifecycleData();
+        ProductModelSelectionHelper.getInstance().getTaggingInterface().collectLifecycleInfo(this);
+       // Tagging.collectLifecycleData();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Tagging.pauseCollectingLifecycleData();
+        ProductModelSelectionHelper.getInstance().getTaggingInterface().pauseLifecycleInfo();
     }
 
     @Override

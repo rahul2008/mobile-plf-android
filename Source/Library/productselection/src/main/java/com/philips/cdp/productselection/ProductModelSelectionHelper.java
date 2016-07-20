@@ -25,11 +25,10 @@ import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.List;
 import java.util.Locale;
@@ -99,7 +98,7 @@ public class ProductModelSelectionHelper {
         }
     }
 
-    public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage) {
+    /*public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage) {
         Tagging.enableAppTagging(taggingEnabled);
         Tagging.setTrackingIdentifier(appId);
         Tagging.setComponentVersionKey(Constants.ATTRIBUTE_KEY_PRODUCT_SELECTION);
@@ -107,7 +106,7 @@ public class ProductModelSelectionHelper {
         Tagging.setLaunchingPageName(launchingPage);
 
         Tagging.init(getContext(), appName);
-    }
+    }*/
 
     public UiLauncher getLauncherType() {
         return mLauncherType;
@@ -118,12 +117,19 @@ public class ProductModelSelectionHelper {
         return AppInfraSingleton.getInstance();
     }
 
-    public AIAppTaggingInterface getTaggingInterface() {
-        return getAPPInfraInstance().getTagging();
+    public AppTaggingInterface getTaggingInterface() {
+        AppTaggingInterface taggingInterface =
+                getAPPInfraInstance().getTagging().createInstanceForComponent
+                        ("com.philips.cdp.productselection", "1.4.0");
+        taggingInterface.setPreviousPage("vertical:productSelection:home");
+        return taggingInterface;
     }
 
     public LoggingInterface getLoggerInterface() {
-        return getAPPInfraInstance().getLogging();
+
+        LoggingInterface loggingInterface = getAPPInfraInstance().getLogging().
+                createInstanceForComponent("com.philips.cdp.productselection", "1.4.0");
+        return loggingInterface;
     }
 
 

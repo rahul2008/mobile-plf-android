@@ -33,7 +33,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.2'
     compile 'com.android.support:recyclerview-v7:23.0.0'
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
+   // compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
 }
 
 allprojects {

@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +22,9 @@ import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.customview.CustomFontTextView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
-import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
 
@@ -36,7 +32,7 @@ import java.util.List;
  * This class holds responsible to inflate the UI of the saved screen & reselecting the product to save &
  * redirecting control the \
  * product information displaying screen.
- * <p/>
+ * <p>
  * Created by naveen@philips.com on 03-Feb-16.
  */
 public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment implements View.OnClickListener {
@@ -90,7 +86,9 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         setViewParams(configuration);
 
 
-        Tagging.trackPage(Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName());
+        // Tagging.trackPage(Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName());
+        ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
+                (Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName(), getPreviousName());
         setPreviousPageName(Constants.PAGE_CONFIRMATION_SCREEN);
     }
 
@@ -200,7 +198,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         return getResources().getString(R.string.Confirmation_Title);
     }
 
-    private void removeDetailsScreen(){
+    private void removeDetailsScreen() {
         FragmentManager fragManager = getActivity().getSupportFragmentManager();
         fragManager.popBackStack();
         List<Fragment> listFragment = fragManager.getFragments();
@@ -211,7 +209,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                 if (fragment != null && (fragment instanceof DetailedScreenFragmentSelection)) {
                     fragManager.popBackStack();
                 }
-            }catch (IllegalStateException e){
+            } catch (IllegalStateException e) {
             }
         }
     }
@@ -221,13 +219,19 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         if (isConnectionAvailable()) {
             if (v.getId() == R.id.savedscreen_button_settings) {
 //                if (isConnectionAvailable()) {
-                Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
-                        Constants.ACTION_VALUE_CHANGE_PRODUCT);
+              /*  Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                        Constants.ACTION_VALUE_CHANGE_PRODUCT);*/
+                ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
+                        (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                                Constants.ACTION_VALUE_CHANGE_PRODUCT);
                 removeDetailsScreen();
 //                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {
-                Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
-                        Constants.ACTION_VALUE_CONTINUE);
+              /*  Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                        Constants.ACTION_VALUE_CONTINUE);*/
+                ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
+                        (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                                Constants.ACTION_VALUE_CONTINUE);
                 setPreference(mUserSelectedProduct.getData().getCtn());
                 ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                 clearBackStackHistory(getActivity());

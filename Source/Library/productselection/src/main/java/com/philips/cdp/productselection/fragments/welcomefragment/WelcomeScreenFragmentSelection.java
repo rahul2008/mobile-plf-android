@@ -15,7 +15,6 @@ import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionB
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.tagging.Tagging;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -90,8 +89,11 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
                 showFragment(new ProductSelectionListingFragment());
             }
 
-            Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
-                    Constants.ACTION_VALUE_FIND_PRODUCT);
+          /*  Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                    Constants.ACTION_VALUE_FIND_PRODUCT);*/
+            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
+                    (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_FIND_PRODUCT);
         }
     }
 
@@ -101,12 +103,17 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     }
 
     public void trackFirstPage(String currPage) {
-        if (getPreviousName() != null && !(getPreviousName().equalsIgnoreCase(Constants.PAGE_WELCOME_SCREEN))) {
-            Tagging.trackPage(currPage, getPreviousName());
-        } else if (null != Tagging.getLaunchingPageName()) {
-            Tagging.trackPage(currPage, Tagging.getLaunchingPageName());
-        } else {
-            Tagging.trackPage(currPage, null);
+        if (getPreviousName() != null && !(getPreviousName().equalsIgnoreCase(Constants.
+                PAGE_WELCOME_SCREEN))) {
+          /*  Tagging.trackPage(currPage, getPreviousName());*/
+            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
+                    (currPage, getPreviousName(), getPreviousName());
+        }/* else if (null != Tagging.getLaunchingPageName()) {
+            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
+                    (currPage, getPreviousName(),getPreviousName());
+        }*/ else {
+            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
+                    (currPage, "vertical:productSelection:home", "vertical:productSelection:home");
         }
         setPreviousPageName(Constants.PAGE_WELCOME_SCREEN);
     }
