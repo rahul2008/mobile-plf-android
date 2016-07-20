@@ -350,66 +350,72 @@ public class FAQCustomView implements Serializable {
     }
 
     private LinkedHashMap getFaqData() {
-        if (mSupportModel != null) {
-            DigiCareLogger.d(TAG, "Support Model is Not null");
-            Data supportData = mSupportModel.getData();
-            RichTexts richTexts = supportData.getRichTexts();
-            List<RichText> richText = richTexts.getRichText();
-            LinkedHashMap map = new LinkedHashMap();
 
-            for (RichText faq : richText) {
-                String questionCategory = null;
-                List<FaqQuestionModel> engFaqQuestionModelList = new ArrayList<FaqQuestionModel>();
-                List<FaqQuestionModel> nonEngfaqQuestionModelList = new ArrayList<FaqQuestionModel>();
+        try {
 
-                String supportType = faq.getType();
-                if (supportType.equalsIgnoreCase("FAQ")) {
-                    Chapter chapter = faq.getChapter();
-                    questionCategory = chapter.getName();
-                    if (questionCategory != null) {
-                        List<Item> questionsList = faq.getItem();
-                        Hashtable<String, List<FaqQuestionModel>> fliterFaqDataWithlanguage =
-                                new Hashtable<String, List<FaqQuestionModel>>();
+            if (mSupportModel != null) {
+                DigiCareLogger.d(TAG, "Support Model is Not null");
+                Data supportData = mSupportModel.getData();
+                RichTexts richTexts = supportData.getRichTexts();
+                List<RichText> richText = richTexts.getRichText();
+                LinkedHashMap map = new LinkedHashMap();
 
-                        for (Item item : questionsList) {
-                            FaqQuestionModel faqQuestionModel = new FaqQuestionModel();
-                            String question = null;
-                            String answer = null;
-                            String langCode = null;
-                            question = item.getHead();
-                            answer = item.getAsset();
-                            langCode = item.getLang();
-                            faqQuestionModel.setQuestion(question);
-                            faqQuestionModel.setAnswer(answer);
-                            faqQuestionModel.setLanguageCode(langCode);
-                            if (langCode.equalsIgnoreCase("AEN") || langCode.equalsIgnoreCase("ENG"))
-                                engFaqQuestionModelList.add(faqQuestionModel);
-                            else
-                                nonEngfaqQuestionModelList.add(faqQuestionModel);
+                for (RichText faq : richText) {
+                    String questionCategory = null;
+                    List<FaqQuestionModel> engFaqQuestionModelList = new ArrayList<FaqQuestionModel>();
+                    List<FaqQuestionModel> nonEngfaqQuestionModelList = new ArrayList<FaqQuestionModel>();
+
+                    String supportType = faq.getType();
+                    if (supportType.equalsIgnoreCase("FAQ")) {
+                        Chapter chapter = faq.getChapter();
+                        questionCategory = chapter.getName();
+                        if (questionCategory != null) {
+                            List<Item> questionsList = faq.getItem();
+                            Hashtable<String, List<FaqQuestionModel>> fliterFaqDataWithlanguage =
+                                    new Hashtable<String, List<FaqQuestionModel>>();
+
+                            for (Item item : questionsList) {
+                                FaqQuestionModel faqQuestionModel = new FaqQuestionModel();
+                                String question = null;
+                                String answer = null;
+                                String langCode = null;
+                                question = item.getHead();
+                                answer = item.getAsset();
+                                langCode = item.getLang();
+                                faqQuestionModel.setQuestion(question);
+                                faqQuestionModel.setAnswer(answer);
+                                faqQuestionModel.setLanguageCode(langCode);
+                                if (langCode.equalsIgnoreCase("AEN") || langCode.equalsIgnoreCase("ENG"))
+                                    engFaqQuestionModelList.add(faqQuestionModel);
+                                else
+                                    nonEngfaqQuestionModelList.add(faqQuestionModel);
+                            }
                         }
-                    }
 
-                    Locale locale = DigitalCareConfigManager.getInstance().
-                            getLocaleMatchResponseWithCountryFallBack();
-                    String languageCode = locale.getLanguage();
+                        Locale locale = DigitalCareConfigManager.getInstance().
+                                getLocaleMatchResponseWithCountryFallBack();
+                        String languageCode = locale.getLanguage();
 
-                    if (languageCode.equalsIgnoreCase("en")) {
-                        map.put(questionCategory, engFaqQuestionModelList);
-                    } else {
-
-                        if (nonEngfaqQuestionModelList.size() != 0) {
-                            map.put(questionCategory, nonEngfaqQuestionModelList);
-                        } else {
+                        if (languageCode.equalsIgnoreCase("en")) {
                             map.put(questionCategory, engFaqQuestionModelList);
+                        } else {
+
+                            if (nonEngfaqQuestionModelList.size() != 0) {
+                                map.put(questionCategory, nonEngfaqQuestionModelList);
+                            } else {
+                                map.put(questionCategory, engFaqQuestionModelList);
+                            }
                         }
                     }
                 }
-            }
-            return map;
+                return map;
 
-        } else {
-            DigiCareLogger.d(TAG, "Support Model is null");
-            return null;
+            } else {
+                DigiCareLogger.d(TAG, "Support Model is null");
+                return null;
+            }
+        } catch (Exception ex) {
+            DigiCareLogger.e(TAG, "Runtime Exception Check!!");
         }
     }
 
