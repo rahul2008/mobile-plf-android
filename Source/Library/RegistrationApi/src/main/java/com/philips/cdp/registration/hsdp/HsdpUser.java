@@ -58,70 +58,7 @@ public class HsdpUser {
         this.mContext = context;
     }
 
-    /**
-     * Login
-     * @param email Email
-     * @param password password
-     * @param refreshSecret refresh secret
-     * @param loginHandler loging handler
-     */
-    public void login(final String email, final String password,final String refreshSecret, final TraditionalLoginHandler loginHandler) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            final Handler handler = new Handler();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    DhpAuthenticationManagementClient authenticationManagementClient = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.authenticate(email, password,refreshSecret );
-                    if (dhpAuthenticationResponse == null) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                handleServerConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-                            }
-                        });
-                        return;
-                    }
 
-                    if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
-                        final Map<String, Object> rawResponse = dhpAuthenticationResponse.rawResponse;
-                        mHsdpUserRecord = new HsdpUserRecord(mContext);
-                        mHsdpUserRecord = mHsdpUserRecord.parseHsdpUserInfo(rawResponse);
-                        mHsdpUserRecord.setRefreshSecret(refreshSecret);
-                        saveToDisk(new UserFileWriteListener() {
-                            @Override
-                            public void onFileWriteSuccess() {
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        RLog.i(RLog.HSDP, "onHsdpLoginSuccess : response :" + rawResponse.toString());
-                                        loginHandler.onLoginSuccess();
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFileWriteFailure() {
-                                handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
-                            }
-                        });
-
-                    } else {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                RLog.i(RLog.HSDP, "onHsdpLoginFailure :  responseCode : " + dhpAuthenticationResponse.responseCode +
-                                        " message : " + dhpAuthenticationResponse.message);
-                                handleServerConnectionFailed(loginHandler, Integer.parseInt(dhpAuthenticationResponse.responseCode) + RegConstants.HSDP_LOWER_ERROR_BOUND, dhpAuthenticationResponse.message);
-                            }
-                        });
-                    }
-                }
-            }).start();
-        } else {
-            handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
-        }
-    }
 
     /**
      * handle server connection failed
