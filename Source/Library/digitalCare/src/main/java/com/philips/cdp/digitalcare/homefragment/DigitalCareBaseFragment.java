@@ -3,7 +3,7 @@
  *
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -333,6 +333,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     /*
     This method will provide vertical APP NAME which is required for TAGGING (Analytics).
      */
+    @SuppressWarnings("static-access")
     protected String getAppName() {
         String appName = getActivity().getString(R.string.app_name);
         try {

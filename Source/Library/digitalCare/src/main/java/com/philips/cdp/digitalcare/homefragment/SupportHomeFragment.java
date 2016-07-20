@@ -485,6 +485,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         return imageView;
     }
 
+    @SuppressWarnings("deprecation")
     private Button createButton(float density, int title) {
         Button button = new Button(getActivity(), null, R.style.fontButton);
 
@@ -1014,6 +1015,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         super.onPause();
     }
 
+    @SuppressWarnings("deprecation")
     private Drawable getDrawable(int resId) {
         return getResources().getDrawable(resId);
     }

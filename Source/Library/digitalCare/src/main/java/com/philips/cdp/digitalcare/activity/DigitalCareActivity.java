@@ -5,7 +5,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -26,7 +26,7 @@ import com.philips.cdp.digitalcare.util.DigitalCareConstants;
  import com.philips.cdp.digitalcare.social.facebook.FacebookScreenFragment;*/
 
 
-public  class DigitalCareActivity extends DigitalCareBaseActivity {
+public class DigitalCareActivity extends DigitalCareBaseActivity {
     private static final String TAG = DigitalCareActivity.class.getSimpleName();
     private static int mEnterAnimation = -1;
     private static int mExitAnimation = -1;
@@ -56,6 +56,7 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
