@@ -270,7 +270,7 @@ public class DigitalCareConfigManager {
         return mPageName;
     }
 
-
+    @SuppressWarnings("deprecation")
     public AppInfraInterface getAPPInfraInstance() {
         return AppInfraSingleton.getInstance();
     }
