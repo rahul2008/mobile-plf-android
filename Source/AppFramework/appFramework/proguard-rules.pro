@@ -252,5 +252,6 @@ public static <fields>;
 
 -dontwarn com.shamanland.**
 -dontwarn uk.co.chrisjenx.**
+-dontwarn com.philips.cdp.di.iap.analytics.**
 
 #-------------------------Consumer Care Ends -------------------------
