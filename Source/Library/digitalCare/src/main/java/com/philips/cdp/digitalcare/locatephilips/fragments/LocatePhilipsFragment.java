@@ -95,7 +95,7 @@ import java.util.Map;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 8 May 2015
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
@@ -177,14 +177,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         public void onStatusChanged(String provider, int status, Bundle extras) {
             switch (status) {
                 case LocationProvider.OUT_OF_SERVICE:
-                    DigiCareLogger.v(TAG, "Status Changed: Out of Service");
+                    DigiCareLogger.w(TAG, "Status Changed: Out of Service");
                     break;
                 case LocationProvider.TEMPORARILY_UNAVAILABLE:
                     DigiCareLogger
-                            .v(TAG, "Status Changed: Temporarily Unavailable");
+                            .w(TAG, "Status Changed: Temporarily Unavailable");
                     break;
                 case LocationProvider.AVAILABLE:
-                    DigiCareLogger.v(TAG, "Status Changed: Available");
+                    DigiCareLogger.w(TAG, "Status Changed: Available");
                     break;
 
                 default:
@@ -223,6 +223,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        DigiCareLogger.i(TAG, "Launching the Find Philips near you Screen");
+
         try {
             if (Build.VERSION.SDK_INT >= 11)
                 getActivity().getWindow().setFlags(16777216, 16777216);
@@ -274,9 +276,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             getActivity().finish();
             return null;
         }
-        return getAtosUrl(consumerProductInfo.getCtn(),
+        String atosUrl = getAtosUrl(consumerProductInfo.getCtn(),
                 consumerProductInfo.getSubCategory(), DigitalCareConfigManager
                         .getInstance().getLocale().getCountry().toLowerCase());
+
+        DigiCareLogger.i(TAG, "ATOS URL : " + atosUrl);
+        return atosUrl;
 
 
     }
@@ -341,7 +346,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onResponseReceived(String response) {
-        DigiCareLogger.v(TAG, "Response : " + response);
+        DigiCareLogger.i(TAG, "ATOS Response : " + response);
         closeProgressDialog();
         if (response != null && isAdded()) {
             AtosResponseParser atosResponseParser = new AtosResponseParser(
@@ -817,7 +822,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.find_philips_near_you);
+        String title = getResources().getString(R.string.find_philips_near_you);
+        DigiCareLogger.i(TAG, "Title : " + title);
+        return title;
     }
 
     @Override
@@ -925,7 +932,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         Intent myintent = new Intent(Intent.ACTION_DIAL);
         myintent.setData(Uri.parse("tel:" + mPhoneNumber));
         myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        DigiCareLogger.d(TAG, "Contact Number : " + mPhoneNumber);
+        DigiCareLogger.i(TAG, "Contact Number : " + mPhoneNumber);
         startActivity(myintent);
     }
 
