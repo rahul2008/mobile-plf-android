@@ -83,7 +83,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0-rc.8', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0', ext: 'aar')
             {
                 transitive = true
             }
