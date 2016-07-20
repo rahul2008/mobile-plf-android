@@ -47,8 +47,10 @@
             android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
             android:layout_marginRight="@dimen/pr_first_launch_padding_right"
             android:layout_marginTop="@dimen/pr_c_value_tablet"
+            android:minHeight="140dp"
+            android:minWidth="140dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/prod_reg_default_placeholder"/>
+            android:src="@drawable/product_placeholder"/>
 
         <com.philips.cdp.uikit.customviews.InlineForms
             android:id="@+id/InlineForms_date"

@@ -286,7 +286,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             } else {
                 productTitleTextView.setVisibility(View.GONE);
             }
-            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prod_reg_default_placeholder, R.drawable.prod_reg_default_placeholder));
+            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.product_placeholder, R.drawable.product_placeholder));
             serial_number_editText.addTextChangedListener(getWatcher());
         }
     }
