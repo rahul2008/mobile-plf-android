@@ -25,6 +25,7 @@ import com.philips.cdp.di.iap.response.orders.ProductData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +61,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Orders order = mOrders.get(position);
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
-        orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
+        if(checkIfHeader(position)) {
+            orderHistoryHolder.mTimeHeader.setVisibility(View.VISIBLE);
+            orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
+        }
+        else
+            orderHistoryHolder.mTimeHeader.setVisibility(View.GONE);
         String orderStatus = order.getStatusDisplay();
         orderHistoryHolder.mOrderState.setText(orderStatus.substring(0,1).toUpperCase() + orderStatus.substring(1));
         orderHistoryHolder.mOrderNumber.setText(order.getCode());
@@ -80,6 +86,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
 
+        //this is added because in acc, the data was not available in prx but hybris has the data.
         if(totalQuantity == 0)
         {
             for(OrderDetail detail : mOrderDetails)
@@ -104,6 +111,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onViewRecycled(RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         ((OrderHistoryHolder) holder).mProductDetailsLayout.removeAllViews();
+    }
+
+    public boolean checkIfHeader(int position) {
+        if(position == 0)
+            return true;
+        if(getFormattedDate(mOrders.get(position).getPlaced()).equals(getFormattedDate(mOrders.get(position-1).getPlaced())))
+            return false;
+        return true;
     }
 
     private void getNetworkImage(final NetworkImageView imageView, final String imageURL) {
@@ -134,6 +149,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         NetworkImageView mNetworkImage;
         TextView mTvQuantity;
         TextView mTvtotalPrice;
+        RelativeLayout mTimeHeader;
         TextView mTime;
         TextView mOrderNumber;
         TextView mOrderState;
@@ -146,6 +162,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.iv_product_image);
             mTvQuantity = (TextView) itemView.findViewById(R.id.tv_total_item);
             mTvtotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
+            mTimeHeader = (RelativeLayout) itemView.findViewById(R.id.tv_time_header);
             mTime = (TextView) itemView.findViewById(R.id.tv_time);
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
