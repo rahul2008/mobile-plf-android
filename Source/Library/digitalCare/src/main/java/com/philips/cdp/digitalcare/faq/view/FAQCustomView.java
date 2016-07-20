@@ -133,8 +133,10 @@ public class FAQCustomView implements Serializable {
 
         try {
 
+            LinkedHashMap linkedHashMap = null;
             //Parse the Data to the LinkedHashMap DataStructure.
-            LinkedHashMap linkedHashMap = getFaqData();
+            if (getFaqData() instanceof LinkedHashMap)
+                linkedHashMap = getFaqData();
             if (linkedHashMap != null) {
 
                 Set set = linkedHashMap.entrySet();
