@@ -54,6 +54,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     private int mPageNo = 0;
     private int mRemainingOrders = 0;
     private boolean mIsLoading = false;
+    private int mOrderCount = 0;
 
     ArrayList<OrderDetail> mOrderDetails = new ArrayList<>();
     ArrayList<ProductData> mProducts = new ArrayList<>();
@@ -137,6 +138,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                         mPageSize = mOrderData.getPagination().getPageSize();
                         mPageNo = mOrderData.getPagination().getCurrentPage();
                         mIsLoading = false;
+                        mOrderCount = mPageNo * mPageSize;
                         for (int i = mPageNo * mPageSize; i < mOrders.size(); i++) {
                             if (mController == null)
                                 mController = new OrderController(mContext, this);
@@ -150,18 +152,20 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public void onGetOrderDetail(Message msg) {
+        mOrderCount++;
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+  //          NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            IAPLog.d(TAG,((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
                     OrderDetail orderDetail = (OrderDetail) msg.obj;
                     mOrderDetails.add(orderDetail);
-                    if (mOrderDetails.size() == mOrders.size()) {
-                        updateProductDetails(mOrderDetails);
-                    }
                 }
             }
+        }
+        if (mOrderCount == mOrders.size()) {
+            updateProductDetails(mOrderDetails);
         }
 
     }
@@ -194,7 +198,8 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                     break;
                 }
             }
-            addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
+            if(bundle.getParcelable(IAPConstant.ORDER_DETAIL) != null)
+                addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
         }
     }
 

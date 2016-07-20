@@ -28,8 +28,7 @@
             android:id="@+id/tv_product_number"
             style="@style/tvTitle"
             android:layout_below="@+id/tv_productName"
-            android:layout_marginTop="@dimen/iap_order_icon_margin_left"
-            android:text="hrdfd" />
+            android:layout_marginTop="@dimen/iap_order_icon_margin_left" />
 
     </RelativeLayout>
 
