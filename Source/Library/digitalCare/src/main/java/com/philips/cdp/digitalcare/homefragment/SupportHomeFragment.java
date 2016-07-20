@@ -18,6 +18,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,7 +138,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DigiCareLogger.d(TAG, "OnCreate Method");
         // isProductSelectionFirstTime = true;
         //  isfragmentFirstTimeVisited = true;
         isSupportScreenLaunched = true;
@@ -285,7 +285,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                         getPreviousName());
             }
         } catch (Exception e) {
-            DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
+            Log.e(TAG, "LocaleMatch Crash Controlled : " + e);
         }
     }
 
@@ -828,7 +828,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         if (getActivity() != null) {
             String subCategoryUrl = getSubCategoryURL();
-            DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
+            DigiCareLogger.i(TAG, "******** Sub Category URL : " + subCategoryUrl);
 
             RequestData subCategoryRequest = new RequestData();
 
@@ -883,7 +883,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
             }
         } catch (IllegalStateException ie) {
-            DigiCareLogger.e(TAG, "Exception while generating SupportScreenButton : " + ie);
+            Log.e(TAG, "Exception while generating SupportScreenButton : " + ie);
         } finally {
             setConfigurableButton();
         }
@@ -944,7 +944,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     mProgressDialog.cancel();
                     mProgressDialog = null;
                 } catch (IllegalArgumentException e) {
-                    DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+                    Log.e(TAG, "Progress Dialog got IllegalArgumentException");
                 }
             }
 
@@ -952,7 +952,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             try {
                 mProgressDialog.dismiss();
             } catch (IllegalArgumentException e) {
-                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+                Log.e(TAG, "Progress Dialog got IllegalArgumentException");
             }
         }
         super.onDestroy();
@@ -973,7 +973,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     mProgressDialog.cancel();
                     mProgressDialog = null;
                 } catch (IllegalArgumentException e) {
-                    DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+                    Log.e(TAG, "Progress Dialog got IllegalArgumentException");
                 }
             }
 
@@ -981,7 +981,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             try {
                 mProgressDialog.dismiss();
             } catch (IllegalArgumentException e) {
-                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+                Log.e(TAG, "Progress Dialog got IllegalArgumentException");
             }
         }
         super.onDestroyView();
@@ -996,7 +996,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     mProgressDialog.cancel();
                     mProgressDialog = null;
                 } catch (IllegalArgumentException e) {
-                    DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+                    Log.e(TAG, "Progress Dialog got IllegalArgumentException");
                 }
             }
 
@@ -1004,7 +1004,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             try {
                 mProgressDialog.dismiss();
             } catch (IllegalArgumentException e) {
-                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+                Log.e(TAG, "Progress Dialog got IllegalArgumentException");
             }
         }
         super.onPause();

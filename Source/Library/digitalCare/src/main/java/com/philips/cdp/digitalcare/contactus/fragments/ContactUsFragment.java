@@ -398,15 +398,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void parseCdlsResponse(String response) {
-        DigiCareLogger.d(TAG, "Parsing CDLS Response");
         final CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
                 mParsingCompletedCallback);
         cdlsResponseParser.parseCdlsResponse(response);
     }
 
     protected void updateUi() {
-        DigiCareLogger.d(TAG, "Updating Contact Information");
-
         if (mCdlsParsedResponse.getSuccess()/*|| mCdlsParsedResponse.getError() != null*/) {
             final CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
             if (phoneModel != null) {
@@ -466,7 +463,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void closeProgressDialog() {
-        DigiCareLogger.v(TAG, "Progress Dialog Cancelled");
+
 
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
@@ -476,7 +473,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void startProgressDialog() {
-        DigiCareLogger.v(TAG, "Progress Dialog Started");
+
         if (getActivity() == null) {
             return;
         }
@@ -500,7 +497,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             startActivity(myintent);
         } catch (NullPointerException e) {
             // DigiCareLogger.d(TAG, "on Call Click : "+ mCdlsParsedResponse.getPhone().getPhoneNumber());
-            DigiCareLogger.e(TAG, "Null Pointer Exception : " + e);
+            DigiCareLogger.e(TAG, "Null Pointer Exception on  callPhilips method : " + e);
         }
     }
 
@@ -604,6 +601,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             final Uri uri = Uri.parse("fb://page/"
                     + getActivity().getResources().getString(
                     R.string.facebook_product_pageID));
+            DigiCareLogger.i(TAG, "Launching Facebook with Information : " + uri);
             final Map<String, Object> contextData = new HashMap<String, Object>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
@@ -627,7 +625,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     protected void launchTwitterFeature() {
         tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         final Intent tweetIntent = new Intent(Intent.ACTION_SEND);
-        tweetIntent.putExtra(Intent.EXTRA_TEXT, getProductInformation());
+        String information = getProductInformation();
+        tweetIntent.putExtra(Intent.EXTRA_TEXT, information);
+        DigiCareLogger.i(TAG, "Launching Twitter with information : " + information);
         tweetIntent.setType("text/plain");
 
         final PackageManager packManager = getActivity().getPackageManager();

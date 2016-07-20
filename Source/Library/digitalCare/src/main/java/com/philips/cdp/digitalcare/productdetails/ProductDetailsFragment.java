@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +97,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        DigiCareLogger.d(TAG, "onCreateView");
+        DigiCareLogger.i(TAG, "Luanching View Product Details Screen");
         mSdkVersion = Build.VERSION.SDK_INT;
         View view = inflater.inflate(R.layout.consumercare_fragment_view_product,
                 container, false);
@@ -107,7 +108,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
                     getPreviousName());
         } catch (Exception e) {
-            DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
+            Log.e(TAG, "IllegaleArgumentException : " + e);
         }
         getDisplayWidth();
         return view;
@@ -115,7 +116,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         mFirstContainer = (RelativeLayout) mActivity.findViewById(
                 R.id.toplayout);
@@ -375,11 +375,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void requestPRXAssetData() {
+        DigiCareLogger.i(TAG, "Requesting the PRX Asset Data");
         mPrxWrapper = new PrxWrapper(mActivity, new prxSummaryCallback() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
-                if (getContext() != null)
+                if (getContext() != null) {
+                    DigiCareLogger.i(TAG, "PRX AssetData Received");
                     onUpdateAssetData();
+                } else {
+                    DigiCareLogger.i(TAG, "PRX AssetData not available");
+                }
             }
         });
 
@@ -557,7 +562,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.product_info);
+        String title = getResources().getString(R.string.product_info);
+        DigiCareLogger.i(TAG, "Title : " + title);
+        return title;
     }
 
     @Override
@@ -612,8 +619,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProductPage = viewProductDetailsModel.getProductInfoLink();
         if (mProductPage != null)
             viewProductDetailsModel.setProductInfoLink(mProductPage);
-        DigiCareLogger.d(TAG, "Manual Link : " + mManualPdf);
-        DigiCareLogger.d(TAG, "Philips Page Link : " + mProductPage);
+        DigiCareLogger.i(TAG, "Manual Link : " + mManualPdf);
+        DigiCareLogger.i(TAG, "Philips Page Link : " + mProductPage);
         List<String> productVideos = viewProductDetailsModel.getVideoLinks();
         if (productVideos != null)
             initView(viewProductDetailsModel.getVideoLinks());
