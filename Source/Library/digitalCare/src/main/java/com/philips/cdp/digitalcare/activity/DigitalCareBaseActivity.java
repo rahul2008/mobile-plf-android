@@ -36,13 +36,13 @@ import java.util.Locale;
 public abstract class DigitalCareBaseActivity extends FragmentActivity {
     private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
 
-    private RelativeLayout mActionbarlayout = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
-    private DigitalCareFontTextView mActionBarTitle = null;
-    private FragmentManager fragmentManager = null;
-    private DigitalCareConfigManager mDigitalCareConfigManager = null;
-    private OnClickListener actionBarClickListener = new OnClickListener() {
+    protected RelativeLayout mActionbarlayout = null;
+    protected ImageView mActionBarMenuIcon = null;
+    protected ImageView mActionBarArrow = null;
+    protected DigitalCareFontTextView mActionBarTitle = null;
+    protected FragmentManager fragmentManager = null;
+    protected DigitalCareConfigManager mDigitalCareConfigManager = null;
+    protected OnClickListener actionBarClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View view) {
