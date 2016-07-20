@@ -103,20 +103,20 @@ public class DigitalCareActivityTest extends
         };
     }
 
-
-    protected void testDigitalCareActivity() {
-        MockActivity mockActivity = new MockActivity();
-
-        Context context = getInstrumentation().getContext();
-        context.startActivity(new Intent(context, DigitalCareActivity.class));
-
+    public void testConsumerCareActivity() {
+        DigitalCareActivity digitalCareActivity = new DigitalCareActivity();
+        digitalCareActivity.onCreate(getBundleWithValue());
+        digitalCareActivity.onSaveInstanceState(getBundleWithNullValue());
+        digitalCareActivity.animateThisScreen();
     }
 
-
-    public void testConsumerCareActivity()
-    {
-           testDigitalCareActivity();
+    public void testConsumerCareActivityWithNullBundle() {
+        DigitalCareActivity digitalCareActivity = new DigitalCareActivity();
+        digitalCareActivity.onCreate(getBundleWithNullValue());
+        digitalCareActivity.onSaveInstanceState(getBundleWithValue());
+        digitalCareActivity.animateThisScreen();
     }
+
 
     private Bundle getBundleWithValue() {
         Bundle bundle = new Bundle();
@@ -153,12 +153,12 @@ public class DigitalCareActivityTest extends
 	}*/
 
 	/*@MediumTest
-	public void testHomeIconAvailability() {
+    public void testHomeIconAvailability() {
 		assertNotNull("Home Icon not loaded ", mHomeIcon);
 	}*/
 
 	/*@MediumTest
-	public void testBackIconAvailability() {
+    public void testBackIconAvailability() {
 		assertNotNull("Back Icon not available ", mBackbutton);
 	}*/
 
