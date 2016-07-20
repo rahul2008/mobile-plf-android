@@ -12,7 +12,7 @@ import com.philips.platform.modularui.navigatorimpl.SupportFragmentNavigator;
 import com.philips.platform.modularui.navigatorimpl.UserRegistrationNavigator;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.util.UIConstants;
+import com.philips.platform.modularui.statecontroller.UIStateBase;
 
 /**
  * Created by 310240027 on 7/7/2016.
@@ -40,49 +40,49 @@ public class StateCreator {
         if(!appFrameworkApplication.getFlowManager().getStateMap().containsKey(stateID)){
             switch (stateID){
 
-                case UIConstants.UI_SPLASH_UNREGISTERED_STATE:
+                case UIStateBase.UI_SPLASH_UNREGISTERED_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new IntroductionScreenNavigator();
                     uiState.setStateID(stateID);
                     uiState.setNavigator(uiBaseNavigator);
                     break;
-                case UIConstants.UI_WELCOME_STATE:
+                case UIStateBase.UI_WELCOME_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new IntroductionScreenNavigator();
                     uiState.setStateID(stateID);
                     uiState.setNavigator(uiBaseNavigator);
                     break;
-                case UIConstants.UI_REGISTRATION_STATE:
+                case UIStateBase.UI_REGISTRATION_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new UserRegistrationNavigator();
                     uiState.setStateID(stateID);
                     uiState.setNavigator(uiBaseNavigator);
                     break;
-                case UIConstants.UI_HOME_STATE:
+                case UIStateBase.UI_HOME_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new HomeActivityNavigator();
                     uiState.setStateID(stateID);
                     uiState.setNavigator(uiBaseNavigator);
                     break;
-                case UIConstants.UI_HOME_FRAGMENT_STATE:
+                case UIStateBase.UI_HOME_FRAGMENT_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new HomeFragmentNavigator();
                     uiState.setStateID(stateID);
                     uiState.setNavigator(uiBaseNavigator);
                     break;
-                case UIConstants.UI_SUPPORT_FRAGMENT_STATE:
+                case UIStateBase.UI_SUPPORT_FRAGMENT_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new SupportFragmentNavigator();
                     uiState.setStateID(stateID);
                     uiState.setNavigator(uiBaseNavigator);
                     break;
-                case UIConstants.UI_SETTINGS_FRAGMENT_STATE:
+                case UIStateBase.UI_SETTINGS_FRAGMENT_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new SettingsFragmentNavigator();
                     uiState.setStateID(stateID);
                     uiState.setNavigator(uiBaseNavigator);
                     break;
-                case UIConstants.UI_DEBUG_FRAGMENT_STATE:
+                case UIStateBase.UI_DEBUG_FRAGMENT_STATE:
                     uiState = new UIState();
                     uiBaseNavigator = new DebugTestFragmentNavigator();
                     uiState.setStateID(stateID);

@@ -11,27 +11,6 @@ import java.lang.annotation.RetentionPolicy;
 public class UIConstants {
 
     /**
-     * Constants for each state
-     */
-    @IntDef({UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
-             UI_WELCOME_STATE, UI_REGISTRATION_STATE, UI_HOME_STATE,
-            UI_HOME_FRAGMENT_STATE, UI_SETTINGS_FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface UIStateDef {
-    }
-
-    public static final int UI_SPLASH_UNREGISTERED_STATE = 1003;
-    public static final int UI_SPLASH_REGISTERED_STATE = 1004;
-    public static final int UI_SPLASH_DONE_PRESSED_STATE = 1005;
-    public static final int UI_WELCOME_STATE = 1006;
-    public static final int UI_HOME_STATE = 1007;
-    public static final int UI_REGISTRATION_STATE = 1008;
-    public static final int UI_HOME_FRAGMENT_STATE = 1009;
-    public static final int UI_SETTINGS_FRAGMENT_STATE = 1010;
-    public static final int UI_SUPPORT_FRAGMENT_STATE = 1011;
-    public static final int UI_DEBUG_FRAGMENT_STATE = 1012;
-
-    /**
      * Constants for each CoCo
      */
     @IntDef({UI_COCO_USER_REGISTRATION, UI_COCO_PRODUCT_REGISTRATION, UI_COCO_IN_APP_PURCHASE, UI_COCO_CONSUMER_CARE, UI_COCO_APP_CHASSIS})
@@ -64,4 +43,5 @@ public class UIConstants {
 
     //Start screen state constant
     public static final String UI_START_STATUS = "UI_SPLASH_STATE_ONE";
+    public static final String DONE_PRESSED = "donePressed";
 }

@@ -17,7 +17,6 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.Logger;
-import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
@@ -94,11 +93,4 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         transaction.commit();
     }
 
-    public static void setIntroScreenDonePressed() {
-        SharedPreferenceUtility.getInstance().writePreferenceBoolean(DONE_PRESSED,true);
-    }
-
-    public static Boolean getIntroScreenDonePressed() {
-        return SharedPreferenceUtility.getInstance().getPreferenceBoolean(DONE_PRESSED);
-    }
 }

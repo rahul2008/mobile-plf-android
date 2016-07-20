@@ -5,7 +5,7 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.util.UIConstants;
+import com.philips.platform.modularui.statecontroller.UIStateBase;
 
 /**
  * Created by 310240027 on 7/4/2016.
@@ -18,15 +18,15 @@ public class HomeActivityPresenter implements UIBasePresenter {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
 
         switch (componentID){
-            case 0: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
+            case 0: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_FRAGMENT_STATE,context);
                 break;
-            case 1: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_SUPPORT_FRAGMENT_STATE,context);
+            case 1: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_SUPPORT_FRAGMENT_STATE,context);
                 break;
-            case 2: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_SETTINGS_FRAGMENT_STATE,context);
+            case 2: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_SETTINGS_FRAGMENT_STATE,context);
                 break;
-            case 3: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_DEBUG_FRAGMENT_STATE,context);
+            case 3: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_DEBUG_FRAGMENT_STATE,context);
                 break;
-            default:appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
+            default:appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_FRAGMENT_STATE,context);
         }
     }
 

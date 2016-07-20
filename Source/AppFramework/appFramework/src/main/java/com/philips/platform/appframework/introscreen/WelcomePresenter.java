@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.statecontroller.UIStateBase;
 import com.philips.platform.modularui.util.UIConstants;
 
 /**
@@ -23,12 +25,14 @@ public class WelcomePresenter implements UIBasePresenter, UICoCoUserRegImpl.SetS
         switch (componentID) {
 
             case R.id.appframework_skip_button:
+                SharedPreferenceUtility.getInstance().writePreferenceBoolean(UIConstants.DONE_PRESSED,true);
                 uiCoCoUserReg.registerForNextState(this);
-                appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_REGISTRATION_STATE, context);
+                appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_REGISTRATION_STATE, context);
                 break;
             case R.id.start_registration_button:
+                SharedPreferenceUtility.getInstance().writePreferenceBoolean(UIConstants.DONE_PRESSED,true);
                 uiCoCoUserReg.registerForNextState(this);
-                appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_REGISTRATION_STATE, context);
+                appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_REGISTRATION_STATE, context);
                 break;
         }
 
@@ -37,13 +41,13 @@ public class WelcomePresenter implements UIBasePresenter, UICoCoUserRegImpl.SetS
     @Override
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_STATE, context);
+        appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_STATE, context);
     }
 
 
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_STATE, context);
+        appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_STATE, context);
     }
 }

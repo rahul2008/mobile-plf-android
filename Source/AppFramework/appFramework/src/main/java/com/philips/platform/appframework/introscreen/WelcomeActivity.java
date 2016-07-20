@@ -182,7 +182,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        AppFrameworkBaseActivity.setIntroScreenDonePressed();
         presenter.onClick(v.getId(),WelcomeActivity.this);
     }
 

@@ -6,6 +6,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.statecontroller.UIStateBase;
 import com.philips.platform.modularui.util.UIConstants;
 
 /**
@@ -23,12 +24,12 @@ public class SettingsFragmentPresenter implements UIBasePresenter,UICoCoUserRegI
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         uiCoCoUserReg.registerForNextState(this);
-        appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_REGISTRATION_STATE, context);
+        appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_REGISTRATION_STATE, context);
     }
 
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_STATE, context);
+        appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_STATE, context);
     }
 }

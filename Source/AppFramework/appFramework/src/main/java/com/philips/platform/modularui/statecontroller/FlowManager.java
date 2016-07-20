@@ -3,7 +3,6 @@ package com.philips.platform.modularui.statecontroller;
 import android.content.Context;
 
 import com.philips.platform.modularui.factorymanager.StateCreator;
-import com.philips.platform.modularui.util.UIConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,17 +38,16 @@ public class FlowManager {
     public void getNextState(){
 
     }
-    //TODO : optimize hashmap creation to avoid multiple instances of navigator getting creator.
-    public void navigateState(@UIConstants.UIStateDef int stateID, Context context) {
-            //TODO: update current state here
+    public void navigateState(@UIStateBase.UIStateDef int stateID, Context context) {
             StateCreator.getInstance().getState(stateID,context).getNavigator().navigate(context);
+            setCurrentState(StateCreator.getInstance().getState(stateID,context));
     }
 
     public void addToStateMap(UIState uiState) {
         stateMap.put(uiState.getStateID(), uiState);
     }
 
-    public UIStateBase getState(@UIConstants.UIStateDef int stateID) {
+    public UIStateBase getState(@UIStateBase.UIStateDef int stateID) {
         return stateMap.get(stateID);
     }
 }
