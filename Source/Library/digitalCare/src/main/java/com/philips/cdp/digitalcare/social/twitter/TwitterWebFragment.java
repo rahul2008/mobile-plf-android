@@ -43,6 +43,9 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         initView();
         loadInAppTwitter();
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
@@ -57,9 +60,6 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         mTwitterWebView = (WebView) mTwitterScreenView.findViewById(R.id.webView);
         mProgressBar = (ProgressBar) mTwitterScreenView
                 .findViewById(R.id.common_webview_progress);
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         mProgressBar.setVisibility(View.GONE);
     }
 

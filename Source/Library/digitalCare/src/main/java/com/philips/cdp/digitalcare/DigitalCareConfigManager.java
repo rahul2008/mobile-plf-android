@@ -7,8 +7,8 @@
  *
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
- *
- *  Copyright (c) 2016 Philips. All rights reserved.
+ * <p/>
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.digitalcare;
@@ -37,7 +37,7 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
@@ -128,18 +128,6 @@ public class DigitalCareConfigManager {
 
     }
 
-    public AppInfraInterface getAPPInfraInstance() {
-        return AppInfraSingleton.getInstance();
-    }
-
-    public AIAppTaggingInterface getTaggingInterface() {
-        return getAPPInfraInstance().getTagging();
-    }
-
-    public LoggingInterface getLoggerInterface() {
-        return getAPPInfraInstance().getLogging();
-    }
-
     public LocaleMatchHandlerObserver getObserver() {
         return mLocaleMatchHandlerObserver;
     }
@@ -196,11 +184,13 @@ public class DigitalCareConfigManager {
 
         if (uiLauncher instanceof ActivityLauncher) {
 
+            DigiCareLogger.i(TAG, "Launching as Activity");
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         } else {
+            DigiCareLogger.i(TAG, "Launching through Fragment Manager instance");
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
                     fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
@@ -278,6 +268,26 @@ public class DigitalCareConfigManager {
      */
     public String getPreviousPageNameForTagging() {
         return mPageName;
+    }
+
+
+    public AppInfraInterface getAPPInfraInstance() {
+        return AppInfraSingleton.getInstance();
+    }
+
+    /*public AppTaggingInterface getTaggingInterface() {
+        AppTaggingInterface taggingInterface =
+                getAPPInfraInstance().getTagging().createInstanceForComponent
+                        ("com.philips.cdp.digitalcare", "6.0.0");
+        taggingInterface.setPreviousPage("vertical:productSelection:home");
+        return taggingInterface;
+    }*/
+
+    public LoggingInterface getLoggerInterface() {
+
+        LoggingInterface loggingInterface = getAPPInfraInstance().getLogging().
+                createInstanceForComponent("com.philips.cdp.digitalcare", "6.0.0");
+        return loggingInterface;
     }
 
 

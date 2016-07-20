@@ -340,8 +340,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     protected String getCdlsUrl(String sector, String locale, String catalog,
                                 String subcategory) {
-        return String.format(CDLS_URL_PORT, sector, locale, catalog,
+
+        String cdlsUrl = String.format(CDLS_URL_PORT, sector, locale, catalog,
                 subcategory);
+        DigiCareLogger.i(TAG, "CDLS Request URL : " + cdlsUrl);
+
+        return cdlsUrl;
     }
 
     @Override

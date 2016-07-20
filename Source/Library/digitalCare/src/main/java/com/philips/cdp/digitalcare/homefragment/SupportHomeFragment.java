@@ -55,13 +55,12 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.List;
 import java.util.Locale;
@@ -658,8 +657,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
-        ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
-                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());
+        /*ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
+                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());*/
+     /*   AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));*/
+        AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.setPreviousPage(ccConfigManager.getPreviousPageNameForTagging());
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
 
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
@@ -705,9 +708,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
-        ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
-                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());
-
+        /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));*/
+        AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.setPreviousPage(ccConfigManager.getPreviousPageNameForTagging());
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getmUiKitTheme());
         uiLauncher.setAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().getEnterAnimation(),

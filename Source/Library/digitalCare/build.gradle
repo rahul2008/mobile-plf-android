@@ -158,7 +158,7 @@ android {
 
 
 dependencies {
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1@jar'
+    //compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1@jar'
     compile 'com.google.code.gson:gson:2.2.2'
     //compile 'com.android.support:appcompat-v7:+'
     //compile 'com.android.support:support-v4:+'
@@ -168,7 +168,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     //compile project(':productselection')
-    compile('com.philips.cdp:productselection:1.4.0-rc.2@aar') {
+    compile('com.philips.cdp:productselection:1.4.0-rc.3@aar') {
         transitive = true
     }
     // compile 'com.google.android.gms:play-services:8.4.0'
