@@ -49,6 +49,8 @@ import java.util.Set;
 
 public class FAQCustomView implements Serializable {
 
+    private static final long serialVersionUID = 152838920903L;
+
     private static final String TAG = FAQCustomView.class.getSimpleName();
     private final int COLLAPSE_ALL = 0;
     private final int EXPAND_CLICKED = 1;
@@ -128,57 +130,62 @@ public class FAQCustomView implements Serializable {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         questionsView.setLayoutParams(questionsViewparams);
 
+        try {
 
-        //Parse the Data to the LinkedHashMap DataStructure.
-        LinkedHashMap linkedHashMap = getFaqData();
-        if (linkedHashMap != null) {
+            //Parse the Data to the LinkedHashMap DataStructure.
+            LinkedHashMap linkedHashMap = getFaqData();
+            if (linkedHashMap != null) {
 
-            Set set = linkedHashMap.entrySet();
-            Iterator iterator = set.iterator();
-            while (iterator.hasNext()) {
+                Set set = linkedHashMap.entrySet();
+                Iterator iterator = set.iterator();
+                while (iterator.hasNext()) {
 
-                QuestionsGroupModel questionsGroupModel = new QuestionsGroupModel();
-                Map.Entry entry = (Map.Entry) iterator.next();
-                Object key = entry.getKey();
-                List<FaqQuestionModel> value = (List<FaqQuestionModel>) entry.getValue();
+                    QuestionsGroupModel questionsGroupModel = new QuestionsGroupModel();
+                    Map.Entry entry = (Map.Entry) iterator.next();
+                    Object key = entry.getKey();
+                    List<FaqQuestionModel> value = (List<FaqQuestionModel>) entry.getValue();
 
-                DigiCareLogger.v(TAG, "Question Categories : " + key + " & Value : " + value.size());
+                    DigiCareLogger.v(TAG, "Question Categories : " + key + " & Value : " + value.size());
 
-                if (isFirstTime) {
-                    for (int i = 0; i < 10; i++)
+                    if (isFirstTime) {
+                        for (int i = 0; i < 10; i++)
+                            addTransparentDivider(questionsView);
+                        isFirstTime = false;
+                    } else
                         addTransparentDivider(questionsView);
-                    isFirstTime = false;
-                } else
-                    addTransparentDivider(questionsView);
-                // Quesions Under List with Arrow
-                final String questionTextWithCount = key.toString() + " (" + value.size() + ")";
-                final View parent = getQuestionTypeView(questionTextWithCount, questionsGroupModel);
-                questionsGroupModel.setParentView(parent);
-                questionsGroupModel.setQuestionText(questionTextWithCount);
-                parent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DigiCareLogger.d(TAG, " Count : " + parent.getId());
-                        updateView(questionTextWithCount, EXPAND_CLICKED);
-                    }
-                });
-                questionsView.addView(parent);
+                    // Quesions Under List with Arrow
+                    final String questionTextWithCount = key.toString() + " (" + value.size() + ")";
+                    final View parent = getQuestionTypeView(questionTextWithCount, questionsGroupModel);
+                    questionsGroupModel.setParentView(parent);
+                    questionsGroupModel.setQuestionText(questionTextWithCount);
+                    parent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DigiCareLogger.d(TAG, " Count : " + parent.getId());
+                            updateView(questionTextWithCount, EXPAND_CLICKED);
+                        }
+                    });
+                    questionsView.addView(parent);
 
-                //Expandable & Collapsable Questions
-                LinearLayout subQuestionView = new LinearLayout(mContext);
-                subQuestionView.setOrientation(LinearLayout.VERTICAL);
-                LinearLayout.LayoutParams subQuestionViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                subQuestionView.setLayoutParams(subQuestionViewParams);
+                    //Expandable & Collapsable Questions
+                    LinearLayout subQuestionView = new LinearLayout(mContext);
+                    subQuestionView.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams subQuestionViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    subQuestionView.setLayoutParams(subQuestionViewParams);
 
-                subQuestionView.addView(addSubQuestion(value));
-                questionsGroupModel.setChildView(subQuestionView);
-                questionsView.addView(subQuestionView);
+                    subQuestionView.addView(addSubQuestion(value));
+                    questionsGroupModel.setChildView(subQuestionView);
+                    questionsView.addView(subQuestionView);
 
-                //Adding the Main & Subview of Question Group to List to control expand & Collapse.
-                mQuestionsGroupModelList.add(questionsGroupModel);
+                    //Adding the Main & Subview of Question Group to List to control expand & Collapse.
+                    mQuestionsGroupModelList.add(questionsGroupModel);
 
+                }
             }
+        } catch (RuntimeException exception) {
+            DigiCareLogger.e(TAG, "FAQ Data Json parsing Exception");
+
         }
         container.addView(questionsView);
 
