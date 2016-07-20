@@ -103,7 +103,7 @@ public class DigitalCareActivityTest extends
         };
     }
 
-    public void testConsumerCareActivity() {
+    /*public void testConsumerCareActivity() {
         DigitalCareActivity digitalCareActivity = new DigitalCareActivity();
         digitalCareActivity.onCreate(getBundleWithValue());
         digitalCareActivity.onSaveInstanceState(getBundleWithNullValue());
@@ -115,7 +115,7 @@ public class DigitalCareActivityTest extends
         digitalCareActivity.onCreate(getBundleWithNullValue());
         digitalCareActivity.onSaveInstanceState(getBundleWithValue());
         digitalCareActivity.animateThisScreen();
-    }
+    }*/
 
 
     private Bundle getBundleWithValue() {
