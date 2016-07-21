@@ -23,15 +23,16 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/**
+ * Server time class which migrate to ntp time
+ */
 public class ServerTime {
 
     private static final String TAG = "ServerTime";
-    private static final int REFERENCE_TIME_OFFSET = 16;
     private static final int ORIGINTIME_OFFSET = 24;
     private static final int RECEIVETIME_OFFSET = 32;
     private static final int TRANSMIT_TIME_OFFSET = 40;
     private static final int NTP_PACKET_SIZE = 48;
-
     private static final int NTP_PORT = 123;
     private static final int NTP_CLIENT = 3;
     private static final int NTP_VERSION = 3;
@@ -43,27 +44,21 @@ public class ServerTime {
     // system time computed from NTP server response
     private static long mNtpTime;
 
-    // value of SystemClock.elapsedRealtime() corresponding to mNtpTime
-    private long mNtpTimeReference;
-
-    // round trip time in milliseconds
-    private long mRoundTripTime;
-
     private static Context mContext;
 
     private static final String SERVERTIME_PREFERENCE = "servertime";
 
     private static SharedPreferences mSharedPreferences;
 
-    private static volatile ServerTime  serverTimeInstance;
+    private static volatile ServerTime serverTimeInstance;
 
-    public synchronized static void init(final Context pContext){
+    public synchronized static void init(final Context pContext) {
         mContext = pContext;
-        mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE, Context.MODE_PRIVATE);
+        mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE,
+                Context.MODE_PRIVATE);
     }
-    private ServerTime(){
 
-
+    private ServerTime() {
     }
 
 
@@ -79,35 +74,34 @@ public class ServerTime {
         return serverTimeInstance;
     }
 
-    private void saveOffset(final long pOffset){
-
+    private void saveOffset(final long pOffset) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(ServerTimeConstants.OFFSET, pOffset);
         editor.commit();
+    }
 
+    private long getOffset() {
+        return mSharedPreferences.getLong(ServerTimeConstants.OFFSET, 0L);
 
     }
 
-    private long getOffset(){
-       return  mSharedPreferences.getLong(ServerTimeConstants.OFFSET, 0L);
+    private long getElapsedOffset() {
+        return mSharedPreferences.getLong(ServerTimeConstants.OFFSET_ELAPSED, 0L);
 
     }
 
-    private long getElapsedOffset(){
-        return  mSharedPreferences.getLong(ServerTimeConstants.OFFSET_ELAPSED, 0L);
-
-    }
-
-    private final String[] serverPool = {"0.asia.pool.ntp.org","1.asia.pool.ntp.org","2.asia.pool.ntp.org","3.asia.pool.ntp.org"};
+    private final String[] serverPool = {"0.asia.pool.ntp.org", "1.asia.pool.ntp.org",
+            "2.asia.pool.ntp.org", "3.asia.pool.ntp.org"};
 
     private boolean requestTime(String host, int timeout) {
         DatagramSocket socket = null;
         try {
             socket = new DatagramSocket();
             socket.setSoTimeout(timeout);
-            InetAddress address = InetAddress.getByName(host);
+            final InetAddress address = InetAddress.getByName(host);
             byte[] buffer = new byte[NTP_PACKET_SIZE];
-            DatagramPacket request = new DatagramPacket(buffer, buffer.length, address, NTP_PORT);
+            final DatagramPacket request = new DatagramPacket(buffer, buffer.length, address,
+                    NTP_PORT);
 
             // set mode = 3 (client) and version = 3
             // mode is in low 3 bits of first byte
@@ -115,28 +109,25 @@ public class ServerTime {
             buffer[0] = NTP_CLIENT | (NTP_VERSION << 3);
 
             // get current time and write it to the request packet3
-            long requestTime = System.currentTimeMillis();
-            long requestTicks = SystemClock.elapsedRealtime();
+            final long requestTime = System.currentTimeMillis();
+            final long requestTicks = SystemClock.elapsedRealtime();
             writeTimeStamp(buffer, TRANSMIT_TIME_OFFSET, requestTime);
 
             socket.send(request);
 
-            DatagramPacket response = new DatagramPacket(buffer, buffer.length);
+            final DatagramPacket response = new DatagramPacket(buffer, buffer.length);
             socket.receive(response);
-            long responseTicks = SystemClock.elapsedRealtime();
-            long responseTime = requestTime + (responseTicks - requestTicks);
+            final long responseTicks = SystemClock.elapsedRealtime();
+            final long responseTime = requestTime + (responseTicks - requestTicks);
 
-            long originateTime = readTimeStamp(buffer, ORIGINTIME_OFFSET);
-            long receiveTime = readTimeStamp(buffer, RECEIVETIME_OFFSET);
-            long transmitTime = readTimeStamp(buffer, TRANSMIT_TIME_OFFSET);
-            long roundTripTime = responseTicks - requestTicks - (transmitTime - receiveTime);
-            long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime))/2;
+            final long originateTime = readTimeStamp(buffer, ORIGINTIME_OFFSET);
+            final long receiveTime = readTimeStamp(buffer, RECEIVETIME_OFFSET);
+            final long transmitTime = readTimeStamp(buffer, TRANSMIT_TIME_OFFSET);
+            final long clockOffset = ((receiveTime - originateTime) +
+                    (transmitTime - responseTime)) / 2;
             mNtpTime = responseTime + clockOffset;
-            mNtpTimeReference = responseTicks;
-            mRoundTripTime = roundTripTime;
         } catch (Exception e) {
-
-            if (!false) Log.d(TAG, "request time failed: " + e);
+            Log.d(TAG, "request time failed: " + e);
             return false;
         } finally {
             if (socket != null) {
@@ -152,99 +143,88 @@ public class ServerTime {
      *
      * @return time value computed from NTP server response.
      */
-    public  long getNtpTime() {
+    public long getNtpTime() {
         return mNtpTime;
     }
 
-    private  long mOffset;
-    private  long mNTPTime;
-
-
-
-    public  String getCurrentTime(){
-        final SimpleDateFormat sdf = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT,Locale.ROOT);
-        Date date = new Date(getOffset() + System.currentTimeMillis()+getCurrentTimeZoneDiff());
+    public String getCurrentTime() {
+        final SimpleDateFormat sdf = new SimpleDateFormat(
+                ServerTimeConstants.DATE_FORMAT, Locale.ROOT);
+        final Date date = new Date(getOffset() + System.currentTimeMillis() +
+                getCurrentTimeZoneDiff());
         sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
-
-        final String utcTime = sdf.format(date);
-        return utcTime;
+        return sdf.format(date);
     }
 
-    private long getCurrentElapsedDifference(){
+    private long getCurrentElapsedDifference() {
         return System.currentTimeMillis() - SystemClock.elapsedRealtime();
     }
 
-    public  synchronized String getCurrentUTCTimeWithFormat(final String pFormat){
-        long diffElapsedOffset = getCurrentElapsedDifference() -  getElapsedOffset() ;
+    public synchronized String getCurrentUTCTimeWithFormat(final String pFormat) {
+        final long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
         final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ROOT);
         Date date = null;
-        if(isRefreshInProgress) {
-             date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
-        }else{
+        if (isRefreshInProgress) {
+            date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
+        } else {
             date = new Date(getOffset() + System.currentTimeMillis());
         }
         sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
-        final String utcTime = sdf.format(date);
-        return utcTime;
+        return sdf.format(date);
     }
 
 
     private boolean isRefreshInProgress;
 
-    private void saveElapsedOffset(final long offSetMilliseconds){
+    private void saveElapsedOffset(final long offSetMilliseconds) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(ServerTimeConstants.OFFSET_ELAPSED, offSetMilliseconds);
         editor.commit();
     }
 
-    public  synchronized void  refreshOffset(){
+    public synchronized void refreshOffset() {
         isRefreshInProgress = true;
-        long elapsedTime = SystemClock.elapsedRealtime();
-        long currentTime = System.currentTimeMillis();
+        final long elapsedTime = SystemClock.elapsedRealtime();
+        final long currentTime = System.currentTimeMillis();
 
         long nowAsPerDeviceTimeZone = 0;
-        for(int i=0 ; i < ServerTimeConstants.POOL_SIZE ; i++){
+        for (int i = 0; i < ServerTimeConstants.POOL_SIZE; i++) {
             if (this.requestTime(serverPool[i], 30000)) {
                 nowAsPerDeviceTimeZone = getNtpTime();
                 break;
             }
         }
-        if(nowAsPerDeviceTimeZone != 0L) {
-            mNTPTime = nowAsPerDeviceTimeZone;
-            long deviceTime = System.currentTimeMillis();
-            mOffset = mNTPTime - deviceTime;
-            saveOffset(mOffset);
+        if (nowAsPerDeviceTimeZone != 0L) {
+            final long deviceTime = System.currentTimeMillis();
+            saveOffset(nowAsPerDeviceTimeZone - deviceTime);
         }
         saveElapsedOffset(currentTime - elapsedTime);
         isRefreshInProgress = false;
 
     }
 
-    private  long getCurrentTimeZoneDiff(){
-        TimeZone timeZoneInDevice = TimeZone.getDefault();
-        int differentialOfTimeZones = timeZoneInDevice.getOffset(System.currentTimeMillis());
-        return  differentialOfTimeZones;
+    private long getCurrentTimeZoneDiff() {
+        final TimeZone timeZoneInDevice = TimeZone.getDefault();
+        return timeZoneInDevice.getOffset(System.currentTimeMillis());
     }
-
-
 
 
     /**
      * Reads an unsigned 32 bit big endian number from the given offset in the buffer.
      */
     private long read32(byte[] buffer, int offset) {
-        byte b0 = buffer[offset];
-        byte b1 = buffer[offset+1];
-        byte b2 = buffer[offset+2];
-        byte b3 = buffer[offset+3];
+        final byte b0 = buffer[offset];
+        final byte b1 = buffer[offset + 1];
+        final byte b2 = buffer[offset + 2];
+        final byte b3 = buffer[offset + 3];
 
         // convert signed bytes to unsigned values
-        int i0 = ((b0 & 0x80) == 0x80 ? (b0 & 0x7F) + 0x80 : b0);
-        int i1 = ((b1 & 0x80) == 0x80 ? (b1 & 0x7F) + 0x80 : b1);
-        int i2 = ((b2 & 0x80) == 0x80 ? (b2 & 0x7F) + 0x80 : b2);
-        int i3 = ((b3 & 0x80) == 0x80 ? (b3 & 0x7F) + 0x80 : b3);
+        final int i0 = ((b0 & 0x80) == 0x80 ? (b0 & 0x7F) + 0x80 : b0);
+        final int i1 = ((b1 & 0x80) == 0x80 ? (b1 & 0x7F) + 0x80 : b1);
+        final int i2 = ((b2 & 0x80) == 0x80 ? (b2 & 0x7F) + 0x80 : b2);
+        final int i3 = ((b3 & 0x80) == 0x80 ? (b3 & 0x7F) + 0x80 : b3);
 
-        return ((long)i0 << 24) + ((long)i1 << 16) + ((long)i2 << 8) + (long)i3;
+        return ((long) i0 << 24) + ((long) i1 << 16) + ((long) i2 << 8) + (long) i3;
     }
 
     /**
@@ -252,9 +232,10 @@ public class ServerTime {
      * it as a system time (milliseconds since January 1, 1970).
      */
     private long readTimeStamp(byte[] buffer, int offset) {
-        long seconds = read32(buffer, offset);
-        long fraction = read32(buffer, offset + 4);
-        return ((seconds - OFFSET_BETWEEN_1900_TO_1970) * 1000) + ((fraction * 1000L) / 0x100000000L);
+        final long seconds = read32(buffer, offset);
+        final long fraction = read32(buffer, offset + 4);
+        return ((seconds - OFFSET_BETWEEN_1900_TO_1970) * 1000) + ((fraction * 1000L)
+                / 0x100000000L);
     }
 
     /**
@@ -262,25 +243,21 @@ public class ServerTime {
      * at the given offset in the buffer.
      */
     private void writeTimeStamp(byte[] buffer, int offset, long time) {
-
-
         long seconds = time / 1000L;
-        long milliseconds = time - seconds * 1000L;
+        final long milliseconds = time - seconds * 1000L;
         seconds += OFFSET_BETWEEN_1900_TO_1970;
-
         // write seconds in big endian format
-        buffer[offset++] = (byte)(seconds >> 24);
-        buffer[offset++] = (byte)(seconds >> 16);
-        buffer[offset++] = (byte)(seconds >> 8);
-        buffer[offset++] = (byte)(seconds >> 0);
-
-        long fraction = milliseconds * 0x100000000L / 1000L;
+        buffer[offset++] = (byte) (seconds >> 24);
+        buffer[offset++] = (byte) (seconds >> 16);
+        buffer[offset++] = (byte) (seconds >> 8);
+        buffer[offset++] = (byte) (seconds >> 0);
+        final long fraction = milliseconds * 0x100000000L / 1000L;
         // write fraction in big endian format
-        buffer[offset++] = (byte)(fraction >> 24);
-        buffer[offset++] = (byte)(fraction >> 16);
-        buffer[offset++] = (byte)(fraction >> 8);
+        buffer[offset++] = (byte) (fraction >> 24);
+        buffer[offset++] = (byte) (fraction >> 16);
+        buffer[offset++] = (byte) (fraction >> 8);
         // low order bits should be random data
-        buffer[offset++] = (byte)(Math.random() * 255.0);
+        buffer[offset++] = (byte) (Math.random() * 255.0);
     }
 
 }
