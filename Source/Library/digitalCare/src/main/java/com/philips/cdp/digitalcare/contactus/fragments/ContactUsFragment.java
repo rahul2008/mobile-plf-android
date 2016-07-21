@@ -863,6 +863,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     @SuppressLint("NewApi")
+    @SuppressWarnings("deprecation")
     private Button createButton(float density, int title, int resId) {
         final Button button = new Button(getActivity(), null, R.style.fontButton);
 

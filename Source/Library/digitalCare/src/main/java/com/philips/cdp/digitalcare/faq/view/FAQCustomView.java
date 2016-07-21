@@ -119,7 +119,7 @@ public class FAQCustomView implements Serializable {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("Rawtypes")
     public View init() {
         FaqViewContainer faqViewContainer = new FaqViewContainer().invoke();
         LinearLayout container = faqViewContainer.getContainer();
@@ -146,9 +146,16 @@ public class FAQCustomView implements Serializable {
                     QuestionsGroupModel questionsGroupModel = new QuestionsGroupModel();
                     Map.Entry entry = (Map.Entry) iterator.next();
                     Object key = entry.getKey();
-                    List<FaqQuestionModel> value = (List<FaqQuestionModel>) entry.getValue();
+                    List<FaqQuestionModel> value = null;
+                    try {
+                        value = (List<FaqQuestionModel>) entry.getValue();
+                    }catch (ClassCastException ex)
+                    {
+                        System.err.print("ClassCase Exception handling");
+                    }
 
-                    DigiCareLogger.v(TAG, "Question Categories : " + key + " & Value : " + value.size());
+                    DigiCareLogger.v(TAG, "Question Categories : " + key + " & Value : " +
+                            value.size());
 
                     if (isFirstTime) {
                         for (int i = 0; i < 10; i++)
