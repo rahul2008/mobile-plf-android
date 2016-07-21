@@ -217,17 +217,20 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
             mPrevTitleResourceId = fragment.getResourceID();
         }
         if (null != fragment) {
-            if (fragment.getFragmentBackStackCount() > 1) {
-                if (null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                            getTitleResourceId());
+            try {
+                if (fragment.getFragmentBackStackCount() > 1) {
+                    if (null != fragment.getUpdateTitleListener()) {
+                        fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                                getTitleResourceId());
+                    }
+                } else {
+                    if (null != fragment.getUpdateTitleListener()) {
+                        fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                    }
                 }
-            } else {
-                if (null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
-                }
+                fragment.setResourceId(getTitleResourceId());
+            } catch (Exception ignore) {
             }
-            fragment.setResourceId(getTitleResourceId());
         }
     }
 
