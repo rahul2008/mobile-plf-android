@@ -17,7 +17,7 @@ public class IAPAnalytics {
             Map<String, String> map = new HashMap<>();
             AppInfraHelper.getInstance().getAIAppTaggingInterface().
                     trackPageWithInfo(currentPage, map);
-            AppInfraHelper.getInstance().getAIAppTaggingInterface().setPreviousPage(currentPage);
+//            AppInfraHelper.getInstance().getAIAppTaggingInterface().setPreviousPage(currentPage);
         }
     }
 

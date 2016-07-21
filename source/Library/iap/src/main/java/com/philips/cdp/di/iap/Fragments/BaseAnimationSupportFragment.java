@@ -13,12 +13,10 @@ import android.view.View;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
 
@@ -149,7 +147,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     protected void finishActivity() {
-        IAPAnalytics.trackPage(Tagging.getLaunchingPageName());
+//        IAPAnalytics.trackPage(Tagging.getLaunchingPageName());
         if (getActivity() != null && !getActivity().isFinishing()) {
             getActivity().finish();
         }
