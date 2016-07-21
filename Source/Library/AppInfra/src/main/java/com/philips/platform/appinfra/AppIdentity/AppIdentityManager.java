@@ -56,16 +56,16 @@ public class AppIdentityManager implements AppIdentityInterface {
             mAppStateEnum =  AppState.DEVELOPMENT;
         }
         if(mAppState.equalsIgnoreCase("TEST")){
-            mAppStateEnum =  AppState.DEVELOPMENT;
+            mAppStateEnum =  AppState.TEST;
         }
         if(mAppState.equalsIgnoreCase("STAGING")){
-            mAppStateEnum =  AppState.DEVELOPMENT;
+            mAppStateEnum =  AppState.STAGING;
         }
         if(mAppState.equalsIgnoreCase("ACCEPTANCE")){
-            mAppStateEnum = AppState.DEVELOPMENT;
+            mAppStateEnum = AppState.ACCEPTANCE;
         }
         if(mAppState.equalsIgnoreCase("PRODUCTION")){
-            mAppStateEnum = AppState.DEVELOPMENT;
+            mAppStateEnum = AppState.PRODUCTION;
         }
         if(mAppStateEnum != null){
             return mAppStateEnum;
