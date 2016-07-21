@@ -6,6 +6,8 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -14,9 +16,12 @@ import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import junit.framework.Assert;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -27,13 +32,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     boolean isDataAvailable = false;
     String countryCode;
     String URL = null;
-    boolean mServiceUrlWithLanguagePreference = false;
-    boolean mServiceUrlWithCountryPreference= false;
-    boolean mServiceLocaleWithLanguagePreference= false;
-    boolean mServiceLocaleWithCountryPreference= false;
-    boolean mServicesWithLanguagePreferenceMultiple= false;
-    boolean mmServiceUrlWithCountryPreferenceMultiple= false;
     OnRefreshListener mOnRefreshListener;
+    String mCountry;;
+    SharedPreferences pref;
 
 
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
@@ -48,11 +49,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
 
-    public String getservice(OnRefreshListener listener) {
+    private String getService(OnRefreshListener listener) {
         String urlBuild = null;
-
-        InternationalizationManager locamManager= new InternationalizationManager(mAppInfra);
-        String country= locamManager.getCountry();
+        String country= getCountry();
         if(null!=country){
             urlBuild= buildUrl();
             if(urlBuild!= null){
@@ -69,12 +68,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     return urlBuild;
     }
     private String  buildUrl(){
-        AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
-        idntityManager.loadJSONFromAsset();
-        InternationalizationManager localmanager= new InternationalizationManager(mAppInfra);
-        localmanager.getUILocale();
-        AppIdentityInterface.AppState mState = idntityManager.getAppState();
-        String mEnvironment = idntityManager.getServiceDiscoveryEnvironment();
+        AppIdentityManager identityManager = new AppIdentityManager(mAppInfra);
+        identityManager.loadJSONFromAsset();
+        InternationalizationManager localManager= new InternationalizationManager(mAppInfra);
+        localManager.getUILocale();
+        AppIdentityInterface.AppState mState = identityManager.getAppState();
+        String mEnvironment = identityManager.getServiceDiscoveryEnvironment();
         String tags = null;
         String environment = null;
     if(mState!=null && mEnvironment!=null){
@@ -111,14 +110,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 }
 
-        if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getUILocale() != null && tags!=null && environment!=null ){
-            if(localmanager.getCountry() == null){
-                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocale()+"&tags="+tags;
+        if(identityManager.getSector() != null && identityManager.getMicrositeId() != null && localManager.getUILocale() != null && tags!=null && environment!=null ){
+            if(getCountry() == null){
+                URL = "https://"+environment+"/api/v1/discovery/"+identityManager.getSector()+"/"+identityManager.getMicrositeId()+"?locale="+ localManager.getUILocale()+"&tags="+tags;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev";
                 Log.i("URL", ""+URL);
             }
-            if(localmanager.getCountry() != null ){
-                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocale()+"&tags="+tags+"&country="+ localmanager.getCountry();
+            if(getCountry() != null ){
+                URL = "https://"+environment+"/api/v1/discovery/"+identityManager.getSector()+"/"+identityManager.getMicrositeId()+"?locale="+ localManager.getUILocale()+"&tags="+tags+"&country="+ getCountry();
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev&country=US";
                 Log.i("URL", ""+URL);
             }
@@ -126,79 +125,56 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         return URL;
     }
 
-    private void environmentSetUp(String state, String environment){
-
-        if(state!=null){
-
-        }
-        if(environment != null){
-
-        }
-
-    }
-
-    /**
+      /**
      * Gets the country from app according to settings/SIM/GEOIP
      * @param listener
      */
     @Override
     public void getHomeCountry(final OnGetHomeCountryListener listener) {
         String country = null;
-        InternationalizationManager locamManager= new InternationalizationManager(mAppInfra);
-        country=locamManager.getCountry();
-        if(country == null && country.contains("")){
-
-        }else{
+        country=getCountry();
+        if(country != null){
             setHomeCountry(country);
             listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
         }
-
     }
-
 
     @Override
     public void setHomeCountry(String countryCode) {
         this.countryCode =countryCode;
     }
 
-
     @Override
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        mServiceUrlWithLanguagePreference = true;
         if(isDataAvailable){
-            filteredDataForServices(serviceId, null, listener, null);
+            filterDataForURLbyLang(serviceId,listener);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-
                 }
-
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId, null, listener, null);
+                    filterDataForURLbyLang(serviceId,listener);
                 }
             }));
         }
 
     }
-
-
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        mServiceUrlWithCountryPreference = true;
         if(isDataAvailable){
-            filteredDataForServices(serviceId, null, listener, null);
+            filterDataForURLbyCountry(serviceId,listener);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-
+                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "Error");
                 }
 
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId,null,  listener, null);
+                    filterDataForURLbyCountry(serviceId,listener);
                 }
             }));
         }
@@ -208,32 +184,26 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
     @Override
     public void getServiceLocaleWithLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        mServiceLocaleWithLanguagePreference = true;
 
         if(isDataAvailable){
-            filteredDataForServices(serviceId,listener, null, null);
+            filterDataForLocalByLang(serviceId, listener);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-
                 }
-
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId, listener,null, null);
+                    filterDataForLocalByLang(serviceId, listener);
                 }
             }));
         }
-
     }
-
 
     @Override
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        mServiceLocaleWithCountryPreference = true;
         if(isDataAvailable){
-            filteredDataForServices(serviceId, listener, null, null);
+            filterDataForLocalByCountry(serviceId, listener);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -243,7 +213,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
                 @Override
                 public void onSuccess() {
-                    filteredDataForServices(serviceId, listener, null, null);
+                    filterDataForLocalByCountry(serviceId, listener);
                 }
             }));
         }
@@ -251,87 +221,43 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
 
-
-//    @Override
-//    public void getServicesWithLanguagePreference(final String serviceIds, final OnGetServicesListener listener) {
-//        mServicesWithLanguagePreferenceMultiple = true;
-//        if(isDataAvailable){
-//            filteredDataForServices(serviceIds,null, null, null, listener);
-//        }else{
-//            refresh((new OnRefreshListener() {
-//                @Override
-//                public void onError(ERRORVALUES error, String message) {
-//
-//                }
-//
-//                @Override
-//                public void onSuccess() {
-//                    filteredDataForServices(serviceIds,null, null, null, listener);
-//                }
-//            }));
-//        }
-//
-//    }
-
-
-//    @Override
-//    public void getServicesWithCountryPreference(final String serviceIds, final OnGetServicesListener listener) {
-//        mmServiceUrlWithCountryPreferenceMultiple = true;
-//
-//        if(isDataAvailable){
-//            filteredDataForServices(serviceIds,null, null, null, listener);
-//        }else{
-//            refresh((new OnRefreshListener() {
-//                @Override
-//                public void onError(ERRORVALUES error, String message) {
-//                    //Log.i("onError", ""+"refresh  Error");
-//                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"Service Discovery onError","refresh  Error");
-//                }
-//
-//                @Override
-//                public void onSuccess() {
-//                    filteredDataForServices(serviceIds,null, null, null, listener);
-//                }
-//            }));
-//        }
-//
-//    }
-
-    private void filteredDataForServices(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener, OnGetServiceUrlListener mOnGetServiceUrlListener, OnGetHomeCountryListener mOnGetHomeCountryListener){
-
-
-        Map<String,ServiceUrlandLocale> responseMap= new HashMap<String,ServiceUrlandLocale>();
-
-       if(mOnGetServiceUrlListener != null && serviceIds!= null){
+    private void filterDataForURLbyLang(String serviceIds, OnGetServiceUrlListener mOnGetServiceUrlListener){
+        if(mOnGetServiceUrlListener != null && serviceIds!= null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-        }else if(mOnGetServiceUrlListener!=null && serviceIds!= null){
+        }
+    }
+    private void filterDataForURLbyCountry(String serviceIds, OnGetServiceUrlListener mOnGetServiceUrlListener){
+        if(mOnGetServiceUrlListener!=null && serviceIds!= null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-        }else if(mOnGetServiceLocaleListener!=null){
-           mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
-
-        }else if(mOnGetServiceLocaleListener!=null){
-           mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
         }
-//       else if(mOnGetServicesListener!=null){
-//            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
-//
-//        }else if(mOnGetServicesListener!=null){
-//            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
-//        }
+    }
+    private void filterDataForLocalByLang(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener){
+        if(mOnGetServiceLocaleListener!=null){
+            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
 
+        }
+    }
+    private void filterDataForLocalByCountry(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener){
+        if(mOnGetServiceLocaleListener!=null){
+            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
+        }
+    }
+
+    private void filteredDataForServicesass(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener, OnGetServiceUrlListener mOnGetServiceUrlListener, OnGetHomeCountryListener mOnGetHomeCountryListener){
 
         //this is future implementaion
 
+//        Map<String,ServiceUrlandLocale> responseMap= new HashMap<String,ServiceUrlandLocale>();
 //        for(int configCount=0;configCount<RequestManager.mServiceDiscovery.getMatchByCountryOrLanguage().getConfigs().size();configCount++) {
 //            HashMap<String, String> urls = RequestManager.mServiceDiscovery.getMatchByCountryOrLanguage().getConfigs().get(configCount).getUrls();
 //            String serviceUrlval = null;
@@ -363,10 +289,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                         isDataAvailable = true;
                         listener.onSuccess();
                     }else{
-                        listener.onError(ERRORVALUES.SECURITY_ERROR, "SECURITY_ERROR" );
+                        listener.onError(ERRORVALUES.SECURITY_ERROR, "ERROR" );
                     }
                 }else{
-            getservice(listener);
+            getService(listener);
         }
 
 
@@ -386,4 +312,47 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     public void onError(ERRORVALUES error, String message) {
         Log.i(""+error, "Refresh error"+message);
     }
+
+    private String getCountry() {
+        pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+        if (mCountry == null) {
+            mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
+            // Log.i("Country", " "+mCountry);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Country", mCountry);
+            if (mCountry != null) {
+                if (mAppInfra.getTagging() != null) {
+                    mAppInfra.getTagging().trackActionWithInfo("InternationalizationPage", "KeyCountry", "ValueCountry");
+                }
+                return mCountry.toUpperCase();
+            }
+        }
+        if (mCountry == null) {
+            SharedPreferences.Editor editor = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
+            try {
+                final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                final String simCountry = tm.getSimCountryIso();
+                if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
+                    mCountry = simCountry.toUpperCase(Locale.US);
+
+                    editor.putString(RequestManager.COUNTRY_NAME, mCountry);
+                    editor.commit();
+                    if (mCountry != null)
+                        return mCountry.toUpperCase();
+                } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
+                    String networkCountry = tm.getNetworkCountryIso();
+                    if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
+                        mCountry = networkCountry.toUpperCase(Locale.US);
+                        editor.putString(RequestManager.COUNTRY_NAME, mCountry);
+                        editor.commit();
+                        if (mCountry != null)
+                            return mCountry.toUpperCase();
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        return mCountry;
+    }
+
 }

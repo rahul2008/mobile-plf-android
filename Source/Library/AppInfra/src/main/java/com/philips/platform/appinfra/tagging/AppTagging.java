@@ -13,7 +13,6 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.GlobalStore;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -56,7 +55,6 @@ public class AppTagging implements AppTaggingInterface {
 
 
     private static Locale mlocale;
-    private static GlobalStore mGlobalStore;
 
     private static Context mcontext;
 
@@ -76,10 +74,6 @@ public class AppTagging implements AppTaggingInterface {
         mcontext = context;
         prevPage = appName;
         Config.setContext(context);
-        mGlobalStore = GlobalStore.getInstance();
-        if (mGlobalStore.getValue() != null) {
-            prevPage = mGlobalStore.getValue();
-        }
         if (appName == null) {
             throw new RuntimeException("Please set app name for tagging library");
         }
@@ -213,7 +207,6 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void setPreviousPage(String previousPage) {
         prevPage = previousPage;
-        mGlobalStore.setValue(prevPage);
     }
 
     @Override

@@ -97,12 +97,12 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         return mSharedPreferences.getLong(TimeConstants.OFFSET, 0L);
     }
 
-    private long getElapsedOffset() {
-        return mSharedPreferences.getLong(TimeConstants.OFFSET_ELAPSED, 0L);
-    }
+//    private long getElapsedOffset() {
+//        return mSharedPreferences.getLong(TimeConstants.OFFSET_ELAPSED, 0L);
+//    }
 
 
-    public synchronized void refreshOffset() {
+    private synchronized void refreshOffset() {
         long mNTPTime;
 
         isRefreshInProgress = true;
@@ -126,22 +126,22 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         isRefreshInProgress = false;
     }
 
-    public synchronized String getCurrentUTCTimeWithFormat(final String pFormat) {
-        long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
-        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ENGLISH);
-        Date date = null;
-        if (isRefreshInProgress) {
-            date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
-        } else {
-            date = new Date(getOffset() + System.currentTimeMillis());
-        }
-        sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
-        final String utcTime = sdf.format(date);
-        Log.i("CurrentUTCTime", "" + utcTime);
-        return utcTime;
-    }
+//    public synchronized String getCurrentUTCTimeWithFormat(final String pFormat) {
+//        long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
+//        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ENGLISH);
+//        Date date = null;
+//        if (isRefreshInProgress) {
+//            date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
+//        } else {
+//            date = new Date(getOffset() + System.currentTimeMillis());
+//        }
+//        sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
+//        final String utcTime = sdf.format(date);
+//        Log.i("CurrentUTCTime", "" + utcTime);
+//        return utcTime;
+//    }
 
-    public String getCurrentTime() {
+    private String getCurrentTime() {
         final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
         Date date = new Date(getOffset() + System.currentTimeMillis() + getCurrentTimeZoneDiff());
         sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
@@ -151,15 +151,15 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         return curruntTime;
     }
 
-    private long getCurrentElapsedDifference() {
-
-        return System.currentTimeMillis() - SystemClock.elapsedRealtime();
-    }
+//    private long getCurrentElapsedDifference() {
+//
+//        return System.currentTimeMillis() - SystemClock.elapsedRealtime();
+//    }
 
     /**
      * Method to synchronize time for every 24 hrs.
      */
-    public void syncWithDayandDateSettingChange() {
+    private void syncWithDayandDateSettingChange() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -178,16 +178,6 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
 
 //        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
 //                cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-    }
-
-
-    /**
-     * Returns the round trip time of the NTP transaction
-     *
-     * @return round trip time in milliseconds.
-     */
-    public long getRoundTripTime() {
-        return mRoundTripTime;
     }
 
     /**
@@ -267,22 +257,12 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
     }
 
 
-    /**
-     * Returns the reference clock value (value of SystemClock.elapsedRealtime())
-     * corresponding to the NTP time.
-     *
-     * @return reference clock corresponding to the NTP time.
-     */
-    public long getNtpTimeReference() {
-        return mNtpTimeReference;
-    }
-
-    /**
+        /**
      * Returns the time computed from the NTP transaction.
      *
      * @return time value computed from NTP server response.
      */
-    public long getNtpTime() {
+    private long getNtpTime() {
         return mNtpTime;
     }
 

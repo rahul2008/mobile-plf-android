@@ -46,7 +46,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         Button urlbyLang = (Button) findViewById(R.id.geturl_by_country_btn);
         Button urlbyCountry = (Button) findViewById(R.id.geturl_by_lang_buttn);
         Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
-        Button setHomeCountrybtn = (Button) findViewById(R.id.sethomecountry_btn);
 
         editTextData= idEditText.getText().toString();
 
@@ -91,12 +90,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             }
         });
 
-        setHomeCountrybtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                mServiceDiscoveryInterface.setHomeCountry();
-            }
-        });
 
     }
 
