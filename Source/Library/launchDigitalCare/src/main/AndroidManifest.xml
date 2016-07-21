@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.philips.cdp.sampledigitalcare"
+    package="com.philips.cl.di.dev.pa"
     android:versionCode="139"
     android:versionName="4.2.0.4">
 
@@ -9,9 +9,9 @@
    <!-- <uses-sdk tools:overrideLibrary="com.philips.cdp.digitalcare"/>  -->
 
     <!--Credentials For LocatePhilips Near you feature(Google Map)-->
-    <uses-permission android:name="com.philips.cdp.sampledigitalcare.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.philips.cl.di.dev.pa.permission.MAPS_RECEIVE" />
     <permission
-        android:name="com.philips.cdp.sampledigitalcare.permission.MAPS_RECEIVE"
+        android:name="com.philips.cl.di.dev.pa.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <application

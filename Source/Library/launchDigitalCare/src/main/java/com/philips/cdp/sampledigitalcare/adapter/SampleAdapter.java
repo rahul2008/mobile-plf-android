@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.philips.cdp.sampledigitalcare.R;
+import com.philips.cl.di.dev.pa.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
