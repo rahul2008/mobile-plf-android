@@ -78,6 +78,7 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
+    @SuppressWarnings("deprecation")
     private void loadPdfManual() {
         if (getPhilipsProductPageUrl() == null) {
             mProgressBar.setVisibility(View.VISIBLE);
