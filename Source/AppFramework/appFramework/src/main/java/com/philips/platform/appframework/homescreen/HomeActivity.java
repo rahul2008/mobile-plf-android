@@ -29,7 +29,6 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -53,7 +52,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private LinearLayout hamburgerClick = null;
-    private ConsumerCareLauncher mConsumerCareFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

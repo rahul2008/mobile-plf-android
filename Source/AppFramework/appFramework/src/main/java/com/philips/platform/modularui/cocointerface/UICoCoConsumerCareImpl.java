@@ -2,6 +2,7 @@ package com.philips.platform.modularui.cocointerface;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
@@ -25,13 +26,36 @@ import java.util.Arrays;
 
 public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener,
         ProductMenuListener, SocialProviderListener {
+
+    private UICoCoConsumerCareImpl(){
+
+    }
+
+    private static UICoCoConsumerCareImpl instance = new UICoCoConsumerCareImpl();
+
+    public static UICoCoConsumerCareImpl getInstance(){
+        if(null == instance){
+            instance = new UICoCoConsumerCareImpl();
+        }
+        return instance;
+    }
+
     private ActionbarUpdateListener c = null;
     private ArrayList<String> mCtnList = null;
     private FragmentActivity mFragmentActivity = null;
     private ActionbarUpdateListener mActionBarClickListener = null;
     private ActionbarUpdateListener actionBarClickListener;
     private ConsumerCareLauncher mConsumerCareFragment = null;
+    private Context mContext;
 
+    public interface SetStateCallBack{
+        void setNextState(Context contexts);
+    }
+    SetStateCallBack setStateCallBack;
+
+    public void registerForNextState(SetStateCallBack setStateCallBack){
+        this.setStateCallBack = setStateCallBack;
+    }
     @Override
     public void setActionbar(ActionbarUpdateListener acbl) {
         actionBarClickListener = acbl;
@@ -45,7 +69,7 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
 
     @Override
     public void loadPlugIn(Context context) {
-
+        mContext = context;
 
         if (mCtnList == null) {
             mCtnList = new ArrayList<String>(Arrays.asList(mFragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
@@ -99,6 +123,11 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
 
     @Override
     public boolean onMainMenuItemClicked(String s) {
+        Log.v("on Main menu item","CLicked item : "+s);
+        if(s.equalsIgnoreCase(mContext.getResources().getString(R.string.launch_settings))){
+            setStateCallBack.setNextState(mContext);
+            return true;
+        }
         return false;
     }
 

@@ -31,6 +31,7 @@
     <string name="settings_list_item_my_acc">&lt;b>My Account&lt;/b></string>
     <string name="settings_list_item_login">Login</string>
     <string name="settings_list_item_log_out">Log out</string>
+    <string name="launch_settings">Launch Settings</string>
 
     <!--Settings Screen ends-->
 
