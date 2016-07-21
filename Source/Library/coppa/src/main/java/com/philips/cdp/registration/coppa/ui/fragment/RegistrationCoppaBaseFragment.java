@@ -37,7 +37,8 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     private int mLeftRightMarginPort;
 
     private int mLeftRightMarginLand;
-    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
+
+    //private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -53,9 +54,10 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         this.mPrevTitleResourceId = mPrevTitleResourceId;
     }
 
-    public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
+   /* public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
         this.mRegistrationUpdateTitleListener = listener;
-    }
+    }*/
+
     private int mPrevTitleResourceId = -99;
 
     protected static int mWidth = 0;
@@ -182,12 +184,15 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
                 final int count = fragment.getChildFragmentManager().getBackStackEntryCount();
 
-                final Fragment regFragment = fragment.getChildFragmentManager().
-                        getFragments().get(count);
-                if (regFragment != null && regFragment instanceof RegistrationFragment) {
-                    if (null != fragment.getUpdateTitleListener()) {
-                        fragment.getUpdateTitleListener().updateRegistrationTitle(((
-                                RegistrationFragment) regFragment).getCurrentTitleResource());
+                if (count > 1) {
+                    final Fragment regFragment = fragment.getChildFragmentManager().
+                            getFragments().get(count);
+
+                    if (regFragment != null && regFragment instanceof RegistrationFragment) {
+                        if (null != fragment.getUpdateTitleListener()) {
+                            fragment.getUpdateTitleListener().updateRegistrationTitle(((
+                                    RegistrationFragment) regFragment).getCurrentTitleResource());
+                        }
                     }
                 }
             }

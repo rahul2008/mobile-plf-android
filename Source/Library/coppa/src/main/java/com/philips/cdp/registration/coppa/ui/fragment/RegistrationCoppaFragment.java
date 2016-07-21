@@ -196,7 +196,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                         mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container,
                         parentalAccessFragment, "Parental Access");
-                fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 RLog.e(RLog.EXCEPTION,
@@ -414,26 +414,30 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             if (count == 0) {
                 return false;
             }
-            final Fragment fragment = mFragmentManager.getFragments().get(count);
-            if (fragment != null && fragment instanceof RegistrationFragment) {
-                final boolean isRegFragHandledBack = ((RegistrationFragment) fragment)
-                        .onBackPressed();
-                //true  not consumed
-                //false  consumed
-                if (isRegFragHandledBack) {
-                    //Message for killing fragmet app but by pass this condition not
-                    trackHandler();
-                    if (count >= 1) {
-                        mFragmentManager.popBackStack();
-                        return true;
-                    } else {
-                        return false;
+            if(count > 1){
+                final Fragment fragment = mFragmentManager.getFragments().get(count);
+                if (fragment != null && fragment instanceof RegistrationFragment) {
+                    final boolean isRegFragHandledBack = ((RegistrationFragment) fragment)
+                            .onBackPressed();
+                    //true  not consumed
+                    //false  consumed
+                    if (isRegFragHandledBack) {
+                        //Message for killing fragmet app but by pass this condition not
+                        trackHandler();
+                        if (count >= 1) {
+                            mFragmentManager.popBackStack();
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
+                } else {
+                    if (!(fragment instanceof ParentalApprovalFragment)) {
+                        trackHandler();
+                    }
+                    mFragmentManager.popBackStack();
                 }
-            } else {
-                if (!(fragment instanceof ParentalApprovalFragment)) {
-                    trackHandler();
-                }
+            }else{
                 mFragmentManager.popBackStack();
             }
         }
