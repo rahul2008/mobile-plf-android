@@ -12,10 +12,10 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +45,6 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
     private FragmentActivity mFragmentActivity = null;
     private ActionbarUpdateListener mActionBarClickListener = null;
     private ActionbarUpdateListener actionBarClickListener;
-    private ConsumerCareLauncher mConsumerCareFragment = null;
     private Context mContext;
 
     public interface SetStateCallBack{
@@ -103,14 +102,32 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
         DigitalCareConfigManager.getInstance().registerSocialProviderListener(this);
 
         DigiCareLogger.enableLogging();
-        mConsumerCareFragment = new ConsumerCareLauncher();
+
 
     }
 
 
     @Override
     public void runCoCo(Context context) {
-        mConsumerCareFragment.initCC(mFragmentActivity, actionBarClickListener);
+        if (mCtnList == null) {
+            mCtnList = new ArrayList<String>(Arrays.asList(mContext.getResources().getStringArray(R.array.productselection_ctnlist)));
+        }
+
+        if (mCtnList != null) {
+            String[] ctnList = new String[mCtnList.size()];
+            for (int i = 0; i < mCtnList.size(); i++) {
+                ctnList[i] = mCtnList.get(i);
+            }
+
+            ProductModelSelectionType productsSelection = new com.philips.cdp.productselection
+                    .productselectiontype.HardcodedProductList(ctnList);
+            productsSelection.setCatalog(Catalog.CARE);
+            productsSelection.setSector(Sector.B2C);
+
+            FragmentLauncher fragLauncher = new FragmentLauncher(mFragmentActivity, R.id.frame_container, actionBarClickListener);
+            fragLauncher.setAnimation(0, 0);
+            DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
+        }
     }
 
     @Override
@@ -124,7 +141,7 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
     @Override
     public boolean onMainMenuItemClicked(String s) {
         Log.v("on Main menu item","CLicked item : "+s);
-        if(s.equalsIgnoreCase(mContext.getResources().getString(R.string.launch_settings))){
+        if(s.equalsIgnoreCase("launch_settings")){
             setStateCallBack.setNextState(mContext);
             return true;
         }
