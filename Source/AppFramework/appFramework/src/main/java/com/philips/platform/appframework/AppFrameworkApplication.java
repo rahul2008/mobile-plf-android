@@ -15,13 +15,15 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.Locale;
 
 
 public class AppFrameworkApplication extends Application {
-    public static AppInfra gAppInfra;
+    public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
 
     @Override
@@ -29,11 +31,12 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         initializeUserRegistrationLibrary();
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
+//        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
-
     }
 
     private void initializeUserRegistrationLibrary() {

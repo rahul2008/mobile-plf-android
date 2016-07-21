@@ -46,8 +46,8 @@ import java.util.Locale;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
 
-    private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     int count = 0;
+    private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     private List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
     private TextView txt_title, configurationTextView;
@@ -89,7 +89,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
                 final String configuration = adapter.getItemAtPosition(position).toString();
-                if(adapter != null && ((TextView) adapter.getChildAt(position)) != null){
+                if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
                     ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
                 }
                 if (count > 0) {
