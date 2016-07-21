@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,13 +37,16 @@ public class XCheckBox extends LinearLayout {
     private String text;
     private TextView checkBoxTick;
     private OnCheckedChangeListener onCheckedChangeListener;
+    private Context  mContext;
 
     public XCheckBox(final Context context) {
         super(context);
+        mContext =context;
     }
 
     public XCheckBox(final Context context, final AttributeSet attrs) {
         super(context, attrs);
+        mContext =context;
         final Resources resources = getResources();
         parentView = LayoutInflater.from(context).inflate(
                 R.layout.reg_checkbox, null);
@@ -91,7 +95,10 @@ public class XCheckBox extends LinearLayout {
 
     private void changeBackGround() {
         GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setStroke(2, getResources().getColor(R.color.reg_check_box_border_color));
+        gradientDrawable.setStroke(2, ContextCompat.getColor(
+                mContext,R.color.reg_check_box_border_color));
+
+
         textLayoutParent.setBackgroundDrawable(gradientDrawable);
     }
 

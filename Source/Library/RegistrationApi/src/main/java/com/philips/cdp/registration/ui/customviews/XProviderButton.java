@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -81,7 +82,8 @@ public class XProviderButton extends RelativeLayout {
         }
 
         if (mProviderTextColorID != -1) {
-            mTvProvider.setTextColor(mContext.getResources().getColor(mProviderTextColorID));
+            mTvProvider.setTextColor(
+                    ContextCompat.getColor(mContext,mProviderTextColorID);
         }
     }
 
@@ -107,6 +109,6 @@ public class XProviderButton extends RelativeLayout {
     }
 
     public void setProviderTextColor(int providerTextColorID) {
-        mTvProvider.setTextColor(mContext.getResources().getColor(providerTextColorID));
+        mTvProvider.setTextColor(ContextCompat.getColor(mContext,providerTextColorID));
     }
 }

@@ -68,11 +68,13 @@ public class ConsumerInterestUpdate {
             stringBuilder.append(SPLITTER);
             stringBuilder.append(DOUBLE_QUOTE_SYMB + TOPIC_COMMUNICATION_KEY + DOUBLE_QUOTE_SYMB);
             stringBuilder.append(KEY_DIVIDER_SYMB);
-            stringBuilder.append(DOUBLE_QUOTE_SYMB + interest.getTopicCommunicationKey() + DOUBLE_QUOTE_SYMB);
+            stringBuilder.append(DOUBLE_QUOTE_SYMB + interest.getTopicCommunicationKey() +
+                    DOUBLE_QUOTE_SYMB);
             stringBuilder.append(SPLITTER);
             stringBuilder.append(DOUBLE_QUOTE_SYMB + CAMPAIGN_NAME + DOUBLE_QUOTE_SYMB);
             stringBuilder.append(KEY_DIVIDER_SYMB);
-            stringBuilder.append(DOUBLE_QUOTE_SYMB + interest.getCampaignName() + DOUBLE_QUOTE_SYMB);
+            stringBuilder.append(DOUBLE_QUOTE_SYMB + interest.getCampaignName() +
+                    DOUBLE_QUOTE_SYMB);
             stringBuilder.append(CLOSING_BRACE);
             stringBuilder.append(SPLITTER);
         }
@@ -82,7 +84,8 @@ public class ConsumerInterestUpdate {
     }
 
 
-    private void startUpdateTask(UpdateConsumerInterestHandler updateConsumerInterestHandler, String attributes) {
+    private void startUpdateTask(UpdateConsumerInterestHandler updateConsumerInterestHandler,
+                                 String attributes) {
         String accessToken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         List<Pair<String,String>> nameValuePair = new ArrayList<Pair<String,String>>();
@@ -95,10 +98,10 @@ public class ConsumerInterestUpdate {
         final String CONSUMER_INTERESTS = "/consumerInterests";
         final String TRUE_VALUE = "true";
 
-        nameValuePair.add(new Pair(ATTRIBUTES, attributes));
-        nameValuePair.add(new Pair(ACCESS_TOKEN, accessToken));
-        nameValuePair.add(new Pair(INCLUDE_RECORD, TRUE_VALUE));
-        nameValuePair.add(new Pair(ATTRIBUTE_NAME, CONSUMER_INTERESTS));
+        nameValuePair.add(new Pair<String, String>(ATTRIBUTES, attributes));
+        nameValuePair.add(new Pair<String, String>(ACCESS_TOKEN, accessToken));
+        nameValuePair.add(new Pair<String, String>(INCLUDE_RECORD, TRUE_VALUE));
+        nameValuePair.add(new Pair<String, String>(ATTRIBUTE_NAME, CONSUMER_INTERESTS));
 
         updateConsumerInterestTask prodRegTask = new updateConsumerInterestTask();
         prodRegTask.url = baseUrl;
@@ -135,7 +138,8 @@ public class ConsumerInterestUpdate {
 
         private void processResponse(String resultString) {
             if (resultString == null) {
-                updateConsumerInterestHandler.onUpdateConsumerInterestFailedWithError(new com.janrain.android.capture.CaptureApiError(null, null, null));
+                updateConsumerInterestHandler.onUpdateConsumerInterestFailedWithError(
+                        new com.janrain.android.capture.CaptureApiError(null, null, null));
             } else {
                 try {
                     JSONObject jsonObject = new JSONObject(resultString);
@@ -149,13 +153,17 @@ public class ConsumerInterestUpdate {
 
                             @Override
                             public void onRefreshUserFailed(int error) {
-                                updateConsumerInterestHandler.onUpdateConsumerInterestFailedWithError(null);
+                                updateConsumerInterestHandler.
+                                        onUpdateConsumerInterestFailedWithError(null);
                             }
                         });
 
 
                     } else {
-                        updateConsumerInterestHandler.onUpdateConsumerInterestFailedWithError(new com.janrain.android.capture.CaptureApiError(jsonObject, null, null));
+                        updateConsumerInterestHandler.
+                                onUpdateConsumerInterestFailedWithError(
+                                        new com.janrain.android.capture.CaptureApiError(jsonObject,
+                                                null, null));
                     }
 
                 } catch (Exception e) {
