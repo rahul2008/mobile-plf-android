@@ -211,6 +211,7 @@ public class ProductImageHelper {
 
     }
 
+    @SuppressWarnings("deprecation")
     private void setBackgroundColorToPointerView(TabletPopupWindow mPointerView) {
         Drawable mPointerImage = mActivity.getResources().getDrawable(
                 android.R.drawable.arrow_up_float);

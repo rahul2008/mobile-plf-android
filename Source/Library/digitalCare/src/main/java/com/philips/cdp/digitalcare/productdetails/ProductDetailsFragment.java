@@ -489,6 +489,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     @SuppressLint("NewApi")
+    @SuppressWarnings("deprecation")
     private Button createButton(float density, int title) {
         Button button = new Button(mActivity, null, R.style.fontButton);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
