@@ -166,7 +166,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDetach");
     }
 
-    @Override
+    /*@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
@@ -175,7 +175,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public void onViewStateRestored(Bundle savedInstanceState) {
         this.setOnUpdateTitleListener((RegistrationCoppaActivity)getActivity());
         super.onViewStateRestored(savedInstanceState);
-    }
+    }*/
 
     @Override
     public void onConfigurationChanged(Configuration config) {
