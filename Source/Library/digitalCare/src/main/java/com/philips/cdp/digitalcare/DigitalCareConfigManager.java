@@ -34,10 +34,8 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.*;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 

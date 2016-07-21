@@ -95,7 +95,7 @@ import java.util.Map;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 8 May 2015
- * <p/>
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
