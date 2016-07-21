@@ -57,6 +57,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private InlineForms serialLayout, purchaseDateLayout;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
+    private boolean loadingFlag = false;
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -322,6 +323,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void dismissLoadingDialog() {
+        loadingFlag = false;
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
@@ -333,17 +335,17 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void showLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
+        if (!loadingFlag) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             Fragment prev = getFragmentManager().findFragmentByTag("dialog");
             if (prev != null) {
                 ft.remove(prev);
+                ft.commitAllowingStateLoss();
             }
-            ft.commit();
-            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(activity.getString(R.string.PPR_Registering_Products_Lbltxt));
-            newFragment.show(activity.getSupportFragmentManager(), "dialog");
-            activity.getSupportFragmentManager().executePendingTransactions();
+            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Registering_Products_Lbltxt));
+            newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+            loadingFlag = true;
+            getActivity().getSupportFragmentManager().executePendingTransactions();
         }
     }
 }
