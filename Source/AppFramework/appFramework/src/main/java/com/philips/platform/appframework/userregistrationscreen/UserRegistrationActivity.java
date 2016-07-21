@@ -20,23 +20,25 @@ import com.philips.platform.appframework.homescreen.HomeActivity;
 /**
  * Created by 310240027 on 7/12/2016.
  */
-public class UserRegistrationActivity extends AppFrameworkBaseActivity implements UserRegistrationListener,RegistrationTitleBarListener{
+public class UserRegistrationActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        launchRegistrationFragment(R.id.frame_container_user_reg,this,true);
+        launchRegistrationFragment(R.id.frame_container_user_reg, this, true);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
     }
+
     /**
      * Launch registration fragment
      */
-    private void launchRegistrationFragment(int container, FragmentActivity fragmentActivity, boolean isAccountSettings ) {
+    private void launchRegistrationFragment(int container, FragmentActivity fragmentActivity, boolean isAccountSettings) {
         try {
             FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();

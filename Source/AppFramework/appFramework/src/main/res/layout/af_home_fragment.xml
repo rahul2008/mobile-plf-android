@@ -11,23 +11,24 @@
 
     <TextView
         android:id="@+id/title"
+        fontPath="fonts/centralesansbold.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/homescreen_left_margin"
         android:layout_marginTop="15dp"
-        android:textSize="21sp"
+        android:text="Example Title"
         android:textColor="@color/uikit_white"
-        fontPath="fonts/centralesansbold.ttf"
-        android:text="Example Title" />
+        android:textSize="21sp" />
+
     <TextView
+        fontPath="fonts/centralesansbook.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        fontPath="fonts/centralesansbook.ttf"
-        android:textColor="@color/uikit_white"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="@dimen/homescreen_left_margin"
-        android:textSize="14sp"
         android:layout_marginBottom="18dp"
-        android:text="Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit." />
+        android:layout_marginLeft="@dimen/homescreen_left_margin"
+        android:layout_marginTop="20dp"
+        android:text="Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit."
+        android:textColor="@color/uikit_white"
+        android:textSize="14sp" />
 </RelativeLayout>

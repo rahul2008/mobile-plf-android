@@ -42,8 +42,8 @@
             
         <item>Settings</item>
         <item>Debug and Testing</item>
-<!--
-        <item>Log Out</item>-->
+        <!--
+                <item>Log Out</item>-->
 
     </string-array>
 

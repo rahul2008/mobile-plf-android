@@ -55,7 +55,7 @@
         <item>@string/contact_us</item>
         <item>@string/find_philips_near_you</item>
         <item>@string/feedback</item>
-       <!-- <item>@string/myphilips_CC</item>-->
+        <!-- <item>@string/myphilips_CC</item>-->
         <item>@string/Change_Selected_Product</item>
     </array>
 
