@@ -76,11 +76,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private ScrollView mSvRootLayout;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeSocialToSocialAccountFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

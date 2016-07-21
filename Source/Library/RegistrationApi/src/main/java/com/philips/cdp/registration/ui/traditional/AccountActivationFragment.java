@@ -83,11 +83,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private boolean isEmailVerifiedError;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

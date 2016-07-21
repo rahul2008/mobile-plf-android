@@ -90,12 +90,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private ScrollView mSvRootLayout;
 
     @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
-        super.onAttach(activity);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreate");
         super.onCreate(savedInstanceState);

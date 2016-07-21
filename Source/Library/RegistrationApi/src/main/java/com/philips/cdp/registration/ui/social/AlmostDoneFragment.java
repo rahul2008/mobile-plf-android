@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -109,11 +108,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isTermsAndConditionVisible;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onAttach");
-        super.onAttach(activity);
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
