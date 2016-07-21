@@ -42,6 +42,7 @@ public class HomeActivityPresenter implements UIBasePresenter,UICoCoConsumerCare
 
     @Override
     public void setNextState(Context context) {
+        uiCoCoConsumerCareImpl.unloadCoCo();
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_SETTINGS_FRAGMENT_STATE,context);
     }

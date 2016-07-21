@@ -2,7 +2,6 @@ package com.philips.platform.modularui.cocointerface;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
@@ -140,7 +139,6 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
 
     @Override
     public boolean onMainMenuItemClicked(String s) {
-        Log.v("on Main menu item","CLicked item : "+s);
         if(s.equalsIgnoreCase("launch_settings")){
             setStateCallBack.setNextState(mContext);
             return true;
