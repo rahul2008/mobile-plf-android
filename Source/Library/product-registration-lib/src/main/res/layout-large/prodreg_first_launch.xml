@@ -24,7 +24,7 @@
         android:layout_alignLeft="@+id/conf_action_textview"
         android:layout_below="@+id/conf_action_textview"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
-        android:text="@string/pr_first_launch_subtext_first"/>
+        android:text="@string/PPR_ReceiveUpdates_Lbltxt"/>
 
     <TextView
         android:id="@+id/conf_subtext_two_textview"

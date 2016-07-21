@@ -105,13 +105,9 @@ public class ErrorHandlerTest extends MockitoTestCase {
         assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_SerialNum_Format_ErrMsg));
         assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Invalid_SerialNum_Title));
 
-        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode());
-        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Invalid_Date_And_serial_ErrMsg));
-        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Invalid_Date_And_serial_title));
-
         prodRegErrorMap = errorHandler.getError(context, ProdRegError.UNKNOWN.getCode());
-        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unknown_ErrMsg));
-        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Unknown_title));
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unknow_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Unknow_ErrMsg));
 
         prodRegErrorMap = errorHandler.getError(context, ProdRegError.MISSING_CTN.getCode());
         assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Missing_Ctn_ErrMsg));

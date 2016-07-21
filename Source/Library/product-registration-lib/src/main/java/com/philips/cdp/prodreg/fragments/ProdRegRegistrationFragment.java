@@ -341,7 +341,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 ft.remove(prev);
             }
             ft.commit();
-            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(activity.getString(R.string.prod_reg_registering_product));
+            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(activity.getString(R.string.PPR_Registering_Products_Lbltxt));
             newFragment.show(activity.getSupportFragmentManager(), "dialog");
             activity.getSupportFragmentManager().executePendingTransactions();
         }

@@ -143,7 +143,7 @@ public class ProdRegUiHelper {
     private RegisteredProduct mapToRegisteredProduct(final Product currentProduct) {
         RegisteredProduct registeredProduct = null;
         if (currentProduct != null) {
-            registeredProduct = new RegisteredProduct(currentProduct.getCtn(), currentProduct.getSector(), currentProduct.getCatalog());
+            registeredProduct = new RegisteredProduct(currentProduct.getCtn().trim(), currentProduct.getSector(), currentProduct.getCatalog());
             registeredProduct.setSerialNumber(currentProduct.getSerialNumber().trim());
             registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
             registeredProduct.sendEmail(currentProduct.getEmail());
