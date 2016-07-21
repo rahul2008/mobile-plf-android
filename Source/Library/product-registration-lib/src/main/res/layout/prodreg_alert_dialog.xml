@@ -45,7 +45,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:minWidth="@dimen/uikit_modal_alert_button_width"
-            android:text="OK"
+            android:text="@string/PPR_OK"
             android:textAllCaps="false"
             android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
     </RelativeLayout>

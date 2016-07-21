@@ -256,3 +256,12 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	2. PRA-165 - callback registering listeners inside demo app and PR component
 	3. PRA-296(UI-Kit) - Application getting crash on randomly when app sent background and open the others app
 	4. PRA-210 – Defining logging mechanism 
+	
+	Version - 1.0.2.rc8                        Date: 21-07-2016
+----------------------------------------------------------------
+	Following issues are fixed
+	
+	1. PRA-310 - "Unknown error for space" If user enter space in CTN number text filed
+	2. PRA-309 - Device keyboard is doesn't disappear after tapping on back button
+	3. PRA-312 - Application showing blur screen after user tap on "Register" button multiple times immediate
+	4. PRA-286 - Localizing the Strings

@@ -38,7 +38,7 @@
     <string name="PPR_Date_Of_Purchase_Lbltxt">Date of purchase:</string>
     <string name="PPR_Please_Enter_Date_Lbltxt">Please enter purchase date</string>
     <string name="PPR_SerialNum_Lbltxt">SerialNumber:</string>
-    <string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Please enter serial  number</string>
+    <string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Please enter serial number</string>
     <string name="PPR_Register_Btntxt">Register</string>
     <string name="PPR_Invalid_Date_ErrMsg">Please enter date between year 2000 to today\'s date</string>
     <string name="PPR_Already_Registered_title">Product registered</string>

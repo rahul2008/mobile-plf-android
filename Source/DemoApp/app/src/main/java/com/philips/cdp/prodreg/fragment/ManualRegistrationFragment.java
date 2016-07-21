@@ -69,7 +69,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             } else {
                 mDate = Integer.toString(arg3);
             }
-            SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_formate));
+            SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_format));
             mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             Date mDisplayDate;

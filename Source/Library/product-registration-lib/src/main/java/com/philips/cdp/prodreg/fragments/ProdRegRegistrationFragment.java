@@ -64,7 +64,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             final int mMonthInt = (arg2 + 1);
             String mMonth = ProdRegUtil.getValidatedString(mMonthInt);
             String mDate = ProdRegUtil.getValidatedString(arg3);
-            SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_formate));
+            SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_format));
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             try {
@@ -165,7 +165,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageSerialNumber(final EditText editTextView, final String format) {
         if (TextUtils.isEmpty(format)) {
-            serialLayout.setErrorMessage(getActivity().getString(R.string.PPR_SerialNum_Missing_ErrMsg));
+            serialLayout.setErrorMessage(getActivity().getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
         } else
             serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
         serialLayout.showError(editTextView);

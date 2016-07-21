@@ -118,7 +118,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.2.rc7"
+        versionName "1.0.2.rc8"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.cdp.test"
@@ -172,7 +172,7 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.2', ext: 'aar') {
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0-rc.8', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0', ext: 'aar') {
         transitive = true
     }
 
