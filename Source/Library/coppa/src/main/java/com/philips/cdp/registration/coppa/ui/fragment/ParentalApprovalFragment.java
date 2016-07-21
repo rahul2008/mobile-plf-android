@@ -141,7 +141,8 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        getRegistrationFragment().hideRefreshProgress();
+        getRegistrationFragment();
+        RegistrationCoppaFragment.hideRefreshProgress();
         super.onDestroy();
         if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus()
                 != null
@@ -155,7 +156,6 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
                 && !mParentalApprovalFragmentController.getCoppaExtension().
                 getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
             trackPage(AppTaggingPages.WELCOME);
-            return;
         }
     }
 
@@ -164,17 +164,6 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         super.onDetach();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDetach");
     }
-
-    /*@Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        this.setOnUpdateTitleListener((RegistrationCoppaActivity)getActivity());
-        super.onViewStateRestored(savedInstanceState);
-    }*/
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -210,7 +199,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mBtnDisAgree.setOnClickListener(mParentalApprovalFragmentController);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-        mShadowLineView = (View) view.findViewById(R.id.reg_view_shadow_line);
+        mShadowLineView = view.findViewById(R.id.reg_view_shadow_line);
         handleUiState();
     }
 

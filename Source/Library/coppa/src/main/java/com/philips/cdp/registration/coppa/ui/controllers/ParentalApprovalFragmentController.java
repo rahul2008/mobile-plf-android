@@ -23,6 +23,7 @@ import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
+import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -58,8 +59,10 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
 
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
         mParentalApprovalFragment = fragment;
-        if (mParentalApprovalFragment.getRegistrationFragment().getParentActivity() != null) {
-            mCoppaExtension = new CoppaExtension(mParentalApprovalFragment.getRegistrationFragment()
+        mParentalApprovalFragment.getRegistrationFragment();
+        if (RegistrationCoppaFragment.getParentActivity() != null) {
+            mParentalApprovalFragment.getRegistrationFragment();
+            mCoppaExtension = new CoppaExtension(RegistrationCoppaFragment
                     .getParentActivity().getApplicationContext());
             final Bundle bunble = mParentalApprovalFragment.getArguments();
             if (bunble != null) {
@@ -69,7 +72,8 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     }
 
     public void refreshUser() {
-        mParentalApprovalFragment.getRegistrationFragment().showRefreshProgress(
+        mParentalApprovalFragment.getRegistrationFragment();
+        RegistrationCoppaFragment.showRefreshProgress(
                 mParentalApprovalFragment.getActivity());
         final User user = new User(mParentalApprovalFragment.getContext());
         user.refreshUser(this);
@@ -89,13 +93,15 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     public void onRefreshUserSuccess() {
         mCoppaExtension.buildConfiguration();
         mParentalApprovalFragment.showContent();
-        mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
+        mParentalApprovalFragment.getRegistrationFragment();
+        RegistrationCoppaFragment.hideRefreshProgress();
         updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }
 
     @Override
     public void onRefreshUserFailed(int error) {
-        mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
+        mParentalApprovalFragment.getRegistrationFragment();
+        RegistrationCoppaFragment.hideRefreshProgress();
         showServerErrorAlert();
     }
 
@@ -203,7 +209,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
 
     private long hoursSinceLastConsent() {
 
-        Date date = null;
+        Date date;
         SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA,
                 Locale.ROOT);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -254,7 +260,8 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         mFragmentManager = mParentalApprovalFragment.getParentFragment().getChildFragmentManager();
         if (mFragmentManager != null) {
             try {
-                final ParentalConsentFragment parentalConsentFragment = new ParentalConsentFragment();
+                final ParentalConsentFragment parentalConsentFragment =
+                        new ParentalConsentFragment();
                 final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalConsentFragment,
                         "Parental Access");

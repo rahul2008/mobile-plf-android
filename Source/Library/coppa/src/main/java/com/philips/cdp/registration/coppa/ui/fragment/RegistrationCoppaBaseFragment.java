@@ -25,7 +25,6 @@ import android.widget.ScrollView;
 
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -33,12 +32,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import java.util.Locale;
 
 public abstract class RegistrationCoppaBaseFragment extends Fragment {
-
-    private int mLeftRightMarginPort;
-
-    private int mLeftRightMarginLand;
-
-    //private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -53,10 +46,6 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     public void setPrevTitleResourceId(int mPrevTitleResourceId) {
         this.mPrevTitleResourceId = mPrevTitleResourceId;
     }
-
-   /* public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
-        this.mRegistrationUpdateTitleListener = listener;
-    }*/
 
     private int mPrevTitleResourceId = -99;
 
@@ -81,8 +70,6 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setCustomLocale();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaBaseFragment : onCreate");
-        mLeftRightMarginPort = (int) getResources().getDimension(R.dimen.reg_layout_margin_port);
-        mLeftRightMarginLand = (int) getResources().getDimension(R.dimen.reg_layout_margin_land);
     }
 
     private void setCustomLocale() {
@@ -94,7 +81,8 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -225,7 +213,8 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                     }
                 } else {
                     if (null != fragment.getUpdateTitleListener()) {
-                        fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                        fragment.getUpdateTitleListener().updateRegistrationTitle
+                                (getTitleResourceId());
                     }
                 }
                 fragment.setResourceId(getTitleResourceId());
@@ -267,7 +256,7 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
             if (getResources().getBoolean(R.bool.isTablet)) {
                 mParams.leftMargin = mParams.rightMargin = (int) (((width / 6) * (1.75)));
             } else {
-                mParams.leftMargin = mParams.rightMargin = (int) ((width) / 6);
+                mParams.leftMargin = mParams.rightMargin =  ((width) / 6);
             }
         }
         view.setLayoutParams(mParams);
@@ -299,6 +288,7 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                     }
 
                     if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                        //noinspection deprecation
                         view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     } else {
                         view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -344,6 +334,7 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                     }
                 });
                 if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                    //noinspection deprecation
                     view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 } else {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);

@@ -32,8 +32,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 /**
  * Registration Coppa Actitivty handle back navigation and loading all Fragments
  */
-
-
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
@@ -95,7 +93,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
-        final int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
+        @SuppressWarnings("deprecation") final int alwaysFinishActivity = Settings.System.
+                getInt(getContentResolver(),
                 Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
@@ -103,7 +102,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        final int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
+        @SuppressWarnings("deprecation") final int alwaysFinishActivity = Settings.System.
+                getInt(getContentResolver(),
                 Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
