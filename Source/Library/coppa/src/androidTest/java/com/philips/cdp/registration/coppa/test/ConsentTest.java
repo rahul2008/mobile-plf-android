@@ -11,7 +11,7 @@ package com.philips.cdp.registration.coppa.test;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.coppa.base.Consent;
-import com.philips.cdp.registration.coppa.ui.RegistrationCoppaActivity;
+import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 
 /**
  * Created by 310202337 on 3/29/2016.

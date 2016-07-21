@@ -4,7 +4,7 @@
 
     <application android:allowBackup="true">
         <activity
-            android:name=".ui.RegistrationCoppaActivity"
+            android:name=".ui.activity.RegistrationCoppaActivity"
             android:configChanges="orientation|screenSize"/>
     </application>
 
