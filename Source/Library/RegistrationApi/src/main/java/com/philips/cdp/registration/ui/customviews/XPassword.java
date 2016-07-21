@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -151,7 +152,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         if (v.getId() == R.id.et_reg_password) {
             handlePassword(hasFocus);
             fireUpdateStatusEvent();
@@ -249,7 +250,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
     public void showInvalidPasswordAlert() {
-        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_error_box_color));
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_error);
         mFlInvaliFielddAlert.setVisibility(VISIBLE);
         mTvErrDescriptionView.setVisibility(VISIBLE);
@@ -257,7 +258,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private void showValidPasswordAlert() {
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         mFlInvaliFielddAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
@@ -291,12 +292,12 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
 
     public void enableMaskPassword() {
-        mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_enable_ic_color));
+        mTvMaskPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_password_mask_enable_ic_color));
         mTvMaskPassword.setOnClickListener(mMaskPasswordOnclickListener);
     }
 
     public void disableMaskPassoword() {
-        mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_disable_ic_color));
+        mTvMaskPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_password_mask_disable_ic_color));
         mTvMaskPassword.setOnClickListener(null);
     }
 

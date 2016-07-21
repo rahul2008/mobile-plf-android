@@ -136,7 +136,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     }
 
     public void showInvalidAlert() {
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mEtEmail.setTextColor( ContextCompat.getColor(mContext,R.color.reg_error_box_color));
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
     }
@@ -153,7 +153,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         if (v.getId() == R.id.et_reg_email) {
             handleEmail(hasFocus);
             raiseUpdateUIEvent();

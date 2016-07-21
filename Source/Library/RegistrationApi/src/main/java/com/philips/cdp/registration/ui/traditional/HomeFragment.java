@@ -8,12 +8,11 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -126,7 +125,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored( Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -211,7 +210,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void inflateEachProviderBtn(String provider) {
         try {
-            String providerName = "reg_"+provider;
+            String providerName = "reg_" + provider;
             String providerDrawable = "reg_" + provider + "_ic";
 
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
@@ -249,8 +248,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
                     callSocialProvider(providerName);
                     providerBtn.showProgressBar();
-                }else{
-                    scrollViewAutomatically(mRegError,mSvRootLayout);
+                } else {
+                    scrollViewAutomatically(mRegError, mSvRootLayout);
                     enableControls(false);
                     mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
                 }
@@ -307,12 +306,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 
 
-
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
 
-       // handleJanrainInitPb();
-       // enableControls(NetworkUtility.isNetworkAvailable(mContext));
+        // handleJanrainInitPb();
+        // enableControls(NetworkUtility.isNetworkAvailable(mContext));
         handleUiState();
     }
 
@@ -356,8 +354,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
-    private void makeProgressVisible(){
-        if(getView() != null) {
+    private void makeProgressVisible() {
+        if (getView() != null) {
             getView().findViewById(R.id.sv_root_layout).setVisibility(View.INVISIBLE);
             getView().findViewById(R.id.ll_root_layout).setVisibility(View.VISIBLE);
         }
@@ -378,17 +376,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void setViewParams(Configuration config, int width) {
-            applyParams(config, mTvWelcome, width);
-            applyParams(config, mTvWelcomeDesc, width);
-            applyParams(config, mLlCreateBtnContainer, width);
-            applyParams(config, mLlLoginBtnContainer, width);
-            applyParams(config, mTvTermsAndConditionDesc, width);
-            applyParams(config, mTvWelcomeNeedAccount, width);
+        applyParams(config, mTvWelcome, width);
+        applyParams(config, mTvWelcomeDesc, width);
+        applyParams(config, mLlCreateBtnContainer, width);
+        applyParams(config, mLlLoginBtnContainer, width);
+        applyParams(config, mTvTermsAndConditionDesc, width);
+        applyParams(config, mTvWelcomeNeedAccount, width);
     }
 
     @Override
     protected void handleOrientation(View view) {
-            handleOrientationOnView(view);
+        handleOrientationOnView(view);
     }
 
     @Override
@@ -402,16 +400,16 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onEventReceived(String event) {
         RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived isHomeFragment :onEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-           // handleJanrainInitPb();
+            // handleJanrainInitPb();
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
-           // enableControls(false);
-           // handleJanrainInitPb();
+            // enableControls(false);
+            // handleJanrainInitPb();
         } else if (RegConstants.PARSING_COMPLETED.equals(event)) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     enableControls(true);
-                   // handleSocialProvider();
+                    // handleSocialProvider();
                 }
             });
 
@@ -425,8 +423,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-                mRegError.hideError();
-                enableControls(true);
+            mRegError.hideError();
+            enableControls(true);
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
@@ -436,7 +434,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void enableControls(boolean clickableState) {
-        if(clickableState){
+        if (clickableState) {
             mRegError.hideError();
         }
         handleBtnClickableStates(clickableState);
@@ -499,9 +497,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         pTvPrivacyPolicy.setText(spanableString);
         pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
-        pTvPrivacyPolicy.setLinkTextColor(getResources().getColor(
+        pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
                 R.color.reg_hyperlink_highlight_color));
-        pTvPrivacyPolicy.setHighlightColor(getResources().getColor(android.R.color.transparent));
+        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
     }
 
     private ClickableSpan privacyClickListener = new ClickableSpan() {
@@ -540,9 +538,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         pTvPrivacyPolicy.setText(spanableString);
         pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
-        pTvPrivacyPolicy.setLinkTextColor(getResources().getColor(
+        pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
                 R.color.reg_hyperlink_highlight_color));
-        pTvPrivacyPolicy.setHighlightColor(getResources().getColor(android.R.color.transparent));
+        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
     }
 
     private void removeUnderlineFromLink(SpannableString spanableString) {
@@ -610,7 +608,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchAccountActivationFragment() {
-       getRegistrationFragment().launchAccountActivationFragmentForLogin();
+        getRegistrationFragment().launchAccountActivationFragmentForLogin();
     }
 
     private void launchWelcomeFragment() {
@@ -632,7 +630,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void hideProviderProgress() {
 
-        if(getView() == null){
+        if (getView() == null) {
             return;
         }
 
@@ -682,7 +680,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
                 hideProviderProgress();
                 enableControls(true);
-                RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"+ prefilledRecord);
+                RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :" + prefilledRecord);
                 launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
             }
         });
@@ -770,7 +768,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "HomeFragment :onNetWorkStateReceived state :" + isOnline);
-        if(!isOnline){
+        if (!isOnline) {
             hideProviderProgress();
         }
         handleUiState();

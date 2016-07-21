@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.coppa.utils;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -41,10 +42,10 @@ public class RegCoppaUtility {
 
         privacyTextView.setText(spanableString);
         privacyTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        privacyTextView.setLinkTextColor(activity.getResources().getColor(
+        privacyTextView.setLinkTextColor(ContextCompat.getColor(activity,
                 R.color.reg_hyperlink_highlight_color));
-        privacyTextView.setHighlightColor(activity.getResources()
-                .getColor(android.R.color.transparent));
+        privacyTextView.setHighlightColor(ContextCompat.getColor(activity,
+                android.R.color.transparent));
     }
 
     private static void removeUnderlineFromLink(SpannableString spanableString) {
