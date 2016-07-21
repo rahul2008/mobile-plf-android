@@ -10,7 +10,7 @@ package com.philips.cdp.registration.coppa.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
+import com.philips.cdp.registration.coppa.ui.RegistrationCoppaActivity;
 
 /**
  * Created by 310202337 on 3/28/2016.

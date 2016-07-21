@@ -81,10 +81,8 @@ public class XProviderButton extends RelativeLayout {
             mFlProvider.setBackgroundResource(mProviderBackgroundID);
         }
 
-        if (mProviderTextColorID != -1) {
-            mTvProvider.setTextColor(
-                    ContextCompat.getColor(mContext,mProviderTextColorID);
-        }
+        if (mProviderTextColorID != -1) mTvProvider.setTextColor(
+                ContextCompat.getColor(mContext, mProviderTextColorID));
     }
 
     public void showProgressBar() {

@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -80,11 +79,13 @@ public abstract class RegistrationBaseFragment extends Fragment {
         Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
         Configuration config = new Configuration();
         config.locale = RegistrationHelper.getInstance().getLocale(getContext());
-        getActivity().getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
+        getActivity().getResources().updateConfiguration(config,
+                getActivity().getResources().getDisplayMetrics());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -103,13 +104,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onResume() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
-
         super.onResume();
-
-
         setCurrentTitle();
-
-
     }
 
     @Override
@@ -226,7 +222,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
             if (getResources().getBoolean(R.bool.isTablet)) {
                 mParams.leftMargin = mParams.rightMargin = (int) (((width / 6) * (1.75)));
             } else {
-                mParams.leftMargin = mParams.rightMargin = (int) ((width) / 6);
+                mParams.leftMargin = mParams.rightMargin =  ((width) / 6);
             }
         }
         view.setLayoutParams(mParams);
@@ -288,6 +284,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         }
         if (mWidth == 0 && mHeight == 0) {
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @SuppressWarnings("deprecation")
                 @Override
                 public void onGlobalLayout() {
                     Configuration config = getResources().getConfiguration();
@@ -341,7 +338,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -356,6 +353,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
+            @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
                 new Handler().post(new Runnable() {

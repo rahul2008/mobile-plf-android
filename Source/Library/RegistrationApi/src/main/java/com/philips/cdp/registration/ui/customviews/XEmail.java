@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -10,6 +9,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -123,14 +123,14 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private void showEmailIsInvalidAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_error_box_color));
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
         mTvErrDescriptionView.setVisibility(VISIBLE);
     }
 
     private void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
@@ -203,10 +203,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             mValidEmail = true;
         } else {
             if (mEtEmail.getText().toString().trim().length() == 0) {
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ALERT, AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ALERT,
+                        AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
                 setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
             }
             showEmailIsInvalidAlert();

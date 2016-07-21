@@ -6,7 +6,7 @@
  *
  */
 
-package com.philips.cdp.registration.coppa.ui.activity;
+package com.philips.cdp.registration.coppa.ui;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
