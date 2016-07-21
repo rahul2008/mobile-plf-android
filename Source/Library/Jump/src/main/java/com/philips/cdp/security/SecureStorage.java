@@ -1,3 +1,10 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
+ */
 package com.philips.cdp.security;
 
 import android.content.Context;
@@ -15,9 +22,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 public class SecureStorage {
@@ -29,19 +41,20 @@ public class SecureStorage {
         mContext = pContext;
     }
 
-    private static byte[] SECRET_KEY;
+    private static byte[] secretKey;
 
     public static byte[] encrypt(String text) {
         //  storeSecretKey();
-        SECRET_KEY = SKey.generateSecretKey();
+        secretKey = SKey.generateSecretKey();
         try {
-            Key key = (Key) new SecretKeySpec(SECRET_KEY, AES);
+            final Key key = (Key) new SecretKeySpec(secretKey, AES);
             Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return cipher.doFinal(text.getBytes());
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
+                BadPaddingException | IllegalBlockSizeException e) {
+            e.printStackTrace();
         }
 
         return null;
@@ -53,9 +66,9 @@ public class SecureStorage {
 
         try {
             //Read from file
-            FileInputStream fis = mContext.openFileInput(pFileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Object object = ois.readObject();
+            final FileInputStream fis = mContext.openFileInput(pFileName);
+            final ObjectInputStream ois = new ObjectInputStream(fis);
+            final Object object = ois.readObject();
             byte[] plainBytes = null;
             if (object instanceof byte[]) {
                 plainBytes = (byte[]) object;
@@ -67,12 +80,11 @@ public class SecureStorage {
             ois.close();
 
             //Encrypt the contents of file
-            FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            final FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
+            final ObjectOutputStream oos = new ObjectOutputStream(fos);
             byte[] ectext = null;
             if (plainBytes != null) {
                 ectext = SecureStorage.encrypt(new String(plainBytes));
-                byte[] decr = SecureStorage.decrypt(ectext);
             }
 
             oos.writeObject(ectext);
@@ -87,14 +99,15 @@ public class SecureStorage {
 
     public static String objectToString(Serializable obj) {
         try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            final ObjectOutputStream oos = new ObjectOutputStream(
                     new Base64OutputStream(baos, Base64.NO_PADDING
                             | Base64.NO_WRAP));
             oos.writeObject(obj);
             oos.close();
             return baos.toString("UTF-8");
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -114,23 +127,24 @@ public class SecureStorage {
 
     public static byte[] decrypt(byte[] encByte) {
         //storeSecretKey();
-        SECRET_KEY = SKey.generateSecretKey();
+        secretKey = SKey.generateSecretKey();
         try {
-            Key key = (Key) new SecretKeySpec(SECRET_KEY, AES);
-            Cipher cipher = Cipher.getInstance(AES);
+            final Key key = (Key) new SecretKeySpec(secretKey, AES);
+            final Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(encByte);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (NoSuchAlgorithmException | InvalidKeyException |
+                NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     public static void generateSecretKey() {
-        if (SECRET_KEY == null) {
+        if (secretKey == null) {
             //storeSecretKey();
-            SECRET_KEY = SKey.generateSecretKey();
+            secretKey = SKey.generateSecretKey();
         }
     }
 

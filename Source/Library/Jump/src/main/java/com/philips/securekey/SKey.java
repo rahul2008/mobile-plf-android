@@ -1,3 +1,10 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
+ */
 package com.philips.securekey;
 
 import android.provider.Settings;
@@ -11,35 +18,29 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class SKey {
-private static char[] key;
-    private static char[] oldKey;
-    private static byte[] SECRET_KEY;
+    private static char[] key;
+    private static byte[] secretKey;
 
     private static void storeSecretKey() {
-        final byte[] salt = Settings.Secure.ANDROID_ID.getBytes();
         key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray(); // Since we don't have
         // a way to store key in file unlike iOS who have keychain, the
         // key will be saved as constant in this file and proguard obfuscated.
-        oldKey = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();// Since we don't
-        // have a way to store key in file unlike iOS who have keychain,
-        // the  key will be saved as constant in this file and proguard obfuscated.
         try {
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            KeySpec ks = new PBEKeySpec(key, salt, 1024, 128);
+            KeySpec ks = new PBEKeySpec(key, Settings.Secure.ANDROID_ID.getBytes(), 1024, 128);
             SecretKey s = f.generateSecret(ks);
-            SECRET_KEY = s.getEncoded();
+            secretKey = s.getEncoded();
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
 
-    public static byte[] generateSecretKey(){
-        if(SECRET_KEY == null){
-             storeSecretKey();
+    public static byte[] generateSecretKey() {
+        if (secretKey == null) {
+            storeSecretKey();
         }
-        return SECRET_KEY;
+        return secretKey;
 
     }
-
 
 }
