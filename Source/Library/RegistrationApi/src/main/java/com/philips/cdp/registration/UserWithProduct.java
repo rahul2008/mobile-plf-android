@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -38,7 +37,7 @@ import java.util.List;
 public class UserWithProduct extends User implements LocaleMatchListener {
 
     public UserWithProduct(Context context) {
-        super( context);
+        super(context);
     }
 
     private String LOG_TAG = "UserWithProduct";
@@ -103,7 +102,7 @@ public class UserWithProduct extends User implements LocaleMatchListener {
             countryCode = "US";
         }
 
-       // RegistrationHelper userSettings = RegistrationHelper.getInstance();
+        // RegistrationHelper userSettings = RegistrationHelper.getInstance();
         UserRegistrationInitializer userSettings = UserRegistrationInitializer.getInstance();
         mProdInfo = prodRegInfo;
         mProdRegHandler = productRegisterHandler;
@@ -119,8 +118,8 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         String prodRegUrl = mProdRegBaseUrl + mProdInfo.getSector() + "/" + locale + "/"
                 + mProdInfo.getCatalog() + "/products/" + mProdInfo.getProductModelNumber()
                 + ".register.type.product?";
-        List<Pair<String,String>> params = new ArrayList<>();
-        params.add(new Pair(PRODUCT_SERIAL_NO, mProdInfo
+        List<Pair<String, String>> params = new ArrayList<Pair<String, String>>();
+        params.add(new Pair<String, String>(PRODUCT_SERIAL_NO, mProdInfo
                 .getProductSerialNumber()));
         params.add(new Pair<String, String>(PRODUCT_PURCHASE_DATE, mProdInfo.getPurchaseDate()));
         params.add(new Pair<String, String>(PRODUCT_REGISTRATION_CHANNEL, "MS" + MICROSITE_ID));
@@ -145,7 +144,7 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         String url;
 
 
-        List<Pair<String,String>> nameValuePairs;
+        List<Pair<String, String>> nameValuePairs;
         ProductRegistrationHandler productRegister;
 
         String locale;
@@ -267,7 +266,7 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
-           // String resultString = httpClient.connectWithHttpGet(url, accessToken);
+            // String resultString = httpClient.connectWithHttpGet(url, accessToken);
             String resultString = httpClient.callGet(url, accessToken);
             return resultString;
         }
@@ -285,7 +284,7 @@ public class UserWithProduct extends User implements LocaleMatchListener {
     @Override
     public void onLocaleMatchRefreshed(String locale) {
         PILLocaleManager manager = new PILLocaleManager(mContext);
-        PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext,locale,
+        PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext, locale,
                 Platform.PRX, mProdInfo.getSector(), mProdInfo.getCatalog());
 
         if (null != pilLocaleInstance) {

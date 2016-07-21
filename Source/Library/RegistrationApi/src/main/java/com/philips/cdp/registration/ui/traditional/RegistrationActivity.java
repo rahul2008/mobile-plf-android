@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -90,14 +89,18 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
+                getInt(getContentResolver(),
+                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
        super.onRestoreInstanceState(savedInstanceState);
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
+                getInt(getContentResolver(),
+                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
       }
 
@@ -132,7 +135,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     @Override
     protected void onDestroy() {
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener,Context");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener," +
+                "Context");
         super.onDestroy();
     }
 

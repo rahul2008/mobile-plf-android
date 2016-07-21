@@ -98,8 +98,13 @@ public class XCheckBox extends LinearLayout {
         gradientDrawable.setStroke(2, ContextCompat.getColor(
                 mContext,R.color.reg_check_box_border_color));
 
-
-        textLayoutParent.setBackgroundDrawable(gradientDrawable);
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            //noinspection deprecation
+            textLayoutParent.setBackgroundDrawable(gradientDrawable);
+        } else {
+            textLayoutParent.setBackground(gradientDrawable);
+        }
     }
 
 

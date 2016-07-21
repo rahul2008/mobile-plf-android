@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -44,7 +43,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler, XCheckBox.OnCheckedChangeListener {
+        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler,
+        XCheckBox.OnCheckedChangeListener {
 
     private TextView mTvWelcome;
 
@@ -83,7 +83,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
@@ -176,8 +177,9 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
         mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
-        mCbTerms.setVisibility(view.VISIBLE);
+        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(),
+                mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
+        mCbTerms.setVisibility(View.VISIBLE);
         mCbTerms.setChecked(mUser.getReceiveMarketingEmail());
         mCbTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -195,9 +197,12 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         mAccessAccountSettingsLink = (TextView) view.findViewById(R.id.tv_reg_more_account_Setting);
 
-        mFlReceivePhilipsNewsContainer = (FrameLayout) view.findViewById(R.id.fl_reg_receive_philips_news);
-        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
-        RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
+        mFlReceivePhilipsNewsContainer = (FrameLayout) view.
+                findViewById(R.id.fl_reg_receive_philips_news);
+        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView,
+                getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
+        RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink,
+                getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
         mTvWelcome.setText(getString(R.string.reg_Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
 
@@ -369,7 +374,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         @Override
         public void onClick(View widget) {
             RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(RegConstants.PHILIPS_LOGIN_URL));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(RegConstants.PHILIPS_LOGIN_URL));
             startActivity(browserIntent);
         }
     };

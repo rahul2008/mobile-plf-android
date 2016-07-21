@@ -22,7 +22,8 @@ public class AppTagging {
 
 
     public static void trackPage(String currPage) {
-        AppTaggingInterface aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
+        @SuppressWarnings("deprecation") AppTaggingInterface aiAppTaggingInterface =
+                AppInfraSingleton.getInstance().getTagging();
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         aiAppTaggingInterface.trackPageWithInfo(currPage, commonGoalsMap);
     }
@@ -32,14 +33,16 @@ public class AppTagging {
     }
 
     public static void trackAction(String state, String key, String value) {
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                getAppInfraInstance().getTagging();
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         commonGoalsMap.put(key, value);
         aiAppTaggingInterface.trackActionWithInfo(state, commonGoalsMap);
     }
 
     public static void trackMultipleActions(String state, Map<String, String> map) {
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                getAppInfraInstance().getTagging();
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         commonGoalsMap.putAll(map);
         aiAppTaggingInterface.trackActionWithInfo(state, map);
@@ -51,12 +54,14 @@ public class AppTagging {
     }
 
     public static void pauseCollectingLifecycleData() {
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                getAppInfraInstance().getTagging();
         aiAppTaggingInterface.pauseLifecycleInfo();
     }
 
     public static void collectLifecycleData(Activity activity) {
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                getAppInfraInstance().getTagging();
         aiAppTaggingInterface.collectLifecycleInfo(activity);
     }
 

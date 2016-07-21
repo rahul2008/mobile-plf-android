@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -172,12 +171,15 @@ public abstract class RegistrationBaseFragment extends Fragment {
         if(null != fragment) {
             if (fragment.getFragmentCount() > 1) {
                 if (this instanceof WelcomeFragment && null!=fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
-                } else if (this instanceof HomeFragment && null!=fragment.getUpdateTitleListener()) {
+                    fragment.getUpdateTitleListener().
+                            updateRegistrationTitleWithOutBack(getTitleResourceId());
+                } else if (this instanceof HomeFragment && null!=fragment.
+                        getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
                 } else {
                     if(null!=fragment.getUpdateTitleListener())
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                            getTitleResourceId());
                 }
             } else {
                 if(null!=fragment.getUpdateTitleListener())
@@ -274,7 +276,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
-    protected void trackMultipleActionsMap(String state, HashMap map) {
+    protected void trackMultipleActionsMap(String state, HashMap<String, String> map) {
         AppTagging.trackMultipleActions(state, map);
     }
 
@@ -344,13 +346,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
         view.requestFocus();
-      /* scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.scrollTo(0, view.getTop());
-            }
-        });*/
-
         scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @SuppressWarnings("deprecation")
