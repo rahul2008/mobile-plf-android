@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -29,20 +30,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by 310190722 on 8/6/2015.
- */
+
 public class RegUtility {
 
-
-    private static final String FILE_NAME = "FILE_NAME";
-    private static final String TRADITIONAL_PASSWORD_ID = "TRADITIONAL_PASSWORD_ID";
     private static long createAccountStartTime;
 
     public static int getCheckBoxPadding(Context context) {
         float scale = context.getResources().getDisplayMetrics().density;
         int padding;
-        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN || android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN ||
+                android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) {
             padding = (int) (35 * scale + 0.5f);
         } else {
             padding = (int) (10 * scale + 0.5f);
@@ -52,7 +49,9 @@ public class RegUtility {
 
 
 
-    public static void linkifyTermsandCondition(TextView termsAndConditionsAcceptance, final Activity activity, ClickableSpan termsAndConditionClickListener) {
+    public static void linkifyTermsandCondition(
+            TextView termsAndConditionsAcceptance,
+            final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
         String termsAndCondition = activity.getString(R.string.reg_TermsAndConditionsAcceptanceText);
         String acceptTermsAndCondition = activity.getString(R.string.reg_TermsAndConditionsText);
@@ -63,18 +62,20 @@ public class RegUtility {
 
         int termStartIndex = termsAndCondition.toLowerCase().indexOf(
                 terms.toLowerCase());
-        spanableString.setSpan(termsAndConditionClickListener, termStartIndex, termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanableString.setSpan(termsAndConditionClickListener, termStartIndex,
+                termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         removeUnderlineFromLink(spanableString);
-
         termsAndConditionsAcceptance.setText(spanableString);
         termsAndConditionsAcceptance.setMovementMethod(LinkMovementMethod.getInstance());
-        termsAndConditionsAcceptance.setLinkTextColor(activity.getResources().getColor(
-                R.color.reg_hyperlink_highlight_color));
-        termsAndConditionsAcceptance.setHighlightColor(activity.getResources().getColor(android.R.color.transparent));
+        termsAndConditionsAcceptance.setLinkTextColor(ContextCompat.
+                getColor(activity, R.color.reg_hyperlink_highlight_color));
+        termsAndConditionsAcceptance.setHighlightColor(ContextCompat.getColor
+                (activity,android.R.color.transparent));
     }
 
-    public static void linkifyPhilipsNews(TextView receivePhilipsNewsView, final Activity activity, ClickableSpan receivePhilipsNewsClickListener) {
-
+    public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
+                                          final Activity activity, ClickableSpan
+                                                  receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_Receive_Philips_News_lbltxt);
         String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
@@ -84,18 +85,22 @@ public class RegUtility {
 
         int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
                 link.toLowerCase());
-        spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex
+                + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         removeUnderlineFromLink(spanableString);
 
         receivePhilipsNewsView.setText(spanableString);
         receivePhilipsNewsView.setMovementMethod(LinkMovementMethod.getInstance());
-        receivePhilipsNewsView.setLinkTextColor(activity.getResources().getColor(
+        receivePhilipsNewsView.setLinkTextColor(ContextCompat.getColor(activity,
                 R.color.reg_hyperlink_highlight_color));
-        receivePhilipsNewsView.setHighlightColor(activity.getResources().getColor(android.R.color.transparent));
+        receivePhilipsNewsView.setHighlightColor
+                (ContextCompat.getColor(activity,android.R.color.transparent));
 
     }
 
-    public static void linkifyAccountSettingPhilips(TextView accountSettingPhilipsNews, final Activity activity, ClickableSpan accountSettingsPhilipsClickListener) {
+    public static void linkifyAccountSettingPhilips(
+            TextView accountSettingPhilipsNews, final Activity activity,
+            ClickableSpan accountSettingsPhilipsClickListener) {
 
         String moreAccountSettings = activity.getString(R.string.reg_Access_More_Account_Setting_lbltxt);
         String doesThisMeanStr = activity.getString(R.string.reg_Philips_URL_txt);
@@ -107,15 +112,17 @@ public class RegUtility {
 
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
                 link.toLowerCase());
-        spanableString.setSpan(accountSettingsPhilipsClickListener, termStartIndex, termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanableString.setSpan(accountSettingsPhilipsClickListener, termStartIndex,
+                termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         removeUnderlineFromLink(spanableString);
 
         accountSettingPhilipsNews.setText(spanableString);
         accountSettingPhilipsNews.setMovementMethod(LinkMovementMethod.getInstance());
-        accountSettingPhilipsNews.setLinkTextColor(activity.getResources().getColor(
-                R.color.reg_hyperlink_highlight_color));
-        accountSettingPhilipsNews.setHighlightColor(activity.getResources().getColor(android.R.color.transparent));
+        accountSettingPhilipsNews.setLinkTextColor(ContextCompat.getColor
+                        (activity,R.color.reg_hyperlink_highlight_color));
+        accountSettingPhilipsNews.setHighlightColor(ContextCompat.getColor
+                (activity,android.R.color.transparent));
     }
 
 
@@ -170,7 +177,8 @@ public class RegUtility {
                 ArrayList<String> value = entry.getValue();
                 for(String val : value){
                     if(providers.get(countryKeyCode).contains(SocialProvider.TWITTER)){
-                        throw new RuntimeException( SocialProvider.TWITTER +" Provider is not supporting");
+                        throw new RuntimeException( SocialProvider.TWITTER +
+                                " Provider is not supporting");
                     }
                 }
             }
