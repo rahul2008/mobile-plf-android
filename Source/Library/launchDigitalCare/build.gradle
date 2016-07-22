@@ -86,12 +86,12 @@ android {
         simulator {
             applicationId 'com.philips.cl.di.dev.pa'
             versionCode 601
-            versionName '6.0.0.2'
+            versionName '6.0.0.3'
         }
         device {
             applicationId 'com.philips.cl.di.dev.pa'
             versionCode 601
-            versionName '6.0.0.2'
+            versionName '6.0.0.3'
         }
     }
 
