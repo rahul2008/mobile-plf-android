@@ -62,16 +62,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         if (bundle != null) {
             isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
             isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
-            final int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
-            if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            }
+            final int sOrientation = bundle.getInt(RegConstants.ORIENTAION, -1);
+            setOrientation(sOrientation);
         }
 
         int alwaysFinishActivity = 0;
@@ -86,6 +78,18 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             initUi();
         }
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity  Register: NetworStateListener");
+    }
+
+    private void setOrientation(int sOrientation) {
+        if (sOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else if (sOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else if (sOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        } else if (sOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        }
     }
 
     @Override
