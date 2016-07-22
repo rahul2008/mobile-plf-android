@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,9 +51,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     private List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
-    private TextView txt_title, configurationTextView;
+    private TextView  configurationTextView;
     private Spinner spinner;
-    private ListView listview;
     private SharedPreferences sharedPreferences;
     private Context context;
     private TextView version;
@@ -79,6 +79,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         final int position = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
         setSpinnerSelection(position);
         spinner.setOnItemSelectedListener(getSpinnerListener());
+        configurationTextView.setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
+
     }
 
     @NonNull
@@ -109,6 +111,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                     }
                     Log.d(TAG, "After Configuration" + configuration);
                     configurationTextView.setText(configuration);
+
                 }
                 count++;
             }
@@ -124,10 +127,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             spinner.setSelection(position);
 
             configurationTextView.setText(configurationType[position]);
-            configurationTextView.setTextColor(getResources().getColor(R.color.white));
         } else {
             configurationTextView.setText(configurationType[0]);
-            configurationTextView.setTextColor(getResources().getColor(R.color.white));
         }
     }
 

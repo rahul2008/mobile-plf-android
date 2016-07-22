@@ -170,7 +170,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
                 super.onDrawerOpened(drawerView);
             }
         };
-        philipsDrawerLayout.setDrawerListener(drawerToggle);
+        philipsDrawerLayout.addDrawerListener(drawerToggle);
     }
 
     private void setHamburgerAdaptor() {
