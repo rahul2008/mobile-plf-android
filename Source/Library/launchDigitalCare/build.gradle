@@ -46,11 +46,13 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
+            //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library
+            // /launchDigitalCare/proguard.pro'
             minifyEnabled true
             proguardFile 'proguard.pro'
             //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            // proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
+            // proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/
+            // launchDigitalCare/proguard.pro'
         }
     }
 
@@ -104,7 +106,7 @@ calabash {
 }
 
 dependencies {
-    //  compile project(':digitalCare')
+    compile project(':digitalCare')
     compile 'com.android.support:recyclerview-v7:+'
     //compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.1.0', ext: 'aar')
     //compile 'com.android.support:design:23.1.1'
@@ -115,10 +117,10 @@ dependencies {
     //compile 'com.philips.cdp:Tagging:3.0.0@aar'
     compile 'com.android.support:multidex:+'
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '6.0.0-rc.2', ext: 'aar')
+/*    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '6.0.0-rc.2', ext: 'aar')
             {
                 transitive true
-            }
+            }*/
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
