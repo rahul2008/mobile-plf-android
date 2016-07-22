@@ -18,7 +18,7 @@ public class AppInfraHelper {
 
     private static volatile AppInfraHelper mAnalyticsHelper = null;
     private AppTaggingInterface mAppTaggingInterface;
-    private LoggingInterface mIAPLoggingInterface;
+    private LoggingInterface mIapLoggingInterface;
 
     private AppInfraHelper() {
     }
@@ -34,12 +34,12 @@ public class AppInfraHelper {
         return mAnalyticsHelper;
     }
 
-    public AppTaggingInterface getAIAppTaggingInterface() {
+    public AppTaggingInterface getIapTaggingInterface() {
         return mAppTaggingInterface;
     }
 
-    public LoggingInterface getIAPLoggingInterfaceInterface() {
-        return mIAPLoggingInterface;
+    public LoggingInterface getIapLoggingInterfaceInterface() {
+        return mIapLoggingInterface;
     }
 
     public synchronized void initializeAppInfra(final Context context) {
@@ -52,7 +52,7 @@ public class AppInfraHelper {
         mAppTaggingInterface = appInfra.getTagging().
                 createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
         mAppTaggingInterface.setPreviousPage("IAPDemo");
-        mIAPLoggingInterface=appInfra.getLogging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
+        mIapLoggingInterface=appInfra.getLogging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
         IAPLog.enableLogging(true);
         mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }

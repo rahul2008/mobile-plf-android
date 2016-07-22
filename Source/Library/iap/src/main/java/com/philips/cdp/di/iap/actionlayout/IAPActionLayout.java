@@ -27,13 +27,13 @@ import java.util.List;
  */
 public class IAPActionLayout implements ActionLayoutCallBack {
 
-    protected View mBackButton;
-    protected ViewGroup mMainLayout;
-    protected Drawable mCartIconDrawable;
-    protected Drawable mBackDrawable;
+    private View mBackButton;
+    private ViewGroup mMainLayout;
+    private Drawable mCartIconDrawable;
+    private Drawable mBackDrawable;
 
-    protected FragmentManager v4FragManager;
-    protected Context mContext;
+    private FragmentManager v4FragManager;
+    private Context mContext;
 
     public IAPActionLayout(Context context, FragmentManager v4FragManager) {
         this.mContext = context;

@@ -7,8 +7,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +60,9 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private View mPaymentDivider;
     private TextView mShippingStatus;
     private LinearLayout mProductListView;
+    private  Button mBuyNow;
+    private Button mCancelOrder;
+    private LinearLayout mTrackOrderLayout;
 
 
     @Override
@@ -86,20 +87,16 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
-        Button mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
+        mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
-        Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
+        mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
-       LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
+        mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
         mTrackOrderLayout.setOnClickListener(this);
         mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
-      //  RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-    //    mProductListView.setLayoutManager(layoutManager);
-   //     mProductListView.setNestedScrollingEnabled(false);
         mShippingStatus = (TextView) view.findViewById(R.id.shipping_status);
 
         mAdapter = new OrderDetailAdapter(mContext, mProducts);
-  //      mProductListView.setAdapter(mAdapter);
         mPaymentDivider = view.findViewById(R.id.payment_divider);
 
         Bundle bundle = getArguments();
@@ -107,7 +104,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
             if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(IAPConstant.ORDER_COMPLETED.equalsIgnoreCase(bundle.getString(IAPConstant.ORDER_STATUS))))
                 mTrackOrderLayout.setVisibility(View.GONE);
             if (bundle.containsKey(IAPConstant.ORDER_DETAIL)) {
-                // List<OrderDetail> detailList = (ArrayList);
                 mOrderDetail = bundle.getParcelable(IAPConstant.ORDER_DETAIL);
                 updateUIwithDetails(mOrderDetail);
             }
@@ -134,14 +130,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         fragment.setArguments(args);
         return fragment;
     }
-
-//    private void updateOrderDetailOnResume(String purchaseId) {
-//        OrderController controller = new OrderController(mContext, this);
-//        if (!Utility.isProgressDialogShowing()) {
-//            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-//            controller.getOrderDetails(purchaseId);
-//        }
-//    }
 
     @Override
     public void onGetOrderList(Message msg) {

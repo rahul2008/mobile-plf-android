@@ -13,9 +13,9 @@ import java.util.Map;
 public class IAPAnalytics {
 
     public static void trackPage(String currentPage) {
-        if (AppInfraHelper.getInstance().getAIAppTaggingInterface() != null) {
+        if (AppInfraHelper.getInstance().getIapTaggingInterface() != null) {
             Map<String, String> map = new HashMap<>();
-            AppInfraHelper.getInstance().getAIAppTaggingInterface().
+            AppInfraHelper.getInstance().getIapTaggingInterface().
                     trackPageWithInfo(currentPage, map);
 //            AppInfraHelper.getInstance().getAIAppTaggingInterface().setPreviousPage(currentPage);
         }
@@ -23,14 +23,14 @@ public class IAPAnalytics {
 
     public static void trackAction(String state, String key, Object value) {
         String valueObject = (String) value;
-        if (AppInfraHelper.getInstance().getAIAppTaggingInterface() != null)
-            AppInfraHelper.getInstance().getAIAppTaggingInterface().
+        if (AppInfraHelper.getInstance().getIapTaggingInterface() != null)
+            AppInfraHelper.getInstance().getIapTaggingInterface().
                     trackActionWithInfo(state, key, valueObject);
     }
 
     public static void trackMultipleActions(String state, Map<String, String> map) {
-        if (AppInfraHelper.getInstance().getAIAppTaggingInterface() != null)
-            AppInfraHelper.getInstance().getAIAppTaggingInterface().
+        if (AppInfraHelper.getInstance().getIapTaggingInterface() != null)
+            AppInfraHelper.getInstance().getIapTaggingInterface().
                     trackActionWithInfo(state, map);
     }
 

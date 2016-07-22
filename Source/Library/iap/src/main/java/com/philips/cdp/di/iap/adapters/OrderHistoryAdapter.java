@@ -5,10 +5,7 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -25,13 +22,10 @@ import com.philips.cdp.di.iap.response.orders.ProductData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -122,21 +116,22 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void getNetworkImage(final NetworkImageView imageView, final String imageURL) {
-        ImageLoader mImageLoader;
+        ImageLoader imageLoader;
         // Instantiate the RequestQueue.
-        mImageLoader = NetworkImageLoader.getInstance(mContext)
+        imageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
 
-        mImageLoader.get(imageURL, ImageLoader.getImageListener(imageView,
+        imageLoader.get(imageURL, ImageLoader.getImageListener(imageView,
                 R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));
-        imageView.setImageUrl(imageURL, mImageLoader);
+        imageView.setImageUrl(imageURL, imageLoader);
     }
 
     @Override
     public int getItemCount() {
-        if(mOrders!=null)
+        if(mOrders!=null) {
             return mOrders.size();
+        }
         return 0;
     }
 
@@ -145,16 +140,16 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class OrderHistoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView mTvProductName;
-        NetworkImageView mNetworkImage;
-        TextView mTvQuantity;
-        TextView mTvtotalPrice;
-        RelativeLayout mTimeHeader;
-        TextView mTime;
-        TextView mOrderNumber;
-        TextView mOrderState;
-        RelativeLayout mOrderSummaryLayout;
-        LinearLayout mProductDetailsLayout;
+        private TextView mTvProductName;
+        private NetworkImageView mNetworkImage;
+        private TextView mTvQuantity;
+        private TextView mTvtotalPrice;
+        private RelativeLayout mTimeHeader;
+        private TextView mTime;
+        private TextView mOrderNumber;
+        private TextView mOrderState;
+         private RelativeLayout mOrderSummaryLayout;
+        private LinearLayout mProductDetailsLayout;
 
         public OrderHistoryHolder(final View itemView) {
             super(itemView);
