@@ -62,7 +62,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = '1.0.0'
+version = '1.1.0-rc.1'
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
