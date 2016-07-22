@@ -99,45 +99,47 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onActivityCreated");
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStart");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onResume");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onPause");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStop");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onStop");
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onActivityCreated");
+    }
+
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         hideLogoutSpinner();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroyView");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " Logout Fragment : onDestroyView");
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " Logout Fragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         super.onDestroy();
     }
@@ -145,7 +147,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     @Override
     public void onDetach() {
         super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDetach");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " Logout Fragment : onDetach");
     }
 
     @Override
