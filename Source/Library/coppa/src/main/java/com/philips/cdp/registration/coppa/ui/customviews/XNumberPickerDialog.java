@@ -22,12 +22,11 @@ import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.listener.NumberPickerListener;
 
 
-public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
-{
+public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener {
     private TextView mTvSelctedTitleAge;
     private NumberPickerListener mNumberPickerListener;
 
-    private  NumberPicker mNumberPicker;
+    private NumberPicker mNumberPicker;
 
     public XNumberPickerDialog(NumberPickerListener numberPickerListener) {
         mNumberPickerListener = numberPickerListener;
@@ -38,8 +37,7 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         mTvSelctedTitleAge.setText(String.valueOf(newVal));
     }
 
-    public void showNumberPickerDialog(Context context, int minVal, int maxVal)
-    {
+    public void showNumberPickerDialog(Context context, int minVal, int maxVal) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.reg_dialog_coppa_age_verification);
@@ -48,42 +46,36 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         final Button cancel = (Button) dialog.findViewById(R.id.reg_btn_cancel);
         mTvSelctedTitleAge = (TextView) dialog.findViewById(R.id.tv_reg_coppa_header_title);
         mTvSelctedTitleAge.setText(String.valueOf(maxVal));
-        mNumberPicker= (NumberPicker) dialog.findViewById(R.id.reg_age_picker);
+        mNumberPicker = (NumberPicker) dialog.findViewById(R.id.reg_age_picker);
         mNumberPicker.setMinValue(minVal);
         mNumberPicker.setMaxValue(maxVal);
         mNumberPicker.setValue(maxVal);
         mNumberPicker.setOnValueChangedListener(this);
 
-        setDividerColor(mNumberPicker,R.color.reg_devider_color);
-        ok.setOnClickListener(new View.OnClickListener()
-        {
+        setDividerColor(mNumberPicker, R.color.reg_devider_color);
+        ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mNumberPicker.clearFocus();
-                if(mNumberPickerListener!=null){
-                        mNumberPickerListener.onNumberSelect(mNumberPicker.getValue());
+                if (mNumberPickerListener != null) {
+                    mNumberPickerListener.onNumberSelect(mNumberPicker.getValue());
                 }
-                if(dialog!=null){
-                    dialog.dismiss();
-                }
+                dialog.dismiss();
             }
         });
-        cancel.setOnClickListener(new View.OnClickListener()
-        {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dialog!=null){
-                    dialog.dismiss();
-                }
+                dialog.dismiss();
             }
         });
         dialog.show();
     }
 
-public void setInitialValue(int value){
-    mNumberPicker.setValue(value);
-    mTvSelctedTitleAge.setText(String.valueOf(value));
-}
+    public void setInitialValue(int value) {
+        mNumberPicker.setValue(value);
+        mTvSelctedTitleAge.setText(String.valueOf(value));
+    }
 
 
     private void setDividerColor(NumberPicker picker, int color) {
@@ -95,12 +87,8 @@ public void setInitialValue(int value){
                 try {
                     ColorDrawable colorDrawable = new ColorDrawable(color);
                     pf.set(picker, colorDrawable);
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (Resources.NotFoundException e) {
-                    e.printStackTrace();
-                }
-                catch (IllegalAccessException e) {
+                } catch (IllegalArgumentException | Resources.NotFoundException
+                        | IllegalAccessException e) {
                     e.printStackTrace();
                 }
                 break;

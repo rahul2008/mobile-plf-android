@@ -22,13 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by 310202337 on 3/25/2016.
- */
 class CoppaConsentUpdater {
 
     private Context mContext;
-    private String LOG_TAG = "Coppa";
 
     CoppaConsentUpdater(final Context context) {
         mContext = context;
@@ -40,7 +36,9 @@ class CoppaConsentUpdater {
      * @param coppaConsentStatus         this will give the coppa consent status as true or false
      * @param coppaConsentUpdateCallback call back  to get onSuccess or onFailure
      */
-    public void updateCoppaConsentStatus(final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
+    public void updateCoppaConsentStatus(
+            final boolean coppaConsentStatus,
+            final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         //  if(Jump.getSignedInUser() != null){
         ServerTime.init(mContext);
         CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
@@ -68,10 +66,9 @@ class CoppaConsentUpdater {
                 updatedUser.put(CoppaConfiguration.CONSENTS, consents);
             }
 
-            updatedUser.synchronize(new CoppaConsentUpdateHandler(coppaConsentUpdateCallback), originalUserInfo);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Capture.InvalidApidChangeException e) {
+            updatedUser.synchronize(new CoppaConsentUpdateHandler(coppaConsentUpdateCallback),
+                    originalUserInfo);
+        } catch (JSONException | Capture.InvalidApidChangeException e) {
             e.printStackTrace();
         }
 
@@ -80,19 +77,34 @@ class CoppaConsentUpdater {
 
     }
 
-    private void buildConsentStatus(boolean coppaConsentStatus, JSONObject consentsObject) throws JSONException {
-        consentsObject.put(CoppaConfiguration.CAMPAIGN_ID, RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID());
-        consentsObject.put(CoppaConfiguration.MICRO_SITE_ID, RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+    private void buildConsentStatus(boolean coppaConsentStatus,
+                                    JSONObject consentsObject) throws JSONException {
+        consentsObject.put(CoppaConfiguration.CAMPAIGN_ID,
+                RegistrationConfiguration.getInstance().
+                        getPilConfiguration().getCampaignID());
+        consentsObject.put(CoppaConfiguration.MICRO_SITE_ID,
+                RegistrationConfiguration.getInstance().
+                        getPilConfiguration().getMicrositeId());
         consentsObject.put(CoppaConfiguration.GIVEN, Boolean.toString(coppaConsentStatus));
-        consentsObject.put(CoppaConfiguration.LOCALE, RegistrationHelper.getInstance().getLocale(mContext).toString());
-        consentsObject.put(CoppaConfiguration.STORED_AT, ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
+        consentsObject.put(CoppaConfiguration.LOCALE,
+                RegistrationHelper.getInstance().getLocale(mContext).toString());
+        consentsObject.put(CoppaConfiguration.STORED_AT,
+                ServerTime.getInstance().
+                        getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
     }
 
-    private void buildConsentConfirmation(boolean coppaConsentConfirmationStatus, JSONObject consentsObject) throws JSONException {
-        consentsObject.put(CoppaConfiguration.CAMPAIGN_ID, RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID());
-        consentsObject.put(CoppaConfiguration.MICRO_SITE_ID, RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        consentsObject.put(CoppaConfiguration.CONFIRMATION_GIVEN, Boolean.toString(coppaConsentConfirmationStatus));
-        consentsObject.put(CoppaConfiguration.CONFIRMATION_STORED_AT, ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
+    private void buildConsentConfirmation(boolean coppaConsentConfirmationStatus,
+                                          JSONObject consentsObject) throws JSONException {
+        consentsObject.put(CoppaConfiguration.CAMPAIGN_ID,
+                RegistrationConfiguration.getInstance().
+                        getPilConfiguration().getCampaignID());
+        consentsObject.put(CoppaConfiguration.MICRO_SITE_ID,
+                RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        consentsObject.put(CoppaConfiguration.CONFIRMATION_GIVEN,
+                Boolean.toString(coppaConsentConfirmationStatus));
+        consentsObject.put(CoppaConfiguration.CONFIRMATION_STORED_AT,
+                ServerTime.getInstance().
+                        getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
     }
 
     /**
@@ -102,7 +114,9 @@ class CoppaConsentUpdater {
      * @param coppaConsentUpdateCallback call back  to get onSuccess or onFailure
      */
 
-    public void updateCoppaConsentConfirmationStatus(final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
+    public void updateCoppaConsentConfirmationStatus(
+            final boolean coppaConsentStatus,
+            final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         ServerTime.init(mContext);
         CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
         JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
@@ -128,10 +142,9 @@ class CoppaConsentUpdater {
                 consents.put(CoppaConfiguration.consentIndex(), consentsObject);
                 updatedUser.put(CoppaConfiguration.CONSENTS, consents);
             }
-            updatedUser.synchronize(new CoppaConsentUpdateHandler(coppaConsentUpdateCallback), originalUserInfo);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Capture.InvalidApidChangeException e) {
+            updatedUser.synchronize(new CoppaConsentUpdateHandler(coppaConsentUpdateCallback),
+                    originalUserInfo);
+        } catch (JSONException | Capture.InvalidApidChangeException e) {
             e.printStackTrace();
         }
     }

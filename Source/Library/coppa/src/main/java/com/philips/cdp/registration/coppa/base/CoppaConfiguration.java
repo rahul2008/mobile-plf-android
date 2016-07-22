@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -11,6 +10,7 @@ package com.philips.cdp.registration.coppa.base;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +18,8 @@ import org.json.JSONObject;
 
 class CoppaConfiguration {
 
-    public static final String CONFIRMATION_COMMUNICATION_TO_SEND_AT = "confirmationCommunicationToSendAt";
+    public static final String CONFIRMATION_COMMUNICATION_TO_SEND_AT
+            = "confirmationCommunicationToSendAt";
 
     public static final String STORED_AT = "storedAt";
 
@@ -28,7 +29,8 @@ class CoppaConfiguration {
 
     public static final String GIVEN = "given";
 
-    public static final String CONFIRMATION_COMMUNICATION_SENT_AT = "confirmationCommunicationSentAt";
+    public static final String CONFIRMATION_COMMUNICATION_SENT_AT
+            = "confirmationCommunicationSentAt";
 
     public static final String CONFIRMATION_STORED_AT = "confirmationStoredAt";
 
@@ -110,13 +112,13 @@ class CoppaConfiguration {
 
         if (!jsonObject.isNull(COPPA_COMMUNICATION_SENT_AT)) {
             coppaCommunicationSentAt = (String) jsonObject.opt(COPPA_COMMUNICATION_SENT_AT);
-            System.out.println("consent sent @ : " + coppaCommunicationSentAt);
+            RLog.i("Consent", "consent sent @ : " + coppaCommunicationSentAt);
         }
 
         if (!jsonObject.isNull(CONSENTS)) {
 
             consents = (JSONArray) Jump.getSignedInUser().opt(CONSENTS);
-            System.out.println("consent : " + consents);
+            RLog.i("Consent", "consent : " + consents);
             consent = new Consent();
             for (int i = 0; i < consents.length(); i++) {
                 JSONObject consentObj;
@@ -125,7 +127,8 @@ class CoppaConfiguration {
                     if (!consentObj.isNull(CAMPAIGN_ID)
                             && !consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(NULL)
                             && consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(
-                            RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID())) {
+                            RegistrationConfiguration.getInstance().getPilConfiguration().
+                                    getCampaignID())) {
                         consentIndex = i;
                         isCampaignIdPresent = true;
                         if (!consentObj.optString(CONFIRMATION_GIVEN).equalsIgnoreCase(NULL)) {
@@ -135,13 +138,15 @@ class CoppaConfiguration {
                             consent.setMicroSiteID(consentObj.optString(MICRO_SITE_ID));
                         }
                         if (!consentObj.optString(COMMUNICATION_SENT_AT).equalsIgnoreCase(NULL)) {
-                            consent.setCommunicationSentAt(consentObj.optString(COMMUNICATION_SENT_AT));
+                            consent.setCommunicationSentAt(consentObj.
+                                    optString(COMMUNICATION_SENT_AT));
                         }
                         if (!consentObj.optString(CONFIRMATION_STORED_AT).equalsIgnoreCase(NULL)) {
                             consent.setConfirmationStoredAt(consentObj
                                     .optString(CONFIRMATION_STORED_AT));
                         }
-                        if (!consentObj.optString(CONFIRMATION_COMMUNICATION_SENT_AT).equalsIgnoreCase(NULL)) {
+                        if (!consentObj.optString(CONFIRMATION_COMMUNICATION_SENT_AT).
+                                equalsIgnoreCase(NULL)) {
                             consent.setConfirmationCommunicationSentAt(consentObj
                                     .optString(CONFIRMATION_COMMUNICATION_SENT_AT));
                         }
@@ -160,7 +165,8 @@ class CoppaConfiguration {
                         if (!consentObj.optString(STORED_AT).equalsIgnoreCase(NULL)) {
                             consent.setStoredAt(consentObj.optString(STORED_AT));
                         }
-                        if (!consentObj.optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT).equalsIgnoreCase(NULL)) {
+                        if (!consentObj.optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT).
+                                equalsIgnoreCase(NULL)) {
                             consent.setConfirmationCommunicationToSendAt(consentObj
                                     .optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT));
                         }
