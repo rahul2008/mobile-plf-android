@@ -7,10 +7,9 @@ package com.philips.cdp.di.iap.utils;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cl.di.apptagging.BuildConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -18,7 +17,8 @@ public class AppInfraHelper {
 
     private static volatile AppInfraHelper mAnalyticsHelper = null;
     private AppTaggingInterface mAppTaggingInterface;
-    private LoggingInterface mIAPLoggingInterface;
+    private LoggingInterface mIapLoggingInterface;
+    public AppInfraInterface mAppInfraInterface;
 
     private AppInfraHelper() {
     }
@@ -34,26 +34,24 @@ public class AppInfraHelper {
         return mAnalyticsHelper;
     }
 
-    public AppTaggingInterface getAIAppTaggingInterface() {
+    public AppTaggingInterface getIapTaggingInterface() {
         return mAppTaggingInterface;
     }
 
-    public LoggingInterface getIAPLoggingInterfaceInterface() {
-        return mIAPLoggingInterface;
+    public LoggingInterface getIapLoggingInterfaceInterface() {
+        return mIapLoggingInterface;
     }
 
     public synchronized void initializeAppInfra(final Context context) {
-        AppInfraInterface appInfra;
+        mAppInfraInterface = new AppInfra.Builder().build(context);
 
-        AppInfraSingleton.setInstance(appInfra = new AppInfra.Builder().build(context));
-
-        appInfra=AppInfraSingleton.getInstance();
-
-        mAppTaggingInterface = appInfra.getTagging().
+        //Tagging
+        mAppTaggingInterface = mAppInfraInterface.getTagging().
                 createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
         mAppTaggingInterface.setPreviousPage("IAPDemo");
-        mIAPLoggingInterface=appInfra.getLogging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
+
+        //Logging
+        mIapLoggingInterface = mAppInfraInterface.getLogging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
         IAPLog.enableLogging(true);
-        mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }
 }

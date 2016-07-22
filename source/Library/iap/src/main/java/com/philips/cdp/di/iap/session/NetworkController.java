@@ -76,9 +76,10 @@ public class NetworkController {
                     IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                             requestListener.getClass().getSimpleName() + " " + model.getUrl().substring(0, 20));
-                if (error != null && error.getMessage() != null)
+                if (error != null && error.getMessage() != null) {
                     IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.ERROR, error.getMessage());
+                }
                 if (requestListener != null) {
                     new IAPNetworkError(error, requestCode, requestListener);
                 }

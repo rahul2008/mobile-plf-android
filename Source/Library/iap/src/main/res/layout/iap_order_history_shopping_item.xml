@@ -5,10 +5,12 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/tv_time_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/iap_order_margin_top"
         android:paddingBottom="@dimen/iap_order_margin_top"
+        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
         android:background="@color/uikit_enricher7">
 
         <TextView
@@ -30,8 +32,7 @@
         <TextView
             android:id="@+id/order_number_text"
             style="@style/tvOrderHeaderTitle"
-            android:text="@string/iap_order_number"
-            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"/>
+            android:text="@string/iap_order_number"/>
 
         <TextView
             android:id="@+id/tv_order_number"
@@ -74,7 +75,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_order_margin_top">
+        android:layout_marginTop="@dimen/iap_order_detail_margin_bottom"
+        android:layout_marginBottom="@dimen/iap_select_retailer_left_margin">
 
         <TextView
             android:id="@+id/total_item_text"
@@ -96,10 +98,4 @@
             android:layout_marginEnd="@dimen/iap_order_price_margin_right" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-        android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
-        android:background="?attr/uikit_listDividerColor" />
 </LinearLayout>

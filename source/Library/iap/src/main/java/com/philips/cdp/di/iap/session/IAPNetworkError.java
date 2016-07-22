@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class IAPNetworkError implements IAPNetworkErrorListener {
 
@@ -32,9 +33,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             mVolleyError = error;
         }
 
-        if (getMessage() != null)
+        if (getMessage() != null) {
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.ERROR, getMessage());
+        }
         initMessage(requestCode, requestListener);
 
     }
@@ -83,8 +85,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     @Override
     public int getStatusCode() {
-        if (mVolleyError != null && mVolleyError.networkResponse != null)
+        if (mVolleyError != null && mVolleyError.networkResponse != null) {
             return mVolleyError.networkResponse.statusCode;
+        }
         return mIAPErrorCode;
     }
 
@@ -100,7 +103,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            IAPLog.e(IAPNetworkError.class.getName(),e.getMessage());
         }
     }
 

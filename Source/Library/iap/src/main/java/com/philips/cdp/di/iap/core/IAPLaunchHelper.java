@@ -9,18 +9,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 
@@ -28,9 +25,8 @@ public class IAPLaunchHelper {
 
     public static void launchIAPActivity(Context context, int screen, int themeIndex, String ctnNumber, ArrayList<String> ctns) {
         //Set component version key and value for InAppPurchase
-        Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
-        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);
-
+    /*    Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
+        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);*/
         Intent intent = new Intent(context, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, screen);

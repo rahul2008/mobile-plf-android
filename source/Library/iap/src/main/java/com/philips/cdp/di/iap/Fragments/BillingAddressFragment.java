@@ -102,9 +102,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             } else {
                 mlLState.setVisibility(View.GONE);
             }
+            mIgnoreTextChangeListener = false;
+            mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
         }
-        mIgnoreTextChangeListener = false;
-        mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
     }
 
     private void clearAllFields() {

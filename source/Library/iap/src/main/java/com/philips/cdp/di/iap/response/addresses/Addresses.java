@@ -8,31 +8,38 @@ package com.philips.cdp.di.iap.response.addresses;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class Addresses {
+    private Region region;
     private Country country;
-    private String firstName;
+
     private String id;
+    private String title; //Mr.
+    private String titleCode; //mr
+    private String firstName;
     private String lastName;
     private String line1;
     private String line2;
-    private String phone;
-    private String postalCode;
-    private Region region;
-    private boolean shippingAddress;
-    private String titleCode;
+    private String phone1;
+    private String phone2;
     private String town;
-    private boolean visibleInAddressBook;
+    private String postalCode;
     private String formattedAddress;
     private String email;
 
-    //New Parameters
-    private String phone1;
-    private String phone2;
+    private boolean shippingAddress;
+    private boolean visibleInAddressBook;
+
+    public String getTitle() {
+        return title;
+    }
 
     public String getPhone1() {
         return phone1;
     }
 
     public String getPhone2() {
+        if (phone2 == null) {
+            phone2 = NetworkConstants.EMPTY_RESPONSE;
+        }
         return phone2;
     }
 
@@ -61,10 +68,6 @@ public class Addresses {
             line2 = NetworkConstants.EMPTY_RESPONSE;
         }
         return line2;
-    }
-
-    public String getPhone() {
-        return phone;
     }
 
     public String getPostalCode() {

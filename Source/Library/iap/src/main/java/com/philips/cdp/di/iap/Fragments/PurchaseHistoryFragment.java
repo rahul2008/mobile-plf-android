@@ -36,7 +36,6 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +53,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     private int mPageNo = 0;
     private int mRemainingOrders = 0;
     private boolean mIsLoading = false;
+    private int mOrderCount = 0;
 
     ArrayList<OrderDetail> mOrderDetails = new ArrayList<>();
     ArrayList<ProductData> mProducts = new ArrayList<>();
@@ -79,7 +79,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts, mOrderDetails);
         mOrderHistoryView.setAdapter(mAdapter);
         mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
-        if (mOrders.size() == 0) {
+        if (mOrders.isEmpty()) {
             updateHistoryListOnResume();
         }
 
@@ -121,22 +121,24 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         } else {
             if (msg.what == RequestCode.GET_ORDERS) {
                 if (msg.obj instanceof OrdersData) {
-                    OrdersData mOrderData = (OrdersData) msg.obj;
-                    if (mOrderData.getOrders() == null || mOrderData.getOrders().size() == 0) {
-                        if (Utility.isProgressDialogShowing())
+                    OrdersData orderData = (OrdersData) msg.obj;
+                    if (orderData.getOrders() == null || orderData.getOrders().size() == 0) {
+                        if (Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
-//                        removeFragment();
+                        }
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
                     } else {
-                        for (Orders order : mOrderData.getOrders())
+                        for (Orders order : orderData.getOrders())
                             mOrders.add(order);
-                        if (mTotalOrders == 0)
-                            mRemainingOrders = mOrderData.getPagination().getTotalResults();
-                        mTotalOrders = mOrderData.getPagination().getTotalResults();
-                        mPageSize = mOrderData.getPagination().getPageSize();
-                        mPageNo = mOrderData.getPagination().getCurrentPage();
+                        if (mTotalOrders == 0) {
+                            mRemainingOrders = orderData.getPagination().getTotalResults();
+                        }
+                        mTotalOrders = orderData.getPagination().getTotalResults();
+                        mPageSize = orderData.getPagination().getPageSize();
+                        mPageNo = orderData.getPagination().getCurrentPage();
                         mIsLoading = false;
+                        mOrderCount = mPageNo * mPageSize;
                         for (int i = mPageNo * mPageSize; i < mOrders.size(); i++) {
                             if (mController == null)
                                 mController = new OrderController(mContext, this);
@@ -150,18 +152,20 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public void onGetOrderDetail(Message msg) {
+        mOrderCount++;
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+  //          NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            IAPLog.d(TAG,((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
                     OrderDetail orderDetail = (OrderDetail) msg.obj;
                     mOrderDetails.add(orderDetail);
-                    if (mOrderDetails.size() == mOrders.size()) {
-                        updateProductDetails(mOrderDetails);
-                    }
                 }
             }
+        }
+        if (mOrderCount == mOrders.size()) {
+            updateProductDetails(mOrderDetails);
         }
 
     }
@@ -194,7 +198,8 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                     break;
                 }
             }
-            addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
+            if(bundle.getParcelable(IAPConstant.ORDER_DETAIL) != null)
+                addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
         }
     }
 
@@ -219,6 +224,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         mController.requestPrxData(orderDetails, this);
     }
 
+    //TODO
     @SuppressWarnings({"rawtype", "unchecked"})
     private boolean processResponseFromPRX(final Message msg) {
         if (msg.obj instanceof HashMap) {

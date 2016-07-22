@@ -36,7 +36,8 @@
 
         <TextView
             android:id="@+id/tv_shipping_address"
-            style="@style/tvTitle" />
+            style="@style/tvTitle"
+            android:layout_marginTop="0dp"/>
     </LinearLayout>
 
     <View
@@ -73,6 +74,7 @@
 
         <TextView
             android:id="@+id/tv_billing_address"
+            android:layout_marginTop="0dp"
             style="@style/tvTitle" />
     </LinearLayout>
 
@@ -109,6 +111,7 @@
         <TextView
             android:id="@+id/tv_card_holder_name"
             style="@style/tvTitle"
+            android:layout_marginTop="0dp"
             android:text="@string/iap_first_name" />
     </LinearLayout>
 

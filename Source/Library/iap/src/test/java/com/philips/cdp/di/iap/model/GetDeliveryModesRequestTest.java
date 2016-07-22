@@ -61,6 +61,6 @@ public class GetDeliveryModesRequestTest {
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.GET_DELIVERY_MODEs_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.GET_DELIVERY_MODES_URL, mModel.getUrl());
     }
 }

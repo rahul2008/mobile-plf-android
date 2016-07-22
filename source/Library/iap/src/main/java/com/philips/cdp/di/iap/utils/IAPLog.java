@@ -18,7 +18,7 @@ public class IAPLog {
 
     public static boolean isLoggingEnabled = false;
 
-    private static LoggingInterface mIAPLoggingInterface = AppInfraHelper.getInstance().getIAPLoggingInterfaceInterface();
+    private static LoggingInterface mIAPLoggingInterface = AppInfraHelper.getInstance().getIapLoggingInterfaceInterface();
 
     public static void enableLogging(boolean enableLog) {
         if(mIAPLoggingInterface!=null) {
