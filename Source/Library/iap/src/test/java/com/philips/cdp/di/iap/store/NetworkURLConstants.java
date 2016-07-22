@@ -33,7 +33,7 @@ public class NetworkURLConstants {
     public static final String ADDRESS_DETAILS_URL = BASE_URL + "/addresses?fields=FULL&lang=en";
     public static final String ADDRESS_ALTER_URL = BASE_URL + "/addresses/" + DUMMY_PRODUCT_ID;
     public static final String UPDATE_DELIVERY_MODE_URL = BASE_URL + "/carts/current/deliverymode";
-    public static final String GET_DELIVERY_MODEs_URL = BASE_URL + "/carts/current/deliverymodes?fields=FULL&lang=en";
+    public static final String GET_DELIVERY_MODES_URL = BASE_URL + "/carts/current/deliverymodes";
     public static final String UPDATE_DELIVERY_ADDRESS_URL = BASE_URL + "/carts/current/addresses/delivery";
     public static final String PAYMENT_SET_URL = BASE_URL + "/orders/" + DUMMY_PRODUCT_ID + "/pay";
     public static final String PLACE_ORDER_URL = BASE_URL + "/orders";

@@ -359,8 +359,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         getString(R.string.iap_ok), getString(R.string.iap_server_error),
                         error.getMessage());
                 mBtnContinue.setEnabled(false);
-            } else if (error.getMessage() != null) {
-                if (isNetworkNotConnected()) return;
             }
         }
     }
@@ -691,8 +689,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 Error error = iapNetworkError.getServerError().getErrors().get(i);
                 showErrorFromServer(error);
             }
-        } else {
-            if (isNetworkNotConnected()) return;
         }
     }
 
