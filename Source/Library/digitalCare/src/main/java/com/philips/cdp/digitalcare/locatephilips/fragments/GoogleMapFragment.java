@@ -1,12 +1,17 @@
+/**
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.maps.SupportMapFragment;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
  * This class is the base class for the "Locate Philips Near Your" feature.

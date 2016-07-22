@@ -1,9 +1,13 @@
+/**
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
+
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +18,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Criteria;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -89,29 +92,25 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * LocateNearYouFragment will help to locate PHILIPS SERVICE CENTERS on the
- * screen. This class will invoke ATOS server and getting store details in
- * JSON/XML format.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 8 May 2015
- * <p/>
- * Copyright (c) 2016 Philips. All rights reserved.
+ * This Class responsible for showing the locale Specfic customer support/service center location
+ * with the location tracker MAP usin the GoogleMap Feature from the GooglePlayServices library.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         OnItemClickListener, onMapReadyListener, OnMarkerClickListener,
-        ResponseCallback, GpsStatus.Listener, OnMapClickListener {
-    private static final String ATOS_URL_PORT = "https://www.philips.com/search/search?q=%s" +
-            "&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
+        ResponseCallback, OnMapClickListener {
+
     private static final String TAG = LocatePhilipsFragment.class
             .getSimpleName();
+
+    private static final String ATOS_URL_PORT = "https://www.philips.com/search/search?q=%s" +
+            "&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
+
+
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private static View mView = null;
     private static HashMap<String, AtosResultsModel> mHashMapResults = null;
-    protected SharedPreferences mSharedpreferences;
-    AlertDialog.Builder mdialogBuilder = null;
-    AlertDialog malertDialog = null;
+    protected SharedPreferences mSharedpreferences = null;
     private GoogleMap mMap = null;
     private GoogleMapFragment mMapFragment = null;
     private Marker mCurrentPosition = null;
@@ -129,11 +128,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private LocationManager mLocationManager = null;
     private GpsAlertView gpsAlertView = null;
     private String provider = null;
-    private LinearLayout mLinearLayout;
-    private ListView mListView;
+    private LinearLayout mLinearLayout = null;
+    private ListView mListView = null;
     private TextView mShowTxtAddress = null;
     private TextView mShowTxtTitle = null;
-    private ScrollView mLocationDetailScroll;
+    private ScrollView mLocationDetailScroll = null;
     private ArrayList<AtosResultsModel> mResultModelSet = null;
     private RelativeLayout mLocateLayout = null;
     private RelativeLayout mLocateSearchLayout = null;
@@ -152,20 +151,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private ProgressDialog mDialog = null;
     private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
     private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
-    private ProgressBar mLocateNearProgressBar;
+    private ProgressBar mLocateNearProgressBar = null;
     private boolean isContactUsScreenLaunched = false;
     private Utils mUtils = null;
-    private LocationListener mLocationListener = new LocationListener() {
+
+    private LocationListener locationListener = new LocationListener() {
 
         @Override
         public void onLocationChanged(Location location) {
-          /*  DigiCareLogger.i(TAG, "LocationListener Changed..");*/
             updateWithNewLocation(location);
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-           /* DigiCareLogger.i(TAG, "Location Listener Disabled");*/
             updateWithNewLocation(null);
         }
 
@@ -194,7 +192,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             }
         }
     };
-    private GoToContactUsListener mGoToContactUsListener = new GoToContactUsListener() {
+    private GoToContactUsListener fragmentNavigationListener = new GoToContactUsListener() {
         @Override
         public void goToContactUsSelected() {
             isContactUsScreenLaunched = true;
@@ -273,18 +271,26 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 .getInstance().getConsumerProductInfo();
         Locale locale = DigitalCareConfigManager
                 .getInstance().getLocale();
-        if (consumerProductInfo == null || locale == null) {
-            getActivity().finish();
-            return null;
-        }
-        String atosUrl = getAtosUrl(consumerProductInfo.getCtn(),
-                consumerProductInfo.getSubCategory(), DigitalCareConfigManager
-                        .getInstance().getLocale().getCountry().toLowerCase());
-
+        if (isConsProdInfoAvailable(consumerProductInfo, locale)) return null;
+        String atosUrl = getAtosUrl(consumerProductInfo);
         DigiCareLogger.i(TAG, "ATOS URL : " + atosUrl);
         return atosUrl;
 
 
+    }
+
+    private String getAtosUrl(ConsumerProductInfo consumerProductInfo) {
+        return getAtosUrl(consumerProductInfo.getCtn(),
+                consumerProductInfo.getSubCategory(), DigitalCareConfigManager
+                        .getInstance().getLocale().getCountry().toLowerCase());
+    }
+
+    private boolean isConsProdInfoAvailable(ConsumerProductInfo consumerProductInfo, Locale locale) {
+        if (consumerProductInfo == null || locale == null) {
+            getActivity().finish();
+            return true;
+        }
+        return false;
     }
 
     protected String getAtosUrl(String ctn, String subcategory, String country) {
@@ -376,7 +382,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     private void showCustomAlert() {
         LocateNearCustomDialog locateNearCustomDialog = new LocateNearCustomDialog(getActivity(),
-                getActivity().getSupportFragmentManager(), mGoToContactUsListener);
+                getActivity().getSupportFragmentManager(), fragmentNavigationListener);
         if (!isDialogShown) {
             locateNearCustomDialog.show();
             isDialogShown = true;
@@ -621,11 +627,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private void locateCurrentPosition() {
         Location location = mLocationManager.getLastKnownLocation(provider);
         updateWithNewLocation(location);
-        mLocationManager.addGpsStatusListener(this);
+        //mLocationManager.addGpsStatusListener(this);
         long minTime = 5000;// ms
         float minDist = 5.0f;// meter
         mLocationManager.requestLocationUpdates(provider, minTime, minDist,
-                mLocationListener);
+                locationListener);
     }
 
     private void setMapType(double lat, double lng) {
@@ -708,7 +714,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         /*DigiCareLogger.i(TAG, where);*/
     }
 
-    @Override
+/*    @Override
     public void onGpsStatusChanged(int event) {
         switch (event) {
             case GpsStatus.GPS_EVENT_STARTED:
@@ -730,7 +736,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 DigiCareLogger.d(TAG, "default method on onGPSStatusChanged");
                 break;
         }
-    }
+    }*/
 
     private boolean checkGooglePlayServices() {
         int result = GooglePlayServicesUtil
@@ -787,7 +793,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mResultModelSet.clear();
             mResultModelSet = null;
         }
-        mLocationListener = null;
+        locationListener = null;
 
         if (mHashMapResults != null && mHashMapResults.size() <= 0) {
             mHashMapResults.clear();
@@ -918,11 +924,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         } else if ((v.getId() == R.id.marker_icon) || (v.getId() == R.id.arabic_marker_icon)) {
             mListView.setVisibility(View.GONE);
-            if (mSearchIcon.getVisibility() == View.VISIBLE)
-                mMarkerIcon.setVisibility(View.GONE);
+            removeSearchIcon();
 
-            if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
-                mArabicMarkerIcon.setVisibility(View.GONE);
+            removeArabicSearchIcon();
 
             mSearchBox.setText(null);
         } else if (v.getId() == R.id.call) {
@@ -1001,11 +1005,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mButtonCall.setVisibility(View.INVISIBLE);
         mListView.setVisibility(View.GONE);
         mLinearLayout.setVisibility(View.VISIBLE);
-        if (mSearchIcon.getVisibility() == View.VISIBLE)
-            mMarkerIcon.setVisibility(View.GONE);
-
-        if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
-            mArabicMarkerIcon.setVisibility(View.GONE);
+        removeSearchIcon();
+        removeArabicSearchIcon();
     }
 
     @Override
@@ -1073,18 +1074,30 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onMapClick(LatLng arg0) {
+        removeListData();
+        removeSearchIcon();
+        removeArabicSearchIcon();
+        removeListLayout();
+    }
 
-        if (mListView.getVisibility() == View.VISIBLE)
-            mListView.setVisibility(View.GONE);
-
-        if (mSearchIcon.getVisibility() == View.VISIBLE)
-            mMarkerIcon.setVisibility(View.GONE);
-
-        if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
-            mArabicMarkerIcon.setVisibility(View.GONE);
-
+    private void removeListLayout() {
         if (mLinearLayout.getVisibility() == View.VISIBLE)
             mLinearLayout.setVisibility(View.GONE);
+    }
+
+    private void removeArabicSearchIcon() {
+        if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
+            mArabicMarkerIcon.setVisibility(View.GONE);
+    }
+
+    private void removeSearchIcon() {
+        if (mSearchIcon.getVisibility() == View.VISIBLE)
+            mMarkerIcon.setVisibility(View.GONE);
+    }
+
+    private void removeListData() {
+        if (mListView.getVisibility() == View.VISIBLE)
+            mListView.setVisibility(View.GONE);
     }
 
     @Override

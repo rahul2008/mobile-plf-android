@@ -118,3 +118,4 @@
 
 -dontwarn com.shamanland.**
 -dontwarn uk.co.chrisjenx.**
+-dontwarn android.support.design

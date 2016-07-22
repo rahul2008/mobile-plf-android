@@ -74,7 +74,7 @@ public class RequestData {
         @Override
         public void run() {
             try {
-                String url = mRequestUrl;
+                final String url = mRequestUrl;
                 final URL obj = new URL(url);
                 final HttpURLConnection mHttpUrlConnection = (HttpURLConnection) obj
                         .openConnection();
