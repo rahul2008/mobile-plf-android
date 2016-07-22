@@ -51,7 +51,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     private List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
-    private TextView  configurationTextView;
+    private TextView txt_title, configurationTextView;
     private Spinner spinner;
     private SharedPreferences sharedPreferences;
     private Context context;
