@@ -26,6 +26,7 @@ public class AppFrameworkApplication extends Application {
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
         MultiDex.install(this);
