@@ -24,12 +24,12 @@ import org.json.JSONObject;
  * NetworkController class is used to make Hybris request
  */
 public class NetworkController {
-    private HurlStack mIapHurlStack;
-    private RequestQueue hybrisVolleyQueue;
-    private Context context;
-    private StoreSpec store;
-    private OAuthHandler oAuthHandler;
-    private NetworkEssentials mNetworkEssentials;
+    HurlStack mIapHurlStack;
+    RequestQueue hybrisVolleyQueue;
+    Context context;
+    StoreSpec store;
+    OAuthHandler oAuthHandler;
+    NetworkEssentials mNetworkEssentials;
 
     public NetworkController(Context context) {
         this(context, null);
