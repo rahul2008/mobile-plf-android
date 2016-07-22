@@ -1,17 +1,18 @@
 package com.philips.cdp.registration.sample;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
-import com.adobe.mobile.Config;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener, UserRegistrationListener {
 
@@ -38,14 +39,14 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onResume() {
-        Config.collectLifecycleData();
+        AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        Config.pauseCollectingLifecycleData();
+        AppTagging.pauseCollectingLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onPause");
         super.onPause();
     }
@@ -69,7 +70,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         switch (v.getId()) {
             case R.id.btn_registration:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
+                startActivity(new Intent(this, RegistrationActivity.class));
                 break;
 
             default:
@@ -85,26 +86,26 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
     }
 
     @Override
     public void onUserLogoutSuccess() {
-
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserLogoutSuccess");
     }
 
     @Override
     public void onUserLogoutFailure() {
-
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserLogoutFailure");
     }
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserLogoutSuccessWithInvalidAccessToken");
     }
 }

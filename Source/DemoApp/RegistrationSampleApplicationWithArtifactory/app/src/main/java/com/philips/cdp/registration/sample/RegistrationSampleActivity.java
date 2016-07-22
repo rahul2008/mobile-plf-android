@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
-import com.adobe.mobile.Config;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -39,14 +39,14 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onResume() {
-        Config.collectLifecycleData();
+        AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        Config.pauseCollectingLifecycleData();
+        AppTagging.pauseCollectingLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onPause");
         super.onPause();
     }
