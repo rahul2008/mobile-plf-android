@@ -199,7 +199,7 @@ public class ConsentHandler implements RefreshUserHandler {
     }
 
     private void handleFailure() {
-        mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
+        RegistrationCoppaFragment.hideRefreshProgress();
         Toast.makeText(mParentalApprovalFragment.getContext(),
                 mParentalApprovalFragment.getContext().getResources().getString(
                         R.string.reg_JanRain_Server_Connection_Failed)
