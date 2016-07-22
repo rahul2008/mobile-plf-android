@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
+        android:layout_marginTop="@dimen/iap_order_header_top_margin"
         android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
         android:orientation="vertical">
 

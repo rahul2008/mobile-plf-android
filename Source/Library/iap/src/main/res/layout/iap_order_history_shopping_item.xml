@@ -75,8 +75,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_order_margin_top"
-        android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom">
+        android:layout_marginTop="@dimen/iap_order_detail_margin_bottom"
+        android:layout_marginBottom="@dimen/iap_select_retailer_left_margin">
 
         <TextView
             android:id="@+id/total_item_text"
