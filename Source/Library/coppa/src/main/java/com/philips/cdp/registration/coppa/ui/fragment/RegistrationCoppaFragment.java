@@ -498,43 +498,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         trackPage(AppTaggingCoppaPages.COPPA_AGE_VERIFICATION);
     }
 
-    private void addFragment(Fragment fragment) {
-        try {
-            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
-            fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured " +
-                            "in addFragment  :" + e.getMessage());
-        }
-    }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.iv_reg_back) {
-            onBackPressed();
-        }
-    }
 
-    @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            UserRegistrationInitializer.getInstance().resetInitializationState();
-        }
-        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
-                !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
-            RLog.d(RLog.NETWORK_STATE, "RegistrationCoppaFragment :onNetWorkStateReceived");
-            final RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
-            registrationSettings
-                    .initializeUserRegistration(mActivity
-                            .getApplicationContext());
-            RLog.d(RLog.JANRAIN_INITIALIZE,
-                    "RegistrationCoppaFragment : Janrain reinitialization with locale : "
-                            + RegistrationHelper.getInstance().getLocale(getContext()));
-        }
-    }
 
     public int getFragmentBackStackCount() {
         return mFragmentManager.getBackStackEntryCount();
@@ -542,6 +507,13 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public RegistrationTitleBarListener getUpdateTitleListener() {
         return mRegistrationUpdateTitleListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_reg_back) {
+            onBackPressed();
+        }
     }
 
     public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
@@ -554,6 +526,31 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public int getResourceID() {
         return titleResourceId;
+    }
+
+
+    @Override
+    public void onNetWorkStateReceived(boolean isOnline) {
+
+        if (!isOnline && !UserRegistrationInitializer.
+                getInstance().isJanrainIntialized()) {
+            UserRegistrationInitializer.getInstance().
+                    resetInitializationState();
+        }
+
+        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
+                !UserRegistrationInitializer.getInstance().
+                        isJumpInitializationInProgress()) {
+            RLog.d(RLog.NETWORK_STATE, "RegistrationCoppaFragment " +
+                    ":onNetWorkStateReceived");
+            final RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
+            registrationSettings
+                    .initializeUserRegistration(mActivity
+                            .getApplicationContext());
+            RLog.d(RLog.JANRAIN_INITIALIZE,
+                    "RegistrationCoppaFragment : Janrain reinitialization with locale : "
+                            + RegistrationHelper.getInstance().getLocale(getContext()));
+        }
     }
 
     public void launchRegistrationFragment() {
@@ -649,4 +646,18 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                             "occured in addFragment  :" + e.getMessage());
         }
     }
+
+    private void addFragment(Fragment fragment) {
+        try {
+            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+            fragmentTransaction.addToBackStack(fragment.getTag());
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationCoppaFragment :FragmentTransaction Exception occured " +
+                            "in addFragment  :" + e.getMessage());
+        }
+    }
+
 }

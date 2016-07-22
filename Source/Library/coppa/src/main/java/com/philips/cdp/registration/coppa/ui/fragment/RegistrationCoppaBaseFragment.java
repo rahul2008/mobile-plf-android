@@ -72,25 +72,21 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaBaseFragment : onCreate");
     }
 
-    private void setCustomLocale() {
-        Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
-        final Configuration config = new Configuration();
-        config.locale = RegistrationHelper.getInstance().getLocale(getContext());
-        getActivity().getResources().updateConfiguration(config, getActivity().
-                getResources().getDisplayMetrics());
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaBaseFragment : onActivityCreated");
+    private void setCustomLocale() {
+        Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
+        final Configuration configuration = new Configuration();
+        configuration.locale = RegistrationHelper.getInstance().getLocale(getContext());
+        getActivity().getResources().updateConfiguration(configuration, getActivity().
+                getResources().getDisplayMetrics());
     }
+
+
+
 
     @Override
     public void onStart() {
@@ -117,6 +113,12 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaBaseFragment : onStop");
     }
 
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaBaseFragment : onActivityCreated");
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

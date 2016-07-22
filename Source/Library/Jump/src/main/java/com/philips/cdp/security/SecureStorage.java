@@ -48,7 +48,7 @@ public class SecureStorage {
         secretKey = SKey.generateSecretKey();
         try {
             final Key key = (Key) new SecretKeySpec(secretKey, AES);
-            Cipher cipher = Cipher.getInstance(AES);
+            final Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return cipher.doFinal(text.getBytes());
 
