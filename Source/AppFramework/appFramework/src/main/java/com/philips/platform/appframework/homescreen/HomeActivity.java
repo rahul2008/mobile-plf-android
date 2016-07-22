@@ -8,6 +8,8 @@ package com.philips.platform.appframework.homescreen;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -31,7 +33,9 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
+import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
+import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
@@ -195,6 +199,8 @@ public class HomeActivity extends AppFrameworkBaseActivity {
             showSettingsFragment();
         } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Support")) {
             showSupportFragment();
+        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Shop")) {
+            showShoppingFragment();
         } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
             showDebugTestFragment();
         } else {
@@ -203,6 +209,11 @@ public class HomeActivity extends AppFrameworkBaseActivity {
             showFragment(fragment, homeTag);
         }
         philipsDrawerLayout.closeDrawer(navigationView);
+    }
+
+    private void showShoppingFragment() {
+        InAppPurchasesFragment shoppingFragment = new InAppPurchasesFragment();
+        showFragment(shoppingFragment, "Shop");
     }
 
     private void showSettingsFragment() {
@@ -226,6 +237,20 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     public void onBackPressed() {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
+        else {
+            inAppPurchaseBackPress();
+        }
+
+        super.onBackPressed();
+    }
+
+    private void inAppPurchaseBackPress() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if(currentFragment != null && (currentFragment instanceof  InAppPurchasesFragment)){
+            if(((InAppPurchasesFragment) currentFragment).onBackPressed()) {
+                return;
+            }
         }
     }
 
