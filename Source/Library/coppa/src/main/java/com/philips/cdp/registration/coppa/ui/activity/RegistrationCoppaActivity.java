@@ -75,10 +75,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         }
 
         int alwaysFinishActivity = 0;
-        try {
+        if(savedInstanceState != null)
             alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
-        } catch (NullPointerException e) {
-        }
+
         setContentView(R.layout.reg_activity_coppa_registration);
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
@@ -95,7 +94,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
         @SuppressWarnings("deprecation") final int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
-                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+                        Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
@@ -104,7 +103,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         super.onRestoreInstanceState(savedInstanceState);
         @SuppressWarnings("deprecation") final int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
-                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+                        Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
@@ -159,14 +158,14 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
 
     private void launchRegistrationFragment(boolean isAccountSettings, boolean isParentalConsent) {
         try {
-            final FragmentManager mFragmentManager = getSupportFragmentManager();
+            final FragmentManager fragmentManager = getSupportFragmentManager();
             final RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
             final Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, isParentalConsent);
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(this);
-            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
             fragmentTransaction.commitAllowingStateLoss();
@@ -190,8 +189,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         // Update title and show hamberger
         //ivBack.setVisibility(View.INVISIBLE);
         ivBack.setVisibility(View.VISIBLE);
-        final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         if(titleResourceId > 0){
+            final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceId));
         }
     }
@@ -200,8 +199,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     public void updateRegistrationTitleWithBack(int titleResourceId) {
         // update title and show back
         ivBack.setVisibility(View.VISIBLE);
-        final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         if(titleResourceId > 0){
+            final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceId));
         }
     }
@@ -210,9 +209,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     public void updateRegistrationTitleWithOutBack(int titleResourceId) {
         // update title and show back
         //ivBack.setVisibility(View.INVISIBLE);
-        final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         if(titleResourceId > 0){
-           tvTitle.setText(getString(titleResourceId));
+            final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+            tvTitle.setText(getString(titleResourceId));
         }
     }
 }
