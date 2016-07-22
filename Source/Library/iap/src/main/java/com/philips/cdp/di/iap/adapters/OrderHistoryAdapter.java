@@ -55,12 +55,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Orders order = mOrders.get(position);
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
-        if(checkIfHeader(position)) {
-            orderHistoryHolder.mTimeHeader.setVisibility(View.VISIBLE);
-            orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
-        }
-        else
-            orderHistoryHolder.mTimeHeader.setVisibility(View.GONE);
+        orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
         String orderStatus = order.getStatusDisplay();
         orderHistoryHolder.mOrderState.setText(orderStatus.substring(0,1).toUpperCase() + orderStatus.substring(1));
         orderHistoryHolder.mOrderNumber.setText(order.getCode());
@@ -107,14 +102,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((OrderHistoryHolder) holder).mProductDetailsLayout.removeAllViews();
     }
 
-    public boolean checkIfHeader(int position) {
-        if(position == 0)
-            return true;
-        if(getFormattedDate(mOrders.get(position).getPlaced()).equals(getFormattedDate(mOrders.get(position-1).getPlaced())))
-            return false;
-        return true;
-    }
-
     private void getNetworkImage(final NetworkImageView imageView, final String imageURL) {
         ImageLoader imageLoader;
         // Instantiate the RequestQueue.
@@ -140,24 +127,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class OrderHistoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView mTvProductName;
-        private NetworkImageView mNetworkImage;
         private TextView mTvQuantity;
         private TextView mTvtotalPrice;
-        private RelativeLayout mTimeHeader;
         private TextView mTime;
         private TextView mOrderNumber;
         private TextView mOrderState;
-         private RelativeLayout mOrderSummaryLayout;
+        private RelativeLayout mOrderSummaryLayout;
         private LinearLayout mProductDetailsLayout;
 
         public OrderHistoryHolder(final View itemView) {
             super(itemView);
-            mTvProductName = (TextView) itemView.findViewById(R.id.tv_productName);
-            mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.iv_product_image);
             mTvQuantity = (TextView) itemView.findViewById(R.id.tv_total_item);
             mTvtotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
-            mTimeHeader = (RelativeLayout) itemView.findViewById(R.id.tv_time_header);
             mTime = (TextView) itemView.findViewById(R.id.tv_time);
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
