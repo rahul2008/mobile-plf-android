@@ -118,7 +118,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.2.rc8"
+        versionName "1.0.3"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.cdp.test"
@@ -165,7 +165,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '6.0.6', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.0.0-rc.1', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }

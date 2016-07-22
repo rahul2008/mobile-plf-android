@@ -9,8 +9,10 @@ import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
+import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
@@ -456,33 +458,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(userWithProductsMock).retryRequests(context, product);
     }
 
-    public void testGetMetadataListener() {
-        RegisteredProduct productMock = new RegisteredProduct("ctn", null, null);
-        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
-            @Override
-            protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct product) {
-                return true;
-            }
-
-            @Override
-            protected boolean isValidPurchaseDate(String date) {
-                return true;
-            }
-
-            @NonNull
-            @Override
-            UserWithProducts getUserProduct() {
-                return userWithProductsMock;
-            }
-
-            @Override
-            protected ErrorHandler getErrorHandler() {
-                return errorHandlerMock;
-            }
-        };
-    }
-
     public void testRegistrationRequest() {
         final RegistrationRequest registrationRequest = new RegistrationRequest(null, null, null);
         final RegisteredProduct productMock = mock(RegisteredProduct.class);
@@ -589,7 +564,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(true);
     }
-
     public void testGetRegisteredProductsListener() {
         RegisteredProduct registeredProductMock = mock(RegisteredProduct.class);
         when(registeredProductMock.getCtn()).thenReturn("ctn");
@@ -601,13 +575,38 @@ public class UserWithProductsTest extends MockitoTestCase {
         userWithProducts.setCurrentRegisteredProduct(registeredProductMock);
         registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
         verify(prodRegListener).onProdRegFailed(registeredProductMock, userWithProductsMock);
-        RegisteredProduct registeredProductMock1 = mock(RegisteredProduct.class);
-        when(registeredProductMock1.getCtn()).thenReturn("ctn1");
-        when(registeredProductMock1.getSerialNumber()).thenReturn("serial1");
-        when(registeredProductMock1.getRegistrationState()).thenReturn(RegistrationState.REGISTERING);
-        registeredProductsListener = userWithProducts.getRegisteredProductsListener(registeredProductMock1);
-        registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
-        verify(userWithProductsMock).makeRegistrationRequest(context, registeredProductMock1);
+    }
 
+    public void testGetMetadataListener() {
+        RegisteredProduct productMock = new RegisteredProduct("ctn", null, null);
+        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
+            @Override
+            protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct product) {
+                return true;
+            }
+
+            @Override
+            protected boolean isValidPurchaseDate(String date) {
+                return true;
+            }
+
+            @NonNull
+            @Override
+            UserWithProducts getUserProduct() {
+                return userWithProductsMock;
+            }
+
+            @Override
+            protected ErrorHandler getErrorHandler() {
+                return errorHandlerMock;
+            }
+        };
+        MetadataListener metadataListener = userWithProducts.getMetadataListener(productMock);
+        ProductMetadataResponse responseDataMock = mock(ProductMetadataResponse.class);
+        metadataListener.onMetadataResponse(responseDataMock);
+        verify(userWithProductsMock).makeRegistrationRequest(context, productMock);
+        metadataListener.onErrorResponse("test", 8);
+        verify(errorHandlerMock).handleError(userWithProductsMock, productMock, 8);
     }
 }

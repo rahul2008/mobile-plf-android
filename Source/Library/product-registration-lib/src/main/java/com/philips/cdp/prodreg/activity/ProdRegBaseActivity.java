@@ -30,7 +30,7 @@ import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
 
         @Override
         public void run() {
-            Tagging.pauseCollectingLifecycleData();
+            AppTagging.pauseCollectingLifecycleData();
         }
     };
 
@@ -52,7 +52,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
 
         @Override
         public void run() {
-            Tagging.collectLifecycleData();
+            AppTagging.collectLifecycleData(ProdRegBaseActivity.this);
         }
     };
 

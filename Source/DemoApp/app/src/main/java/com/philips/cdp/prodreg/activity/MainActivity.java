@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
 
 public class MainActivity extends UiKitActivity {
@@ -30,7 +30,7 @@ public class MainActivity extends UiKitActivity {
 
         @Override
         public void run() {
-            Tagging.pauseCollectingLifecycleData();
+            AppTagging.pauseCollectingLifecycleData();
         }
     };
 
@@ -38,7 +38,7 @@ public class MainActivity extends UiKitActivity {
 
         @Override
         public void run() {
-            Tagging.collectLifecycleData();
+            AppTagging.collectLifecycleData(MainActivity.this);
         }
     };
 
