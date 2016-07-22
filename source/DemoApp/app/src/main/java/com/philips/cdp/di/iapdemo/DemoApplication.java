@@ -7,7 +7,6 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.tagging.Tagging;
 import java.util.Locale;
 
 public class DemoApplication extends Application {
@@ -24,9 +23,6 @@ public class DemoApplication extends Application {
     private void initializeUserRegistration() {
         //Required in case Production has to be added to dynamic configuration
         //mAppEnvironmentPreference = new EnvironmentPreferences(getApplicationContext());
-        Tagging.enableAppTagging(true);
-        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-        Tagging.setLaunchingPageName("demoapp:home");
 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
@@ -35,7 +31,6 @@ public class DemoApplication extends Application {
 
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext());
-        Tagging.init(getApplicationContext(), "Philips Registartion Sample demo");
         //Required in case Production has to be added to dynamic configuration
         /*if(mAppEnvironmentPreference.getSelectedEnvironmentIndex()== 3) {
             RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.PRODUCTION);

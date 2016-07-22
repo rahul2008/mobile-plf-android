@@ -22,10 +22,6 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 public class IAPLaunchHelper {
 
     public static void launchIAPActivity(Context context, int screen, int themeIndex, String ctnNumber) {
-        //Set component version key and value for InAppPurchase
-       /* Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
-        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);*/
-
         Intent intent = new Intent(context, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, screen);

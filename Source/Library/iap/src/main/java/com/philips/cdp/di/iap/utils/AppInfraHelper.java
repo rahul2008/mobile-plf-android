@@ -7,9 +7,9 @@ package com.philips.cdp.di.iap.utils;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cl.di.apptagging.BuildConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -18,7 +18,7 @@ public class AppInfraHelper {
     private static volatile AppInfraHelper mAnalyticsHelper = null;
     private AppTaggingInterface mAppTaggingInterface;
     private LoggingInterface mIapLoggingInterface;
-    public  AppInfraInterface mAppInfraInterface;
+    public AppInfraInterface mAppInfraInterface;
 
     private AppInfraHelper() {
     }

@@ -186,7 +186,7 @@ public class IAPActivity extends UiKitActivity {
 
     @Override
     protected void onResume() {
-        IAPAnalytics.collectLifecycleData();
+        IAPAnalytics.collectLifecycleData(this);
         super.onResume();
     }
 

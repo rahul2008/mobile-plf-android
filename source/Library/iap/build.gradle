@@ -157,7 +157,7 @@ dependencies {
     compile 'com.philips.cdp:uikitLib:3.2.2'
     compile 'com.philips.cdp:AppInfra:1.1.0'
 
-    compile('com.philips.cdp:registrationApi:6.0.6') {
+    compile('com.philips.cdp:registrationApi:7.0.0-rc.1') {
         exclude group: 'com.android.support'
         transitive = true
     }

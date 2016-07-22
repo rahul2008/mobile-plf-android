@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.di.iap.analytics;
 
+import android.app.Activity;
+
 import com.adobe.mobile.Config;
 import com.philips.cdp.di.iap.utils.AppInfraHelper;
 
@@ -17,7 +19,7 @@ public class IAPAnalytics {
             Map<String, String> map = new HashMap<>();
             AppInfraHelper.getInstance().getIapTaggingInterface().
                     trackPageWithInfo(currentPage, map);
-//            AppInfraHelper.getInstance().getAIAppTaggingInterface().setPreviousPage(currentPage);
+            AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage(currentPage);
         }
     }
 
@@ -35,14 +37,14 @@ public class IAPAnalytics {
     }
 
     public static void pauseCollectingLifecycleData() {
-//        if (AppInfraHelper.getInstance().getAIAppTaggingInterface() != null)
-//            AppInfraHelper.getInstance().getAIAppTaggingInterface().;
+        if (AppInfraHelper.getInstance().getIapTaggingInterface() != null)
+            AppInfraHelper.getInstance().getIapTaggingInterface().pauseLifecycleInfo();
         Config.pauseCollectingLifecycleData();
     }
 
-    public static void collectLifecycleData() {
-//        if (AppInfraHelper.getInstance().getAIAppTaggingInterface() != null)
-//            AppInfraHelper.getInstance().getAIAppTaggingInterface().collectLifecycleInfo(activity);
+    public static void collectLifecycleData(Activity activity) {
+        if (AppInfraHelper.getInstance().getIapTaggingInterface() != null)
+            AppInfraHelper.getInstance().getIapTaggingInterface().collectLifecycleInfo(activity);
         Config.collectLifecycleData();
     }
 }
