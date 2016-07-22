@@ -39,9 +39,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             proguardFile 'proguard.pro'
+            proguardFile 'appinfraproguard.pro'
             //  proguardFile 'proguard.pro'
             signingConfig signingConfigs.release
         }
@@ -50,6 +51,7 @@ android {
             // /launchDigitalCare/proguard.pro'
             minifyEnabled true
             proguardFile 'proguard.pro'
+            proguardFile 'appinfraproguard.pro'
             //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             // proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/
             // launchDigitalCare/proguard.pro'
