@@ -61,6 +61,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mShopNowCategorized;
     private EditText mEtCTN;
     private ArrayList<String> mProductList = new ArrayList<>();
+    private ArrayList<String> mCategorizedList = new ArrayList<>();
 
     private int mSelectedCountryIndex;
     private ProgressDialog mProgressDialog = null;
@@ -126,16 +127,16 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         /*Pls uncommnet when vertical wants to get complete product list from hybris*/
         
-//        mIAPSettings.setUseLocalData(false);
-//        if (!mIAPSettings.isUseLocalData()) {
-//            Handler handler = new Handler(Looper.getMainLooper());
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mIapHandler.getCompleteProductList(mGetCompleteProductListener);
-//                }
-//            }, 1000);
-//        }
+       // mIAPSettings.setUseLocalData(false);
+     //   if (!mIAPSettings.isUseLocalData()) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mIapHandler.getCompleteProductList(mGetCompleteProductListener);
+                }
+            }, 1000);
+       // }
     }
 
     @Override
@@ -221,10 +222,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_categorized_shop_now:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-                    if (mProductList != null && !mProductList.isEmpty()) {
-                        IAPLog.d(IAPLog.LOG, "Product List : " + mProductList);
-                        mIapHandler.launchCategorizedCatalog(mProductList);
-                        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+                    if (mCategorizedList != null && !mCategorizedList.isEmpty()) {
+                        IAPLog.d(IAPLog.LOG, "Product List : " + mCategorizedList);
+                        mIapHandler.launchCategorizedCatalog(mCategorizedList);
+                      //  mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                     } else {
                         Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
                     }
@@ -235,8 +236,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             case R.id.btn_add_ctn:
                 String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
                 mEtCTN.setText("");
-                if (!mProductList.contains(str)) {
-                    mProductList.add(str);
+                if (!mCategorizedList.contains(str)) {
+                    mCategorizedList.add(str);
                     Toast.makeText(DemoAppActivity.this, "Product Added Successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Product is duplicate", Toast.LENGTH_SHORT).show();

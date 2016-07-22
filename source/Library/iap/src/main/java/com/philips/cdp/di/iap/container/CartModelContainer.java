@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.container;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -26,6 +27,7 @@ public class CartModelContainer {
     private String mOrderNumber;
     private RegionsList mRegionList;
     private HashMap<String, SummaryModel> mPRXDataObjects;
+    private HashMap<String, ProductCatalogData> mProductCatalogData;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
     private List<DeliveryModes> mDeliveryModes;
 
@@ -34,6 +36,7 @@ public class CartModelContainer {
     private CartModelContainer() {
         mPRXDataObjects = new HashMap<>();
         mPRXAssetObjects = new HashMap<>();
+        mProductCatalogData = new HashMap<>();
     }
 
     public static CartModelContainer getInstance() {
@@ -148,6 +151,10 @@ public class CartModelContainer {
         return mPRXDataObjects.get(ctn);
     }
 
+    public ProductCatalogData getProductCatalogData(String ctn) {
+        return mProductCatalogData.get(ctn);
+    }
+
     public boolean isPRXDataPresent(String ctn) {
         return mPRXDataObjects.containsKey(ctn);
     }
@@ -168,7 +175,26 @@ public class CartModelContainer {
         mPRXAssetObjects.put(ctn, assets);
     }
 
+    public void addProductCatalogDataDataToList(String ctn, ProductCatalogData data) {
+        mProductCatalogData.put(ctn, data);
+    }
+
+    public boolean isProductCatalogDataPresent(String ctn) {
+        return mProductCatalogData.containsKey(ctn);
+    }
+
+    public ProductCatalogData getProduct(String ctn){
+        if(mProductCatalogData.containsKey(ctn)){
+            return mProductCatalogData.get(ctn);
+        }
+        return null;
+    }
+
     public HashMap<String, ArrayList<String>> getPRXAssetObjects() {
         return mPRXAssetObjects;
+    }
+
+    public HashMap<String, ProductCatalogData> getProductCatalogData() {
+        return mProductCatalogData;
     }
 }

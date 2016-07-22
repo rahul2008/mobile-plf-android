@@ -14,9 +14,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
@@ -34,6 +31,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,9 +48,11 @@ public class IAPActivity extends UiKitActivity {
         if (savedInstanceState == null) {
             setLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
-
+            ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.PRODUCT_CTNS);
             if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
-                addFragment(ProductCatalogFragment.createInstance(new Bundle(),
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList(IAPConstant.PRODUCT_CTNS,CTNs);
+                addFragment(ProductCatalogFragment.createInstance(bundle,
                         BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
             } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
                 addFragment(ShoppingCartFragment.createInstance(new Bundle(),

@@ -10,10 +10,11 @@ import android.text.TextUtils;
 
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.IAPLaunchHelper;
+import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
-import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
@@ -78,14 +79,15 @@ public class HybrisHandler implements IAPExposedAPI {
 
     @Override
     public void getCompleteProductList(final IAPHandlerProductListListener iapHandlerListener) {
+        final ProductCatalogAPI presenter = ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null, null);
         if (isStoreInitialized()) {
-            getArrayListOfProductes(iapHandlerListener);
+            presenter.getCompleteProductList(mContext, iapHandlerListener, 0, 10);
         } else {
             HybrisDelegate.getInstance(mContext).getStore().
                     initStoreConfig(mLanguage, mCountry, new RequestListener() {
                         @Override
                         public void onSuccess(final Message msg) {
-                            getArrayListOfProductes(iapHandlerListener);
+                            presenter.getCompleteProductList(mContext, iapHandlerListener, 0, 10);
                         }
 
                         @Override
@@ -96,20 +98,49 @@ public class HybrisHandler implements IAPExposedAPI {
         }
     }
 
-    private void getArrayListOfProductes(final IAPHandlerProductListListener iapHandlerListener) {
-        ProductCatalogPresenter presenter = new ProductCatalogPresenter();
-        presenter.getCompleteProductList(mContext, new IAPHandlerProductListListener() {
+    @Override
+    public void launchCategorizedCatalog(final ArrayList<String> pProductCTNs) {
+        if (mIAPSettings.isLaunchAsFragment()) {
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW,null,pProductCTNs);
+        } else {
+            IAPLaunchHelper.launchIAPActivity(mContext, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex, null, pProductCTNs);
+        }
+    }
 
+    @Override
+    public void getCatalogCountAndCallCatalog() {
+
+        final ProductCatalogAPI mPresenter = ControllerFactory.getInstance()
+                .getProductCatalogPresenter(mContext, null, null);
+
+        final IAPHandlerListener listener = new IAPHandlerListener() {
             @Override
-            public void onFailure(int errorCode) {
-                iapHandlerListener.onFailure(errorCode);
+            public void onSuccess(final int count) {
+                mPresenter.getProductCatalog(0, count,null);
             }
 
             @Override
-            public void onSuccess(ArrayList<String> productList) {
-                updateSuccessListener(productList, iapHandlerListener);
+            public void onFailure(final int errorCode) {
+
             }
-        },CURRENT_PAGE,PAGE_SIZE);
+        };
+
+        if (isStoreInitialized()) {
+            mPresenter.getCatalogCount(listener);
+        }else{
+            HybrisDelegate.getInstance(mContext).getStore().
+                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
+                        @Override
+                        public void onSuccess(final Message msg) {
+                            mPresenter.getCatalogCount(listener);
+                        }
+
+                        @Override
+                        public void onError(final Message msg) {
+
+                        }
+                    });
+        }
     }
 
     private boolean isStoreInitialized() {
@@ -140,6 +171,7 @@ public class HybrisHandler implements IAPExposedAPI {
                 if (listener != null) {
                     listener.onSuccess(IAPConstant.IAP_SUCCESS);
                 }
+                getCatalogCountAndCallCatalog();
             }
 
             @Override
@@ -153,9 +185,9 @@ public class HybrisHandler implements IAPExposedAPI {
 
     void launchIAPActivity(int screen, String ctnNumber) {
         if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, ctnNumber);
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, ctnNumber,null);
         } else {
-            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, ctnNumber);
+            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, ctnNumber,null);
         }
     }
 

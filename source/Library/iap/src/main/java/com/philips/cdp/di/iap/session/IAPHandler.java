@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class IAPHandler implements IAPExposedAPI {
 
     private IAPExposedAPI mImplementationHandler;
-    public static ArrayList<String> mProductCTNs;
+    //public static ArrayList<String> mProductCTNs;
 
     private IAPHandler() {
     }
@@ -31,11 +31,12 @@ public class IAPHandler implements IAPExposedAPI {
         handler.initHybrisDelegate(context, config);
         handler.initControllerFactory(config);
         handler.setLangAndCountry(config.getLanguage(), config.getCountry());
+        handler.getCatalogCountAndCallCatalog();
         return handler;
     }
 
     public void launchCategorizedCatalog(ArrayList<String> pProductCTNs) {
-        mProductCTNs = pProductCTNs;
+        mImplementationHandler.launchCategorizedCatalog(pProductCTNs);
     }
 
     @Override
@@ -55,6 +56,11 @@ public class IAPHandler implements IAPExposedAPI {
     @Override
     public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
         mImplementationHandler.getCompleteProductList(iapHandlerListener);
+    }
+
+    @Override
+    public void getCatalogCountAndCallCatalog() {
+        mImplementationHandler.getCatalogCountAndCallCatalog();
     }
 
     private void setLangAndCountry(final String language, final String country) {

@@ -17,14 +17,15 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.adapters.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.adapters.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
@@ -35,6 +36,8 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher, ProductCatalogPresenter.LoadListener {
 
@@ -52,6 +55,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private int mTotalPages = -1;
     ProductCatalogAPI mPresenter;
     ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
+    Bundle mBundle;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -79,7 +83,42 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter(getContext(), this, getFragmentManager());
         mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
-        loadProductCatalog();
+        mBundle = getArguments();
+
+        if (mBundle != null) {
+            if (mBundle.containsKey(IAPConstant.PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.PRODUCT_CTNS) != null) {
+                onLoadFinished(getProductCatalog(), null);
+            } else if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
+                onLoadFinished(getProductCatalogDataFromStoredData(), null);
+            } else {
+                loadProductCatalog();
+            }
+        }
+    }
+
+    ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData(){
+        ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
+         HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
+        for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
+            if (entry != null) {
+                catalogDatas.add(entry.getValue());
+            }
+        }
+        return catalogDatas;
+    }
+    private ArrayList<ProductCatalogData> getProductCatalog() {
+        ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
+        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.PRODUCT_CTNS);
+
+        if(ctns!=null) {
+            for (String ctn : ctns) {
+                if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
+                    catalogDatas.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
+                }
+            }
+        }
+
+        return catalogDatas;
     }
 
     @Override
@@ -185,7 +224,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE);
+        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE,null);
     }
 
     private void loadMoreItems() {
@@ -202,7 +241,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
         if (mPresenter == null)
             mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE);
+        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE,null);
     }
 
     @Override

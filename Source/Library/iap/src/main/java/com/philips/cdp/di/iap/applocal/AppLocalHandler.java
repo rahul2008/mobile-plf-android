@@ -11,6 +11,9 @@ import com.philips.cdp.di.iap.core.IAPLaunchHelper;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+
+import java.util.ArrayList;
 
 public class AppLocalHandler implements IAPExposedAPI {
 
@@ -27,10 +30,10 @@ public class AppLocalHandler implements IAPExposedAPI {
     @Override
     public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
         if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView, ctnNumber);
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView, ctnNumber,null);
         } else {
             IAPLaunchHelper.launchIAPActivity(mContext,
-                    landingView, mThemeIndex, ctnNumber);
+                    landingView, mThemeIndex, ctnNumber,null);
         }
     }
 
@@ -51,4 +54,17 @@ public class AppLocalHandler implements IAPExposedAPI {
         //NOP
     }
 
+    @Override
+    public void launchCategorizedCatalog(final ArrayList<String> pProductCTNs) {
+        if (mIAPSettings.isLaunchAsFragment()) {
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW,null,pProductCTNs);
+        } else {
+            IAPLaunchHelper.launchIAPActivity(mContext, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex, null, pProductCTNs);
+        }
+    }
+
+    @Override
+    public void getCatalogCountAndCallCatalog() {
+        //NOP
+    }
 }

@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
@@ -37,7 +38,7 @@ public class ProductCatalogHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs, Products productData) {
+    public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs, Products productData, IAPHandlerProductListListener listener) {
         if (msg.obj instanceof HashMap) {
             HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
 
@@ -48,7 +49,7 @@ public class ProductCatalogHelper {
             PaginationEntity pagination = null;
             if (productData != null)
                 pagination = productData.getPagination();
-            refreshList(products, pagination);
+            refreshList(products, pagination,listener);
 
         } else {
             notifyEmptyCartFragment();
@@ -96,9 +97,32 @@ public class ProductCatalogHelper {
     }
 
 
-    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
+    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, IAPHandlerProductListListener listener) {
         if (mLoadListener != null) {
-            mLoadListener.onLoadFinished(data,paginationEntity);
+            mLoadListener.onLoadFinished(data, paginationEntity);
+        }
+        if(listener!=null){
+            listener.onSuccess(getProductCTNs(data));
+        }
+           storeData(data);
+    }
+
+    private ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
+        ArrayList<String> ctns = new ArrayList<>();
+        for(ProductCatalogData entry : data){
+            ctns.add(entry.getCtnNumber());
+        }
+        return ctns;
+    }
+
+    private void storeData(final ArrayList<ProductCatalogData> data) {
+        CartModelContainer container = CartModelContainer.getInstance();
+        String CTN;
+        for(ProductCatalogData entry: data){
+            CTN = entry.getCtnNumber();
+            if(!container.isProductCatalogDataPresent(CTN)){
+                container.addProductCatalogDataDataToList(CTN, entry);
+            }
         }
     }
 
