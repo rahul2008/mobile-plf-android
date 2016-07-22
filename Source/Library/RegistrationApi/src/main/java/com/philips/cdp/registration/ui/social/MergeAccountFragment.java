@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;

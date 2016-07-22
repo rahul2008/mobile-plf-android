@@ -66,7 +66,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private ProgressBar mPbWelcomeCheck;
 
-    private ScrollView mSvRootLayout;
+    private ScrollView mSvLayout;
 
     private TextView mAccessAccountSettingsLink;
 
@@ -91,9 +91,9 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         View view = inflater.inflate(R.layout.reg_fragment_logout, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-        init(view);
-        handleUiState();
+        mSvLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        initUi(view);
+        handleUiStates();
         handleOrientation(view);
         return view;
     }
@@ -104,23 +104,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onStart");
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onStop");
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -128,6 +111,22 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onActivityCreated");
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onPause");
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onStop");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onResume");
+    }
 
 
     @Override
@@ -174,7 +173,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         handleOrientationOnView(view);
     }
 
-    private void init(View view) {
+    private void initUi(View view) {
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
@@ -239,7 +238,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             mCbTerms.setChecked(!mCbTerms.isChecked());
             mCbTerms.setOnCheckedChangeListener(this);
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+            scrollViewAutomatically(mRegError, mSvLayout);
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
@@ -307,7 +306,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        handleUiState();
+        handleUiStates();
     }
 
     @Override
@@ -359,7 +358,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mCbTerms.setEnabled(true);
     }
 
-    private void handleUiState() {
+    private void handleUiStates() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
