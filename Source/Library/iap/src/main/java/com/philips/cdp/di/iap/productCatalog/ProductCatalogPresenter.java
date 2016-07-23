@@ -19,7 +19,6 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
-import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
@@ -122,7 +121,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         });
     }
 
-    private ArrayList<String> getProductCTNs(Message msg) {
+   /* private ArrayList<String> getProductCTNs(Message msg) {
         Products products = (Products) msg.obj;
         ArrayList<String> productCTNs = new ArrayList<String>();
         for (ProductsEntity entry : products.getProducts()) {
@@ -130,14 +129,14 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             productCTNs.add(ctn);
         }
         return productCTNs;
-    }
+    }*/
 
-    private int getIAPErrorCode(Message msg) {
+   /* private int getIAPErrorCode(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
             return ((IAPNetworkError) msg.obj).getIAPErrorCode();
         }
         return IAPConstant.IAP_ERROR_UNKNOWN;
-    }
+    }*/
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
