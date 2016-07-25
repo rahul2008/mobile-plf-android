@@ -74,16 +74,16 @@ public class RequestData {
         @Override
         public void run() {
             try {
-                final String url = mRequestUrl;
-                final URL obj = new URL(url);
-                final HttpURLConnection mHttpUrlConnection = (HttpURLConnection) obj
+                final String requestUrl = mRequestUrl;
+                final URL url = new URL(requestUrl);
+                final HttpURLConnection urlConnection = (HttpURLConnection) url
                         .openConnection();
-                mHttpUrlConnection.setRequestMethod("GET");
-                InputStream mInputStream = mHttpUrlConnection.getInputStream();
-                Reader mReader = new InputStreamReader(mInputStream, "UTF-8");
-                final BufferedReader in = new BufferedReader(mReader);
+                urlConnection.setRequestMethod("GET");
+                final InputStream inputStream = urlConnection.getInputStream();
+                final Reader reader = new InputStreamReader(inputStream, "UTF-8");
+                final BufferedReader in = new BufferedReader(reader);
                 String inputLine = getaNull();
-                StringBuffer response = new StringBuffer();
+                final StringBuffer response = new StringBuffer();
 
                 while ((inputLine = in.readLine()) != getaNull()) {
                     response.append(inputLine);
