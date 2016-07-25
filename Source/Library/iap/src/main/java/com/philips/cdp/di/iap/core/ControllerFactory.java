@@ -53,9 +53,9 @@ public class ControllerFactory {
                                                         FragmentManager fragmentManager) {
         ProductCatalogAPI api;
         if (loadLocalData())
-            api = new LocalProductCatalog(context, listener, true);
+            api = new LocalProductCatalog(context, listener);
         else {
-            api = new ProductCatalogPresenter(context, listener, false);
+            api = new ProductCatalogPresenter(context, listener);
         }
         return api;
     }

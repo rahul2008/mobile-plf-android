@@ -36,16 +36,13 @@ import java.util.HashMap;
 public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.DataLoadListener {
     private Context mContext;
     private ProductCatalogHelper mProductCatalogHelper;
-    Products mProductCatalog;
     ProductCatalogPresenter.LoadListener mListener;
-    boolean isLocalData;
     ArrayList<String> mProductList;
 
-    public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final boolean isPlanB) {
+    public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener) {
         mContext = context;
         mListener = listener;
         mProductCatalogHelper = new ProductCatalogHelper(context, listener, this);
-        isLocalData = isPlanB;
         mProductList = new ArrayList<>();
     }
 
@@ -71,61 +68,6 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     public void getCatalogCount(IAPHandlerListener listener) {
 
     }
-
-//    private boolean loadFromLocal() {
-//        String locale = HybrisDelegate.getInstance().getStore().getLocale();
-//        String fileName = locale + ".json";
-//        mProductCatalog = loadFromAsset(mContext, fileName);
-//
-//        if (mProductCatalog != null) {
-//            mProductCatalogHelper.makePrxCall(null, mProductCatalog, isLocalData);
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    private ArrayList<String> extractProductList(Products products) {
-//        ArrayList<String> productsToBeShown = new ArrayList();
-//        for (ProductsEntity entry : products.getProducts()) {
-//            String ctn = entry.getCode();
-//            productsToBeShown.add(ctn);
-//
-//        }
-//        return productsToBeShown;
-//    }
-//
-//    public Products loadFromAsset(Context context, String fileName) {
-//        InputStream fromAsset = null;
-//        Reader reader = null;
-//        Products products = null;
-//        try {
-//            fromAsset = readJsonInputStream(context, fileName);
-//            reader = new BufferedReader(new InputStreamReader(fromAsset));
-//            products = new Gson().fromJson(reader, Products.class);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (fromAsset != null) {
-//                try {
-//                    fromAsset.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (reader != null) {
-//                try {
-//                  reader.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return products;
-//    }
-//
-//    public InputStream readJsonInputStream(final Context context, String fileName) throws IOException {
-//        return context.getResources().getAssets().open(fileName);
-//    }
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {

@@ -121,23 +121,6 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         });
     }
 
-   /* private ArrayList<String> getProductCTNs(Message msg) {
-        Products products = (Products) msg.obj;
-        ArrayList<String> productCTNs = new ArrayList<String>();
-        for (ProductsEntity entry : products.getProducts()) {
-            String ctn = entry.getCode();
-            productCTNs.add(ctn);
-        }
-        return productCTNs;
-    }*/
-
-   /* private int getIAPErrorCode(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            return ((IAPNetworkError) msg.obj).getIAPErrorCode();
-        }
-        return IAPConstant.IAP_ERROR_UNKNOWN;
-    }*/
-
     public interface LoadListener {
         void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
 
@@ -147,11 +130,10 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     public ProductCatalogPresenter() {
     }
 
-    public ProductCatalogPresenter(Context context, LoadListener listener, boolean isPlanA) {
+    public ProductCatalogPresenter(Context context, LoadListener listener) {
         mContext = context;
         mLoadListener = listener;
         mProductCatalogHelper = new ProductCatalogHelper(mContext, mLoadListener, this);
-        this.isPlanA = isPlanA;
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
