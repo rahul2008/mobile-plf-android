@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
 import com.philips.cdp.di.iap.model.GetDeliveryModesRequest;
 import com.philips.cdp.di.iap.model.GetRegionsRequest;
+import com.philips.cdp.di.iap.model.GetUserRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
@@ -36,6 +37,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
     public interface AddressListener {
         void onGetRegions(Message msg);
 
+        void onGetUser(Message msg);
+
         void onCreateAddress(Message msg);
 
         void onGetAddress(Message msg);
@@ -55,6 +58,11 @@ public class AddressController implements AbstractModel.DataLoadListener {
     public void getRegions() {
         GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
         getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
+    }
+
+    public void getUser() {
+        GetUserRequest model = new GetUserRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);
     }
 
     public void createAddress(AddressFields addressFields) {
@@ -124,6 +132,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.GET_ADDRESS:
                 mAddressListener.onGetAddress(msg);
+                break;
+            case RequestCode.GET_USER:
+                mAddressListener.onGetUser(msg);
                 break;
             case RequestCode.DELETE_ADDRESS:
                 mAddressListener.onGetAddress(msg);

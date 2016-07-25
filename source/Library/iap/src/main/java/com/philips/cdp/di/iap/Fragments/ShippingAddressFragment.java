@@ -509,6 +509,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onGetUser(Message msg) {
+
+    }
+
+    @Override
     public void onGetDeliveryModes(Message msg) {
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             Utility.dismissProgressDialog();

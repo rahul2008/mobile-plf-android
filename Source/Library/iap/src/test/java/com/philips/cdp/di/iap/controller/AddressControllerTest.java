@@ -14,6 +14,7 @@ import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -114,6 +115,51 @@ public class AddressControllerTest {
 
         setStoreAndDelegate();
         mAddressController.getRegions();
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testGetUserSuccessResponseWithData() throws JSONException {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetUser(Message msg) {
+                assertEquals(RequestCode.GET_USER, msg.what);
+                assertTrue(msg.obj instanceof GetUser);
+            }
+        });
+
+        setStoreAndDelegate();
+        mAddressController.getUser();
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "GetUser.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetUserEmptySuccessResponse() throws JSONException {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetUser(Message msg) {
+                testEmptyResponse(msg, RequestCode.GET_USER);
+            }
+        });
+
+        setStoreAndDelegate();
+        mAddressController.getUser();
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetUserErrorResponse() {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetUser(Message msg) {
+                testErrorResponse(msg, RequestCode.GET_USER);
+            }
+        });
+
+        setStoreAndDelegate();
+        mAddressController.getUser();
         mNetworkController.sendFailure(new VolleyError());
     }
 

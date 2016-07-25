@@ -89,6 +89,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mOrderHistoryUrl;
     private String mOrderDetailUrl;
     private String mSearchProductUrl;
+    private String mGetUserUrl;
 
     public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
@@ -200,6 +201,7 @@ public class HybrisStore extends AbstractStoreSpec {
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
         mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_SEARCH_PRODUCT_URL);
+        mGetUserUrl = mBaseURl.concat(LANG);
     }
 
     @Override
@@ -360,5 +362,10 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getDeliveryModesUrl() {
         return mGetDeliveryModeUrl;
+    }
+
+    @Override
+    public String getUserUrl() {
+        return mGetUserUrl;
     }
 }
