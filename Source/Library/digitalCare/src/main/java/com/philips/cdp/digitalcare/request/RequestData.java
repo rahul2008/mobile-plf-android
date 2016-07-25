@@ -11,6 +11,7 @@ package com.philips.cdp.digitalcare.request;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -21,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -74,30 +76,48 @@ public class RequestData {
         @Override
         public void run() {
             try {
-                final String requestUrl = mRequestUrl;
-                final URL url = new URL(requestUrl);
-                final HttpURLConnection urlConnection = (HttpURLConnection) url
-                        .openConnection();
-                urlConnection.setRequestMethod("GET");
-                final InputStream inputStream = urlConnection.getInputStream();
-                final Reader reader = new InputStreamReader(inputStream, "UTF-8");
-                final BufferedReader in = new BufferedReader(reader);
-                String inputLine = getaNull();
+                final URL url = getRemoteUrl();
+                final BufferedReader in = getResponseReaders(url);
+                //     String inputLine = getaNull();
                 final StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != getaNull()) {
-                    response.append(inputLine);
-                }
+                readResponse(in, response);
                 in.close();
                 mResponse = response.toString();
             } catch (IOException e) {
-                DigiCareLogger.e(
-                        TAG,
-                        "Failed to fetch Response Data : "
-                                + e.getLocalizedMessage());
+                printErrorLog(e);
             } finally {
                 DigiCareLogger.d(TAG, "Response: [" + mResponse + "]");
                 notifyResponseHandler();
+            }
+        }
+
+        @NonNull
+        private URL getRemoteUrl() throws MalformedURLException {
+            final String requestUrl = mRequestUrl;
+            return new URL(requestUrl);
+        }
+
+        @NonNull
+        private BufferedReader getResponseReaders(URL url) throws IOException {
+            final HttpURLConnection urlConnection = (HttpURLConnection) url
+                    .openConnection();
+            urlConnection.setRequestMethod("GET");
+            final InputStream inputStream = urlConnection.getInputStream();
+            final Reader reader = new InputStreamReader(inputStream, "UTF-8");
+            return new BufferedReader(reader);
+        }
+
+        private void printErrorLog(IOException e) {
+            DigiCareLogger.e(
+                    TAG,
+                    "Failed to fetch Response Data : "
+                            + e.getLocalizedMessage());
+        }
+
+        private void readResponse(BufferedReader in, StringBuffer response) throws IOException {
+            String inputLine;
+            while ((inputLine = in.readLine()) != getaNull()) {
+                response.append(inputLine);
             }
         }
 
