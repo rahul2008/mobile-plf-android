@@ -5,7 +5,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @since : 19 May
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.philips.cdp.digitalcare.locatephilips.parser.MapDirectionsParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -31,18 +32,22 @@ import java.util.HashMap;
 import java.util.List;
 
 
+/**
+ * This class responsible for drawaing & deciding the source & destination line of
+ * the user to the required philips customer/service center.
+ */
 public class MapDirections {
 
-    private MapDirectionResponse mMapDirectionResponse = null;
-    private String TAG = MapDirections.class.getSimpleName();
+    private static final String TAG = MapDirections.class.getSimpleName();
+    protected MapDirectionResponse mMapDirectionResponse = null;
 
-    public MapDirections(MapDirectionResponse mapDirectionResponse, LatLng source,
-                         LatLng destination) {
+    public MapDirections(MapDirectionResponse mapDirectionResponse, LatLng source, LatLng
+            destination) {
         mMapDirectionResponse = mapDirectionResponse;
 
         // Getting URL to the Google Directions API
-        String url = getDirectionsUrl(source, destination);
-        DownloadTask downloadTask = new DownloadTask();
+        final String url = getDirectionsUrl(source, destination);
+        final DownloadTask downloadTask = new DownloadTask();
         // Start downloading json data from Google Directions
         // API
         downloadTask.execute(url);
@@ -51,18 +56,18 @@ public class MapDirections {
     private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
-        String str_origin = "origin=" + origin.latitude + ","
+        final String str_origin = "origin=" + origin.latitude + ","
                 + origin.longitude;
         // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        final String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
         // Sensor enabled
-        String sensor = "sensor=false&units=metric&mode=driving";
+        final String sensor = "sensor=false&units=metric&mode=driving";
         // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + sensor;
+        final String parameters = str_origin + "&" + str_dest + "&" + sensor;
         // Output format
-        String output = "json";
+        final String output = "json";
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/"
+        final String url = "https://maps.googleapis.com/maps/api/directions/"
                 + output + "?" + parameters;
 
         return url;
@@ -71,12 +76,12 @@ public class MapDirections {
     /**
      * A method to download json data from url
      */
-    private String downloadUrl(String strUrl) throws IOException {
+    private String downloadUrl(final String param1) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
         try {
-            URL url = new URL(strUrl);
+            final URL url = new URL(param1);
 
             // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -87,10 +92,12 @@ public class MapDirections {
             // Reading data from url
             iStream = urlConnection.getInputStream();
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    iStream, "UTF-8"));
+            final InputStreamReader inputStreamReader = new InputStreamReader(
+                    iStream, "UTF-8");
 
-            StringBuffer sb = new StringBuffer();
+            final BufferedReader br = new BufferedReader(inputStreamReader);
+
+            final StringBuffer sb = new StringBuffer();
 
             String line = "";
             while ((line = br.readLine()) != null) {
@@ -110,11 +117,17 @@ public class MapDirections {
         return data;
     }
 
+    /**
+     * MapDirectionResponse interface serves callback service as soon as the
+     * info available.
+     */
     public interface MapDirectionResponse {
         void onReceived(ArrayList<LatLng> arrayList);
     }
 
-    // Fetches data from url passed
+    /**
+     * Network wrapper code for fetching the network data.
+     */
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         // Downloading data in non-ui thread
@@ -127,7 +140,7 @@ public class MapDirections {
             try {
                 // Fetching the data from web service
                 data = downloadUrl(url[0]);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 DigiCareLogger.e(TAG, "Background Task" + e.toString());
             }
             return data;
@@ -139,7 +152,7 @@ public class MapDirections {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            ParserTask parserTask = new ParserTask();
+            final ParserTask parserTask = new ParserTask();
 
             // Invokes the thread for parsing the JSON data
             parserTask.execute(result);
@@ -157,17 +170,17 @@ public class MapDirections {
         protected List<List<HashMap<String, String>>> doInBackground(
                 String... jsonData) {
 
-            JSONObject jObject;
+            JSONObject jObject = null;
             List<List<HashMap<String, String>>> routes = null;
 
             try {
                 jObject = new JSONObject(jsonData[0]);
-                MapDirectionsParser parser = new MapDirectionsParser();
+                final MapDirectionsParser parser = new MapDirectionsParser();
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (JSONException e) {
+                DigiCareLogger.e(TAG, "JSON Exception while getting the map releated json : " + e);
             }
             return routes;
         }
@@ -184,15 +197,15 @@ public class MapDirections {
                 // lineOptions = new PolylineOptions();
 
                 // Fetching i-th route
-                List<HashMap<String, String>> path = result.get(i);
+                final List<HashMap<String, String>> path = result.get(i);
 
                 // Fetching all the points in i-th route
                 for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
+                    final HashMap<String, String> point = path.get(j);
 
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
+                    final double lat = Double.parseDouble(point.get("lat"));
+                    final double lng = Double.parseDouble(point.get("lng"));
+                    final LatLng position = new LatLng(lat, lng);
 
                     points.add(position);
                 }
