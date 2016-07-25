@@ -39,13 +39,13 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
-        initializeUserRegistrationLibrary();
         flowManager = new FlowManager();
         AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
+        initializeUserRegistrationLibrary();
     }
 
     public FlowManager getFlowManager() {
