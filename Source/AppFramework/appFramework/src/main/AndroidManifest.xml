@@ -12,15 +12,16 @@
     <application
         android:name="com.philips.platform.appframework.AppFrameworkApplication"
         android:allowBackup="true"
-        android:largeHeap="true"
-        tools:replace="android:theme,android:label"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/af_app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
-       android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground">
+        android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
+        tools:replace="android:theme,android:label">
 
-        <activity android:name=".splash.SplashActivity"
+        <activity
+            android:name=".splash.SplashActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,9 +31,9 @@
         </activity>
         <activity android:name=".introscreen.WelcomeActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name=".homescreen.HomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <activity android:name=".userregistrationscreen.UserRegistrationActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
+        <activity android:name=".homescreen.HomeActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->

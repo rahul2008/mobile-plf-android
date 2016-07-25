@@ -233,18 +233,22 @@ public static <fields>;
 -keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
 -keep class com.philips.cdp.uikit.customviews.**
+-keep class com.philips.cdp.productselection.**
+-keep class com.philips.cdp.productselection.utils.ProductSelectionLogger.**
+-keep class com.philips.cdp.productselection.ProductModelSelectionHelper.**
+
 
 #-keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
 
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
--dontwarn  com.philips.cdp.productselection.R$id
+#-dontwarn  com.philips.cdp.productselection.R$id
 -dontwarn android.view.**
 -dontwarn android.media.session
 -dontwarn android.app.**
 
 -dontwarn com.philips.cdp.digitalcare.**
--dontwarn com.philips.cdp.productselection.**
+#-dontwarn com.philips.cdp.productselection.**
 -dontwarn android.support.**
 -dontwarn com.adobe.mobile.**
 -dontwarn org.apache.**
@@ -253,4 +257,80 @@ public static <fields>;
 -dontwarn com.shamanland.**
 -dontwarn uk.co.chrisjenx.**
 
+
 #-------------------------Consumer Care Ends -------------------------
+
+#InAppPurchase
+-keep class com.philips.cdp.di.iap.store** {*;}
+-keep interface com.philips.cdp.di.iap.store** {*;}
+-keep class com.philips.cdp.di.iap.model** {*;}
+-keep interface com.philips.cdp.di.iap.model** {*;}
+-keep class com.philips.cdp.di.iap.response** {*;}
+-keep interface com.philips.cdp.di.iap.response** {*;}
+-keep class com.philips.cdp.di.iap.session.** {*;}
+-keep interface com.philips.cdp.di.iap.session.** {*;}
+-dontwarn com.philips.cdp.di.iap.analytics.**
+
+#Prx
+-keep class com.philips.cdp.prxclient.** {*;}
+-keep interface com.philips.cdp.prxclient.** { *; }
+
+
+#--------------------------AppInfra starts here-----------
+-keep public class javax.net.ssl.**
+-keepclassmembers public class javax.net.ssl.** {*;}
+-keepclassmembers public class org.apache.http.** {*;}
+-keepattributes InnerClasses,Exceptions
+-dontwarn com.philips.platform.appinfra.**
+
+-dontwarn org.apache.**
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+
+
+
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.platform.appinfra.tagging.** {*;}
+-keep class com.android.volley.** { *; }
+-keep interface com.android.volley.** { *; }
+-keep class org.apache.commons.logging.**
+
+
+-keep public class com.philips.platform.appinfra.AppInfra { *; }
+-keep public class com.philips.platform.appinfra.AppInfra.Builder { *; }
+-keepnames public class com.philips.platform.appinfra.AppInfra.Builder
+-keep public class com.philips.platform.appinfra.AppInfraSingleton { *; }
+-keep public class com.philips.platform.appinfra.GlobalStore { *; }
+
+-keepnames public class com.philips.platform.appinfra.AppInfra
+-keep public class  com.philips.platform.appinfra.AppInfra$* {
+        *;
+ }
+-keepclassmembers  public class com.philips.platform.appinfra.AppInfra
+-keep public class com.philips.platform.appinfra.AppInfraLibraryApplication.**
+
+
+-keep public class com.philips.platform.appinfra.appidentity.** {
+  public protected *;
+}
+-keep public class com.philips.platform.appinfra.securestorage.** {
+  public protected *;
+}
+-keep public class com.philips.platform.appinfra.logging.** {
+   public protected *;
+ }
+ -keep public class com.philips.platform.appinfra.servicediscovery.** {
+    public protected *;
+  }
+-keep public class com.philips.platform.appinfra.timesync.** {
+    public protected *;
+  }
+
+
+
+-keep public interface com.philips.platform.appinfra.appidentity.AppIdentityInterface {*;}
+
+-keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
+
+#-----------------------------app infra ends here-----------------------------------

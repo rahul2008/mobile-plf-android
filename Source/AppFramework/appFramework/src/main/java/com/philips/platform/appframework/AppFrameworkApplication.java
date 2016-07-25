@@ -18,6 +18,8 @@ import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.Locale;
@@ -26,9 +28,10 @@ import java.util.Locale;
 public class AppFrameworkApplication extends Application {
     public FlowManager flowManager;
     private static Context mContext;
-    public static AppInfra gAppInfra;
+    public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
         MultiDex.install(this);
@@ -37,7 +40,8 @@ public class AppFrameworkApplication extends Application {
         SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         initializeUserRegistrationLibrary();
         flowManager = new FlowManager();
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
+        gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);

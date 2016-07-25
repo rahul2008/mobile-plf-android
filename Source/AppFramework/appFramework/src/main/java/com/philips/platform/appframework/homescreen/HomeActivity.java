@@ -96,6 +96,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
+        actionBarTitle.setGravity(Gravity.CENTER_HORIZONTAL);
 
         actionBarCount = (TextView) findViewById(R.id.hamburger_count);
         actionBarCount.setVisibility(View.GONE);
@@ -145,7 +146,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
                 super.onDrawerOpened(drawerView);
             }
         };
-        philipsDrawerLayout.setDrawerListener(drawerToggle);
+        philipsDrawerLayout.addDrawerListener(drawerToggle);
     }
 
     private void setHamburgerAdaptor() {

@@ -128,12 +128,8 @@ public class SettingsAdapter extends BaseAdapter {
         value.setVisibility(View.VISIBLE);
         setSwitchState(value, "s1");
 
-        value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                saveBundle.putBoolean("s1", ((PuiSwitch) v).isChecked());
-            }
-        });
+        value.setChecked(mUser.getReceiveMarketingEmail());
+        value.setClickable(false);
 
         String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
                 getString(R.string.settings_list_item_four_term_cond);

@@ -12,11 +12,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 
 public class WelcomePagerAdapter extends FragmentPagerAdapter {
+    protected static final String[] CONTENT = new String[]{"Page 1", "Page 2", "Page 3"};
     private static final int FIRST_INSTANCE = 0;
     private static final int SECOND_INSTANCE = 1;
     private static final int THIRD_INSTANCE = 2;
-
-    protected static final String[] CONTENT = new String[]{"Page 1", "Page 2", "Page 3"};
     private int mCount = CONTENT.length;
 
     public WelcomePagerAdapter(FragmentManager fragmentManager) {
