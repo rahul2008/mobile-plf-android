@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class IAPHandler implements IAPExposedAPI {
 
     private IAPExposedAPI mImplementationHandler;
-    //public static ArrayList<String> mProductCTNs;
 
     private IAPHandler() {
     }
