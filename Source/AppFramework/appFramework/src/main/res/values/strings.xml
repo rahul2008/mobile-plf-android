@@ -31,6 +31,7 @@
     <string name="settings_list_item_my_acc">&lt;b>My Account&lt;/b></string>
     <string name="settings_list_item_login">Login</string>
     <string name="settings_list_item_log_out">Log out</string>
+    <string name="iap_unknown_error">Unknow Error</string>
 
     <!--Settings Screen ends-->
 
@@ -39,7 +40,7 @@
         <item>@string/app_home_title </item>
             
         <item>Support</item>
-            
+        <item>Shop</item>
         <item>Settings</item>
         <item>Debug and Testing</item>
         <!--
