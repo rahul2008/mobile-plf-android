@@ -235,6 +235,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onGetUser(Message msg) {
+
+    }
+
+    @Override
     public void onGetDeliveryModes(Message msg) {
 
     }

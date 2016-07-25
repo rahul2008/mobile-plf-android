@@ -191,4 +191,9 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     public String getDeliveryModesUrl() {
         return null;
     }
+
+    @Override
+    public String getUserUrl() {
+        return null;
+    }
 }

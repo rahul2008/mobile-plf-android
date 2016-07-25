@@ -13,6 +13,11 @@ public class MockAddressListener implements AddressController.AddressListener {
     }
 
     @Override
+    public void onGetUser(Message msg) {
+
+    }
+
+    @Override
     public void onCreateAddress(Message msg) {
 
     }

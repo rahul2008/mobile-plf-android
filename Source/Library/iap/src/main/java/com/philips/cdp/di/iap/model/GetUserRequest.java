@@ -7,19 +7,20 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.response.State.RegionsList;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 
 import java.util.Map;
 
-public class GetRegionsRequest extends AbstractModel {
+public class GetUserRequest extends AbstractModel {
 
-    public GetRegionsRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
+    public GetUserRequest(final StoreSpec store,
+                             final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 
     @Override
     public Object parseResponse(Object response) {
-        return new Gson().fromJson(response.toString(), RegionsList.class);
+        return new Gson().fromJson(response.toString(), GetUser.class);
     }
 
     @Override
@@ -34,6 +35,6 @@ public class GetRegionsRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getRegionsUrl();
+        return store.getUserUrl();
     }
 }

@@ -269,6 +269,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     @Override
+    public void onGetUser(Message msg) {
+
+    }
+
+    @Override
     public void onCreateAddress(Message msg) {
 
     }
