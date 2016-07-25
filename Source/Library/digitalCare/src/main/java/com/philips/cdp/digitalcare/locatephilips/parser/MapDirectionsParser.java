@@ -1,6 +1,10 @@
+/**
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.locatephilips.parser;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,20 +17,19 @@ import java.util.List;
 /**
  * MapDirectionsParser parse JSON response received from google map for
  * directions.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 19 May 2015
- * <p/>
- * Copyright (c) 2016 Philips. All rights reserved.
  */
 public class MapDirectionsParser {
+
+    private static final String TAG = MapDirectionsParser.class.getSimpleName();
+
     /**
      * Receives a JSONObject and returns a list of lists containing latitude and
      * longitude
      */
     public List<List<HashMap<String, String>>> parse(JSONObject jObject) {
 
-        List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
+        final List<List<HashMap<String, String>>> routes = new ArrayList<List<
+                HashMap<String, String>>>();
         JSONArray jRoutes = null;
         JSONArray jLegs = null;
         JSONArray jSteps = null;
@@ -36,7 +39,7 @@ public class MapDirectionsParser {
             /** Traversing all routes */
             for (int i = 0; i < jRoutes.length(); i++) {
                 jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
-                List<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
+                final List<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
 
                 /** Traversing all legs */
                 for (int j = 0; j < jLegs.length(); j++) {
@@ -44,18 +47,18 @@ public class MapDirectionsParser {
 
                     /** Traversing all steps */
                     for (int k = 0; k < jSteps.length(); k++) {
-                        String polyline = "";
+                        String polyline = null;
                         polyline = (String) ((JSONObject) ((JSONObject) jSteps
                                 .get(k)).get("polyline")).get("points");
-                        List<LatLng> list = decodePoly(polyline);
+                        final List<LatLng> list = decodePoly(polyline);
 
                         /** Traversing all points */
                         for (int l = 0; l < list.size(); l++) {
-                            HashMap<String, String> hm = new HashMap<String, String>();
+                            final HashMap<String, String> hm = new HashMap<String, String>();
                             hm.put("lat",
-                                    Double.toString((list.get(l)).latitude));
+                                    Double.toString(list.get(l).latitude));
                             hm.put("lng",
-                                    Double.toString((list.get(l)).longitude));
+                                    Double.toString(list.get(l).longitude));
                             path.add(hm);
                         }
                     }
@@ -63,8 +66,7 @@ public class MapDirectionsParser {
                 }
             }
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+            DigiCareLogger.e(TAG, "JSONException : " + e);
         }
         return routes;
     }
@@ -74,18 +76,21 @@ public class MapDirectionsParser {
      */
     private List<LatLng> decodePoly(String encoded) {
 
-        List<LatLng> poly = new ArrayList<LatLng>();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
+        final List<LatLng> poly = new ArrayList<LatLng>();
+        int index = 0;
+        final int len = encoded.length();
+        int lat = 0;
+        int lng = 0;
 
         while (index < len) {
-            int b, shift = 0, result = 0;
+            int b, shift = 0;
+            int result = 0;
             do {
                 b = encoded.charAt(index++) - 63;
                 result |= (b & 0x1f) << shift;
                 shift += 5;
             } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            int dlat = isResultTrue(result) ? getIntAValue(result) : getIntBValue(result);
             lat += dlat;
 
             shift = 0;
@@ -95,13 +100,29 @@ public class MapDirectionsParser {
                 result |= (b & 0x1f) << shift;
                 shift += 5;
             } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            int dlng = (isResultTrue(result) ? getIntAValue(result) : (getIntBValue(result)));
             lng += dlng;
 
-            LatLng p = new LatLng((((double) lat / 1E5)),
-                    (((double) lng / 1E5)));
+            LatLng p = new LatLng(getLatitudeValue(lat),
+                    ((getLatitudeValue(lng))));
             poly.add(p);
         }
         return poly;
+    }
+
+    private double getLatitudeValue(double lat) {
+        return lat / 1E5;
+    }
+
+    private boolean isResultTrue(int result) {
+        return (result & 1) != 0;
+    }
+
+    private int getIntBValue(int result) {
+        return result >> 1;
+    }
+
+    private int getIntAValue(int result) {
+        return ~(getIntBValue(result));
     }
 }
