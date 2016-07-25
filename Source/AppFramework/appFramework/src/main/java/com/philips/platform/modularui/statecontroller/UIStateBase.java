@@ -33,14 +33,6 @@ public abstract class UIStateBase {
     @UIStateBase.UIStateDef
     int stateID;
 
-    public UIBaseNavigator getNavigator() {
-        return navigator;
-    }
-
-    public void setNavigator(UIBaseNavigator navigator) {
-        this.navigator = navigator;
-    }
-
     @UIStateBase.UIStateDef
     public int getStateID() {
         return stateID;
