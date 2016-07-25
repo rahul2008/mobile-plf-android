@@ -115,7 +115,7 @@ public class RequestData {
         }
 
         private void readResponse(BufferedReader in, StringBuffer response) throws IOException {
-            String inputLine;
+            String inputLine = null;
             while ((inputLine = in.readLine()) != getaNull()) {
                 response.append(inputLine);
             }
