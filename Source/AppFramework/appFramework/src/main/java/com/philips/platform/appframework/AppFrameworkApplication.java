@@ -14,8 +14,9 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.tagging.Tagging;
+//import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.modularui.statecontroller.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -56,12 +57,15 @@ public class AppFrameworkApplication extends Application {
     }
 
     private void initializeUserRegistrationLibrary() {
-        RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
-        Tagging.enableAppTagging(true);
-        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-        Tagging.setLaunchingPageName("demoapp:home");
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+            AppTaggingInterface aiAppTaggingInterface = gAppInfra.getTagging();
+                aiAppTaggingInterface.createInstanceForComponent("User Registration",
+                            RegistrationHelper.getRegistrationApiVersion());
+                aiAppTaggingInterface.setPreviousPage("demoapp:home");
+                aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+
+                        RegistrationConfiguration.getInstance().
+                                setPrioritisedFunction(RegistrationFunction.Registration);
+                RLog.init(this);
 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
@@ -70,6 +74,5 @@ public class AppFrameworkApplication extends Application {
         localeManager.setInputLocale(languageCode, countryCode);
 
         RegistrationHelper.getInstance().initializeUserRegistration(this);
-        Tagging.init(this, "Philips Registration");
     }
 }
