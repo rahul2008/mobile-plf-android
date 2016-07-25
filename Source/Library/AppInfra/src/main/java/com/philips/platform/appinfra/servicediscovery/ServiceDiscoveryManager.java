@@ -30,6 +30,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     AppInfra mAppInfra;
     Context context;
     boolean isDataAvailable = false;
+    boolean isDownloadInProgress = false;
     String countryCode;
     String URL = null;
     OnRefreshListener mOnRefreshListener;
@@ -149,15 +150,21 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         if(isDataAvailable){
             filterDataForURLbyLang(serviceId,listener);
         }else{
-            refresh((new OnRefreshListener() {
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                }
-                @Override
-                public void onSuccess() {
-                    filterDataForURLbyLang(serviceId,listener);
-                }
-            }));
+            if(!isDownloadInProgress){
+                refresh((new OnRefreshListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        listener.onError(error, message);
+                    }
+                    @Override
+                    public void onSuccess() {
+                        filterDataForURLbyLang(serviceId,listener);
+                    }
+                }));
+            }else{
+                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+            }
+
         }
 
     }
@@ -166,17 +173,22 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         if(isDataAvailable){
             filterDataForURLbyCountry(serviceId,listener);
         }else{
-            refresh((new OnRefreshListener() {
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "Error");
-                }
+            if(!isDownloadInProgress){
+                refresh((new OnRefreshListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        listener.onError(error, message);
+                    }
 
-                @Override
-                public void onSuccess() {
-                    filterDataForURLbyCountry(serviceId,listener);
-                }
-            }));
+                    @Override
+                    public void onSuccess() {
+                        filterDataForURLbyCountry(serviceId,listener);
+                    }
+                }));
+            }else{
+                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+            }
+
         }
 
     }
@@ -188,15 +200,21 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         if(isDataAvailable){
             filterDataForLocalByLang(serviceId, listener);
         }else{
-            refresh((new OnRefreshListener() {
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                }
-                @Override
-                public void onSuccess() {
-                    filterDataForLocalByLang(serviceId, listener);
-                }
-            }));
+            if(!isDownloadInProgress){
+                refresh((new OnRefreshListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        listener.onError(error, message);
+                    }
+                    @Override
+                    public void onSuccess() {
+                        filterDataForLocalByLang(serviceId, listener);
+                    }
+                }));
+            }else{
+                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+            }
+
         }
     }
 
@@ -205,17 +223,22 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         if(isDataAvailable){
             filterDataForLocalByCountry(serviceId, listener);
         }else{
-            refresh((new OnRefreshListener() {
-                @Override
-                public void onError(ERRORVALUES error, String message) {
+            if(!isDownloadInProgress){
+                refresh((new OnRefreshListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        listener.onError(error, message);
+                    }
 
-                }
+                    @Override
+                    public void onSuccess() {
+                        filterDataForLocalByCountry(serviceId, listener);
+                    }
+                }));
+            }else{
+                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+            }
 
-                @Override
-                public void onSuccess() {
-                    filterDataForLocalByCountry(serviceId, listener);
-                }
-            }));
         }
 
     }
@@ -287,12 +310,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         if(RequestManager.mServiceDiscovery != null){
                     if(RequestManager.mServiceDiscovery.isSuccess()){
                         isDataAvailable = true;
+                        isDownloadInProgress =false;
                         listener.onSuccess();
                     }else{
-                        listener.onError(ERRORVALUES.SECURITY_ERROR, "ERROR" );
+                        listener.onError(ERRORVALUES.INVALID_RESPONSE, "ERROR" );
+                        isDownloadInProgress =false;
                     }
                 }else{
             getService(listener);
+            isDownloadInProgress =true;
         }
 
 
@@ -304,13 +330,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         if(RequestManager.mServiceDiscovery != null){
             if(RequestManager.mServiceDiscovery.isSuccess()){
                 isDataAvailable = true;
+                isDownloadInProgress =false;
             }
         }
     }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
-        Log.i(""+error, "Refresh error"+message);
+        Log.i("Refresh Failed"+error, "Refresh error "+message);
+        isDownloadInProgress =false;
     }
 
     private String getCountry() {

@@ -6,11 +6,15 @@
 package com.philips.platform.appinfra.demo;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+
+import java.net.URL;
 
 /**
  * Created by deepakpanigrahi on 5/18/16.
@@ -33,6 +37,17 @@ public class AppInfraApplication extends Application {
 
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomeXpreviousPage");
+        gAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                Log.i("SUCCESS ***", ""+url);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                Log.i("ERRORVALUES ***", ""+message);
+            }
+        });
 
     }
 
