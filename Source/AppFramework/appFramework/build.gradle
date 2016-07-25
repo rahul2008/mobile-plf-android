@@ -238,7 +238,7 @@ dependencies {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '3.1.0-rc.1', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '3.1.0-rc.2', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }

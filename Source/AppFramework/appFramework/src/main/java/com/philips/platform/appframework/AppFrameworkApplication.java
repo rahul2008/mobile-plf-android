@@ -17,6 +17,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
@@ -31,30 +32,33 @@ public class AppFrameworkApplication extends Application {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        initializeUserRegistrationLibrary();
-        AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
-//        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfraSingleton.setInstance( new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
+
+        initializeUserRegistrationLibrary();
     }
 
     private void initializeUserRegistrationLibrary() {
-        RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
-//        Tagging.enableAppTagging(true);
-//        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-//        Tagging.setLaunchingPageName("demoapp:home");
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+//        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
+//        AppInfraInterface mAppInfraInterface = AppInfraSingleton.getInstance();
+        AppTaggingInterface aiAppTaggingInterface = gAppInfra.getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("User Registration",
+                RegistrationHelper.getRegistrationApiVersion());
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+
+        RegistrationConfiguration.getInstance().
+                setPrioritisedFunction(RegistrationFunction.Registration);
+        RLog.init(this);
 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
-
         RegistrationHelper.getInstance().initializeUserRegistration(this);
-//        Tagging.init(this, "Philips Registration");
     }
 }
