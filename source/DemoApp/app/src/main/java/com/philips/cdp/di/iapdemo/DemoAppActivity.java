@@ -127,8 +127,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         /*Pls uncommnet when vertical wants to get complete product list from hybris*/
         
-       // mIAPSettings.setUseLocalData(false);
-     //   if (!mIAPSettings.isUseLocalData()) {
+        mIAPSettings.setUseLocalData(false);
+        if (!mIAPSettings.isUseLocalData()) {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(new Runnable() {
                 @Override
@@ -136,7 +136,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     mIapHandler.getCompleteProductList(mGetCompleteProductListener);
                 }
             }, 1000);
-       // }
+        }
     }
 
     @Override
@@ -186,7 +186,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_shop_now:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-                    mIapHandler.launchCategorizedCatalog(null);
                     mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
@@ -226,7 +225,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     if (mCategorizedList != null && !mCategorizedList.isEmpty()) {
                         IAPLog.d(IAPLog.LOG, "Product List : " + mCategorizedList);
                         mIapHandler.launchCategorizedCatalog(mCategorizedList);
-                      //  mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+                        //mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                     } else {
                         Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
                     }
@@ -369,7 +368,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         setLocale("en", mSelectedCountry);
 
         mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-//        setUseLocalData(); //Uncomment to support PlanB
+       // setUseLocalData(); //Uncomment to support PlanB
 
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();

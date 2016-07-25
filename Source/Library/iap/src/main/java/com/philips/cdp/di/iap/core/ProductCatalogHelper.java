@@ -71,11 +71,11 @@ public class ProductCatalogHelper {
         return false;
     }
 
-    public void makePrxCall(ArrayList<String> planBProductList, Products productData, boolean isPlanB) {
+    public void makePrxCall(ArrayList<String> planBProductList, Products productData) {
         ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
         ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
-        if (isPlanB) {
+        if (planBProductList!=null && productData == null) {
             for (String product : planBProductList) {
                 ctn = product;
                 productsToBeShown.add(ctn);
@@ -157,10 +157,6 @@ public class ProductCatalogHelper {
             return mergeHybrisAndPRXPlanA(productData, prxModel);
         }
     }
-
-   /* private PaginationEntity getPaginationInfo(Products productCatalog){
-        return productCatalog.getPagination();
-    }*/
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanA(Products productData, HashMap<String, SummaryModel> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();

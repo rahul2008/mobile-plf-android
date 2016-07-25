@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.DataLoadListener {
     private Context mContext;
@@ -38,23 +39,26 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     Products mProductCatalog;
     ProductCatalogPresenter.LoadListener mListener;
     boolean isLocalData;
+    ArrayList<String> mProductList;
 
     public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final boolean isPlanB) {
         mContext = context;
         mListener = listener;
         mProductCatalogHelper = new ProductCatalogHelper(context, listener, this);
         isLocalData = isPlanB;
+        mProductList = new ArrayList<>();
     }
 
     @Override
     public boolean getProductCatalog(int currentPage,int pageSize, IAPHandlerProductListListener listListener) {
-        return loadFromLocal();
+        return false;
     }
 
     @Override
     public void getProductCategorizedProduct(final ArrayList<String> productList) {
         if (productList != null) {
-            mProductCatalogHelper.makePrxCall(productList, null, isLocalData);
+            mProductList = productList;
+            mProductCatalogHelper.makePrxCall(productList,null);
         }
     }
 
@@ -68,64 +72,67 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
 
     }
 
-    private boolean loadFromLocal() {
-        String locale = HybrisDelegate.getInstance().getStore().getLocale();
-        String fileName = locale + ".json";
-        mProductCatalog = loadFromAsset(mContext, fileName);
-
-        if (mProductCatalog != null) {
-            mProductCatalogHelper.makePrxCall(null, mProductCatalog, isLocalData);
-            return true;
-        }
-        return false;
-    }
-
-    private ArrayList<String> extractProductList(Products products) {
-        ArrayList<String> productsToBeShown = new ArrayList();
-        for (ProductsEntity entry : products.getProducts()) {
-            String ctn = entry.getCode();
-            productsToBeShown.add(ctn);
-
-        }
-        return productsToBeShown;
-    }
-
-    public Products loadFromAsset(Context context, String fileName) {
-        InputStream fromAsset = null;
-        Reader reader = null;
-        Products products = null;
-        try {
-            fromAsset = readJsonInputStream(context, fileName);
-            reader = new BufferedReader(new InputStreamReader(fromAsset));
-            products = new Gson().fromJson(reader, Products.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fromAsset != null) {
-                try {
-                    fromAsset.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (reader != null) {
-                try {
-                  reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return products;
-    }
-
-    public InputStream readJsonInputStream(final Context context, String fileName) throws IOException {
-        return context.getResources().getAssets().open(fileName);
-    }
+//    private boolean loadFromLocal() {
+//        String locale = HybrisDelegate.getInstance().getStore().getLocale();
+//        String fileName = locale + ".json";
+//        mProductCatalog = loadFromAsset(mContext, fileName);
+//
+//        if (mProductCatalog != null) {
+//            mProductCatalogHelper.makePrxCall(null, mProductCatalog, isLocalData);
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    private ArrayList<String> extractProductList(Products products) {
+//        ArrayList<String> productsToBeShown = new ArrayList();
+//        for (ProductsEntity entry : products.getProducts()) {
+//            String ctn = entry.getCode();
+//            productsToBeShown.add(ctn);
+//
+//        }
+//        return productsToBeShown;
+//    }
+//
+//    public Products loadFromAsset(Context context, String fileName) {
+//        InputStream fromAsset = null;
+//        Reader reader = null;
+//        Products products = null;
+//        try {
+//            fromAsset = readJsonInputStream(context, fileName);
+//            reader = new BufferedReader(new InputStreamReader(fromAsset));
+//            products = new Gson().fromJson(reader, Products.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (fromAsset != null) {
+//                try {
+//                    fromAsset.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (reader != null) {
+//                try {
+//                  reader.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return products;
+//    }
+//
+//    public InputStream readJsonInputStream(final Context context, String fileName) throws IOException {
+//        return context.getResources().getAssets().open(fileName);
+//    }
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
-        mProductCatalogHelper.processPRXResponse(msg, null, mProductCatalog,null);
+        if(msg.obj instanceof HashMap){
+            mProductCatalogHelper.processPRXResponse(msg, mProductList, null,null);
+        }
+
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }

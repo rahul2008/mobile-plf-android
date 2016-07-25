@@ -15,6 +15,8 @@ public interface IAPExposedAPI {
     void getProductCartCount(IAPHandlerListener iapHandlerListener);
 
     void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener);
-    public void launchCategorizedCatalog(ArrayList<String> pProductCTNs);
+
+    void launchCategorizedCatalog(ArrayList<String> pProductCTNs);
+
     void getCatalogCountAndCallCatalog();
 }

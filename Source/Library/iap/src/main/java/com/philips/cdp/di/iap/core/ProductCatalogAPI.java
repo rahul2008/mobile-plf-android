@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * All rights reserved.
  */
 public interface ProductCatalogAPI {
-    boolean getProductCatalog(int currentPage, int pageSize,IAPHandlerProductListListener listener);
+    boolean getProductCatalog(int currentPage, int pageSize, IAPHandlerProductListListener listener);
 
     void getProductCategorizedProduct(ArrayList<String> productList);
 
-    public void getCompleteProductList(final Context mContext, final IAPHandlerProductListListener iapListener, final int currentPage, final int pageSize);
+    void getCompleteProductList(final Context mContext, final IAPHandlerProductListListener iapListener, final int currentPage, final int pageSize);
 
     void getCatalogCount(IAPHandlerListener listener);
 }

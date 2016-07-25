@@ -68,7 +68,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         IAPHandlerListener countListner = new IAPHandlerListener() {
             @Override
             public void onSuccess(final int count) {
-                getProductCatalog(CURRENT_PAGE,count,listener);
+                getProductCatalog(CURRENT_PAGE, count, listener);
             }
 
             @Override
@@ -76,16 +76,16 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
             }
         };
-        if(CartModelContainer.getInstance().getProductCatalogData()!=null && CartModelContainer.getInstance().getProductCatalogData().size()!=0) {
+        if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
             if (iapListener != null) {
                 iapListener.onSuccess(getProductCatalogDataFromStoredData());
             }
-        }else {
+        } else {
             getCatalogCount(countListner);
         }
     }
 
-    ArrayList<String> getProductCatalogDataFromStoredData(){
+    ArrayList<String> getProductCatalogDataFromStoredData() {
         ArrayList<String> catalogDatas = new ArrayList<>();
         HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
@@ -147,10 +147,9 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     public ProductCatalogPresenter() {
     }
 
-    public ProductCatalogPresenter(Context context, LoadListener listener,boolean isPlanA) {
+    public ProductCatalogPresenter(Context context, LoadListener listener, boolean isPlanA) {
         mContext = context;
         mLoadListener = listener;
-        //mFragmentManager = fragmentManager;
         mProductCatalogHelper = new ProductCatalogHelper(mContext, mLoadListener, this);
         this.isPlanA = isPlanA;
     }
@@ -191,11 +190,11 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     @Override
     public void getProductCategorizedProduct(ArrayList<String> productList) {
-        if(CartModelContainer.getInstance().getProductCatalogData()!=null){
+        if (CartModelContainer.getInstance().getProductCatalogData() != null) {
             if (mLoadListener != null) {
                 mLoadListener.onLoadFinished(getCatalogItems(productList), null);
             }
-        }else {
+        } else {
             ProductCatalogPresenter presenter = new ProductCatalogPresenter();
             presenter.getProductCategorizedProduct(productList);
         }
@@ -204,8 +203,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private ArrayList<ProductCatalogData> getCatalogItems(ArrayList<String> productList) {
         ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
         CartModelContainer container = CartModelContainer.getInstance();
-        for(String ctn : productList){
-            if(container.isProductCatalogDataPresent(ctn)){
+        for (String ctn : productList) {
+            if (container.isProductCatalogDataPresent(ctn)) {
                 catalogDatas.add(container.getProduct(ctn));
             }
         }
@@ -217,7 +216,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (processHybrisRequestForGetProductCatalogData(msg))
             return;
 
-        if (mProductCatalogHelper.processPRXResponse(msg, null, mProductData,notifyCompleteListener))
+        if (mProductCatalogHelper.processPRXResponse(msg, null, mProductData, notifyCompleteListener))
             return;
     }
 
@@ -225,7 +224,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (msg.obj instanceof Products) {
             mProductData = (Products) msg.obj;
             if (mProductData != null) {
-                mProductCatalogHelper.makePrxCall(null, mProductData, false);
+                mProductCatalogHelper.makePrxCall(null, mProductData);
                 return true;
             }
         }

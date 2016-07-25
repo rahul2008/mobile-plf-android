@@ -114,6 +114,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             for (String ctn : ctns) {
                 if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
                     catalogDatas.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
+                }else{
+                    mPresenter.getProductCategorizedProduct(ctns);
                 }
             }
         }
