@@ -61,7 +61,7 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 21
-        versionName "1.0.2"
+        versionName "1.0.4"
         testApplicationId "com.philips.dhpclient.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 

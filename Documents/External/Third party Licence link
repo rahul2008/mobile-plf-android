@@ -5,22 +5,32 @@ Following is dependant  libs using in the User Registration Model with name and 
 
 1 . org.apache.http.legacy.jar 
 
-	This is part of Android SDK which open source  following link will ensure its licence 
-	Licence links :
-	https://android.googlesource.com/platform/prebuilts/sdk/+/android-support-test/org.apache.http.legacy/Android.mk
-	 http://developer.android.com/about/versions/marshmallow/android-6.0-changes.html
+	This is part of Android SDK which open source  following link will ensure its 	licence 
+	Link:
+	https://android.googlesource.com/platform/prebuilts/sdk/+/android-support-		test/org.apache.http.legacy/Android.mk
+	 http://developer.android.com/about/versions/marshmallow/android-6.0-		changes.html
 
  2.jackson-annotations-2.6.0.jar 
-	Licence links 
-	https://github.com/FasterXML/jackson-annotations/wiki
+	Link:https://github.com/FasterXML/jackson-annotations/wiki
 	
-3.jackson-core-2.6.1.jar
-	Licence links 
-	https://github.com/FasterXML/jackson-core/wiki
+ 3.jackson-core-2.6.1.jar
+	Link:https://github.com/FasterXML/jackson-core/wiki
 
 
  4. jakson-databind-2.6.1.jar
-	Licence links 
-	https://github.com/FasterXML/jackson-databind/wiki
+	Link:https://github.com/FasterXML/jackson-databind/wiki
+
+ 5.okhttp-2.5.0.jar
+	Link : https://github.com/square/okhttp/blob/master/LICENSE.txt
+ 6.okhttp-apache-2.5.0.jar
+	Link:https://github.com/square/okhttp/blob/master/LICENSE.txt
+ 7.okio-1.6.0.jar
+	Link:https://github.com/square/okio/blob/master/LICENSE.txt
+
+ 8.gson.jar[v.2.2.2]
+	Link :https://github.com/google/gson/blob/master/LICENSE
+ 9.volley.aar[v.1.0.0]
+	Link:https://github.com/mcxiaoke/android-volley#license
+
 
 

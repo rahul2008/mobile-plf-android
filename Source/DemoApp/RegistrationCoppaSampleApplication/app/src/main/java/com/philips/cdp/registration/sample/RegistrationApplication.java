@@ -21,12 +21,15 @@ public class RegistrationApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
-        aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
+        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                getAppInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("User Registration",
+                RegistrationHelper.getRegistrationApiVersion());
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
 
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+        RegistrationConfiguration.getInstance().
+                setPrioritisedFunction(RegistrationFunction.Registration);
         RLog.init(this);
 
         String languageCode = Locale.getDefault().getLanguage();
