@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 
 public interface ServiceDiscoveryInterface {
@@ -15,7 +16,7 @@ public interface ServiceDiscoveryInterface {
      * The type Service url and locale.
      */
     public class ServiceUrlandLocale {
-        public final URL    serviceUrl;
+        public final URL serviceUrl;
         public final String serviceLocale;
 
         public ServiceUrlandLocale(URL serviceUrl, String serviceLocale) {
@@ -30,7 +31,10 @@ public interface ServiceDiscoveryInterface {
      * onSuccess returns the Error response type
      */
     interface OnErrorListener {
-        enum ERRORVALUES {NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR, INVALID_RESPONSE};
+        enum ERRORVALUES {NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR, INVALID_RESPONSE}
+
+        ;
+
         void onError(ERRORVALUES error, String message);
     }
 
@@ -40,7 +44,10 @@ public interface ServiceDiscoveryInterface {
      * onSuccess returns the successful response
      */
     interface OnGetHomeCountryListener extends OnErrorListener {
-        enum SOURCE {STOREDPREFERENCE, SIMCARD, GEOIP};
+        enum SOURCE {STOREDPREFERENCE, SIMCARD, GEOIP}
+
+        ;
+
         void onSuccess(String countryCode, SOURCE source);
     }
 
@@ -78,46 +85,78 @@ public interface ServiceDiscoveryInterface {
     interface OnRefreshListener extends OnErrorListener {
         void onSuccess();
     }
+
     /**
      * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
      * Changing the country automatically clears the cached service list and triggers a refresh.
+     *
      * @param listener country code to persistently store, code must be according to ISO 3166-1
      */
     void getHomeCountry(OnGetHomeCountryListener listener);
+
     /**
      * Persistently store Home country, overwrites any existing country value.
      * Changing the country automatically clears the cached service list and triggers a refresh.
+     *
      * @param countryCode country code to persistently store, code must be according to ISO 3166-1
      */
     void setHomeCountry(String countryCode);
 
     /**
      * Returns the URL for a specific service with a preference for the current language.
+     *
      * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the URL of the requested service;
-     *                 or returns onError the error code when retrieval failed.
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
      */
     void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener);
+
+
+    /**
+     * Returns Hashmap with  URL  mapped specific service with a preference for the current language.
+     *
+     * @param serviceId ArrayList of the service for which the URL is to be retrieved
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
+     */
+    void getServiceUrlWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlListener listener);
+
+
     /**
      * Returns the URL for a specific service with a preference for the current home country.
+     *
      * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the URL of the requested service;
-     *                 or returns onError the error code when retrieval failed.
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
      */
     void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener);
 
+
+    /**
+     * Returns Hashmap with  URL  mapped for a specific service with a
+     * preference for the current home country.
+     *
+     * @param serviceId List of the services for which the URL is to be retrieved
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
+     */
+    void getServiceUrlWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlListener listener);
+
     /**
      * Returns the locale to be used for a specific service with a preference for the current language.
+     *
      * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the recommended locale for the requested service;
-     *                 or returns onError the error code when retrieval failed.
+     * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
+     *                  or returns onError the error code when retrieval failed.
      */
     void getServiceLocaleWithLanguagePreference(String serviceId, OnGetServiceLocaleListener listener);
+
     /**
      * Returns the locale to be used for a specific service with a preference for the current home country.
+     *
      * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the recommended locale for the requested service;
-     *                 or returns onError the error code when retrieval failed.
+     * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
+     *                  or returns onError the error code when retrieval failed.
      */
     void getServiceLocaleWithCountryPreference(String serviceId, OnGetServiceLocaleListener listener);
 
@@ -143,6 +182,7 @@ public interface ServiceDiscoveryInterface {
      * The retrieved list is cached internally (not persistently).
      * The cached list is automatically refreshed every 24hours.
      * A refresh is only required, to ensure the very first service request after app start can be processed from the cache quickly, or when a previous sync failed.
+     *
      * @param listener asynchronously returns using onSuccess when retrieval was successful;
      *                 or returns onError the error code when retrieval failed.
      */

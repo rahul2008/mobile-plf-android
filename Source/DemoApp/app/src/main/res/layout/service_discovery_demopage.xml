@@ -46,6 +46,22 @@
         android:id="@+id/gethome_country_btn"
         android:layout_gravity="center_horizontal" />
 
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Get URL by country with Multiple service id"
+        android:id="@+id/getul_country_btn"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Get URL by Language with Multiple service id"
+        android:id="@+id/getul_language_btn"
+        android:layout_gravity="center_horizontal" />
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

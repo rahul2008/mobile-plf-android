@@ -13,6 +13,8 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by 310238655 on 6/7/2016.
@@ -34,9 +36,9 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         super.onCreate(savedInstanceState);
         appInfra = AppInfraApplication.gAppInfra;
         mServiceDiscoveryInterface = appInfra.getServiceDiscovery();
-        mOnGetServiceLocaleListener=this;
-        mOnGetServiceUrlListener=this;
-        mOnGetHomeCountryListener=this;
+        mOnGetServiceLocaleListener = this;
+        mOnGetServiceUrlListener = this;
+        mOnGetHomeCountryListener = this;
 
         setContentView(R.layout.service_discovery_demopage);
 
@@ -46,17 +48,19 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         Button urlbyLang = (Button) findViewById(R.id.geturl_by_country_btn);
         Button urlbyCountry = (Button) findViewById(R.id.geturl_by_lang_buttn);
         Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
+        Button geturlbyCountry_ServiceIDs = (Button) findViewById(R.id.getul_country_btn);
+        Button geturlbyLanguage_ServiceIds = (Button) findViewById(R.id.getul_language_btn);
 
-        editTextData= idEditText.getText().toString();
+        editTextData = idEditText.getText().toString();
 
-        resultView = (TextView) findViewById(R.id.textView2) ;
+        resultView = (TextView) findViewById(R.id.textView2);
 
         localeByLang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                editTextData= idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(editTextData,mOnGetServiceLocaleListener );
+                editTextData = idEditText.getText().toString();
+                mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(editTextData, mOnGetServiceLocaleListener);
 
 
             }
@@ -64,51 +68,69 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         localeByCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editTextData= idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(editTextData,mOnGetServiceLocaleListener );
+                editTextData = idEditText.getText().toString();
+                mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(editTextData, mOnGetServiceLocaleListener);
             }
         });
         urlbyLang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editTextData= idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData,mOnGetServiceUrlListener );
+                editTextData = idEditText.getText().toString();
+                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData, mOnGetServiceUrlListener);
             }
         });
         urlbyCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editTextData= idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData,mOnGetServiceUrlListener );
+                editTextData = idEditText.getText().toString();
+                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData, mOnGetServiceUrlListener);
             }
         });
         getHomecountryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editTextData= idEditText.getText().toString();
+                editTextData = idEditText.getText().toString();
                 mServiceDiscoveryInterface.getHomeCountry(mOnGetHomeCountryListener);
             }
         });
 
 
+        geturlbyCountry_ServiceIDs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] serviceIds = idEditText.getText().toString().split(",");
+                ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, mOnGetServiceUrlListener);
+
+            }
+        });
+
+        geturlbyLanguage_ServiceIds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] serviceIds = idEditText.getText().toString().split(",");
+                ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceId ,mOnGetServiceUrlListener);
+            }
+        });
     }
 
     @Override
     public void onSuccess(String services) {
-        Log.i("OnGetServicesListener", ""+services);
+        Log.i("OnGetServicesListener", "" + services);
         resultView.setText(services);
     }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
-        Log.i("onError", ""+message);
+        Log.i("onError", "" + message);
         resultView.setText(message);
     }
 
     @Override
     public void onSuccess(URL url) {
-        Log.i("Success", ""+url);
-        resultView.setText(""+url);
+        Log.i("Success", "" + url);
+        resultView.setText("" + url);
     }
 
     @Override

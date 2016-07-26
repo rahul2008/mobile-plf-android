@@ -18,7 +18,7 @@ public class ServiceDiscovery {
     MatchByCountryOrLanguage matchByLanguage;
 
 
-    Error error=null;
+    Error error = null;
 
 
     public boolean isSuccess() {
@@ -28,6 +28,7 @@ public class ServiceDiscovery {
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
     public String getHttpStatus() {
         return httpStatus;
     }
@@ -53,6 +54,7 @@ public class ServiceDiscovery {
     public void setMatchByLanguage(MatchByCountryOrLanguage matchByLanguage) {
         this.matchByLanguage = matchByLanguage;
     }
+
     public String getCountry() {
         return country;
     }
