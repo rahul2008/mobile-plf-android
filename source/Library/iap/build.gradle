@@ -154,7 +154,7 @@ dependencies {
 
     //Coco
     compile 'com.philips.cdp:uikitLib:3.2.2'
-    compile('com.philips.cdp:registrationApi:7.0.0-rc.1') {
+    compile('com.philips.cdp:registrationApi:7.0.0') {
         exclude group: 'com.android.support'
         transitive = true
     }
