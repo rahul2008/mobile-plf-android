@@ -7,7 +7,7 @@ import com.philips.platform.modularui.cocointerface.UICoCoConsumerCareImpl;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIStateBase;
+import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.util.UIConstants;
 
 /**
@@ -22,16 +22,16 @@ public class HomeActivityPresenter implements UIBasePresenter,UICoCoConsumerCare
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoConsumerCareImpl = (UICoCoConsumerCareImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_CONSUMER_CARE);
         switch (componentID){
-            case 0: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_FRAGMENT_STATE,context);
+            case 0: appFrameworkApplication.getFlowManager().navigateState(UIState.UI_HOME_FRAGMENT_STATE,context);
                 break;
-            case 1: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_SUPPORT_FRAGMENT_STATE,context);
+            case 1: appFrameworkApplication.getFlowManager().navigateState(UIState.UI_SUPPORT_FRAGMENT_STATE,context);
                 uiCoCoConsumerCareImpl.registerForNextState(this);
                 break;
-            case 2: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_SETTINGS_FRAGMENT_STATE,context);
+            case 2: appFrameworkApplication.getFlowManager().navigateState(UIState.UI_SETTINGS_FRAGMENT_STATE,context);
                 break;
-            case 3: appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_DEBUG_FRAGMENT_STATE,context);
+            case 3: appFrameworkApplication.getFlowManager().navigateState(UIState.UI_DEBUG_FRAGMENT_STATE,context);
                 break;
-            default:appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_FRAGMENT_STATE,context);
+            default:appFrameworkApplication.getFlowManager().navigateState(UIState.UI_HOME_FRAGMENT_STATE,context);
         }
     }
 
@@ -44,6 +44,6 @@ public class HomeActivityPresenter implements UIBasePresenter,UICoCoConsumerCare
     public void setNextState(Context context) {
         uiCoCoConsumerCareImpl.unloadCoCo();
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_SETTINGS_FRAGMENT_STATE,context);
+        appFrameworkApplication.getFlowManager().navigateState(UIState.UI_SETTINGS_FRAGMENT_STATE,context);
     }
 }

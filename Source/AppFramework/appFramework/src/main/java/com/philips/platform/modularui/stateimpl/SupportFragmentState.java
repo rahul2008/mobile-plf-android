@@ -1,4 +1,4 @@
-package com.philips.platform.modularui.navigatorimpl;
+package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 

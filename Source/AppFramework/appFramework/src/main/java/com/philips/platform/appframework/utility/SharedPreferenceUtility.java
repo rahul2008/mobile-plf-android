@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.philips.platform.modularui.statecontroller.UIStateBase;
-import com.philips.platform.modularui.util.UIConstants;
+import com.philips.platform.modularui.statecontroller.UIState;
 
 /**
  * Created by 310240027 on 6/21/2016.
@@ -40,7 +39,7 @@ public class SharedPreferenceUtility {
         e.commit();
     }
 
-    public void writePreferenceInt(String key,@UIStateBase.UIStateDef int value){
+    public void writePreferenceInt(String key,@UIState.UIStateDef int value){
         SharedPreferences.Editor e = mMyPreferences.edit();
         e.putInt(key, value);
         e.commit();
@@ -55,8 +54,8 @@ public class SharedPreferenceUtility {
         return mMyPreferences.getBoolean(key, false);
     }
 
-    @UIStateBase.UIStateDef public int getPreferenceInt(String key) {
-        return mMyPreferences.getInt(key, UIStateBase.UI_SPLASH_UNREGISTERED_STATE);
+    @UIState.UIStateDef public int getPreferenceInt(String key) {
+        return mMyPreferences.getInt(key, UIState.UI_SPLASH_UNREGISTERED_STATE);
     }
     public boolean contains(String key){
         return mMyPreferences.contains(key);

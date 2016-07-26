@@ -7,7 +7,7 @@ import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIStateBase;
+import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.util.UIConstants;
 
 /**
@@ -27,12 +27,12 @@ public class SplashPresenter implements UIBasePresenter,UICoCoUserRegImpl.SetSta
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         if (uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
-            appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_STATE, context);
+            appFrameworkApplication.getFlowManager().navigateState(UIState.UI_HOME_STATE, context);
         } else if (SharedPreferenceUtility.getInstance().getPreferenceBoolean(UIConstants.DONE_PRESSED) && !uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
             uiCoCoUserReg.registerForNextState(this);
-            appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_REGISTRATION_STATE, context);
+            appFrameworkApplication.getFlowManager().navigateState(UIState.UI_REGISTRATION_STATE, context);
         } else {
-            appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_WELCOME_STATE, context);
+            appFrameworkApplication.getFlowManager().navigateState(UIState.UI_WELCOME_STATE, context);
         }
 
     }
@@ -40,6 +40,6 @@ public class SplashPresenter implements UIBasePresenter,UICoCoUserRegImpl.SetSta
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateState(UIStateBase.UI_HOME_STATE, context);
+        appFrameworkApplication.getFlowManager().navigateState(UIState.UI_HOME_STATE, context);
     }
 }

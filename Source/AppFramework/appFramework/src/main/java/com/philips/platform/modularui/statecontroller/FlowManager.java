@@ -38,8 +38,8 @@ public class FlowManager {
     public void getNextState(){
 
     }
-    public void navigateState(@UIStateBase.UIStateDef int stateID, Context context) {
-            StateCreator.getInstance().getState(stateID,context).getNavigator().navigate(context);
+    public void navigateState(@UIState.UIStateDef int stateID, Context context) {
+            StateCreator.getInstance().getState(stateID,context).navigate(context);
             setCurrentState(StateCreator.getInstance().getState(stateID,context));
     }
 
@@ -47,7 +47,7 @@ public class FlowManager {
         stateMap.put(uiState.getStateID(), uiState);
     }
 
-    public UIStateBase getState(@UIStateBase.UIStateDef int stateID) {
+    public UIState getState(@UIState.UIStateDef int stateID) {
         return stateMap.get(stateID);
     }
 }
