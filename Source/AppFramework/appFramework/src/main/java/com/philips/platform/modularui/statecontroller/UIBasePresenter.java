@@ -5,7 +5,10 @@ import android.content.Context;
 /**
  * Created by 310240027 on 7/4/2016.
  */
-public interface UIBasePresenter {
-    void onClick(int componentID, Context context);
-    void onLoad(Context context);
+abstract public class UIBasePresenter {
+    public abstract void onClick(int componentID, Context context);
+    public abstract void onLoad(Context context);
+    public void setState(int stateID){
+
+    }
 }

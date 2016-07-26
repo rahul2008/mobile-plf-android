@@ -10,6 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  * Created by 310240027 on 6/16/2016.
  */
 abstract public class UIState {
+
+    UIBasePresenter uiBasePresenter;
     /**
      * Constants for each state
      */
@@ -20,6 +22,7 @@ abstract public class UIState {
     public @interface UIStateDef {
     }
 
+    public static final int UI_SPLASH_STATE = 1002;
     public static final int UI_SPLASH_UNREGISTERED_STATE = 1003;
     public static final int UI_SPLASH_REGISTERED_STATE = 1004;
     public static final int UI_SPLASH_DONE_PRESSED_STATE = 1005;
@@ -49,5 +52,9 @@ abstract public class UIState {
     }
 
     protected abstract void navigate(Context context);
+
+    public void setPresenter(UIBasePresenter uiBasePresenter){
+        this.uiBasePresenter = uiBasePresenter;
+    }
 
 }

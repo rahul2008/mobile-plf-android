@@ -38,9 +38,10 @@ public class FlowManager {
     public void getNextState(){
 
     }
-    public void navigateState(@UIState.UIStateDef int stateID, Context context) {
+    public void navigateToState(@UIState.UIStateDef int stateID, Context context, UIBasePresenter uiBasePresenter) {
             StateCreator.getInstance().getState(stateID,context).navigate(context);
             setCurrentState(StateCreator.getInstance().getState(stateID,context));
+            StateCreator.getInstance().getState(stateID,context).setPresenter(uiBasePresenter);
     }
 
     public void addToStateMap(UIState uiState) {
