@@ -15,16 +15,18 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by 310238655 on 6/7/2016.
  */
-public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetServiceLocaleListener, ServiceDiscoveryInterface.OnGetServiceUrlListener, ServiceDiscoveryInterface.OnGetHomeCountryListener {
+public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetServiceLocaleListener, ServiceDiscoveryInterface.OnGetServiceUrlListener, ServiceDiscoveryInterface.OnGetHomeCountryListener, ServiceDiscoveryInterface.OnGetServiceUrlMapListener {
 
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     ServiceDiscoveryInterface.OnGetServiceLocaleListener mOnGetServiceLocaleListener = null;
     ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
     ServiceDiscoveryInterface.OnGetHomeCountryListener mOnGetHomeCountryListener = null;
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener mOnGetServiceUrlMapListener = null;
     AppInfraInterface appInfra;
 
     TextView resultView;
@@ -39,6 +41,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         mOnGetServiceLocaleListener = this;
         mOnGetServiceUrlListener = this;
         mOnGetHomeCountryListener = this;
+        mOnGetServiceUrlMapListener = this;
 
         setContentView(R.layout.service_discovery_demopage);
 
@@ -100,7 +103,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             public void onClick(View v) {
                 String[] serviceIds = idEditText.getText().toString().split(",");
                 ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, mOnGetServiceUrlListener);
+                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, mOnGetServiceUrlMapListener);
 
             }
         });
@@ -110,7 +113,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             public void onClick(View v) {
                 String[] serviceIds = idEditText.getText().toString().split(",");
                 ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceId ,mOnGetServiceUrlListener);
+                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceId ,mOnGetServiceUrlMapListener);
             }
         });
     }
@@ -136,5 +139,10 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(String countryCode, SOURCE source) {
         resultView.setText(countryCode);
+    }
+
+    @Override
+    public void onSuccess(Map urlMap) {
+        resultView.setText("" + urlMap);
     }
 }
