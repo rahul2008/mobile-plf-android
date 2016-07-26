@@ -324,7 +324,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     };
 
     private void showToast(int errorCode) {
-        String errorText = "Unknown error";
+        String errorText = "Server error";
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = "No connection";
         } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
