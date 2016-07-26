@@ -17,15 +17,33 @@
         android:text="@string/PPR_AllProducts_Registered_Lbltxt"/>
 
     <TextView
-        android:id="@+id/link_tv"
+        android:id="@+id/want_register_text"
         style="@style/ProductRegistrationConnectSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_all_success_textview"
         android:layout_marginTop="@dimen/pr_d_value_tablet"
+        android:paddingBottom="@dimen/pr_d_value_sm"
         android:text="@string/PPR_Do_You_Want_To_Reg_Lbltxt"/>
 
+    <TextView
+        android:id="@+id/connected_text"
+        style="@style/ProductRegistrationConnectSubTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/want_register_text"
+        android:background="?attr/uikit_veryLightColor"
+        android:text="@string/PPR_Connect_Your_Product_Lbltxt"/>
 
+    <TextView
+        android:id="@+id/link_tv"
+        style="@style/ProductRegistrationConnectSubTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connected_text"
+        android:background="?attr/uikit_veryLightColor"
+        android:paddingBottom="@dimen/pr_d_value_sm"
+        android:text="@string/PPR_Reg_In_Web_Lbltxt"/>
     <Button
         android:id="@+id/back_btn"
         android:layout_width="match_parent"

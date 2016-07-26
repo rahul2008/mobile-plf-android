@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_image"
             android:layout_marginTop="@dimen/pr_c_value_sm"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:id="@+id/date_edit_text_layout"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/InlineForms_date"
             android:layout_marginTop="@dimen/pr_c_value_sm"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:id="@+id/serial_edit_text_layout"

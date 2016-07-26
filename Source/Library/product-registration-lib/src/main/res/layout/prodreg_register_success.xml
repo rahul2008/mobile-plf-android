@@ -37,6 +37,16 @@
                 android:layout_marginTop="@dimen/pr_top_padding_sm"
                 android:text="@string/prod_reg_success_conf_message"
                 />
+
+            <TextView
+                android:id="@+id/pr_success_email_textview"
+                style="@style/ProductRegistrationSubTitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pr_success_more_textview"
+                android:layout_marginTop="@dimen/pr_top_padding_sm"
+                android:text="@string/PPR_Eamil_Sent_Lbltxt"
+                />
         </LinearLayout>
     </ScrollView>
 

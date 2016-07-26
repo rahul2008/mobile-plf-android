@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-    >
+                android:orientation="vertical">
 
 
     <TextView
@@ -20,7 +19,7 @@
         android:text="@string/PPR_AllProducts_Registered_Lbltxt"/>
 
     <TextView
-        android:id="@+id/link_tv"
+        android:id="@+id/want_register_text"
         style="@style/ProductRegistrationConnectSubTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +30,29 @@
         android:paddingRight="@dimen/pr_bottom_padding_sm"
         android:paddingTop="@dimen/pr_d_value_sm"
         android:text="@string/PPR_Do_You_Want_To_Reg_Lbltxt"/>
+
+    <TextView
+        android:id="@+id/connected_text"
+        style="@style/ProductRegistrationConnectSubTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/want_register_text"
+        android:background="?attr/uikit_veryLightColor"
+        android:paddingLeft="@dimen/pr_left_padding_sm"
+        android:paddingRight="@dimen/pr_bottom_padding_sm"
+        android:text="@string/PPR_Connect_Your_Product_Lbltxt"/>
+
+    <TextView
+        android:id="@+id/link_tv"
+        style="@style/ProductRegistrationConnectSubTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connected_text"
+        android:background="?attr/uikit_veryLightColor"
+        android:paddingBottom="@dimen/pr_d_value_sm"
+        android:paddingLeft="@dimen/pr_left_padding_sm"
+        android:paddingRight="@dimen/pr_bottom_padding_sm"
+        android:text="@string/PPR_Reg_In_Web_Lbltxt"/>
 
     <LinearLayout
         android:layout_width="match_parent"
