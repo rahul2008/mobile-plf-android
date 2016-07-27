@@ -53,7 +53,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance1, never()).enableSubscription();
         verify(appliance1, never()).subscribe();
 
-        verify(appliance1, never()).disableSubscription();
+        verify(appliance1, never()).disableCommunication();
         verify(appliance1, never()).stopResubscribe();
     }
 
@@ -421,7 +421,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1, never()).enableSubscription();
 
         verify(appliance1, never()).subscribe();
@@ -445,7 +445,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1).enableSubscription();
 
         verify(appliance1).subscribe();
@@ -469,7 +469,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
         verify(appliance1).enableSubscription();
@@ -494,7 +494,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
         verify(appliance1).enableSubscription();
@@ -518,7 +518,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
         verify(appliance1).enableSubscription();
@@ -543,7 +543,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch to disconnected state.
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
         verify(appliance1, never()).enableSubscription();
@@ -571,7 +571,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener);
 
-        verify(appliance1, never()).disableSubscription();
+        verify(appliance1, never()).disableCommunication();
         verify(appliance1).enableSubscription();
 
         verify(appliance1).subscribe();
@@ -594,7 +594,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         DICommApplianceListener listener2 = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener2);
 
-        verify(appliance1, never()).disableSubscription();
+        verify(appliance1, never()).disableCommunication();
         verify(appliance1, never()).enableSubscription();
 
         verify(appliance1, never()).subscribe();
@@ -615,7 +615,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
 
         mCurrentApplianceMan.removeApplianceListener(listener);
 
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1, never()).enableSubscription();
 
         verify(appliance1, never()).subscribe();
@@ -638,7 +638,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
 
         mCurrentApplianceMan.removeApplianceListener(listener);
 
-        verify(appliance1, never()).disableSubscription();
+        verify(appliance1, never()).disableCommunication();
         verify(appliance1, never()).enableSubscription();
 
         verify(appliance1, never()).subscribe();
@@ -662,7 +662,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.removeApplianceListener(listener);
         mCurrentApplianceMan.removeApplianceListener(listener2);
 
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1, never()).enableSubscription();
 
         verify(appliance1, never()).subscribe();
@@ -689,7 +689,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.removeApplianceListener(listener2);
         mCurrentApplianceMan.removeApplianceListener(listener3);
 
-        verify(appliance1).disableSubscription();
+        verify(appliance1).disableCommunication();
         verify(appliance1).enableSubscription();
 
         verify(appliance1).subscribe();
@@ -715,12 +715,12 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance).enableSubscription();
         verify(appliance).subscribe();
 
-        verify(appliance, never()).disableSubscription();
+        verify(appliance, never()).disableCommunication();
         verify(appliance, never()).stopResubscribe();
     }
 
     private void verifyRemovedPurifier(DICommAppliance appliance) {
-        verify(appliance).disableSubscription();
+        verify(appliance).disableCommunication();
         verify(appliance).stopResubscribe();
 
         verify(appliance, never()).enableSubscription();

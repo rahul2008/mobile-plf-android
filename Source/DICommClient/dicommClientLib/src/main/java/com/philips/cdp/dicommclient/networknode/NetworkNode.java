@@ -11,10 +11,10 @@ import android.os.Parcelable;
 import java.util.Observable;
 
 public class NetworkNode extends Observable implements Parcelable {
-    public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
+    public enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
     public interface EncryptionKeyUpdatedListener {
-        public void onKeyUpdate();
+        void onKeyUpdate();
     }
 
     private String mIpAddress;

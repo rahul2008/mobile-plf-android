@@ -71,10 +71,7 @@ private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 
 	@Override
 	public boolean isAvailable(NetworkNode networkNode) {
-		if(networkNode.getConnectionState().equals(ConnectionState.CONNECTED_REMOTELY)){
-			return true;
-		}
-		return false;
+		return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_REMOTELY);
 	}
 
 

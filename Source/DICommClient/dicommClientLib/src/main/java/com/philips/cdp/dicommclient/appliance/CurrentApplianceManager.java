@@ -176,7 +176,7 @@ public class CurrentApplianceManager implements Observer {
         if (diCommAppliance == null) {
             return;
         }
-        diCommAppliance.disableSubscription();
+        diCommAppliance.disableCommunication();
         diCommAppliance.stopResubscribe();
     }
 

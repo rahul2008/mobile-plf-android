@@ -47,7 +47,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         mProductId = productId;
     }
 
-    private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String, Object> dataMap) {
+    private String createDataToSend(String portName, int productId, Map<String, Object> dataMap) {
         String data = Request.convertKeyValuesToJson(dataMap);
         String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
 
@@ -61,7 +61,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         mCppController.addDCSResponseListener(this);
         mCppController.addPublishEventListener(this);
 
-        mEventData = createDataToSend(mNetworkNode, mPortName, mProductId, mDataMap);
+        mEventData = createDataToSend(mPortName, mProductId, mDataMap);
         mMessageId = mCppController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
                 "", REQUEST_PRIORITY, REQUEST_TTL, mNetworkNode.getCppId());
         try {

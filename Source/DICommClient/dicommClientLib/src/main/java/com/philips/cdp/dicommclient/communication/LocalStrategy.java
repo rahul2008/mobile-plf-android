@@ -85,10 +85,7 @@ public class LocalStrategy extends CommunicationStrategy {
 
 	@Override
 	public boolean isAvailable(NetworkNode networkNode) {
-		if (networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY)) {
-			return true;
-		}
-		return false;
+		return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
 	}
 
 	private void triggerKeyExchange(NetworkNode networkNode) {
