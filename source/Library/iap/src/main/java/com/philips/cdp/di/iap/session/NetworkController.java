@@ -24,12 +24,12 @@ import org.json.JSONObject;
  * NetworkController class is used to make Hybris request
  */
 public class NetworkController {
-    HurlStack mIapHurlStack;
-    RequestQueue hybrisVolleyQueue;
-    Context context;
-    StoreSpec store;
-    OAuthHandler oAuthHandler;
-    NetworkEssentials mNetworkEssentials;
+    protected HurlStack mIapHurlStack;
+    private RequestQueue hybrisVolleyQueue;
+    protected Context context;
+    private StoreSpec store;
+    private OAuthHandler oAuthHandler;
+    private NetworkEssentials mNetworkEssentials;
 
     public NetworkController(Context context) {
         this(context, null);
@@ -72,7 +72,7 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                if (model.getUrl() != null && error!=null) {
+                if (model.getUrl() != null && error != null) {
                     IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                             requestListener.getClass().getSimpleName() + " " + model.getUrl().substring(0, 20));
