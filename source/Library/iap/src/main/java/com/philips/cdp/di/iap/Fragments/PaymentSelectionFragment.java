@@ -147,6 +147,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         }
     }
 
+    //Naming convention to be followed for easy understanding for ex : name it more specific CVVDialog instead editNameDialog
     private void showEditDialog(FragmentManager pFragmentManager) {
         EditTextDialogFragment editNameDialog = new EditTextDialogFragment();
         editNameDialog.setTargetFragment(this, EditTextDialogFragment.REQUEST_CODE);

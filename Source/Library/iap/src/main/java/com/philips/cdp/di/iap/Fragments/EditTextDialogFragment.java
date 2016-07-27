@@ -4,11 +4,9 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,9 +18,9 @@ import com.philips.cdp.di.iap.R;
  */
 public class EditTextDialogFragment extends DialogFragment  {
 
-    public static final String EDIT_TEXT_BUNDLE_KEY = "EDIT_TEXT_BUNDLE_KEY";
+    public static final String EDIT_TEXT_BUNDLE_KEY = "EDIT_TEXT_BUNDLE_KEY"; // can be moved to IAPConstant where all the bundle key has maintained
     public static final int REQUEST_CODE = 0 ;
-    String cvvValue;
+    String cvvValue; //Can be changed to mCVV
     EditText mEditText;
 
     @Override
@@ -45,7 +43,7 @@ public class EditTextDialogFragment extends DialogFragment  {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cvvValue = mEditText.getText().toString();
+                cvvValue = mEditText.getText().toString(); //Empty string handling is missing?
                 dismiss();
                 setShowsDialog(false);
                 sendResult(REQUEST_CODE);
@@ -65,7 +63,7 @@ public class EditTextDialogFragment extends DialogFragment  {
 
     private void sendResult(int REQUEST_CODE) {
         Intent intent = new Intent();
-        intent.putExtra(EDIT_TEXT_BUNDLE_KEY, cvvValue);
+        intent.putExtra(EDIT_TEXT_BUNDLE_KEY, cvvValue); // key name can be more specific like CVV_KEY
         getTargetFragment().onActivityResult(
                 getTargetRequestCode(), REQUEST_CODE, intent);
     }
