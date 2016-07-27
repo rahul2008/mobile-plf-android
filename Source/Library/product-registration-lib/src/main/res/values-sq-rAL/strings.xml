@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Regjistroni produktin</string>
+<string name="PPR_RegYourProduct_Lbltxt">Regjistro produktin dhe:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Merr përditësime të rëndësishme rreth produkteve të tua</string>
+<string name="PPR_Yes_Btntxt">Po</string>
+<string name="PPR_RegLater_Btntxt">Jo faleminderit, regjistrohem më vonë</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Të gjitha produktet që janë lidhur aktualisht me këtë aplikacion janë regjistruar me sukses!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Të regjistrohet ndonjë produkt tjetër?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Nëse është produkt i lidhur \"Philips\", sigurohu ta kesh lidhur produktin me këtë aplikacion</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Ose regjistroje produktin në versionin për internet te www.philips.com</string>
+<string name="PPR_Back_Btntxt">Kthehu</string>
+<string name="PPR_Connect_Product_Btntxt">Lidh një produkt</string>
+<string name="PPR_RegSuccess_Lbltxt">Regjistrimi me sukses!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Periudha e garancisë u zgjat deri më</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Të është dërguar një email me kontratën e garancisë së shtyrë në adresën e emailit</string>
+<string name="PPR_Thank_You_Lbltxt">Faleminderit që zgjodhe produktet \"Philips\"!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Në kërkim për produktet...</string>
+<string name="PPR_Registering_Products_Lbltxt">Produktet po regjistrohen...</string>
+<string name="PPR_No_Internet_Title">Nuk ka lidhje me internetin!</string>
+<string name="PPR_No_Internet_ErrMsg">Kontrollo lidhjen me internetin dhe riprovo</string>
+<string name="PPR_Authentication_Fail_Title">Gabim autentikimi!</string>
+<string name="PPR_Authentication_ErrMsg">Autorizimi i përdoruesit dështoi, provo sërish pas njëfarë kohe</string>
+<string name="PPR_Product_Not_Found_Title">Produkti nuk u gjet!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Produkti nuk mbështetet në këtë rajon, kontakto me kujdesin ndaj klientit.</string>
+<string name="PPR_Communication_Err_Title">Gabim komunikimi!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Nuk mund të lidhet me serverin, provo sërish pas njëfarë kohe, nëse problemi vazhdon, kontakto me kujdesin ndaj klientit</string>
+<string name="PPR_Invalid_SerialNum_Title">Numri i serisë i pavlefshëm!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Jep një numër të vlefshëm serie.</string>
+<string name="PPR_Req_Purchase_Date_Title">Data e blerjes e pavlefshme!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Jep një datë blerjeje</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Jep një numër serie në formatin si vijon:</string>
+<string name="PPR_Network_Err_Title">Gabim rrjeti!</string>
+<string name="PPR_Network_ErrMsg">Provo sërish pas njëfarë kohe.</string>
+<string name="PPR_Unknow_ErrMsg">Gabim i panjohur</string>
+<string name="PPR_Invalid_Date_Title">Data e blerjes e pavlefshme</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Data e blerjes:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Jep një datë blerjeje</string>
+<string name="PPR_SerialNum_Lbltxt">Numri i serisë:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Jep numrin e serisë</string>
+<string name="PPR_Register_Btntxt">Regjistrimi</string>
+<string name="PPR_Invalid_Date_ErrMsg">Jep një datë midis vitit 2000 dhe datës së sotme</string>
+<string name="PPR_Already_Registered_title">Produkti u regjistrua</string>
+<string name="PPR_Already_Registered_ErrMsg">Produkti është regjistruar më parë</string>
+</resources>

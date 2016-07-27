@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Өнімді тіркеу</string>
+<string name="PPR_RegYourProduct_Lbltxt">Өнімді тіркеп,</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Өнімдер туралы маңызды жаңартулар алыңыз</string>
+<string name="PPR_Yes_Btntxt">Иә</string>
+<string name="PPR_RegLater_Btntxt">Жоқ, кейін тіркелемін</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Осы қолданбаға қосылған барлық өнімдер сәтті тіркелді!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Басқа өнімді тіркегіңіз келе ме?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Егер бұл қосылған Philips өнімі болса, өнімді міндетті түрде осы қолданбаға қосыңыз</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Не болмаса, өнімді www.philips.com веб-сайтына тіркеңіз</string>
+<string name="PPR_Back_Btntxt">Артқа</string>
+<string name="PPR_Connect_Product_Btntxt">Өнім қосу</string>
+<string name="PPR_RegSuccess_Lbltxt">Сәтті тіркелді!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Кепілдік мерзімі созылды</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Ұзартылған кепілдік келісімі бар хат электрондық поштаңызға жіберілді</string>
+<string name="PPR_Thank_You_Lbltxt">Philips өнімдерін пайдаланғаныңыз үшін рақмет!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Өнімдер ізделуде..</string>
+<string name="PPR_Registering_Products_Lbltxt">Өнімдер тіркелуде..</string>
+<string name="PPR_No_Internet_Title">Интернет байланысы жоқ!</string>
+<string name="PPR_No_Internet_ErrMsg">Интернет байланысын тексеріп, әрекетті қайталаңыз</string>
+<string name="PPR_Authentication_Fail_Title">Аутентификация қатесі!</string>
+<string name="PPR_Authentication_ErrMsg">Пайдаланушыны авторизациялау орындалмады, біраз уақыттан соң әрекетті қайталаңыз</string>
+<string name="PPR_Product_Not_Found_Title">Өнім табылмады!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Бұл аймақта өнімге қолдау жоқ, тұтынушыларға қолдау көрсету орталығына хабарласыңыз.</string>
+<string name="PPR_Communication_Err_Title">Байланыс қатесі!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Серверге қосылу мүмкін емес, біраз уақыттан соң әрекетті қайталаңыз. Мәселе шешілмесе, тұтынушыларға қолдау көрсету орталығына хабарласыңыз.</string>
+<string name="PPR_Invalid_SerialNum_Title">Сериялық нөмірі қате!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Дұрыс сериялық нөмірін енгізіңіз.</string>
+<string name="PPR_Req_Purchase_Date_Title">Сатып алынған күні қате!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Сатып алынған күнін енгізіңіз</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Сериялық нөмірді мына форматта енгізіңіз:</string>
+<string name="PPR_Network_Err_Title">Желі қатесі!</string>
+<string name="PPR_Network_ErrMsg">Біраз уақыттан соң әрекетті қайталаңыз.</string>
+<string name="PPR_Unknow_ErrMsg">Белгісіз қате</string>
+<string name="PPR_Invalid_Date_Title">Сатып алынған күні қате</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Сатып алған күн:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Сатып алынған күнін енгізіңіз</string>
+<string name="PPR_SerialNum_Lbltxt">Сериялық нөмірі:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Сериялық нөмірін енгізіңіз</string>
+<string name="PPR_Register_Btntxt">Тіркеу</string>
+<string name="PPR_Invalid_Date_ErrMsg">2000 жыл мен бүгінгі күн аралығындағы күнді енгізіңіз</string>
+<string name="PPR_Already_Registered_title">Өнім тіркелді</string>
+<string name="PPR_Already_Registered_ErrMsg">Өнім тіркелді</string>
+</resources>

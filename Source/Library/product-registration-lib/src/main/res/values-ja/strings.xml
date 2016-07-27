@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">製品のご登録</string>
+<string name="PPR_RegYourProduct_Lbltxt">製品をご登録いただいた場合：</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- お使いの製品に関する重要なアップデートを受信することができます</string>
+<string name="PPR_Yes_Btntxt">はい</string>
+<string name="PPR_RegLater_Btntxt">いいえ、後で登録します</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">現在このアプリに接続されている製品はすべて登録が完了しています。</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">他の製品を登録しますか？</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">接続されているフィリップス製品がある場合は、製品がこのアプリに接続されていることを確認してください</string>
+<string name="PPR_Reg_In_Web_Lbltxt">製品はウェブ版（www.philips.com）で登録することもできます</string>
+<string name="PPR_Back_Btntxt">戻る</string>
+<string name="PPR_Connect_Product_Btntxt">製品を接続</string>
+<string name="PPR_RegSuccess_Lbltxt">登録が完了しました</string>
+<string name="PPR_Extended_Warranty_Lbltxt">保証期間が次の日付まで延長されました：</string>
+<string name="PPR_Eamil_Sent_Lbltxt">保証延長契約に関するメールがお客様のメールアドレスに送信されました</string>
+<string name="PPR_Thank_You_Lbltxt">フィリップス製品をお選びいただきありがとうございます。</string>
+<string name="PPR_Looking_For_Products_Lbltxt">お使いの製品を探す..</string>
+<string name="PPR_Registering_Products_Lbltxt">お使いの製品を登録する..</string>
+<string name="PPR_No_Internet_Title">インターネット接続がありません</string>
+<string name="PPR_No_Internet_ErrMsg">インターネット接続を確認してからやり直してください</string>
+<string name="PPR_Authentication_Fail_Title">認証に失敗しました</string>
+<string name="PPR_Authentication_ErrMsg">ユーザー認証に失敗しました。しばらくしてからやり直してください</string>
+<string name="PPR_Product_Not_Found_Title">製品が見つかりませんでした</string>
+<string name="PPR_Product_Not_Found_ErrMsg">この地域ではサポートされていない製品です。当社までお問い合わせください。</string>
+<string name="PPR_Communication_Err_Title">通信エラー</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">サーバーに接続できません。しばらくしてからやり直してください。問題が解消されない場合は、当社までお問い合わせください</string>
+<string name="PPR_Invalid_SerialNum_Title">シリアル番号が無効です</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">有効なシリアル番号を入力してください</string>
+<string name="PPR_Req_Purchase_Date_Title">購入日が無効です</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">購入日を入力してください</string>
+<string name="PPR_SerialNum_Format_ErrMsg">シリアル番号は次の形式で入力してください：</string>
+<string name="PPR_Network_Err_Title">ネットワークエラー</string>
+<string name="PPR_Network_ErrMsg">しばらくしてからやり直してください</string>
+<string name="PPR_Unknow_ErrMsg">原因不明のエラー</string>
+<string name="PPR_Invalid_Date_Title">購入日が無効です</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">購入日：</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">購入日を入力してください</string>
+<string name="PPR_SerialNum_Lbltxt">シリアル番号 :</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">シリアル番号を入力してください</string>
+<string name="PPR_Register_Btntxt">ご登録</string>
+<string name="PPR_Invalid_Date_ErrMsg">2000 年から本日までの期間中の日付を入力してください</string>
+<string name="PPR_Already_Registered_title">登録済み製品</string>
+<string name="PPR_Already_Registered_ErrMsg">製品は登録済みです</string>
+</resources>

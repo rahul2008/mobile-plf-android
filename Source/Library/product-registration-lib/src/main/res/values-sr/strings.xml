@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Registracija proizvoda</string>
+<string name="PPR_RegYourProduct_Lbltxt">Registrujte proizvod i:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Primajte važne ispravke za vaše proizvode</string>
+<string name="PPR_Yes_Btntxt">Da</string>
+<string name="PPR_RegLater_Btntxt">Ne hvala, registruj posle</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Svi proizvodi koji su trenutno povezani sa ovom aplikacijom uspešno su registrovani!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Želite li da registrujete drugi proizvod?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Ako je taj proizvod kompanije Philips već povezan, proverite da li ste ga povezali sa ovom aplikacijom</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Ili registrujte svoj proizvod u verziji na Webu na adresi www.philips.com</string>
+<string name="PPR_Back_Btntxt">Nazad</string>
+<string name="PPR_Connect_Product_Btntxt">Poveži proizvod</string>
+<string name="PPR_RegSuccess_Lbltxt">Registracija uspešna!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Garantni rok je produžen do</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Na vašu e-adresu poslata je poruka sa ugovorom za produženu garanciju</string>
+<string name="PPR_Thank_You_Lbltxt">Hvala vam što ste odabrali Philips proizvode!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Pretraga proizvoda u toku...</string>
+<string name="PPR_Registering_Products_Lbltxt">Registracija proizvoda u toku...</string>
+<string name="PPR_No_Internet_Title">Nema internet veze!</string>
+<string name="PPR_No_Internet_ErrMsg">Proverite vezu sa Internetom i pokušajte ponovo</string>
+<string name="PPR_Authentication_Fail_Title">Nije uspela provera identiteta!</string>
+<string name="PPR_Authentication_ErrMsg">Autorizacija korisnika nije uspela. Pokušajte ponovo kasnije</string>
+<string name="PPR_Product_Not_Found_Title">Proizvod nije pronađen!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Proizvod nije podržan u ovom regionu. Obratite se centru za brigu o potrošačima.</string>
+<string name="PPR_Communication_Err_Title">Greška u komunikaciji!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Nije moguće povezati se na server. Ako problem potraje, obratite se centru za brigu o potrošačima</string>
+<string name="PPR_Invalid_SerialNum_Title">Nevažeći serijski broj!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Unesite važeći serijski broj</string>
+<string name="PPR_Req_Purchase_Date_Title">Nevažeći datum kupovine!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Unesite datum kupovine</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Unesite serijski broj u sledećem formatu:</string>
+<string name="PPR_Network_Err_Title">Mrežna greška!</string>
+<string name="PPR_Network_ErrMsg">Pokušajte ponovo kasnije.</string>
+<string name="PPR_Unknow_ErrMsg">Nepoznata greška</string>
+<string name="PPR_Invalid_Date_Title">Nevažeći datum kupovine</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Datum kupovine:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Unesite datum kupovine</string>
+<string name="PPR_SerialNum_Lbltxt">Serijski broj:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Unesite serijski broj</string>
+<string name="PPR_Register_Btntxt">Registracija</string>
+<string name="PPR_Invalid_Date_ErrMsg">Unesite datum između 2000. godine i današnjeg dana</string>
+<string name="PPR_Already_Registered_title">Proizvod je registrovan</string>
+<string name="PPR_Already_Registered_ErrMsg">Proizvod je već registrovan</string>
+</resources>

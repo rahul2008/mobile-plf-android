@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Cláraigh do tháirge</string>
+<string name="PPR_RegYourProduct_Lbltxt">Cláraigh do tháirge agus:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Faigh nuashonruithe tábhachtacha faoi do tháirgí</string>
+<string name="PPR_Yes_Btntxt">Tá</string>
+<string name="PPR_RegLater_Btntxt">Níl, go raibh maith agat, cláróidh mé amach anseo</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Tá gach táirge atá nasctha leis an bhfeidhmchlár seo faoi láthair cláraithe go rathúil!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">An bhfuil uait táirge nua a chlárú?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Más táirge Philips nasctha é, cinntigh go bhfuil an táirge nasctha agat leis an bhfeidhmchlár seo</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Nó cláraigh do tháirge sa leagan gréasáin ar www.philips.com</string>
+<string name="PPR_Back_Btntxt">Ar ais</string>
+<string name="PPR_Connect_Product_Btntxt">Cláraigh táirge</string>
+<string name="PPR_RegSuccess_Lbltxt">Cláraithe go rathúil!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Tá fad curtha le do thréimhse baránta go dtí</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Tá ríomhphost le do chonradh baránta sínithe seolta chuig do sheoladh ríomhphoist</string>
+<string name="PPR_Thank_You_Lbltxt">Go raibh maith agat as táirgí Philips a roghnú!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">I mbun cuardaigh do do tháirgí..</string>
+<string name="PPR_Registering_Products_Lbltxt">I mbun cláraithe táirgí..</string>
+<string name="PPR_No_Internet_Title">Níl nasc idirlín ann!</string>
+<string name="PPR_No_Internet_ErrMsg">Seiceáil do nasc idirlín agus triail arís é</string>
+<string name="PPR_Authentication_Fail_Title">Theip ar fhíordheimhniú!</string>
+<string name="PPR_Authentication_ErrMsg">Theip ar údarú úsáideora, bain triail as arís ar ball</string>
+<string name="PPR_Product_Not_Found_Title">Níor aimsíodh an táirge!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Níl tacaíocht don táirge ann sa réigiún seo, déan teagmháil le cúram custaiméirí.</string>
+<string name="PPR_Communication_Err_Title">Earráid cumarsáide!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Níorbh fhéidir teagmháil a dhéanamh leis an bhfreastalaí, bain triail as arís ar ball. Mura n-oibríoinn sé, déan teagmháil le cúram custaiméirí.</string>
+<string name="PPR_Invalid_SerialNum_Title">Sraithuimhir neamhbhailí!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Cuir isteach sraithuimhir bhailí</string>
+<string name="PPR_Req_Purchase_Date_Title">Dáta ceannaigh neamhbhailí!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Cuir isteach an dáta ceannaigh</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Cuir isteach an tsraithuimhir san fhormáid seo :</string>
+<string name="PPR_Network_Err_Title">Earráid líonra!</string>
+<string name="PPR_Network_ErrMsg">Bain triail as arís ar ball.</string>
+<string name="PPR_Unknow_ErrMsg">Earráid anaithid</string>
+<string name="PPR_Invalid_Date_Title">Dáta ceannaigh neamhbhailí</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Dáta ceannaigh:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Cuir isteach an dáta ceannaigh</string>
+<string name="PPR_SerialNum_Lbltxt">Sraithuimhir:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Cuir isteach an tsraithuimhir </string>
+<string name="PPR_Register_Btntxt">Cláraigh</string>
+<string name="PPR_Invalid_Date_ErrMsg">Cuir isteach dáta idir an bhliain 2000 agus dáta an lae inniu</string>
+<string name="PPR_Already_Registered_title">Táirge cláraithe</string>
+<string name="PPR_Already_Registered_ErrMsg">Táirge cláraithe cheana féin</string>
+</resources>

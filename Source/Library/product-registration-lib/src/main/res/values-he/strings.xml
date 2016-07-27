@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">רשום את המוצר שלך</string>
+<string name="PPR_RegYourProduct_Lbltxt">רשום את המוצר שלך וכן:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">קבל עדכונים חשובים לגבי המוצרים שלך -</string>
+<string name="PPR_Yes_Btntxt">כן</string>
+<string name="PPR_RegLater_Btntxt">לא תודה, אירשם מאוחר יותר</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">כל המוצרים המחוברים כעת לאפליקציה זו נרשמו בהצלחה!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">האם ברצונך לרשום מוצר נוסף?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt"> אם מדובר במוצר מחובר של פיליפס, ודא שחיברת את המוצר לאפליקציה זו.</string>
+<string name="PPR_Reg_In_Web_Lbltxt">או רשום את המוצר שלך בגרסת האינטרנט בכתובת www.philips.com</string>
+<string name="PPR_Back_Btntxt">חזרה</string>
+<string name="PPR_Connect_Product_Btntxt">חיבור מוצר</string>
+<string name="PPR_RegSuccess_Lbltxt">הרישום הצליח!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">תקופת האחריות שלך הוארכה עד</string>
+<string name="PPR_Eamil_Sent_Lbltxt">הודעת דוא\"ל ובה הסכם אחריות מוארך נשלחה לכתובת הדוא\"ל שלך</string>
+<string name="PPR_Thank_You_Lbltxt">תודה על שבחרת במוצרי פיליפס!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">מחפש אחר המוצרים שלך...</string>
+<string name="PPR_Registering_Products_Lbltxt">רושם את המוצרים שלך...</string>
+<string name="PPR_No_Internet_Title">אין חיבור אינטרנט!</string>
+<string name="PPR_No_Internet_ErrMsg">בדוק את חיבור האינטרנט שלך ונסה שוב</string>
+<string name="PPR_Authentication_Fail_Title">שגיאת אימות!</string>
+<string name="PPR_Authentication_ErrMsg">אישור המשתמש נכשל; נסה שוב מאוחר יותר</string>
+<string name="PPR_Product_Not_Found_Title">המוצר לא נמצא!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">המוצר אינו נתמך באזור זה; פנה לשירות הלקוחות.</string>
+<string name="PPR_Communication_Err_Title">שגיאת תקשורת!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">לא ניתן להתחבר לשרת; נסה שוב מאוחר יותר. אם הבעיה נמשכת, פנה לשירות הלקוחות.</string>
+<string name="PPR_Invalid_SerialNum_Title">מספר סידורי לא חוקי!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">נא להזין מספר סידורי חוקי</string>
+<string name="PPR_Req_Purchase_Date_Title">תאריך רכישה לא חוקי!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">הזן תאריך רכישה</string>
+<string name="PPR_SerialNum_Format_ErrMsg">הזן מספר סידורי בתבנית זו:</string>
+<string name="PPR_Network_Err_Title">שגיאת רשת!</string>
+<string name="PPR_Network_ErrMsg">נסה מאוחר יותר.</string>
+<string name="PPR_Unknow_ErrMsg">שגיאה לא מזוהה</string>
+<string name="PPR_Invalid_Date_Title">תאריך רכישה לא חוקי</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">תאריך רכישה:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">הזן תאריך רכישה</string>
+<string name="PPR_SerialNum_Lbltxt">מספר סידורי</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">הזן מספר סידורי</string>
+<string name="PPR_Register_Btntxt">רישום</string>
+<string name="PPR_Invalid_Date_ErrMsg">הזן תאריך בין שנת 2000 לתאריך הנוכחי</string>
+<string name="PPR_Already_Registered_title">המוצר נרשם</string>
+<string name="PPR_Already_Registered_ErrMsg">המוצר כבר רשום</string>
+</resources>

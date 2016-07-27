@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Daftarkan produk Anda</string>
+<string name="PPR_RegYourProduct_Lbltxt">Daftarkan produk Anda dan:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Dapatkan pembaruan penting tentang produk Anda</string>
+<string name="PPR_Yes_Btntxt">Y</string>
+<string name="PPR_RegLater_Btntxt">Tidak, terima kasih. Daftarkan nanti</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Semua produk yang saat ini tersambung dengan aplikasi ini telah berhasil didaftarkan!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Apakah Anda ingin mendaftarkan produk lain?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Jika ini adalah produk Philips yang tersambung, pastikan Anda menyambungkan produk ke aplikasi ini</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Atau daftarkan produk Anda di versi web di www.philips.com</string>
+<string name="PPR_Back_Btntxt">Belakang</string>
+<string name="PPR_Connect_Product_Btntxt">Sambungkan produk</string>
+<string name="PPR_RegSuccess_Lbltxt">Pendaftaran berhasil!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Masa garansi Anda telah diperpanjang hingga</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Email dengan kontrak perpanjangan garansi telah dikirim ke alamat email Anda</string>
+<string name="PPR_Thank_You_Lbltxt">Terima kasih telah memilih produk Philips!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Mencari produk Anda…</string>
+<string name="PPR_Registering_Products_Lbltxt">Mendaftarkan produk Anda…</string>
+<string name="PPR_No_Internet_Title">Tidak ada koneksi internet!</string>
+<string name="PPR_No_Internet_ErrMsg">Harap periksa koneksi internet Anda dan coba lagi</string>
+<string name="PPR_Authentication_Fail_Title">Otentikasi gagal!</string>
+<string name="PPR_Authentication_ErrMsg">Otorisasi pengguna gagal, silakan coba lagi setelah beberapa saat</string>
+<string name="PPR_Product_Not_Found_Title">Produk tidak ditemukan!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Produk tidak didukung di kawasan ini, harap hubungi layanan konsumen.</string>
+<string name="PPR_Communication_Err_Title">Kesalahan komunikasi!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Tidak dapat tersambung ke server, harap coba setelah beberapa saat. Jika masalah berlanjut, hubungi pusat layanan pelanggan</string>
+<string name="PPR_Invalid_SerialNum_Title">Nomor seri tidak valid!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Harap masukkan nomor seri yang valid</string>
+<string name="PPR_Req_Purchase_Date_Title">Tanggal pembelian tidak sah!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Harap masukkan tanggal pembelian</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Harap masukkan nomor seri dalam format berikut:</string>
+<string name="PPR_Network_Err_Title">Kesalahan Jaringan!</string>
+<string name="PPR_Network_ErrMsg">Harap coba setelah beberapa saat.</string>
+<string name="PPR_Unknow_ErrMsg">Kesalahan tidak diketahui</string>
+<string name="PPR_Invalid_Date_Title">Tanggal Pembelian Tidak Valid</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Tanggal pembelian:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Harap masukkan tanggal pembelian</string>
+<string name="PPR_SerialNum_Lbltxt">Nomor Seri:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Harap masukkan nomor seri</string>
+<string name="PPR_Register_Btntxt">Mendaftarkan</string>
+<string name="PPR_Invalid_Date_ErrMsg">Harap masukkan tanggal antara tahun 2000 hingga tanggal hari ini</string>
+<string name="PPR_Already_Registered_title">Produk terdaftar</string>
+<string name="PPR_Already_Registered_ErrMsg">Produk yang sudah didaftarkan</string>
+</resources>

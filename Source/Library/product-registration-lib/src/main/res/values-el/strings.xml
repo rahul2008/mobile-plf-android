@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Δήλωση προϊόντος</string>
+<string name="PPR_RegYourProduct_Lbltxt">Δηλώστε το προϊόν σας, ώστε:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Να λαμβάνετε σημαντικές ενημερώσεις σχετικά με τα προϊόντα σας.</string>
+<string name="PPR_Yes_Btntxt">Ναι</string>
+<string name="PPR_RegLater_Btntxt">Όχι τώρα. Ευχαριστώ.</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Όλα τα προϊόντα που είναι αυτήν τη στιγμή αντιστοιχισμένα με τη συγκεκριμένη εφαρμογή έχουν δηλωθεί με επιτυχία!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Θέλετε να δηλώσετε κάποιο άλλο προϊόν;</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Αν πρόκειται για κάποιο αντιστοιχισμένο προϊόν της Philips, βεβαιωθείτε ότι έχετε αντιστοιχίσει το προϊόν με την εφαρμογή.</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Εναλλακτικά, μπορείτε να δηλώσετε το προϊόν σας στην έκδοση web από τη διεύθυνση www.philips.com.</string>
+<string name="PPR_Back_Btntxt">Πίσω</string>
+<string name="PPR_Connect_Product_Btntxt">Αντιστοίχιση προϊόντος</string>
+<string name="PPR_RegSuccess_Lbltxt">Η διαδικασία δήλωσης ολοκληρώθηκε με επιτυχία!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Η διάρκεια της περιόδου εγγύησης επεκτάθηκε έως</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Ένα email σχετικά με το συμβόλαιο επέκτασης της εγγύησης εστάλη στη διεύθυνση email σας.</string>
+<string name="PPR_Thank_You_Lbltxt">Σας ευχαριστούμε που επιλέξατε προϊόντα Philips!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Γίνεται αναζήτηση των προϊόντων σας..</string>
+<string name="PPR_Registering_Products_Lbltxt">Η διαδικασία δήλωσης των προϊόντων σας βρίσκεται σε εξέλιξη.</string>
+<string name="PPR_No_Internet_Title">Δεν υπάρχει σύνδεση στο Internet!</string>
+<string name="PPR_No_Internet_ErrMsg">Ελέγξτε τη σύνδεσή σας στο Internet και δοκιμάστε ξανά.</string>
+<string name="PPR_Authentication_Fail_Title">Αποτυχία ελέγχου ταυτότητας!</string>
+<string name="PPR_Authentication_ErrMsg">Ο έλεγχος ταυτότητας χρήστη απέτυχε. Δοκιμάστε ξανά αργότερα.</string>
+<string name="PPR_Product_Not_Found_Title">Το προϊόν δεν βρέθηκε!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Δεν παρέχεται υποστήριξη για το συγκεκριμένο προϊόν στην περιοχή. Επικοινωνήστε με την Εξυπηρέτηση Καταναλωτών.</string>
+<string name="PPR_Communication_Err_Title">Σφάλμα επικοινωνίας!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Δεν είναι δυνατή η επικοινωνία με το διακομιστή. Δοκιμάστε ξανά αργότερα. Αν το πρόβλημα παραμένει, επικοινωνήστε με την Εξυπηρέτηση Καταναλωτών.</string>
+<string name="PPR_Invalid_SerialNum_Title">Μη έγκυρος σειριακός αριθμός!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Πληκτρολογήστε έναν έγκυρο σειριακό αριθμό.</string>
+<string name="PPR_Req_Purchase_Date_Title">Μη έγκυρη ημερομηνία αγοράς!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Πληκτρολογήστε μια έγκυρη ημερομηνία αγοράς.</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Πληκτρολογήστε το σειριακό αριθμό στην εξής μορφή:</string>
+<string name="PPR_Network_Err_Title">Σφάλμα δικτύου!</string>
+<string name="PPR_Network_ErrMsg">Δοκιμάστε ξανά αργότερα.</string>
+<string name="PPR_Unknow_ErrMsg">Άγνωστο σφάλμα</string>
+<string name="PPR_Invalid_Date_Title">Μη έγκυρη ημερομηνία αγοράς</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Ημερα αγοράς:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Πληκτρολογήστε μια έγκυρη ημερομηνία αγοράς.</string>
+<string name="PPR_SerialNum_Lbltxt">Σειριακός αριθμός:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Πληκτρολογήστε το σειριακό αριθμό.</string>
+<string name="PPR_Register_Btntxt">Δήλωση</string>
+<string name="PPR_Invalid_Date_ErrMsg">Επιλέξτε μια ημερομηνία από το 2000 έως σήμερα.</string>
+<string name="PPR_Already_Registered_title">Το προϊόν δηλώθηκε.</string>
+<string name="PPR_Already_Registered_ErrMsg">Το προϊόν έχει ήδη δηλωθεί.</string>
+</resources>
