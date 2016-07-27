@@ -72,10 +72,11 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                if (model.getUrl() != null && error!=null)
+                if (model.getUrl() != null && error!=null) {
                     IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                             requestListener.getClass().getSimpleName() + " " + model.getUrl().substring(0, 20));
+                }
                 if (error != null && error.getMessage() != null) {
                     IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.ERROR, error.getMessage());
@@ -101,9 +102,10 @@ public class NetworkController {
                     }
 
                     requestListener.onSuccess(msg);
-                    if (model.getUrl() != null)
+                    if (model.getUrl() != null) {
                         IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + requestCode + "in " +
                                 requestListener.getClass().getSimpleName() + "env = " + " " + model.getUrl().substring(0, 15));
+                    }
                 }
             }
         };
