@@ -18,21 +18,22 @@ public abstract class CommunicationStrategy {
     public static final String SUBSCRIBER_KEY = "subscriber";
     public static final String TTL_KEY = "ttl";
 
-    public abstract void getProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
+    public abstract void getProperties(String portName, int productId, ResponseHandler responseHandler);
 
-    public abstract void putProperties(Map<String, Object> dataMap, String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
+    public abstract void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler);
 
-    public abstract void addProperties(Map<String, Object> dataMap, String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
+    public abstract void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler);
 
-    public abstract void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
+    public abstract void deleteProperties(String portName, int productId, ResponseHandler responseHandler);
 
-    public abstract void subscribe(String portName, int productId, int subscriptionTtl, NetworkNode networkNode, ResponseHandler responseHandler);
+    public abstract void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler);
 
-    public abstract void unsubscribe(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
+    public abstract void unsubscribe(String portName, int productId, ResponseHandler responseHandler);
 
-    public abstract boolean isAvailable(NetworkNode networkNode);
+    public abstract boolean isAvailable();
 
-    public abstract void enableSubscription(SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode);
+    public abstract void enableSubscription(SubscriptionEventListener subscriptionEventListener);
+
 
     public abstract void disableCommunication();
 

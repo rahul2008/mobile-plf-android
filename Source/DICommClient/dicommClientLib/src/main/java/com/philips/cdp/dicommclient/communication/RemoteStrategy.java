@@ -18,72 +18,71 @@ import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 public class RemoteStrategy extends CommunicationStrategy {
-private final RequestQueue mRequestQueue;
-private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
+    private final RequestQueue mRequestQueue;
+    private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
+    private final NetworkNode networkNode;
 
-	public RemoteStrategy(){
-		mRequestQueue = new RequestQueue();
-		mRemoteSuscriptionHandler = new RemoteSubscriptionHandler(CppController.getInstance());
-	}
+    public RemoteStrategy(final NetworkNode networkNode) {
+        this.networkNode = networkNode;
+        mRequestQueue = new RequestQueue();
+        mRemoteSuscriptionHandler = new RemoteSubscriptionHandler(CppController.getInstance());
+    }
 
-	@Override
-	public void getProperties(String portName, int productId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler);
-		mRequestQueue.addRequest(request);
-	}
+    @Override
+    public void getProperties(String portName, int productId,
+                              ResponseHandler responseHandler) {
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void putProperties(Map<String, Object> dataMap, String portName,
-			int productId, NetworkNode networkNode,
-			ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler);
-		mRequestQueue.addRequest(request);
-	}
+    @Override
+    public void putProperties(Map<String, Object> dataMap, String portName,
+                              int productId,
+                              ResponseHandler responseHandler) {
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void addProperties(Map<String, Object> dataMap, String portName,
-			int productId, NetworkNode networkNode,
-			ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler);
-		mRequestQueue.addRequest(request);
-	}
+    @Override
+    public void addProperties(Map<String, Object> dataMap, String portName,
+                              int productId,
+                              ResponseHandler responseHandler) {
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler);
-		mRequestQueue.addRequest(request);
-	}
+    @Override
+    public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void subscribe(String portName, int productId,int subscriptionTtl,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler);
-		mRequestQueue.addRequest(request);
-	}
+    @Override
+    public void subscribe(String portName, int productId, int subscriptionTtl,
+                          ResponseHandler responseHandler) {
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void unsubscribe(String portName, int productId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler);
-		mRequestQueue.addRequest(request);
-	}
+    @Override
+    public void unsubscribe(String portName, int productId,
+                            ResponseHandler responseHandler) {
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public boolean isAvailable(NetworkNode networkNode) {
-		return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_REMOTELY);
-	}
+    @Override
+    public boolean isAvailable() {
+        return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_REMOTELY);
+    }
 
+    @Override
+    public void enableSubscription(SubscriptionEventListener subscriptionEventListener) {
+        mRemoteSuscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
+    }
 
-	@Override
-	public void enableSubscription(
-			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
-		mRemoteSuscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
-	}
-
-	@Override
-	public void disableCommunication() {
-		mRemoteSuscriptionHandler.disableSubscription();
-	}
-
+    @Override
+    public void disableCommunication() {
+        mRemoteSuscriptionHandler.disableSubscription();
+    }
 }

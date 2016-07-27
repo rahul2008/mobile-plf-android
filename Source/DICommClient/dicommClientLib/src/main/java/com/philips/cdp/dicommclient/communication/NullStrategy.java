@@ -15,50 +15,44 @@ import java.util.Map;
 public class NullStrategy extends CommunicationStrategy {
 
     @Override
-    public void getProperties(String portName, int productId,
-                              NetworkNode networkNode, ResponseHandler responseHandler) {
+    public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         responseHandler.onError(Error.NOTCONNECTED, null);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName,
-                              int productId, NetworkNode networkNode,
-                              ResponseHandler responseHandler) {
+                              int productId, ResponseHandler responseHandler) {
         responseHandler.onError(Error.NOTCONNECTED, null);
     }
 
     @Override
-    public void addProperties(Map<String, Object> dataMap, String portName,
-                              int productId, NetworkNode networkNode,
-                              ResponseHandler responseHandler) {
+    public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         responseHandler.onError(Error.NOTCONNECTED, null);
     }
 
     @Override
-    public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
+    public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         responseHandler.onError(Error.NOTCONNECTED, null);
     }
 
     @Override
-    public void subscribe(String portName, int productId, int subscriptionTtl,
-                          NetworkNode networkNode, ResponseHandler responseHandler) {
+    public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         responseHandler.onError(Error.NOTCONNECTED, null);
     }
 
     @Override
-    public void unsubscribe(String portName, int productId,
-                            NetworkNode networkNode, ResponseHandler responseHandler) {
+    public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
         responseHandler.onError(Error.NOTCONNECTED, null);
     }
 
     @Override
-    public boolean isAvailable(NetworkNode networkNode) {
+    public boolean isAvailable() {
         return true;
     }
 
     @Override
     public void enableSubscription(
-            SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
+            SubscriptionEventListener subscriptionEventListener) {
     }
 
     @Override

@@ -97,7 +97,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     public void getSchedules() {
-        mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -112,7 +112,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     public void getScheduleDetails(int scheduleNumber) {
-        mCommunicationStrategy.getProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.getProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -139,7 +139,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     public void addSchedule(String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
         Map<String, Object> dataMap = createDataMap(portName, productId, name, time, days, enabled, commandMap);
 
-        mCommunicationStrategy.addProperties(dataMap, getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.addProperties(dataMap, getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -166,7 +166,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     public void updateSchedule(int scheduleNumber, String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
         Map<String, Object> dataMap = createDataMap(portName, productId, name, time, days, enabled, commandMap);
 
-        mCommunicationStrategy.putProperties(dataMap, getDICommNestedPortName(scheduleNumber), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.putProperties(dataMap, getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -181,7 +181,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     public void deleteSchedule(int scheduleNumber) {
-        mCommunicationStrategy.deleteProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.deleteProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {

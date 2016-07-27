@@ -40,7 +40,6 @@ public class DICommPortTest extends RobolectricTest {
     private final String CHILDLOCK_KEY = "childlock";
     private final String CHILDLOCK_VALUE = "0";
 
-    private NetworkNode mNetworkNode;
     private CommunicationStrategy mCommunicationStrategy;
 
     private DICommPort<?> mDICommPort;
@@ -55,7 +54,7 @@ public class DICommPortTest extends RobolectricTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mNetworkNode = mock(NetworkNode.class);
+        final NetworkNode mNetworkNode = mock(NetworkNode.class);
         mCommunicationStrategy = mock(CommunicationStrategy.class);
         mHandler = mock(WrappedHandler.class);
         mDICommPort = new DICommPortImpl(mNetworkNode, mCommunicationStrategy, mHandler);
@@ -602,33 +601,33 @@ public class DICommPortTest extends RobolectricTest {
 
     private void verifyPutPropertiesCalled(boolean invoked) {
         if (invoked) {
-            verify(mCommunicationStrategy, times(1)).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, times(1)).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), mResponseHandlerCaptor.capture());
         } else {
-            verify(mCommunicationStrategy, never()).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, never()).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), mResponseHandlerCaptor.capture());
         }
     }
 
     private void verifyGetPropertiesCalled(boolean invoked) {
         if (invoked) {
-            verify(mCommunicationStrategy, times(1)).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, times(1)).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), mResponseHandlerCaptor.capture());
         } else {
-            verify(mCommunicationStrategy, never()).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, never()).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), mResponseHandlerCaptor.capture());
         }
     }
 
     private void verifySubscribeCalled(boolean invoked) {
         if (invoked) {
-            verify(mCommunicationStrategy, times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), mResponseHandlerCaptor.capture());
         } else {
-            verify(mCommunicationStrategy, never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), mResponseHandlerCaptor.capture());
         }
     }
 
     private void verifyUnsubscribeCalled(boolean invoked) {
         if (invoked) {
-            verify(mCommunicationStrategy, times(1)).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, times(1)).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), mResponseHandlerCaptor.capture());
         } else {
-            verify(mCommunicationStrategy, never()).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+            verify(mCommunicationStrategy, never()).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), mResponseHandlerCaptor.capture());
         }
     }
 
