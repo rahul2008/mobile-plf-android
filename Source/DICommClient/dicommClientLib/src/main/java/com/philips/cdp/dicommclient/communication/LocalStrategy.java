@@ -68,8 +68,7 @@ public class LocalStrategy extends CommunicationStrategy {
 	}
 
 	@Override
-	public void subscribe(String portName,int productId, int subscriptionTtl, NetworkNode networkNode,
-			ResponseHandler responseHandler) {
+	public void subscribe(String portName, int productId, int subscriptionTtl, NetworkNode networkNode, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
 		Request request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, mDISecurity);
 		mRequestQueue.addRequest(request);
@@ -86,7 +85,7 @@ public class LocalStrategy extends CommunicationStrategy {
 
 	@Override
 	public boolean isAvailable(NetworkNode networkNode) {
-		if(networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY)){
+		if (networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY)) {
 			return true;
 		}
 		return false;
@@ -140,7 +139,7 @@ public class LocalStrategy extends CommunicationStrategy {
 	}
 
 	@Override
-	public void disableSubscription() {
+	public void disableCommunication() {
 		mLocalSubscriptionHandler.disableSubscription();
 	}
 }

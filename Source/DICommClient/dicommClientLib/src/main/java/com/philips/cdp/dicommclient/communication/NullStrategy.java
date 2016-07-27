@@ -62,6 +62,6 @@ public class NullStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void disableSubscription() {
+    public void disableCommunication() {
     }
 }

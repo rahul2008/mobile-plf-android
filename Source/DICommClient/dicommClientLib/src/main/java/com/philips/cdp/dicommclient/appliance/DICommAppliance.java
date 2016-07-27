@@ -143,7 +143,7 @@ public abstract class DICommAppliance {
     }
 
     public void disableSubscription() {
-        mCommunicationStrategy.disableSubscription();
+        mCommunicationStrategy.disableCommunication();
     }
 
     private SubscriptionEventListener mSubscriptionEventListener = new SubscriptionEventListener() {

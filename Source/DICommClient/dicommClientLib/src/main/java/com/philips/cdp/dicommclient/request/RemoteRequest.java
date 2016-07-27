@@ -58,7 +58,6 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     @Override
     public Response execute() {
         DICommLog.d(DICommLog.REMOTEREQUEST, "Start request REMOTE");
-        //TODO - Add publish event listener for handling error cases
         mCppController.addDCSResponseListener(this);
         mCppController.addPublishEventListener(this);
 

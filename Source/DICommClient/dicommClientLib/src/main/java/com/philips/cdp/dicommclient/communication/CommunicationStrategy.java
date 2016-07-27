@@ -34,7 +34,7 @@ public abstract class CommunicationStrategy {
 
     public abstract void enableSubscription(SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode);
 
-    public abstract void disableSubscription();
+    public abstract void disableCommunication();
 
     protected Map<String, Object> getSubscriptionData(int subscriptionTtl) {
         Map<String, Object> dataMap = getUnsubscriptionData();

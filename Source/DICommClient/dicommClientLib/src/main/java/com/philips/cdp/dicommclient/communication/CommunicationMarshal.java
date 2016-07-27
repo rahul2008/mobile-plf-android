@@ -82,9 +82,9 @@ public class CommunicationMarshal extends CommunicationStrategy {
     }
 
     @Override
-    public void disableSubscription() {
-        mLocalStrategy.disableSubscription();
-        mRemoteStrategy.disableSubscription();
-        mNullStrategy.disableSubscription();
+    public void disableCommunication() {
+        mLocalStrategy.disableCommunication();
+        mRemoteStrategy.disableCommunication();
+        mNullStrategy.disableCommunication();
     }
 }

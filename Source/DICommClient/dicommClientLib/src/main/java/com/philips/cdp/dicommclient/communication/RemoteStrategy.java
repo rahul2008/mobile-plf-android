@@ -85,7 +85,7 @@ private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 	}
 
 	@Override
-	public void disableSubscription() {
+	public void disableCommunication() {
 		mRemoteSuscriptionHandler.disableSubscription();
 	}
 
