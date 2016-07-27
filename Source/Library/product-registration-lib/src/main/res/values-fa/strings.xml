@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">محصول خود را ثبت نام کنید</string>
+<string name="PPR_RegYourProduct_Lbltxt">محصول خود را ثبت نام کنید و:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">مطالب به‌روز و مهم درباره محصولات خود را دریافت کنید -</string>
+<string name="PPR_Yes_Btntxt">بله</string>
+<string name="PPR_RegLater_Btntxt">خیر متشکرم، بعداً ثبت نام می‌کنم</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">همه محصولاتی که در حال حاضر به این برنامه متصل هستند، با موفقیت ثبت نام شدند!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">آیا می‌خواهید محصول دیگری را ثبت نام کنید؟</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">اگر دستگاه یک محصول Philips متصل است، مطمئن شوید محصول را به این برنامه متصل کرده باشید</string>
+<string name="PPR_Reg_In_Web_Lbltxt">یا محصول خود را در نسخه وب در www.philips.com ثبت نام کنید</string>
+<string name="PPR_Back_Btntxt">برگشت</string>
+<string name="PPR_Connect_Product_Btntxt">متصل کردن یک محصول</string>
+<string name="PPR_RegSuccess_Lbltxt">با موفقیت ثبت نام شد!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">دوره ضمانت شما تمدید شد تا</string>
+<string name="PPR_Eamil_Sent_Lbltxt">یک ایمیل با قرارداد ضمانت تمدید شده به آدرس ایمیل شما ارسال شد</string>
+<string name="PPR_Thank_You_Lbltxt">از شما به خاطر انتخاب محصولات Philips متشکریم!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">در جستجوی محصولات شما..</string>
+<string name="PPR_Registering_Products_Lbltxt">در حال ثبت نام محصولات شما..</string>
+<string name="PPR_No_Internet_Title">اتصال اینترنت وجود ندارد!</string>
+<string name="PPR_No_Internet_ErrMsg">لطفا اتصال اینترنت خود را بررسی کرده و دوباره امتحان کنید</string>
+<string name="PPR_Authentication_Fail_Title">اشکال در تأیید اعتبار!</string>
+<string name="PPR_Authentication_ErrMsg">تأیید اعتبار کاربر ناموفق بود، لطفا بعد از مدتی دوباره امتحان کنید</string>
+<string name="PPR_Product_Not_Found_Title">محصول یافت نشد!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">محصول در این منطقه پشتیبانی نمی‌شود، لطفا با خدمات مشتری تماس بگیرید.</string>
+<string name="PPR_Communication_Err_Title">خطای ارتباطی!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">اتصال سرور ممکن نیست، لطفا بعد از مدتی دوباره امتحان کنید، اگر مشکل همچنان وجود داشت با خدمات مشتری تماس بگیرید</string>
+<string name="PPR_Invalid_SerialNum_Title">شماره سریال نامعتبر است!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">لطفا شماره سریال معتبر را وارد کنید</string>
+<string name="PPR_Req_Purchase_Date_Title">تاریخ خرید نامعتبر است!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">لطفا تاریخ خرید را وارد کنید</string>
+<string name="PPR_SerialNum_Format_ErrMsg">لطفا شماره سریال را با این فرمت وارد کنید:</string>
+<string name="PPR_Network_Err_Title">خطای شبکه!</string>
+<string name="PPR_Network_ErrMsg">لطفا بعد از مدتی امتحان کنید.</string>
+<string name="PPR_Unknow_ErrMsg">خطای ناشناخته</string>
+<string name="PPR_Invalid_Date_Title">تاریخ خرید نامعتبر است</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">تاریخ خرید:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">لطفا تاریخ خرید را وارد کنید</string>
+<string name="PPR_SerialNum_Lbltxt">شماره سریال:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">لطفا شماره سریال را وارد کنید</string>
+<string name="PPR_Register_Btntxt">ثبت نام</string>
+<string name="PPR_Invalid_Date_ErrMsg">لطفا تاریخی از سال 2000 تا تاریخ امروز وارد کنید</string>
+<string name="PPR_Already_Registered_title">محصول ثبت نام شد</string>
+<string name="PPR_Already_Registered_ErrMsg">محصول قبلا ثبت نام شده است</string>
+</resources>

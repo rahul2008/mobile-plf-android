@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.error.ProdRegError;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
@@ -58,11 +58,11 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         final long value = System.currentTimeMillis();
         when(userWithProductsMock.getTimeStamp()).thenReturn(value);
         responseListener.onResponseSuccess(registeredResponse);
-        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), value);
+        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), value);
         responseListener.onResponseError(new PrxError("test", 10));
-        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
+        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), 0);
         responseListener.onResponseError(new PrxError("test", ProdRegError.ACCESS_TOKEN_INVALID.getCode()));
-        verify(userWithProductsMock).onAccessTokenExpire(null, null);
+        verify(userWithProductsMock).onAccessTokenExpire(null);
     }
 
     public void testRegisterMethod() {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Регистрирайте продукт</string>
+<string name="PPR_RegYourProduct_Lbltxt">Регистрирайте продукта си и:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Получавайте важни актуализации за вашите продукти</string>
+<string name="PPR_Yes_Btntxt">Да</string>
+<string name="PPR_RegLater_Btntxt">Не, регистрирай после</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Всички продукти, свързани в момента с това приложение, са регистрирани успешно!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Искате ли да регистрирате друг продукт?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Ако това е свързан продукт на Philips, уверете се, че сте свързали продукта с приложението</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Или регистрирайте вашия продукт в уеб версията на адрес www.philips.com</string>
+<string name="PPR_Back_Btntxt">Назад</string>
+<string name="PPR_Connect_Product_Btntxt">Свързване на продукт</string>
+<string name="PPR_RegSuccess_Lbltxt">Успешно регистриран!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Вашият гаранционен срок е удължен до</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Имейл с договор за удължената гаранция е изпратен на вашия имейл адрес</string>
+<string name="PPR_Thank_You_Lbltxt">Благодарим ви, че избирате продуктите на Philips!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Търсене на вашите продукти...</string>
+<string name="PPR_Registering_Products_Lbltxt">Регистриране на вашите продукти...</string>
+<string name="PPR_No_Internet_Title">Няма връзка с интернет!</string>
+<string name="PPR_No_Internet_ErrMsg">Проверете вашата връзка с интернет и опитайте отново</string>
+<string name="PPR_Authentication_Fail_Title">Неуспешно удостоверяване!</string>
+<string name="PPR_Authentication_ErrMsg">Неуспешно удостоверяване на потребител, опитайте пак след известно време</string>
+<string name="PPR_Product_Not_Found_Title">Продуктът не е намерен!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Продуктът не се поддържа за този регион, свържете се с отдела за обслужване на клиенти.</string>
+<string name="PPR_Communication_Err_Title">Комуникационна грешка!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Неуспешно свързване със сървъра, опитайте отново след известно време. Ако проблемът продължи да възниква, свържете се с отдела за обслужване на клиенти</string>
+<string name="PPR_Invalid_SerialNum_Title">Невалиден сериен номер!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Въведете валиден серийния номер</string>
+<string name="PPR_Req_Purchase_Date_Title">Невалидна дата на покупка!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Въведете дата на покупка</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Въведете сериен номер в следния формат:</string>
+<string name="PPR_Network_Err_Title">Мрежова грешка!</string>
+<string name="PPR_Network_ErrMsg">Опитайте след известно време.</string>
+<string name="PPR_Unknow_ErrMsg">Неизвестна грешка</string>
+<string name="PPR_Invalid_Date_Title">Невалидна дата на покупка</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Дата на покупка:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Въведете дата на покупка</string>
+<string name="PPR_SerialNum_Lbltxt">Сериен номер:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Въведете серийния номер</string>
+<string name="PPR_Register_Btntxt">Регистриране</string>
+<string name="PPR_Invalid_Date_ErrMsg">Въведете дата между 2000 година и днес</string>
+<string name="PPR_Already_Registered_title">Продуктът е регистриран</string>
+<string name="PPR_Already_Registered_ErrMsg">Продуктът вече е регистриран</string>
+</resources>

@@ -1,9 +1,8 @@
 package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -21,7 +20,7 @@ import java.util.Map;
  * consent of the copyright holder.
 */
 public class ProductMetadataRequest extends PrxRequest {
-
+    private static final String TAG = ProductMetadataRequest.class.getSimpleName();
     private String mCtn = null;
     private String mServerInfo = "https://acc.philips.com/prx/registration/";
 
@@ -53,7 +52,22 @@ public class ProductMetadataRequest extends PrxRequest {
 
     @Override
     public String getRequestUrl() {
-        return generateUrl();
+        Uri builtUri = Uri.parse(getServerInfo())
+                .buildUpon()
+                .appendPath(getSector().name())
+                .appendPath(getLocaleMatchResult())
+                .appendPath(getCatalog().name())
+                .appendPath("products")
+                .appendPath(mCtn + ".metadata")
+                .build();
+        String url = builtUri.toString();
+        try {
+            url = java.net.URLDecoder.decode(url, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            ProdRegLogger.e(TAG, e.getMessage());
+        }
+        ProdRegLogger.d(getClass() + "URl :", builtUri.toString());
+        return url;
     }
 
     @Override
@@ -71,32 +85,12 @@ public class ProductMetadataRequest extends PrxRequest {
         return null;
     }
 
-    private String generateUrl() {
-        Uri builtUri = Uri.parse(getServerInfo())
-                .buildUpon()
-                .appendPath(getSector().name())
-                .appendPath(getLocaleMatchResult())
-                .appendPath(getCatalog().name())
-                .appendPath("products")
-                .appendPath(mCtn + ".metadata")
-                .build();
-        Log.d(getClass() + "URl :", builtUri.toString());
-        return getDecodedUrl(builtUri);
-    }
-
-    @NonNull
-    private String getDecodedUrl(final Uri builtUri) {
-        String url = builtUri.toString();
-        try {
-            url = java.net.URLDecoder.decode(url, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        Log.d(getClass() + "", url);
-        return url;
-    }
-
     public void setCtn(final String mCtn) {
         this.mCtn = mCtn;
+    }
+
+    @Override
+    public int getRequestTimeOut() {
+        return 30000;
     }
 }

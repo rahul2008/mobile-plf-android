@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/parent_id"
+        android:layout_width="@dimen/uikit_modal_alert_dialog_width"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialogDescription"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/dialogDescription"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="7dp"/>
+
+    </RelativeLayout>
+</FrameLayout>

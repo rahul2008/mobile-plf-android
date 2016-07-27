@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Termékregisztráció</string>
+<string name="PPR_RegYourProduct_Lbltxt">Regisztrálja a terméket, és:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Fontos frissítéseket kap a termékkel kapcsolatban</string>
+<string name="PPR_Yes_Btntxt">Igen</string>
+<string name="PPR_RegLater_Btntxt">Köszönöm, nem. Később</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Az alkalmazáshoz jelenleg csatlakoztatott összes termék regisztrációja sikeresen megtörtént!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Szeretne másik terméket regisztrálni?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Ha ez csatlakoztatott Philips termék, ellenőrizze, hogy csatlakoztatta-e ehhez az alkalmazáshoz</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Vagy regisztrálja termékét a webes változaton: www.philips.com</string>
+<string name="PPR_Back_Btntxt">Vissza</string>
+<string name="PPR_Connect_Product_Btntxt">Termék csatlakoztatása</string>
+<string name="PPR_RegSuccess_Lbltxt">A regisztrálás sikeres!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">A garancia időtartamát kiterjesztettük a következő dátumig:</string>
+<string name="PPR_Eamil_Sent_Lbltxt">A kiterjesztett garanciaszerződést tartalmazó e-mailt elküldtük az e-mail címére</string>
+<string name="PPR_Thank_You_Lbltxt">Köszönjük, hogy Philips terméket választott!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Termékeinek keresése...</string>
+<string name="PPR_Registering_Products_Lbltxt">Termékeinek regisztrálása...</string>
+<string name="PPR_No_Internet_Title">Nincs internetkapcsolat!</string>
+<string name="PPR_No_Internet_ErrMsg">Kérjük, ellenőrizze az internetkapcsolatot, majd próbálja újra</string>
+<string name="PPR_Authentication_Fail_Title">Hitelesítési hiba!</string>
+<string name="PPR_Authentication_ErrMsg">A felhasználói hitelesítés nem sikerült. Kérjük, próbálja újra később</string>
+<string name="PPR_Product_Not_Found_Title">A termék nem található!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">A termék ebben a régióban nem támogatott. Kérjük, vegye fel a kapcsolatot a vevőszolgálattal.</string>
+<string name="PPR_Communication_Err_Title">Kommunikációs hiba!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Nem lehet kapcsolódni a szerverhez. Kérjük, próbálja meg később. Ha a probléma továbbra is fennáll, forduljon a vevőszolgálathoz</string>
+<string name="PPR_Invalid_SerialNum_Title">Érvénytelen sorozatszám!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Adjon meg érvényes sorozatszámot</string>
+<string name="PPR_Req_Purchase_Date_Title">Érvénytelen vásárlási dátum!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Adja meg a vásárlási dátumot</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Ebben a formátumban adja meg a sorozatszámot:</string>
+<string name="PPR_Network_Err_Title">Hálózati hiba!</string>
+<string name="PPR_Network_ErrMsg">Kérjük, próbálja meg később.</string>
+<string name="PPR_Unknow_ErrMsg">Ismeretlen hiba</string>
+<string name="PPR_Invalid_Date_Title">Érvénytelen vásárlási dátum</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Vásárlás dátuma:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Adja meg a vásárlási dátumot</string>
+<string name="PPR_SerialNum_Lbltxt">Sorozatszám:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Adja meg a sorozatszámot</string>
+<string name="PPR_Register_Btntxt">Reg.</string>
+<string name="PPR_Invalid_Date_ErrMsg">Adja meg a dátumot a 2000-es év és a jelenlegi dátum között</string>
+<string name="PPR_Already_Registered_title">A termék regisztrálva</string>
+<string name="PPR_Already_Registered_ErrMsg">A termék már regisztrálva van</string>
+</resources>

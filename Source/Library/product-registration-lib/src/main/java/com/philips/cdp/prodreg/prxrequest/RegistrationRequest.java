@@ -1,9 +1,8 @@
 package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -23,6 +22,8 @@ import java.util.Map;
 */
 public class RegistrationRequest extends PrxRequest {
 
+    private static final String TAG = RegistrationRequest.class.getSimpleName();
+
     private String ctn = null;
     private String accessToken;
     private String productSerialNumber;
@@ -37,11 +38,7 @@ public class RegistrationRequest extends PrxRequest {
     private String Zip;
     private String state;
     private String country;
-    private String PRODUCT_SERIAL_NUMBER = "productSerialNumber";
-    private String ACCESS_TOKEN_TAG = "x-accessToken";
-    private String REGISTRATION_CHANNEL = "registrationChannel";
-    private String PURCHASE_DATE = "purchaseDate";
-    private String SEND_EMAIL = "sendEmail";
+
     private String shouldSendEmailAfterRegistration = "true";
 
     public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
@@ -177,7 +174,22 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public String getRequestUrl() {
-        return generateUrl();
+        Uri builtUri = Uri.parse(getServerInfo())
+                .buildUpon()
+                .appendPath(getSector().name())
+                .appendPath(getLocaleMatchResult())
+                .appendPath(getCatalog().name())
+                .appendPath("products")
+                .appendPath(ctn + ".register.type.product")
+                .build();
+        String url = builtUri.toString();
+        try {
+            url = java.net.URLDecoder.decode(url, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            ProdRegLogger.e(TAG, e.getMessage());
+        }
+        ProdRegLogger.d(getClass() + "", url);
+        return url;
     }
 
     @Override
@@ -187,6 +199,7 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public Map<String, String> getHeaders() {
+        String ACCESS_TOKEN_TAG = "x-accessToken";
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         return headers;
@@ -194,6 +207,8 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public Map<String, String> getParams() {
+        String REGISTRATION_CHANNEL = "registrationChannel";
+        String SEND_EMAIL = "sendEmail";
         Map<String, String> params = new HashMap<>();
         validatePurchaseDate(params, getPurchaseDate());
         validateSerialNumber(params);
@@ -203,37 +218,16 @@ public class RegistrationRequest extends PrxRequest {
     }
 
     private void validateSerialNumber(final Map<String, String> params) {
+        String PRODUCT_SERIAL_NUMBER = "productSerialNumber";
         final String productSerialNumber = getProductSerialNumber();
         if (productSerialNumber != null && productSerialNumber.length() > 0)
             params.put(PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
+        String PURCHASE_DATE = "purchaseDate";
         if (purchaseDate != null && purchaseDate.length() > 0)
             params.put(PURCHASE_DATE, purchaseDate);
     }
 
-    private String generateUrl() {
-        Uri builtUri = Uri.parse(getServerInfo())
-                .buildUpon()
-                .appendPath(getSector().name())
-                .appendPath(getLocaleMatchResult())
-                .appendPath(getCatalog().name())
-                .appendPath("products")
-                .appendPath(ctn + ".register.type.product")
-                .build();
-        return getDecodedUrl(builtUri);
-    }
-
-    @NonNull
-    private String getDecodedUrl(final Uri builtUri) {
-        String url = builtUri.toString();
-        try {
-            url = java.net.URLDecoder.decode(url, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        Log.d(getClass() + "", url);
-        return url;
-    }
 }

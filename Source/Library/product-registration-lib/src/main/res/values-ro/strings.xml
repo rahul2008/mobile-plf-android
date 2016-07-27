@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Înregistrează-ţi produsul</string>
+<string name="PPR_RegYourProduct_Lbltxt">Înregistrează-ţi produsul şi:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Primeşti actualizări importante despre produsele tale</string>
+<string name="PPR_Yes_Btntxt">Da</string>
+<string name="PPR_RegLater_Btntxt">Nu, mulţumesc. Îl înregistrez mai târziu</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Toate produsele conectate momentan la această aplicaţie au fost înregistrate cu succes.</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Vrei să înregistrezi alt produs?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Dacă este un produs Philips conectat, asigură-te că ai conectat produsul la această aplicaţie</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Sau înregistrează produsul pe versiunea web la adresa www.philips.com</string>
+<string name="PPR_Back_Btntxt">Înapoi</string>
+<string name="PPR_Connect_Product_Btntxt">Conectează un produs</string>
+<string name="PPR_RegSuccess_Lbltxt">Înregistrat cu succes!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Perioada de garanţie a fost extinsă până pe</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Un e-mail cu contractul de garanţie extins a fost trimis la adresa ta de e-mail</string>
+<string name="PPR_Thank_You_Lbltxt">Îţi mulţumim că ai ales produse Philips!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Se caută produsele tale...</string>
+<string name="PPR_Registering_Products_Lbltxt">Se înregistrează produsele tale..</string>
+<string name="PPR_No_Internet_Title">Nu ai o conexiune la internet!</string>
+<string name="PPR_No_Internet_ErrMsg">Verifică-ţi conexiunea la internet şi încearcă din nou</string>
+<string name="PPR_Authentication_Fail_Title">Autentificarea a eşuat!</string>
+<string name="PPR_Authentication_ErrMsg">Autorizarea utilizatorului a eşuat. Încearcă din nou mai târziu</string>
+<string name="PPR_Product_Not_Found_Title">Produsul nu a fost găsit!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Produsul nu este acceptat în această regiune. Contactează asistenţa pentru clienţi.</string>
+<string name="PPR_Communication_Err_Title">Eroare de comunicare!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Nu s-a realizat conexiunea la server. Încearcă din nou mai târziu. Dacă problema continuă, contactează asistenţa pentru clienţi</string>
+<string name="PPR_Invalid_SerialNum_Title">Număr de serie nevalid!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Introdu un număr de serie valid</string>
+<string name="PPR_Req_Purchase_Date_Title">Dată de achiziţie nevalidă!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Introdu data de achiziţie</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Introdu numărul de serie în acest format:</string>
+<string name="PPR_Network_Err_Title">Eroare de reţea!</string>
+<string name="PPR_Network_ErrMsg">Încearcă din nou mai târziu.</string>
+<string name="PPR_Unknow_ErrMsg">Eroare necunoscută</string>
+<string name="PPR_Invalid_Date_Title">Dată de achiziţie nevalidă</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Data achiziţionării:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Introdu data de achiziţie</string>
+<string name="PPR_SerialNum_Lbltxt">Număr de serie:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Introdu un număr de serie</string>
+<string name="PPR_Register_Btntxt">Înregistrare</string>
+<string name="PPR_Invalid_Date_ErrMsg">Introdu o dată între anul 2000 şi data curentă</string>
+<string name="PPR_Already_Registered_title">Produs înregistrat</string>
+<string name="PPR_Already_Registered_ErrMsg">Produs înregistrat deja</string>
+</resources>

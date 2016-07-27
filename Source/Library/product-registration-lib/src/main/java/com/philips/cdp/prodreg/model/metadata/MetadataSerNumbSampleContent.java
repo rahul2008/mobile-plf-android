@@ -1,11 +1,13 @@
 package com.philips.cdp.prodreg.model.metadata;
 
+import java.io.Serializable;
+
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class MetadataSerNumbSampleContent {
+public class MetadataSerNumbSampleContent implements Serializable{
     private String title;
 
     private String asset;

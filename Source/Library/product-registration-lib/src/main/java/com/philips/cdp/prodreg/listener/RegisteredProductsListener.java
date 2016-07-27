@@ -10,5 +10,5 @@ import java.util.List;
  * consent of the copyright holder.
 */
 public interface RegisteredProductsListener {
-    void getRegisteredProductsSuccess(List<RegisteredProduct> registeredProducts, long timeStamp);
+    void getRegisteredProducts(List<RegisteredProduct> registeredProducts, long timeStamp);
 }

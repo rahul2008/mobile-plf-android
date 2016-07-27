@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Registrera produkten</string>
+<string name="PPR_RegYourProduct_Lbltxt">Registrera produkten och</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- få viktiga uppdateringar om dina produkter</string>
+<string name="PPR_Yes_Btntxt">Ja</string>
+<string name="PPR_RegLater_Btntxt">Nej tack, jag registrerar mig senare</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Alla produkter som är anslutna till appen har registreras!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Vill du registrera en produkt till?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Om det är en ansluten Philips-produkt ska du se till att du har anslutit produkten till den här appen</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Eller registrera produkten i webbversionen på www.phlips.com</string>
+<string name="PPR_Back_Btntxt">Tillbaka</string>
+<string name="PPR_Connect_Product_Btntxt">Anslut en produkt</string>
+<string name="PPR_RegSuccess_Lbltxt">Har registrerats!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Garantiperioden har utökats till</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Ett e-postmeddelande med en utökad garanti har skickats till din e-postadress</string>
+<string name="PPR_Thank_You_Lbltxt">Tack för att du väljer Philips produkter!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Söker efter dina produkter...</string>
+<string name="PPR_Registering_Products_Lbltxt">Registrerar dina produkter...</string>
+<string name="PPR_No_Internet_Title">Ingen anslutning till Internet!</string>
+<string name="PPR_No_Internet_ErrMsg">Kontrollera internetanslutningen och försök igen</string>
+<string name="PPR_Authentication_Fail_Title">Verifieringen misslyckades!</string>
+<string name="PPR_Authentication_ErrMsg">Användarverifieringen misslyckades. Försök igen om ett tag</string>
+<string name="PPR_Product_Not_Found_Title">Produkten hittas inte!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Produkten stöds inte i den här regionen. Kontakta kundtjänst.</string>
+<string name="PPR_Communication_Err_Title">Kommunikationsfel!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Det gick inte att ansluta till servern. Försök igen senare. Om problemet kvarstår kontaktar du kundtjänst</string>
+<string name="PPR_Invalid_SerialNum_Title">Ogiltigt serienummer!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Ange ett giltigt serienummer</string>
+<string name="PPR_Req_Purchase_Date_Title">Ogiltigt inköpsdatum!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Ange ett giltigt inköpsdatum</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Ange serienumret i det här formatet:</string>
+<string name="PPR_Network_Err_Title">Nätverksfel!</string>
+<string name="PPR_Network_ErrMsg">Försök igen efter ett tag.</string>
+<string name="PPR_Unknow_ErrMsg">Okänt fel</string>
+<string name="PPR_Invalid_Date_Title">Ogiltigt inköpsdatum</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Inköpsdatum:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Ange ett giltigt inköpsdatum</string>
+<string name="PPR_SerialNum_Lbltxt">Serienummer:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Ange ett serienummer</string>
+<string name="PPR_Register_Btntxt">Registrera</string>
+<string name="PPR_Invalid_Date_ErrMsg">Ange ett datum mellan år 2000 och dagens datum</string>
+<string name="PPR_Already_Registered_title">Produkten registrerad</string>
+<string name="PPR_Already_Registered_ErrMsg">Produkten redan registrerad</string>
+</resources>

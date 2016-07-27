@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">تسجيل منتجك</string>
+<string name="PPR_RegYourProduct_Lbltxt">سجّل منتجك و:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">تلقَّ تحديثات مهمة حول منتجاتك -</string>
+<string name="PPR_Yes_Btntxt">نعم</string>
+<string name="PPR_RegLater_Btntxt">لا شكرًا، سأسجّل لاحقًا</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">تم تسجيل كل المنتجات المتصلة حاليًا بهذا التطبيق بنجاح!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">هل تريد تسجيل منتج آخر؟</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">إذا كان منتجًا متصلاً من Philips، فتأكد من أنه متصل بهذا التطبيق</string>
+<string name="PPR_Reg_In_Web_Lbltxt">أو سجّل منتجك في الإصدار على ويب على www.philips.com</string>
+<string name="PPR_Back_Btntxt">الخلف</string>
+<string name="PPR_Connect_Product_Btntxt">توصيل منتج</string>
+<string name="PPR_RegSuccess_Lbltxt">تم التسجيل بنجاح</string>
+<string name="PPR_Extended_Warranty_Lbltxt">تم تمديد فترة الضمان لغاية</string>
+<string name="PPR_Eamil_Sent_Lbltxt">تم إرسال بريد إلكتروني يتضمن عقد الضمان الممدد إلى عنوان بريدك الإلكتروني</string>
+<string name="PPR_Thank_You_Lbltxt">شكراً لاختيار منتجات Philips!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">يتم الآن البحث عن منتجاتك..</string>
+<string name="PPR_Registering_Products_Lbltxt">يتم الآن تسجيل منتجاتك..</string>
+<string name="PPR_No_Internet_Title">ما من اتصال بالإنترنت!</string>
+<string name="PPR_No_Internet_ErrMsg">يرجى التحقق من اتصال الإنترنت وإعادة المحاولة</string>
+<string name="PPR_Authentication_Fail_Title">فشل عملية المصادقة!</string>
+<string name="PPR_Authentication_ErrMsg">فشلت عملية مصادقة المستخدم؛ يرجى إعادة المحاولة بعد قليل</string>
+<string name="PPR_Product_Not_Found_Title">لم يتم العثور على المنتج!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">المنتج غير معتمد في هذه المنطقة؛ يرجى الاتصال بخدمة المستهلك.</string>
+<string name="PPR_Communication_Err_Title">خطأ في الاتصال!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">تعذّر توصيل الخادم؛ يرجى إعادة المحاولة بعد قليل. إذا استمرت المشكلة، فاتصل بخدمة المستهلك</string>
+<string name="PPR_Invalid_SerialNum_Title">الرقم التسلسلي غير صالح!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">يُرجى إدخال رقم تسلسلي صالح</string>
+<string name="PPR_Req_Purchase_Date_Title">تاريخ الشراء غير صالح!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">يرجى إدخال تاريخ الشراء</string>
+<string name="PPR_SerialNum_Format_ErrMsg">يرجى إدخال الرقم التسلسلي في هذا التنسيق:</string>
+<string name="PPR_Network_Err_Title">خطأ في الشبكة!</string>
+<string name="PPR_Network_ErrMsg">يرجى المحاولة بعد قليل.</string>
+<string name="PPR_Unknow_ErrMsg">خطأ غير معروف</string>
+<string name="PPR_Invalid_Date_Title">تاريخ الشراء غير صالح</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">تاريخ الشراء:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">يرجى إدخال تاريخ الشراء</string>
+<string name="PPR_SerialNum_Lbltxt">الرقم التسلسلي:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">يُرجى إدخال رقم تسلسلي</string>
+<string name="PPR_Register_Btntxt">التسجيل</string>
+<string name="PPR_Invalid_Date_ErrMsg">يرجى إدخال تاريخ بين العام 2000 والتاريخ الحالي</string>
+<string name="PPR_Already_Registered_title">تم تسجيل المنتج</string>
+<string name="PPR_Already_Registered_ErrMsg">سبق أن تم تسجيل المنتج</string>
+</resources>

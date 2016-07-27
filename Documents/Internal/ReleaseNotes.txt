@@ -1,7 +1,154 @@
 Product Registration for Android Release Notes
 ===============================================
 
-Version - 0.0.1                             Date: 24-02-2016
+	Version - 1.1.0	                           Date: 21-07-2016
+----------------------------------------------------------------
+	Follwoing issues are Fixed 
+	
+	1. Included UserRegistration 7.0.0
+	
+	Version - 1.0.2.rc8                        Date: 21-07-2016
+----------------------------------------------------------------
+	Following issues are fixed
+	
+	1. PRA-310 - "Unknown error for space" If user enter space in CTN number text filed
+	2. PRA-309 - Device keyboard is doesn't disappear after tapping on back button
+	3. PRA-312 - Application showing blur screen after user tap on "Register" button multiple times immediate
+	4. PRA-286 - Localizing the Strings
+
+	Version - 1.0.2.rc7                        Date: 19-07-2016
+----------------------------------------------------------------
+	Following issues are fixed
+	
+	1. PRA-274 - Please enter date of purchase error message should be removed in semi automatic product registration page.
+	2. PRA-165 - callback registering listeners inside demo app and PR component
+	3. PRA-296(UI-Kit) - Application getting crash on randomly when app sent background and open the others app
+	4. PRA-210 – Defining logging mechanism 
+	
+	Version - 1.0.2.rc6                        Date: 8-07-2016
+----------------------------------------------------------------
+	Following issues are fixed
+
+	1. PRA-285 - Hide serial number field on entered valid serial number
+	2. PRA-271 - Code Review and Optimization
+	3. PRA-280 - Application process is getting killed, when a user sent app to background and again bring back to foreground
+	4. PRA-274 - Please enter date of purchase error message should be removed in semi automatic product registration page.
+	5. PRA-262 - Option is not available for user to modify the product name as per the his/her wish
+	
+	Version - 1.0.2.rc5                        Date: 28-06-2016
+-------------------------------------------------------------
+
+	Following issues are fixed
+	
+	1. PRA-265 - Keep on getting Internal server error pop up while try to register the product (Device Specific issue Samsung tablet)
+	2. PRA-263 - Already registered product are not listing in different app/device(Device specific issue Samsung Tab)
+	3. PRA-261 - Unable to register the product while user sign-in(Developer Mode)
+	4. PRA-259 - Date of purchase entry filed is not visible to the user, if user try to select the date in Semi-Automatic page
+	5. PRA-258 - In-line text field is allowing entry for next line in serial number parameter filed
+	6. PRA-257 - Register, Yes button bar its looking too long in landscape mode
+	7. PRA-256 - Date of Purchase filed is hidden beyond the register button(Landscape)
+	8. PRA-254 - Cursor point is not pointing properly in Serial number parameter in Semi-automatic PR page
+	9. PRA-255  - No hyperlinks for *www.philips.com *
+	
+	open issues - PRA - 262 - Option is not available for user to modify the product name as per the his/her wish(Need clarifications)
+	
+	Version - 1.0.2.rc4                        Date: 27-06-2016
+-------------------------------------------------------------
+
+	Following issues are fixed
+	
+	1. PRA-265 - Keep on getting Internal server error pop up while try to register the product (Device Specific issue Samsung tablet)
+	2. PRA-263 - Already registered product are not listing in different app/device(Device specific issue Samsung Tab)
+	3. PRA-261 - Unable to register the product while user sign-in(Developer Mode)
+	4. PRA-259 - Date of purchase entry filed is not visible to the user, if user try to select the date in Semi-Automatic page
+	5. PRA-258 - In-line text field is allowing entry for next line in serial number parameter filed
+	6. PRA-257 - Register, Yes button bar its looking too long in landscape mode
+	7. PRA-256 - Date of Purchase filed is hidden beyond the register button(Landscape)
+	8. PRA-254 - Cursor point is not pointing properly in Serial number parameter in Semi-automatic PR page
+	
+	Version - 1.0.2.rc3                        Date: 21-06-2016	
+-------------------------------------------------------------
+	1.PRA-200 - As a user I shall be able to register single Product as per UI designed for semi automatic in landscape register screen 
+	2.PRA-205 - post registration message screen - Portrait and Land scape
+	3.PRA-245 - Product reg sample should run in release mode after applying Proguard 
+	4.PRA-249 - App should run as usual on enabling developer mode option	
+	5.PRA-250 - Make configurable time out and retry count on Prx component
+	
+	Version - 1.0.2.rc2                        Date: 19-06-2016
+-------------------------------------------------------------
+	1. PRA-240 - As a user I shall be able to register single Product as per UI designed for semi automatic in portrait and landscape mode for phones
+	
+	
+	Version - 1.0.2.rc1                        Date: 13-06-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-187 - As a user I shall be able to register single Product as per UI designed for semi automatic in portrait mode
+	2. PRA-197 - UI flow finalization
+	
+	 Version - 1.0.1.rc3                        Date: 25-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-227 - Application is getting crash while user login itself 
+	2. PRA-228 - Purchase date to be not cached if it is invalid and missing
+	
+	 Version - 1.0.1.rc2                        Date: 24-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-220 - No proper error message for user in product list page.
+	2. PRA-221 - Application is get hanging for invalid date
+	3. PRA-222 - No error pop-up message for invalid date
+	4. PRA-223 - Product is not get registered with local data, for first user sign -in
+	5. PRA-224 - integrate UI-kit
+	6. PRA-225 - Add spinner while displaying Registered products list
+	
+	 Version - 1.0.1.rc1                        Date: 23-05-2016
+-------------------------------------------------------------
+	
+	Following features has fixed :
+	
+	1. PRA-190 - As a user i dont want to process invalid stored data like invalid CTN , invalid serial number
+	2. PRA-172 - (On-Line)For invalid ctn and serial number also data storing in locally on the device, next time when user to try to register the product with valid data, invalid stored data Toast messages  are  displayed for user always.
+	3. PRA-215 - Product registering process priority is not correct
+	4. PRA-196 - Duplicate products data getting register from different app/devices.
+	5. PRA-147 - Error popup displayed always with local stored invalid data, along with product registered successful message for valid data.
+	
+		
+	Version - 1.0.0		                       Date: 16-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-184 - No proper error message displayed for user in product list page.
+	2. PRA-216 - Update API for getting registered list 
+	3. PRA-182 - Wrong version displayed in product list page.
+	4. PRA-178 - Adding PRX as artifactory and Updated User Registration to 6.0.0
+	
+	
+	Version - 1.0.0.rc_3                        Date: 11-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-184 - No proper error message displayed for user in product list page.
+	
+    Version - 1.0.0.rc_2                        Date: 10-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-178 - Taking dependencies from Artifactory
+	2. Updated User Registration version to 5.0.0-rc.10
+	3. PRA-180 - Updating PRX changes in library
+	
+
+	
+	Version - 0.0.1                             Date: 24-02-2016
 -----------------------------------------------------------
   
      1.	Registering and Login user via User registration.
@@ -13,7 +160,7 @@ Version - 0.0.1                             Date: 24-02-2016
 
 
 
-Version - 0.0.2                             Date: 03-03-2016
+	Version - 0.0.2                             Date: 03-03-2016
 -----------------------------------------------------------
 
 
@@ -35,7 +182,7 @@ Version - 0.0.2                             Date: 03-03-2016
 
 
 
-Version - 0.0.3                             Date: 09-03-2016
+	Version - 0.0.3                             Date: 09-03-2016
 -------------------------------------------------------------
 
   Following features has fixed :
@@ -52,7 +199,7 @@ Version - 0.0.3                             Date: 09-03-2016
      3.	Validated Invalid CTN number.
      4.	Metadata validation before registering a product.
 
-Version - 0.0.4                             Date: 23-03-2016
+	Version - 0.0.4                             Date: 23-03-2016
 -------------------------------------------------------------
 
   Following features has fixed :
@@ -130,59 +277,10 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	
    1. PRA-175 - Absorbing new dependent components
    
-    Version - 1.0.0.rc_2                        Date: 10-05-2016
--------------------------------------------------------------
-
-	Following features has fixed :
 	
-	1. PRA-178 - Taking dependencies from Artifactory
-	2. Updated User Registration version to 5.0.0-rc.10
-	3. PRA-180 - Updating PRX changes in library
 	
-	Version - 1.0.0.rc_3                        Date: 11-05-2016
--------------------------------------------------------------
-
-	Following features has fixed :
 	
-	1. PRA-184 - No proper error message displayed for user in product list page.
 	
-	Version - 1.0.0		                       Date: 16-05-2016
--------------------------------------------------------------
-
-	Following features has fixed :
 	
-	1. PRA-184 - No proper error message displayed for user in product list page.
-	2. PRA-216 - Update API for getting registered list 
-	3. PRA-182 - Wrong version displayed in product list page.
-	4. PRA-178 - Adding PRX as artifactory and Updated User Registration to 6.0.0
 	
-	 Version - 1.0.1.rc1                        Date: 23-05-2016
--------------------------------------------------------------
 	
-	Following features has fixed :
-	
-	1. PRA-190 - As a user i dont want to process invalid stored data like invalid CTN , invalid serial number
-	2. PRA-172 - (On-Line)For invalid ctn and serial number also data storing in locally on the device, next time when user to try to register the product with valid data, invalid stored data Toast messages  are  displayed for user always.
-	3. PRA-215 - Product registering process priority is not correct
-	4. PRA-196 - Duplicate products data getting register from different app/devices.
-	5. PRA-147 - Error popup displayed always with local stored invalid data, along with product registered successful message for valid data.
-	
-	 Version - 1.0.1.rc2                        Date: 24-05-2016
--------------------------------------------------------------
-
-	Following features has fixed :
-	
-	1. PRA-220 - No proper error message for user in product list page.
-	2. PRA-221 - Application is get hanging for invalid date
-	3. PRA-222 - No error pop-up message for invalid date
-	4. PRA-223 - Product is not get registered with local data, for first user sign -in
-	5. PRA-224 - integrate UI-kit
-	6. PRA-225 - Add spinner while displaying Registered products list
-	
-	 Version - 1.0.1.rc3                        Date: 25-05-2016
--------------------------------------------------------------
-
-	Following features has fixed :
-	
-	1. PRA-227 - Application is getting crash while user login itself 
-	2. PRA-228 - Purchase date to be not cached if it is invalid and missing

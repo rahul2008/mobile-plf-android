@@ -2,9 +2,10 @@ package com.philips.cdp.prodreg.register;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.error.ProdRegError;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 
+import java.io.Serializable;
 import java.util.List;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
@@ -12,7 +13,7 @@ import java.util.List;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class RegisteredProduct extends Product {
+public class RegisteredProduct extends Product implements Serializable {
 
     private RegistrationState registrationState;
     private String endWarrantyDate;
@@ -137,7 +138,7 @@ public class RegisteredProduct extends Product {
         return shouldConsiderUUID;
     }
 
-    protected RegisteredProduct getRegisteredProductIfExists(final LocalRegisteredProducts localRegisteredProducts) {
+    public RegisteredProduct getRegisteredProductIfExists(final LocalRegisteredProducts localRegisteredProducts) {
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
         final int index = registeredProducts.indexOf(this);
         if (index != -1) {
@@ -150,9 +151,20 @@ public class RegisteredProduct extends Product {
         return null;
     }
 
+    public boolean isProductAlreadyRegistered(final LocalRegisteredProducts localRegisteredProducts) {
+        final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+        final int index = registeredProducts.indexOf(this);
+        if (index != -1) {
+            final RegisteredProduct registeredProduct = registeredProducts.get(index);
+            return registeredProduct != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED;
+        }
+        return false;
+    }
+
     private void updateFields(final RegisteredProduct product) {
         product.setUserUUid(getUserUUid());
         product.sendEmail(getEmail());
+        product.setPurchaseDate(getPurchaseDate());
     }
 
     @Override

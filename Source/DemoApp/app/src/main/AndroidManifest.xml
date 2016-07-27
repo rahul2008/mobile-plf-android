@@ -4,11 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
-
 
     <application
         android:name="com.philips.cdp.prodreg.ProductRegistrationApplication"
@@ -16,19 +12,19 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Philips.DarkBlue.Gradient"
-        tools:replace="android:icon">
+        android:theme="@style/Theme.Philips.DarkBlue.Gradient.WhiteBackground"
+        tools:replace="android:icon,android:label,android:theme,android:name">
         <activity
-            android:name="com.philips.cdp.prodreg.MainActivity"
-            android:label="@string/app_name">
+            android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.philips.cdp.prodreg.ProductActivity"/>
-        <activity android:name="com.philips.cdp.prodreg.RegisteredProductsList"/>
 
     </application>
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">Zaregistrujte výrobek</string>
+<string name="PPR_RegYourProduct_Lbltxt">Zaregistrujte svůj výrobek a:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Získejte důležité aktualizace o svých produktech</string>
+<string name="PPR_Yes_Btntxt">Ano</string>
+<string name="PPR_RegLater_Btntxt">Registrovat později.</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">Všechny výrobky, které jsou právě připojeny k této aplikaci, byly úspěšně registrovány!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">Chcete registrovat další výrobek?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">Pokud jde o výrobek, který umožňuje připojení Philips, ujistěte se, že jste ho připojili k této aplikaci</string>
+<string name="PPR_Reg_In_Web_Lbltxt">Nebo svůj výrobek registrujte ve verzi na webu www.philips.com</string>
+<string name="PPR_Back_Btntxt">Zpět</string>
+<string name="PPR_Connect_Product_Btntxt">Připojte výrobek</string>
+<string name="PPR_RegSuccess_Lbltxt">Úspěšně registrováno!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">Vaše záruční lhůta byla prodloužena do</string>
+<string name="PPR_Eamil_Sent_Lbltxt">Na vaši e-mailovou adresu byl zaslán email se smlouvou o prodloužení záruky</string>
+<string name="PPR_Thank_You_Lbltxt">Děkujeme, že jste si vybrali výrobky Philips!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">Vyhledávání vašich výrobků…</string>
+<string name="PPR_Registering_Products_Lbltxt">Registrování vašich výrobků…</string>
+<string name="PPR_No_Internet_Title">Není dostupné připojení k internetu!</string>
+<string name="PPR_No_Internet_ErrMsg">Zkontrolujte připojení k internetu a zkuste to znovu.</string>
+<string name="PPR_Authentication_Fail_Title">Chyba ověření!</string>
+<string name="PPR_Authentication_ErrMsg">Ověření uživatele selhalo. Zkuste to prosím později.</string>
+<string name="PPR_Product_Not_Found_Title">Výrobek nenalezen!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">Výrobek není v tomto regionu podporován. Obraťte se prosím na zákaznickou podporu.</string>
+<string name="PPR_Communication_Err_Title">Chyba komunikace!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">Nelze se připojit k serveru, zkuste to prosím později znovu. Pokud problém přetrvá, obraťte se na zákaznickou podporu.</string>
+<string name="PPR_Invalid_SerialNum_Title">Neplatné sériové číslo!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">Zadejte platné sériové číslo</string>
+<string name="PPR_Req_Purchase_Date_Title">Neplatné datum zakoupení!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">Zadejte prosím datum zakoupení</string>
+<string name="PPR_SerialNum_Format_ErrMsg">Zadejte prosím sériové číslo v tomto formátu:</string>
+<string name="PPR_Network_Err_Title">Síťová chyba!</string>
+<string name="PPR_Network_ErrMsg">Zkuste to prosím později.</string>
+<string name="PPR_Unknow_ErrMsg">Neznámá chyba</string>
+<string name="PPR_Invalid_Date_Title">Neplatné datum zakoupení</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">Datum nákupu:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">Zadejte prosím datum zakoupení</string>
+<string name="PPR_SerialNum_Lbltxt">Sériové číslo:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Zadejte sériové číslo</string>
+<string name="PPR_Register_Btntxt">Zaregistrujte</string>
+<string name="PPR_Invalid_Date_ErrMsg">Zadejte prosím datum mezi rokem 2000 a dnešním datem</string>
+<string name="PPR_Already_Registered_title">Produkt zaregistrován.</string>
+<string name="PPR_Already_Registered_ErrMsg">Produkt již byl registrován</string>
+</resources>

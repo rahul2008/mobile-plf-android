@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="PPR_NavBar_Title">उत्पाद पंजीकृत करें</string>
+<string name="PPR_RegYourProduct_Lbltxt">अपना उत्पाद पंजीकृत करें और:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- अपने उत्पाद के बारे में महत्वपूर्ण अद्यतन प्राप्त करें</string>
+<string name="PPR_Yes_Btntxt">हाँ</string>
+<string name="PPR_RegLater_Btntxt">बाद में पंजीकृत करें</string>
+<string name="PPR_AllProducts_Registered_Lbltxt">वर्तमान में इस अनुप्रयोग से कनेक्ट किए गए सभी उत्पाद सफलतापूर्वक पंजीकृत किए जा चुके हैं!</string>
+<string name="PPR_Do_You_Want_To_Reg_Lbltxt">क्या आप अन्य उत्पाद पंजीकृत करना चाहते हैं?</string>
+<string name="PPR_Connect_Your_Product_Lbltxt">यदि यह कनेक्ट किया गया कोई Philips उत्पाद है, तो सुनिश्चित करें कि आपने इस अनुप्रयोग से उत्पाद को कनेक्ट किया है या नहीं</string>
+<string name="PPR_Reg_In_Web_Lbltxt">या अपने उत्पाद को www.philips.com पर वेब संस्करण में पंजीकृत करें</string>
+<string name="PPR_Back_Btntxt">वापस</string>
+<string name="PPR_Connect_Product_Btntxt">कोई उत्पाद कनेक्ट करें</string>
+<string name="PPR_RegSuccess_Lbltxt">सफलतापूर्वक पंजीकृत किया गया!</string>
+<string name="PPR_Extended_Warranty_Lbltxt">आपकी वारंटी अवधि इस समय तक बढ़ाई जा चुकी है</string>
+<string name="PPR_Eamil_Sent_Lbltxt">विस्तृत वारंटी अनुबंध वाला एक ईमेल आपके ईमेल पते पर भेजा जा चुका है</string>
+<string name="PPR_Thank_You_Lbltxt">Philips के उत्पादों का चयन करने के लिए धन्यवाद!</string>
+<string name="PPR_Looking_For_Products_Lbltxt">आपके उत्पाद ढूँढे जा रहे हैं..</string>
+<string name="PPR_Registering_Products_Lbltxt">आपके उत्पाद पंजीकृत किए जा रहे हैं..</string>
+<string name="PPR_No_Internet_Title">कोई इंटरनेट कनेक्शन नहीं है!</string>
+<string name="PPR_No_Internet_ErrMsg">कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें</string>
+<string name="PPR_Authentication_Fail_Title">प्रमाणीकरण विफलता!</string>
+<string name="PPR_Authentication_ErrMsg">उपयोगकर्ता प्रमाणीकरण विफल हुआ कृपया कुछ समय बाद पुनः प्रयास करें</string>
+<string name="PPR_Product_Not_Found_Title">उत्पाद नहीं मिला!</string>
+<string name="PPR_Product_Not_Found_ErrMsg">इस क्षेत्र में उत्पाद समर्थित नहीं है, कृपया ग्राहक सहायता पर संपर्क करें.</string>
+<string name="PPR_Communication_Err_Title">संचार त्रुटि!</string>
+<string name="PPR_Unable_Connect_Server_ErrMsg">सर्वर से कनेक्ट करने में असमर्थ, कृपया कुछ समय बाद प्रयास करें, समस्या जारी रहने पर ग्राहक सेवा से संपर्क करें</string>
+<string name="PPR_Invalid_SerialNum_Title">अमान्य क्रमांक संख्या!</string>
+<string name="PPR_Invalid_SerialNum_ErrMsg">कृपया मान्य क्रमांक संख्या दर्ज करें</string>
+<string name="PPR_Req_Purchase_Date_Title">अमान्य खरीदारी दिनांक!</string>
+<string name="PPR_Enter_Purchase_Date_ErrMsg">कृपया खरीदारी की दिनांक दर्ज करें</string>
+<string name="PPR_SerialNum_Format_ErrMsg">कृपया क्रमांक संख्या इस स्वरूप में दर्ज करें :</string>
+<string name="PPR_Network_Err_Title">नेटवर्क त्रुटि!</string>
+<string name="PPR_Network_ErrMsg">कृपया कुछ समय बाद प्रयास करें.</string>
+<string name="PPR_Unknow_ErrMsg">अज्ञात त्रुटि</string>
+<string name="PPR_Invalid_Date_Title">अमान्य खरीदारी दिनांक</string>
+<string name="PPR_Date_Of_Purchase_Lbltxt">खरीदारी दिनांक:</string>
+<string name="PPR_Please_Enter_Date_Lbltxt">कृपया खरीदारी की दिनांक दर्ज करें</string>
+<string name="PPR_SerialNum_Lbltxt">क्रमांक संख्या:</string>
+<string name="PPR_Please_Enter_SerialNum_Txtfldtxt">कृपया क्रमांक संख्या दर्ज करें</string>
+<string name="PPR_Register_Btntxt">पंजीकृत करें</string>
+<string name="PPR_Invalid_Date_ErrMsg">कृपया वर्ष 2000 से आज की दिनांक के बीच की दिनांक दर्ज करें</string>
+<string name="PPR_Already_Registered_title">उत्पाद पंजीकृत किया गया</string>
+<string name="PPR_Already_Registered_ErrMsg">उत्पाद पहले से ही पंजीकृत किया गया है</string>
+</resources>
