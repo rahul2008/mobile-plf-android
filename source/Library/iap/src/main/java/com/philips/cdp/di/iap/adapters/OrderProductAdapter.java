@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.philips.cdp.di.iap.Fragments.DeliveryModeDialog;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
@@ -53,7 +54,7 @@ import java.util.List;
  * All rights reserved.
  */
 public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        ShoppingCartPresenter.LoadListener<ShoppingCartData> {
+        ShoppingCartPresenter.LoadListener<ShoppingCartData>, DeliveryModeDialog.DialogListener {
     private final static String TAG = OrderProductAdapter.class.getSimpleName();
 
     private List<ShoppingCartData> mShoppingCartDataList;
@@ -161,31 +162,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mEditIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-                    View convertView = (LayoutInflater.from(mContext).inflate(R.layout.iap_delivery_dialog, null));
-                    alertDialog.setView(convertView);
-                    ListView lv = (ListView) convertView.findViewById(R.id.lv);
-                    DeliveryModeAdapter adapter = new DeliveryModeAdapter(mContext,R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
-                    lv.setClickable(true);
-                    lv.setAdapter(adapter);
-
-                    final Dialog dialog = alertDialog.create();
-                    dialog.show();
-
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            dialog.dismiss();
-                            if (!Utility.isProgressDialogShowing())
-                                Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                            AddressController addressController = new AddressController(mContext, mListener);
-                            addressController.setDeliveryMode(mDeliveryModes.get(position).getCode());
-
-                        }
-                    });
-
-
-
+                    DeliveryModeDialog dialog = new DeliveryModeDialog(mContext, OrderProductAdapter.this, mListener);
+                    dialog.showDialog();
                 }
             });
 
@@ -242,6 +220,11 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
         //NOP
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 
     public class OrderProductHolder extends RecyclerView.ViewHolder {
