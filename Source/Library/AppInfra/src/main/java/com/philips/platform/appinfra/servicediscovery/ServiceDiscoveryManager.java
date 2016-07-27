@@ -23,24 +23,25 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * This class downloads list of URLs from service discovery server,
+ * providing the locale and the identity of the application.
+ */
+public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, ServiceDiscoveryInterface
+        .OnRefreshListener {
 
-public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, ServiceDiscoveryInterface.OnRefreshListener {
-
-    AppInfra mAppInfra;
-    Context context;
-    boolean isDataAvailable = false;
-    boolean isDownloadInProgress = false;
-    String countryCode;
-    String URL = null;
-    OnRefreshListener mOnRefreshListener;
-    String mCountry;
-    SharedPreferences pref;
-
+    private AppInfra mAppInfra;
+    private Context context;
+    private boolean isDataAvailable = false;
+    private boolean isDownloadInProgress = false;
+    private String countryCode;
+    private String mUrl = null;
+    private String mCountry;
 
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
-        mOnRefreshListener = this;
+        OnRefreshListener mOnRefreshListener = this;
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
@@ -50,8 +51,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
 
     private String getService(OnRefreshListener listener) {
-        String urlBuild = null;
-        String country = getCountry();
+        String urlBuild;
+        final String country = getCountry();
         if (null != country) {
             urlBuild = buildUrl();
             if (urlBuild != null) {
@@ -59,25 +60,24 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             }
         } else {
             urlBuild = buildUrl();
-            if (urlBuild != null)
+            if (urlBuild != null) {
                 new RequestManager(context).execute(urlBuild = buildUrl(), listener);
+            }
         }
-
-
         return urlBuild;
     }
 
     private String buildUrl() {
-        AppIdentityManager identityManager = new AppIdentityManager(mAppInfra);
+        final AppIdentityManager identityManager = new AppIdentityManager(mAppInfra);
         identityManager.loadJSONFromAsset();
-        InternationalizationManager localManager = new InternationalizationManager(mAppInfra);
+        final InternationalizationManager localManager = new InternationalizationManager(mAppInfra);
         localManager.getUILocale();
-        AppIdentityInterface.AppState mState = identityManager.getAppState();
-        String mEnvironment = identityManager.getServiceDiscoveryEnvironment();
+        final AppIdentityInterface.AppState state = identityManager.getAppState();
+        String service_environment = identityManager.getServiceDiscoveryEnvironment();
         String tags = null;
         String environment = null;
-        if (mState != null && mEnvironment != null) {
-            switch (mState) {
+        if (state != null && service_environment != null) {
+            switch (state) {
                 case DEVELOPMENT:
                     tags = "apps%2b%2benv%2bdev";
                     break;
@@ -93,33 +93,33 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                 case PRODUCTION:
                     tags = "apps%2b%2benv%2bprod";
                     break;
-
             }
 
-            if (mEnvironment.equalsIgnoreCase("PRODUCTION")) {
+            if (service_environment.equalsIgnoreCase("PRODUCTION")) {
                 environment = "www.philips.com";
-            } else if (mEnvironment.equalsIgnoreCase("TEST")) {
+            } else if (service_environment.equalsIgnoreCase("TEST")) {
                 environment = "tst.philips.com";
-            } else if (mEnvironment.equalsIgnoreCase("STAGING")) {
+            } else if (service_environment.equalsIgnoreCase("STAGING")) {
                 environment = "dev.philips.com";
-            } else if (mEnvironment.equalsIgnoreCase("ACCEPTANCE")) {
+            } else if (service_environment.equalsIgnoreCase("ACCEPTANCE")) {
                 environment = "acc.philips.com";
             }
         }
 
-        if (identityManager.getSector() != null && identityManager.getMicrositeId() != null && localManager.getUILocale() != null && tags != null && environment != null) {
+        if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
+                localManager.getUILocale() != null && tags != null && environment != null) {
             if (getCountry() == null) {
-                URL = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags;
+                mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev";
-                Log.i("URL", "" + URL);
+                Log.i("URL", "" + mUrl);
             }
             if (getCountry() != null) {
-                URL = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags + "&country=" + getCountry();
+                mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags + "&country=" + getCountry();
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev&country=US";
-                Log.i("URL", "" + URL);
+                Log.i("URL", "" + mUrl);
             }
         }
-        return URL;
+        return mUrl;
     }
 
     /**
@@ -145,10 +145,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     @Override
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
         if (isDataAvailable) {
-            filterDataForURLbyLang(serviceId, listener);
+            filterDataForUrlbyLang(serviceId, listener);
         } else {
             if (!isDownloadInProgress) {
-                refresh((new OnRefreshListener() {
+                refresh(new OnRefreshListener() {
                     @Override
                     public void onError(ERRORVALUES error, String message) {
                         listener.onError(error, message);
@@ -156,9 +156,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
                     @Override
                     public void onSuccess() {
-                        filterDataForURLbyLang(serviceId, listener);
+                        filterDataForUrlbyLang(serviceId, listener);
                     }
-                }));
+                });
             } else {
                 listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
@@ -170,10 +170,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
         if (isDataAvailable) {
-            filterDataForURLbyCountry(serviceId, listener);
+            filterDataForUrlbyCountry(serviceId, listener);
         } else {
             if (!isDownloadInProgress) {
-                refresh((new OnRefreshListener() {
+                refresh(new OnRefreshListener() {
                     @Override
                     public void onError(ERRORVALUES error, String message) {
                         listener.onError(error, message);
@@ -181,9 +181,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
                     @Override
                     public void onSuccess() {
-                        filterDataForURLbyCountry(serviceId, listener);
+                        filterDataForUrlbyCountry(serviceId, listener);
                     }
-                }));
+                });
             } else {
                 listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
@@ -195,10 +195,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     @Override
     public void getServiceUrlWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
         if (isDataAvailable) {
-            filterDataForURLbyLang(serviceId, listener);
+            filterDataForUrlbyLang(serviceId, listener);
         } else {
             if (!isDownloadInProgress) {
-                refresh((new OnRefreshListener() {
+                refresh(new OnRefreshListener() {
                     @Override
                     public void onError(ERRORVALUES error, String message) {
                         listener.onError(error, message);
@@ -206,23 +206,22 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
                     @Override
                     public void onSuccess() {
-                        filterDataForURLbyLang(serviceId, listener);
+                        filterDataForUrlbyLang(serviceId, listener);
                     }
-                }));
+                });
             } else {
                 listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
-
         }
     }
 
     @Override
     public void getServiceUrlWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
         if (isDataAvailable) {
-            filterDataForURLbyCountry(serviceId, listener);
+            filterDataForUrlbyCountry(serviceId, listener);
         } else {
             if (!isDownloadInProgress) {
-                refresh((new OnRefreshListener() {
+                refresh(new OnRefreshListener() {
                     @Override
                     public void onError(ERRORVALUES error, String message) {
                         listener.onError(error, message);
@@ -230,13 +229,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
                     @Override
                     public void onSuccess() {
-                        filterDataForURLbyCountry(serviceId, listener);
+                        filterDataForUrlbyCountry(serviceId, listener);
                     }
-                }));
+                });
             } else {
                 listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
-
         }
     }
 
@@ -248,7 +246,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             filterDataForLocalByLang(serviceId, listener);
         } else {
             if (!isDownloadInProgress) {
-                refresh((new OnRefreshListener() {
+                refresh(new OnRefreshListener() {
                     @Override
                     public void onError(ERRORVALUES error, String message) {
                         listener.onError(error, message);
@@ -258,11 +256,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                     public void onSuccess() {
                         filterDataForLocalByLang(serviceId, listener);
                     }
-                }));
+                });
             } else {
                 listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
-
         }
     }
 
@@ -272,7 +269,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             filterDataForLocalByCountry(serviceId, listener);
         } else {
             if (!isDownloadInProgress) {
-                refresh((new OnRefreshListener() {
+                refresh(new OnRefreshListener() {
                     @Override
                     public void onError(ERRORVALUES error, String message) {
                         listener.onError(error, message);
@@ -282,7 +279,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                     public void onSuccess() {
                         filterDataForLocalByCountry(serviceId, listener);
                     }
-                }));
+                });
             } else {
                 listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
@@ -290,62 +287,60 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
 
-    private void filterDataForURLbyLang(String serviceIds, OnGetServiceUrlListener mOnGetServiceUrlListener) {
-        if (mOnGetServiceUrlListener != null && serviceIds != null) {
+    private void filterDataForUrlbyLang(String serviceIds, OnGetServiceUrlListener onGetServiceUrlListener) {
+        if (onGetServiceUrlListener != null && serviceIds != null) {
             try {
-                URL url = new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
+                final URL url = new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
                 if (url == null) {
-                    mOnGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
                 } else {
-                    mOnGetServiceUrlListener.onSuccess(url);
+                    onGetServiceUrlListener.onSuccess(url);
                 }
-
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-                mOnGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
-
         }
     }
 
-    private void filterDataForURLbyLang(ArrayList<String> serviceIds, OnGetServiceUrlMapListener mOnGetServiceUrlMapListener) {
+    private void filterDataForUrlbyLang(ArrayList<String> serviceIds, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
         String dataByUrl = "urlbylanguage";
-        if (mOnGetServiceUrlMapListener != null && serviceIds != null) {
-            int configSize = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().size();
-            getUrlsMapper(configSize, dataByUrl, serviceIds, mOnGetServiceUrlMapListener);
+        if (onGetServiceUrlMapListener != null && serviceIds != null) {
+            final int configSize = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().size();
+            getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
         }
     }
 
 
-    private void filterDataForURLbyCountry(String serviceIds, OnGetServiceUrlListener mOnGetServiceUrlListener) {
-        if (mOnGetServiceUrlListener != null && serviceIds != null) {
+    private void filterDataForUrlbyCountry(String serviceIds, OnGetServiceUrlListener onGetServiceUrlListener) {
+        if (onGetServiceUrlListener != null && serviceIds != null) {
             try {
                 URL url = new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
                 if (url == null) {
-                    mOnGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
                 } else {
-                    mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
+                    onGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
                 }
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                mOnGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
 
         }
     }
 
-    private void filterDataForURLbyCountry(ArrayList<String> serviceIds, OnGetServiceUrlMapListener mOnGetServiceUrlMapListener) {
+    private void filterDataForUrlbyCountry(ArrayList<String> serviceIds, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
         String dataByUrl = "urlbycountry";
-        if (mOnGetServiceUrlMapListener != null && serviceIds != null) {
-            int configSize = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();
-            getUrlsMapper(configSize, dataByUrl, serviceIds, mOnGetServiceUrlMapListener);
+        if (onGetServiceUrlMapListener != null && serviceIds != null) {
+            final int configSize = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();
+            getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
         }
     }
 
-    private void getUrlsMapper(int configSize, String urlByData, ArrayList<String> serviceIds, OnGetServiceUrlMapListener mOnGetServiceUrlMapListener) {
+    private void getUrlsMapper(int configSize, String urlByData, ArrayList<String> serviceIds,
+                               OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
         Map<String, String> urls = null;
-        HashMap<String, String> responseMap = new HashMap<String, String>();
+        final HashMap<String, String> responseMap = new HashMap<String, String>();
         for (int config = 0; config < configSize; config++) {
             if (urlByData.equalsIgnoreCase("urlbycountry")) {
                 urls = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(config).getUrls();
@@ -355,9 +350,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
             for (int i = 0; i < serviceIds.size(); i++) {
                 if (urls != null) {
-                    for (String key : urls.keySet()) {
+                    for (final String key : urls.keySet()) {
                         if (key.equalsIgnoreCase(serviceIds.get(i).trim())) {
-                            String serviceUrlval = urls.get(key);
+                            final String serviceUrlval = urls.get(key);
                             Log.d("SERVICE DISCOVERY", serviceUrlval);
                             responseMap.put(key, serviceUrlval);
                         }
@@ -365,32 +360,30 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                 }
             }
         }
-        if (responseMap.size() == 0) {
-            mOnGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+        if (responseMap.isEmpty()) {
+            onGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
         } else {
-            mOnGetServiceUrlMapListener.onSuccess(responseMap);
+            onGetServiceUrlMapListener.onSuccess(responseMap);
         }
     }
 
 
-    private void filterDataForLocalByLang(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener) {
-        if (mOnGetServiceLocaleListener != null) {
+    private void filterDataForLocalByLang(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+        if (onGetServiceLocaleListener != null) {
             if (RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale() == null) {
-                mOnGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             } else {
-                mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
+                onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
             }
-
-
         }
     }
 
-    private void filterDataForLocalByCountry(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener) {
-        if (mOnGetServiceLocaleListener != null) {
+    private void filterDataForLocalByCountry(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+        if (onGetServiceLocaleListener != null) {
             if (RequestManager.mServiceDiscovery.getMatchByCountry().getLocale() == null) {
-                mOnGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             } else {
-                mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
+                onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
             }
         }
     }
@@ -412,8 +405,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             getService(listener);
             isDownloadInProgress = true;
         }
-
-
     }
 
     @Override
@@ -434,7 +425,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
     private String getCountry() {
-        pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+        final SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
         if (mCountry == null) {
             mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
             // Log.i("Country", " "+mCountry);
@@ -447,7 +438,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             }
         }
         if (mCountry == null) {
-            SharedPreferences.Editor editor = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
+            final SharedPreferences.Editor editor = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
             try {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
@@ -459,13 +450,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                     if (mCountry != null)
                         return mCountry.toUpperCase();
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
-                    String networkCountry = tm.getNetworkCountryIso();
+                    final String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
                         mCountry = networkCountry.toUpperCase(Locale.US);
                         editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                         editor.commit();
-                        if (mCountry != null)
+                        if (mCountry != null) {
                             return mCountry.toUpperCase();
+                        }
                     }
                 }
             } catch (Exception e) {

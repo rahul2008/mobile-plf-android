@@ -18,7 +18,10 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.R;
 
-import java.net.*;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,14 +36,14 @@ import java.util.TimeZone;
 public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterface {
 
 
-    private final String TAG = "TimeSyncSntpClient";
+    private static final String TAG = "TimeSyncSntpClient";
 
     // Number of seconds between Jan 1, 1900 and Jan 1, 1970
     // 70 years plus 17 leap days
-    private final long OFFSET_BETWEEN_1900_TO_1970 = ((365L * 70L) + 17L) * 24L * 60L * 60L;
+    private static final long OFFSET_BETWEEN_1900_TO_1970 = ((365L * 70L) + 17L) * 24L * 60L * 60L;
 
     // system time computed from NTP server response
-    private long mNtpTime = 0L;
+    private static long mNtpTime = 0L;
 
     // value of SystemClock.elapsedRealtime() corresponding to mNtpTime
     private long mNtpTimeReference;
@@ -91,9 +94,9 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
     }
 
     public synchronized void refreshOffset() {
-        long mNTPTime;
-        long elapsedTime = SystemClock.elapsedRealtime();
-        long currentTime = System.currentTimeMillis();
+        long ntpTime;
+        final long elapsedTime = SystemClock.elapsedRealtime();
+        final long currentTime = System.currentTimeMillis();
 
         long nowAsPerDeviceTimeZone = 0;
         for (int i = 0; i < TimeConstants.POOL_SIZE; i++) {
@@ -103,9 +106,9 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
             }
         }
         if (nowAsPerDeviceTimeZone != 0L) {
-            mNTPTime = nowAsPerDeviceTimeZone;
-            long deviceTime = System.currentTimeMillis();
-            long mOffset = mNTPTime - deviceTime;
+            ntpTime = nowAsPerDeviceTimeZone;
+            final long deviceTime = System.currentTimeMillis();
+            final long mOffset = ntpTime - deviceTime;
             saveOffset(mOffset);
         }
         saveElapsedOffset(currentTime - elapsedTime);
@@ -113,7 +116,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
 
     public String getCurrentTime() {
         final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
-        Date date = new Date(getOffset() + System.currentTimeMillis() + getCurrentTimeZoneDiff());
+        final Date date = new Date(getOffset() + System.currentTimeMillis() + getCurrentTimeZoneDiff());
         sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
 
         final String curruntTime = sdf.format(date);
@@ -126,16 +129,16 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
      * Method to synchronize time for every 24 hrs.
      */
     public void syncWithDayandDateSettingChange() {
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
 
-        Intent intent = new Intent(mContext, TimeSyncSntpClient.class);
-        PendingIntent pendingIntent =
+        final Intent intent = new Intent(mContext, TimeSyncSntpClient.class);
+        final PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(mContext,
                         0, intent, 0);
-        AlarmManager alarmManager =
+        final AlarmManager alarmManager =
                 (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 cal.getTimeInMillis(),
@@ -158,7 +161,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
      * @return timezone difference
      */
     private long getCurrentTimeZoneDiff() {
-        TimeZone timeZoneInDevice = TimeZone.getDefault();
+        final TimeZone timeZoneInDevice = TimeZone.getDefault();
         return timeZoneInDevice.getOffset(System.currentTimeMillis());
     }
 
@@ -184,9 +187,9 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         try {
             socket = new DatagramSocket();
             socket.setSoTimeout(timeout);
-            InetAddress address = InetAddress.getByName(host);
+            final InetAddress address = InetAddress.getByName(host);
             byte[] buffer = new byte[NTP_PACKET_SIZE];
-            DatagramPacket request = new DatagramPacket(buffer, buffer.length, address, NTP_PORT);
+            final DatagramPacket request = new DatagramPacket(buffer, buffer.length, address, NTP_PORT);
 
             // set mode = 3 (client) and version = 3
             // mode is in low 3 bits of first byte
@@ -194,29 +197,29 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
             buffer[0] = NTP_CLIENT | (NTP_VERSION << 3);
 
             // get current time and write it to the request packet3
-            long requestTime = System.currentTimeMillis();
-            long requestTicks = SystemClock.elapsedRealtime();
+            final long requestTime = System.currentTimeMillis();
+            final long requestTicks = SystemClock.elapsedRealtime();
             writeTimeStamp(buffer, TRANSMIT_TIME_OFFSET, requestTime);
 
             socket.send(request);
 
             DatagramPacket response = new DatagramPacket(buffer, buffer.length);
             socket.receive(response);
-            long responseTicks = SystemClock.elapsedRealtime();
-            long responseTime = requestTime + (responseTicks - requestTicks);
+            final long responseTicks = SystemClock.elapsedRealtime();
+            final long responseTime = requestTime + (responseTicks - requestTicks);
 
-            long originateTime = readTimeStamp(buffer, ORIGINTIME_OFFSET);
-            long receiveTime = readTimeStamp(buffer, RECEIVE_OFFSET);
-            long transmitTime = readTimeStamp(buffer, TRANSMIT_TIME_OFFSET);
-            long roundTripTime = responseTicks - requestTicks - (transmitTime - receiveTime);
-            long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime)) / 2;
+            final long originateTime = readTimeStamp(buffer, ORIGINTIME_OFFSET);
+            final long receiveTime = readTimeStamp(buffer, RECEIVE_OFFSET);
+            final long transmitTime = readTimeStamp(buffer, TRANSMIT_TIME_OFFSET);
+            final long roundTripTime = responseTicks - requestTicks - (transmitTime - receiveTime);
+            final long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime)) / 2;
             mNtpTime = responseTime + clockOffset;
 
             mNtpTimeReference = responseTicks;
             mRoundTripTime = roundTripTime;
         } catch (Exception e) {
             Log.i("Exception", "" + e);
-            if (false) Log.d(TAG, "request time failed: " + e);
+            Log.d(TAG, "request time failed: " + e);
             return false;
         } finally {
             if (socket != null) {
@@ -266,16 +269,16 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
      * Reads an unsigned 32 bit big endian number from the given offset in the buffer.
      */
     private long read32(byte[] buffer, int offset) {
-        byte b0 = buffer[offset];
-        byte b1 = buffer[offset + 1];
-        byte b2 = buffer[offset + 2];
-        byte b3 = buffer[offset + 3];
+        final byte b0 = buffer[offset];
+        final byte b1 = buffer[offset + 1];
+        final byte b2 = buffer[offset + 2];
+        final byte b3 = buffer[offset + 3];
 
         // convert signed bytes to unsigned values
-        int i0 = ((b0 & 0x80) == 0x80 ? (b0 & 0x7F) + 0x80 : b0);
-        int i1 = ((b1 & 0x80) == 0x80 ? (b1 & 0x7F) + 0x80 : b1);
-        int i2 = ((b2 & 0x80) == 0x80 ? (b2 & 0x7F) + 0x80 : b2);
-        int i3 = ((b3 & 0x80) == 0x80 ? (b3 & 0x7F) + 0x80 : b3);
+        final int i0 = ((b0 & 0x80) == 0x80 ? (b0 & 0x7F) + 0x80 : b0);
+        final int i1 = ((b1 & 0x80) == 0x80 ? (b1 & 0x7F) + 0x80 : b1);
+        final int i2 = ((b2 & 0x80) == 0x80 ? (b2 & 0x7F) + 0x80 : b2);
+        final int i3 = ((b3 & 0x80) == 0x80 ? (b3 & 0x7F) + 0x80 : b3);
 
         return ((long) i0 << 24) + ((long) i1 << 16) + ((long) i2 << 8) + (long) i3;
     }
@@ -285,8 +288,8 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
      * it as a system time (milliseconds since January 1, 1970).
      */
     private long readTimeStamp(byte[] buffer, int offset) {
-        long seconds = read32(buffer, offset);
-        long fraction = read32(buffer, offset + 4);
+        final long seconds = read32(buffer, offset);
+        final long fraction = read32(buffer, offset + 4);
         return ((seconds - OFFSET_BETWEEN_1900_TO_1970) * 1000) + ((fraction * 1000L) / 0x100000000L);
     }
 
@@ -295,8 +298,6 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
      * at the given offset in the buffer.
      */
     private void writeTimeStamp(byte[] buffer, int offset, long time) {
-
-
         long seconds = time / 1000L;
         long milliseconds = time - seconds * 1000L;
         seconds += OFFSET_BETWEEN_1900_TO_1970;
@@ -307,7 +308,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         buffer[offset++] = (byte) (seconds >> 8);
         buffer[offset++] = (byte) (seconds >> 0);
 
-        long fraction = milliseconds * 0x100000000L / 1000L;
+        final long fraction = milliseconds * 0x100000000L / 1000L;
         // write fraction in big endian format
         buffer[offset++] = (byte) (fraction >> 24);
         buffer[offset++] = (byte) (fraction >> 16);
@@ -324,24 +325,24 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
 
     @Override
     public Date getUTCTime() {
-        Date mNtpDate = null;
+        Date ntpDate = null;
         DateFormat date_format = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
         try {
             if (mNtpTime == 0L) {
                 date_format = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
-                Date UTCdate = new Date(mNtpTime);
-                date_format.format(UTCdate);
-                Log.i("DATE_FORMAT", "" + date_format.format(UTCdate));
+                final Date utcDate = new Date(mNtpTime);
+                date_format.format(utcDate);
+                Log.i("DATE_FORMAT", "" + date_format.format(utcDate));
                 refreshTime();
-                mNtpDate = date_format.parse(getCurrentTime());
+                ntpDate = date_format.parse(getCurrentTime());
             } else {
-                mNtpDate = date_format.parse(getCurrentTime());
+                ntpDate = date_format.parse(getCurrentTime());
             }
         } catch (Exception e) {
             Log.i("Error", "" + e);
         }
 
-        return mNtpDate;
+        return ntpDate;
     }
 
     @Override

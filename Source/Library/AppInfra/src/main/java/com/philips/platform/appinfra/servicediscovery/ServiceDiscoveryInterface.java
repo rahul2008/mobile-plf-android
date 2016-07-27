@@ -32,10 +32,10 @@ public interface ServiceDiscoveryInterface {
      * onSuccess returns the Error response type
      */
     interface OnErrorListener {
-        enum ERRORVALUES {NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR, INVALID_RESPONSE}
-
-        ;
-
+        enum ERRORVALUES {
+            NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR,
+            INVALID_RESPONSE
+        }
         void onError(ERRORVALUES error, String message);
     }
 
@@ -46,9 +46,6 @@ public interface ServiceDiscoveryInterface {
      */
     interface OnGetHomeCountryListener extends OnErrorListener {
         enum SOURCE {STOREDPREFERENCE, SIMCARD, GEOIP}
-
-        ;
-
         void onSuccess(String countryCode, SOURCE source);
     }
 
