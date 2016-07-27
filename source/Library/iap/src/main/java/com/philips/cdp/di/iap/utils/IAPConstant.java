@@ -61,6 +61,7 @@ public class IAPConstant {
     public static final String ORDER_COMPLETED = "completed";
     public static final String ORDER_PROCESSING = "processing";
     public static final String ORDER_DETAIL = "ORDER_DETAIL";
+    public static final String SET_DELIVERY_MODE = "DELIVERY_MODE";
 
     public interface IAPLandingViews {
         int IAP_PRODUCT_CATALOG_VIEW = 0;
