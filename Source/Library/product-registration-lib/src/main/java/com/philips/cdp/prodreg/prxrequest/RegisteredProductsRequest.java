@@ -25,7 +25,7 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
     private String mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
-    private String ACCESS_TOKEN_TAG = "x-accessToken";
+
 
     public String getAccessToken() {
         return accessToken;
@@ -59,7 +59,11 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public String getRequestUrl() {
-        return generateUrl();
+        Uri builtUri = Uri.parse(getServerInfo())
+                .buildUpon()
+                .build();
+        ProdRegLogger.d(getClass() + "", builtUri.toString());
+        return builtUri.toString();
     }
 
     @Override
@@ -69,6 +73,7 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public Map<String, String> getHeaders() {
+        String ACCESS_TOKEN_TAG = "x-accessToken";
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         return headers;
@@ -77,14 +82,6 @@ public class RegisteredProductsRequest extends PrxRequest {
     @Override
     public Map<String, String> getParams() {
         return null;
-    }
-
-    private String generateUrl() {
-        Uri builtUri = Uri.parse(getServerInfo())
-                .buildUpon()
-                .build();
-        ProdRegLogger.d(getClass() + "", builtUri.toString());
-        return builtUri.toString();
     }
 
     @Override

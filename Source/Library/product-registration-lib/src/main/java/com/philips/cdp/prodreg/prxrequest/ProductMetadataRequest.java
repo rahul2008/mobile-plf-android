@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
@@ -53,7 +52,22 @@ public class ProductMetadataRequest extends PrxRequest {
 
     @Override
     public String getRequestUrl() {
-        return generateUrl();
+        Uri builtUri = Uri.parse(getServerInfo())
+                .buildUpon()
+                .appendPath(getSector().name())
+                .appendPath(getLocaleMatchResult())
+                .appendPath(getCatalog().name())
+                .appendPath("products")
+                .appendPath(mCtn + ".metadata")
+                .build();
+        String url = builtUri.toString();
+        try {
+            url = java.net.URLDecoder.decode(url, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            ProdRegLogger.e(TAG, e.getMessage());
+        }
+        ProdRegLogger.d(getClass() + "URl :", builtUri.toString());
+        return url;
     }
 
     @Override
@@ -69,31 +83,6 @@ public class ProductMetadataRequest extends PrxRequest {
     @Override
     public Map<String, String> getParams() {
         return null;
-    }
-
-    private String generateUrl() {
-        Uri builtUri = Uri.parse(getServerInfo())
-                .buildUpon()
-                .appendPath(getSector().name())
-                .appendPath(getLocaleMatchResult())
-                .appendPath(getCatalog().name())
-                .appendPath("products")
-                .appendPath(mCtn + ".metadata")
-                .build();
-        ProdRegLogger.d(getClass() + "URl :", builtUri.toString());
-        return getDecodedUrl(builtUri);
-    }
-
-    @NonNull
-    private String getDecodedUrl(final Uri builtUri) {
-        String url = builtUri.toString();
-        try {
-            url = java.net.URLDecoder.decode(url, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            ProdRegLogger.e(TAG, e.getMessage());
-        }
-        ProdRegLogger.d(getClass() + "", url);
-        return url;
     }
 
     public void setCtn(final String mCtn) {

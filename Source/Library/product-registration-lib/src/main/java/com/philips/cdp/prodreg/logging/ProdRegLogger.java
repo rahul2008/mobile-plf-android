@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings("deprecation")
 public class ProdRegLogger {
 
     private final static LoggingInterface mAppInfraLogger = AppInfraSingleton.getInstance() != null ? AppInfraSingleton.getInstance().getLogging() : null;

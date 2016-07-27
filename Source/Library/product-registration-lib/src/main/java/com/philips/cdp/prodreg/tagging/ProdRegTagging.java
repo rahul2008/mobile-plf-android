@@ -19,6 +19,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+
 public class ProdRegTagging {
 
     private static ProdRegTagging prodRegTagging;
@@ -27,6 +28,7 @@ public class ProdRegTagging {
     private ProdRegTagging() {
     }
 
+    @SuppressWarnings("deprecation")
     public static ProdRegTagging getInstance() {
         if (prodRegTagging == null) {
             prodRegTagging = new ProdRegTagging();
