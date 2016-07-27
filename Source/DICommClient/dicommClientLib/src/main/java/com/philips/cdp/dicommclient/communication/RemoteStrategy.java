@@ -29,7 +29,7 @@ private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 	@Override
 	public void getProperties(String portName, int productId,
 			NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler);
+		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler);
 		mRequestQueue.addRequest(request);
 	}
 
@@ -37,7 +37,7 @@ private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 	public void putProperties(Map<String, Object> dataMap, String portName,
 			int productId, NetworkNode networkNode,
 			ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler);
+		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler);
 		mRequestQueue.addRequest(request);
 	}
 
@@ -45,27 +45,27 @@ private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 	public void addProperties(Map<String, Object> dataMap, String portName,
 			int productId, NetworkNode networkNode,
 			ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler);
+		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler);
 		mRequestQueue.addRequest(request);
 	}
 
 	@Override
 	public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler);
+		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler);
 		mRequestQueue.addRequest(request);
 	}
 
 	@Override
 	public void subscribe(String portName, int productId,int subscriptionTtl,
 			NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler);
+		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler);
 		mRequestQueue.addRequest(request);
 	}
 
 	@Override
 	public void unsubscribe(String portName, int productId,
 			NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler);
+		RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler);
 		mRequestQueue.addRequest(request);
 	}
 

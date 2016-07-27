@@ -25,9 +25,7 @@ public class Response {
 		}
 	}
 	
-	//TODO: DICOMM Refactor, Remove this after request queue is added
 	public String getResponseMessage(){
 		return mResponse;
 	}
-
 }

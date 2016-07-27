@@ -38,10 +38,10 @@ public class LocalRequest extends Request {
     private final LocalRequestType mRequestType;
     private final DISecurity mDISecurity;
 
-    public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType, Map<String, Object> dataMap,
+    public LocalRequest(String applianceIpAddress, int protocolVersion, String portName, int productId, LocalRequestType requestType, Map<String, Object> dataMap,
                         ResponseHandler responseHandler, DISecurity diSecurity) {
-        super(networkNode, dataMap, responseHandler);
-        mUrl = createPortUrl(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId);
+        super(dataMap, responseHandler);
+        mUrl = createPortUrl(applianceIpAddress, protocolVersion, portName, productId);
         mRequestType = requestType;
         mDISecurity = diSecurity;
     }
@@ -50,14 +50,14 @@ public class LocalRequest extends Request {
         return String.format(BASEURL_PORTS, ipAddress, dicommProtocolVersion, productId, portName);
     }
 
-    private String createDataToSend(NetworkNode networkNode, Map<String, Object> dataMap) {
+    private String createDataToSend(Map<String, Object> dataMap) {
         if (dataMap == null || dataMap.size() <= 0) return null;
 
         String data = Request.convertKeyValuesToJson(dataMap);
         DICommLog.i(DICommLog.LOCALREQUEST, "Data to send: " + data);
 
         if (mDISecurity != null) {
-            return mDISecurity.encryptData(data, networkNode);
+            return mDISecurity.encryptData(data);
         }
         DICommLog.i(DICommLog.LOCALREQUEST, "Not encrypting data");
         return data;
@@ -147,7 +147,7 @@ public class LocalRequest extends Request {
 
         if (mDISecurity != null) {
             DICommLog.e(DICommLog.LOCALREQUEST, "Request not properly encrypted - notifying listener");
-            mDISecurity.notifyEncryptionFailedListener(mNetworkNode);
+            mDISecurity.notifyEncryptionFailedListener();
         }
 
         return new Response(errorMessage, Error.BADREQUEST, mResponseHandler);
@@ -155,13 +155,13 @@ public class LocalRequest extends Request {
 
     private String decryptData(String cypher) {
         if (mDISecurity != null) {
-            return mDISecurity.decryptData(cypher, mNetworkNode);
+            return mDISecurity.decryptData(cypher);
         }
         return cypher;
     }
 
     private OutputStreamWriter appendDataToRequestIfAvailable(HttpURLConnection conn) throws IOException {
-        String data = createDataToSend(mNetworkNode, mDataMap);
+        String data = createDataToSend(mDataMap);
         if (data == null) return null;
 
         OutputStreamWriter out;

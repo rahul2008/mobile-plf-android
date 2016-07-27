@@ -108,7 +108,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     @Test
     public void testUDPEncryptedAPEvent() {
         String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-        when(mDISecurity.decryptData(data, mNetworkNode)).thenReturn("");
+        when(mDISecurity.decryptData(data)).thenReturn("");
 
         mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
 
@@ -118,7 +118,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     @Test
     public void testUDPEncryptedFWEvent() {
         String data = VALID_ENCRYPTED_LOCALFWEVENT;
-        when(mDISecurity.decryptData(data, mNetworkNode)).thenReturn("");
+        when(mDISecurity.decryptData(data)).thenReturn("");
         mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
 
         //verify(mSubscriptionEventListener).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALFWEVENT);

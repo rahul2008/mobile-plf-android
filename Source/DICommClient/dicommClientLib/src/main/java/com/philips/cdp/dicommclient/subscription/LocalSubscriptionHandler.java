@@ -67,7 +67,7 @@ public class LocalSubscriptionHandler extends SubscriptionHandler implements Udp
 
 	private String decryptData(String cypher) {
         if (mDISecurity != null) {
-            return mDISecurity.decryptData(cypher, mNetworkNode);
+            return mDISecurity.decryptData(cypher);
         }
         return cypher;
     }

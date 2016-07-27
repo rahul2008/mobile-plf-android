@@ -22,8 +22,8 @@ public class ExchangeKeyRequest extends LocalRequest {
 
     private String mRandomValue;
 
-    public ExchangeKeyRequest(NetworkNode networkNode, ResponseHandler responseHandler) {
-        super(networkNode, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
+    public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, ResponseHandler responseHandler) {
+        super(applianceIpAddress, protocolVersion, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
         String sdiffie = EncryptionUtil.generateDiffieKey(mRandomValue);
@@ -47,13 +47,9 @@ public class ExchangeKeyRequest extends LocalRequest {
             String key = EncryptionUtil.extractEncryptionKey(shellman, skeyEnc, mRandomValue);
             DICommLog.i(DICommLog.SECURITY, "decryted key= " + key);
 
-            mNetworkNode.setEncryptionKey(key);
-
             return new Response(key, null, mResponseHandler);
-        } catch (JSONException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            DICommLog.e(DICommLog.SECURITY, "Exception during key exchange");
         }
         return new Response(null, Error.REQUESTFAILED, mResponseHandler);
     }

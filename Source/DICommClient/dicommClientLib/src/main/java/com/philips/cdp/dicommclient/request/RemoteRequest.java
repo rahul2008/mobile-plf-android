@@ -28,6 +28,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private static final String DICOMM_REQUEST = "DICOMM-REQUEST";
     private static int REQUEST_PRIORITY = 20;
     private static int REQUEST_TTL = 5;
+    private final String cppId;
 
     private String mEventData;
     private String mResponse;
@@ -39,8 +40,9 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private CppController mCppController;
     private final RemoteRequestType mRequestType;
 
-    public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler) {
-        super(networkNode, dataMap, responseHandler);
+    public RemoteRequest(String cppId, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler) {
+        super(dataMap, responseHandler);
+        this.cppId = cppId;
         mCppController = CppController.getInstance();
         mRequestType = requestType;
         mPortName = portName;
@@ -63,7 +65,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 
         mEventData = createDataToSend(mPortName, mProductId, mDataMap);
         mMessageId = mCppController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
-                "", REQUEST_PRIORITY, REQUEST_TTL, mNetworkNode.getCppId());
+                "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
         try {
             long startTime = System.currentTimeMillis();
             synchronized (this) {
