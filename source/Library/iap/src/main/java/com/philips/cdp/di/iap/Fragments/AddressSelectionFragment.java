@@ -75,6 +75,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mAddressController = new AddressController(mContext, this);
         mJanRainEmail = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
         registerEvents();
+
+        Bundle bundle = getArguments();
+        mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
         return view;
     }
 
@@ -171,8 +174,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddressController.setDefaultAddress(selectedAddress);
-            Bundle bundle = getArguments();
-            mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
             if(mDeliveryMode == null)
                 mAddressController.getDeliveryModes();
             else
