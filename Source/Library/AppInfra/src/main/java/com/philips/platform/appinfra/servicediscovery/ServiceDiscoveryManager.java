@@ -34,7 +34,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     String URL = null;
     OnRefreshListener mOnRefreshListener;
     String mCountry;
-    ;
     SharedPreferences pref;
 
 
@@ -310,26 +309,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
     private void filterDataForURLbyLang(ArrayList<String> serviceIds, OnGetServiceUrlMapListener mOnGetServiceUrlMapListener) {
-        Map<String, String> responseMap = new HashMap<String, String>();
+        String dataByUrl = "urlbylanguage";
         if (mOnGetServiceUrlMapListener != null && serviceIds != null) {
             int configSize = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().size();
-            for (int config = 0; config < configSize; config++) {
-                Map<String, String> urls = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(config).getUrls();
-                for (int i = 0; i < serviceIds.size(); i++) {
-                    for (String key : urls.keySet()) {
-                        if (key.equalsIgnoreCase(serviceIds.get(i).trim())) {
-                            String serviceUrlval = urls.get(key);
-                            Log.d("SERVICE DISCOVERY", serviceUrlval);
-                            responseMap.put(key, serviceUrlval);
-                        }
-                    }
-                }
-            }
-            if (responseMap.size() == 0) {
-                mOnGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-            } else {
-                mOnGetServiceUrlMapListener.onSuccess(responseMap);
-            }
+            getUrlsMapper(configSize, dataByUrl, serviceIds, mOnGetServiceUrlMapListener);
         }
     }
 
@@ -353,15 +336,26 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
     private void filterDataForURLbyCountry(ArrayList<String> serviceIds, OnGetServiceUrlMapListener mOnGetServiceUrlMapListener) {
-        Map<String, String> responseMap = new HashMap<String, String>();
+        String dataByUrl = "urlbycountry";
         if (mOnGetServiceUrlMapListener != null && serviceIds != null) {
             int configSize = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();
-            for (int config = 0; config < configSize; config++) {
-                Map<String, String> urls = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(config).getUrls();
+            getUrlsMapper(configSize, dataByUrl, serviceIds, mOnGetServiceUrlMapListener);
+        }
+    }
 
-                for (int i = 0; i < serviceIds.size(); i++) {
+    private void getUrlsMapper(int configSize, String urlByData, ArrayList<String> serviceIds, OnGetServiceUrlMapListener mOnGetServiceUrlMapListener) {
+        Map<String, String> urls = null;
+        HashMap<String, String> responseMap = new HashMap<String, String>();
+        for (int config = 0; config < configSize; config++) {
+            if (urlByData.equalsIgnoreCase("urlbycountry")) {
+                urls = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(config).getUrls();
+            } else if (urlByData.equalsIgnoreCase("urlbylanguage")) {
+                urls = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(config).getUrls();
+            }
+
+            for (int i = 0; i < serviceIds.size(); i++) {
+                if (urls != null) {
                     for (String key : urls.keySet()) {
-
                         if (key.equalsIgnoreCase(serviceIds.get(i).trim())) {
                             String serviceUrlval = urls.get(key);
                             Log.d("SERVICE DISCOVERY", serviceUrlval);
@@ -370,11 +364,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                     }
                 }
             }
-            if (responseMap.size() == 0) {
-                mOnGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-            } else {
-                mOnGetServiceUrlMapListener.onSuccess(responseMap);
-            }
+        }
+        if (responseMap.size() == 0) {
+            mOnGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+        } else {
+            mOnGetServiceUrlMapListener.onSuccess(responseMap);
         }
     }
 
