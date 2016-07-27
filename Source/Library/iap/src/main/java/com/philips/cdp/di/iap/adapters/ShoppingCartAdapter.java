@@ -4,10 +4,12 @@
  */
 package com.philips.cdp.di.iap.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,8 +27,12 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -62,6 +69,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Drawable mInfoDrawable;
     private boolean mIsFreeDelivery;
 
+    private Drawable mEditDrawable;
+
+    private DeliveryModes mDeliveryMode;
+
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
     }
@@ -82,6 +93,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
         mTrashDrawable = VectorDrawable.create(mContext, R.drawable.iap_trash_bin);
         mInfoDrawable = VectorDrawable.create(mContext, R.drawable.iap_info);
+        mEditDrawable = VectorDrawable.create(mContext, R.drawable.pencil_01);
     }
 
     private void setCountArrow(final Context context) {
@@ -246,6 +258,40 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     } else {
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
+
+                    final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+                    shoppingCartFooter.mEditIcon.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
+                    shoppingCartFooter.mEditIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                            View convertView = (LayoutInflater.from(mContext).inflate(R.layout.iap_delivery_dialog, null));
+                            alertDialog.setView(convertView);
+                            ListView lv = (ListView) convertView.findViewById(R.id.lv);
+                            DeliveryModeAdapter adapter = new DeliveryModeAdapter(mContext,R.layout.iap_delivery_mode_spinner_item, deliveryModes);
+                            lv.setClickable(true);
+                            lv.setAdapter(adapter);
+
+                            final Dialog dialog = alertDialog.create();
+                            dialog.show();
+
+                            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    dialog.dismiss();
+                                    if (!Utility.isProgressDialogShowing())
+                                        Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+                                    AddressController addressController = new AddressController(mContext, (AddressController.AddressListener)mOutOfStock);
+                                    addressController.setDeliveryMode(deliveryModes.get(position).getCode());
+                                    mDeliveryMode = deliveryModes.get(position);
+                                }
+                            });
+
+
+
+                        }
+                    });
                 } else {
                     mIsFreeDelivery = true;
                     //shoppingCartFooter.mDeliveryPrice.setText("0.0");
@@ -305,6 +351,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return mData.size() + 1;
         }
     }
+
+    public DeliveryModes getDeliveryMode() {
+        return mDeliveryMode;
+    }
 /*
     @Override
     public long getItemId(final int position) {
@@ -344,6 +394,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryVia;
         TextView mVatValueUK;
         TextView mVAT;
+        ImageView mEditIcon;
 
         public FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -356,6 +407,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryVia = (TextView) itemView.findViewById(R.id.iap_tv_delivery_via_ups);
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
             mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
+            mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
         }
     }
 

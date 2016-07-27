@@ -4,11 +4,44 @@
  */
 package com.philips.cdp.di.iap.response.addresses;
 
-public class DeliveryModes {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DeliveryModes implements Parcelable {
     private String code;
     private DeliveryCost deliveryCost;
     private String description;
     private String name;
+
+    protected DeliveryModes(Parcel in) {
+        code = in.readString();
+        description = in.readString();
+        name = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(code);
+        dest.writeString(description);
+        dest.writeString(name);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<DeliveryModes> CREATOR = new Creator<DeliveryModes>() {
+        @Override
+        public DeliveryModes createFromParcel(Parcel in) {
+            return new DeliveryModes(in);
+        }
+
+        @Override
+        public DeliveryModes[] newArray(int size) {
+            return new DeliveryModes[size];
+        }
+    };
 
     public void setCode(String code) {
         this.code = code;

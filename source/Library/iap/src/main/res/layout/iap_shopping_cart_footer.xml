@@ -21,27 +21,43 @@
         android:background="?attr/uikit_listDividerColor"
         android:visibility="gone" />
 
+    <RelativeLayout
+        android:id="@+id/delivery_mode_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_below="@+id/iap_redeem_bottom_divider">
 
-    <TextView
-        android:id="@+id/iap_tv_delivery_price"
-        style="@style/iap_delivery_price"
-        android:layout_below="@+id/iap_redeem_bottom_divider"
-        />
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="@dimen/iap_edit_icon_width"
+            android:layout_height="@dimen/iap_edit_icon_width"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/iap_tv_delivery_via_ups"
-        style="@style/iap_delivery_via"
-        android:layout_alignBaseline="@id/iap_tv_delivery_price"
-        android:layout_toLeftOf="@id/iap_tv_delivery_price"
-        android:includeFontPadding="false" />
 
+        <TextView
+            android:id="@+id/iap_tv_delivery_price"
+            style="@style/iap_delivery_price"
+            android:layout_toLeftOf="@id/edit_icon"
+            />
+
+        <TextView
+            android:id="@+id/iap_tv_delivery_via_ups"
+            style="@style/iap_delivery_via"
+            android:layout_alignBaseline="@id/iap_tv_delivery_price"
+            android:layout_toLeftOf="@id/iap_tv_delivery_price"
+            android:includeFontPadding="false" />
+
+    </RelativeLayout>
 
 
     <View
         android:id="@+id/iap_divider_bottom_delivery"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:layout_below="@id/iap_tv_delivery_via_ups"
+        android:layout_below="@id/delivery_mode_layout"
         android:background="?attr/uikit_listDividerColor" />
 
     <TextView

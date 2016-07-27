@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -61,6 +62,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
+
+    private DeliveryModes mDeliveryMode;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -168,7 +171,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddressController.setDefaultAddress(selectedAddress);
-            mAddressController.getDeliveryModes();
+            Bundle bundle = getArguments();
+            mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
+            if(mDeliveryMode == null)
+                mAddressController.getDeliveryModes();
+            else
+                checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             Utility.dismissProgressDialog();
@@ -256,6 +264,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
+            if(mDeliveryMode != null)
+                args.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
                     ShippingAddressFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
@@ -318,6 +328,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
+        if(mDeliveryMode != null)
+            extras.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
         addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE),
                 ShippingAddressFragment.TAG);
     }
