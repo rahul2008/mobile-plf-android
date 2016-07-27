@@ -1,8 +1,10 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -76,9 +79,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (bundle.containsKey(IAPConstant.BILLING_ADDRESS_FIELDS)) {
             mBillingAddress = (AddressFields) bundle.getSerializable(IAPConstant.BILLING_ADDRESS_FIELDS);
         }
-        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)&&bundle.containsKey(IAPConstant.SECURITY_CODE)) {
+        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
-            mSecurityCode = bundle.getString(IAPConstant.SECURITY_CODE);
         }
 
         RecyclerView mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
@@ -141,19 +143,23 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onClick(final View v) {
         if (isNetworkNotConnected()) return;
         if (v == mBtnPayNow) {
-            placeOrderElseMakePayment();
+            if (mPaymentMethod != null)
+                showCvvDialog(getFragmentManager());
+            else {
+                placeOrderElseMakePayment(null);
+            }
         } else if (v == mBtnCancel) {
             moveToShoppingCart();
         }
     }
 
-    private void placeOrderElseMakePayment() {
+    private void placeOrderElseMakePayment(String pSecurityCode) {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
                 IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             if (!isOrderPlaced() || paymentMethodAvailable()) {
-                mPaymentController.placeOrder(mSecurityCode);
+                mPaymentController.placeOrder(pSecurityCode);
             } else {
                 mPaymentController.makPayment(orderID);
             }
@@ -302,6 +308,24 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             Utility.dismissProgressDialog();
+        }
+    }
+
+    private void showCvvDialog(FragmentManager pFragmentManager) {
+        CvvCvcDialogFragment cvvCvcDialogFragment = new CvvCvcDialogFragment();
+        cvvCvcDialogFragment.setTargetFragment(this, CvvCvcDialogFragment.REQUEST_CODE);
+        cvvCvcDialogFragment.show(pFragmentManager, "EditErrorDialog");
+        cvvCvcDialogFragment.setShowsDialog(true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CvvCvcDialogFragment.REQUEST_CODE) {
+            String editTextString = data.getStringExtra(
+                    CvvCvcDialogFragment.CVV_KEY_BUNDLE);
+            mSecurityCode = editTextString;
+            IAPLog.d(IAPLog.LOG, "CVV =" + editTextString);
+            placeOrderElseMakePayment(mSecurityCode);
         }
     }
 }

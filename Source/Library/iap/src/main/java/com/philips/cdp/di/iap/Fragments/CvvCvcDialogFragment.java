@@ -16,9 +16,9 @@ import com.philips.cdp.di.iap.R;
 /**
  * Created by Apple on 22/07/16.
  */
-public class EditTextDialogFragment extends DialogFragment  {
+public class CvvCvcDialogFragment extends DialogFragment  {
 
-    public static final String EDIT_TEXT_BUNDLE_KEY = "EDIT_TEXT_BUNDLE_KEY"; // can be moved to IAPConstant where all the bundle key has maintained
+    public static final String CVV_KEY_BUNDLE = "CVV_KEY_BUNDLE"; // can be moved to IAPConstant where all the bundle key has maintained
     public static final int REQUEST_CODE = 0 ;
     String cvvValue; //Can be changed to mCVV
     EditText mEditText;
@@ -63,7 +63,7 @@ public class EditTextDialogFragment extends DialogFragment  {
 
     private void sendResult(int REQUEST_CODE) {
         Intent intent = new Intent();
-        intent.putExtra(EDIT_TEXT_BUNDLE_KEY, cvvValue); // key name can be more specific like CVV_KEY
+        intent.putExtra(CVV_KEY_BUNDLE, cvvValue);
         getTargetFragment().onActivityResult(
                 getTargetRequestCode(), REQUEST_CODE, intent);
     }

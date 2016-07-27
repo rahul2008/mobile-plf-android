@@ -25,11 +25,11 @@ import org.json.JSONObject;
  */
 public class NetworkController {
     protected HurlStack mIapHurlStack;
-    private RequestQueue hybrisVolleyQueue;
+    protected RequestQueue hybrisVolleyQueue;
     protected Context context;
-    private StoreSpec store;
-    private OAuthHandler oAuthHandler;
-    private NetworkEssentials mNetworkEssentials;
+    protected StoreSpec store;
+    protected OAuthHandler oAuthHandler;
+    protected NetworkEssentials mNetworkEssentials;
 
     public NetworkController(Context context) {
         this(context, null);

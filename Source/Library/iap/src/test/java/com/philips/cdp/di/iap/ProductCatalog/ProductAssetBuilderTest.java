@@ -39,7 +39,7 @@ public class ProductAssetBuilderTest implements
     @Mock
     Context mContext;
     MockProductAssetBuilder builder;
-    private MockNetworkController mNetworkController;
+     MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
 
     @Before

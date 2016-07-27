@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
@@ -34,6 +35,7 @@ public class PlaceOrderRequest extends AbstractModel {
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
         Map<String, String> params = new HashMap<>();
         params.put(ModelConstants.CART_ID, cartNumber);
+        params.put(ModelConstants.SECURITY_CODE, this.params.get(ModelConstants.SECURITY_CODE));
         return params;
     }
 

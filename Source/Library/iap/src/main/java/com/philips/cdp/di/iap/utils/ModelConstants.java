@@ -41,5 +41,5 @@ public class ModelConstants {
 
     public static final String CURRENT_PAGE = "currentPage";
     public static final String PAGE_SIZE = "PAGE_SIZE";
-    public static final String SECURITY_CODE = "SECURITY_CODE";
+    public static final String SECURITY_CODE = "securityCode";
 }

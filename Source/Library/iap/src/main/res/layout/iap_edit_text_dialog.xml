@@ -25,12 +25,13 @@
 
         <EditText
             android:id="@+id/iap_edit_box"
-            style="@style/iapCentralesansBookFont"
+            style="@style/PhilipsTextInputLayoutStyleEnabled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/uikit_modal_alert_text_right_margin"
             android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
             android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+            android:layout_weight="0.5"
             android:hint="@string/iap_cvv_cvc"
             android:textColor="?attr/uikit_baseColor"
             android:inputType="numberPassword"
