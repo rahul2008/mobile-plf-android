@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
-import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
@@ -29,6 +28,7 @@ public class ShoppingCartData {
     private String mFormatedPrice;
     private String mValuePrice;
     private String mVatValue;
+    private String mVatActualValue;
 
     public boolean isVatInclusive() {
         return mVatInclusive;
@@ -208,5 +208,13 @@ public class ShoppingCartData {
 
     public void setVatValue(String mVatValue) {
         this.mVatValue = mVatValue;
+    }
+
+    public String getVatActualValue() {
+        return mVatActualValue;
+    }
+
+    public void setVatActualValue(String mVatActualValue) {
+        this.mVatActualValue = mVatActualValue;
     }
 }

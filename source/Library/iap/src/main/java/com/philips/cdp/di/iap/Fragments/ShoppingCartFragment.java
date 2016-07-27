@@ -25,6 +25,7 @@ import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -104,7 +105,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        updateCartDetails(mShoppingCartAPI);
+        mAddressController.getUser(); // GetDefaultAddress
+//      updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -214,7 +216,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-        //NOP
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            updateCartDetails(mShoppingCartAPI);
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        }
     }
 
     @Override
@@ -236,7 +243,16 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onGetUser(Message msg) {
-
+        if (msg.obj instanceof IAPNetworkError) {
+            updateCartDetails(mShoppingCartAPI);
+        } else if (msg.obj instanceof GetUser) {
+            GetUser user = (GetUser) msg.obj;
+            if (user.getDefaultAddress() != null) {
+                mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
+            } else {
+                updateCartDetails(mShoppingCartAPI);
+            }
+        }
     }
 
     @Override

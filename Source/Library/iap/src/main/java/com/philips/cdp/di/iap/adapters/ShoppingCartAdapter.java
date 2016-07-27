@@ -219,7 +219,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 data = mData.get(0);
 
                 shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-                shoppingCartFooter.mVatValue.setText(data.getVatValue());
+
                 if (!data.isVatInclusive()) {
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatInclusiveValue.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
@@ -233,6 +233,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
                     shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
                 }
+
+                if (data.getVatActualValue().equalsIgnoreCase("0")) {
+                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
+                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
+                } else {
+                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVatValue.setText(data.getVatValue());
+                }
+
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
                 if (null != data.getDeliveryMode()) {
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();

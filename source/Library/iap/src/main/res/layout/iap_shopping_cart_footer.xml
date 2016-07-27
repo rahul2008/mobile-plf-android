@@ -47,6 +47,7 @@
     <TextView
         android:id="@+id/iap_tv_vat"
         style="@style/iap_vat"
+        android:visibility="gone"
         android:layout_below="@id/iap_divider_bottom_delivery"
         android:text="@string/iap_vat" />
 
@@ -64,6 +65,7 @@
     <TextView
         android:id="@+id/iap_tv_vat_value"
         style="@style/iap_vat_value"
+        android:visibility="gone"
         android:layout_alignBaseline="@id/iap_tv_vat" />
 
     <TextView
