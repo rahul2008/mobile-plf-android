@@ -66,6 +66,6 @@ class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
 
     @Override
     public String getDevicePortUrl() {
-        return "https://www.bat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
+        return "https://www.uat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
     }
 }
