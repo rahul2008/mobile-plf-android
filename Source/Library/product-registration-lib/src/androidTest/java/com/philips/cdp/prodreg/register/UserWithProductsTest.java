@@ -2,10 +2,10 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class UserWithProductsTest extends MockitoTestCase {
+public class UserWithProductsTest extends InstrumentationTestCase {
 
     UserWithProducts userWithProducts;
     private Context context;

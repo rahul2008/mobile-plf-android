@@ -2,8 +2,8 @@ package com.philips.cdp.prodreg.register;
 
 import android.app.Activity;
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class ProdRegHelperTest extends MockitoTestCase {
+public class ProdRegHelperTest extends InstrumentationTestCase {
 
     private ProdRegHelper prodRegHelper;
     private Context context;

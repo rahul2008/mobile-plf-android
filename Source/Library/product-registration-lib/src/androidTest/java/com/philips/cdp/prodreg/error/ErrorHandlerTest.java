@@ -1,8 +1,8 @@
 package com.philips.cdp.prodreg.error;
 
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class ErrorHandlerTest extends MockitoTestCase {
+public class ErrorHandlerTest extends InstrumentationTestCase {
 
     ErrorHandler errorHandler;
     private UserWithProducts userWithProductsMock;

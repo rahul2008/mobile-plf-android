@@ -1,12 +1,12 @@
 package com.philips.cdp.prodreg.error;
 
-import com.philips.cdp.prodreg.MockitoTestCase;
+import android.test.InstrumentationTestCase;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegErrorMapTest extends MockitoTestCase {
+public class ProdRegErrorMapTest extends InstrumentationTestCase {
 
     ProdRegErrorMap prodRegErrorMap;
 

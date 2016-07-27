@@ -1,8 +1,9 @@
 package com.philips.cdp.prodreg.register;
 
+import android.test.InstrumentationTestCase;
+
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.when;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class RegisteredProductTest extends MockitoTestCase {
+public class RegisteredProductTest extends InstrumentationTestCase {
 
     RegisteredProduct registeredProduct;
     String mCTN;

@@ -3,8 +3,8 @@ package com.philips.cdp.prodreg.register;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegProcessControllerTest extends MockitoTestCase {
+public class ProdRegProcessControllerTest extends InstrumentationTestCase {
 
     private ProdRegProcessController prodRegProcessController;
     private ProdRegProcessController.ProcessControllerCallBacks processControllerCallBacksMock;
