@@ -77,7 +77,7 @@ public class ProdRegRegistrationController {
 
     public void init(final Bundle bundle) {
         if (bundle != null) {
-            registeredProducts = (ArrayList<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            registeredProducts = bundle.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             registeredProduct = (RegisteredProduct) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);

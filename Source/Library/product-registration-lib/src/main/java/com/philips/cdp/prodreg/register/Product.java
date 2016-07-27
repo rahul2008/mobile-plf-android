@@ -25,9 +25,9 @@ import java.io.Serializable;
 */
 public class Product implements Serializable {
 
-    private String productModelNumber;
-    private String productSerialNumber;
-    private String purchaseDate;
+    protected String productModelNumber;
+    protected String productSerialNumber;
+    protected String purchaseDate;
     private Sector sector;
     private Catalog catalog;
     private String locale;

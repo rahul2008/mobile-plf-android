@@ -34,6 +34,7 @@ public class ProdRegTagging {
             prodRegTagging = new ProdRegTagging();
             aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
             aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+            aiAppTaggingInterface.createInstanceForComponent("PRText", "PRValue");
         }
         return prodRegTagging;
     }

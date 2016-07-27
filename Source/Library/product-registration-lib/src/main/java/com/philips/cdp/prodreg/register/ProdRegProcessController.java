@@ -55,8 +55,8 @@ public class ProdRegProcessController {
 
     public void process(final Bundle arguments) {
         if (arguments != null) {
-            registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            dependencyBundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            registeredProducts = arguments.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            dependencyBundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             if (registeredProducts != null) {
                 currentProduct = registeredProducts.get(0);
                 if (getUser().isUserSignIn()) {
@@ -112,7 +112,7 @@ public class ProdRegProcessController {
                     processControllerCallBacks.dismissLoadingDialog();
                     final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
+                    bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
                     connectionFragment.setArguments(bundle);
                     processControllerCallBacks.showFragment(connectionFragment);
                 }
