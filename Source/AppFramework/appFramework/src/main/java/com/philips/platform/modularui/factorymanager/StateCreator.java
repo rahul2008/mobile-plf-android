@@ -23,6 +23,7 @@ public class StateCreator {
     private StateCreator(){
     }
 
+    // TODO: Do we require singleton?
     private static StateCreator _instance = new StateCreator();
 
     public static StateCreator getInstance(){
@@ -32,6 +33,7 @@ public class StateCreator {
         return  _instance;
     }
 
+    // TODO: remove switch, look for alternative
     public UIState getState(int stateID, Context context){
         appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
         if(!appFrameworkApplication.getFlowManager().getStateMap().containsKey(stateID)){

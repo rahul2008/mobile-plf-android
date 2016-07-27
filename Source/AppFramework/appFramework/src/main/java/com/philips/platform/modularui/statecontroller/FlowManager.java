@@ -10,8 +10,9 @@ import java.util.Map;
 /**
  * Created by 310240027 on 7/6/2016.
  */
+//TODO: UIFlowManager rename
 public class FlowManager {
-
+    // TODO: Array of state objects
     Map<Integer, UIState> stateMap;
     UIState currentState;
 
@@ -31,19 +32,25 @@ public class FlowManager {
         return stateMap;
     }
 
+    // TODO: remove this
     public void setStateMap(Map<Integer, UIState> stateMap) {
         this.stateMap = stateMap;
     }
 
+    // TODO: remove this
     public void getNextState(){
 
     }
+
+    // TODO: Presenter should be represented as an interface
     public void navigateToState(@UIState.UIStateDef int stateID, Context context, UIBasePresenter uiBasePresenter) {
-            StateCreator.getInstance().getState(stateID,context).navigate(context);
+        // TODO: use local variable to hold state object created by state creator
             setCurrentState(StateCreator.getInstance().getState(stateID,context));
             StateCreator.getInstance().getState(stateID,context).setPresenter(uiBasePresenter);
+            StateCreator.getInstance().getState(stateID,context).navigate(context);
     }
 
+    // TODO: can it become private method?
     public void addToStateMap(UIState uiState) {
         stateMap.put(uiState.getStateID(), uiState);
     }

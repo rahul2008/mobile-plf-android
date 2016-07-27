@@ -29,6 +29,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UICoCoCons
             case 0: appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_FRAGMENT_STATE,context, this);
                 break;
             case 1: appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_SUPPORT_FRAGMENT_STATE,context, this);
+                // TODO: pass presenter interface as listener if required from respective state classes
                 uiCoCoConsumerCareImpl.registerForNextState(this);
                 break;
             case 2: appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_SETTINGS_FRAGMENT_STATE,context, this);

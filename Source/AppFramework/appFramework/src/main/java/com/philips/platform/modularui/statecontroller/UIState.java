@@ -15,7 +15,7 @@ abstract public class UIState {
     /**
      * Constants for each state
      */
-    @IntDef({UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
+    @IntDef({UI_SPLASH_STATE,UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
             UI_WELCOME_STATE, UI_REGISTRATION_STATE, UI_HOME_STATE,
             UI_HOME_FRAGMENT_STATE, UI_SETTINGS_FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE})
     @Retention(RetentionPolicy.SOURCE)
@@ -46,6 +46,7 @@ abstract public class UIState {
         return stateID;
     }
 
+    //TODO: remove this
     @UIState.UIStateDef
     public void setStateID(int stateID) {
         this.stateID = stateID;

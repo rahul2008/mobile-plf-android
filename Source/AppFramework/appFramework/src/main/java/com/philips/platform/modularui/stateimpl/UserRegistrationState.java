@@ -17,6 +17,7 @@ public class UserRegistrationState extends UIState {
 
     @Override
     public void navigate(Context context) {
+        // TODO: Launch UR as fragment from our activity
         context.startActivity(new Intent(context, UserRegistrationActivity.class));
     }
 }
