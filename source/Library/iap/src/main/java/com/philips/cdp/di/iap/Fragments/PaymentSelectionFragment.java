@@ -1,15 +1,16 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.PaymentMethodsAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -21,6 +22,7 @@ import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -35,6 +37,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     private PaymentMethodsAdapter mPaymentMethodsAdapter;
     private List<PaymentMethod> mPaymentMethodList;
     private PaymentController mPaymentController;
+    private String mSecurityCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,7 +110,8 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onEventReceived(String event) {
         if (event.equalsIgnoreCase(IAPConstant.USE_PAYMENT)) {
-            setPaymentDetail();
+            //setPaymentDetail();
+            showEditDialog(getFragmentManager());
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
@@ -138,7 +142,26 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
+            bundle.putString(IAPConstant.SECURITY_CODE, mSecurityCode);
             addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
+        }
+    }
+
+    private void showEditDialog(FragmentManager pFragmentManager) {
+        EditTextDialogFragment editNameDialog = new EditTextDialogFragment();
+        editNameDialog.setTargetFragment(this, EditTextDialogFragment.REQUEST_CODE);
+        editNameDialog.show(pFragmentManager, "EditErrorDialog");
+        editNameDialog.setShowsDialog(true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EditTextDialogFragment.REQUEST_CODE) {
+            String editTextString = data.getStringExtra(
+                    EditTextDialogFragment.EDIT_TEXT_BUNDLE_KEY);
+            mSecurityCode = editTextString;
+            IAPLog.d(IAPLog.LOG, "CVV =" + editTextString);
+            setPaymentDetail();
         }
     }
 }

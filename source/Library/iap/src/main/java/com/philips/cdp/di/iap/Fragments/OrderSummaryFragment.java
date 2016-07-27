@@ -42,6 +42,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
+    private String mSecurityCode;
     private Button mBtnPayNow;
     private Button mBtnCancel;
     private PaymentController mPaymentController;
@@ -75,8 +76,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (bundle.containsKey(IAPConstant.BILLING_ADDRESS_FIELDS)) {
             mBillingAddress = (AddressFields) bundle.getSerializable(IAPConstant.BILLING_ADDRESS_FIELDS);
         }
-        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
+        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)&&bundle.containsKey(IAPConstant.SECURITY_CODE)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
+            mSecurityCode = bundle.getString(IAPConstant.SECURITY_CODE);
         }
 
         RecyclerView mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
@@ -151,7 +153,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             if (!isOrderPlaced() || paymentMethodAvailable()) {
-                mPaymentController.placeOrder();
+                mPaymentController.placeOrder(mSecurityCode);
             } else {
                 mPaymentController.makPayment(orderID);
             }

@@ -178,6 +178,8 @@
     <string name="iap_no_product_available">No product found in your Store.</string>
     <string name="iap_shipped_to">Shipped To:</string>
     <string name="iap_delivery_method">Delivery Method</string>
+    <string name="iap_cvv_cvc">CVV/CVC</string>
+    <string name="iap_txt_cvv_cvc">Enter CVV/CVC</string>
 
 
 </resources>
