@@ -39,9 +39,9 @@ import java.util.Iterator;
 /**
  * Created by 310238655 on 6/2/2016.
  */
-public class RequestManager{
+public class RequestManager {
 
-//    RequestQueue mRequestQueue;
+    //    RequestQueue mRequestQueue;
     private static final String TAG = NetworkWrapper.class.getSimpleName();
     private Context mContext = null;
     private boolean isHttpsRequest = false;
@@ -57,7 +57,7 @@ public class RequestManager{
         this.mVolleyRequest = volleyQueue.getRequestQueue(this.mContext);
     }
 
-    public void execute(final String url, final ServiceDiscoveryInterface.OnRefreshListener listener){
+    public void execute(final String url, final ServiceDiscoveryInterface.OnRefreshListener listener) {
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -67,24 +67,25 @@ public class RequestManager{
                         try {
                             if (null == mServiceDiscovery) {
                                 mServiceDiscovery = new ServiceDiscovery();
-                            SharedPreferences pref = mContext.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
-                            mcountry = pref.getString(RequestManager.COUNTRY_NAME, null);
-                            if(mcountry == null){
-                                mcountry = response.getJSONObject("payload").getString("country");
-                                if(mcountry!= null){
-                                    SharedPreferences.Editor editor = mContext.getSharedPreferences(COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
-                                    editor.putString(COUNTRY_NAME, mcountry);
-                                    editor.commit();
-                                    Log.i("Responce", ""+mcountry);
+                                SharedPreferences pref = mContext.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+                                mcountry = pref.getString(RequestManager.COUNTRY_NAME, null);
+                                if (mcountry == null) {
+                                    mcountry = response.getJSONObject("payload").getString("country");
+                                    if (mcountry != null) {
+                                        SharedPreferences.Editor editor = mContext.getSharedPreferences(COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
+                                        editor.putString(COUNTRY_NAME, mcountry);
+                                        editor.commit();
+                                        Log.i("Responce", "" + mcountry);
+                                    }
                                 }
-                            }else{
-                                ////////////////start of parse///////////
+//                                else {
+                                    ////////////////start of parse///////////
                                     mServiceDiscovery.setCountry(response.getJSONObject("payload").optString("country"));
 
                                     // START setting match by country
                                     JSONObject payloadJSONObject = response.getJSONObject("payload");
                                     mServiceDiscovery.setSuccess(response.optBoolean("success"));
-                                    if(mServiceDiscovery.isSuccess()){
+                                    if (mServiceDiscovery.isSuccess()) {
                                         mServiceDiscovery.setError(null); // set (if any) previous error to null
                                     }
                                     JSONObject matchByCountryJSONObject = payloadJSONObject.getJSONObject("matchByCountry");
@@ -93,7 +94,7 @@ public class RequestManager{
                                     matchByCountry.setAvailable(matchByCountryJSONObject.optBoolean("available"));
 
                                     JSONArray resultsJSONArray = matchByCountryJSONObject.optJSONArray("results");
-                                    if(null==resultsJSONArray){
+                                    if (null == resultsJSONArray) {
                                         resultsJSONArray = new JSONArray();
                                         resultsJSONArray.put(matchByCountryJSONObject.optJSONObject("results"));
                                     }
@@ -132,14 +133,13 @@ public class RequestManager{
                                     // END setting match by country
 
 
-
                                     // START setting match by language
                                     JSONObject matchByLanguageJSONObject = payloadJSONObject.getJSONObject("matchByLanguage");
                                     MatchByCountryOrLanguage matchByLanguage = new MatchByCountryOrLanguage();
                                     matchByLanguage.setAvailable(matchByLanguageJSONObject.optBoolean("available"));
 
                                     JSONArray resultsLanguageJSONArray = matchByLanguageJSONObject.optJSONArray("results");
-                                    if(null==resultsLanguageJSONArray){
+                                    if (null == resultsLanguageJSONArray) {
                                         resultsLanguageJSONArray = new JSONArray();
                                         resultsLanguageJSONArray.put(matchByLanguageJSONObject.optJSONObject("results"));
                                     }
@@ -176,14 +176,14 @@ public class RequestManager{
                                     matchByLanguage.setConfigs(matchByLanguageConfigs);
                                     mServiceDiscovery.setMatchByLanguage(matchByLanguage);
 
-                                listener.onSuccess();
+                                    listener.onSuccess();
                                     // END setting match by language
-                                }
-                                if(!url.contains("country")) {
-                                    String newURL= url+"&country="+ mcountry;
-                                    execute(newURL, listener);
-                                    mServiceDiscovery = null;
-                                }
+//                                }
+//                                if (!url.contains("country")) {
+//                                    String newURL = url + "&country=" + mcountry;
+//                                    execute(newURL, listener);
+//                                    mServiceDiscovery = null;
+//                                }
                             }
                             ////////////////end of parse///////////
                         } catch (JSONException e) {
@@ -199,34 +199,34 @@ public class RequestManager{
                         if (error instanceof TimeoutError) {
                             volleyError.setMessage("TimeoutORNoConnection");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT;
-                            Log.i("TimeoutORNoConnection", ""+"TimeoutORNoConnection");
+                            Log.i("TimeoutORNoConnection", "" + "TimeoutORNoConnection");
                         } else if (error instanceof NoConnectionError) {
                             volleyError.setMessage("AuthFailureError");
-                            Log.i("AuthFailureError", ""+"AuthFailureError");
+                            Log.i("AuthFailureError", "" + "AuthFailureError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK;
-                        }else if (error instanceof AuthFailureError) {
+                        } else if (error instanceof AuthFailureError) {
                             volleyError.setMessage("AuthFailureError");
-                            Log.i("AuthFailureError", ""+"AuthFailureError");
+                            Log.i("AuthFailureError", "" + "AuthFailureError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                         } else if (error instanceof ServerError) {
                             volleyError.setMessage("ServerError");
-                            Log.i("ServerError", ""+"ServerError");
+                            Log.i("ServerError", "" + "ServerError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                         } else if (error instanceof NetworkError) {
                             volleyError.setMessage("NetworkError");
-                            Log.i("NetworkError", ""+"NetworkError");
+                            Log.i("NetworkError", "" + "NetworkError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE;
                         } else if (error instanceof ParseError) {
                             volleyError.setMessage("ParseError");
-                            Log.i("ParseError", ""+"ParseError");
+                            Log.i("ParseError", "" + "ParseError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE;
                         }
                         mServiceDiscovery.setError(volleyError);
                         listener.onError(errorValue, "Error");
                     }
-                    });
+                });
 
-        if(url.startsWith("https")) {
+        if (url.startsWith("https")) {
             this.isHttpsRequest = true;
         } else {
             this.isHttpsRequest = false;
@@ -235,8 +235,9 @@ public class RequestManager{
         this.setSSLSocketFactory();
         mVolleyRequest.add(jsObjRequest);
     }
+
     private void setSSLSocketFactory() {
-        if(this.isHttpsRequest) {
+        if (this.isHttpsRequest) {
             SSLCertificateManager.disableAllServerCertificateChecking();
         }
 
