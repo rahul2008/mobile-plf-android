@@ -30,11 +30,13 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     public interface PaymentListener {
         void onGetPaymentDetails(Message msg);
+
         void onSetPaymentDetails(Message msg);
     }
 
     public interface MakePaymentListener {
         void onMakePayment(Message msg);
+
         void onPlaceOrder(Message msg);
     }
 
@@ -67,7 +69,8 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CART_ID, cartNumber);
-        query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
+        if (pSecurityCode != null)
+            query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
 
         PlaceOrderRequest request = new PlaceOrderRequest(delegate.getStore(), query, this);
         delegate.sendRequest(RequestCode.PLACE_ORDER, request, request);
