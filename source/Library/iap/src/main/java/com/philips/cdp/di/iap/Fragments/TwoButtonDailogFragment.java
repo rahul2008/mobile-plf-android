@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
@@ -10,7 +14,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-
 
 public class TwoButtonDailogFragment extends DialogFragment {
     public interface TwoButtonDialogListener {

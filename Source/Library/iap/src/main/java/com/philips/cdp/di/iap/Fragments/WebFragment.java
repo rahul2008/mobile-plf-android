@@ -22,7 +22,6 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
-
 public class WebFragment extends BaseAnimationSupportFragment {
 
     public static final String TAG = WebPaymentFragment.class.getName();

@@ -1,5 +1,9 @@
-package com.philips.cdp.di.iap.Fragments;
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 
+package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +17,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 
-/**
- * Created by Apple on 22/07/16.
- */
 public class CvvCvcDialogFragment extends DialogFragment  {
 
     public static final String CVV_KEY_BUNDLE = "CVV_KEY_BUNDLE"; // can be moved to IAPConstant where all the bundle key has maintained

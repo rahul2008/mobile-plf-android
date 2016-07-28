@@ -1,10 +1,12 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
-
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,8 +28,6 @@ public class DeliveryModeDialog
     private DialogListener mListener;
     private AddressListener mAddressListener;
     private List<DeliveryModes> mDeliveryModes;
-    private ListView lv;
-    private DeliveryModeAdapter adapter;
 
     public interface DialogListener {
         void onItemClick(int position);
@@ -43,16 +43,16 @@ public class DeliveryModeDialog
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
         View convertView = (LayoutInflater.from(mContext).inflate(R.layout.iap_delivery_dialog, null));
         alertDialog.setView(convertView);
-        lv = (ListView) convertView.findViewById(R.id.lv);
+        ListView mListView = (ListView) convertView.findViewById(R.id.lv);
         mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-        adapter = new DeliveryModeAdapter(mContext,R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
-        lv.setClickable(true);
-        lv.setAdapter(adapter);
+        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
+        mListView.setClickable(true);
+        mListView.setAdapter(mDeliveryModeAdapter);
 
         final Dialog dialog = alertDialog.create();
         dialog.show();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dialog.dismiss();
