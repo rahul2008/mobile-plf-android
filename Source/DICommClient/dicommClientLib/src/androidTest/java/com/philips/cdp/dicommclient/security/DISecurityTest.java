@@ -26,100 +26,100 @@ public class DISecurityTest extends MockitoTestCase {
     }
 
     public void testEncryptionDecryption() {
-        DISecurity security = new DISecurity();
+        DISecurity security = new DISecurity(mNetworkNode);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn(KEY);
 
-        String encryptedData = security.encryptData(data, mNetworkNode);
-        String decrytedData = security.decryptData(encryptedData, mNetworkNode);
+        String encryptedData = security.encryptData(data);
+        String decrytedData = security.decryptData(encryptedData);
         assertEquals(data, decrytedData);
     }
 
     public void testDecryptNullData() {
-        DISecurity security = new DISecurity();
+        DISecurity security = new DISecurity(mNetworkNode);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn(KEY);
 
         String nullData = null;
-        String decrytedData = security.decryptData(nullData, mNetworkNode);
+        String decrytedData = security.decryptData(nullData);
 
         assertNull(decrytedData);
     }
 
     public void testDataEncryptionWithRandomBytes() {
-        DISecurity security = new DISecurity();
+        DISecurity security = new DISecurity(mNetworkNode);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn(KEY);
 
-        String encryptedData1 = security.encryptData(data, mNetworkNode);
-        String encryptedData2 = security.encryptData(data, mNetworkNode);
+        String encryptedData1 = security.encryptData(data);
+        String encryptedData2 = security.encryptData(data);
 
         assertFalse(encryptedData1.equals(encryptedData2));
     }
 
     public void testEncryptDataNullNetworkNodeObject() {
-        DISecurity security = new DISecurity();
-        String encryptedData1 = security.encryptData(data, null);
+        DISecurity security = new DISecurity(null);
+        String encryptedData1 = security.encryptData(data);
         assertNull(encryptedData1);
     }
 
     public void testEncryptDataNullkey() {
-        DISecurity security = new DISecurity();
-        String encryptedData1 = security.encryptData(data, mNetworkNode);
+        DISecurity security = new DISecurity(mNetworkNode);
+        String encryptedData1 = security.encryptData(data);
         assertNull(encryptedData1);
     }
 
     public void testEncryptDataEmptykey() {
-        DISecurity security = new DISecurity();
+        DISecurity security = new DISecurity(mNetworkNode);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn("");
 
-        String encryptedData1 = security.encryptData(data, mNetworkNode);
+        String encryptedData1 = security.encryptData(data);
         assertNull(encryptedData1);
     }
 
     public void testDecryptEmptyData() {
-        DISecurity security = new DISecurity();
+        DISecurity security = new DISecurity(mNetworkNode);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn(KEY);
 
-        String decryptData = security.decryptData("", mNetworkNode);
+        String decryptData = security.decryptData("");
 
         assertNull(decryptData);
     }
 
     public void testDecryptWithNullKey() {
-        DISecurity security = new DISecurity();
+        DISecurity security = new DISecurity(mNetworkNode);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn(KEY);
 
-        String encryptedData = security.encryptData(data, mNetworkNode);
+        String encryptedData = security.encryptData(data);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn(null);
 
-        String decryptData = security.decryptData(encryptedData, mNetworkNode);
+        String decryptData = security.decryptData(encryptedData);
 
         assertNull(decryptData);
     }
 
     public void testDecryptWithEmptyKey() {
-        DISecurity security = new DISecurity();
+        DISecurity security = new DISecurity(mNetworkNode);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn(KEY);
 
-        String encryptedData = security.encryptData(data, mNetworkNode);
+        String encryptedData = security.encryptData(data);
 
         Mockito.when(mNetworkNode.getEncryptionKey()).thenReturn("");
 
-        String decryptData = security.decryptData(encryptedData, mNetworkNode);
+        String decryptData = security.decryptData(encryptedData);
 
         assertNull(decryptData);
     }
 
     public void testDecryptWithNullNetworkNodeObject() {
 
-        DISecurity security = new DISecurity();
-        String decryptData = security.decryptData("hello", null);
+        DISecurity security = new DISecurity(null);
+        String decryptData = security.decryptData("hello");
 
         assertNull(decryptData);
     }

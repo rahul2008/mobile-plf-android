@@ -114,7 +114,7 @@ public class LocalStrategy extends CommunicationStrategy {
         mRequestQueue.addRequestInFrontOfQueue(request);
     }
 
-    EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
+    private EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
 
         @Override
         public void onDecryptionFailed(NetworkNode networkNode) {
