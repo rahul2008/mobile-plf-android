@@ -29,6 +29,8 @@ import com.philips.cdp.productselection.productselectiontype.HardcodedProductLis
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +107,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-                // Digital care initialization
+        // Digital care initialization
         initializeDigitalCareLibrary();
 
 
@@ -189,6 +191,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     }
 
     private void initializeDigitalCareLibrary() {
+
+        if (AppInfraSingleton.getInstance() == null)
+            AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
 //  localeManager.setInputLocale("ar", "SA");
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);

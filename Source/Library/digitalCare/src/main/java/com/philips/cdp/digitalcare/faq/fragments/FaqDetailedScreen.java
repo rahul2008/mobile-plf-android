@@ -192,11 +192,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     }*/
                 }
 
-                @Override
-                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                    handler.proceed();
-                }
-
             });
             //  mWebView.addJavascriptInterface(new JsObject(mWebView, mWebView), "CallToAnAndroidFunction");
             //Add a JavaScriptInterface, so I can make calls from the web to Java methods

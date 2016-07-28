@@ -1,14 +1,19 @@
 package com.philips.cdp.digitalcare.test;
 
 import android.app.Activity;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
+import com.philips.cdp.digitalcare.activity.DigitalCareBaseActivity;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -43,6 +48,73 @@ public class DigitalCareActivityTest extends
 
 		mHomeIcon = (ImageView) mActivity.findViewById(R.id.home_icon);
 		mBackbutton = (ImageView) mActivity.findViewById(R.id.back_to_home_img);
+	}
+
+
+	protected void testonCreate()
+	{
+		DigitalCareBaseActivity baseActivity = new DigitalCareBaseActivity() {
+			@Override
+			protected void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+			}
+
+			@Override
+			protected void initActionBar() throws ClassCastException {
+				super.initActionBar();
+			}
+
+			@Override
+			public void onConfigurationChanged(Configuration newConfig) {
+				super.onConfigurationChanged(newConfig);
+			}
+
+			@Override
+			protected void onResume() {
+				super.onResume();
+			}
+
+			@Override
+			protected void onPause() {
+				super.onPause();
+			}
+
+			@Override
+			public boolean onKeyDown(int keyCode, KeyEvent event) {
+				return super.onKeyDown(keyCode, event);
+			}
+
+			@Override
+			protected void onDestroy() {
+				super.onDestroy();
+			}
+
+			@Override
+			protected void enableActionBarHome() {
+				super.enableActionBarHome();
+			}
+
+			@Override
+			protected void showFragment(Fragment fragment) {
+				super.showFragment(fragment);
+			}
+		};
+	}
+
+
+	protected void testDigitalCareActivity()
+	{
+		DigitalCareActivity digitalCareActivity = new DigitalCareActivity(){
+			@Override
+			protected void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+			}
+
+			@Override
+			protected void onSaveInstanceState(Bundle bundle) {
+				super.onSaveInstanceState(bundle);
+			}
+		};
 	}
 
 	/*@MediumTest

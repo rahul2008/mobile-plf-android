@@ -10,6 +10,7 @@
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
+-keep class com.philips.cdp.prxclient.** {*;}
 -keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 
@@ -31,13 +32,25 @@
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 
+#UIKit
+-keep class com.shamanland.** {*;}
+-keep class uk.co.chrisjenx.** {*;}
+
 
 #ConsumerCare
-
+-keep class com.philips.cdp.digitalcare.** {*;}
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.content.BroadcastReceiver
+
+
+-keep public class * extends android.app.Fragment {
+    <init>(...);
+}
+-keep public class * extends android.support.v4.app.Fragment {
+    <init>(...);
+}
 
     -keepclassmembers enum * {
         public static **[] values();
@@ -79,7 +92,9 @@
 
 #GooglePLayServices
 
--keep class android.support.**
+-keep class android.support.** {*;}
+-keep class android.view.** {*;}
+
 -keep interface android.support.v13.app.** { *; }
 -keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
@@ -90,17 +105,16 @@
 
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
 -dontwarn  com.philips.cdp.productselection.R$id
--dontwarn  android.support.v4.view.ViewCompatApi24.**
--dontwarn android.support.v7.media.**
 -dontwarn android.view.**
 -dontwarn android.media.session
--dontwarn android.app.Notification$MessagingStyle$*
--dontwarn android.app.Notification$MessagingStyle$*$*
+-dontwarn android.app.**
 
 -dontwarn com.philips.cdp.digitalcare.**
 -dontwarn com.philips.cdp.productselection.**
--dontwarn android.support.v13.**
--dontwarn android.support.v4.graphics.drawable.**
+-dontwarn android.support.**
+-dontwarn com.adobe.mobile.**
 -dontwarn org.apache.**
 
 
+-dontwarn com.shamanland.**
+-dontwarn uk.co.chrisjenx.**

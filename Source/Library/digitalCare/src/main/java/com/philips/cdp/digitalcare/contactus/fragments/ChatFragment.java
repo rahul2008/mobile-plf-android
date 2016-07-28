@@ -4,7 +4,6 @@
  * @author : Ritesh.jha@philips.com
  * @since : 19 Jan 2015
  * Copyright (c) 2016 Philips. All rights reserved.
- *
  */
 package com.philips.cdp.digitalcare.contactus.fragments;
 
@@ -19,9 +18,13 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.*;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 
 public class ChatFragment extends DigitalCareBaseFragment {
+
+    private static final String TAG = ChatFragment.class.getSimpleName();
+
     private static View mView = null;
     private Button mChatNow = null;
     private Button mChatNowLand = null;
@@ -42,6 +45,8 @@ public class ChatFragment extends DigitalCareBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        DigiCareLogger.v(TAG, "Showing the Chat With Philips Screen");
         if (mView != null) {
             ViewGroup parent = (ViewGroup) mView.getParent();
             if (parent != null) {
@@ -123,12 +128,12 @@ public class ChatFragment extends DigitalCareBaseFragment {
         setViewParams(config);
     }
 
-    private boolean isTablet(){
+    private boolean isTablet() {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float yInches= metrics.heightPixels/metrics.ydpi;
-        float xInches= metrics.widthPixels/metrics.xdpi;
-        double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+        float yInches = metrics.heightPixels / metrics.ydpi;
+        float xInches = metrics.widthPixels / metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
 
         return diagonalInches >= 6.5;
     }
@@ -143,10 +148,9 @@ public class ChatFragment extends DigitalCareBaseFragment {
             mChatNowParentLand.setVisibility(View.GONE);
             mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
 
-            if(isTablet()){
+            if (isTablet()) {
                 mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_tablet_port);
-            }
-            else{
+            } else {
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
                 mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_port);
@@ -161,10 +165,9 @@ public class ChatFragment extends DigitalCareBaseFragment {
 //                    mChatScrollView.scrollTo(0, 270);
 //                }
 //            }, 100);
-            if(isTablet()){
+            if (isTablet()) {
                 mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_tablet_land);
-            }
-            else{
+            } else {
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height_land);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
                 mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_land);
@@ -176,15 +179,20 @@ public class ChatFragment extends DigitalCareBaseFragment {
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.chatNow || id == R.id.chatNowLand) {
+            DigiCareLogger.i(TAG, "Clicked on ChatNow Button");
             showFragment(new ChatNowFragment());
         } else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
+            DigiCareLogger.i(TAG, "Clicked on Cancel button");
             backstackFragment();
         }
     }
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.chat_with_philips);
+
+        String title = getResources().getString(R.string.chat_with_philips);
+        DigiCareLogger.i(TAG, "ChatFragment ActionBar title is : " + title);
+        return title;
     }
 
     @Override

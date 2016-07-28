@@ -7,8 +7,8 @@
  *
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
- *
- *  Copyright (c) 2016 Philips. All rights reserved.
+ * <p/>
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.digitalcare;
@@ -34,6 +34,10 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
@@ -156,7 +160,7 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
-        DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");
+      /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
 
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
@@ -180,15 +184,17 @@ public class DigitalCareConfigManager {
 
         if (uiLauncher instanceof ActivityLauncher) {
 
+            DigiCareLogger.i(TAG, "Launching as Activity");
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
-            DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");
+          /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         } else {
+            DigiCareLogger.i(TAG, "Launching through Fragment Manager instance");
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
                     fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
-            DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");
+          /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
         }
     }
 
@@ -213,7 +219,7 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
-        DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");
+       /* DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
@@ -262,6 +268,26 @@ public class DigitalCareConfigManager {
      */
     public String getPreviousPageNameForTagging() {
         return mPageName;
+    }
+
+
+    public AppInfraInterface getAPPInfraInstance() {
+        return AppInfraSingleton.getInstance();
+    }
+
+    /*public AppTaggingInterface getTaggingInterface() {
+        AppTaggingInterface taggingInterface =
+                getAPPInfraInstance().getTagging().createInstanceForComponent
+                        ("com.philips.cdp.digitalcare", "6.0.0");
+        taggingInterface.setPreviousPage("vertical:productSelection:home");
+        return taggingInterface;
+    }*/
+
+    public LoggingInterface getLoggerInterface() {
+
+        LoggingInterface loggingInterface = getAPPInfraInstance().getLogging().
+                createInstanceForComponent("com.philips.cdp.digitalcare", "6.0.0");
+        return loggingInterface;
     }
 
 

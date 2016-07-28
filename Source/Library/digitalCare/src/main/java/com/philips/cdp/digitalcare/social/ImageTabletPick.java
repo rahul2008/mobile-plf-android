@@ -34,7 +34,7 @@ public class ImageTabletPick implements OnClickListener {
 	TabletPopupWindow mPointerAlert = null;
 
 	public ImageTabletPick(Activity activity) {
-		DigiCareLogger.i(TAG, "ImageTabletPick");
+		/*DigiCareLogger.i(TAG, "ImageTabletPick");*/
 		mContext = activity;
 		getPointerAlert();
 	}

@@ -3,11 +3,12 @@
  *
  * @author : Naveen AH
  * @since : 30 November 2015
- *
- *  Copyright (c) 2016 Philips. All rights reserved.
+ * <p>
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
+import android.content.pm.LauncherActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        DigiCareLogger.i(TAG, "Launching the Product Review Screen");
         if (mProductReviewView == null) {
             mProductReviewView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
@@ -101,16 +103,18 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
                 .getCountry().toUpperCase();
         String countryFallBack = LocaleMatchHandler.getPRXUrl(language + "_" + country);
         String productPageLink = DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink();
-        DigiCareLogger.v(TAG, "Country FallBack Url : " + countryFallBack);
-        DigiCareLogger.v(TAG, "Country Specific Review&Rewards Url : " + getActivity().getResources().getString(R.string.reviewandrewards));
 
-        return Uri.parse(String.format(PRODUCT_REVIEW_URL, countryFallBack,
+        Uri uri = Uri.parse(String.format(PRODUCT_REVIEW_URL, countryFallBack,
                 productPageLink, getLocalizedReviewUrl(countryFallBack)));
+        DigiCareLogger.i(TAG, "Product Review page link : " + uri);
+        return uri;
     }
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.feedback);
+        String title = getResources().getString(R.string.feedback);
+        DigiCareLogger.i(TAG, "Philips Product Review Page title : " + title);
+        return title;
     }
 
     @Override

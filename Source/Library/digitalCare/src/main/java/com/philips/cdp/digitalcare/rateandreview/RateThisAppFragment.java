@@ -3,8 +3,8 @@
  *
  * @author: naveen@philips.com
  * @since: Jan 11, 2015
- *
- *  Copyright (c) 2016 Philips. All rights reserved.
+ * <p>
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.digitalcare.rateandreview;
@@ -57,26 +57,25 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private FrameLayout.LayoutParams mLayoutParams = null;
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
-   // private boolean mBazaarVoiceReviewRequired = false;
+    // private boolean mBazaarVoiceReviewRequired = false;
     //  private BazaarVoiceWrapper mBazaarVoiceWrapper;
     private ViewProductDetailsModel mProductData = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        DigiCareLogger.d(TAG, "onCreateView");
+        DigiCareLogger.d(TAG, "Launching RateThisAppFragment Screen");
         View mView = inflater.inflate(R.layout.consumercare_fragment_tellus, container,
                 false);
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
-     //   mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
+        //   mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
         return mView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
         mRatePlayStoreBtn = (DigitalCareFontButton) getActivity().findViewById(
@@ -144,6 +143,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
                 .getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         mTagUrl = uri;
+        DigiCareLogger.i(TAG, "PlayStore Application Link : " + uri);
         try {
             startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
@@ -196,7 +196,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.feedback);
+        String title = getResources().getString(R.string.feedback);
+        DigiCareLogger.i(TAG, "Rate This App Fragment Screen title : " + title);
+        return title;
     }
 
     @Override
@@ -220,10 +222,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
         String productlink = data.getProductInfoLink();
         if (productlink != null /*&& mBazaarVoiceReviewRequired*/) {
-            DigiCareLogger.d(TAG, "Show product review()");
             showProductReviewView();
         } else {
-            DigiCareLogger.d(TAG, "Hide product review()");
             hideProductReviewView();
         }
     }

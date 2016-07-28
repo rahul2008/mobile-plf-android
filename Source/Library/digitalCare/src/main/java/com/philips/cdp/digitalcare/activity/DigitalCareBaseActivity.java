@@ -63,7 +63,7 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        DigiCareLogger.i(TAG, "onCreate");
+     /*   DigiCareLogger.i(TAG, "onCreate");*/
         DigitalCareConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
     }
@@ -82,7 +82,7 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");
+       /* DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");*/
     }
 
     @Override

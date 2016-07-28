@@ -77,14 +77,14 @@ public class AnalyticsTracker {
     public static void trackPage(String pageName, String previousPageName) {
         if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);
+       /* DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);*/
         Analytics.trackState(pageName, addPageContextData(previousPageName));
     }
 
     public static void trackPage(String pageName, String previousPageName, Map<String, Object> contextData) {
         if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);
+       /* DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);*/
         Analytics.trackState(pageName, addPageContextData(previousPageName, contextData));
     }
 
@@ -99,7 +99,7 @@ public class AnalyticsTracker {
                                    String mapValue) {
         if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
+       /* DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);*/
         Analytics.trackAction(actionName,
                 addActionContextData(mapKey, mapValue));
     }
@@ -107,7 +107,7 @@ public class AnalyticsTracker {
     public static void trackAction(String actionName, Map<String, Object> contextData) {
         if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
+     /*   DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);*/
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
         contextData.put(AnalyticsConstants.KEY_COMPONENT_VERSION,
                 AnalyticsConstants.ACTION_VALUE_APPNAME + BuildConfig.VERSION_CODE);
@@ -182,9 +182,9 @@ public class AnalyticsTracker {
         try {
             PackageInfo packageInfo = mContext.getPackageManager()
                     .getPackageInfo(mContext.getPackageName(), 0);
-            DigiCareLogger.i(DigiCareLogger.APPLICATION,
+          /*  DigiCareLogger.i(DigiCareLogger.APPLICATION,
                     "Application version: " + packageInfo.versionName + " ("
-                            + packageInfo.versionCode + ")");
+                            + packageInfo.versionCode + ")");*/
             appVersion = packageInfo.versionCode;
         } catch (NameNotFoundException e) {
             throw new RuntimeException("Could not get package name: " + e);

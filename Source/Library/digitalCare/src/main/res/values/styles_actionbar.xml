@@ -24,6 +24,7 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:layout_centerInParent">true</item>
         <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">@dimen/actionbar_icon_margin</item>
         <item name="android:text">@string/actionbar_title_support</item>
         <item name="android:textColor">@color/actionbar_title_color</item>
         <item name="android:textSize">@dimen/actionbar_title_text_size</item>

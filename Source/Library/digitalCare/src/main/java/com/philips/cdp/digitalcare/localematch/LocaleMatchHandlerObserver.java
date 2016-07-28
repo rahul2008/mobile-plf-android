@@ -31,6 +31,6 @@ public class LocaleMatchHandlerObserver extends Observable {
         synchronized(mObservers){
             mObservers.notify();
         }
-        DigiCareLogger.i(TAG, "******** Locale notified ****");
+       /* DigiCareLogger.i(TAG, "******** Locale notified ****");*/
     }
 }

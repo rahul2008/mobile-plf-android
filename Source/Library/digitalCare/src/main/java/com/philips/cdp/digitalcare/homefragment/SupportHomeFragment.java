@@ -4,7 +4,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @creation Date : 5 Dec 2014
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -18,6 +18,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,10 +55,12 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.List;
 import java.util.Locale;
@@ -68,6 +71,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
+    private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
+    private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
     private static final String SUBCATEGORY_URL_PORT = "https://www.philips.com/prx/category/%s/%s/%s/%s.json";
     private static boolean isFirstTimeProductComponentlaunch = true;
     //  private boolean isfragmentFirstTimeVisited;
@@ -95,7 +100,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressDialog mProgressDialog = null;
-    protected ResponseCallback cateGoryResponseCallbak = new ResponseCallback() {
+    protected ResponseCallback categoryResponseCallbak = new ResponseCallback() {
         @Override
         public void onResponseReceived(String response) {
 
@@ -122,7 +127,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                         mProgressDialog.cancel();
                         mProgressDialog = null;
                     } catch (IllegalArgumentException e) {
-                        DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                      /*  DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");*/
                     }
                 }
             }
@@ -132,7 +137,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DigiCareLogger.d(TAG, "OnCreate Method");
         // isProductSelectionFirstTime = true;
         //  isfragmentFirstTimeVisited = true;
         isSupportScreenLaunched = true;
@@ -141,7 +145,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        DigiCareLogger.d(TAG, "onCreateView Method");
+        DigiCareLogger.v(TAG, "SupportScreen Launched");
         mView = inflater.inflate(R.layout.consumercare_fragment_support, container,
                 false);
         mIsFirstScreenLaunch = true;
@@ -215,6 +219,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
     private boolean isProductSelected() {
         String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        DigiCareLogger.i(TAG, "isProductSelected ?" + ctn);
         return !(ctn != null && ctn != "");
     }
 
@@ -266,7 +271,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         ButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopButtonLayout);
         RegisterButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopRegisterButton);
         if (!(mIsFirstScreenLaunch)) {
-            DigiCareLogger.d(TAG, "First Launcher has to create buttons");
+
             createMainMenu();
         }
         try {
@@ -279,7 +284,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                         getPreviousName());
             }
         } catch (Exception e) {
-            DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
+            Log.e(TAG, "LocaleMatch Crash Controlled : " + e);
         }
     }
 
@@ -502,10 +507,27 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
 
         if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
+            DigiCareLogger.i(TAG, "Launching the ProductSelection as Activity");
             launchProductSelectionActivityComponent();
-        } else if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher)
+        } else if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
+            DigiCareLogger.i(TAG, "Launching ProductSelection as Fragment");
             launchProductSelectionFragmentComponent();
+        }
     }
+
+    protected boolean isContactNumberCached() {
+        String customerSupportNumber = null;
+        customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
+        return (customerSupportNumber != null && customerSupportNumber != "");
+    }
+
+
+    protected boolean isContactHoursCached() {
+        String contactHours = null;
+        contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
+        return (contactHours != null && contactHours != "");
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -524,13 +546,22 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
 
         if (tag.equals(getStringKey(R.string.contact_us))) {
-            if (isConnectionAvailable())
-                if (isProductSelected() && isSupportScreenLaunched) {
+            DigiCareLogger.i(TAG, "Clicked on ContactUs button");
+            if (isProductSelected() && isSupportScreenLaunched) {
+                if (isConnectionAvailable()) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                } else
+                }
+            } else {
+
+                if (isInternetAvailable) {
                     showFragment(new ContactUsFragment());
+                } else if (isContactHoursCached() || isContactNumberCached()) {
+                    showFragment(new ContactUsFragment());
+                } else isConnectionAlertDisplayed();
+            }
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
+            DigiCareLogger.i(TAG, "Clicked on View Product Details button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
@@ -538,6 +569,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 } else
                     showFragment(new ProductDetailsFragment());
         } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
+            DigiCareLogger.i(TAG, "Clicked on Locate Philips Near You Button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
@@ -545,6 +577,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 } else
                     showFragment(new LocatePhilipsFragment());
         } else if (tag.equals(getStringKey(R.string.view_faq))) {
+            DigiCareLogger.i(TAG, "Clicked on ReadFaq button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
@@ -552,6 +585,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 } else
                     launchFaqScreen();
         } else if (tag.equals(getStringKey(R.string.feedback))) {
+            DigiCareLogger.i(TAG, "Clicked on TellUs what you think button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
@@ -559,6 +593,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 } else
                     showFragment(new RateThisAppFragment());
         } else if (tag.equals(getStringKey(R.string.Change_Selected_Product))) {
+            DigiCareLogger.i(TAG, "Clicked on Change Selected Product Button");
             if (isConnectionAvailable()) {
                 disableSupportButtonClickable();
                 DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
@@ -575,7 +610,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     }
 
     private void launchFaqScreen() {
-        PrxLogger.enablePrxLogger(true);
+
+        DigiCareLogger.i(TAG, "Requesting the Su");
         mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
             public void onResponseReceived(SupportModel supportModel) {
@@ -592,10 +628,27 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     }
 
     private void launchProductSelectionFragmentComponent() {
-        DigiCareLogger.i("testing", "Support -- Fragment Invoke");
+     /*   DigiCareLogger.i("testing", "Support -- Fragment Invoke");*/
+
+
+       /* AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));
+        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("ProductSelection", "4.0.0");
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);*/
+
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
         }
+
+        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                (getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(getActivity().isFinishing())) {
+            mProgressDialog.show();
+        }
+
         FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
@@ -604,8 +657,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
-        ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
-                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());
+        /*ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
+                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());*/
+     /*   AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));*/
+        AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.setPreviousPage(ccConfigManager.getPreviousPageNameForTagging());
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
 
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
@@ -628,8 +685,22 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     }
 
     private void launchProductSelectionActivityComponent() {
+
+        /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));
+        AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("ProductSelection", "4.0.0");
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);*/
+
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
+        }
+        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                (getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(getActivity().isFinishing())) {
+            mProgressDialog.show();
         }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
@@ -637,9 +708,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
-        ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
-                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());
-
+        /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));*/
+        AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
+        aiAppTaggingInterface.setPreviousPage(ccConfigManager.getPreviousPageNameForTagging());
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getmUiKitTheme());
         uiLauncher.setAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().getEnterAnimation(),
@@ -669,6 +741,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     }
 
     private void disablePrxDependentButtons() {
+
+        DigiCareLogger.i(TAG, "Removing the PRX dependent Buttons from the SupportScreen");
+
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(true);
             mProductChangeButton.setVisibility(View.GONE);
@@ -757,12 +832,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         if (getActivity() != null) {
             String subCategoryUrl = getSubCategoryURL();
-            DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
+            DigiCareLogger.i(TAG, "******** Sub Category URL : " + subCategoryUrl);
 
             RequestData subCategoryRequest = new RequestData();
 
             subCategoryRequest.setRequestUrl(subCategoryUrl);
-            subCategoryRequest.setResponseCallback(cateGoryResponseCallbak);
+            subCategoryRequest.setResponseCallback(categoryResponseCallbak);
 
             if (mProgressDialog == null) mProgressDialog = new ProgressDialog
                     (getActivity(), R.style.loaderTheme);
@@ -799,6 +874,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
      * level.
      */
     private void createMainMenu() {
+        DigiCareLogger.i(TAG, "Dynamically creating the SupportScreen Buttons");
+
         //Android OS issue so adding in try/catch control to this code snippet(Issue reproduce is very rare).
         // java.lang.IllegalStateException:
         //at android.support.v4.app.Fragment.getResources(Fragment.java:644)
@@ -810,7 +887,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
             }
         } catch (IllegalStateException ie) {
-            DigiCareLogger.e(TAG, "Exception while generating SupportScreenButton : " + ie);
+            Log.e(TAG, "Exception while generating SupportScreenButton : " + ie);
         } finally {
             setConfigurableButton();
         }
@@ -829,9 +906,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
     @Override
     public void onResponseReceived(SummaryModel productSummaryModel) {
-        DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received");
-
         if (productSummaryModel == null) {
+
+            DigiCareLogger.i(TAG, "Summary Response Not Received from PRX");
             createMainMenu();
             if (!isProductSelected() /*&& !isSupportScreenLaunched*/) {
                     /*ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
@@ -842,11 +919,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                /* if (isProductSelected())
                     disablePrxDependentButtons();*/
 
-            DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received with summaryModel Null");
-        } else {
 
+        } else {
+            DigiCareLogger.i(TAG, "Summary Response Received from PRX");
             try {
-                DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received with summaryModel NotNull");
+
                 mViewProductSummaryModel = productSummaryModel;
                 SummaryModel summaryModel = productSummaryModel;
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryModel.getData().getCtn());
@@ -856,7 +933,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 setDataToModels(productSummaryModel);
                 executeSubcategoryRequest();
             } finally {
-                DigiCareLogger.v(TAG, "Menu is creating in NonNull Summary");
                 createMainMenu();
             }
         }
@@ -864,6 +940,25 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
     @Override
     public void onDestroy() {
+        if (mProgressDialog != null && isAdded()) {
+            if (mProgressDialog.isShowing()) {
+                try {
+                    DigiCareLogger.i(TAG, "Removing the Progress View ");
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+
+        } else if (mProgressDialog != null) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
         super.onDestroy();
         /*
         Commenting below finish() because of "Rally DE9081".
@@ -872,6 +967,52 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 //        getActivity().finish();
     }
 
+    @Override
+    public void onDestroyView() {
+        if (mProgressDialog != null && isAdded()) {
+            if (mProgressDialog.isShowing()) {
+                try {
+                    DigiCareLogger.i(TAG, "Removing the ProgressScreen");
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+
+        } else if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onPause() {
+        if (mProgressDialog != null && isAdded()) {
+            if (mProgressDialog.isShowing()) {
+                try {
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+
+        } else if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
+        super.onPause();
+    }
 
     private Drawable getDrawable(int resId) {
         return getResources().getDrawable(resId);

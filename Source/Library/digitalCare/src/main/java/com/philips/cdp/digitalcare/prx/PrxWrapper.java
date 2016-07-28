@@ -246,7 +246,7 @@ public class PrxWrapper {
                 SupportModel supportModel = null;
                 if (responseData != null) {
                     supportModel = (SupportModel) responseData;
-                    DigiCareLogger.d(TAG, "Support Data Received ? " + supportModel.isSuccess());
+                    DigiCareLogger.i(TAG, "FaqData Received from PRX ?  " + supportModel.isSuccess());
                     if (supportModel.isSuccess()) {
                         final com.philips.cdp.prxclient.datamodels.support.Data data
                                 = supportModel.getData();
@@ -260,6 +260,7 @@ public class PrxWrapper {
                             }
                         }
                     } else {
+                        DigiCareLogger.i(TAG, "FAQData not received from PRX");
                         if (mSupportCallback != null) {
                             mSupportCallback.onResponseReceived(null);
                         }
@@ -284,7 +285,7 @@ public class PrxWrapper {
                 mProgressDialog.cancel();
                 mProgressDialog = null;
             } catch (IllegalArgumentException e) {
-                DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
             }
         }
     }
