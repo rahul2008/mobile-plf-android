@@ -54,8 +54,8 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         super.onActivityCreated(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
-            RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
-            regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            RegisteredProduct registeredProduct = arguments.getParcelable(ProdRegConstants.PROD_REG_PRODUCT);
+            regProdList =  arguments.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             if (registeredProduct != null) {
                 ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
             }

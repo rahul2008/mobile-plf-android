@@ -181,8 +181,8 @@ public class ProdRegRegistrationController {
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
                     updateRegisteredProductsList(registeredProduct);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
-                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+                    bundle.putParcelable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
+                    bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
                     fragment.setArguments(bundle);
                     registerControllerCallBacks.showFragment(fragment);
                 }

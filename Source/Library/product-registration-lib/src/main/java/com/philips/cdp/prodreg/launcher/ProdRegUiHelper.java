@@ -18,6 +18,7 @@ import android.os.Bundle;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
@@ -144,6 +145,7 @@ public class ProdRegUiHelper {
         RegisteredProduct registeredProduct = null;
         if (currentProduct != null) {
             registeredProduct = new RegisteredProduct(currentProduct.getCtn().trim(), currentProduct.getSector(), currentProduct.getCatalog());
+            registeredProduct.setRegistrationState(RegistrationState.PENDING);
             registeredProduct.setSerialNumber(currentProduct.getSerialNumber().trim());
             registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
             registeredProduct.sendEmail(currentProduct.getEmail());
