@@ -45,7 +45,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
-    private String mSecurityCode;
+    private String mSecurityCode; // Can be local
     private Button mBtnPayNow;
     private Button mBtnCancel;
     private PaymentController mPaymentController;
@@ -323,7 +323,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (requestCode == CvvCvcDialogFragment.REQUEST_CODE) {
             String editTextString = data.getStringExtra(
                     CvvCvcDialogFragment.CVV_KEY_BUNDLE);
-            mSecurityCode = editTextString;
+            mSecurityCode = editTextString; //This assignment is not necessary
             IAPLog.d(IAPLog.LOG, "CVV =" + editTextString);
             placeOrderElseMakePayment(mSecurityCode);
         }
