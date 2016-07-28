@@ -1,6 +1,8 @@
 package com.philips.cdp.digitalcare.test;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,117 +20,130 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
- * 
  * @author naveen@philips.com
  * @description This contains all the testcases of LaunchDigitalCare.
  * @Since Mar 5, 2015
  */
 public class DigitalCareActivityTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+        ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
-	public Activity mActivity = null;
-	public RelativeLayout mContainer = null;
-	public View decorView = null;
+    public Activity mActivity = null;
+    public RelativeLayout mContainer = null;
+    public View decorView = null;
 
-	public ImageView mHomeIcon = null;
-	public ImageView mBackbutton = null;
+    public ImageView mHomeIcon = null;
+    public ImageView mBackbutton = null;
 
-	public DigitalCareFontButton mViewDetails = null, mContactUs = null;
+    public DigitalCareFontButton mViewDetails = null, mContactUs = null;
 
-	public DigitalCareActivityTest() {
-		super(DigitalCareActivity.class);
-	}
+    public DigitalCareActivityTest() {
+        super(DigitalCareActivity.class);
+    }
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		mActivity = getActivity();
-		mContainer = (RelativeLayout) mActivity
-				.findViewById(R.id.mainContainer);
-		decorView = mActivity.getWindow().getDecorView();
+    protected void setUp() throws Exception {
+        super.setUp();
+        mActivity = getActivity();
+        mContainer = (RelativeLayout) mActivity
+                .findViewById(R.id.mainContainer);
+        decorView = mActivity.getWindow().getDecorView();
 
-		mHomeIcon = (ImageView) mActivity.findViewById(R.id.home_icon);
-		mBackbutton = (ImageView) mActivity.findViewById(R.id.back_to_home_img);
-	}
-
-
-	protected void testonCreate()
-	{
-		DigitalCareBaseActivity baseActivity = new DigitalCareBaseActivity() {
-			@Override
-			protected void onCreate(Bundle savedInstanceState) {
-				super.onCreate(savedInstanceState);
-			}
-
-			@Override
-			protected void initActionBar() throws ClassCastException {
-				super.initActionBar();
-			}
-
-			@Override
-			public void onConfigurationChanged(Configuration newConfig) {
-				super.onConfigurationChanged(newConfig);
-			}
-
-			@Override
-			protected void onResume() {
-				super.onResume();
-			}
-
-			@Override
-			protected void onPause() {
-				super.onPause();
-			}
-
-			@Override
-			public boolean onKeyDown(int keyCode, KeyEvent event) {
-				return super.onKeyDown(keyCode, event);
-			}
-
-			@Override
-			protected void onDestroy() {
-				super.onDestroy();
-			}
-
-			@Override
-			protected void enableActionBarHome() {
-				super.enableActionBarHome();
-			}
-
-			@Override
-			protected void showFragment(Fragment fragment) {
-				super.showFragment(fragment);
-			}
-		};
-	}
+        mHomeIcon = (ImageView) mActivity.findViewById(R.id.home_icon);
+        mBackbutton = (ImageView) mActivity.findViewById(R.id.back_to_home_img);
+    }
 
 
-	protected void testDigitalCareActivity()
-	{
-		DigitalCareActivity digitalCareActivity = new DigitalCareActivity(){
-			@Override
-			protected void onCreate(Bundle savedInstanceState) {
-				super.onCreate(savedInstanceState);
-			}
+    @MediumTest
+    protected void testonCreate() {
+        DigitalCareBaseActivity baseActivity = new DigitalCareBaseActivity() {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
 
-			@Override
-			protected void onSaveInstanceState(Bundle bundle) {
-				super.onSaveInstanceState(bundle);
-			}
-		};
-	}
+            }
+
+            @Override
+            protected void initActionBar() throws ClassCastException {
+                super.initActionBar();
+            }
+
+            @Override
+            public void onConfigurationChanged(Configuration newConfig) {
+                super.onConfigurationChanged(newConfig);
+            }
+
+            @Override
+            protected void onResume() {
+                super.onResume();
+            }
+
+            @Override
+            protected void onPause() {
+                super.onPause();
+            }
+
+            @Override
+            public boolean onKeyDown(int keyCode, KeyEvent event) {
+                return super.onKeyDown(keyCode, event);
+            }
+
+            @Override
+            protected void onDestroy() {
+                super.onDestroy();
+            }
+
+            @Override
+            protected void enableActionBarHome() {
+                super.enableActionBarHome();
+            }
+
+            @Override
+            protected void showFragment(Fragment fragment) {
+                super.showFragment(fragment);
+            }
+        };
+    }
+
+    /*public void testConsumerCareActivity() {
+        DigitalCareActivity digitalCareActivity = new DigitalCareActivity();
+        digitalCareActivity.onCreate(getBundleWithValue());
+        digitalCareActivity.onSaveInstanceState(getBundleWithNullValue());
+        digitalCareActivity.animateThisScreen();
+    }
+
+    public void testConsumerCareActivityWithNullBundle() {
+        DigitalCareActivity digitalCareActivity = new DigitalCareActivity();
+        digitalCareActivity.onCreate(getBundleWithNullValue());
+        digitalCareActivity.onSaveInstanceState(getBundleWithValue());
+        digitalCareActivity.animateThisScreen();
+    }*/
+
+
+    private Bundle getBundleWithValue() {
+        Bundle bundle = new Bundle();
+        bundle.putString("digitalCare", "CoCo");
+        bundle.putString("productSelection", "CoCo");
+        return bundle;
+    }
+
+
+    private Bundle getBundleWithNullValue() {
+        Bundle bundle = new Bundle();
+        return bundle;
+    }
+
 
 	/*@MediumTest
-	public void testfragmentView() {
+    public void testfragmentView() {
 		assertNotNull("Fragment Container Not available", mContainer);
 	}
 */
 /*	@MediumTest
-	public void testActivityValidation() {
+    public void testActivityValidation() {
 		assertNull("DigitalCare Activity Not Found", mActivity);
 	}*/
 
 	/*@MediumTest
-	public void testContainerParams() {
+    public void testContainerParams() {
 		final ViewGroup.LayoutParams layoutParams = mContainer
 				.getLayoutParams();
 		assertNotNull("Params not found for Fragment Container", layoutParams);
@@ -138,12 +153,12 @@ public class DigitalCareActivityTest extends
 	}*/
 
 	/*@MediumTest
-	public void testHomeIconAvailability() {
+    public void testHomeIconAvailability() {
 		assertNotNull("Home Icon not loaded ", mHomeIcon);
 	}*/
 
 	/*@MediumTest
-	public void testBackIconAvailability() {
+    public void testBackIconAvailability() {
 		assertNotNull("Back Icon not available ", mBackbutton);
 	}*/
 

@@ -29,6 +29,7 @@ import com.philips.cdp.productselection.productselectiontype.HardcodedProductLis
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
+import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 

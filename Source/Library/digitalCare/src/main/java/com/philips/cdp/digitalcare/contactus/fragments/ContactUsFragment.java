@@ -535,8 +535,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 //                return;
 //            }
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CHAT);
+            DigiCareLogger.i(TAG, "Clicked on the Chat Button");
             showFragment(new ChatFragment());
         } else if (id == R.id.contactUsCall) {
+            DigiCareLogger.i(TAG, "Clicked on the Call Button");
             if (!isContactNumberCached()) {
                 showAlert(getActivity().getString(R.string.no_data));
             } else if (isSimAvailable()) {
@@ -576,6 +578,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
                 && isConnectionAvailable()) {
+            DigiCareLogger.i(TAG, "Clicked on the Twitter button");
             // mTwitter.setClickable(false);
             launchTwitterFeature();
             /*TwitterAuthentication mTwitter = TwitterAuthentication
@@ -591,6 +594,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         } else if ((id == R.id.contactUsEmail) && isConnectionAvailable()) {
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
+            DigiCareLogger.i(TAG, "Clicked on the Email button");
             sendEmail();
         }
     }
@@ -859,6 +863,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     @SuppressLint("NewApi")
+    @SuppressWarnings("deprecation")
     private Button createButton(float density, int title, int resId) {
         final Button button = new Button(getActivity(), null, R.style.fontButton);
 

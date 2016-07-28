@@ -95,14 +95,15 @@ import java.util.Map;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 8 May 2015
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         OnItemClickListener, onMapReadyListener, OnMarkerClickListener,
         ResponseCallback, GpsStatus.Listener, OnMapClickListener {
-    private static final String ATOS_URL_PORT = "https://www.philips.com/search/search?q=%s&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
+    private static final String ATOS_URL_PORT = "https://www.philips.com/search/search?q=%s" +
+            "&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
     private static final String TAG = LocatePhilipsFragment.class
             .getSimpleName();
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
@@ -177,14 +178,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         public void onStatusChanged(String provider, int status, Bundle extras) {
             switch (status) {
                 case LocationProvider.OUT_OF_SERVICE:
-                    DigiCareLogger.v(TAG, "Status Changed: Out of Service");
+                    DigiCareLogger.w(TAG, "Status Changed: Out of Service");
                     break;
                 case LocationProvider.TEMPORARILY_UNAVAILABLE:
                     DigiCareLogger
-                            .v(TAG, "Status Changed: Temporarily Unavailable");
+                            .w(TAG, "Status Changed: Temporarily Unavailable");
                     break;
                 case LocationProvider.AVAILABLE:
-                    DigiCareLogger.v(TAG, "Status Changed: Available");
+                    DigiCareLogger.w(TAG, "Status Changed: Available");
                     break;
 
                 default:
@@ -223,6 +224,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        DigiCareLogger.i(TAG, "Launching the Find Philips near you Screen");
+
         try {
             if (Build.VERSION.SDK_INT >= 11)
                 getActivity().getWindow().setFlags(16777216, 16777216);
@@ -274,9 +277,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             getActivity().finish();
             return null;
         }
-        return getAtosUrl(consumerProductInfo.getCtn(),
+        String atosUrl = getAtosUrl(consumerProductInfo.getCtn(),
                 consumerProductInfo.getSubCategory(), DigitalCareConfigManager
                         .getInstance().getLocale().getCountry().toLowerCase());
+
+        DigiCareLogger.i(TAG, "ATOS URL : " + atosUrl);
+        return atosUrl;
 
 
     }
@@ -341,7 +347,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onResponseReceived(String response) {
-        DigiCareLogger.v(TAG, "Response : " + response);
+        DigiCareLogger.i(TAG, "ATOS Response : " + response);
         closeProgressDialog();
         if (response != null && isAdded()) {
             AtosResponseParser atosResponseParser = new AtosResponseParser(
@@ -413,7 +419,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         } catch (NullPointerException e) {
             DigiCareLogger
                     .v(TAG,
-                            "Failed to get GoogleMap so so enabling Google v2 Map Compatibility Enabled");
+                            "Failed to get GoogleMap so so enabling Google v2 Map Compatibility " +
+                                    "Enabled");
             mMapFragment = GoogleMapFragment.newInstance();
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.map, mMapFragment).commit();
@@ -424,7 +431,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     protected boolean isEulaAccepted() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
+        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
+                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mSharedpreferences.edit();
 
         boolean mBoolean = mSharedpreferences.getBoolean("acceptEula", false);
@@ -433,7 +441,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void setEulaPreference() {
-        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
+        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.
+                DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mSharedpreferences.edit();
         editor.putBoolean("acceptEula", true);
         editor.commit();
@@ -444,7 +453,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
      */
     private void requestPermissionAndroidM() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            int hasPermission = getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+            int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                    ACCESS_COARSE_LOCATION);
             if (hasPermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
@@ -587,7 +597,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
+            grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -598,7 +609,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                     }
                 } else {
                     // Permission Denied
-                    DigiCareLogger.e(TAG, "LocateNearYou -> permissions not granted" + permissions.toString());
+                    DigiCareLogger.e(TAG, "LocateNearYou -> permissions not granted" +
+                            permissions.toString());
                 }
                 break;
             default:
@@ -795,12 +807,16 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if (mLocateLayoutParentParams != null) {
 
             if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin;
-                mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateSearchLayoutMargin;
+                mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin =
+                        mLocateLayoutMargin;
+                mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.
+                        rightMargin = mLocateSearchLayoutMargin;
             } else {
-                mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin
-                        + mLeftRightMarginLand / 2;
-                mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateLayoutMargin
+                mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin =
+                        mLocateLayoutMargin
+                                + mLeftRightMarginLand / 2;
+                mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.
+                        rightMargin = mLocateLayoutMargin
                         + mLeftRightMarginLand / 2;
             }
             mLocateLayout.setLayoutParams(mLocateLayoutParentParams);
@@ -817,7 +833,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.find_philips_near_you);
+        String title = getResources().getString(R.string.find_philips_near_you);
+        DigiCareLogger.i(TAG, "Title : " + title);
+        return title;
     }
 
     @Override
@@ -837,8 +855,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                                 It been instructed to combine the tags, if necessary.
                                  */
                                 Map<String, Object> contextData = new HashMap<String, Object>();
-                                contextData.put(AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM, constrain);
-                                contextData.put(AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
+                                contextData.put(AnalyticsConstants.
+                                        ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM, constrain);
+                                contextData.put(AnalyticsConstants.
+                                                ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
                                         String.valueOf(count));
                                 AnalyticsTracker
                                         .trackAction(
@@ -875,13 +895,16 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 if (mSourceLat == 0 && mSourceLng == 0) {
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                                ACCESS_COARSE_LOCATION);
                         if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                            requestPermissions(new String[]{Manifest.permission.
+                                            ACCESS_COARSE_LOCATION},
                                     REQUEST_CODE_ASK_PERMISSIONS);
                         }
                     } else {
-                        gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
+                        gpsAlertView.showAlert(this, -1,
+                                R.string.gps_disabled,
                                 android.R.string.yes, android.R.string.no);
                     }
                 } else {
@@ -925,7 +948,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         Intent myintent = new Intent(Intent.ACTION_DIAL);
         myintent.setData(Uri.parse("tel:" + mPhoneNumber));
         myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        DigiCareLogger.d(TAG, "Contact Number : " + mPhoneNumber);
+        DigiCareLogger.i(TAG, "Contact Number : " + mPhoneNumber);
         startActivity(myintent);
     }
 
@@ -1010,7 +1033,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if ((mSearchBox != null) && (mArabicSearchIcon != null) && (mSearchBox != null)) {
 
 
-            if (getActivity().getResources().getConfiguration().locale.getLanguage().toString().contains("ar")) {
+            if (getActivity().getResources().getConfiguration().locale.
+                    getLanguage().toString().contains("ar")) {
                 mSearchIcon.setVisibility(View.GONE);
                 mArabicSearchIcon.setVisibility(View.VISIBLE);
                 mSearchBox.setGravity(Gravity.RIGHT);

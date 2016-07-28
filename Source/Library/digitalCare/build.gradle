@@ -110,6 +110,7 @@ android {
         minSdkVersion 19
         versionName objcdp.getVersionWithHash()
         multiDexEnabled true
+        generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }

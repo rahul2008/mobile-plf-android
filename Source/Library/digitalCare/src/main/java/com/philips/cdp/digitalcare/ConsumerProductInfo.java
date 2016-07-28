@@ -1,5 +1,6 @@
 /**
- * This class responsible for holding the Product(CTN) specific data, As per the user input or the user selection
+ * This class responsible for holding the Product(CTN) specific data, As per the user input or
+ * the user selection
  * with respect to the locale.
  *
  * @author naveen@philips.com
@@ -9,6 +10,10 @@
 
 package com.philips.cdp.digitalcare;
 
+
+/**
+ * Model Class for holding the Selected Product information.
+ */
 public class ConsumerProductInfo {
     private String mGroup = null;
     private String mSector = null;
@@ -23,8 +28,8 @@ public class ConsumerProductInfo {
         return mSubCategory;
     }
 
-    public void setSubCategory(String mSubCategory) {
-        this.mSubCategory = mSubCategory;
+    public void setSubCategory(String subCategory) {
+        this.mSubCategory = subCategory;
     }
 
 

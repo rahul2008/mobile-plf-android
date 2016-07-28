@@ -124,7 +124,9 @@ public class EmailFragment extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.send_us_email);
+        String title = getResources().getString(R.string.send_us_email);
+        DigiCareLogger.i(TAG, "Title : " + title);
+        return title;
     }
 
     @Override

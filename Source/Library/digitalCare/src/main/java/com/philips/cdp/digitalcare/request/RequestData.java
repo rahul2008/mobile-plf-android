@@ -9,9 +9,9 @@
 package com.philips.cdp.digitalcare.request;
 
 
-
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -37,22 +37,20 @@ public class RequestData {
     private Handler mResponseHandler = null;
 
 
-    public void setRequestUrl(final String url)
-    {
+    public void setRequestUrl(final String url) {
         DigiCareLogger.i(TAG, "url : " + url);
         mRequestUrl = url;
     }
 
-    public void setResponseCallback(final ResponseCallback responseCallback)
-    {
+    public void setResponseCallback(final ResponseCallback responseCallback) {
         mResponseCallback = responseCallback;
         mResponseHandler = new Handler(Looper.getMainLooper());
     }
 
     public void execute() {
-        final NetworkThread mNetworkThread = new NetworkThread();
-        mNetworkThread.setPriority(Thread.MAX_PRIORITY);
-        mNetworkThread.start();
+        final NetworkThread networkThread = new NetworkThread();
+        networkThread.setPriority(Thread.MAX_PRIORITY);
+        networkThread.start();
     }
 
     protected void notifyResponseHandler() {
@@ -76,17 +74,18 @@ public class RequestData {
         @Override
         public void run() {
             try {
-                final URL obj = new URL(mRequestUrl);
+                String url = mRequestUrl;
+                final URL obj = new URL(url);
                 final HttpURLConnection mHttpUrlConnection = (HttpURLConnection) obj
                         .openConnection();
                 mHttpUrlConnection.setRequestMethod("GET");
                 InputStream mInputStream = mHttpUrlConnection.getInputStream();
                 Reader mReader = new InputStreamReader(mInputStream, "UTF-8");
                 final BufferedReader in = new BufferedReader(mReader);
-                String inputLine = null;
+                String inputLine = getaNull();
                 StringBuffer response = new StringBuffer();
 
-                while ((inputLine = in.readLine()) != null) {
+                while ((inputLine = in.readLine()) != getaNull()) {
                     response.append(inputLine);
                 }
                 in.close();
@@ -100,6 +99,11 @@ public class RequestData {
                 DigiCareLogger.d(TAG, "Response: [" + mResponse + "]");
                 notifyResponseHandler();
             }
+        }
+
+        @Nullable
+        private String getaNull() {
+            return null;
         }
     }
 

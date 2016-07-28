@@ -4,9 +4,8 @@
  * other necessary informations.
  *
  * @author : Ritesh.jha@philips.com
- *
  * @since : 19 May
- *
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -34,176 +33,180 @@ import java.util.List;
 
 public class MapDirections {
 
-	private MapDirectionResponse mMapDirectionResponse = null;
-	private String TAG = MapDirections.class.getSimpleName();
+    private MapDirectionResponse mMapDirectionResponse = null;
+    private String TAG = MapDirections.class.getSimpleName();
 
-	public interface MapDirectionResponse {
-		void onReceived(ArrayList<LatLng> arrayList);
-	}
-
-	public MapDirections(MapDirectionResponse mapDirectionResponse, LatLng source,
+    public MapDirections(MapDirectionResponse mapDirectionResponse, LatLng source,
                          LatLng destination) {
-		mMapDirectionResponse = mapDirectionResponse;
+        mMapDirectionResponse = mapDirectionResponse;
 
-		// Getting URL to the Google Directions API
-		String url = getDirectionsUrl(source, destination);
-		DownloadTask downloadTask = new DownloadTask();
-		// Start downloading json data from Google Directions
-		// API
-		downloadTask.execute(url);
-	}
+        // Getting URL to the Google Directions API
+        String url = getDirectionsUrl(source, destination);
+        DownloadTask downloadTask = new DownloadTask();
+        // Start downloading json data from Google Directions
+        // API
+        downloadTask.execute(url);
+    }
 
-	private String getDirectionsUrl(LatLng origin, LatLng dest) {
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
-		// Origin of route
-		String str_origin = "origin=" + origin.latitude + ","
-				+ origin.longitude;
-		// Destination of route
-		String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-		// Sensor enabled
-		String sensor = "sensor=false&units=metric&mode=driving";
-		// Building the parameters to the web service
-		String parameters = str_origin + "&" + str_dest + "&" + sensor;
-		// Output format
-		String output = "json";
-		// Building the url to the web service
-		String url = "https://maps.googleapis.com/maps/api/directions/"
-				+ output + "?" + parameters;
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + ","
+                + origin.longitude;
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        // Sensor enabled
+        String sensor = "sensor=false&units=metric&mode=driving";
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + sensor;
+        // Output format
+        String output = "json";
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"
+                + output + "?" + parameters;
 
-		return url;
-	}
+        return url;
+    }
 
-	/** A method to download json data from url */
-	private String downloadUrl(String strUrl) throws IOException {
-		String data = "";
-		InputStream iStream = null;
-		HttpURLConnection urlConnection = null;
-		try {
-			URL url = new URL(strUrl);
+    /**
+     * A method to download json data from url
+     */
+    private String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url = new URL(strUrl);
 
-			// Creating an http connection to communicate with url
-			urlConnection = (HttpURLConnection) url.openConnection();
+            // Creating an http connection to communicate with url
+            urlConnection = (HttpURLConnection) url.openConnection();
 
-			// Connecting to url
-			urlConnection.connect();
+            // Connecting to url
+            urlConnection.connect();
 
-			// Reading data from url
-			iStream = urlConnection.getInputStream();
+            // Reading data from url
+            iStream = urlConnection.getInputStream();
 
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					iStream, "UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    iStream, "UTF-8"));
 
-			StringBuffer sb = new StringBuffer();
+            StringBuffer sb = new StringBuffer();
 
-			String line = "";
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
 
-			data = sb.toString();
+            data = sb.toString();
 
-			br.close();
+            br.close();
 
-		} catch (Exception e) {
-			DigiCareLogger.e(TAG, e.toString());
-		} finally {
-			iStream.close();
-			urlConnection.disconnect();
-		}
-		return data;
-	}
+        } catch (Exception e) {
+            DigiCareLogger.e(TAG, e.toString());
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
 
-	// Fetches data from url passed
-	private class DownloadTask extends AsyncTask<String, Void, String> {
+    public interface MapDirectionResponse {
+        void onReceived(ArrayList<LatLng> arrayList);
+    }
 
-		// Downloading data in non-ui thread
-		@Override
-		protected String doInBackground(String... url) {
+    // Fetches data from url passed
+    private class DownloadTask extends AsyncTask<String, Void, String> {
 
-			// For storing data from web service
-			String data = "";
+        // Downloading data in non-ui thread
+        @Override
+        protected String doInBackground(String... url) {
 
-			try {
-				// Fetching the data from web service
-				data = downloadUrl(url[0]);
-			} catch (Exception e) {
-				DigiCareLogger.e(TAG, "Background Task" + e.toString());
-			}
-			return data;
-		}
+            // For storing data from web service
+            String data = "";
 
-		// Executes in UI thread, after the execution of
-		// doInBackground()
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+            try {
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            } catch (Exception e) {
+                DigiCareLogger.e(TAG, "Background Task" + e.toString());
+            }
+            return data;
+        }
 
-			ParserTask parserTask = new ParserTask();
+        // Executes in UI thread, after the execution of
+        // doInBackground()
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
 
-			// Invokes the thread for parsing the JSON data
-			parserTask.execute(result);
-		}
-	}
+            ParserTask parserTask = new ParserTask();
 
-	/** A class to parse the Google Places in JSON format */
-	private class ParserTask extends
-			AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+        }
+    }
 
-		// Parsing the data in non-ui thread
-		@Override
-		protected List<List<HashMap<String, String>>> doInBackground(
-				String... jsonData) {
+    /**
+     * A class to parse the Google Places in JSON format
+     */
+    private class ParserTask extends
+            AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
-			JSONObject jObject;
-			List<List<HashMap<String, String>>> routes = null;
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(
+                String... jsonData) {
 
-			try {
-				jObject = new JSONObject(jsonData[0]);
-				MapDirectionsParser parser = new MapDirectionsParser();
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
 
-				// Starts parsing data
-				routes = parser.parse(jObject);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return routes;
-		}
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                MapDirectionsParser parser = new MapDirectionsParser();
 
-		// Executes in UI thread, after the parsing process
-		@Override
-		protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-			ArrayList<LatLng> points = null;
-			// PolylineOptions lineOptions = null;
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
 
-			// Traversing through all the routes
-			for (int i = 0; i < result.size(); i++) {
-				points = new ArrayList<LatLng>();
-				// lineOptions = new PolylineOptions();
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points = null;
+            // PolylineOptions lineOptions = null;
 
-				// Fetching i-th route
-				List<HashMap<String, String>> path = result.get(i);
+            // Traversing through all the routes
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList<LatLng>();
+                // lineOptions = new PolylineOptions();
 
-				// Fetching all the points in i-th route
-				for (int j = 0; j < path.size(); j++) {
-					HashMap<String, String> point = path.get(j);
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
 
-					double lat = Double.parseDouble(point.get("lat"));
-					double lng = Double.parseDouble(point.get("lng"));
-					LatLng position = new LatLng(lat, lng);
+                // Fetching all the points in i-th route
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
 
-					points.add(position);
-				}
-				//
-				// // Adding all the points in the route to LineOptions
-				// lineOptions.addAll(points);
-				// lineOptions.width(2);
-				// lineOptions.color(Color.RED);
-			}
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
 
-			mMapDirectionResponse.onReceived(points);
+                    points.add(position);
+                }
+                //
+                // // Adding all the points in the route to LineOptions
+                // lineOptions.addAll(points);
+                // lineOptions.width(2);
+                // lineOptions.color(Color.RED);
+            }
 
-			// Drawing polyline in the Google Map for the i-th route
-			// map.addPolyline(lineOptions);
-		}
-	}
+            mMapDirectionResponse.onReceived(points);
+
+            // Drawing polyline in the Google Map for the i-th route
+            // map.addPolyline(lineOptions);
+        }
+    }
 }
