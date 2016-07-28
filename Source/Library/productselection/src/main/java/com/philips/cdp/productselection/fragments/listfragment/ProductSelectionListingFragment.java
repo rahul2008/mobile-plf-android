@@ -3,7 +3,6 @@ package com.philips.cdp.productselection.fragments.listfragment;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,7 @@ import com.philips.cdp.productselection.prx.PrxWrapper;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.tagging.Tagging;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +52,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ProductSelectionLogger.i(TAG, "Displaying the list of products for user to select their product");
         mProductListView = (ListView) getActivity().findViewById(R.id.productListView);
 
         injectSummaryDataList();
@@ -70,25 +68,31 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     showFragment(detailedScreenFragmentSelection);
 
 
-                    Map<String, Object> contextData = new HashMap<String, Object>();
+                    Map<String, String> contextData = new HashMap<String, String>();
                     contextData.put(Constants.ACTION_NAME_SPECIAL_EVENT,
                             Constants.ACTION_VALUE_PRODUCT_VIEW);
                     contextData.put(Constants.ACTION_NAME_PRODUCTS, mUserSelectedProduct.getData().getProductTitle()
                             + ":" + mUserSelectedProduct.getData().getCtn());
 
-                    Tagging.trackMultipleActions(Constants.ACTION_KEY_SEND_DATA, contextData);
+                    // Tagging.trackMultipleActions(Constants.ACTION_KEY_SEND_DATA, contextData);
+                    ProductModelSelectionHelper.getInstance().getTaggingInterface().
+                            trackActionWithInfo(Constants.ACTION_KEY_SEND_DATA, contextData);
                 }
             }
         });
 
-        Tagging.trackPage(Constants.PAGE_LIST_SCREEN, getPreviousName());
-        setPreviousPageName(Constants.PAGE_LIST_SCREEN);
+        // Tagging.trackPage(Constants.PAGE_LIST_SCREEN, getPreviousName());
+        if (getPreviousName() != null) {
+            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
+                    (Constants.PAGE_LIST_SCREEN, getPreviousName(), getPreviousName());
+            setPreviousPageName(Constants.PAGE_LIST_SCREEN);
+        } else setPreviousPageName(Constants.PAGE_LIST_SCREEN);
     }
 
 
     private void injectSummaryDataList() {
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
-        ProductSelectionLogger.d(TAG, "Number of Products Available for the selected Country from the passed CTN's : " + summaryList.length);
+        ProductSelectionLogger.i(TAG, "Found " + summaryList.length + " products in region " + ProductModelSelectionHelper.getInstance().getLocale().toString());
         productList = new ArrayList<SummaryModel>();
 
         for (int i = 0; i < summaryList.length; i++) {
