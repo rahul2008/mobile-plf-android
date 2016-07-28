@@ -23,11 +23,8 @@ import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 public class WebFragment extends BaseAnimationSupportFragment {
 
     public static final String TAG = WebPaymentFragment.class.getName();
-    private static final String PAYMENT_CANCEL_CALLBACK_URL = "http://www.philips.com/paymentCancel";
-
     protected WebView mWebView;
     private String mUrl;
-    private Context mContext;
     private CircularLineProgressBar mProgress;
     private boolean mShowProgressBar = true;
 
@@ -49,12 +46,6 @@ public class WebFragment extends BaseAnimationSupportFragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mWebView.loadUrl(mUrl);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
     }
 
     @Override
