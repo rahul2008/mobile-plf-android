@@ -33,9 +33,9 @@ import java.util.ArrayList;
  */
 public class ProdRegUiHelper {
 
-    private static ProdRegUiHelper prodRegUiHelper;
     private UiLauncher mUiLauncher;
     private ProdRegUiListener prodRegUiListener;
+    private static ProdRegUiHelper prodRegHelper;
 
     /*
          * Initialize everything(resources, variables etc) required for Product Registration.
@@ -49,10 +49,10 @@ public class ProdRegUiHelper {
      * Singleton pattern.
      */
     public static ProdRegUiHelper getInstance() {
-        if (prodRegUiHelper == null) {
-            prodRegUiHelper = new ProdRegUiHelper();
+        if (prodRegHelper == null) {
+            prodRegHelper = new ProdRegUiHelper();
         }
-        return prodRegUiHelper;
+        return prodRegHelper;
     }
 
     /**
