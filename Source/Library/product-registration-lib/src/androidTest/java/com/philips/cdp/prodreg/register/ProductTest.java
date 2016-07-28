@@ -6,6 +6,7 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class ProductTest extends InstrumentationTestCase {
+public class ProductTest extends MockitoTestCase {
 
     Product product;
     Context context;

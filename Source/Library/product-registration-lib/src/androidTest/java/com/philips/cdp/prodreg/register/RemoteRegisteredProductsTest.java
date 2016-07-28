@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class RemoteRegisteredProductsTest extends InstrumentationTestCase {
+public class RemoteRegisteredProductsTest extends MockitoTestCase {
 
     RemoteRegisteredProducts remoteRegisteredProducts;
     @Mock

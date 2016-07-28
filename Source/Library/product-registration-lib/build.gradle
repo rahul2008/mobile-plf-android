@@ -176,7 +176,9 @@ dependencies {
         transitive = true
     }
     androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-all:1.10.17'
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {

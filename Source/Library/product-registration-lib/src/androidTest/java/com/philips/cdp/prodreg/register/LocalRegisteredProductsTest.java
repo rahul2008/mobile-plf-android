@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.test.InstrumentationTestCase;
 
 import com.google.gson.Gson;
+import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.when;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class LocalRegisteredProductsTest extends InstrumentationTestCase {
+public class LocalRegisteredProductsTest extends MockitoTestCase {
 
     private LocalRegisteredProducts localRegisteredProducts;
     private Context context;

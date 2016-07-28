@@ -2,6 +2,7 @@ package com.philips.cdp.prodreg.util;
 
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegUtilTest extends InstrumentationTestCase {
+public class ProdRegUtilTest extends MockitoTestCase {
 
 
     @Override
