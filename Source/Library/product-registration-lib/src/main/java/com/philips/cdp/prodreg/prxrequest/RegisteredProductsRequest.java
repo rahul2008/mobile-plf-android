@@ -1,7 +1,11 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
-
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -10,17 +14,10 @@ import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
 public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;

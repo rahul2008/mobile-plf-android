@@ -1,15 +1,14 @@
-package com.philips.cdp.prodreg.localcache;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
-
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
+package com.philips.cdp.prodreg.localcache;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+
 public class ProdRegCache {
 
     private Context context;

@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
@@ -23,10 +28,6 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ProdRegConnectionFragment extends ProdRegBaseFragment implements ProdRegBackListener {
 
     public static final String TAG = ProdRegConnectionFragment.class.getName();

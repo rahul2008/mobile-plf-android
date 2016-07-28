@@ -1,24 +1,21 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
-
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
 public class ProductMetadataRequest extends PrxRequest {
     private static final String TAG = ProductMetadataRequest.class.getSimpleName();
     private String mCtn = null;
