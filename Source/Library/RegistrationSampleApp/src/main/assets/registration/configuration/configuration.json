@@ -25,16 +25,23 @@
   "SigninProviders": {
     "NL": [
       "googleplus",
-      "facebook"
+      "facebook",
+      "sinaweibo",
+      "qq"
 
     ],
     "US": [
       "facebook",
-      "googleplus"
+      "googleplus",
+      "sinaweibo",
+      "qq"
+
     ],
     "default": [
       "facebook",
-      "googleplus"
+      "googleplus",
+      "sinaweibo",
+      "qq"
     ]
   }
 }

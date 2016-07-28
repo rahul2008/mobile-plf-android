@@ -209,6 +209,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void inflateEachProviderBtn(String provider) {
+
         try {
             String providerName = "reg_" + provider;
             String providerDrawable = "reg_" + provider + "_ic";

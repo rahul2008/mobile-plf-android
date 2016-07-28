@@ -103,7 +103,6 @@ public class XProviderButton extends RelativeLayout {
 
     public void setProviderLogoID(int providerLogoID) {
         mIvProviderLogo.setText(providerLogoID);
-        //mIvProviderLogo.setTextColor(Color.parseColor("#bdbdbd"));
     }
 
     public void setProviderTextColor(int providerTextColorID) {

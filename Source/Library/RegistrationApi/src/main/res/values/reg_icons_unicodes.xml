@@ -57,6 +57,10 @@
 
     <string name="reg_googleplus_ic">\uE61b</string>
 
+    <string name="reg_sinaweibo_ic">\uE629</string>
+
+    <string name="reg_qq_ic">\uE625</string>
+
     <string name="uikit_fonticon_tick_light">&#xe600;</string>
 
 </resources>

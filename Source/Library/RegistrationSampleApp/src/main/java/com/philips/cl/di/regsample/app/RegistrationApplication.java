@@ -110,12 +110,18 @@ public class RegistrationApplication extends Application {
         ArrayList<String> values3 = new ArrayList<String>();
         values1.add("facebook");
         values1.add("googleplus");
+        values1.add("sinaweibo");
+        values1.add("qq");
 
         values2.add("facebook");
         values2.add("googleplus");
+        values2.add("sinaweibo");
+        values2.add("qq");
 
         values3.add("facebook");
         values3.add("googleplus");
+        values3.add("sinaweibo");
+        values3.add("qq");
 
         providers.put("NL", values1);
         providers.put("US", values2);
