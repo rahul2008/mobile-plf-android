@@ -146,7 +146,7 @@ public class ProdRegProcessController {
 
     private void doSummaryRequest() {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
-            dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
+            dependencyBundle.putParcelable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
             currentProduct.getProductSummary(fragmentActivity, currentProduct, getSummaryListener());
         }
     }

@@ -106,7 +106,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     public void testHandleState() {
         when(registeredProductMock.isProductAlreadyRegistered(localRegisteredProductsMock)).thenReturn(true);
         prodRegRegistrationController.handleState();
-        verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
+        verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
     }
 
     public void testInit() {
