@@ -7,14 +7,12 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -42,52 +40,9 @@ public class WebFragment extends BaseAnimationSupportFragment {
         mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
         mProgress.startAnimation(70);
         mWebView.setWebViewClient(new IAPWebViewClient());
-//        mWebView.getSettings().setJavaScriptEnabled(true);
-        mUrl = getWebUrl();
-        initializeWebView();
-        return group;
-    }
-
-    private void initializeWebView() {
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        mWebView.setWebViewClient(new WebViewClient() {
-            private int webViewPreviousState;
-            private final int PAGE_STARTED = 0x1;
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                webViewPreviousState = PAGE_STARTED;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (mWebView.canGoBack()) {
-                    onBackPressed();
-                }
-            }
-        });
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        // hideKeyboard();
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-            return true;
-        }
-        return false;
+        mUrl = getWebUrl();
+        return group;
     }
 
     @Override
