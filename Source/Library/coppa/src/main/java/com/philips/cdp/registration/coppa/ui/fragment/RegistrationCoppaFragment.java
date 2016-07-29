@@ -299,11 +299,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
 
         AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
-                getAppInfraInstance().getTagging();
-        aiAppTaggingInterface.createInstanceForComponent("User Registration",
-                RegistrationHelper.getRegistrationApiVersion());
+                getAppTaggingInterface();
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
@@ -318,7 +315,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         lastKnownResourceId = -99;
         coppaExtension = new CoppaExtension(getContext());
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             savedInstanceState.putBoolean("isRegistrationLaunched", isRegistrationLunched);
 
         }
@@ -414,7 +411,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             if (count == 0) {
                 return false;
             }
-            if(count > 1){
+            if (count > 1) {
                 final Fragment fragment = mFragmentManager.getFragments().get(count);
                 if (fragment != null && fragment instanceof RegistrationFragment) {
                     final boolean isRegFragHandledBack = ((RegistrationFragment) fragment)
@@ -437,7 +434,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     }
                     mFragmentManager.popBackStack();
                 }
-            }else{
+            } else {
                 mFragmentManager.popBackStack();
             }
         }
@@ -497,8 +494,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         addFragment(parentalAccessConfirmFragment);
         trackPage(AppTaggingCoppaPages.COPPA_AGE_VERIFICATION);
     }
-
-
 
 
     public int getFragmentBackStackCount() {

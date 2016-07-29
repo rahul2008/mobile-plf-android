@@ -26,8 +26,10 @@ import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
+
 /**
  * {@code RegistrationHelper} class represents the entry point for User Registration component.
  * It exposes APIs to be used when User Registration is intended to be integrated by any application.
@@ -67,6 +69,17 @@ public class RegistrationHelper {
     @SuppressWarnings("deprecation")
     public AppInfraInterface getAppInfraInstance() {
         return AppInfraSingleton.getInstance();
+    }
+
+    private AppTaggingInterface mAppTaggingInterface;
+
+    public AppTaggingInterface getAppTaggingInterface() {
+        if (mAppTaggingInterface == null) {
+            mAppTaggingInterface = getAppInfraInstance().getTagging().
+                    createInstanceForComponent("Philips Registration", getRegistrationApiVersion());
+            mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        }
+        return mAppTaggingInterface;
     }
 
 

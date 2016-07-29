@@ -221,11 +221,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
 
             AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.
-                    getInstance().getAppInfraInstance().getTagging();
-            aiAppTaggingInterface.createInstanceForComponent("User Registration",
-                    RegistrationHelper.getRegistrationApiVersion());
+                    getInstance().getAppTaggingInterface();
             aiAppTaggingInterface.setPreviousPage("coppa:ageverification");
-            aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
             getRegistrationFragment().launchRegistrationFragment();
             mBtnContinue.setEnabled(true);
             return;
