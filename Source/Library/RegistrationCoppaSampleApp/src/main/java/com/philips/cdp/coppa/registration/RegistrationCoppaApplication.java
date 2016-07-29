@@ -15,7 +15,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,15 +40,14 @@ public class RegistrationCoppaApplication extends Application {
         mRegistrationHelper = this;
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
-        aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
-        aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+        RegistrationConfiguration.getInstance().
+                setPrioritisedFunction(RegistrationFunction.Registration);
         RLog.init(this);
         RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
+        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization " +
+                "with locale : " + Locale.getDefault());
 
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -68,7 +66,8 @@ public class RegistrationCoppaApplication extends Application {
     public void initRegistration(Configuration configuration) {
         //Store current environment
 
-        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config",
+                MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
 
@@ -80,16 +79,19 @@ public class RegistrationCoppaApplication extends Application {
         registrationClientId.setEvaluationId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         registrationClientId.setStagingId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         registrationClientId.setProductionId("9z23k3q8bhqyfwx78aru6bz8zksga54u");
-        RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration().setClientIds(registrationClientId);
+        RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration().
+                setClientIds(registrationClientId);
 
         //Configure PIL
         RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
-        RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(configuration.getValue());
+        RegistrationDynamicConfiguration.getInstance().getPilConfiguration().
+                setRegistrationEnvironment(configuration.getValue());
 
 
         //Configure Flow
         RegistrationDynamicConfiguration.getInstance().getFlow().setEmailVerificationRequired(true);
-        RegistrationDynamicConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(true);
+        RegistrationDynamicConfiguration.getInstance().getFlow().
+                setTermsAndConditionsAcceptanceRequired(true);
         HashMap<String, String> ageMap = new HashMap<>();
         ageMap.put("NL", "16");
         ageMap.put("GB", "16");
