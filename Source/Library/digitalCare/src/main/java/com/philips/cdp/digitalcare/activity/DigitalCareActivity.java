@@ -26,6 +26,9 @@ import com.philips.cdp.digitalcare.util.DigitalCareConstants;
  import com.philips.cdp.digitalcare.social.facebook.FacebookScreenFragment;*/
 
 
+/**
+ * The Acitivity Class used while the component used as Activity Invoking.
+ */
 public class DigitalCareActivity extends DigitalCareBaseActivity {
     private static final String TAG = DigitalCareActivity.class.getSimpleName();
     private static int mEnterAnimation = -1;
