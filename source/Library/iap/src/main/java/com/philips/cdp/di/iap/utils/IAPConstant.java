@@ -73,4 +73,5 @@ public class IAPConstant {
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
     public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
     public static final String PRODUCT_CTNS = "PRODUCT_CTNS";
+    public static final String CVV_KEY_BUNDLE = "CVV_KEY_BUNDLE";
 }

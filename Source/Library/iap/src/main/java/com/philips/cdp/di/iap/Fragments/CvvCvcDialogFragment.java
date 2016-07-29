@@ -8,6 +8,8 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public class CvvCvcDialogFragment extends DialogFragment  {
-
-    public static final String CVV_KEY_BUNDLE = "CVV_KEY_BUNDLE"; // can be moved to IAPConstant where all the bundle key has maintained
-    public static final int REQUEST_CODE = 0 ;
-    String cvvValue; //Can be changed to mCVV
+public class CvvCvcDialogFragment extends DialogFragment {
+    public static final int REQUEST_CODE = 0;
+    String mCvv;
     EditText mEditText;
 
     @Override
@@ -32,39 +33,50 @@ public class CvvCvcDialogFragment extends DialogFragment  {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.iap_edit_text_dialog, container, false);
+        View view = inflater.inflate(R.layout.iap_edit_text_dialog, container, false);
 
-        TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
+        TextView dialogTitle = (TextView) view.findViewById(R.id.dialogTitle);
         dialogTitle.setText(R.string.iap_txt_cvv_cvc);
+        final Button btnProceed = (Button) view.findViewById(R.id.dialogButtonOk);
+        mEditText = (EditText) view.findViewById(R.id.iap_edit_box);
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //NOP
+            }
 
-        mEditText = (EditText) v.findViewById(R.id.iap_edit_box);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    btnProceed.setEnabled(false);
+                } else {
+                    btnProceed.setEnabled(true);
+                }
+            }
 
-        Button btnOk = (Button) v.findViewById(R.id.dialogButtonOk);
-        Button btnCancel = (Button) v.findViewById(R.id.dialogButtonCancel);
-        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                //NOP
+            }
+        });
+
+        btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cvvValue = mEditText.getText().toString(); //Empty string handling is missing?
+                mCvv = mEditText.getText().toString();
                 dismiss();
                 setShowsDialog(false);
                 sendResult(REQUEST_CODE);
             }
         });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                setShowsDialog(false);
-            }
-        });
-        mEditText.requestFocus();
 
-        return v;
+        mEditText.requestFocus();
+        return view;
     }
 
     private void sendResult(int REQUEST_CODE) {
         Intent intent = new Intent();
-        intent.putExtra(CVV_KEY_BUNDLE, cvvValue);
+        intent.putExtra(IAPConstant.CVV_KEY_BUNDLE, mCvv);
         getTargetFragment().onActivityResult(
                 getTargetRequestCode(), REQUEST_CODE, intent);
     }
