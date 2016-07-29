@@ -1,10 +1,12 @@
 package com.philips.cdp.prodreg.tagging;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Build;
 
 import com.adobe.mobile.Analytics;
 import com.philips.cdp.product_registration_lib.BuildConfig;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -24,7 +26,7 @@ public class ProdRegTagging {
 
     private static ProdRegTagging prodRegTagging;
     private static AppTaggingInterface aiAppTaggingInterface;
-
+    private static Context context;
     private ProdRegTagging() {
     }
 
@@ -32,8 +34,6 @@ public class ProdRegTagging {
     public static ProdRegTagging getInstance() {
         if (prodRegTagging == null) {
             prodRegTagging = new ProdRegTagging();
-            aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
-            aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         }
         return prodRegTagging;
     }
@@ -130,5 +130,13 @@ public class ProdRegTagging {
         final Map<String, String> hashMap = new HashMap<>();
         hashMap.put(key, value);
         getAiAppTaggingInterface().trackActionWithInfo(event, hashMap);
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void init(final Context context) {
+        ProdRegTagging.context = context;
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }
 }

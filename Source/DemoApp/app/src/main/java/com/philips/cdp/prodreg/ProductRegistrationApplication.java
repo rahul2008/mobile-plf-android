@@ -26,25 +26,9 @@ public class ProductRegistrationApplication extends Application {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
+//        initAppInfra();
         initProductRegistration();
-        initAppInfra();
         initRegistration();
-    }
-
-    @SuppressWarnings("deprecation")
-    private void initAppInfra() {
-        AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
-        gAppInfra = AppInfraSingleton.getInstance();
-        mAIAppTaggingInterface = gAppInfra.getTagging();
-        mAIAppTaggingInterface.setPreviousPage("DemoPage");
-        AILoggingInterface = gAppInfra.getLogging().createInstanceForComponent("Product Registration", com.philips.cdp.prodreg.BuildConfig.VERSION_NAME);
-        if (BuildConfig.DEBUG) {
-            AILoggingInterface.enableConsoleLog(true);
-            AILoggingInterface.enableFileLog(true);
-        } else {
-            AILoggingInterface.enableConsoleLog(false);
-            AILoggingInterface.enableFileLog(false);
-        }
     }
 
     private void initProductRegistration() {
@@ -58,5 +42,19 @@ public class ProductRegistrationApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
         RegistrationHelper.getInstance().initializeUserRegistration(this);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void initAppInfra() {
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
+        gAppInfra = AppInfraSingleton.getInstance();
+        AILoggingInterface = gAppInfra.getLogging().createInstanceForComponent("Product Registration", com.philips.cdp.prodreg.BuildConfig.VERSION_NAME);
+        if (BuildConfig.DEBUG) {
+            AILoggingInterface.enableConsoleLog(true);
+            AILoggingInterface.enableFileLog(true);
+        } else {
+            AILoggingInterface.enableConsoleLog(false);
+            AILoggingInterface.enableFileLog(false);
+        }
     }
 }

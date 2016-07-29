@@ -5,6 +5,7 @@
 */
 package com.philips.cdp.prodreg.logging;
 
+import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.io.PrintWriter;
@@ -14,7 +15,7 @@ import java.net.UnknownHostException;
 @SuppressWarnings("deprecation")
 public class ProdRegLogger {
 
-    private final static LoggingInterface mAppInfraLogger = AppInfraSingleton.getInstance() != null ? AppInfraSingleton.getInstance().getLogging() : null;
+    private static LoggingInterface mAppInfraLogger ;
 
     private ProdRegLogger() {
     }
@@ -99,5 +100,20 @@ public class ProdRegLogger {
         tr.printStackTrace(pw);
         pw.flush();
         return sw.toString();
+    }
+
+    public static void init() {
+        mAppInfraLogger = AppInfraSingleton.getInstance() != null ? AppInfraSingleton.getInstance().getLogging() : null;
+        if (mAppInfraLogger != null) {
+            mAppInfraLogger.createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
+
+            if (BuildConfig.DEBUG) {
+                mAppInfraLogger.enableConsoleLog(true);
+                mAppInfraLogger.enableFileLog(true);
+            } else {
+                mAppInfraLogger.enableConsoleLog(false);
+                mAppInfraLogger.enableFileLog(false);
+            }
+        }
     }
 }

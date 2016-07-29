@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -84,6 +85,8 @@ public class ProdRegHelper {
      */
     public void init(Context context) {
         ProdRegHelper.context = context;
+        ProdRegTagging.init(context);
+//        ProdRegLogger.init();
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
 
