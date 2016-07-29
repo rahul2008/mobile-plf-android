@@ -321,7 +321,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CvvCvcDialogFragment.REQUEST_CODE) {
             String securityCode = data.getStringExtra(
-                    CvvCvcDialogFragment.CVV_KEY_BUNDLE);
+                    IAPConstant.CVV_KEY_BUNDLE);
             IAPLog.d(IAPLog.LOG, "CVV =" + securityCode);
             placeOrderElseMakePayment(securityCode);
         }

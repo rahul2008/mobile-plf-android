@@ -56,6 +56,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private Context mContext;
     private ShoppingCartAPI mShoppingCartAPI;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
+    private boolean mIsDeliveryAddress;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -228,6 +229,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            mIsDeliveryAddress = true;
             mAddressController.getDeliveryModes();
         } else {
             Utility.dismissProgressDialog();
@@ -297,6 +299,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mData = data;
         onOutOfStock(false);
         mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
+        if(mIsDeliveryAddress){
+            mAdapter.setDeliveryAddress(mIsDeliveryAddress);
+            mIsDeliveryAddress = false;
+        }
         if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }

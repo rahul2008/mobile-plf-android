@@ -4,12 +4,10 @@
  */
 package com.philips.cdp.di.iap.adapters;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,7 +30,6 @@ import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -74,6 +70,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private DeliveryModes mDeliveryMode;
     private DeliveryModeDialog mDialog;
+
+    private boolean mIsDeliveryAddressSet;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -248,7 +246,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
                 }
 
-                if (data.getVatActualValue().equalsIgnoreCase("0")) {
+                if (data.getVatActualValue().equalsIgnoreCase("0") && !mIsDeliveryAddressSet) {
                     shoppingCartFooter.mVatValue.setVisibility(View.GONE);
                     shoppingCartFooter.mVAT.setVisibility(View.GONE);
                 } else {
@@ -271,7 +269,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
 
-                    final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
                     shoppingCartFooter.mEditIcon.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
                     shoppingCartFooter.mEditIcon.setOnClickListener(new View.OnClickListener() {
@@ -422,6 +419,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
+    }
+
+    public void setDeliveryAddress(boolean isDeliveryAddressSet){
+        mIsDeliveryAddressSet = isDeliveryAddressSet;
     }
 
 }
