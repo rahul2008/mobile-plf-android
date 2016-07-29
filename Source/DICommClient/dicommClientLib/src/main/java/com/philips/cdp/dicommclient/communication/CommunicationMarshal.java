@@ -28,34 +28,34 @@ public class CommunicationMarshal extends CommunicationStrategy {
 
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
-        findAvailableStrategy(networkNode).getProperties(portName, productId, responseHandler);
+        findAvailableStrategy().getProperties(portName, productId, responseHandler);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName,
                               int productId, ResponseHandler responseHandler) {
-        findAvailableStrategy(networkNode).putProperties(dataMap, portName, productId, responseHandler);
+        findAvailableStrategy().putProperties(dataMap, portName, productId, responseHandler);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName,
                               int productId, ResponseHandler responseHandler) {
-        findAvailableStrategy(networkNode).addProperties(dataMap, portName, productId, responseHandler);
+        findAvailableStrategy().addProperties(dataMap, portName, productId, responseHandler);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
-        findAvailableStrategy(networkNode).deleteProperties(portName, productId, responseHandler);
+        findAvailableStrategy().deleteProperties(portName, productId, responseHandler);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
-        findAvailableStrategy(networkNode).subscribe(portName, productId, subscriptionTtl, responseHandler);
+        findAvailableStrategy().subscribe(portName, productId, subscriptionTtl, responseHandler);
     }
 
     @Override
     public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
-        findAvailableStrategy(networkNode).unsubscribe(portName, productId, responseHandler);
+        findAvailableStrategy().unsubscribe(portName, productId, responseHandler);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CommunicationMarshal extends CommunicationStrategy {
         return true;
     }
 
-    private CommunicationStrategy findAvailableStrategy(NetworkNode networkNode) {
+    private CommunicationStrategy findAvailableStrategy() {
         if (mLocalStrategy.isAvailable()) {
             return mLocalStrategy;
         } else if (mRemoteStrategy.isAvailable()) {
@@ -75,7 +75,7 @@ public class CommunicationMarshal extends CommunicationStrategy {
     @Override
     public void enableSubscription(
             SubscriptionEventListener subscriptionEventListener) {
-        findAvailableStrategy(networkNode).enableSubscription(subscriptionEventListener);
+        findAvailableStrategy().enableSubscription(subscriptionEventListener);
     }
 
     @Override
