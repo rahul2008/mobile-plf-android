@@ -50,7 +50,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.listeners.PrxSummaryCallback;
+import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -376,7 +376,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     protected void requestPRXAssetData() {
         DigiCareLogger.i(TAG, "Requesting the PRX Asset Data");
-        mPrxWrapper = new PrxWrapper(mActivity, new PrxSummaryCallback() {
+        mPrxWrapper = new PrxWrapper(mActivity, new PrxSummaryListener() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
                 if (getContext() != null) {

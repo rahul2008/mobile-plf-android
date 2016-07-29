@@ -39,7 +39,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
-import com.philips.cdp.digitalcare.listeners.PrxSummaryCallback;
+import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
@@ -67,7 +67,7 @@ import java.util.Locale;
 /**
  * The main feature enable screen opens once the ConsumerCare Component is triggered.
  */
-public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxSummaryCallback {
+public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxSummaryListener {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
