@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
@@ -16,8 +15,6 @@ import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -141,7 +138,6 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     }
 
     public void testGetProdRegListener() {
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
         ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
