@@ -31,12 +31,13 @@ public class ProductRegistrationApplication extends Application {
         initRegistration();
     }
 
+    @SuppressWarnings("deprecation")
     private void initAppInfra() {
         AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra = AppInfraSingleton.getInstance();
-        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Product Registration", com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
+        mAIAppTaggingInterface = gAppInfra.getTagging();
         mAIAppTaggingInterface.setPreviousPage("DemoPage");
-        AILoggingInterface = gAppInfra.getLogging().createInstanceForComponent("Product Registration", com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
+        AILoggingInterface = gAppInfra.getLogging().createInstanceForComponent("Product Registration", com.philips.cdp.prodreg.BuildConfig.VERSION_NAME);
         if (BuildConfig.DEBUG) {
             AILoggingInterface.enableConsoleLog(true);
             AILoggingInterface.enableFileLog(true);
