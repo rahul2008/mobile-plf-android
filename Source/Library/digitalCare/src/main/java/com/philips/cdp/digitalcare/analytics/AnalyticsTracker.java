@@ -18,7 +18,6 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.text.SimpleDateFormat;
 import java.util.Currency;
@@ -171,9 +170,15 @@ public class AnalyticsTracker {
 
     private static String getCurrency() {
         Currency currency = Currency.getInstance(DigitalCareConfigManager.getInstance().getLocale());
-        String currencyCode = currency.getCurrencyCode();
-        if (currencyCode == null)
-            currencyCode = AnalyticsConstants.KEY_CURRENCY;
+        String currencyCode = getCurrencyCode(currency);
+        return currencyCode;
+    }
+
+    private static String getCurrencyCode(Currency currency) {
+
+        String currencyCode = null;
+        if (currency.getCurrencyCode() != null) currencyCode = currency.getCurrencyCode();
+        else currencyCode = AnalyticsConstants.KEY_CURRENCY;
         return currencyCode;
     }
 
@@ -201,8 +206,8 @@ public class AnalyticsTracker {
         return date;
     }
 
-    public static void setTaggingInfo(boolean taggingEnabled, String appId){
+    public static void setTaggingInfo(boolean taggingEnabled, String appId) {
         mTaggingEnabled = taggingEnabled;
-        mAppId  = appId;
+        mAppId = appId;
     }
 }

@@ -40,7 +40,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
         int alwaysFinishActivity = 0;
 
         if (savedInstanceState != null)
-            alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
+            alwaysFinishActivity = getAnInt(savedInstanceState, "ALWAYS_FINISH_ACTIVITIES");
 
         setContentView(R.layout.consumercare_activity_digi_care);
         try {
@@ -71,9 +71,9 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
         String startAnim = null;
         String endAnim = null;
 
-        int startAnimation = bundleExtras.getInt(DigitalCareConstants.START_ANIMATION_ID);
-        int endAnimation = bundleExtras.getInt(DigitalCareConstants.STOP_ANIMATION_ID);
-        int orientation = bundleExtras.getInt(DigitalCareConstants.SCREEN_ORIENTATION);
+        int startAnimation = getAnInt(bundleExtras, DigitalCareConstants.START_ANIMATION_ID);
+        int endAnimation = getAnInt(bundleExtras, DigitalCareConstants.STOP_ANIMATION_ID);
+        int orientation = getAnInt(bundleExtras, DigitalCareConstants.SCREEN_ORIENTATION);
 
         if (startAnimation == 0 && endAnimation == 0) {
             return;
@@ -89,6 +89,10 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
                 packageName);
         setRequestedOrientation(orientation);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
+    }
+
+    private int getAnInt(Bundle bundleExtras, String startAnimationId) {
+        return bundleExtras.getInt(startAnimationId);
     }
 
 	/*@Override

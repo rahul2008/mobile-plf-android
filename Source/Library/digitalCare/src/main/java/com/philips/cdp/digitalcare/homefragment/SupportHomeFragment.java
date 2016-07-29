@@ -39,7 +39,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
-import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
+import com.philips.cdp.digitalcare.listeners.PrxSummaryCallback;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
@@ -58,8 +58,6 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.List;
@@ -69,7 +67,7 @@ import java.util.Locale;
 /**
  * The main feature enable screen opens once the ConsumerCare Component is triggered.
  */
-public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback {
+public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxSummaryCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";

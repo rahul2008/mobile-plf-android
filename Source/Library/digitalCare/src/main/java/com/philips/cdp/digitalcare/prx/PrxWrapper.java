@@ -18,7 +18,7 @@ import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
-import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
+import com.philips.cdp.digitalcare.listeners.PrxSummaryCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -63,7 +63,7 @@ public class PrxWrapper {
         private String mCatalogCode = "CONSUMER";*/
     private DigitalCareConfigManager mConfigManager = null;
     private Activity mActivity = null;
-    private prxSummaryCallback mSummaryCallback = null;
+    private PrxSummaryCallback mSummaryCallback = null;
     private PrxFaqCallback mSupportCallback = null;
     private String mCtn = null;
     private String mSectorCode = null;
@@ -76,7 +76,7 @@ public class PrxWrapper {
     private RequestManager mRequestManager = null;
 
 
-    public PrxWrapper(Activity activity, prxSummaryCallback callback) {
+    public PrxWrapper(Activity activity, PrxSummaryCallback callback) {
         this.mActivity = activity;
         this.mSummaryCallback = callback;
         mConfigManager = DigitalCareConfigManager.getInstance();
