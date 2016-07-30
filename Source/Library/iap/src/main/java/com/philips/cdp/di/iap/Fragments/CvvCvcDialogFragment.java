@@ -18,12 +18,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class CvvCvcDialogFragment extends DialogFragment {
-    public static final int REQUEST_CODE = 0;
-    String mCvv;
-    EditText mEditText;
+    protected static final int REQUEST_CODE = 0;
+    private String mCvv;
+    private EditText mEditText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,17 @@ public class CvvCvcDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_edit_text_dialog, container, false);
-
-        TextView dialogTitle = (TextView) view.findViewById(R.id.dialogTitle);
-        dialogTitle.setText(R.string.iap_txt_cvv_cvc);
+        Bundle bundle = getArguments();
+        PaymentMethod mPaymentMethod = null;
+        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
+            mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
+        }
+        TextView iap_mastercard = (TextView) view.findViewById(R.id.iap_mastercard);
+        TextView iap_mastercard_number = (TextView) view.findViewById(R.id.iap_mastercard_number);
+        if (mPaymentMethod != null) {
+            iap_mastercard.setText(mPaymentMethod.getCardType().getCode());
+            iap_mastercard_number.setText(mPaymentMethod.getCardNumber());
+        }
         final Button btnProceed = (Button) view.findViewById(R.id.dialogButtonOk);
         mEditText = (EditText) view.findViewById(R.id.iap_edit_box);
         mEditText.addTextChangedListener(new TextWatcher() {

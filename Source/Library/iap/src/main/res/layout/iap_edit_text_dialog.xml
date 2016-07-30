@@ -6,59 +6,88 @@
 
     <LinearLayout
         android:id="@+id/parent_id"
-        android:layout_width="@dimen/uikit_modal_alert_dialog_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/uikit_modal_alert"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dialogTitle"
+            android:id="@+id/iap_mastercard"
             style="@style/iapCentralesansBookFont"
+            android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
-            android:layout_marginTop="@dimen/uikit_modal_alert_text_top_margin"
-            android:text="@string/uikit_modal_alert_label"
+            android:text="@string/mastercard"
+            android:textAllCaps="true"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_label_text_size" />
 
-        <EditText
-            android:id="@+id/iap_edit_box"
-            style="@style/PhilipsTextInputLayoutStyleEnabled"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/iap_mastercard_number"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/uikit_modal_alert_text_right_margin"
+            android:text="@string/mastercard"
             android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
-            android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
-            android:layout_weight="0.5"
-            android:hint="@string/iap_cvv_cvc"
             android:textColor="?attr/uikit_baseColor"
-            android:inputType="numberPassword"
-            android:maxLength="4"
-            android:digits="0,1,2,3,4,5,6,7,8,9"
-            android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+            android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uikit_view_height"
+            android:background="@color/uikit_enricher4" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/uikit_modal_alert_bottom_layout_margin"
             android:layout_marginStart="@dimen/uikit_modal_alert_bottom_layout_margin"
-            android:layout_marginTop="@dimen/uikit_modal_alert_button_top_margin"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/dialogButtonOk"
+            <TextView
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/iap_txt_cvv_cvc"
+                android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+
+            <EditText
+                android:id="@+id/iap_edit_box"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:minWidth="@dimen/uikit_modal_alert_button_width"
-                android:enabled="false"
-                android:text="@string/iap_proceed"
+                android:digits="0,1,2,3,4,5,6,7,8,9"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+                android:gravity="center_horizontal"
+                android:hint="***"
+                android:inputType="numberPassword"
+                android:maxLength="4"
+                android:textColor="?attr/uikit_baseColor"
                 android:textSize="@dimen/uikit_modal_alert_message_text_size" />
-
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uikit_view_height"
+            android:background="@color/uikit_enricher4" />
+
+        <Button
+            android:id="@+id/dialogButtonOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginStart="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+            android:enabled="false"
+            android:minWidth="@dimen/uikit_modal_alert_button_width"
+            android:text="@string/iap_proceed"
+            android:textSize="@dimen/uikit_modal_alert_message_text_size" />
     </LinearLayout>
 </FrameLayout>

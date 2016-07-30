@@ -52,6 +52,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private Context mContext;
     public static final String TAG = OrderSummaryFragment.class.getName();
     private TwoButtonDailogFragment mDailogFragment;
+    Bundle bundle;
 
     @Override
     public void onResume() {
@@ -74,7 +75,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         mBtnPayNow.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
 
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         if (bundle.containsKey(IAPConstant.BILLING_ADDRESS_FIELDS)) {
             mBillingAddress = (AddressFields) bundle.getSerializable(IAPConstant.BILLING_ADDRESS_FIELDS);
         }
@@ -311,8 +312,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     private void showCvvDialog(FragmentManager pFragmentManager) {
+        if (mPaymentMethod != null)
+            bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
         CvvCvcDialogFragment cvvCvcDialogFragment = new CvvCvcDialogFragment();
         cvvCvcDialogFragment.setTargetFragment(this, CvvCvcDialogFragment.REQUEST_CODE);
+        cvvCvcDialogFragment.setArguments(bundle);
         cvvCvcDialogFragment.show(pFragmentManager, "EditErrorDialog");
         cvvCvcDialogFragment.setShowsDialog(true);
     }
