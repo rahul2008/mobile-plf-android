@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
@@ -17,6 +16,10 @@ import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 
+import junit.framework.TestCase;
+
+import org.junit.Before;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,7 +28,7 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegRegistrationControllerTest extends MockitoTestCase {
+public class ProdRegRegistrationControllerTest extends TestCase {
 
     private ProdRegRegistrationController prodRegRegistrationController;
     private FragmentActivity fragmentActivity;
@@ -41,10 +44,10 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     private ProdRegHelper prodRegHelperMock;
     private ProdRegConnectionFragment prodRegConnectionFragmentMock;
 
-    @Override
+    @Before
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        context = mock(Context.class);
         fragmentActivity = mock(FragmentActivity.class);
         prodRegHelperMock = mock(ProdRegHelper.class);
         prodRegCacheMock = mock(ProdRegCache.class);

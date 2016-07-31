@@ -2,11 +2,9 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
@@ -17,6 +15,8 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
+import junit.framework.TestCase;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class ProductTest extends MockitoTestCase {
+public class ProductTest extends TestCase {
 
     Product product;
     Context context;
@@ -34,7 +34,7 @@ public class ProductTest extends MockitoTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER);
-        context = getInstrumentation().getContext();
+        context = mock(Context.class);
         assertTrue(product.getRequestManager(context) instanceof RequestManager);
     }
 

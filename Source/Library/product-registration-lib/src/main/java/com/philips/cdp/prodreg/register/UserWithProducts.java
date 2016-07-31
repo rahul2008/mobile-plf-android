@@ -7,6 +7,7 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
@@ -112,7 +113,7 @@ public class UserWithProducts {
             if (!getUserProduct().isUserSignedIn(mContext)) {
                 getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
                 sendErrorCallBack(registeredProduct);
-            } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !ProdRegUtil.isValidDate(registeredProduct.getPurchaseDate())) {
+            } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !new ProdRegUtil().isValidDate(registeredProduct.getPurchaseDate())) {
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
@@ -264,7 +265,7 @@ public class UserWithProducts {
 
     protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
         final boolean requiredSerialNumber = data != null && data.getRequiresSerialNumber().equalsIgnoreCase("true");
-        final boolean isValidSerialNumber = ProdRegUtil.isValidSerialNumber(requiredSerialNumber, data.getSerialNumberFormat(), registeredProduct.getSerialNumber());
+        final boolean isValidSerialNumber = new ProdRegUtil().isValidSerialNumber(requiredSerialNumber, data.getSerialNumberFormat(), registeredProduct.getSerialNumber());
         return isValidSerialNumber;
     }
 

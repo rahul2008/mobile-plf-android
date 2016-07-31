@@ -2,15 +2,16 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.test.InstrumentationTestCase;
 
 import com.google.gson.Gson;
-import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.registration.User;
 
+import junit.framework.TestCase;
+
+import org.junit.Before;
 import org.mockito.Mock;
 
 import java.util.HashSet;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.when;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class LocalRegisteredProductsTest extends MockitoTestCase {
+public class LocalRegisteredProductsTest extends TestCase {
 
     private LocalRegisteredProducts localRegisteredProducts;
     private Context context;
@@ -34,10 +35,10 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
     private Gson gson;
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        context = mock(Context.class);
         User user = new User(context);
         gson = new Gson();
         addDummyProjects();

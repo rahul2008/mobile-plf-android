@@ -4,7 +4,7 @@ apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
 def coverageSourceDirs = [
-        '../Library/product-registration-lib/src/androidTest/java/com/philips/cdp/prodreg'
+        '../Library/product-registration-lib/src/test/java/com/philips/cdp/prodreg'
 ]
 buildscript {
     repositories {
@@ -175,10 +175,9 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.1', ext: 'aar') {
         transitive = true
     }
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile "org.robolectric:robolectric:3.1.1"
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {

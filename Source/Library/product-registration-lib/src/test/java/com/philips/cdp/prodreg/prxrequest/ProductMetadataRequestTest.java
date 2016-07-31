@@ -1,6 +1,5 @@
 package com.philips.cdp.prodreg.prxrequest;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.prxclient.request.RequestType;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 public class ProductMetadataRequestTest extends InstrumentationTestCase {
 
     ProductMetadataRequest productMetadataRequest;
-    Context context;
     @Mock
     String mCtn = "HD8967/01";
 
@@ -23,7 +21,6 @@ public class ProductMetadataRequestTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         productMetadataRequest = new ProductMetadataRequest(mCtn);
-        context = getInstrumentation().getContext();
     }
 
     public void testGetRequestType() throws Exception {

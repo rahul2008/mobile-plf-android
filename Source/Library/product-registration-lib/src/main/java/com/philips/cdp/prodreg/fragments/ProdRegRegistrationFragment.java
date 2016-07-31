@@ -24,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -39,6 +40,7 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -61,8 +63,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
             final int mMonthInt = (arg2 + 1);
-            String mMonth = ProdRegUtil.getValidatedString(mMonthInt);
-            String mDate = ProdRegUtil.getValidatedString(arg3);
+            final ProdRegUtil prodRegUtil = new ProdRegUtil();
+            String mMonth = prodRegUtil.getValidatedString(mMonthInt);
+            String mDate = prodRegUtil.getValidatedString(arg3);
             SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_format));
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
@@ -185,7 +188,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "purchaseDateRequired");
         final ProdRegCache prodRegCache = new ProdRegCache(activity);
-        ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
+        new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_DATE_COUNT)));
         purchaseDateLayout.showError(editTextView);
     }
@@ -210,7 +213,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 }
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), myDateListener, mYear, mMonthInt, mDay);
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.getDatePicker().setMinDate(ProdRegUtil.getMinDate());
+                datePickerDialog.getDatePicker().setMinDate(new ProdRegUtil().getMinDate());
                 datePickerDialog.show();
             }
         };
