@@ -15,8 +15,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 
 /**
  * Created by 310240027 on 6/22/2016.
@@ -24,6 +22,8 @@ import com.philips.platform.appframework.userregistrationscreen.UserRegistration
 
 public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListener,RegistrationTitleBarListener {
 
+    int containerID;
+    FragmentActivity fragmentActivity;
     private UICoCoUserRegImpl(){
 
     }
@@ -51,6 +51,10 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     public void registerForNextState(SetStateCallBack setStateCallBack){
         this.setStateCallBack = setStateCallBack;
     }
+
+    public void setFragmentContainer(int containerID){
+        this.containerID = containerID;
+    }
     @Override
     public void loadPlugIn(Context context) {
         this.context = context;
@@ -60,9 +64,9 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
 
     @Override
     public void runCoCo(Context context) {
-        if(context instanceof UserRegistrationActivity) {
-            launchRegistrationFragment(R.id.frame_container_user_reg, (UserRegistrationActivity) context, true);
-        }
+        //if(context instanceof UserRegistrationActivity) {
+            launchRegistrationFragment(containerID,fragmentActivity, true);
+        //}
 
     }
     /**
@@ -98,8 +102,8 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     }
 
     @Override
-    public void setFragActivity(FragmentActivity fa) {
-
+    public void setFragActivity(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
     }
 
     @Override

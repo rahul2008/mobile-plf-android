@@ -15,18 +15,25 @@ public class SharedPreferenceUtility {
     //
     private SharedPreferences mMyPreferences;
 
-    private SharedPreferenceUtility(){ }
+    public SharedPreferenceUtility(Context ctxt){
+        mContext = ctxt;
+        mMyPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    }
 
+    public SharedPreferences getMyPreferences() {
+        return mMyPreferences;
+    }
+
+    /*
     public static SharedPreferenceUtility getInstance(){
         if (mInstance == null) mInstance = new SharedPreferenceUtility();
         return mInstance;
-    }
+    }*/
 
-    public void Initialize(Context ctxt){
+   /* public void Initialize(Context ctxt){
         mContext = ctxt;
-        //
         mMyPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-    }
+    }*/
     public void writePreferenceString(String key, String value){
         SharedPreferences.Editor e = mMyPreferences.edit();
         e.putString(key, value);

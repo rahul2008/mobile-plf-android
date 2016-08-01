@@ -14,7 +14,7 @@ import com.philips.platform.modularui.util.UIConstants;
  * Created by 310240027 on 7/4/2016.
  */
 public class SplashPresenter extends UIBasePresenter implements UICoCoUserRegImpl.SetStateCallBack {
-
+    SharedPreferenceUtility sharedPreferenceUtility;
     SplashPresenter(){
         setState(UIState.UI_SPLASH_STATE);
     }
@@ -29,13 +29,14 @@ public class SplashPresenter extends UIBasePresenter implements UICoCoUserRegImp
 
     @Override
     public void onLoad(Context context) {
+        sharedPreferenceUtility = new SharedPreferenceUtility(context);
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         if (uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
             appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
-        } else if (SharedPreferenceUtility.getInstance().getPreferenceBoolean(UIConstants.DONE_PRESSED) && !uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
+        } else if (sharedPreferenceUtility.getPreferenceBoolean(UIConstants.DONE_PRESSED) && !uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
             uiCoCoUserReg.registerForNextState(this);
-            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
+            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_WELCOME_REGISTRATION_STATE, context, this);
         } else {
             appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_WELCOME_STATE, context, this);
         }

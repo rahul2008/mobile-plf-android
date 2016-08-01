@@ -16,26 +16,30 @@ import com.philips.platform.modularui.util.UIConstants;
  */
 public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegImpl.SetStateCallBack {
 
-    WelcomePresenter(){
-        setState(UIState.UI_WELCOME_STATE);
+    public WelcomePresenter(){
+
     }
     AppFrameworkApplication appFrameworkApplication;
     UICoCoUserRegImpl uiCoCoUserReg;
+    SharedPreferenceUtility sharedPreferenceUtility;
 
     @Override
     public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
+        uiCoCoUserReg.setFragmentContainer(R.id.fragment_frame_container);
         switch (componentID) {
 
             case R.id.appframework_skip_button:
-                SharedPreferenceUtility.getInstance().writePreferenceBoolean(UIConstants.DONE_PRESSED,true);
                 uiCoCoUserReg.registerForNextState(this);
+                uiCoCoUserReg.setFragActivity((WelcomeActivity)context);
                 appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
                 break;
             case R.id.start_registration_button:
-                SharedPreferenceUtility.getInstance().writePreferenceBoolean(UIConstants.DONE_PRESSED,true);
+                sharedPreferenceUtility = new SharedPreferenceUtility(context);
+                sharedPreferenceUtility.writePreferenceBoolean(UIConstants.DONE_PRESSED,true);
                 uiCoCoUserReg.registerForNextState(this);
+                uiCoCoUserReg.setFragActivity((WelcomeActivity)context);
                 appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
                 break;
         }
@@ -45,7 +49,19 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
     @Override
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
+        sharedPreferenceUtility = new SharedPreferenceUtility(context);
+        if(appFrameworkApplication.getFlowManager().getCurrentState().equals(UIState.UI_WELCOME_REGISTRATION_STATE)){
+            setState(UIState.UI_WELCOME_REGISTRATION_STATE);
+            uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
+            uiCoCoUserReg.registerForNextState(this);
+            uiCoCoUserReg.setFragActivity((WelcomeActivity)context);
+            uiCoCoUserReg.setFragmentContainer(R.id.fragment_frame_container);
+            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
+        }
+        else {
+            setState(UIState.UI_WELCOME_STATE);
+            ((WelcomeActivity)context).loadWelcomeFragment();
+        }
     }
 
 

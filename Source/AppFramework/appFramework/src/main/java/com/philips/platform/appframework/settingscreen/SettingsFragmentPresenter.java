@@ -3,6 +3,8 @@ package com.philips.platform.appframework.settingscreen;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -29,6 +31,8 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UICoCo
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         uiCoCoUserReg.registerForNextState(this);
+        uiCoCoUserReg.setFragActivity((HomeActivity)context);
+        uiCoCoUserReg.setFragmentContainer(R.id.frame_container);
         appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
     }
 

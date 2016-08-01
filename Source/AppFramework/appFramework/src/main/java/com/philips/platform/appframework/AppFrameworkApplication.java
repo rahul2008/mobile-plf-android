@@ -14,16 +14,16 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-//import com.philips.cdp.tagging.Tagging;
-import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.modularui.statecontroller.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.modularui.statecontroller.FlowManager;
 
 import java.util.Locale;
+
+//import com.philips.cdp.tagging.Tagging;
 
 
 public class AppFrameworkApplication extends Application {
@@ -38,7 +38,6 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         mContext = getApplicationContext();
-        SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         flowManager = new FlowManager();
         AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra = AppInfraSingleton.getInstance();

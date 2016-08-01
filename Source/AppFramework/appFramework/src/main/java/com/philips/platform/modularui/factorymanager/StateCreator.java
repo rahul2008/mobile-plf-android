@@ -7,7 +7,8 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.IntroductionScreenState;
+import com.philips.platform.modularui.stateimpl.WelcomeRegistrationState;
+import com.philips.platform.modularui.stateimpl.WelcomeState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -38,12 +39,14 @@ public class StateCreator {
         appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
         if(!appFrameworkApplication.getFlowManager().getStateMap().containsKey(stateID)){
             switch (stateID){
-
+                case UIState.UI_WELCOME_REGISTRATION_STATE:
+                    uiState = new WelcomeRegistrationState(UIState.UI_WELCOME_REGISTRATION_STATE);
+                    break;
                 case UIState.UI_SPLASH_UNREGISTERED_STATE:
-                    uiState = new IntroductionScreenState(UIState.UI_SPLASH_UNREGISTERED_STATE);
+                    uiState = new WelcomeState(UIState.UI_SPLASH_UNREGISTERED_STATE);
                     break;
                 case UIState.UI_WELCOME_STATE:
-                    uiState = new IntroductionScreenState(UIState.UI_WELCOME_STATE);
+                    uiState = new WelcomeState(UIState.UI_WELCOME_STATE);
                     break;
                 case UIState.UI_REGISTRATION_STATE:
                     uiState = new UserRegistrationState(UIState.UI_REGISTRATION_STATE);

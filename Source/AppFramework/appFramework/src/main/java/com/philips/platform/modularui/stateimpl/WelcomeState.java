@@ -9,8 +9,8 @@ import com.philips.platform.modularui.statecontroller.UIState;
 /**
  * Created by 310240027 on 7/4/2016.
  */
-public class IntroductionScreenState extends UIState {
-    public IntroductionScreenState(@UIStateDef int stateID) {
+public class WelcomeState extends UIState {
+    public WelcomeState(@UIStateDef int stateID) {
         super(stateID);
     }
 
