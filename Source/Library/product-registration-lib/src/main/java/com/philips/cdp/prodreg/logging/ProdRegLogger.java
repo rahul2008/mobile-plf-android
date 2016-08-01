@@ -5,6 +5,9 @@
 */
 package com.philips.cdp.prodreg.logging;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -103,11 +106,12 @@ public class ProdRegLogger {
         return sw.toString();
     }
 
-    public static void init() {
+    public static void init(Context context) {
         if (AppInfraSingleton.getInstance() != null && AppInfraSingleton.getInstance().getLogging() != null) {
             mAppInfraLogger = AppInfraSingleton.getInstance().getLogging().createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
             if (mAppInfraLogger != null) {
-                if (BuildConfig.DEBUG) {
+                boolean isDebuggable = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+                if (isDebuggable) {
                     mAppInfraLogger.enableConsoleLog(true);
                     mAppInfraLogger.enableFileLog(true);
                 } else {

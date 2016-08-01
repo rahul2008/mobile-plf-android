@@ -88,7 +88,7 @@ public class ProdRegHelper {
     public void init(Context context) {
         ProdRegHelper.context = context;
         ProdRegTagging.init(context);
-        ProdRegLogger.init();
+        ProdRegLogger.init(context);
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
 

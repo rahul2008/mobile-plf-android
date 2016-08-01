@@ -26,7 +26,6 @@ public class ProdRegTagging {
 
     private static ProdRegTagging prodRegTagging;
     private static AppTaggingInterface aiAppTaggingInterface;
-    private static Context context;
     private ProdRegTagging() {
     }
 
@@ -57,6 +56,13 @@ public class ProdRegTagging {
                 "yyyy-MM-dd HH:mm:ss");
         String date = dateFormat.format(new Date(timeMillis));
         return date;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void init(final Context context) {
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }
 
     public AppTaggingInterface getAiAppTaggingInterface() {
@@ -130,13 +136,5 @@ public class ProdRegTagging {
         final Map<String, String> hashMap = new HashMap<>();
         hashMap.put(key, value);
         getAiAppTaggingInterface().trackActionWithInfo(event, hashMap);
-    }
-
-    @SuppressWarnings("deprecation")
-    public static void init(final Context context) {
-        ProdRegTagging.context = context;
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
-        aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }
 }
