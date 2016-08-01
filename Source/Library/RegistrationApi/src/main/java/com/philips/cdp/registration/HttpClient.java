@@ -13,7 +13,6 @@ import android.support.v4.util.Pair;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,17 +40,17 @@ import javax.net.ssl.X509TrustManager;
  */
 public class HttpClient {
 
-    private String ACCESS_TOKEN_HEADER = "x-accessToken";
+    final private String ACCESS_TOKEN_HEADER = "x-accessToken";
 
-    private String CONTENT_TYPE_HEADER = "Content-Type";
+    final private String CONTENT_TYPE_HEADER = "Content-Type";
 
-    private String REQUEST_METHOD_POST = "POST";
+    final private String REQUEST_METHOD_POST = "POST";
 
-    private String REQUEST_METHOD_GET = "GET";
+    final  private String REQUEST_METHOD_GET = "GET";
 
-    private String CONTENT_TYPE = "application/x-www-form-urlencoded";
+    final private String CONTENT_TYPE = "application/x-www-form-urlencoded";
 
-    private String LOG_TAG = "HttpClient";
+    final private String LOG_TAG = "HttpClient";
 
     /**
      * {@code callPost} method makes a POST call to a webservice.
@@ -65,16 +64,15 @@ public class HttpClient {
                            String accessToken) {
         URL url = null;
         OutputStream outputStream = null;
-        BufferedWriter bufferedWriter = null;
         BufferedReader bufferedReader = null;
         StringBuilder inputResponse = new StringBuilder();
         try {
             url = new URL(urlString);
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            final HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestProperty(ACCESS_TOKEN_HEADER, accessToken);
             connection.setRequestProperty(CONTENT_TYPE_HEADER, CONTENT_TYPE);
             connection.setRequestMethod(REQUEST_METHOD_POST);
-            javax.net.ssl.SSLSocketFactory sf = createSslSocketFactory();
+            final javax.net.ssl.SSLSocketFactory sf = createSslSocketFactory();
             connection.setSSLSocketFactory(sf);
             connection.setHostnameVerifier(new HostnameVerifier() {
                 @Override
@@ -87,22 +85,18 @@ public class HttpClient {
             wr.writeBytes(getPostString(nameValuePairs));
             wr.flush();
             wr.close();
-            int responseCode = connection.getResponseCode();
+            final int responseCode = connection.getResponseCode();
             Log.i(LOG_TAG, "HTTPsURLConnection  response code: " + responseCode);
             inputResponse = new StringBuilder();
             bufferedReader = getBufferedReader(inputResponse, responseCode,
                     new InputStreamReader(connection.getInputStream()),
                     new InputStreamReader(connection.getErrorStream()));
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             Log.e(LOG_TAG, "Error in POST call " + e.getMessage());
             e.printStackTrace();
         } finally {
             try {
-                if (bufferedWriter != null)
-                    bufferedWriter.close();
                 if (bufferedReader != null)
                     bufferedReader.close();
             } catch (IOException e) {
@@ -214,17 +208,6 @@ public class HttpClient {
     }
 
     private javax.net.ssl.SSLSocketFactory createSslSocketFactory() throws Exception {
-        TrustManager[] byPassTrustManagers = new TrustManager[]{new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return new X509Certificate[0];
-            }
-
-            public void checkClientTrusted(X509Certificate[] chain, String authType) {
-            }
-
-            public void checkServerTrusted(X509Certificate[] chain, String authType) {
-            }
-        }};
         SSLContext sslContext = SSLContext.getInstance("TLS");
 
         TrustManager tm = new X509TrustManager() {
