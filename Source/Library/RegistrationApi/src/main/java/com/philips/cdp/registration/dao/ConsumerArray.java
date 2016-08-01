@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -12,6 +11,9 @@ package com.philips.cdp.registration.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Consumer array for interested items.
+ */
 public class ConsumerArray {
 
     /* Consumer interest list */
@@ -21,7 +23,7 @@ public class ConsumerArray {
     private static ConsumerArray mConsumerArray = null;
 
     /**
-     *Class Constructor
+     * Class Constructor
      */
     public ConsumerArray() {
         mConsumerInterestArray = new ArrayList<>();
@@ -29,10 +31,11 @@ public class ConsumerArray {
 
     /**
      * {@code getInstance} method to get instance of consumer array
+     *
      * @return instance of ConsumerArray
      * {@link ConsumerArray}
      */
-    public static ConsumerArray getInstance() {
+    public synchronized static ConsumerArray getInstance() {
         if (mConsumerArray == null) {
             synchronized (ConsumerArray.class) {
                 if (mConsumerArray == null) {
@@ -45,7 +48,8 @@ public class ConsumerArray {
 
     /**
      * {@code getConsumerArraylist } method to get consumer array list
-     *{@link com.philips.cdp.registration.dao.ConsumerInterest}
+     * {@link com.philips.cdp.registration.dao.ConsumerInterest}
+     *
      * @return
      */
     public List<ConsumerInterest> getConsumerArraylist() {
@@ -54,12 +58,13 @@ public class ConsumerArray {
 
     /**
      * {@code setConsumerArraylist} method to set consumer array list
-     *{@link com.philips.cdp.registration.dao.ConsumerInterest}
+     * {@link com.philips.cdp.registration.dao.ConsumerInterest}
+     *
      * @param listConsumerInterest
-     * @return  the List of ConsumerInterest
-     * @see ArrayList
+     * @return the List of ConsumerInterest
+     * @see List
      */
-    public void setConsumerArraylist(ArrayList<ConsumerInterest> listConsumerInterest) {
+    public void setConsumerArraylist(List<ConsumerInterest> listConsumerInterest) {
         mConsumerInterestArray = listConsumerInterest;
     }
 
