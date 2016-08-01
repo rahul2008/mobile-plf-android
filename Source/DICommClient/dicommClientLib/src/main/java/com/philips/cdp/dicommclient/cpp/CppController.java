@@ -66,7 +66,6 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private EventSubscription mEventSubscription;
     private HashMap<String, DcsEventListener> mDcsEventListenersMap = new HashMap<String, DcsEventListener>();
     private DcsEventListener mCppDiscoverEventListener;
-    private boolean mIsDCSRunning;
 
     //DCS client state
     private enum ICP_CLIENT_DCS_STATE {
@@ -147,9 +146,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         mICPCallbackHandler = new ICPCallbackHandler();
         mICPCallbackHandler.setHandler(this);
 
-        mSignOnListeners = new ArrayList<SignonListener>();
-        mPublishEventListeners = new ArrayList<PublishEventListener>();
-        mDcsResponseListeners = new ArrayList<DcsResponseListener>();
+        mSignOnListeners = new ArrayList<>();
+        mPublishEventListeners = new ArrayList<>();
+        mDcsResponseListeners = new ArrayList<>();
 
         init();
     }
@@ -359,7 +358,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
      * This method will subscribe to events
      */
     public void startDCSService() {
-        DICommLog.d(DICommLog.CPPCONTROLLER, "Start DCS: " + mIsDCSRunning + " isSIgnOn" + mIsSignOn + "DCS state: " + mDcsState);
+        DICommLog.d(DICommLog.CPPCONTROLLER, "Start DCS: isSIgnOn" + mIsSignOn + "DCS state: " + mDcsState);
 
         mDcsServiceListenersCount++;
 

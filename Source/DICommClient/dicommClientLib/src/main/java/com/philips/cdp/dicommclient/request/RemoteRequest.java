@@ -10,7 +10,6 @@ import android.util.Log;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.data.Errors;
 
@@ -40,10 +39,10 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private CppController mCppController;
     private final RemoteRequestType mRequestType;
 
-    public RemoteRequest(String cppId, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler) {
+    public RemoteRequest(String cppId, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, final CppController cppController) {
         super(dataMap, responseHandler);
         this.cppId = cppId;
-        mCppController = CppController.getInstance();
+        mCppController = cppController;
         mRequestType = requestType;
         mPortName = portName;
         mProductId = productId;

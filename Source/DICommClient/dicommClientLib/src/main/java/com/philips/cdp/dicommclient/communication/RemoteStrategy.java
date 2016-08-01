@@ -21,17 +21,19 @@ public class RemoteStrategy extends CommunicationStrategy {
     private final RequestQueue mRequestQueue;
     private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
     private final NetworkNode networkNode;
+    private final CppController mCppController;
 
-    public RemoteStrategy(final NetworkNode networkNode) {
+    public RemoteStrategy(final NetworkNode networkNode, final CppController cppController) {
         this.networkNode = networkNode;
         mRequestQueue = new RequestQueue();
-        mRemoteSuscriptionHandler = new RemoteSubscriptionHandler(CppController.getInstance());
+        mCppController = cppController;
+        mRemoteSuscriptionHandler = new RemoteSubscriptionHandler(cppController);
     }
 
     @Override
     public void getProperties(String portName, int productId,
                               ResponseHandler responseHandler) {
-        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler, mCppController);
         mRequestQueue.addRequest(request);
     }
 
@@ -39,7 +41,7 @@ public class RemoteStrategy extends CommunicationStrategy {
     public void putProperties(Map<String, Object> dataMap, String portName,
                               int productId,
                               ResponseHandler responseHandler) {
-        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler, mCppController);
         mRequestQueue.addRequest(request);
     }
 
@@ -47,27 +49,27 @@ public class RemoteStrategy extends CommunicationStrategy {
     public void addProperties(Map<String, Object> dataMap, String portName,
                               int productId,
                               ResponseHandler responseHandler) {
-        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler, mCppController);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
-        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler, mCppController);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl,
                           ResponseHandler responseHandler) {
-        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, mCppController);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void unsubscribe(String portName, int productId,
                             ResponseHandler responseHandler) {
-        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, mCppController);
         mRequestQueue.addRequest(request);
     }
 
