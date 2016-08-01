@@ -9,6 +9,7 @@ import android.os.Message;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.model.PaymentRequest;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
@@ -25,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -150,34 +152,6 @@ public class PaymentControllerTest {
         mNetworkController.sendFailure(new VolleyError());
     }
 
-    @Test
-    public void testMakPaymentSuccessResponse() throws JSONException {
-        mPaymentController = new PaymentController(mContext, new MockMakePaymentListener() {
-            @Override
-            public void onMakePayment(Message msg) {
-                assertEquals(RequestCode.MAKE_PAYMENT, msg.what);
-                assertTrue(msg.obj instanceof MakePaymentData);
-            }
-        });
-        setStoreAndDelegate();
-        mPaymentController.makPayment("");
-        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "MakePayment.txt"));
-        mNetworkController.sendSuccess(obj);
-    }
-
-    @Test
-    public void testMakPaymentErrorResponse() throws JSONException {
-        mPaymentController = new PaymentController(mContext, new MockMakePaymentListener() {
-            @Override
-            public void onMakePayment(Message msg) {
-                testErrorResponse(msg, RequestCode.MAKE_PAYMENT);
-            }
-        });
-
-        setStoreAndDelegate();
-        mPaymentController.makPayment("");
-        mNetworkController.sendFailure(new VolleyError());
-    }
 
     public void testErrorResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);
