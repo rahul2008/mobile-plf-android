@@ -223,12 +223,12 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         return new ProdRegUiListener() {
             @Override
             public void onProdRegContinue(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
-                ProdRegLogger.v(getTag(), registeredProduct.get(0).getRegistrationState() + "");
+                ProdRegLogger.v(TAG, registeredProduct.get(0).getRegistrationState() + "");
             }
 
             @Override
             public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
-                ProdRegLogger.v(getTag(), registeredProduct.get(0).getProdRegError() + "");
+                ProdRegLogger.v(TAG, registeredProduct.get(0).getProdRegError() + "");
             }
         };
     }

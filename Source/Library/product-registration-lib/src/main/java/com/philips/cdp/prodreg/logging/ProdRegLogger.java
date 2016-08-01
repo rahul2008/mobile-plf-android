@@ -8,6 +8,7 @@ package com.philips.cdp.prodreg.logging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.UnknownHostException;
@@ -103,16 +104,16 @@ public class ProdRegLogger {
     }
 
     public static void init() {
-        mAppInfraLogger = AppInfraSingleton.getInstance() != null ? AppInfraSingleton.getInstance().getLogging() : null;
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
-
-            if (BuildConfig.DEBUG) {
-                mAppInfraLogger.enableConsoleLog(true);
-                mAppInfraLogger.enableFileLog(true);
-            } else {
-                mAppInfraLogger.enableConsoleLog(false);
-                mAppInfraLogger.enableFileLog(false);
+        if (AppInfraSingleton.getInstance() != null && AppInfraSingleton.getInstance().getLogging() != null) {
+            mAppInfraLogger = AppInfraSingleton.getInstance().getLogging().createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
+            if (mAppInfraLogger != null) {
+                if (BuildConfig.DEBUG) {
+                    mAppInfraLogger.enableConsoleLog(true);
+                    mAppInfraLogger.enableFileLog(true);
+                } else {
+                    mAppInfraLogger.enableConsoleLog(false);
+                    mAppInfraLogger.enableFileLog(false);
+                }
             }
         }
     }
