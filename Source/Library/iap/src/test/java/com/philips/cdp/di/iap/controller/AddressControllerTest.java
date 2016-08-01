@@ -23,6 +23,8 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
+import junit.framework.TestCase;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -38,7 +40,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-public class AddressControllerTest {
+public class AddressControllerTest{
 
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;

@@ -15,8 +15,8 @@ public class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
 
-    NetworkController controller;
-    private Context mContext;
+    protected NetworkController controller;
+    protected Context mContext;
 
     private HybrisDelegate() {
     }

@@ -15,7 +15,6 @@ import java.util.HashMap;
  * All rights reserved.
  */
 public class MockSynchronizedNetwork extends SynchronizedNetwork {
-    private NetworkResponse mNetworkRespnse;
     private VolleyError mVolleyError;
     private String mResponseObject;
 
@@ -34,12 +33,11 @@ public class MockSynchronizedNetwork extends SynchronizedNetwork {
     @Override
     public void performRequest(final IAPJsonRequest request, final SynchronizedNetworkCallBack callBack) {
         if (mResponseObject != null && callBack != null) {
-            Response<JSONObject> mockResult = null;
             try {
                 HashMap<String,String> params = new HashMap<>();
                 if(request.getParams() != null) {
                 }
-                mockResult = request.parseNetworkResponse(new NetworkResponse(200,
+                Response<JSONObject> mockResult = request.parseNetworkResponse(new NetworkResponse(200,
                         mResponseObject.getBytes(), params, false, 0));
             callBack.onSyncRequestSuccess(mockResult);
             } catch (AuthFailureError authFailureError) {
