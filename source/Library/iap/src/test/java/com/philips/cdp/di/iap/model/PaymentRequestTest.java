@@ -79,7 +79,7 @@ public class PaymentRequestTest {
         Mockito.when(mockBillingAddress.getPhoneNumber()).thenReturn("5417543010");
 
         CartModelContainer.getInstance().setBillingAddress(mockBillingAddress);
-
+        CartModelContainer.getInstance().setRegionIsoCode("US_NY");
         CartModelContainer.getInstance().setAddressId("8799470125079");
         HashMap<String, String> addressHashMap = getAddressHashMap("8799470125079");
 
