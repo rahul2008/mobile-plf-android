@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -15,17 +14,20 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Fond loader class for the cutom mFonts.
+ */
 public class FontLoader {
 
-    private static FontLoader mInstance;
+    private static volatile FontLoader mInstance;
 
-    private Map<String, Typeface> mFonts;
+    private final Map<String, Typeface> mFonts;
 
     private FontLoader() {
-        mFonts = new HashMap<String, Typeface>();
+        mFonts = new HashMap<>();
     }
 
-    public static FontLoader getInstance() {
+    public synchronized static FontLoader getInstance() {
         if (mInstance == null) {
             synchronized (FontLoader.class) {
                 if (mInstance == null) {
@@ -37,19 +39,23 @@ public class FontLoader {
         return mInstance;
     }
 
+    /**
+     * Set type face
+     * @param tv {@link TextView}
+     * @param fontName
+     */
     public void setTypeface(TextView tv, String fontName) {
-        if (fontName == null || fontName.isEmpty()) {
+        String fontTypeFaceName = fontName;
+        if (fontTypeFaceName == null || fontTypeFaceName.isEmpty()) {
             return;
         }
-
-        fontName = RegConstants.FONT_PATH + fontName;
-
+        fontTypeFaceName = RegConstants.FONT_PATH + fontTypeFaceName;
         if (!tv.isInEditMode()) {
-            Typeface typeface = mFonts.get(fontName);
+            Typeface typeface = mFonts.get(fontTypeFaceName);
             if (typeface == null) {
-                typeface = Typeface.createFromAsset(tv.getContext().getAssets(), fontName);
+                typeface = Typeface.createFromAsset(tv.getContext().getAssets(), fontTypeFaceName);
 
-                mFonts.put(fontName, typeface);
+                mFonts.put(fontTypeFaceName, typeface);
             }
             tv.setTypeface(typeface);
         }
