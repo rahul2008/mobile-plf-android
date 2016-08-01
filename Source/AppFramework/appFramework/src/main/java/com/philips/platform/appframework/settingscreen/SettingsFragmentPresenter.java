@@ -33,7 +33,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UICoCo
         uiCoCoUserReg.registerForNextState(this);
         uiCoCoUserReg.setFragActivity((HomeActivity)context);
         uiCoCoUserReg.setFragmentContainer(R.id.frame_container);
-        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
+        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_USER_REGISTRATION_STATE, context, this);
     }
 
     @Override

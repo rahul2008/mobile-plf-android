@@ -7,6 +7,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
+import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.WelcomeRegistrationState;
 import com.philips.platform.modularui.stateimpl.WelcomeState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
@@ -48,8 +49,8 @@ public class StateCreator {
                 case UIState.UI_WELCOME_STATE:
                     uiState = new WelcomeState(UIState.UI_WELCOME_STATE);
                     break;
-                case UIState.UI_REGISTRATION_STATE:
-                    uiState = new UserRegistrationState(UIState.UI_REGISTRATION_STATE);
+                case UIState.UI_USER_REGISTRATION_STATE:
+                    uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
                     break;
                 case UIState.UI_HOME_STATE:
                     uiState = new HomeActivityState(UIState.UI_HOME_STATE);
@@ -65,6 +66,9 @@ public class StateCreator {
                     break;
                 case UIState.UI_DEBUG_FRAGMENT_STATE:
                     uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
+                    break;
+                case UIState.UI_PROD_REGISTRATION_STATE:
+                    uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
                     break;
             }
 

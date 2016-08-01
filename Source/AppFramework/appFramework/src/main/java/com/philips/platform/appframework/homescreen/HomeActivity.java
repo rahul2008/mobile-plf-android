@@ -35,7 +35,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.util.ArrayList;
 
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener{
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener, com.philips.cdp.prodreg.listener.ActionbarUpdateListener{
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     // private TypedArray hamburgerMenuIcons;
@@ -207,5 +207,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
                 }
             });
         }
+    }
+
+    @Override
+    public void updateActionbar(String s) {
+
     }
 }

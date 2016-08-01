@@ -49,6 +49,6 @@ public class HomeActivityPresenter extends UIBasePresenter implements UICoCoCons
     public void setNextState(Context context) {
         uiCoCoConsumerCareImpl.unloadCoCo();
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_SETTINGS_FRAGMENT_STATE,context, this);
+        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_PROD_REGISTRATION_STATE,context, this);
     }
 }

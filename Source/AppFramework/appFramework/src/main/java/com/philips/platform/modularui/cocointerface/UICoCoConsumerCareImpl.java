@@ -139,7 +139,7 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
 
     @Override
     public boolean onMainMenuItemClicked(String s) {
-        if(s.equalsIgnoreCase("launch_settings")){
+        if(s.equalsIgnoreCase("product_registration")){
             setStateCallBack.setNextState(mContext);
             return true;
         }

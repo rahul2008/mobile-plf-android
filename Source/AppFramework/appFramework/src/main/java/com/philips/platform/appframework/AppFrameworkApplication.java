@@ -10,6 +10,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -45,6 +46,13 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         initializeUserRegistrationLibrary();
+        initializeProductRegistrationLibrary();
+    }
+
+    private void initializeProductRegistrationLibrary() {
+        ProdRegHelper prodRegHelper = new ProdRegHelper();
+        prodRegHelper.init(this);
+
     }
 
     public FlowManager getFlowManager() {

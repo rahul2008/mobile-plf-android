@@ -33,14 +33,14 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
             case R.id.appframework_skip_button:
                 uiCoCoUserReg.registerForNextState(this);
                 uiCoCoUserReg.setFragActivity((WelcomeActivity)context);
-                appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
+                appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_USER_REGISTRATION_STATE, context, this);
                 break;
             case R.id.start_registration_button:
                 sharedPreferenceUtility = new SharedPreferenceUtility(context);
                 sharedPreferenceUtility.writePreferenceBoolean(UIConstants.DONE_PRESSED,true);
                 uiCoCoUserReg.registerForNextState(this);
                 uiCoCoUserReg.setFragActivity((WelcomeActivity)context);
-                appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
+                appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_USER_REGISTRATION_STATE, context, this);
                 break;
         }
 
@@ -50,13 +50,13 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
-        if(appFrameworkApplication.getFlowManager().getCurrentState().equals(UIState.UI_WELCOME_REGISTRATION_STATE)){
+        if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_WELCOME_REGISTRATION_STATE){
             setState(UIState.UI_WELCOME_REGISTRATION_STATE);
             uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
             uiCoCoUserReg.registerForNextState(this);
             uiCoCoUserReg.setFragActivity((WelcomeActivity)context);
             uiCoCoUserReg.setFragmentContainer(R.id.fragment_frame_container);
-            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_REGISTRATION_STATE, context, this);
+            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_USER_REGISTRATION_STATE, context, this);
         }
         else {
             setState(UIState.UI_WELCOME_STATE);
@@ -68,6 +68,6 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
+        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_PROD_REGISTRATION_STATE, context, this);
     }
 }
