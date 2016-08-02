@@ -10,6 +10,7 @@ import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.WelcomeRegistrationState;
 import com.philips.platform.modularui.stateimpl.WelcomeState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -70,6 +71,10 @@ public class StateCreator {
                 case UIState.UI_PROD_REGISTRATION_STATE:
                     uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
                     break;
+				case UIState.UI_IAP_SHOPPING_FRAGMENT_STATE:
+                    uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                    break;
+ 	
             }
 
             appFrameworkApplication.getFlowManager().addToStateMap(uiState);

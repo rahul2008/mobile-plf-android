@@ -3,6 +3,7 @@ package com.philips.platform.appframework.homescreen;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.R;
 import com.philips.platform.modularui.cocointerface.UICoCoConsumerCareImpl;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
@@ -32,9 +33,13 @@ public class HomeActivityPresenter extends UIBasePresenter implements UICoCoCons
                 // TODO: pass presenter interface as listener if required from respective state classes
                 uiCoCoConsumerCareImpl.registerForNextState(this);
                 break;
-            case 2: appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_SETTINGS_FRAGMENT_STATE,context, this);
+            case 2: appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE,context, this);
                 break;
-            case 3: appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_DEBUG_FRAGMENT_STATE,context, this);
+            case 3:
+                appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_SETTINGS_FRAGMENT_STATE,context, this);
+                break;
+ 			case 4:
+                appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_DEBUG_FRAGMENT_STATE,context, this);
                 break;
             default:appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_FRAGMENT_STATE,context, this);
         }

@@ -33,6 +33,8 @@ public class CoCoFactory {
                 return UICoCoUserRegImpl.getInstance();
             case UIConstants.UI_COCO_CONSUMER_CARE:
                 return UICoCoConsumerCareImpl.getInstance();
+            case UIConstants.UI_COCO_IN_APP_PURCHASE:
+//                return UICoCoInAppPurchase.getInstance();
             default:
                 return null;
         }
