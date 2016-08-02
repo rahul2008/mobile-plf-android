@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01Foundation", "01Foundation", "{42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}"
 EndProject
@@ -26,8 +26,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAP_Plugin", "02TestAuthori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowTest", "03Test\WorkFlowTests\WorkflowTest.csproj", "{7D27C379-2A23-43A0-87D9-59CD204444AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationWebPortal", "01Foundation\Dashboard\AutomationWebPortal\AutomationWebPortal.csproj", "{80484E32-5D70-43B8-9BC4-3F81BF991AFA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReliabilityTest", "03Test\ReliabilityTest\ReliabilityTest.csproj", "{621A6965-280D-4D56-9845-F0A3D6BBE351}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Philips.CDPAutomation.Foundation.TestCaseDefinition", "01Foundation\TestCaseDefinition\Philips.CDPAutomation.Foundation.TestCaseDefinition.csproj", "{304AC731-72B6-49F8-8101-9B5B1C0C3065}"
@@ -48,8 +46,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinEventHook", "01Foundatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_IAP_Plugin", "03Test\UnitTest_IAP_Plugin\UnitTest_IAP_Plugin.csproj", "{10A528A1-3F1A-41C3-916E-5514C87BA78F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "03Test\IntegrationTests\IntegrationTests.csproj", "{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04Documentation", "04Documentation", "{9478FFE6-B2F6-4FED-8DA5-DD7BCCB907A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAP.iOS.TestPlugin", "02TestAuthoring API\IAP.iOS.TestPlugin\IAP.iOS.TestPlugin.csproj", "{79380657-3624-4875-A074-0A780577D9F0}"
@@ -61,16 +57,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFramework_TestPlugin", "02TestAuthoring API\AppFramework_TestPlugin\AppFramework_TestPlugin.csproj", "{61879128-714E-4B66-A3E3-F3A3218B8254}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = 
-		SccProjectUniqueName0 = 01Foundation\\Dashboard\\AutomationWebPortal\\AutomationWebPortal.csproj
-		SccProjectTopLevelParentUniqueName0 = CDPTestPlatform.sln
-		SccAuxPath0 = http://sggsgpdcs1vw032:8080/tfs/tfs2013_staging
-		SccLocalPath0 = 01Foundation\\Dashboard\\AutomationWebPortal
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -173,21 +159,6 @@ Global
 		{7D27C379-2A23-43A0-87D9-59CD204444AE}.TestRunner|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7D27C379-2A23-43A0-87D9-59CD204444AE}.TestRunner|Mixed Platforms.Build.0 = Release|Any CPU
 		{7D27C379-2A23-43A0-87D9-59CD204444AE}.TestRunner|x86.ActiveCfg = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.Release|x86.ActiveCfg = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.TestRunner|Any CPU.ActiveCfg = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.TestRunner|Any CPU.Build.0 = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.TestRunner|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.TestRunner|Mixed Platforms.Build.0 = Release|Any CPU
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA}.TestRunner|x86.ActiveCfg = Release|Any CPU
 		{621A6965-280D-4D56-9845-F0A3D6BBE351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{621A6965-280D-4D56-9845-F0A3D6BBE351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{621A6965-280D-4D56-9845-F0A3D6BBE351}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -343,21 +314,6 @@ Global
 		{10A528A1-3F1A-41C3-916E-5514C87BA78F}.TestRunner|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{10A528A1-3F1A-41C3-916E-5514C87BA78F}.TestRunner|Mixed Platforms.Build.0 = Release|Any CPU
 		{10A528A1-3F1A-41C3-916E-5514C87BA78F}.TestRunner|x86.ActiveCfg = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.Release|x86.ActiveCfg = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.TestRunner|Any CPU.ActiveCfg = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.TestRunner|Any CPU.Build.0 = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.TestRunner|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.TestRunner|Mixed Platforms.Build.0 = Release|Any CPU
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0}.TestRunner|x86.ActiveCfg = Release|Any CPU
 		{79380657-3624-4875-A074-0A780577D9F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79380657-3624-4875-A074-0A780577D9F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79380657-3624-4875-A074-0A780577D9F0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -429,7 +385,6 @@ Global
 		{298A63CA-64DB-44A2-BCF3-9CB7FF65FF21} = {70A8E416-B9AB-45A2-A23F-B508314AEEED}
 		{C8793DF7-650D-459A-8F6E-9CF621E745CF} = {70A8E416-B9AB-45A2-A23F-B508314AEEED}
 		{7D27C379-2A23-43A0-87D9-59CD204444AE} = {79571259-1847-4CEB-AF25-2A5B26F8C094}
-		{80484E32-5D70-43B8-9BC4-3F81BF991AFA} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}
 		{621A6965-280D-4D56-9845-F0A3D6BBE351} = {79571259-1847-4CEB-AF25-2A5B26F8C094}
 		{304AC731-72B6-49F8-8101-9B5B1C0C3065} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}
 		{3986ADCF-595A-4F76-A977-F1160890292D} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}
@@ -440,7 +395,6 @@ Global
 		{5A2BCE35-0C43-488C-BBA5-844A5D2CBA37} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}
 		{B6A94A2A-EBED-4434-8843-C233EDBDD2DF} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}
 		{10A528A1-3F1A-41C3-916E-5514C87BA78F} = {79571259-1847-4CEB-AF25-2A5B26F8C094}
-		{227E36C2-5C59-4D3A-8727-BCDFF90D5CB0} = {79571259-1847-4CEB-AF25-2A5B26F8C094}
 		{79380657-3624-4875-A074-0A780577D9F0} = {70A8E416-B9AB-45A2-A23F-B508314AEEED}
 		{715EDB4A-923F-47BE-ACB1-B7E6B9DF8F09} = {79571259-1847-4CEB-AF25-2A5B26F8C094}
 		{1CE5BC4C-1B17-424D-AF76-63DEEB731216} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}

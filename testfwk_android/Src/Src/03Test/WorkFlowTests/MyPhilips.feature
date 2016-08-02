@@ -1,7 +1,7 @@
 ﻿Feature: As a USER i want to login into MyPhilipsAccount via Appframework application
 
 
-@mytag
+@MyPhilips
 Scenario: Login into MyPhilips Account and change the account settings
 	Given I am on the AppFramework Screen
 	Then I click on Skip

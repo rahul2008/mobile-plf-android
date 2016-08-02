@@ -63,11 +63,11 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("Login into MyPhilips Account and change the account settings", new string[] {
-                "mytag"}, SourceLine=4)]
+                "MyPhilips"}, SourceLine=4)]
         public virtual void LoginIntoMyPhilipsAccountAndChangeTheAccountSettings()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login into MyPhilips Account and change the account settings", new string[] {
-                        "mytag"});
+                        "MyPhilips"});
 #line 5
 this.ScenarioSetup(scenarioInfo);
 #line 6

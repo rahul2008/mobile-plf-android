@@ -65,13 +65,6 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Ap
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\MapNetworkDrive.vbs
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Scripts\ExecuteAutomation.xml
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Scripts\AntTask.properties
-D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Default.srprofile
-D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll.config
-D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll
-D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.pdb
-D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\03Test\WorkFlowTests\obj\Debug\WorkflowTest.csprojResolveAssemblyReference.cache
-D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.dll
-D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.pdb
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ExecuteAppiumCommand.bat
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\BrowserDriversExe\chromedriver.exe
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\BrowserDriversExe\IEDriverServer.exe
@@ -82,3 +75,10 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UI
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\StartAppiumServer.bat
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Repository.xml
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Repository_iOS.xml
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Default.srprofile
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll.config
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.pdb
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\03Test\WorkFlowTests\obj\Debug\WorkflowTest.csprojResolveAssemblyReference.cache
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.dll
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.pdb
