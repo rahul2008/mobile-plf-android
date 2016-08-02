@@ -113,7 +113,7 @@ public class RequestManager {
                                     }
 
                                 }else{
-                                    matchByCountry.setLocale(localeList.get(0));
+                                    matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                                     configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
                                 }
 

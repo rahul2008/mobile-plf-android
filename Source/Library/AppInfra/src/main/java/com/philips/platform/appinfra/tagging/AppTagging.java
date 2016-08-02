@@ -228,13 +228,13 @@ public class AppTagging implements AppTaggingInterface {
 
     private void track(String pageName, String key, String value, Map<String, String> paramMap) {
 
-        if (key != null && value != null ) {
+        if (key != null && value != null) {
             if (!Arrays.asList(defaultValues).contains(key)) {
 
                 setNewKey(key);
                 setNewValue(value);
             }
-        } else if(paramMap != null){
+        } else if (paramMap != null) {
             for (Map.Entry<String, String> entry : paramMap.entrySet()) {
                 if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
 
@@ -249,7 +249,11 @@ public class AppTagging implements AppTaggingInterface {
         if (null != prevPage && isTrackPage) {
             contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
-        Analytics.trackState(pageName, contextData);
+        if (isTrackPage)
+            Analytics.trackState(pageName, contextData);
+
+        if (isTrackAction)
+            Analytics.trackAction(pageName, contextData);
 
         prevPage = pageName;
     }

@@ -34,7 +34,7 @@ public class InternationalizationManager implements InternationalizationInterfac
     public Locale getUILocale() {
         if (Locale.getDefault() != null) {
             if (mAppInfra.getTagging() != null) {
-                mAppInfra.getTagging().trackActionWithInfo("InternationalizationPage", "KeyLocal", "ValueLocal");
+                mAppInfra.getTagging().trackActionWithInfo("InternationalizationPageAction", "KeyLocal", "ValueLocal");
             }
 
             return Locale.getDefault();
