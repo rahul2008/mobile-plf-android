@@ -155,6 +155,9 @@ public class RegUtility {
 
 
     public static Configuration getConfiguration(String registrationEnv) {
+        if(registrationEnv==null){
+            return Configuration.EVALUATION;
+        }
         if (registrationEnv.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue()))
             return Configuration.DEVELOPMENT;
 
