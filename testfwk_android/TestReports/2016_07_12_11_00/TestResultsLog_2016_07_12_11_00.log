@@ -1,0 +1,24 @@
+DEBUG 2016-07-12 11:00:25,541 - BIN Path of the Assembly: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-07-12 11:00:25,547 - Log Path of the Test Execution: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_07_12_11_00\
+DEBUG 2016-07-12 11:00:25,547 - Unlocking Android device for test execution.....
+DEBUG 2016-07-12 11:00:25,547 - UiAutomation Script Path: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-07-12 11:00:25,548 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-07-12 11:00:25,548 - Pushing file from source : C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-07-12 11:00:30,075 - * daemon not running. starting it now on port 5037 *
+* daemon started successfully *
+
+DEBUG 2016-07-12 11:00:30,076 - error: device '1215fc6cdf5d0604' not found
+
+DEBUG 2016-07-12 11:00:30,178 - Exception while Killing Process: 8588 Exception: Process with an Id of 8588 is not running.
+ERROR 2016-07-12 11:00:36,190 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-07-12 11:00:36,335 - BIN Path of the Assembly: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-07-12 11:00:36,335 - Log Path of the Test Execution: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_07_12_11_00\
+DEBUG 2016-07-12 11:00:36,335 - Unlocking Android device for test execution.....
+DEBUG 2016-07-12 11:00:36,335 - UiAutomation Script Path: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-07-12 11:00:36,335 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-07-12 11:00:36,335 - Pushing file from source : C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-07-12 11:00:36,501 - 
+DEBUG 2016-07-12 11:00:36,502 - error: device '1215fc6cdf5d0604' not found
+
+DEBUG 2016-07-12 11:00:36,540 - Exception while Killing Process: 9332 Exception: Process with an Id of 9332 is not running.
+ERROR 2016-07-12 11:00:42,540 - Could not unlock the device, stopping Test Execution.

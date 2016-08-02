@@ -1,0 +1,99 @@
+DEBUG 2016-08-02 12:07:50,023 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 12:07:50,033 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_12_07\
+DEBUG 2016-08-02 12:07:50,033 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 12:07:50,033 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 12:07:50,033 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 12:07:50,033 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 12:07:50,153 - 
+DEBUG 2016-08-02 12:07:50,153 - 140 KB/s (5741 bytes in 0.040s)
+
+DEBUG 2016-08-02 12:07:50,193 - Exception while Killing Process: 11692 Exception: Process with an Id of 11692 is not running.
+DEBUG 2016-08-02 12:07:56,915 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.046
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 12:07:56,915 - 
+DEBUG 2016-08-02 12:07:56,965 - Exception while Killing Process: 8480 Exception: Process with an Id of 8480 is not running.
+DEBUG 2016-08-02 12:08:02,966 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 12:08:02,966 - Closing running Appium server instance....
+DEBUG 2016-08-02 12:08:04,086 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 12:08:05,152 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:08:05,152 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:08:05,658 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:08:06,725 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:08:06,725 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:08:07,208 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:08:14,737 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:08:14,737 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:08:15,237 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:08:16,238 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 12:08:16,238 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 12:08:18,238 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 12:08:18,248 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 12:08:23,561 - Waiting for 3000 milliseconds
+DEBUG 2016-08-02 12:08:26,561 - Waiting completed after 3000 milliseconds
+INFO 2016-08-02 12:08:26,581 - Add two numbers started
+DEBUG 2016-08-02 12:08:28,152 - Found Requested Element: By.Id: com.philips.platform.appframework:id/decor_content_parent in the page.
+DEBUG 2016-08-02 12:08:38,277 - Clicking on Element By Id : com.philips.platform.appframework:id/appframework_skip_button
+DEBUG 2016-08-02 12:08:38,307 - Found Requested Element: By.Id: com.philips.platform.appframework:id/appframework_skip_button in the page.
+DEBUG 2016-08-02 12:08:39,307 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 12:08:54,721 - Clicking on Element By Id : com.philips.platform.appframework:id/tv_reg_provider_name
+DEBUG 2016-08-02 12:08:54,761 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 12:08:57,271 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:08:57,271 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:08:57,771 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:08:57,861 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:08:57,861 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:08:58,361 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:08:58,441 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:08:58,441 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:08:58,942 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:08:59,032 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:08:59,032 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:08:59,532 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:08:59,602 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:08:59,602 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:00,103 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:00,223 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:09:00,223 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:00,723 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:00,883 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:09:00,883 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:01,383 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:01,563 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:09:01,563 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:02,063 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:02,143 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:09:02,143 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:02,643 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:02,733 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:09:02,733 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:03,215 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:03,294 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:09:03,294 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:03,819 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:03,879 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email
+DEBUG 2016-08-02 12:09:03,879 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:09:04,379 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:09:04,499 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/et_reg_email

@@ -1,0 +1,177 @@
+DEBUG 2016-08-02 11:56:26,592 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 11:56:26,592 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_11_56\
+DEBUG 2016-08-02 11:56:26,592 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 11:56:26,592 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 11:56:26,602 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 11:56:26,602 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 11:56:26,722 - 
+DEBUG 2016-08-02 11:56:26,722 - 112 KB/s (5741 bytes in 0.049s)
+
+DEBUG 2016-08-02 11:56:26,732 - Exception while Killing Process: 6712 Exception: Process with an Id of 6712 is not running.
+DEBUG 2016-08-02 11:56:33,383 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.035
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 11:56:33,383 - 
+DEBUG 2016-08-02 11:56:33,393 - Exception while Killing Process: 7368 Exception: Process with an Id of 7368 is not running.
+DEBUG 2016-08-02 11:56:39,395 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 11:56:39,395 - Closing running Appium server instance....
+DEBUG 2016-08-02 11:56:40,425 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 11:56:41,445 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:41,445 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:41,951 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:42,952 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:42,952 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:43,452 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:44,482 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:44,482 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:45,006 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:46,093 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:46,093 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:46,653 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:47,702 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:47,702 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:48,227 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:49,265 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:49,265 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:49,770 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:50,792 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:50,792 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:51,292 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:52,292 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:52,292 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:52,793 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:53,793 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:53,793 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:54,293 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:55,293 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:55,293 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:55,793 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:56,794 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:56,794 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:57,294 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:58,294 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:58,294 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:56:58,794 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:56:59,795 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:56:59,795 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:00,295 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:01,295 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:01,295 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:01,777 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:02,801 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:02,801 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:03,307 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:04,307 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:04,307 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:04,807 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:05,819 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:05,819 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:06,319 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:07,334 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:07,334 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:07,847 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:08,846 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:08,846 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:09,346 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:10,346 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:10,346 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:10,846 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:11,847 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:11,847 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:12,347 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:13,347 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:13,347 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:13,847 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:14,857 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:14,857 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:15,357 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:16,349 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:16,349 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:16,849 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:17,861 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:17,861 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:18,367 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:19,373 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:19,373 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:19,873 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:20,873 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:20,873 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:21,373 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:22,373 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:22,373 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:22,873 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:23,873 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:23,873 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:24,373 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:25,374 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:25,374 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:25,874 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:26,874 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:26,874 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:27,374 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:28,375 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:28,375 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:28,875 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:29,875 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:29,875 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:30,375 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:31,375 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:31,375 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:31,876 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:32,876 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:32,876 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:33,376 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:34,359 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:34,359 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:34,886 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:35,886 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:35,886 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:36,386 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:37,386 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:37,386 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:37,886 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:38,886 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:38,886 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:39,386 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:40,386 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:40,386 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:40,887 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:41,897 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:41,897 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:42,397 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:43,418 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:43,418 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:43,917 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:44,917 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:44,917 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:45,425 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:46,435 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:46,435 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:46,935 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:47,936 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:47,936 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:57:48,436 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:57:49,436 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:57:49,436 - Waiting for 500 milliseconds

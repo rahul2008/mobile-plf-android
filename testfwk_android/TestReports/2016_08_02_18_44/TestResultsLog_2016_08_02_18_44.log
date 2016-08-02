@@ -1,0 +1,132 @@
+DEBUG 2016-08-02 18:44:05,901 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:05,917 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:05,917 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:05,917 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:05,917 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:05,917 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:06,007 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:06,008 - 
+DEBUG 2016-08-02 18:44:06,030 - Exception while Killing Process: 24312 Exception: Process with an Id of 24312 is not running.
+ERROR 2016-08-02 18:44:12,089 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:12,200 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:12,200 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:12,200 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:12,200 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:12,200 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:12,200 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:12,280 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:12,280 - 
+DEBUG 2016-08-02 18:44:12,295 - Exception while Killing Process: 23892 Exception: Process with an Id of 23892 is not running.
+ERROR 2016-08-02 18:44:18,295 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:18,345 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:18,345 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:18,345 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:18,345 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:18,345 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:18,345 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:18,414 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:18,414 - 
+DEBUG 2016-08-02 18:44:18,424 - Exception while Killing Process: 15804 Exception: Process with an Id of 15804 is not running.
+ERROR 2016-08-02 18:44:24,425 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:24,484 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:24,484 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:24,484 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:24,484 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:24,484 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:24,484 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:24,559 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:24,559 - 
+DEBUG 2016-08-02 18:44:24,571 - Exception while Killing Process: 24024 Exception: Process with an Id of 24024 is not running.
+ERROR 2016-08-02 18:44:30,572 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:30,617 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:30,618 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:30,618 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:30,618 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:30,618 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:30,618 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:30,689 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:30,689 - 
+DEBUG 2016-08-02 18:44:30,701 - Exception while Killing Process: 15420 Exception: Process with an Id of 15420 is not running.
+ERROR 2016-08-02 18:44:36,701 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:36,745 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:36,747 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:36,747 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:36,747 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:36,747 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:36,747 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:36,819 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:36,819 - 
+DEBUG 2016-08-02 18:44:36,831 - Exception while Killing Process: 25384 Exception: Process with an Id of 25384 is not running.
+ERROR 2016-08-02 18:44:42,832 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:42,863 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:42,863 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:42,863 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:42,864 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:42,864 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:42,864 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:42,939 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:42,939 - 
+DEBUG 2016-08-02 18:44:42,951 - Exception while Killing Process: 4640 Exception: Process with an Id of 4640 is not running.
+ERROR 2016-08-02 18:44:48,951 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:48,979 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:48,979 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:48,979 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:48,979 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:48,979 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:48,979 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:49,050 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:49,050 - 
+DEBUG 2016-08-02 18:44:49,062 - Exception while Killing Process: 21868 Exception: Process with an Id of 21868 is not running.
+ERROR 2016-08-02 18:44:55,063 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:44:55,112 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:44:55,112 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:44:55,112 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:44:55,112 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:44:55,112 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:44:55,112 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:44:55,182 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:44:55,182 - 
+DEBUG 2016-08-02 18:44:55,192 - Exception while Killing Process: 24464 Exception: Process with an Id of 24464 is not running.
+ERROR 2016-08-02 18:45:01,193 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:45:01,224 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:45:01,225 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:45:01,225 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:45:01,225 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:45:01,225 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:45:01,225 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:45:01,294 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:45:01,294 - 
+DEBUG 2016-08-02 18:45:01,305 - Exception while Killing Process: 27004 Exception: Process with an Id of 27004 is not running.
+ERROR 2016-08-02 18:45:07,305 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:45:07,328 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:45:07,329 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:45:07,329 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:45:07,329 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:45:07,329 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:45:07,329 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:45:07,393 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:45:07,393 - 
+DEBUG 2016-08-02 18:45:07,403 - Exception while Killing Process: 26196 Exception: Process with an Id of 26196 is not running.
+ERROR 2016-08-02 18:45:13,404 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 18:45:13,442 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 18:45:13,442 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_18_44\
+DEBUG 2016-08-02 18:45:13,442 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 18:45:13,442 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 18:45:13,442 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 18:45:13,442 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 18:45:13,512 - adb: error: connect failed: device '4d00b73e4ad63147' not found
+
+DEBUG 2016-08-02 18:45:13,512 - 
+DEBUG 2016-08-02 18:45:13,522 - Exception while Killing Process: 26728 Exception: Process with an Id of 26728 is not running.
+ERROR 2016-08-02 18:45:19,523 - Could not unlock the device, stopping Test Execution.

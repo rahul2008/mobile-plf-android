@@ -1,0 +1,206 @@
+DEBUG 2016-08-02 14:00:42,124 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 14:00:42,133 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_14_00\
+DEBUG 2016-08-02 14:00:42,133 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 14:00:42,133 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 14:00:42,133 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 14:00:42,133 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 14:00:42,294 - 
+DEBUG 2016-08-02 14:00:42,294 - 100 KB/s (5741 bytes in 0.055s)
+
+DEBUG 2016-08-02 14:00:42,305 - Exception while Killing Process: 8848 Exception: Process with an Id of 8848 is not running.
+DEBUG 2016-08-02 14:00:49,113 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.134
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 14:00:49,113 - 
+DEBUG 2016-08-02 14:00:49,128 - Exception while Killing Process: 14568 Exception: Process with an Id of 14568 is not running.
+DEBUG 2016-08-02 14:00:55,128 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 14:00:55,128 - Closing running Appium server instance....
+DEBUG 2016-08-02 14:00:56,140 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 14:00:57,159 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:00:57,159 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:00:57,659 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:00:58,655 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:00:58,655 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:00:59,155 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:00,155 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:00,155 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:00,655 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:01,657 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:01,657 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:02,319 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:03,364 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:03,364 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:03,902 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:04,969 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:04,970 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:05,531 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:06,609 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:06,609 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:07,125 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:08,165 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:08,165 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:08,665 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:09,739 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:09,739 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:10,239 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:11,339 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:11,339 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:11,839 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:12,840 - Appium Server Running Status: False
+DEBUG 2016-08-02 14:01:12,840 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:13,340 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:13,340 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 14:01:13,340 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 14:01:15,340 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 14:01:15,349 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 14:01:21,940 - Waiting for 3000 milliseconds
+DEBUG 2016-08-02 14:01:24,940 - Waiting completed after 3000 milliseconds
+INFO 2016-08-02 14:01:24,955 - Add two numbers started
+DEBUG 2016-08-02 14:01:25,524 - Found Requested Element: By.Id: com.philips.platform.appframework:id/decor_content_parent in the page.
+DEBUG 2016-08-02 14:01:35,644 - Clicking on Element By Id : com.philips.platform.appframework:id/appframework_skip_button
+DEBUG 2016-08-02 14:01:35,673 - Found Requested Element: By.Id: com.philips.platform.appframework:id/appframework_skip_button in the page.
+DEBUG 2016-08-02 14:01:36,730 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 14:01:36,734 - Clicking on Element By Id : com.philips.platform.appframework:id/tv_reg_provider_name
+DEBUG 2016-08-02 14:01:37,327 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 14:01:38,657 - Found Requested Element: By.Id: com.philips.platform.appframework:id/et_reg_email in the page.
+DEBUG 2016-08-02 14:01:47,309 - Found Requested Element: By.Id: com.philips.platform.appframework:id/et_reg_password in the page.
+DEBUG 2016-08-02 14:01:53,538 - Clicking on Element By Id : com.philips.platform.appframework:id/btn_reg_sign_in
+DEBUG 2016-08-02 14:01:54,072 - Found Requested Element: By.Id: com.philips.platform.appframework:id/btn_reg_sign_in in the page.
+DEBUG 2016-08-02 14:01:54,343 - Clicking on Element By Id : com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:55,195 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:55,196 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:55,696 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:55,763 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:55,763 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:56,263 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:56,300 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:56,300 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:56,800 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:56,855 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:56,855 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:57,355 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:57,751 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:57,751 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:58,251 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:58,588 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:58,588 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:59,088 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:59,131 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:59,132 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:01:59,632 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:01:59,986 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:01:59,986 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:00,486 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:00,586 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:02:00,586 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:01,086 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:01,131 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:02:01,131 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:01,631 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:01,737 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:02:01,737 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:02,237 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:02,530 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:02:02,530 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:03,030 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:03,373 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 14:02:03,379 - Clicking on Element By Id : com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:03,462 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:03,462 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:03,963 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:04,161 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:04,161 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:04,661 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:04,720 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:04,720 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:05,220 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:05,291 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:05,291 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:05,790 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:05,832 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:05,832 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:06,333 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:06,537 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:06,538 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:07,038 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:07,274 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:07,274 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:07,774 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:07,828 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:07,828 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:08,328 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:08,385 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:08,385 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:08,885 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:08,950 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:08,950 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:09,450 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:09,495 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:09,495 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:09,995 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:10,040 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:10,040 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:10,540 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:10,783 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/hamburger_icon
+DEBUG 2016-08-02 14:02:13,788 - Trying to Fetch text from the Element with xpath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:13,935 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:13,935 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:14,435 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:14,557 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:14,557 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:15,057 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:15,160 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:15,160 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:15,660 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:15,789 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:15,789 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:16,289 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:16,404 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:16,404 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:16,904 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:17,015 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:17,015 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:17,515 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:17,625 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:17,625 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:18,125 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:18,234 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:18,235 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:18,735 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:18,843 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:18,843 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:19,343 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:19,476 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:19,476 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:19,976 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:20,074 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:20,074 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:20,574 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:20,676 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+DEBUG 2016-08-02 14:02:20,678 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 14:02:21,178 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 14:02:21,346 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Settings']
+INFO 2016-08-02 14:02:21,378 - Add two numbers stopped
+DEBUG 2016-08-02 14:02:22,231 - Closing running Appium server instance....

@@ -1,0 +1,69 @@
+DEBUG 2016-08-02 11:49:51,877 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 11:49:51,887 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_11_49\
+DEBUG 2016-08-02 11:49:51,887 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 11:49:51,887 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 11:49:51,887 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 11:49:51,887 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 11:49:52,047 - 
+DEBUG 2016-08-02 11:49:52,047 - 93 KB/s (5741 bytes in 0.059s)
+
+DEBUG 2016-08-02 11:49:52,107 - Exception while Killing Process: 13504 Exception: Process with an Id of 13504 is not running.
+DEBUG 2016-08-02 11:49:58,808 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.041
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 11:49:58,808 - 
+DEBUG 2016-08-02 11:49:58,868 - Exception while Killing Process: 14916 Exception: Process with an Id of 14916 is not running.
+DEBUG 2016-08-02 11:50:04,868 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 11:50:04,868 - Closing running Appium server instance....
+DEBUG 2016-08-02 11:50:05,998 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 11:50:07,078 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:50:07,078 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:50:07,584 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:50:08,720 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:50:08,720 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:50:09,220 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:50:10,290 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:50:10,290 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:50:10,821 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:50:19,642 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:50:19,642 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:50:20,162 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:50:20,162 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 11:50:20,162 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 11:50:22,163 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 11:50:22,173 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 11:50:28,452 - Waiting for 3000 milliseconds
+DEBUG 2016-08-02 11:50:31,452 - Waiting completed after 3000 milliseconds
+INFO 2016-08-02 11:50:31,472 - Add two numbers started
+DEBUG 2016-08-02 11:50:32,083 - Found Requested Element: By.Id: com.philips.platform.appframework:id/decor_content_parent in the page.
+DEBUG 2016-08-02 11:50:42,242 - Clicking on Element By Id : com.philips.platform.appframework:id/appframework_skip_button
+DEBUG 2016-08-02 11:50:42,282 - Found Requested Element: By.Id: com.philips.platform.appframework:id/appframework_skip_button in the page.
+DEBUG 2016-08-02 11:50:43,312 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 11:50:45,552 - Clicking on Element By Id : com.philips.platform.appframework:id/tv_reg_provider_name
+DEBUG 2016-08-02 11:50:45,582 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 11:50:46,892 - Found Requested Element: By.Id: com.philips.platform.appframework:id/et_reg_email in the page.
+DEBUG 2016-08-02 11:50:54,431 - Found Requested Element: By.Id: com.philips.platform.appframework:id/et_reg_password in the page.
+DEBUG 2016-08-02 11:50:59,031 - Clicking on Element By Id : com.philips.platform.appframework:id/btn_reg_sign_in
+DEBUG 2016-08-02 11:50:59,671 - Found Requested Element: By.Id: com.philips.platform.appframework:id/btn_reg_sign_in in the page.

@@ -1,0 +1,80 @@
+DEBUG 2016-08-02 10:01:03,589 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 10:01:03,609 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_10_01\
+DEBUG 2016-08-02 10:01:03,609 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 10:01:03,609 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 10:01:03,609 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 10:01:03,609 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 10:01:03,779 - 
+DEBUG 2016-08-02 10:01:03,779 - 93 KB/s (5741 bytes in 0.060s)
+
+DEBUG 2016-08-02 10:01:03,789 - Exception while Killing Process: 11172 Exception: Process with an Id of 11172 is not running.
+DEBUG 2016-08-02 10:01:10,451 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.034
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 10:01:10,451 - 
+DEBUG 2016-08-02 10:01:10,461 - Exception while Killing Process: 13260 Exception: Process with an Id of 13260 is not running.
+DEBUG 2016-08-02 10:01:16,476 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 10:01:16,476 - Closing running Appium server instance....
+DEBUG 2016-08-02 10:01:17,497 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 10:01:18,508 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:18,508 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:19,013 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:20,016 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:20,016 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:20,516 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:21,517 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:21,517 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:22,018 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:23,100 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:23,100 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:27,247 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:28,308 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:28,308 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:28,809 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:29,883 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:29,883 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:30,408 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:31,512 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:31,512 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:32,013 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:33,095 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:33,095 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:33,605 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:34,694 - Appium Server Running Status: False
+DEBUG 2016-08-02 10:01:34,694 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 10:01:35,185 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 10:01:36,248 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 10:01:36,248 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 10:01:38,251 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 10:01:38,261 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 10:01:45,031 - Waiting for 3000 milliseconds
+DEBUG 2016-08-02 10:01:48,034 - Waiting completed after 3000 milliseconds
+INFO 2016-08-02 10:01:48,034 - Add two numbers started
+DEBUG 2016-08-02 10:01:48,144 - Found Requested Element: By.Id: com.philips.platform.appframework:id/decor_content_parent in the page.
+DEBUG 2016-08-02 10:01:58,400 - Clicking on Element By Id : com.philips.platform.appframework:id/appframework_skip_button
+DEBUG 2016-08-02 10:01:58,440 - Found Requested Element: By.Id: com.philips.platform.appframework:id/appframework_skip_button in the page.
+DEBUG 2016-08-02 10:01:58,861 - Firing Device Key Event: 4
+INFO 2016-08-02 10:01:59,582 - Add two numbers stopped
+DEBUG 2016-08-02 10:02:00,283 - Closing running Appium server instance....

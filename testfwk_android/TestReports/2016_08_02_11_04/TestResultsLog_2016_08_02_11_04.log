@@ -1,0 +1,140 @@
+DEBUG 2016-08-02 11:04:12,491 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 11:04:12,500 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_11_04\
+DEBUG 2016-08-02 11:04:12,500 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 11:04:12,500 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 11:04:12,501 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 11:04:12,501 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 11:04:12,697 - 
+DEBUG 2016-08-02 11:04:12,697 - 86 KB/s (5741 bytes in 0.065s)
+
+DEBUG 2016-08-02 11:04:12,708 - Exception while Killing Process: 13352 Exception: Process with an Id of 13352 is not running.
+DEBUG 2016-08-02 11:04:19,398 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.044
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 11:04:19,398 - 
+DEBUG 2016-08-02 11:04:19,406 - Exception while Killing Process: 14100 Exception: Process with an Id of 14100 is not running.
+DEBUG 2016-08-02 11:04:25,406 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 11:04:25,406 - Closing running Appium server instance....
+DEBUG 2016-08-02 11:04:26,427 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 11:04:27,437 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:27,437 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:27,937 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:28,937 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:28,937 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:29,437 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:30,437 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:30,437 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:30,937 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:32,067 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:32,067 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:34,192 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:38,361 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:38,361 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:38,997 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:40,053 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:40,053 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:40,553 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:41,562 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:41,562 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:42,062 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:43,082 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:43,082 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:43,582 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:44,582 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:44,582 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:45,082 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:46,082 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:46,082 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:46,582 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:47,582 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:47,582 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:48,082 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:49,082 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:49,082 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:49,582 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:50,582 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:50,582 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:51,082 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:52,082 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:52,082 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:52,582 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:53,582 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:53,582 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:54,082 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:55,082 - Appium Server Running Status: False
+DEBUG 2016-08-02 11:04:55,082 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:04:55,582 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:04:56,582 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 11:04:56,582 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 11:04:58,582 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 11:04:58,589 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 11:05:05,152 - Waiting for 3000 milliseconds
+DEBUG 2016-08-02 11:05:08,152 - Waiting completed after 3000 milliseconds
+INFO 2016-08-02 11:05:08,159 - Add two numbers started
+DEBUG 2016-08-02 11:05:08,317 - Found Requested Element: By.Id: com.philips.platform.appframework:id/decor_content_parent in the page.
+DEBUG 2016-08-02 11:05:18,428 - Clicking on Element By Id : com.philips.platform.appframework:id/appframework_skip_button
+DEBUG 2016-08-02 11:05:18,471 - Found Requested Element: By.Id: com.philips.platform.appframework:id/appframework_skip_button in the page.
+DEBUG 2016-08-02 11:05:19,511 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 11:05:19,513 - Clicking on Element By Id : com.philips.platform.appframework:id/tv_reg_provider_name
+DEBUG 2016-08-02 11:05:20,144 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 11:05:23,338 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:23,338 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:23,838 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:23,840 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:23,840 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:24,340 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:24,342 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:24,342 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:24,842 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:24,845 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:24,845 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:25,345 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:25,347 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:25,347 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:25,847 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:25,849 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:25,849 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:26,350 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:26,352 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:26,352 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:26,852 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:26,855 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:26,855 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:27,355 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:27,356 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:27,356 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:27,856 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:27,857 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:27,857 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:28,357 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:28,358 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:28,359 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:28,859 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:28,861 - Element not found, retrying again...: By.Id: 
+DEBUG 2016-08-02 11:05:28,861 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 11:05:29,361 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 11:05:29,363 - Element not found, retrying again...: By.Id: 
+INFO 2016-08-02 11:05:29,431 - Add two numbers stopped
+DEBUG 2016-08-02 11:05:30,209 - Closing running Appium server instance....

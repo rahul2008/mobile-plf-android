@@ -1,0 +1,100 @@
+DEBUG 2016-08-02 12:19:09,707 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 12:19:09,716 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_12_19\
+DEBUG 2016-08-02 12:19:09,716 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 12:19:09,716 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 12:19:09,716 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 12:19:09,716 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 12:19:09,888 - 
+DEBUG 2016-08-02 12:19:09,888 - 93 KB/s (5741 bytes in 0.060s)
+
+DEBUG 2016-08-02 12:19:09,900 - Exception while Killing Process: 1356 Exception: Process with an Id of 1356 is not running.
+DEBUG 2016-08-02 12:19:16,670 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.138
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 12:19:16,670 - 
+DEBUG 2016-08-02 12:19:16,680 - Exception while Killing Process: 14036 Exception: Process with an Id of 14036 is not running.
+DEBUG 2016-08-02 12:19:22,680 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 12:19:22,680 - Closing running Appium server instance....
+DEBUG 2016-08-02 12:19:23,695 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 12:19:24,704 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:24,704 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:25,204 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:26,205 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:26,205 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:26,705 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:27,705 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:27,705 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:28,205 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:29,216 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:29,216 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:29,736 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:30,795 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:30,795 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:31,353 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:32,361 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:32,361 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:32,873 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:33,916 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:33,916 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:34,448 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:35,515 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:35,515 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:36,015 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:37,115 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:37,115 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:37,615 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:38,615 - Appium Server Running Status: False
+DEBUG 2016-08-02 12:19:38,615 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:19:39,115 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:19:40,159 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 12:19:40,159 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 12:19:42,159 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 12:19:42,169 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 12:19:48,772 - Waiting for 3000 milliseconds
+DEBUG 2016-08-02 12:19:51,772 - Waiting completed after 3000 milliseconds
+INFO 2016-08-02 12:19:51,777 - Add two numbers started
+DEBUG 2016-08-02 12:19:52,288 - Found Requested Element: By.Id: com.philips.platform.appframework:id/decor_content_parent in the page.
+DEBUG 2016-08-02 12:20:02,487 - Clicking on Element By Id : com.philips.platform.appframework:id/appframework_skip_button
+DEBUG 2016-08-02 12:20:02,523 - Found Requested Element: By.Id: com.philips.platform.appframework:id/appframework_skip_button in the page.
+DEBUG 2016-08-02 12:20:03,510 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 12:20:03,512 - Clicking on Element By Id : com.philips.platform.appframework:id/tv_reg_provider_name
+DEBUG 2016-08-02 12:20:04,168 - Found Requested Element: By.Id: com.philips.platform.appframework:id/tv_reg_provider_name in the page.
+DEBUG 2016-08-02 12:20:05,553 - Found Requested Element: By.Id: com.philips.platform.appframework:id/et_reg_email in the page.
+DEBUG 2016-08-02 12:20:13,553 - Found Requested Element: By.Id: com.philips.platform.appframework:id/et_reg_password in the page.
+DEBUG 2016-08-02 12:20:19,603 - Clicking on Element By Id : com.philips.platform.appframework:id/btn_reg_sign_in
+DEBUG 2016-08-02 12:20:20,124 - Found Requested Element: By.Id: com.philips.platform.appframework:id/btn_reg_sign_in in the page.
+DEBUG 2016-08-02 12:20:20,370 - Clicking on Element By Id : com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 12:20:21,116 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 12:20:21,116 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:20:21,616 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:20:21,666 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 12:20:21,666 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:20:22,166 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:20:22,258 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/btn_reg_continue
+DEBUG 2016-08-02 12:20:22,258 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 12:20:22,758 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 12:20:22,845 - Found Requested Element: By.Id: com.philips.platform.appframework:id/btn_reg_continue in the page.
+INFO 2016-08-02 12:20:23,913 - Add two numbers stopped
+DEBUG 2016-08-02 12:20:24,653 - Closing running Appium server instance....

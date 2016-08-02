@@ -1,6 +1,8 @@
 
 
 @cd ..\packages\SpecRun.Runner.*\tools
+@pwd
+@dir
 
 @set profile=%1
 @if "%profile%" == "" set profile=Default

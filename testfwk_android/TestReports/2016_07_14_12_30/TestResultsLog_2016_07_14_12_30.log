@@ -1,0 +1,615 @@
+DEBUG 2016-07-14 12:30:30,077 - BIN Path of the Assembly: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-07-14 12:30:30,088 - Log Path of the Test Execution: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_07_14_12_30\
+DEBUG 2016-07-14 12:30:30,088 - Unlocking Android device for test execution.....
+DEBUG 2016-07-14 12:30:30,088 - UiAutomation Script Path: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-07-14 12:30:30,088 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-07-14 12:30:30,089 - Pushing file from source : C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-07-14 12:30:30,313 - 
+DEBUG 2016-07-14 12:30:30,313 - 254 KB/s (5741 bytes in 0.022s)
+
+DEBUG 2016-07-14 12:30:30,326 - Exception while Killing Process: 4516 Exception: Process with an Id of 4516 is not running.
+DEBUG 2016-07-14 12:30:37,270 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.038
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-07-14 12:30:37,270 - 
+DEBUG 2016-07-14 12:30:37,282 - Exception while Killing Process: 3868 Exception: Process with an Id of 3868 is not running.
+DEBUG 2016-07-14 12:30:43,282 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-07-14 12:30:43,283 - Closing running Appium server instance....
+DEBUG 2016-07-14 12:30:44,310 - Appium Server Log Path: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-07-14 12:30:45,322 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:45,322 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:45,822 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:46,830 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:46,830 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:47,330 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:48,330 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:48,331 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:48,831 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:49,911 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:49,911 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:50,414 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:51,513 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:51,513 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:52,013 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:53,023 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:53,023 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:53,523 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:54,530 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:54,530 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:55,030 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:56,023 - Appium Server Running Status: False
+DEBUG 2016-07-14 12:30:56,023 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:30:56,523 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:30:57,523 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-07-14 12:30:57,523 - Waiting for 2000 milliseconds
+DEBUG 2016-07-14 12:30:59,523 - Waiting completed after 2000 milliseconds
+DEBUG 2016-07-14 12:30:59,531 - Appium server is running / Starting Execution
+DEBUG 2016-07-14 12:31:04,848 - Waiting for 3000 milliseconds
+DEBUG 2016-07-14 12:31:07,848 - Waiting completed after 3000 milliseconds
+INFO 2016-07-14 12:31:07,865 - UserJourney-1 started
+INFO 2016-07-14 12:31:07,966 - Busy: Start
+DEBUG 2016-07-14 12:31:08,664 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:31:08,665 - Busy: End
+DEBUG 2016-07-14 12:31:14,787 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:14,838 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 12:31:14,884 - User is in  Launch page
+DEBUG 2016-07-14 12:31:14,885 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/btn_register
+DEBUG 2016-07-14 12:31:14,930 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/btn_register in the page.
+INFO 2016-07-14 12:31:15,368 - Busy: Start
+DEBUG 2016-07-14 12:31:15,912 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:31:15,912 - Busy: End
+DEBUG 2016-07-14 12:31:15,912 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/tv_reg_header_title
+DEBUG 2016-07-14 12:31:15,924 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/tv_reg_header_title in the page.
+DEBUG 2016-07-14 12:31:15,940 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iv_reg_back
+DEBUG 2016-07-14 12:31:16,006 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iv_reg_back in the page.
+DEBUG 2016-07-14 12:31:16,987 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:17,033 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:31:17,697 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:17,764 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 12:31:17,864 - Seeing: E-Commerce Demo App
+DEBUG 2016-07-14 12:31:17,912 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/spinner
+DEBUG 2016-07-14 12:31:17,978 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/spinner in the page.
+DEBUG 2016-07-14 12:31:18,469 - Clicking on Text : US
+DEBUG 2016-07-14 12:31:19,196 - Found Requested Element: By.Name: US in the page.
+INFO 2016-07-14 12:31:19,351 - Busy: Start
+DEBUG 2016-07-14 12:31:19,986 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:31:19,986 - Busy: End
+INFO 2016-07-14 12:31:19,986 - Busy: Start
+DEBUG 2016-07-14 12:31:20,660 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:31:20,660 - Busy: End
+DEBUG 2016-07-14 12:31:20,660 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/btn_shop_now
+DEBUG 2016-07-14 12:31:20,704 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/btn_shop_now in the page.
+INFO 2016-07-14 12:31:23,891 - Busy: Start
+DEBUG 2016-07-14 12:31:24,562 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:31:24,564 - Busy: End
+INFO 2016-07-14 12:31:24,564 - Busy: Start
+DEBUG 2016-07-14 12:31:25,208 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:31:25,208 - Busy: End
+DEBUG 2016-07-14 12:31:25,250 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:25,292 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:25,882 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:25,924 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:26,865 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:27,008 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:28,015 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:28,077 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:28,749 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:28,846 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:29,493 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:29,583 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:30,222 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:30,307 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:30,962 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:31,041 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:31,683 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:31,810 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:32,753 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:32,823 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:33,449 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:33,524 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:34,180 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:34,247 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:34,877 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:34,943 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:35,656 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:35,717 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:36,386 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:36,452 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:37,127 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:37,182 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:38,116 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:38,193 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:39,204 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:39,255 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:39,862 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:39,949 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:40,755 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:40,807 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:41,413 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:41,505 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:42,195 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:42,280 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:42,880 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:42,947 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:43,589 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:43,670 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:44,291 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:44,345 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:44,990 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:45,058 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:45,700 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:45,782 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:46,450 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:46,533 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:47,494 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:47,547 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:48,165 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:48,233 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:48,900 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:48,980 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:49,626 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:49,699 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:50,357 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:50,425 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:51,073 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:51,131 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:51,743 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:51,829 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:52,486 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:52,564 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:53,248 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:53,313 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:53,920 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:54,040 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:54,707 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:54,805 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:55,740 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:55,794 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:56,803 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:56,875 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:57,606 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:57,659 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:58,255 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:58,297 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:31:58,962 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:31:59,034 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:00,146 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:00,225 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:00,852 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:00,941 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:01,566 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:01,665 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:02,362 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:02,444 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:03,120 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:03,233 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:03,875 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:03,928 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:04,931 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:04,987 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:05,842 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:05,909 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:06,553 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:06,640 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:07,297 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:07,362 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:07,990 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:08,074 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:08,719 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:08,850 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:09,867 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:09,950 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:10,663 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:10,737 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:11,506 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:11,586 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:32:12,203 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:32:12,267 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 12:32:12,859 - Product screen title is not shown:  try: 0
+INFO 2016-07-14 12:32:12,859 - Product items are not loaded:  try: 0
+DEBUG 2016-07-14 12:32:12,859 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:13,197 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:13,197 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:13,697 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:13,810 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:13,810 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:14,310 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:14,359 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:14,359 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:14,859 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:14,924 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:14,924 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:15,424 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:16,237 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:16,237 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:16,737 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:16,979 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:16,979 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:17,479 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:17,521 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:17,521 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:18,021 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:18,250 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:18,250 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:18,750 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:18,790 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:18,790 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:19,290 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:19,339 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:19,339 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:19,839 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:19,891 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:19,891 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:20,391 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:20,578 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:32:20,578 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:32:21,078 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:32:21,215 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+INFO 2016-07-14 12:32:21,215 - Busy: Start
+DEBUG 2016-07-14 12:32:21,832 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:22,447 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:23,049 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:23,670 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:24,290 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:24,891 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:25,499 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:26,130 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:26,731 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:27,423 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:28,018 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:28,622 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:29,257 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:29,944 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:30,547 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:31,169 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:31,768 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:32,391 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:32,991 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:33,633 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:34,247 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:34,864 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:35,467 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:36,068 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:36,671 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:37,273 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:37,912 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:38,531 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:39,131 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:39,732 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:40,335 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:40,975 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:41,576 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:42,193 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:42,815 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:43,430 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:44,067 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:44,691 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:45,308 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:45,958 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:46,576 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:47,199 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:47,832 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:48,435 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:49,090 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:49,708 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:50,309 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:50,946 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:51,564 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:52,166 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:52,787 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:53,421 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:54,041 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:54,643 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:55,246 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:55,936 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:56,618 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:57,273 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:57,944 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:58,729 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:32:59,402 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:00,098 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:00,788 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:01,457 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:02,072 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:02,742 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:03,445 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:04,080 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:04,700 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:05,369 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:06,072 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:06,691 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:07,328 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:07,949 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:08,589 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:09,326 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:10,022 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:10,699 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:11,328 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:12,014 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:12,650 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:13,327 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:13,939 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:14,557 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:15,179 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:15,798 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:16,416 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:17,036 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:17,653 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:18,256 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:18,946 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:19,548 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:20,146 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:20,750 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:21,352 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:21,961 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:22,561 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:23,177 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:23,777 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:24,403 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:25,018 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:25,636 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:26,237 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:26,843 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:27,442 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:28,063 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:28,684 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:29,334 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:29,994 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 12:33:30,519 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:33:30,519 - Busy: End
+DEBUG 2016-07-14 12:33:31,662 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:31,747 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+INFO 2016-07-14 12:33:31,747 - ProductScreen retry: this is not implemented: 
+DEBUG 2016-07-14 12:33:31,766 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:31,785 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:33:32,299 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:32,326 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:33:34,328 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:34,371 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:33:35,397 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:35,489 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:36,134 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:36,209 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:36,833 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:36,890 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:37,791 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:37,846 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:38,442 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:38,485 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:39,107 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:39,173 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:39,806 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:39,910 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:40,568 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:40,619 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:41,261 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:41,316 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:41,938 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:42,094 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:42,737 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:42,804 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:43,505 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:43,624 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:44,259 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:44,317 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:44,982 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:45,045 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:45,691 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:45,784 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:46,717 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:46,803 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:47,442 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:47,515 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:48,258 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:48,320 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:48,953 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:49,138 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:51,068 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:51,136 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:51,809 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:51,936 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:52,606 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:52,692 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:53,361 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:53,428 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:54,106 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:54,186 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:54,913 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:54,954 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:55,734 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:55,799 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:56,446 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:56,496 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:57,117 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:57,189 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:57,802 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:57,876 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:58,483 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:58,528 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:59,163 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:59,242 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:33:59,853 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:33:59,907 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:00,525 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:00,583 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:01,187 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:01,272 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:01,882 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:01,948 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:02,603 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:02,714 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:03,340 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:03,395 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:04,400 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:04,461 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:05,081 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:05,136 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:05,755 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:05,850 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:06,456 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:06,514 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:07,420 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:07,496 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:08,102 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:08,196 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:08,848 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:08,896 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:09,541 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:09,606 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:10,290 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:10,385 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:11,100 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:11,156 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:11,791 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:11,845 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:12,584 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:12,635 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:13,254 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:13,307 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:13,922 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:14,004 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:14,638 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:14,689 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:15,289 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:15,393 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:16,188 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:16,230 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:16,826 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:16,897 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:17,757 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:17,846 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:18,485 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:18,551 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 12:34:19,101 - Product screen title is not shown:  try: 1
+INFO 2016-07-14 12:34:19,101 - Product items are not loaded:  try: 1
+DEBUG 2016-07-14 12:34:19,101 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:19,182 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:19,182 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:19,682 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:19,738 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:19,738 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:20,238 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:20,303 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:20,303 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:20,803 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:20,851 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:20,851 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:21,351 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:21,404 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:21,404 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:21,904 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:21,960 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:21,960 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:22,460 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:22,575 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:22,575 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:23,075 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:23,188 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:23,188 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:23,688 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:23,735 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:23,735 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:24,235 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:24,317 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:24,317 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:24,817 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:25,171 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:25,171 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:25,671 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:25,773 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 12:34:25,773 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 12:34:26,273 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 12:34:26,331 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+INFO 2016-07-14 12:34:26,331 - Busy: Start
+DEBUG 2016-07-14 12:34:26,971 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:34:26,971 - Busy: End
+DEBUG 2016-07-14 12:34:27,013 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:27,053 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:27,108 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/btn_shop_now
+DEBUG 2016-07-14 12:34:27,167 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/btn_shop_now in the page.
+INFO 2016-07-14 12:34:30,391 - Busy: Start
+DEBUG 2016-07-14 12:34:30,982 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 12:34:30,982 - Busy: End
+DEBUG 2016-07-14 12:34:31,176 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:31,225 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:31,840 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:31,887 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:32,931 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:32,977 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:37,813 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:37,850 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:39,558 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:39,632 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:40,227 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:40,274 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:40,914 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:40,999 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:41,678 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:41,735 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:42,367 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:42,452 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:43,110 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:43,193 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:43,831 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:43,900 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:44,527 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:44,595 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:45,478 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:45,550 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:46,527 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:46,580 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:47,534 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:47,657 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:48,420 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:48,482 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:49,115 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:49,160 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+DEBUG 2016-07-14 12:34:50,027 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:50,728 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:51,904 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:52,215 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:52,787 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:52,815 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:53,402 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:54,646 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:55,502 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:55,610 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:56,144 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:56,168 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:56,681 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:56,740 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:57,423 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:57,441 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:57,984 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:34:58,022 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:34:59,725 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:35:00,738 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:35:01,266 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:35:01,282 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:35:01,873 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:35:01,917 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:35:02,446 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 12:35:02,524 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 12:35:03,092 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title
