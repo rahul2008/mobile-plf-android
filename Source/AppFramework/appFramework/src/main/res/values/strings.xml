@@ -38,6 +38,7 @@
     <string-array name="hamburger_drawer_items">
         <item>@string/app_home_title </item>
         <item>Support</item>
+        <item>Shop</item>
         <item>Settings</item>
         <item>Debug and Testing</item>
     </string-array>
@@ -48,5 +49,9 @@
         <item>HD9240/90</item>
     </string-array>
     <!--ConsumerCare related end here.-->
+
+    <!--InAppPurchase related starts-->
+    <string name="iap_unknown_error">Unknow Error</string>
+    <!--InAppPurchase related ends-->
 
 </resources>

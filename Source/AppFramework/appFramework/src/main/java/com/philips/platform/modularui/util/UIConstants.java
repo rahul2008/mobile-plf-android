@@ -27,7 +27,7 @@ public class UIConstants {
     /**
      * Constants fo each UI screen
      */
-    @IntDef({UI_SPLASH_SCREEN, UI_WELCOME_SCREEN, UI_HAMBURGER_SCREEN, UI_USER_REGISTRATION_SCREEN, UI_SETTINGS_SCREEN, UI_DEBUG_SCREEN, UI_SUPPORT_SCREEN,UI_HOME_SCREEN})
+    @IntDef({UI_SPLASH_SCREEN, UI_WELCOME_SCREEN, UI_HAMBURGER_SCREEN, UI_USER_REGISTRATION_SCREEN, UI_SETTINGS_SCREEN, UI_DEBUG_SCREEN, UI_SUPPORT_SCREEN,UI_HOME_SCREEN, UI_IAP_SHOPPING_SCREEN})
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIScreenConstants {
     }
@@ -40,6 +40,7 @@ public class UIConstants {
     public static final int UI_DEBUG_SCREEN = 3006;
     public static final int UI_SUPPORT_SCREEN = 3007;
     public static final int UI_HOME_SCREEN = 3008;
+ 	public static final int UI_IAP_SHOPPING_SCREEN = 3009;
 
     //Start screen state constant
     public static final String UI_START_STATUS = "UI_SPLASH_STATE_ONE";
