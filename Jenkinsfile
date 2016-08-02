@@ -1,7 +1,6 @@
 node('Android') {
     stage 'Checkout'
     checkout scm
-    sh 'git clean -ffdx'
 
     stage 'Build'
     sh 'cd ./Source/ShineLib && ./gradlew assembleDebug'
