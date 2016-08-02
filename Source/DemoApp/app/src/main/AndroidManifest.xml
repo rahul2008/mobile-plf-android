@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.platform.appinfra.demo">
 
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
     <application
         android:name=".AppInfraApplication"
         android:allowBackup="true"
@@ -14,10 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:label">
-
-
         <activity
-            android:name="com.philips.platform.appinfra.demo.AppInfraMainActivity"
+            android:name=".AppInfraMainActivity"
             android:label="@string/localized_commercial_app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,68 +24,53 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.philips.platform.appinfra.demo.SecureStorageActivity"
+            android:name=".SecureStorageActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.philips.platform.appinfra.demo.LoggingActivity"
+            android:name=".LoggingActivity"
             android:label="Log Test"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.philips.platform.appinfra.demo.PrxLauncherActivity"
+            android:name=".PrxLauncherActivity"
             android:label="Log Test"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.philips.platform.appinfra.demo.AIATDemoPage"
+            android:name=".AIATDemoPage"
             android:label="Log Test"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.philips.platform.appinfra.demo.LocalMatchActivity"
+            android:name=".LocalMatchActivity"
             android:label="Log Test"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.philips.platform.appinfra.demo.AppIndentityDemoPage"
+            android:name=".AppIndentityDemoPage"
             android:label="AppIdentity Test"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".InternationalizationDemoPage"
             android:label="LocalMainDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.philips.platform.appinfra.demo.ServiceDiscoveryDemo"
+            android:name=".ServiceDiscoveryDemo"
             android:label="LocalMainDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="com.philips.platform.appinfra.demo.TimeSyncDemo"
+            android:name=".TimeSyncDemo"
             android:label="LocalMainDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".ConfigActivity"
+            android:label="@string/title_activity_config"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
