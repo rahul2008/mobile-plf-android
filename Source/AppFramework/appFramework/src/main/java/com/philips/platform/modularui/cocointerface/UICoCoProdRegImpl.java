@@ -31,7 +31,7 @@ public class UICoCoProdRegImpl implements UICoCoInterface, com.philips.cdp.prodr
     }
 
     private Product loadProduct() {
-        Product product = new Product("", Sector.B2C, Catalog.CONSUMER);
+        Product product = new Product("HX6064/33", Sector.B2C, Catalog.CONSUMER);
         product.setSerialNumber("");
         product.setPurchaseDate("");
         product.setFriendlyName("");

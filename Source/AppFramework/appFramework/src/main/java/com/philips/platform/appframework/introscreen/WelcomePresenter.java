@@ -68,6 +68,6 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_PROD_REGISTRATION_STATE, context, this);
+        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
     }
 }
