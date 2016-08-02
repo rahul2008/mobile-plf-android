@@ -23,7 +23,6 @@ import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Logger;
@@ -51,7 +50,6 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int position = 0;
         fragmentPresenter = new InAppPurchaseFragmentPresenter();
-        User user = new User(getActivity());
         hideActionbar();
         mRootView = inflater.inflate(R.layout.af_inapppurchase_fragment, container, false);
         Bundle bundle = this.getArguments();
@@ -87,14 +85,13 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
     public void launchInAppPurchases(/*int position, String ctn*/) {
         ArrayList<String> ctnList;
         if (NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
-            Logger.i("testing","IAP Fragment - launch");
             String languageCode = "en";
             String countryCode = "GB";
 
             mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
             mIapSettings.setUseLocalData(false);
             mIapSettings.setLaunchAsFragment(true);
-            mIapSettings.setFragProperties(getFragmentManager(), /*R.id.frame_container*/ R.id.vertical_Container);
+            mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
             mIapHandler = IAPHandler.init(getContext(), mIapSettings);
 
 //            if (position != -1) {

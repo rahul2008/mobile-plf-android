@@ -3,10 +3,8 @@ package com.philips.platform.appframework.inapppurchase;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
 
 /**
  * Created by 310173741 on 8/1/16.
@@ -21,7 +19,7 @@ public class InAppPurchaseFragmentPresenter extends UIBasePresenter implements U
 
     @Override
     public void onLoad(Context context) {
-        Logger.i("testing","IAP Presenter onLoad");
+//        Logger.i("testing","IAP Presenter onLoad");
 //        if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_WELCOME_REGISTRATION_STATE) {
 //            setState(UIState.UI_WELCOME_REGISTRATION_STATE);
 //            appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
@@ -39,7 +37,7 @@ public class InAppPurchaseFragmentPresenter extends UIBasePresenter implements U
 
     @Override
     public void setNextState(Context context) {
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
+//        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+//        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
     }
 }
