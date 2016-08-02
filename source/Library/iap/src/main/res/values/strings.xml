@@ -181,6 +181,7 @@
     <string name="iap_cvv_cvc">CVV/CVC</string>
     <string name="iap_txt_cvv_cvc">Enter CVV/CVC</string>
     <string name="iap_proceed">Proceed</string>
+    <string name="iap_cvv_astric">***</string>
 
 
 </resources>
