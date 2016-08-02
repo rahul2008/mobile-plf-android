@@ -1,5 +1,14 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+Version -3.2.3								Date: 01-08-2016
+-------------------------------------------------------------
+Fixed below issues.(Issues reported in rally under common components support)
+DE12500: Unable to edit address since keypad is not displayed in Edit Address screen
+D125021: Cursor is displayed for all fields in Add/Edit address screen
+DE12502: Inline error message is displayed for all fields in New billing address screen
+
+-------------------------------------------------------------
+
 Version -3.2.2								Date: 12-07-2016
 -------------------------------------------------------------
 Fixed below issues.(Issues reported in rally under common components support)

@@ -4,6 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply from: './jacoco.gradle'
 
 def libVersionNumber = new File('../../VERSION').text.trim()
+libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
 
 buildscript {
     repositories {

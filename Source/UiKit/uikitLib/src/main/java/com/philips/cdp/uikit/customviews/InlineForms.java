@@ -257,13 +257,6 @@ public class InlineForms extends LinearLayout {
         final int errorTextColor = parent.hasFocus() ? mFocusedColor : mEnricher4;
         highLightErrorView(indexofParent, errorTextColor);
         highLightTextField(parent, parent.hasFocus() ? mDarkBlue : mEnricher4);
-
-        for (int i = 0; i < parent.getChildCount(); i++) {
-            View view = parent.getChildAt(i);
-            if (view instanceof EditText) {
-                view.requestFocus();
-            }
-        }
     }
 
     public void showError(View edittext) {
