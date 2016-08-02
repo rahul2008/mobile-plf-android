@@ -48,6 +48,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.security.SecureStorage;
@@ -110,7 +111,6 @@ public class User {
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
     /**
-     *
      * @param context
      */
     public User(Context context) {
@@ -121,6 +121,7 @@ public class User {
 
     /**
      * {@code loginUsingTraditional} method logs in a user with a traditional account.
+     *
      * @param emailAddress
      * @param password
      * @param traditionalLoginHandler
@@ -135,16 +136,32 @@ public class User {
                 new TraditionalLoginHandler() {
                     @Override
                     public void onLoginSuccess() {
-
                         DIUserProfile diUserProfile = getUserInstance();
-                        diUserProfile.setPassword(password);
-                        saveDIUserProfileToDisk(diUserProfile);
-                        traditionalLoginHandler.onLoginSuccess();
+                        if (diUserProfile != null && traditionalLoginHandler != null) {
+                            diUserProfile.setPassword(password);
+                            saveDIUserProfileToDisk(diUserProfile);
+                            traditionalLoginHandler.onLoginSuccess();
+                        } else {
+                            if (traditionalLoginHandler != null) {
+                                UserRegistrationFailureInfo
+                                        userRegistrationFailureInfo =
+                                        new UserRegistrationFailureInfo();
+                                userRegistrationFailureInfo.
+                                        setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+                                traditionalLoginHandler.
+                                        onLoginFailedWithError(userRegistrationFailureInfo
+                                        );
+                            }
+                        }
                     }
 
                     @Override
-                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                        traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    public void onLoginFailedWithError(UserRegistrationFailureInfo
+                                                               userRegistrationFailureInfo) {
+                        if (traditionalLoginHandler != null) {
+                            traditionalLoginHandler.
+                                    onLoginFailedWithError(userRegistrationFailureInfo);
+                        }
                     }
                 }, mContext, mUpdateUserRecordHandler, emailAddress,
                 password);
@@ -156,6 +173,7 @@ public class User {
 
     /**
      * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
+     *
      * @param activity
      * @param providerName
      * @param socialLoginHandler
@@ -180,6 +198,7 @@ public class User {
 
     /**
      * {@code registerUserInfoForTraditional} method creates a user account.
+     *
      * @param mGivenName
      * @param mUserEmail
      * @param password
@@ -201,6 +220,7 @@ public class User {
 
     /**
      * {@code forgotPassword} method retrieves a lost password.
+     *
      * @param emailAddress
      * @param forgotPasswordHandler
      */
@@ -218,6 +238,7 @@ public class User {
 
     /**
      * {@code refreshLoginSession} method refreshes the session of an already logged in user.
+     *
      * @param refreshLoginSessionHandler
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
@@ -228,6 +249,7 @@ public class User {
 
     /**
      * {@code resendVerificationEmail} method sends a verification mail in case an already sent mail is not received.
+     *
      * @param emailAddress
      * @param resendVerificationEmail
      */
@@ -264,6 +286,7 @@ public class User {
 
     /**
      * {@code mergeToTraditionalAccount} method merges a traditional account to other existing account
+     *
      * @param emailAddress
      * @param password
      * @param mergeToken
@@ -278,6 +301,7 @@ public class User {
 
     /**
      * {@code registerUserInfoForSocial} methods creates a new account using social provider.
+     *
      * @param givenName
      * @param displayName
      * @param familyName
@@ -357,6 +381,7 @@ public class User {
 
     /**
      * {@code isUserSignIn} method checks if a user is logged in
+     *
      * @return boolean
      */
     public boolean isUserSignIn() {
@@ -384,9 +409,9 @@ public class User {
         }
 
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext,getEmail());
-            if(!isTermAccepted){
-                signedIn=false;
+            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            if (!isTermAccepted) {
+                signedIn = false;
                 clearData();
             }
         }
@@ -511,6 +536,7 @@ public class User {
 
     /**
      * {@code logout} method logs out a logged in user.
+     *
      * @param logoutHandler
      */
     public void logout(LogoutHandler logoutHandler) {
@@ -621,10 +647,10 @@ public class User {
      * @param handler Callback mHandler
      */
     public void refreshUser(final RefreshUserHandler handler) {
-        if(NetworkUtility.isNetworkAvailable(mContext)) {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
             //ABCD.getInstance().setmP(null);
-        }else{
+        } else {
             handler.onRefreshUserFailed(-1);
         }
         //refreshandUpdateUser(handler);
@@ -668,6 +694,7 @@ public class User {
 
     /**
      * {@code getEmail} method returns the email address of a logged in user.
+     *
      * @return String
      */
     public String getEmail() {
@@ -689,6 +716,7 @@ public class User {
 
     /**
      * {@code getGivenName} method returns the given name of a logged in user.
+     *
      * @return String
      */
     public String getGivenName() {
@@ -710,6 +738,7 @@ public class User {
 
     /**
      * {@code getReceiveMarketingEmail} method checks if the user has subscribed to receive marketing email.
+     *
      * @return boolean
      */
     public boolean getReceiveMarketingEmail() {
@@ -722,6 +751,7 @@ public class User {
 
     /**
      * {@code getGivenName} method returns the display name of a logged in user.
+     *
      * @return String
      */
     public String getDisplayName() {
@@ -734,6 +764,7 @@ public class User {
 
     /**
      * {@code getFamilyName} method returns the family name of a logged in user.
+     *
      * @return String
      */
     public String getFamilyName() {
@@ -746,6 +777,7 @@ public class User {
 
     /**
      * {@code getJanrainUUID} method returns the Janrain UUID of a logged in user.
+     *
      * @return String
      */
     public String getJanrainUUID() {
@@ -758,6 +790,7 @@ public class User {
 
     /**
      * {@code getHsdpUUID} method returns the HSDP UUID of a logged in user.
+     *
      * @return String
      */
     public String getHsdpUUID() {
@@ -771,6 +804,7 @@ public class User {
 
     /**
      * {@code getHsdpAccessToken} method returns the access token for a logged in user.
+     *
      * @return String
      */
     public String getHsdpAccessToken() {
@@ -783,6 +817,7 @@ public class User {
 
     /**
      * {@code getLanguageCode} method returns the language code for a logged in user
+     *
      * @return String
      */
     public String getLanguageCode() {
@@ -795,6 +830,7 @@ public class User {
 
     /**
      * {@code getCountryCode} method returns country code for a logged in user.
+     *
      * @return String
      */
     public String getCountryCode() {
@@ -817,7 +853,7 @@ public class User {
             oos.close();
             fos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            RLog.d("Expetion :", e.getMessage());
         }
     }
 
