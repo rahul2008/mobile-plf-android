@@ -40,8 +40,12 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         Log.i("getAppName", "" + mAppIdentityInterface.getAppName());
         Log.i("getAppState", "" + mAppIdentityInterface.getAppState());
         Log.i("getAppVersion", "" + mAppIdentityInterface.getAppVersion());
+
+        appInfra.getTagging().createInstanceForComponent("AppIdentityID", "AppIdentityVersion");
+
+
 //        mAppIdentityManager.loadJSONFromAsset();
-        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppIndentityDemoPage", "Key", "AppIndentityVAlue");
+        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppIndentityDemoPage", "AppIndentityDemoPageKey", "AppIndentityDemoPageVAlue");
 
 
     }

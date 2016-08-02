@@ -22,25 +22,23 @@ import java.util.Locale;
 import java.util.Map;
 
 public class AppTagging implements AppTaggingInterface {
-    private static String componentVersionKey;
-
     private static String newFieldKey;
 
     private static String newFieldValue;
 
-    private static String componentVersionVersionValue;
-    private static String mLanguage;
-    //    private static String mCountry;
-    private static String mAppsIdkey;
-    private static String mLocalTimestamp;
-    private static String mUTCTimestamp;
-    private static String prevPage;
+    private String mLanguage;
+    private String mAppsIdkey;
+    private String mLocalTimestamp;
+    private String mUTCTimestamp;
+    private String prevPage;
+
+    private boolean isTrackPage = false;
+    private boolean isTrackAction = false;
 
 
-     AppInfra mAppInfra;
+    AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
-    Context context;
 
     private static String[] defaultValues = {
             AppTaggingConstants.LANGUAGE_KEY,
@@ -77,11 +75,6 @@ public class AppTagging implements AppTaggingInterface {
         if (appName == null) {
             throw new RuntimeException("Please set app name for tagging library");
         }
-    }
-
-
-    public void setDebuggable(final boolean enable) {
-        Config.setDebugLogging(enable);
     }
 
     private Map<String, Object> addAnalyticsDataObject() {
@@ -145,7 +138,7 @@ public class AppTagging implements AppTaggingInterface {
         if (mAppInfra.getTime() != null) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
 
-            UTCtime =   df.format(mAppInfra.getTime().getUTCTime());
+            UTCtime = df.format(mAppInfra.getTime().getUTCTime());
             mUTCTimestamp = UTCtime;
             Log.i("mUTCTimestamp", "" + mUTCTimestamp);
         }
@@ -176,7 +169,7 @@ public class AppTagging implements AppTaggingInterface {
 
     private String getComponentVersionVersionValue() {
         if (mComponentVersion == null) {
-            mComponentVersion = "DefalutValue";
+            mComponentVersion = "DefaultValue";
         }
         return mComponentVersion;
     }
@@ -235,13 +228,13 @@ public class AppTagging implements AppTaggingInterface {
 
     private void track(String pageName, String key, String value, Map<String, String> paramMap) {
 
-        if (key != null && value != null) {
+        if (key != null && value != null ) {
             if (!Arrays.asList(defaultValues).contains(key)) {
 
                 setNewKey(key);
                 setNewValue(value);
             }
-        } else {
+        } else if(paramMap != null){
             for (Map.Entry<String, String> entry : paramMap.entrySet()) {
                 if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
 
@@ -253,7 +246,7 @@ public class AppTagging implements AppTaggingInterface {
         }
 
         contextData = addAnalyticsDataObject();
-        if (null != prevPage) {
+        if (null != prevPage && isTrackPage) {
             contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
         Analytics.trackState(pageName, contextData);
@@ -264,12 +257,16 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
 
+        isTrackPage = true;
+        isTrackAction = false;
         track(pageName, key, value, null);
     }
 
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 
+        isTrackPage = true;
+        isTrackAction = false;
         track(pageName, null, null, paramMap);
 
     }
@@ -278,6 +275,8 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
 
+        isTrackAction = true;
+        isTrackPage = false;
         track(pageName, key, value, null);
 
     }
@@ -285,6 +284,9 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
+
+        isTrackAction = true;
+        isTrackPage = false;
         track(pageName, null, null, paramMap);
     }
 

@@ -33,7 +33,9 @@ public class TimeSyncDemo extends AppCompatActivity {
 
         mTimeSyncInterface = AppInfraApplication.gAppInfra.getTime();
 
-        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "SDKEy", "SDValue");
+        AppInfraApplication.gAppInfra.getTagging().createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
+
+        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
         localTimeTextvalue.setText(getDeviceTime());
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
         Log.i("TimeSyncDemo", "UTCTime  " + mTimeSyncInterface.getUTCTime());
