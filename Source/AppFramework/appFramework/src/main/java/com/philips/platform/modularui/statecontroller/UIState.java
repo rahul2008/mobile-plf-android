@@ -49,7 +49,6 @@ abstract public class UIState {
         return stateID;
     }
 
-    //TODO: remove this
     @UIState.UIStateDef
     public void setStateID(int stateID) {
         this.stateID = stateID;

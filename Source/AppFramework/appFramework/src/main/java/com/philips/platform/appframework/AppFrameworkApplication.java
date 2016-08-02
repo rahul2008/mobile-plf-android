@@ -20,7 +20,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.modularui.statecontroller.FlowManager;
+import com.philips.platform.modularui.statecontroller.UIFlowManager;
 
 import java.util.Locale;
 
@@ -28,7 +28,7 @@ import java.util.Locale;
 
 
 public class AppFrameworkApplication extends Application {
-    public FlowManager flowManager;
+    public UIFlowManager flowManager;
     private static Context mContext;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
@@ -39,7 +39,7 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         mContext = getApplicationContext();
-        flowManager = new FlowManager();
+        flowManager = new UIFlowManager();
         AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
@@ -55,7 +55,7 @@ public class AppFrameworkApplication extends Application {
 
     }
 
-    public FlowManager getFlowManager() {
+    public UIFlowManager getFlowManager() {
         return flowManager;
     }
 

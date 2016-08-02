@@ -39,7 +39,6 @@ public class StateCreator {
     // TODO: remove switch, look for alternative
     public UIState getState(int stateID, Context context){
         appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
-        if(!appFrameworkApplication.getFlowManager().getStateMap().containsKey(stateID)){
             switch (stateID){
                 case UIState.UI_WELCOME_REGISTRATION_STATE:
                     uiState = new WelcomeRegistrationState(UIState.UI_WELCOME_REGISTRATION_STATE);
@@ -74,13 +73,10 @@ public class StateCreator {
 				case UIState.UI_IAP_SHOPPING_FRAGMENT_STATE:
                     uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
                     break;
- 	
+                default :
+                    uiState = new WelcomeState(UIState.UI_WELCOME_STATE);
             }
-
-            appFrameworkApplication.getFlowManager().addToStateMap(uiState);
-        }
-
-        return appFrameworkApplication.getFlowManager().getStateMap().get(stateID);
+            return uiState;
     }
 
 }

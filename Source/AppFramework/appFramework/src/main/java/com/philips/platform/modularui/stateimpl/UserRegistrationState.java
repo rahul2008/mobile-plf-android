@@ -18,7 +18,6 @@ public class UserRegistrationState extends UIState {
 
     @Override
     public void navigate(Context context) {
-        // TODO: Launch UR as fragment from our activity
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         uiCoCoUserReg.loadPlugIn(context);
         uiCoCoUserReg.runCoCo(context);
