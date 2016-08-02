@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{79380657-3624-4875-A074-0A780577D9F0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS</RootNamespace>
+    <AssemblyName>Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="appium-dotnet-driver, Version=1.2.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference\appium-dotnet-driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebDriver, Version=2.44.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=2.44.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference\WebDriver.Support.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Address.cs" />
+    <Compile Include="AddressDetails.cs" />
+    <Compile Include="CartEntries.cs" />
+    <Compile Include="Confirmation.cs" />
+    <Compile Include="HomeScreen.cs" />
+    <Compile Include="IAPConfiguration.cs" />
+    <Compile Include="LoginScreen.cs" />
+    <Compile Include="Payment.cs" />
+    <Compile Include="ProductScreen.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RESTAPISupport\ResponseMapper.cs" />
+    <Compile Include="RESTAPISupport\RestApiInvoker.cs" />
+    <Compile Include="RESTAPISupport\RestClientExtended.cs" />
+    <Compile Include="ShippingAddress.cs" />
+    <Compile Include="ShoppingCart.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Summary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\01Foundation\Common\AutomationCore.csproj">
+      <Project>{f24dc883-535c-49b9-89a6-75dbf5176d36}</Project>
+      <Name>AutomationCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01Foundation\FrameworkCore\Philips.MRAutomation.Foundation.FrameworkCore.csproj">
+      <Project>{5a2bce35-0c43-488c-bba5-844a5d2cba37}</Project>
+      <Name>Philips.MRAutomation.Foundation.FrameworkCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01Foundation\MobileTestCore\MobileTestCore.csproj">
+      <Project>{747b8419-a237-4ab6-a2b8-4a17027bcaf9}</Project>
+      <Name>MobileTestCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CDP_ObjectRepository\ObjectRepository.csproj">
+      <Project>{298a63ca-64db-44a2-bcf3-9cb7ff65ff21}</Project>
+      <Name>ObjectRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

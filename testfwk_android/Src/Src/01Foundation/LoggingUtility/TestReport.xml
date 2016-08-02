@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<Reporter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SystemConfiguration>
+    <ProductModel>Ingenia</ProductModel>
+    <MainSystemType>WA15</MainSystemType>
+    <SystemType>WORKSTATION</SystemType>
+    <MagnetType>WA_15T</MagnetType>
+    <AcquisitionSystemType>CDAS</AcquisitionSystemType>
+    <Stream>mrmain</Stream>
+    <Swid>163</Swid>
+    <Release>5</Release>
+    <Version>1</Version>
+    <Level>1</Level>
+    <SystemName>MRBANWS08</SystemName>
+    <IPAddress>192.168.91.14</IPAddress>
+    <PerformanceMonitoringFolder>Reports\PerformanceReadings_10012012073254\</PerformanceMonitoringFolder>
+  </SystemConfiguration>
+  <TestCase Name="ImportExamCards">
+    <TestCaseType>ECREGRESSION</TestCaseType>
+    <ReqID>Not Specified</ReqID>
+    <TCID>TC_01</TCID>
+    <Status>Fail</Status>
+    <Descriptions>
+      <Description>Import of exam cards from disk drive to the Inbox folder</Description>
+    </Descriptions>
+    <FunctionalArea>ExamCard Regression</FunctionalArea>
+    <Product>SERVAL</Product>
+    <ProductVersion>MR</ProductVersion>
+    <VerificationType>LOGIC</VerificationType>
+    <TestCaseState>GOOD</TestCaseState>
+    <RunStatus>RUN</RunStatus>
+    <StackTrace />
+    <Messages>
+      <Message>In Setup of TC_01_ECRegression</Message>
+      <Message>In Execute Action of TC_01_ECRegression</Message>
+      <Message>Importing the exam cards from the Disk drive using Import exam cards menu option </Message>
+      <Message>Importing the exam cards from the disk drive by double clicking</Message>
+      <Message>Importing of ExamCards completed.</Message>
+      <Message>Importing of ExamCards completed.</Message>
+      <Message>Verifying the exam cards imported in the inbox folder</Message>
+      <Message>Fail: CTP Brain_Obelix_15 fails to be imported</Message>
+      <Message>Fail: CTP FBrain_Obelix fails to be imported</Message>
+      <Message>Fail: CTP_Obelix_MFlex fails to be imported</Message>
+      <Message>Fail: CTP Angio_Obelix_15 fails to be imported</Message>
+      <Message>In Verify Action of TC_01_ECRegression</Message>
+      <Message>TC_01_ECRegression test case is failed</Message>
+      <Message>in Teardown Action of TC_01_ECRegression</Message>
+    </Messages>
+    <HasTimedOut>False</HasTimedOut>
+    <HasCrashed>False</HasCrashed>
+    <StartTime>10/1/2012 7:32:54 AM</StartTime>
+    <EndTime>10/1/2012 7:35:13 AM</EndTime>
+  </TestCase>
+  <TestCase Name="ScanExamCards">
+    <TestCaseType>ECREGRESSION</TestCaseType>
+    <ReqID>Not Specified</ReqID>
+    <TCID>TC_02</TCID>
+    <Status>Fail</Status>
+    <Descriptions>
+      <Description>During the duration/scanning of EC’s attention should be paid to popped up warning/error/prompt messages etc. </Description>
+      <Description>These should be correct, timely and logical e.g Manual start,Table position/movement,SAR,Noise etc.</Description>
+      <Description>Also any messages displayed in the bar below the EC database area should contain relevant and clear messages </Description>
+      <Description>e.g.•Dynamic scan•Problem messages for resources etc.Also during the duration/scanning of EC’s attention should </Description>
+      <Description>be paid to the bottom left scanning area to ensure that the information and data displayed there is correct.</Description>
+    </Descriptions>
+    <FunctionalArea>ExamCard Regression</FunctionalArea>
+    <Product>SERVAL</Product>
+    <ProductVersion>MR</ProductVersion>
+    <VerificationType>LOGIC</VerificationType>
+    <TestCaseState>GOOD</TestCaseState>
+    <RunStatus>RUN</RunStatus>
+    <StackTrace />
+    <Messages>
+      <Message>In Setup of TC_02_ECRegression</Message>
+      <Message>In Execute Action of TC_02_ECRegression</Message>
+      <Message>Created patient successfully CTP_Brain</Message>
+      <Message>
+        Exception occured In Execute Action. Stack Trace as follows -   Microsoft.VisualStudio.TestTools.UITest.Extension.UITestControlNotFoundException: The playback failed to find the control with the given search properties. Additional Details:
+        TechnologyName:  'MSAA'
+        ControlType:  'Window'
+        ControlName:  'browseUpButton'
+        Instance:  '2'
+        ---&gt; System.Runtime.InteropServices.COMException: Error HRESULT E_FAIL has been returned from a call to a COM component.
+        at Microsoft.VisualStudio.TestTools.UITest.Playback.Engine.IScreenElement.FindAllDescendants(String bstrQueryId, Object&amp; pvarResKeys, Int32 cResKeys, Int32 nMaxDepth)
+        at Microsoft.VisualStudio.TestTools.UITest.Playback.ScreenElement.FindAllScreenElement(String queryId, Int32 depth, Boolean singleQueryId, Boolean throwException)
+        at Microsoft.VisualStudio.TestTools.UITest.Playback.ScreenElement.FindScreenElement(String queryId, Int32 depth)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.FindFirstDescendant(String queryId, Int32 maxDepth, Int32&amp; timeLeft)
+        --- End of inner exception stack trace ---
+        at Microsoft.VisualStudio.TestTools.UITesting.Playback.MapControlNotFoundException(COMException ex, IPlaybackContext context)
+        at Microsoft.VisualStudio.TestTools.UITesting.Playback.MapAndThrowComException(COMException innerException, IPlaybackContext context)
+        at Microsoft.VisualStudio.TestTools.UITesting.Playback.MapAndThrowException(SystemException exception, IPlaybackContext context)
+        at Microsoft.VisualStudio.TestTools.UITesting.Playback.MapAndThrowException(SystemException exception, String queryId)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.FindFirstDescendant(String queryId, Int32 maxDepth, Int32&amp; timeLeft)
+        at Microsoft.VisualStudio.TestTools.UITesting.SearchHelper.GetElement(Boolean useCache, ISearchArgument searchArg)
+        at Microsoft.VisualStudio.TestTools.UITesting.SearchHelper.Search(ISearchArgument searchArg)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.FindInternal()
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.Find()
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.GetProperty(String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.GetPropertyInternal[T](String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.get_BoundingRectangle()
+        at Philips.MRAutomation.ApplicationPlugins.Serval.ECDBBrowser.browseUpUntilDisabled(Tab tb, Boolean flag, DoubleDatabaseBrowser browser)
+        at Philips.MRAutomation.ApplicationPlugins.Serval.ECDBBrowser.browseUpUntilDisabled(Tab tb, DoubleDatabaseBrowser browser)
+        at Philips.MRAutomation.Tests.Serval.Testcases.ECRegression.ReusableClass.DragDropExamcard(String examCardName)
+        at Philips.MRAutomation.Tests.Serval.Testcases.ECRegression.TC_02_ECRegression.ExecuteAction(Object[] parmaters)
+      </Message>
+      <Message>Failed to scan the exam cards .TC_02_ECRegression test case is failed</Message>
+      <Message>in Teardown Action of TC_02_ECRegression</Message>
+    </Messages>
+    <HasTimedOut>False</HasTimedOut>
+    <HasCrashed>False</HasCrashed>
+    <StartTime>10/1/2012 7:35:13 AM</StartTime>
+    <EndTime>10/1/2012 7:36:50 AM</EndTime>
+  </TestCase>
+  <TestCase Name="Export Exam Cards">
+    <TestCaseType>ECREGRESSION</TestCaseType>
+    <ReqID>Not Specified</ReqID>
+    <TCID>TC_03</TCID>
+    <Status>Fail</Status>
+    <Descriptions>
+      <Description>Export the saved exam cards to the disk drive</Description>
+    </Descriptions>
+    <FunctionalArea>ExamCard Regression</FunctionalArea>
+    <Product>SERVAL</Product>
+    <ProductVersion>MR</ProductVersion>
+    <VerificationType>LOGIC</VerificationType>
+    <TestCaseState>GOOD</TestCaseState>
+    <RunStatus>RUN</RunStatus>
+    <StackTrace />
+    <Messages>
+      <Message>In Setup of TC_03_ECRegression</Message>
+      <Message>In Execute Action of TC_03_ECRegression</Message>
+      <Message>Exporting the saved exam card in the previous step to the disk drive</Message>
+      <Message>In Verify Action of TC_03_ECRegression</Message>
+      <Message>TC_03_ECRegressiontest case is failed</Message>
+      <Message>in Teardown Action of TC_03_ECRegression</Message>
+    </Messages>
+    <HasTimedOut>False</HasTimedOut>
+    <HasCrashed>False</HasCrashed>
+    <StartTime>10/1/2012 7:36:50 AM</StartTime>
+    <EndTime>10/1/2012 7:38:33 AM</EndTime>
+  </TestCase>
+  <TestCase Name="ImportExamCards_Scan">
+    <TestCaseType>ECREGRESSION</TestCaseType>
+    <ReqID>Not Specified</ReqID>
+    <TCID>TC_04</TCID>
+    <Status>Fail</Status>
+    <Descriptions>
+      <Description>Import the exam cards from the disk drive to the inbox folder and scan it </Description>
+    </Descriptions>
+    <FunctionalArea>ExamCard Regression</FunctionalArea>
+    <Product>SERVAL</Product>
+    <ProductVersion>MR</ProductVersion>
+    <VerificationType>LOGIC</VerificationType>
+    <TestCaseState>GOOD</TestCaseState>
+    <RunStatus>RUN</RunStatus>
+    <StackTrace />
+    <Messages>
+      <Message>In Setup of TC_04_ECRegression</Message>
+      <Message>In Execute Action of TC_04_ECRegression</Message>
+      <Message>Importing the exam cards from the Disk drive using Import exam cards menu option </Message>
+      <Message>
+        Exception occured In Execute Action . Stack Trace as follows -      at Microsoft.VisualStudio.TestTools.UITesting.PropertyProviderBase.ThrowExceptionIfControlDisabled()
+        at Microsoft.VisualStudio.TestTools.UITesting.WinPropertyProvider.GetComboBoxProperty(String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.WinPropertyProvider.GetPropertyValueInternal(UITestControl uiControl, String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.PropertyProviderBase.GetPropertyValue(UITestControl uiControl, String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.WinPropertyProvider.GetPropertyValue(UITestControl uiControl, String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestPropertyProvider.GetPropertyValueWrapper(UITestControl uiControl, String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.GetPropertyValue(String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.UITestControl.GetProperty(String propertyName)
+        at Microsoft.VisualStudio.TestTools.UITesting.WinControls.WinComboBox.get_Items()
+        at Philips.MRAutomation.ApplicationPlugins.Serval.ExamCardUI.GetInfoBarMessages()
+        at Philips.MRAutomation.Tests.Serval.Testcases.ECRegression.TC_04_ECRegression.ExecuteAction(Object[] parmaters)
+      </Message>
+      <Message>In Verify Action of TC_04_ECRegression</Message>
+      <Message>TC_04_ECRegression test case is failed</Message>
+      <Message>in Teardown Action of TC_04_ECRegression</Message>
+    </Messages>
+    <HasTimedOut>False</HasTimedOut>
+    <HasCrashed>False</HasCrashed>
+    <StartTime>10/1/2012 7:38:33 AM</StartTime>
+    <EndTime>10/1/2012 7:39:17 AM</EndTime>
+  </TestCase>
+  <TestCase Name="ExamCardModify">
+    <TestCaseType>ECREGRESSION</TestCaseType>
+    <ReqID>Not Specified</ReqID>
+    <TCID>TC_05</TCID>
+    <Status>Unexpected Error</Status>
+    <Descriptions />
+    <FunctionalArea>ExamCard Regression</FunctionalArea>
+    <Product>SERVAL</Product>
+    <ProductVersion>MR</ProductVersion>
+    <VerificationType>LOGIC</VerificationType>
+    <TestCaseState>GOOD</TestCaseState>
+    <RunStatus>RUN</RunStatus>
+    <StackTrace />
+    <Messages>
+      <Message>In Setup of TC_05_ECRegression</Message>
+    </Messages>
+    <HasTimedOut>False</HasTimedOut>
+    <HasCrashed>False</HasCrashed>
+    <StartTime>10/1/2012 7:39:17 AM</StartTime>
+    <EndTime>10/1/2012 7:39:17 AM</EndTime>
+  </TestCase>
+</Reporter>

@@ -1,0 +1,1 @@
+C:\code\CDP_TestAutomation\Src\03Test\IntegrationTests\obj\Debug\IntegrationTests.csprojResolveAssemblyReference.cache
