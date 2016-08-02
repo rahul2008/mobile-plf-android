@@ -234,9 +234,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         detailList.add(detail);
         mController.requestPrxData(detailList, this);
 
-        if (detail.getTotalPriceWithTax() != null)
+        if (detail.getTotalPriceWithTax() != null) {
             mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
-
+        }
+        
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
             mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()));
@@ -246,9 +247,9 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
                 mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
                 mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()));
             }
-            if (detail.getPaymentInfo().getCardType() != null)
+            if (detail.getPaymentInfo().getCardType() != null) {
                 mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
-            else {
+            } else {
                 mPaymentModeLayout.setVisibility(View.GONE);
                 mPaymentDivider.setVisibility(View.GONE);
             }
@@ -257,33 +258,37 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         }
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
-            if (detail.getConsignments() != null && detail.getConsignments().size() > 0)
+            if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
                 mShippingStatus.setText(getString(R.string.iap_order_completed_text, detail.getConsignments().get(0).getTrackingID()));
-            else
+            } else {
                 mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
+            }
         }
     }
 
 
     @Override
     public void onModelDataLoadFinished(Message msg) {
-        if (processResponseFromPRX(msg)) return;
-        if (Utility.isProgressDialogShowing())
+        if (processResponseFromPrx(msg)) return;
+        if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
+        }
 
     }
 
     @Override
     public void onModelDataError(Message msg) {
-
+        if (Utility.isProgressDialogShowing()) {
+            Utility.dismissProgressDialog();
+        }
     }
 
 
     @SuppressWarnings({"rawtype","unchecked"})
-    private boolean processResponseFromPRX(final Message msg) {
+    private boolean processResponseFromPrx(final Message msg) {
         if (msg.obj instanceof HashMap) {
             final HashMap obj = (HashMap) msg.obj;
-            if (obj.size() != 0) {
+            if (!obj.isEmpty()) {
                 updateUiOnProductList();
             } else {
                 Utility.dismissProgressDialog();

@@ -43,16 +43,16 @@ public class DeliveryModeDialog
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
         View convertView = (LayoutInflater.from(mContext).inflate(R.layout.iap_delivery_dialog, null));
         alertDialog.setView(convertView);
-        ListView mListView = (ListView) convertView.findViewById(R.id.lv);
+        ListView deliveryList = (ListView) convertView.findViewById(R.id.lv);
         mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
-        mListView.setClickable(true);
-        mListView.setAdapter(mDeliveryModeAdapter);
+        deliveryList.setClickable(true);
+        deliveryList.setAdapter(mDeliveryModeAdapter);
 
         final Dialog dialog = alertDialog.create();
         dialog.show();
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        deliveryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dialog.dismiss();
