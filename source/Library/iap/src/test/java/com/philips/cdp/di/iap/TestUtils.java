@@ -30,7 +30,7 @@ public class TestUtils {
         if(delegate != null) {
             return delegate;
         }
-        delegate = HybrisDelegate.getInstance().getInstance();
+        delegate = HybrisDelegate.getInstance();
         NetworkController mockController = new MockNetworkController(mock(Context.class));
         try {
             //Set the controller

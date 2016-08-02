@@ -153,7 +153,7 @@ dependencies {
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
 
     //Coco
-    compile 'com.philips.cdp:uikitLib:3.2.2'
+    compile 'com.philips.cdp:uikitLib:3.2.3'
     compile('com.philips.cdp:registrationApi:7.0.0') {
         exclude group: 'com.android.support'
         transitive = true
