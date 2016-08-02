@@ -1,0 +1,72 @@
+package com.philips.platform.appinfra.demo;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.philips.platform.appinfra.config.ConfigInterface;
+
+public class ConfigActivity extends AppCompatActivity {
+
+    ConfigInterface mConfigInterface;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_config);
+
+        mConfigInterface =AppInfraApplication.gAppInfra.getConfigInterface();
+
+        final EditText cocoKeyET = (EditText) findViewById(R.id.CocoKeyID);
+        final EditText KeyET = (EditText) findViewById(R.id.keyID);
+        final EditText valueET = (EditText) findViewById(R.id.valueID);
+
+        Button btnFetchValue = (Button) findViewById(R.id.btn_fetchValue);
+        assert btnFetchValue != null;
+        btnFetchValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               String cocokey = cocoKeyET.getText().toString();
+                String key = KeyET.getText().toString();
+                if(null==cocokey || null==key || cocokey.isEmpty()|| key.isEmpty()){
+
+                }else {
+
+                    ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
+                    Object i =  mConfigInterface.getConfigurationPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), configError);
+                    if (null != configError.getErrorCode()) {
+                        Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                        ;
+                    } else {
+                        valueET.setText(i.toString());
+                    }
+                /*Object o1 = deviceObject.getJSONObject("AI").get("RegistrationEnvironment");
+                object = deviceObject.getJSONObject("AI").get("NL");
+                Object o3 = deviceObject.getJSONObject("AI").get("EE");
+*/
+                }
+            }
+        });
+
+        final TextView show = (TextView) findViewById(R.id.show_TV);
+        Button btnFetchValueFromDevice = (Button) findViewById(R.id.btn_fetchValueFromDEvice);
+        assert btnFetchValueFromDevice != null;
+        btnFetchValueFromDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+
+
+            }
+        });
+
+    }
+
+}

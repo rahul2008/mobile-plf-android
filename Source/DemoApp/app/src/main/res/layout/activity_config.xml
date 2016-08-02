@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+>
+    <EditText
+        android:id="@+id/CocoKeyID"
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:hint="Coco"
+        />
+    <EditText
+        android:id="@+id/keyID"
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:hint="Key"
+        />
+    <EditText
+        android:id="@+id/valueID"
+        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:hint="Value"
+        />
+    <Button
+        android:id="@+id/btn_fetchValue"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Get Key"
+        />
+    <Button
+        android:id="@+id/btn_fetchValueFromDEvice"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Set key"
+        />
+
+    <TextView
+        android:id="@+id/show_TV"
+        android:layout_height="wrap_content"
+        android:layout_width="200dp" />
+</LinearLayout>

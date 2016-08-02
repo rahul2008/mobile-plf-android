@@ -9,6 +9,8 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
+import com.philips.platform.appinfra.config.ConfigInterface;
+import com.philips.platform.appinfra.config.ConfigManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
@@ -37,6 +39,7 @@ public class AppInfra implements AppInfraInterface {
     private InternationalizationInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
     private TimeInterface mTimeSyncInterface;
+    private ConfigInterface configInterface;
 
 
     /**
@@ -58,6 +61,10 @@ public class AppInfra implements AppInfraInterface {
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
         private TimeInterface mTimeSyncInterfaceBuilder;
 
+
+
+        private ConfigInterface configInterface;
+
         /**
          * Instantiates a new Builder.
          * It can be configured with Builder setter methods
@@ -71,9 +78,20 @@ public class AppInfra implements AppInfraInterface {
             local = null;
             mServiceDiscoveryInterface = null;
             mTimeSyncInterfaceBuilder = null;
+            configInterface=null;
         }
 
 
+        /**
+         * Sets config.
+         *
+         * @param config the config
+         * @return the config
+         */
+        public Builder setConfig(ConfigInterface config) {
+            configInterface = config;
+            return this;
+        }
 
         /**
          * Sets Builder logging overriding the default implementation.
@@ -153,6 +171,7 @@ public class AppInfra implements AppInfraInterface {
             ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
+            ai.setConfigInterface(configInterface == null ? new ConfigManager(ai) : configInterface);
             return ai;
         }
     }
@@ -192,6 +211,10 @@ public class AppInfra implements AppInfraInterface {
         return mServiceDiscoveryInterface;
     }
 
+    @Override
+    public ConfigInterface getConfigInterface() {
+        return configInterface;
+    }
 
     public AppInfra(Context pContext) {
         appInfraContext = pContext;
@@ -240,5 +263,10 @@ public class AppInfra implements AppInfraInterface {
         return appInfraLogger;
     }
 
+
+
+    public void setConfigInterface(ConfigInterface configInterface) {
+        this.configInterface = configInterface;
+    }
 
 }
