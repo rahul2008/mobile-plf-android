@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by 310238655 on 6/1/2016.
  */
@@ -41,11 +44,13 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         Log.i("getAppState", "" + mAppIdentityInterface.getAppState());
         Log.i("getAppVersion", "" + mAppIdentityInterface.getAppVersion());
 
-        appInfra.getTagging().createInstanceForComponent("AppIdentityID", "AppIdentityVersion");
+//        appInfra.getTagging().createInstanceForComponent("AppIdentityID", "AppIdentityVersion");
 
 
 //        mAppIdentityManager.loadJSONFromAsset();
-        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppIndentityDemoPage", "AppIndentityDemoPageKey", "AppIndentityDemoPageVAlue");
+        Map testHash = new HashMap<String, String>();
+        testHash.put("Test","Test");
+        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppIndentityDemoPage",testHash);
 
 
     }

@@ -398,7 +398,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                 isDownloadInProgress = false;
                 listener.onSuccess();
             } else {
-                listener.onError(ERRORVALUES.INVALID_RESPONSE, "ERROR");
+                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
                 isDownloadInProgress = false;
             }
         } else {

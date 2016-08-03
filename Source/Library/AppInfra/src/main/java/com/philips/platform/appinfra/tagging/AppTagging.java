@@ -244,18 +244,22 @@ public class AppTagging implements AppTaggingInterface {
                 }
             }
         }
-
         contextData = addAnalyticsDataObject();
         if (null != prevPage && isTrackPage) {
             contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
-        if (isTrackPage)
+        if (isTrackPage){
             Analytics.trackState(pageName, contextData);
+            prevPage = pageName;
+        }
 
-        if (isTrackAction)
+
+        if (isTrackAction){
             Analytics.trackAction(pageName, contextData);
+        }
 
-        prevPage = pageName;
+
+
     }
 
     @Override
