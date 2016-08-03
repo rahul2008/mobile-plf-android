@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
@@ -67,6 +68,15 @@ public class IAPActivity extends UiKitActivity {
                             getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
                     addFragment(ProductDetailFragment.createInstance(bundle,
                             BaseAnimationSupportFragment.AnimationType.NONE), ProductDetailFragment.TAG);
+                }
+
+            }else if (landingScreen == IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW) {
+                if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
+                            getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                    addFragment(BuyDirectFragment.createInstance(bundle,
+                            BaseAnimationSupportFragment.AnimationType.NONE), BuyDirectFragment.TAG);
                 }
 
             }

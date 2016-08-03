@@ -67,4 +67,9 @@ public class AppLocalHandler implements IAPExposedAPI {
     public void getCatalogCountAndCallCatalog() {
         //NOP
     }
+
+    @Override
+    public void buyDirect(String ctn) {
+        //NOP
+    }
 }

@@ -153,4 +153,11 @@
         android:text="@string/categorized_shop_now"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/btn_buy_direct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_categorized_shop_now"
+        android:text="@string/buy_direct"
+        android:visibility="gone" />
 </RelativeLayout>

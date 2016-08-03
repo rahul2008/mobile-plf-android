@@ -15,6 +15,7 @@ public class IAPLog {
     public static final String FRAGMENT_LIFECYCLE = "FragmentLifecycle";
     public static final String BASE_FRAGMENT_ACTIVITY = "IAPActivity";
     public static final String DEMOAPPACTIVITY = "DemoAppActivity";
+    public static final String BUY_DIRECT_FRAGMENT = "BuyDirectFragment";
 
     public static boolean isLoggingEnabled = false;
 

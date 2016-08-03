@@ -55,6 +55,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private TextView mCountText = null;
     private Spinner mSpinner;
     private Button mShopNow;
+    private Button mBuyDirect;
     private Button mPurchaseHistory;
     private Button mFragmentLaunch;
     private Button mLaunchProductDetail;
@@ -79,6 +80,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mFragmentLaunch = (Button) findViewById(R.id.btn_fragment_launch);
         mFragmentLaunch.setOnClickListener(this);
         mFragmentLaunch.setVisibility(View.GONE);
+
+        mBuyDirect = (Button) findViewById(R.id.btn_buy_direct);
+        mBuyDirect.setOnClickListener(this);
 
         mShopNow = (Button) findViewById(R.id.btn_shop_now);
         mShopNow.setOnClickListener(this);
@@ -126,7 +130,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
 
         /*Pls uncommnet when vertical wants to get complete product list from hybris*/
-        
+
         mIAPSettings.setUseLocalData(false);
         if (!mIAPSettings.isUseLocalData()) {
             Handler handler = new Handler(Looper.getMainLooper());
@@ -243,6 +247,23 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     Toast.makeText(DemoAppActivity.this, "Product is duplicate", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.btn_buy_direct:
+                if (isNetworkAvailable(DemoAppActivity.this)) {
+                    try {
+                        if (!mCategorizedList.isEmpty()) {
+                            String ctn = mCategorizedList.get(0);
+                            IAPLog.d(IAPLog.LOG, "Product CTN : " + ctn);
+                            mIapHandler.buyDirect(ctn);
+                        } else {
+                            Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (RuntimeException e) {
+                        Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:
                 break;
         }
@@ -347,6 +368,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (position == 0) {
             mShoppingCart.setVisibility(View.INVISIBLE);
             mShopNow.setVisibility(View.GONE);
+            mBuyDirect.setVisibility(View.GONE);
             mPurchaseHistory.setVisibility(View.GONE);
             mFragmentLaunch.setVisibility(View.GONE);
             mShopNowCategorized.setVisibility(View.GONE);
@@ -357,8 +379,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mFragmentLaunch.setVisibility(View.VISIBLE);
         mShoppingCart.setVisibility(View.VISIBLE);
         mShopNow.setVisibility(View.VISIBLE);
+        mBuyDirect.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mShopNow.setEnabled(true);
+        mBuyDirect.setEnabled(true);
         mLaunchProductDetail.setEnabled(true);
         mPurchaseHistory.setEnabled(true);
 
@@ -368,7 +392,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         setLocale("en", mSelectedCountry);
 
         mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-       // setUseLocalData(); //Uncomment to support PlanB
+        // setUseLocalData(); //Uncomment to support PlanB
 
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();
@@ -418,6 +442,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSelectCountryLl.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
+        mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);
         mPurchaseHistory.setVisibility(View.GONE);
         mShopNowCategorized.setVisibility(View.GONE);

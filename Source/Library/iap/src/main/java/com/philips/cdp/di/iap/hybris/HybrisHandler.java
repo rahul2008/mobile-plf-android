@@ -143,6 +143,16 @@ public class HybrisHandler implements IAPExposedAPI {
         }
     }
 
+    @Override
+    public void buyDirect(String ctn) {
+        if (isStoreInitialized()) {
+            checkLaunchOrBuy(IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW, ctn, null);
+        } else {
+            initIAP(IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW, ctn, null);
+        }
+    }
+
+
     private boolean isStoreInitialized() {
         return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
     }
@@ -156,6 +166,8 @@ public class HybrisHandler implements IAPExposedAPI {
             launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, ctnNumber);
         }else if( screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW){
             launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctnNumber);
+        }else if( screen == IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW){
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW, ctnNumber);
         }
         else {
             buyProduct(ctnNumber, listener);

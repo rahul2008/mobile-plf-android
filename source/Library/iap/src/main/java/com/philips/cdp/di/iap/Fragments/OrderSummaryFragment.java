@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -128,7 +130,17 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (isOrderPlaced()) {
             ShowDialogOnBackPressed();
             return true;
-        } else return false;
+        } else {
+            if (getActivity() != null && getActivity() instanceof IAPActivity) {
+                int count = getFragmentManager().getBackStackEntryCount();
+                IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
+                for (int i = 0; i < count; i++) {
+                    getFragmentManager().popBackStack();
+                }
+                finishActivity();
+            }
+            return false;
+        }
     }
 
     private void setSetOrderPlaceFalse() {
@@ -149,7 +161,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
                 placeOrderElseMakePayment(null);
             }
         } else if (v == mBtnCancel) {
-            moveToShoppingCart();
+            doOnCancelOrder();
         }
     }
 
@@ -166,9 +178,21 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         }
     }
 
-    private void moveToShoppingCart() {
+    private void doOnCancelOrder() {
         setSetOrderPlaceFalse();
-        moveToFragment(ShoppingCartFragment.TAG);
+        Fragment fragment = getFragmentManager().findFragmentByTag(ShoppingCartFragment.TAG);
+        if (fragment != null) {
+            moveToFragment(ShoppingCartFragment.TAG);
+        } else {
+            if (getActivity() != null && getActivity() instanceof IAPActivity) {
+                int count = getFragmentManager().getBackStackEntryCount();
+                IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
+                for (int i = 0; i < count; i++) {
+                    getFragmentManager().popBackStack();
+                }
+                finishActivity();
+            }
+        }
     }
 
     private boolean paymentMethodAvailable() {
@@ -263,7 +287,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         //Track Payment cancelled action
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
-        moveToShoppingCart();
+        doOnCancelOrder();
     }
 
     @Override

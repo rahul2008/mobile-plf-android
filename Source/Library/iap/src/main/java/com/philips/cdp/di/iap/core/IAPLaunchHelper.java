@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
@@ -54,7 +55,13 @@ public class IAPLaunchHelper {
             Bundle bundle = new Bundle();
             bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, ctnNumber);
             fragment.setArguments(bundle);
-        }else{
+        } else if (screen == IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW) {
+            fragment = new BuyDirectFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, ctnNumber);
+            fragment.setArguments(bundle);
+        }
+        else{
             fragment = new ProductCatalogFragment();
             Bundle bundle = new Bundle();
             bundle.putString(IAPConstant.PRODUCT_CTNS, ctnNumber);
@@ -75,24 +82,4 @@ public class IAPLaunchHelper {
                 + tag + ")");
     }
 
-/*    public static void launchIAPAsFragment(final IAPSettings mIAPSettings, final ArrayList<String> pProductCTNs) {
-        BaseAnimationSupportFragment fragment = new ProductCatalogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(NetworkConstants.PRODUCT_CTNS, pProductCTNs);
-        fragment.setArguments(bundle);
-        addFragment(mIAPSettings, fragment);
-    }*/
-
-    /*public static void launchIAPCatalog(final Context mContext, final int mThemeIndex, final ArrayList<String> pProductCTNs) {
-        Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
-        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);
-        Intent intent = new Intent(mContext, IAPActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, mThemeIndex);
-       *//* Bundle bundle = new Bundle();
-        bundle.putStringArrayList(NetworkConstants.PRODUCT_CTNS, pProductCTNs);
-        intent.putExtra("bundle",bundle);*//*
-        intent.putStringArrayListExtra(NetworkConstants.PRODUCT_CTNS, pProductCTNs);
-        mContext.startActivity(intent);
-    }*/
 }

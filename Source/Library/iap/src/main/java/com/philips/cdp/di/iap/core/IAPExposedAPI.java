@@ -19,4 +19,6 @@ public interface IAPExposedAPI {
     void launchCategorizedCatalog(ArrayList<String> pProductCTNs);
 
     void getCatalogCountAndCallCatalog();
+
+    void buyDirect(String ctn);
 }

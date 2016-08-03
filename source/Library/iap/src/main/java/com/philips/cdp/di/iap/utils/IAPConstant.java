@@ -68,6 +68,7 @@ public class IAPConstant {
         int IAP_SHOPPING_CART_VIEW = 1;
         int IAP_PURCHASE_HISTORY_VIEW = 2;
         int IAP_PRODUCT_DETAIL_VIEW = 3;
+        int IAP_BUY_DIRECT_VIEW = 4;
     }
 
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";

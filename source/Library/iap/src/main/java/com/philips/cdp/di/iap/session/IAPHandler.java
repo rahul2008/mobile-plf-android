@@ -62,6 +62,11 @@ public class IAPHandler implements IAPExposedAPI {
         mImplementationHandler.getCatalogCountAndCallCatalog();
     }
 
+    @Override
+    public void buyDirect(String ctn) {
+        mImplementationHandler.buyDirect(ctn);
+    }
+
     private void setLangAndCountry(final String language, final String country) {
         HybrisDelegate.getInstance().getStore().setLangAndCountry(language, country);
     }
