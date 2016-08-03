@@ -25,6 +25,10 @@ import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
+import com.philips.cdp.product_registration_lib.BuildConfig;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
 
@@ -33,9 +37,10 @@ import java.util.ArrayList;
  */
 public class ProdRegUiHelper {
 
+    private static ProdRegUiHelper prodRegHelper;
+    private static LoggingInterface loggingInterface;
     private UiLauncher mUiLauncher;
     private ProdRegUiListener prodRegUiListener;
-    private static ProdRegUiHelper prodRegHelper;
 
     /*
          * Initialize everything(resources, variables etc) required for Product Registration.
@@ -152,5 +157,18 @@ public class ProdRegUiHelper {
             registeredProduct.setFriendlyName(currentProduct.getFriendlyName());
         }
         return registeredProduct;
+    }
+
+    @SuppressWarnings("deprecation")
+    public AppInfraInterface getAPPInfraInstance() {
+        return AppInfraSingleton.getInstance();
+    }
+
+    public LoggingInterface getLoggerInterface() {
+        if (loggingInterface == null) {
+            loggingInterface = getAPPInfraInstance().getLogging().
+                    createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
+        }
+        return loggingInterface;
     }
 }

@@ -1,12 +1,10 @@
 package com.philips.cdp.prodreg.tagging;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Build;
 
 import com.adobe.mobile.Analytics;
 import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -59,8 +57,7 @@ public class ProdRegTagging {
     }
 
     @SuppressWarnings("deprecation")
-    public static void init(final Context context) {
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+    public static void init() {
         aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }

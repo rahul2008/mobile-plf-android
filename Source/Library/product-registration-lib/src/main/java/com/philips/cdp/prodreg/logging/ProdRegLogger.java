@@ -5,11 +5,7 @@
 */
 package com.philips.cdp.prodreg.logging;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-
-import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.io.PrintWriter;
@@ -19,69 +15,48 @@ import java.net.UnknownHostException;
 @SuppressWarnings("deprecation")
 public class ProdRegLogger {
 
-    private static LoggingInterface mAppInfraLogger ;
-
     private ProdRegLogger() {
     }
 
     public static void v(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
     }
 
     public static void v(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void d(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.DEBUG, tag, msg);
-        }
+
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg);
     }
 
     public static void d(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void i(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.INFO, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg);
     }
 
     public static void i(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void w(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.WARNING, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg);
     }
 
     public static void w(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void e(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.ERROR, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg);
     }
 
     public static void e(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static String getStackTraceString(Throwable tr) {
@@ -106,7 +81,7 @@ public class ProdRegLogger {
         return sw.toString();
     }
 
-    public static void init(Context context) {
+    /*public static void init(Context context) {
         if (AppInfraSingleton.getInstance() != null && AppInfraSingleton.getInstance().getLogging() != null) {
             mAppInfraLogger = AppInfraSingleton.getInstance().getLogging().createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
             if (mAppInfraLogger != null) {
@@ -120,5 +95,5 @@ public class ProdRegLogger {
                 }
             }
         }
-    }
+    }*/
 }

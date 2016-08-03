@@ -10,7 +10,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.listener.ProdRegListener;
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
@@ -87,6 +86,7 @@ public class ProdRegHelper {
     public void init(Context context) {
         ProdRegHelper.context = context;
         UserRegistrationObserver.registerListerOnUserSignIn();
+        ProdRegTagging.init();
     }
 
     /**
@@ -124,8 +124,6 @@ public class ProdRegHelper {
     private static class UserRegistrationObserver {
         protected static void registerListerOnUserSignIn() {
             RegistrationHelper.getInstance().registerUserRegistrationListener(getUserRegistrationListener());
-            ProdRegTagging.init(ProdRegHelper.context);
-            ProdRegLogger.init(ProdRegHelper.context);
         }
     }
 }
