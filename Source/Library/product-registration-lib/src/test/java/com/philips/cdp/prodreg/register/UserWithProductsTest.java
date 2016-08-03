@@ -545,6 +545,7 @@ public class UserWithProductsTest extends TestCase {
         verify(localRegisteredProducts).updateRegisteredProducts(registeredProduct);
     }
 
+    @SuppressWarnings("deprecation")
     public void testCachedRegisterProducts() {
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         registeredProduct.setRegistrationState(RegistrationState.PENDING);
