@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.philips.cdp.di.iap.actionlayout.IAPActionLayout;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPSettings;
+import com.philips.cdp.di.iap.utils.AppInfraHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 /**
@@ -45,6 +46,7 @@ public class LauncherFragmentActivity extends AppCompatActivity {
         mIAPSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
 
         mIapHandler = IAPHandler.init(this, mIAPSettings);
+        AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
         mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
     }
 

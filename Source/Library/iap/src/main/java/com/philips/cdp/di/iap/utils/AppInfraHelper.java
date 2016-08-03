@@ -48,7 +48,8 @@ public class AppInfraHelper {
         //Tagging
         mAppTaggingInterface = mAppInfraInterface.getTagging().
                 createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
-        mAppTaggingInterface.setPreviousPage("IAPDemo");
+        // Moved to vertical demo app to set previous page
+        //mAppTaggingInterface.setPreviousPage("IAPDemo");
 
         //Logging
         mIapLoggingInterface = mAppInfraInterface.getLogging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
