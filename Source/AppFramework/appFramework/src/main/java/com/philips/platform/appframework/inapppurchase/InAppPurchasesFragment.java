@@ -90,7 +90,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
         ArrayList<String> ctnList;
         if (NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
             String languageCode = "en";
-            String countryCode = "GB";
+            String countryCode = "US";
 
             mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
             mIapSettings.setUseLocalData(false);
