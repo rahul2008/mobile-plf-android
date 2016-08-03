@@ -114,13 +114,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        if(CartModelContainer.getInstance().isCartCreated()){
+        if (CartModelContainer.getInstance().isCartCreated()) {
             mAddressController.getUser();
-            CartModelContainer.getInstance().setCartCreated(false);
-        }else{
-            updateCartDetails(mShoppingCartAPI);
+        } else {
+            mAddressController.getDeliveryModes();
         }
-        mAddressController.getUser(); // GetDefaultAddress
     }
 
     @Override
@@ -214,8 +212,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             Bundle bundle = new Bundle();
-            if(mAdapter.getDeliveryMode() != null)
-                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, (Parcelable)mAdapter.getDeliveryMode());
+            if (mAdapter.getDeliveryMode() != null)
+                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, (Parcelable) mAdapter.getDeliveryMode());
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
                         ShippingAddressFragment.createInstance(bundle, AnimationType.NONE), ShippingAddressFragment.TAG);
@@ -281,9 +279,14 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
-            if (deliveryModeList.size() > 0) {
-                CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            if (CartModelContainer.getInstance().isCartCreated()) {
+                CartModelContainer.getInstance().setCartCreated(false);
+                updateCartDetails(mShoppingCartAPI);
+            } else {
+                if (deliveryModeList.size() > 0) {
+                    mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+                }
             }
         }
     }
@@ -304,7 +307,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mData = data;
         onOutOfStock(false);
         mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
-        if(mIsDeliveryAddress){
+        if (mIsDeliveryAddress) {
             mAdapter.setDeliveryAddress(mIsDeliveryAddress);
             mIsDeliveryAddress = false;
         }
