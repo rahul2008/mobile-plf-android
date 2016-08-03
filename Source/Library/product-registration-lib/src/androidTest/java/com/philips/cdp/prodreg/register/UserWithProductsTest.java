@@ -2,7 +2,6 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -545,6 +544,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(localRegisteredProducts).updateRegisteredProducts(registeredProduct);
     }
 
+    @SuppressWarnings("deprecation")
     public void testCachedRegisterProducts() {
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         registeredProduct.setRegistrationState(RegistrationState.PENDING);

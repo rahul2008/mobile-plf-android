@@ -1,12 +1,8 @@
 package com.philips.cdp.prodreg.util;
 
-import android.test.InstrumentationTestCase;
-
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
-
-import java.text.ParseException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -35,11 +31,6 @@ public class ProdRegUtilTest extends MockitoTestCase {
         assertTrue(ProdRegUtil.isFutureDate(date));
         String date1 = "2016-05-16";
         assertFalse(ProdRegUtil.isFutureDate(date1));
-        try {
-            assertFalse(ProdRegUtil.isFutureDate("05/06/2016"));
-        } catch (Exception e) {
-            assertTrue(e instanceof ParseException);
-        }
     }
 
     public void testReturnFalseForInValidDate() throws Exception {

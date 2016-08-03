@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
@@ -21,6 +22,7 @@ import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.ArrayList;
@@ -73,6 +75,7 @@ public class ProdRegProcessController {
                     } else {
                         //Registration is not yet launched.
                         launchedRegistration = true;
+                        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                         RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
                     }
                 }
