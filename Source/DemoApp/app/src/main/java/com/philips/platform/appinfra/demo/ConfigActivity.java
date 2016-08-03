@@ -25,9 +25,9 @@ public class ConfigActivity extends AppCompatActivity {
         final EditText KeyET = (EditText) findViewById(R.id.keyID);
         final EditText valueET = (EditText) findViewById(R.id.valueID);
 
-        Button btnFetchValue = (Button) findViewById(R.id.btn_fetchValue);
-        assert btnFetchValue != null;
-        btnFetchValue.setOnClickListener(new View.OnClickListener() {
+        Button btnFetchValueFromDevice = (Button) findViewById(R.id.btn_fetchValue);
+        assert btnFetchValueFromDevice != null;
+        btnFetchValueFromDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 valueET.setText(null);
@@ -49,18 +49,15 @@ public class ConfigActivity extends AppCompatActivity {
 
                         }
                     }
-                /*Object o1 = deviceObject.getJSONObject("AI").get("RegistrationEnvironment");
-                object = deviceObject.getJSONObject("AI").get("NL");
-                Object o3 = deviceObject.getJSONObject("AI").get("EE");
-*/
+
                 }
             }
         });
 
         final TextView show = (TextView) findViewById(R.id.show_TV);
-        Button btnFetchValueFromDevice = (Button) findViewById(R.id.btn_fetchValueFromDEvice);
-        assert btnFetchValueFromDevice != null;
-        btnFetchValueFromDevice.setOnClickListener(new View.OnClickListener() {
+        Button btnSetValueToDevice = (Button) findViewById(R.id.btn_fetchValueFromDEvice);
+        assert btnSetValueToDevice != null;
+        btnSetValueToDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -83,7 +80,6 @@ public class ConfigActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(ConfigActivity.this, "Fails", Toast.LENGTH_SHORT).show();
                         }
-                        //  valueET.setText(i.toString());
                     }
                 }
             }

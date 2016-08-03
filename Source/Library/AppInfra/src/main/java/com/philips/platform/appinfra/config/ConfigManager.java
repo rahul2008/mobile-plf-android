@@ -140,8 +140,13 @@ public class ConfigManager implements ConfigInterface {
                     if (null == cocoJSONobject) { // invalid Coco JSON
                         configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
                     } else {
-                        boolean isKeyPresent = cocoJSONobject.has(key);
-                        cocoJSONobject.put(key, object);
+                       // boolean isKeyPresent = cocoJSONobject.has(key);
+                        if(object instanceof ArrayList){
+                            JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
+                            cocoJSONobject.put(key, jsonArray);
+                        }else {
+                            cocoJSONobject.put(key, object);
+                        }
                         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
                         ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
                         if (null == sse.getErrorCode()) {
