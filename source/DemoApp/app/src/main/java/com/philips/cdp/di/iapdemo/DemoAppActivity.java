@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
+import com.philips.cdp.di.iap.utils.AppInfraHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -175,6 +176,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
+                    AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
                     mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, null, mBuyProductListener);
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
@@ -186,6 +188,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_shop_now:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
+                    AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
                     mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
@@ -193,6 +196,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_purchase_history:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
+                    AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
                     mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
@@ -209,6 +213,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                         if (!mProductList.isEmpty()) {
                             String ctn = mProductList.get(0);
                             IAPLog.d(IAPLog.LOG, "Product CTN : " + ctn);
+                            AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
                             mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctn, null);
                         } else {
                             Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
@@ -224,8 +229,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     if (mCategorizedList != null && !mCategorizedList.isEmpty()) {
                         IAPLog.d(IAPLog.LOG, "Product List : " + mCategorizedList);
+                        AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
                         mIapHandler.launchCategorizedCatalog(mCategorizedList);
-                        //mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                     } else {
                         Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
                     }
