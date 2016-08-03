@@ -25,7 +25,6 @@ public class ProdRegHelper {
 
     private static Context context;
     private static UserRegistrationListener userRegistrationListener;
-    private static ProdRegHelper prodRegHelper;
     private ProdRegListener prodRegListener;
 
     @NonNull
@@ -87,8 +86,6 @@ public class ProdRegHelper {
      */
     public void init(Context context) {
         ProdRegHelper.context = context;
-        ProdRegTagging.init(context);
-        ProdRegLogger.init(context);
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
 
@@ -127,6 +124,8 @@ public class ProdRegHelper {
     private static class UserRegistrationObserver {
         protected static void registerListerOnUserSignIn() {
             RegistrationHelper.getInstance().registerUserRegistrationListener(getUserRegistrationListener());
+            ProdRegTagging.init(ProdRegHelper.context);
+            ProdRegLogger.init(ProdRegHelper.context);
         }
     }
 }
