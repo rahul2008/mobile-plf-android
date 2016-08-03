@@ -114,8 +114,13 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
+        if(CartModelContainer.getInstance().isCartCreated()){
+            mAddressController.getUser();
+            CartModelContainer.getInstance().setCartCreated(false);
+        }else{
+            updateCartDetails(mShoppingCartAPI);
+        }
         mAddressController.getUser(); // GetDefaultAddress
-//      updateCartDetails(mShoppingCartAPI);
     }
 
     @Override

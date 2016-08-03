@@ -183,6 +183,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
+                CartModelContainer.getInstance().setCartCreated(true);
                 if (isBuy) {
                     addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                 } else {
