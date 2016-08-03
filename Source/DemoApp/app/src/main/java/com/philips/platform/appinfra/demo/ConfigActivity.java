@@ -30,7 +30,7 @@ public class ConfigActivity extends AppCompatActivity {
         btnFetchValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                valueET.setText(null);
                String cocokey = cocoKeyET.getText().toString();
                 String key = KeyET.getText().toString();
                 if(null==cocokey || null==key || cocokey.isEmpty()|| key.isEmpty()){
@@ -38,12 +38,12 @@ public class ConfigActivity extends AppCompatActivity {
                 }else {
 
                     ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
-                    Object i =  mConfigInterface.getConfigurationPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), configError);
+                    Object object =  mConfigInterface.getPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), configError);
                     if (null != configError.getErrorCode()) {
                         Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                         ;
                     } else {
-                        valueET.setText(i.toString());
+                        valueET.setText(object.toString());
                     }
                 /*Object o1 = deviceObject.getJSONObject("AI").get("RegistrationEnvironment");
                 object = deviceObject.getJSONObject("AI").get("NL");
@@ -60,7 +60,29 @@ public class ConfigActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String cocokey = cocoKeyET.getText().toString();
+                String key = KeyET.getText().toString();
+                String value = valueET.getText().toString();
+                if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty() || value == null || value.isEmpty()) {
 
+                } else {
+
+                    ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
+                    boolean success = mConfigInterface.setPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), value, configError);
+                    if (null != configError.getErrorCode()) {
+                        Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (success) {
+                            Toast.makeText(ConfigActivity.this, "SUCCESS", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ConfigActivity.this, "Fails", Toast.LENGTH_SHORT).show();
+
+                        }
+                        //  valueET.setText(i.toString());
+                    }
+
+
+                }
 
 
 

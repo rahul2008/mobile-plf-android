@@ -5,11 +5,11 @@ package com.philips.platform.appinfra.config;
  */
 public interface ConfigInterface {
 
-    Object getConfigurationPropertyForKey(String cocoName, String key,ConfigError configError);
-    boolean setConfigurationPropertyForKey(String cocoName, String key, Object object,ConfigError configError);
+     Object getPropertyForKey(String groupName, String key, ConfigError configError);
+     boolean setPropertyForKey(String groupName, String key, Object object, ConfigError configError);
 
     public class ConfigError {
-        public  enum  ConfigErrorEnum { InvalidKey, CocoNotExists ,KeyNotExists, ErrorKeyExists, FatalError, DeviceStoreError   , NoDataFoundForKey };
+        public  enum  ConfigErrorEnum { InvalidKey, GroupNotExists ,KeyNotExists, ErrorKeyExists, FatalError, DeviceStoreError   , NoDataFoundForKey };
 
 
         private ConfigErrorEnum errorCode = null;

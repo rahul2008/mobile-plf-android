@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 310238114 on 7/25/2016.
@@ -69,9 +71,9 @@ public class ConfigManager implements ConfigInterface{
     }
 
     @Override
-    public Object getConfigurationPropertyForKey(String cocoName, String key, ConfigError configError) {
+    public Object getPropertyForKey(String groupName, String key, ConfigError configError) {
         Object object=null;
-        if(null==cocoName || null==key || key.isEmpty()|| key.isEmpty()){
+        if(null== groupName || null==key || key.isEmpty()|| key.isEmpty()){
             configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
         }else {
             JSONObject deviceObject = getjSONFromDevice();
@@ -79,12 +81,12 @@ public class ConfigManager implements ConfigInterface{
                 deviceObject = getMasterConfigFromApp();// reads from Application asset
             }
             try {
-                boolean isCocoPresent = deviceObject.has(cocoName);
+                boolean isCocoPresent = deviceObject.has(groupName);
                 if (!isCocoPresent) { // if request coco does not exist
-                    configError.setErrorCode(ConfigError.ConfigErrorEnum.CocoNotExists);
+                    configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
                 } else {
 
-                    JSONObject cocoJSONobject = deviceObject.optJSONObject(cocoName);
+                    JSONObject cocoJSONobject = deviceObject.optJSONObject(groupName);
                     if (null == cocoJSONobject) { // invalid Coco JSON
                         configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
                     } else {
@@ -96,19 +98,20 @@ public class ConfigManager implements ConfigInterface{
                             if (null == object) {
                                 configError.setErrorCode(ConfigError.ConfigErrorEnum.NoDataFoundForKey);
                             } else {
-                                // SUCCESS KEY FOUND
-                                if (object instanceof JSONArray) {
-
-
+                                //  KEY FOUND SUCCESS
+                                if (cocoJSONobject.opt(key) instanceof JSONArray) {
+                                    JSONArray jsonArray = cocoJSONobject.optJSONArray(key);
+                                    List<Object> list = new ArrayList<Object>();
+                                    for(int iCount = 0; iCount < jsonArray.length(); iCount++){
+                                        list.add(jsonArray.opt(iCount));
+                                    }
+                                    object=list;
                                 }
-
                             }
                         }
                     }
 
                 }
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -117,14 +120,43 @@ public class ConfigManager implements ConfigInterface{
     }
 
     @Override
-    public boolean setConfigurationPropertyForKey(String cocoName, String key, Object object,ConfigError configError) {
-        JSONObject deviceObject = getjSONFromDevice();
-        if(null==deviceObject){  // if master file is not yet saved into phone memory
-            getMasterConfigFromApp();
+    public boolean setPropertyForKey(String groupName, String key, Object object, ConfigError configError) {
+        boolean setOperation = false;
+        if (null == groupName || null == key || key.isEmpty() || key.isEmpty()) {
+            configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
+            return false;
+        } else {
+            JSONObject deviceObject = getjSONFromDevice();
+            if (null == deviceObject) {  // if master file is not yet saved into phone memory
+                deviceObject = getMasterConfigFromApp();// reads from Application asset
+            }
+            try {
+                boolean isCocoPresent = deviceObject.has(groupName);
+                if (!isCocoPresent) { // if request coco  does not exist
+                    configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
+                } else {
+                    JSONObject cocoJSONobject = deviceObject.optJSONObject(groupName);
+                    if (null == cocoJSONobject) { // invalid Coco JSON
+                        configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
+                    } else {
+                        boolean isKeyPresent = cocoJSONobject.has(key);
+                        cocoJSONobject.put(key, object);
+                        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+                        ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
+                        if(null==sse.getErrorCode()) {
+                            setOperation = true;
+                        }else{
+                            setOperation = false;
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                setOperation = false;
+            }
         }
-
-
-        return false;
+        return setOperation;
     }
 
 

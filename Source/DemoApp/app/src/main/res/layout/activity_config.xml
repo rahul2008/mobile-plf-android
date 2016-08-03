@@ -7,19 +7,19 @@
     <EditText
         android:id="@+id/CocoKeyID"
         android:layout_height="wrap_content"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:hint="Coco"
         />
     <EditText
         android:id="@+id/keyID"
         android:layout_height="wrap_content"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:hint="Key"
         />
     <EditText
         android:id="@+id/valueID"
         android:layout_height="wrap_content"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:hint="Value"
         />
     <Button
