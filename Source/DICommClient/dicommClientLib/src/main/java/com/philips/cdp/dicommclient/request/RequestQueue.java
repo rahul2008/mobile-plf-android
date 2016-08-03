@@ -37,7 +37,7 @@ public class RequestQueue {
         postRequestOnBackgroundThread(request);
     }
 
-    public synchronized void addRequestInFrontOfQueue(ExchangeKeyRequest request) {
+    public synchronized void addRequestInFrontOfQueue(Request request) {
         if (mRequestHandler == null) {
             DICommLog.d(DICommLog.REQUESTQUEUE, "Added new request in front of queue - Thread not yet started");
             mThreadNotYetStartedQueue.add(request);

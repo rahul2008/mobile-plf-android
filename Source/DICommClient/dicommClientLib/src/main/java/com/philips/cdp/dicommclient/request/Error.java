@@ -7,8 +7,6 @@ package com.philips.cdp.dicommclient.request;
 
 public enum Error {
 	
-	//TODO: DICOMM Refactor,Remove Air specific error codes when new request architecture is ready
-	
 	NODATA("Request cannot be performed with null or empty data"),
 	REQUESTFAILED("Failed to perform request - check log for more info"),
 	IOEXCEPTION("IOException occurred - check log for more info"),

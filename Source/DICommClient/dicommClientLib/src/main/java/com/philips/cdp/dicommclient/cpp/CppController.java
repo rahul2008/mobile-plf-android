@@ -67,8 +67,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private HashMap<String, DcsEventListener> mDcsEventListenersMap = new HashMap<String, DcsEventListener>();
     private DcsEventListener mCppDiscoverEventListener;
 
-    //DCS client state
-    private enum ICP_CLIENT_DCS_STATE {
+    public enum ICP_CLIENT_DCS_STATE {
         STARTED, STARTING, STOPPED, STOPPING
     }
 
@@ -118,6 +117,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private Params mKpsConfiguration;
 
     private String mAppCppId;
+
+    private Object startLock;
 
     public static synchronized CppController createSharedInstance(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
         if (mInstance != null) {
@@ -357,7 +358,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     /**
      * This method will subscribe to events
      */
-    public void startDCSService() {
+    public void startDCSService(Object lock) {
+        startLock = lock;
         DICommLog.d(DICommLog.CPPCONTROLLER, "Start DCS: isSIgnOn" + mIsSignOn + "DCS state: " + mDcsState);
 
         mDcsServiceListenersCount++;
@@ -643,7 +645,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             if (mEventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {
                 mDcsState = ICP_CLIENT_DCS_STATE.STOPPED;
                 if (mAppDcsRequestState == APP_REQUESTED_STATE.START) {
-                    startDCSService();
+                    startDCSService(startLock);
                 }
                 return;
             } else if (mEventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
@@ -673,6 +675,16 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             if (mAppDcsRequestState == APP_REQUESTED_STATE.STOP) {
                 stopDCSService();
             }
+            DICommLog.d(DICommLog.CPPCONTROLLER, "notifying startLock");
+
+            try {
+                synchronized (startLock) {
+                    startLock.notify();
+                }
+            } catch (NullPointerException e) {
+                //do nothing, nobody interested in getting notified
+            }
+
         }
     }
 
@@ -935,5 +947,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     public SignonState getSignOnState() {
         return mSignonState;
+    }
+
+    public ICP_CLIENT_DCS_STATE getState() {
+        return mDcsState;
     }
 }
