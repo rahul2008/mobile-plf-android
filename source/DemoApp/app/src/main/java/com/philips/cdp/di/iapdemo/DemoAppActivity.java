@@ -127,7 +127,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
 
         /*Pls uncommnet when vertical wants to get complete product list from hybris*/
-        
+
         mIAPSettings.setUseLocalData(false);
         if (!mIAPSettings.isUseLocalData()) {
             Handler handler = new Handler(Looper.getMainLooper());
@@ -184,6 +184,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
@@ -373,7 +374,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         setLocale("en", mSelectedCountry);
 
         mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-       // setUseLocalData(); //Uncomment to support PlanB
+        // setUseLocalData(); //Uncomment to support PlanB
 
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();
