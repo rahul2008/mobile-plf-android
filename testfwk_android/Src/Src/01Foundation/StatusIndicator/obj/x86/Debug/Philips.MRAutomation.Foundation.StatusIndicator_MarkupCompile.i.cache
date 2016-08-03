@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\310245051\Documents\reference_app_android\testfwk_android\Src\Src\01Foundation\StatusIndicator\obj\x86\Debug\
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\StatusIndicator\obj\x86\Debug\
 Philips.MRAutomation.Foundation.StatusIndicator
 none
 false
@@ -13,7 +13,7 @@ DEBUG;TRACE
 1-743904122
 
 61592026916
-8946147864
+8527663358
 StatusIndicator.xaml;
 
 False

@@ -28,3 +28,10 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Ph
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.exe
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.pdb
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\Deployment\obj\Debug\BuildAgent.csprojResolveAssemblyReference.cache
+D:\ReferenceApp\testfwk_android\Src\Bin\Scripts\ExecuteAutomation.xml
+D:\ReferenceApp\testfwk_android\Src\Bin\Scripts\AntTask.properties
+D:\ReferenceApp\testfwk_android\Src\Bin\Philips.H2H.Foundation.BuildAgent.exe
+D:\ReferenceApp\testfwk_android\Src\Bin\Philips.H2H.Foundation.BuildAgent.pdb
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\Deployment\obj\Debug\BuildAgent.csprojResolveAssemblyReference.cache
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.exe
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.pdb

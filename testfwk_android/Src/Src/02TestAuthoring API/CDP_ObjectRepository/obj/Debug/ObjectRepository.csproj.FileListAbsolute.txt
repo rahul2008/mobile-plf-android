@@ -40,3 +40,10 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Ph
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\CDP_ObjectRepository\obj\Debug\ObjectRepository.csprojResolveAssemblyReference.cache
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\CDP_ObjectRepository\obj\Debug\Philips.CDP.Automation.ObjectRepository.dll
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\CDP_ObjectRepository\obj\Debug\Philips.CDP.Automation.ObjectRepository.pdb
+D:\ReferenceApp\testfwk_android\Src\Bin\Repository.xml
+D:\ReferenceApp\testfwk_android\Src\Bin\Repository_iOS.xml
+D:\ReferenceApp\testfwk_android\Src\Bin\Philips.CDP.Automation.ObjectRepository.dll
+D:\ReferenceApp\testfwk_android\Src\Bin\Philips.CDP.Automation.ObjectRepository.pdb
+D:\ReferenceApp\testfwk_android\Src\Src\02TestAuthoring API\CDP_ObjectRepository\obj\Debug\ObjectRepository.csprojResolveAssemblyReference.cache
+D:\ReferenceApp\testfwk_android\Src\Src\02TestAuthoring API\CDP_ObjectRepository\obj\Debug\Philips.CDP.Automation.ObjectRepository.dll
+D:\ReferenceApp\testfwk_android\Src\Src\02TestAuthoring API\CDP_ObjectRepository\obj\Debug\Philips.CDP.Automation.ObjectRepository.pdb
