@@ -18,22 +18,23 @@ import java.util.List;
 /**
  * Created by 310238114 on 7/25/2016.
  */
-public class ConfigManager implements ConfigInterface{
+public class ConfigManager implements ConfigInterface {
 
     JSONObject jo;
     AppInfra mAppInfra;
     Context mContext;
-    private static final String uAPP_CONFIG_FILE="uAPP_CONFIG_FILE";
+    private static final String uAPP_CONFIG_FILE = "uAPP_CONFIG_FILE";
 
     SecureStorageInterface ssi;
-    public ConfigManager(AppInfra appInfra){
-        mAppInfra= appInfra;
+
+    public ConfigManager(AppInfra appInfra) {
+        mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
-        ssi= mAppInfra.getSecureStorage();
+        ssi = mAppInfra.getSecureStorage();
     }
 
-    public JSONObject getMasterConfigFromApp( ){
-        JSONObject result =null;
+    public JSONObject getMasterConfigFromApp() {
+        JSONObject result = null;
         try {
             InputStream mInputStream = mContext.getAssets().open("configuration.json");
             BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
@@ -42,9 +43,9 @@ public class ConfigManager implements ConfigInterface{
             while ((line = r.readLine()) != null) {
                 total.append(line).append('\n');
             }
-            result= new JSONObject(total.toString());
-            SecureStorageInterface.SecureStorageError sse = new  SecureStorageInterface.SecureStorageError();
-             ssi.storeValueForKey(uAPP_CONFIG_FILE,result.toString(),sse);
+            result = new JSONObject(total.toString());
+            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+            ssi.storeValueForKey(uAPP_CONFIG_FILE, result.toString(), sse);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,13 +53,13 @@ public class ConfigManager implements ConfigInterface{
     }
 
 
-    public JSONObject getjSONFromDevice(){
+    public JSONObject getjSONFromDevice() {
         JSONObject jObj = null;
-        SecureStorageInterface.SecureStorageError sse = new  SecureStorageInterface.SecureStorageError();
-        String  jsonString = ssi.fetchValueForKey(uAPP_CONFIG_FILE,sse);
-        if(null==jsonString || null ==sse){
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        String jsonString = ssi.fetchValueForKey(uAPP_CONFIG_FILE, sse);
+        if (null == jsonString || null == sse) {
             // do nothing
-        }else {
+        } else {
             // save master json file to device memory
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", jsonString);
             try {
@@ -72,10 +73,10 @@ public class ConfigManager implements ConfigInterface{
 
     @Override
     public Object getPropertyForKey(String groupName, String key, ConfigError configError) {
-        Object object=null;
-        if(null== groupName || null==key || key.isEmpty()|| key.isEmpty()){
+        Object object = null;
+        if (null == groupName || null == key || key.isEmpty() || key.isEmpty()) {
             configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
-        }else {
+        } else {
             JSONObject deviceObject = getjSONFromDevice();
             if (null == deviceObject) {  // if master file is not yet saved into phone memory
                 deviceObject = getMasterConfigFromApp();// reads from Application asset
@@ -102,10 +103,10 @@ public class ConfigManager implements ConfigInterface{
                                 if (cocoJSONobject.opt(key) instanceof JSONArray) {
                                     JSONArray jsonArray = cocoJSONobject.optJSONArray(key);
                                     List<Object> list = new ArrayList<Object>();
-                                    for(int iCount = 0; iCount < jsonArray.length(); iCount++){
+                                    for (int iCount = 0; iCount < jsonArray.length(); iCount++) {
                                         list.add(jsonArray.opt(iCount));
                                     }
-                                    object=list;
+                                    object = list;
                                 }
                             }
                         }
@@ -124,7 +125,7 @@ public class ConfigManager implements ConfigInterface{
         boolean setOperation = false;
         if (null == groupName || null == key || key.isEmpty() || key.isEmpty()) {
             configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
-            return false;
+            return setOperation;
         } else {
             JSONObject deviceObject = getjSONFromDevice();
             if (null == deviceObject) {  // if master file is not yet saved into phone memory
@@ -143,9 +144,9 @@ public class ConfigManager implements ConfigInterface{
                         cocoJSONobject.put(key, object);
                         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
                         ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
-                        if(null==sse.getErrorCode()) {
+                        if (null == sse.getErrorCode()) {
                             setOperation = true;
-                        }else{
+                        } else {
                             setOperation = false;
                         }
                     }

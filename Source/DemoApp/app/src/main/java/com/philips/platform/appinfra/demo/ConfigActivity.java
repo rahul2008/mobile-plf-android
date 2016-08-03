@@ -19,7 +19,7 @@ public class ConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        mConfigInterface =AppInfraApplication.gAppInfra.getConfigInterface();
+        mConfigInterface = AppInfraApplication.gAppInfra.getConfigInterface();
 
         final EditText cocoKeyET = (EditText) findViewById(R.id.CocoKeyID);
         final EditText KeyET = (EditText) findViewById(R.id.keyID);
@@ -31,17 +31,15 @@ public class ConfigActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 valueET.setText(null);
-               String cocokey = cocoKeyET.getText().toString();
+                String cocokey = cocoKeyET.getText().toString();
                 String key = KeyET.getText().toString();
-                if(null==cocokey || null==key || cocokey.isEmpty()|| key.isEmpty()){
-
-                }else {
-
-                    ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
-                    Object object =  mConfigInterface.getPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), configError);
+                if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty()) {
+                    Toast.makeText(ConfigActivity.this, "Please enter Coco name and key", Toast.LENGTH_SHORT).show();
+                } else {
+                    ConfigInterface.ConfigError configError = n♥ew ConfigInterface.ConfigError();
+                    Object object = mConfigInterface.getPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), configError);
                     if (null != configError.getErrorCode()) {
                         Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
-                        ;
                     } else {
                         valueET.setText(object.toString());
                     }
@@ -65,6 +63,8 @@ public class ConfigActivity extends AppCompatActivity {
                 String value = valueET.getText().toString();
                 if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty() || value == null || value.isEmpty()) {
 
+                    Toast.makeText(ConfigActivity.this, "Please enter Coco name ,key and value", Toast.LENGTH_SHORT).show();
+
                 } else {
 
                     ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
@@ -76,19 +76,12 @@ public class ConfigActivity extends AppCompatActivity {
                             Toast.makeText(ConfigActivity.this, "SUCCESS", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(ConfigActivity.this, "Fails", Toast.LENGTH_SHORT).show();
-
                         }
                         //  valueET.setText(i.toString());
                     }
-
-
                 }
-
-
-
             }
         });
-
     }
 
 }
