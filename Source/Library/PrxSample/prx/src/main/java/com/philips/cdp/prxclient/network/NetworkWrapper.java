@@ -92,9 +92,14 @@ public class NetworkWrapper {
         return new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(final JSONObject response) {
-                ResponseData responseData = prxRequest.getResponseData(response);
+				ResponseData responseData = prxRequest.getResponseData(response);
+				
+				if(responseData != null){
                 listener.onResponseSuccess(responseData);
-            }
-        };
-    }
+                }else{
+					listener.onResponseError(new PrxError("Null Response", 00));
+				} 				
+        }
+     };
+	}
 }
