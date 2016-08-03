@@ -32,10 +32,6 @@ public class AppTagging implements AppTaggingInterface {
     private String mUTCTimestamp;
     private String prevPage;
 
-    private boolean isTrackPage = false;
-    private boolean isTrackAction = false;
-
-
     AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
@@ -226,15 +222,16 @@ public class AppTagging implements AppTaggingInterface {
     }
 
 
-    private void track(String pageName, String key, String value, Map<String, String> paramMap) {
+    private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
 
-        if (key != null && value != null) {
-            if (!Arrays.asList(defaultValues).contains(key)) {
-
-                setNewKey(key);
-                setNewValue(value);
-            }
-        } else if (paramMap != null) {
+//        if (key != null && value != null) {
+//            if (!Arrays.asList(defaultValues).contains(key)) {
+//
+//                setNewKey(key);
+//                setNewValue(value);
+//            }
+//        } else
+        if (paramMap != null) {
             for (Map.Entry<String, String> entry : paramMap.entrySet()) {
                 if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
 
@@ -251,31 +248,24 @@ public class AppTagging implements AppTaggingInterface {
         if (isTrackPage){
             Analytics.trackState(pageName, contextData);
             prevPage = pageName;
-        }
-
-
-        if (isTrackAction){
+        }else{
             Analytics.trackAction(pageName, contextData);
         }
-
-
 
     }
 
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
 
-        isTrackPage = true;
-        isTrackAction = false;
-        track(pageName, key, value, null);
+        Map trackMap = new HashMap<String, String>();
+        trackMap.put(key, value);
+        track(pageName, trackMap, true);
     }
 
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 
-        isTrackPage = true;
-        isTrackAction = false;
-        track(pageName, null, null, paramMap);
+        track(pageName,paramMap, true);
 
     }
 
@@ -283,9 +273,9 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
 
-        isTrackAction = true;
-        isTrackPage = false;
-        track(pageName, key, value, null);
+        Map trackMap = new HashMap<String, String>();
+        trackMap.put(key, value);
+        track(pageName,trackMap , false);
 
     }
 
@@ -293,9 +283,7 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
 
-        isTrackAction = true;
-        isTrackPage = false;
-        track(pageName, null, null, paramMap);
+        track(pageName, paramMap, false);
     }
 
     @Override
