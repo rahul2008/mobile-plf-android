@@ -28,6 +28,7 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         uiCoCoUserReg.setFragmentContainer(R.id.fragment_frame_container);
+        ((WelcomeActivity)context).changeActionBarState(true);
         switch (componentID) {
 
             case R.id.appframework_skip_button:
@@ -51,6 +52,7 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
         if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_WELCOME_REGISTRATION_STATE){
+            ((WelcomeActivity)context).changeActionBarState(true);
             setState(UIState.UI_WELCOME_REGISTRATION_STATE);
             uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
             uiCoCoUserReg.registerForNextState(this);
@@ -60,6 +62,7 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
         }
         else {
             setState(UIState.UI_WELCOME_STATE);
+            ((WelcomeActivity)context).changeActionBarState(false);
             ((WelcomeActivity)context).loadWelcomeFragment();
         }
     }

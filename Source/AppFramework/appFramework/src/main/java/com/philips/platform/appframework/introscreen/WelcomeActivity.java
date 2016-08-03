@@ -42,7 +42,10 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
         if(!isVisible){
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             getSupportActionBar().hide();
+        }else {
+            getSupportActionBar().show();
         }
+
 
     }
     void loadWelcomeFragment(){
