@@ -35,8 +35,9 @@ public class ConfigActivity extends AppCompatActivity {
                 String key = KeyET.getText().toString();
                 if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty()) {
                     Toast.makeText(ConfigActivity.this, "Please enter Coco name and key", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    ConfigInterface.ConfigError configError = n♥ew ConfigInterface.ConfigError();
+                    ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
                     Object object = mConfigInterface.getPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), configError);
                     if (null != configError.getErrorCode()) {
                         Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
