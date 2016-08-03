@@ -16,14 +16,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.introscreen.WelcomeActivity;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
