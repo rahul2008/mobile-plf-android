@@ -262,11 +262,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
