@@ -81,9 +81,7 @@ public class SummaryModel extends ResponseData {
     @Override
     public ResponseData parseJsonResponseData(JSONObject response) {
        SummaryModel mSummaryModel = new SummaryModel();
-        if (response != null) {
-            mSummaryModel = new Gson().fromJson(response.toString(), SummaryModel.class);
-        } else mSummaryModel = new Gson().fromJson(null, SummaryModel.class);
+        mSummaryModel = new Gson().fromJson(response.toString(), SummaryModel.class);
 
         return mSummaryModel;
     }
