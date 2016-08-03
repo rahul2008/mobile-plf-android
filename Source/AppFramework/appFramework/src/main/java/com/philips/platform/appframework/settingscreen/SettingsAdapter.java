@@ -7,7 +7,6 @@ package com.philips.platform.appframework.settingscreen;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -23,7 +22,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -35,14 +34,17 @@ public class SettingsAdapter extends BaseAdapter {
     private User mUser = null;
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
+    private UIBasePresenter fragmentPresenter;
+
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                           LogoutHandler logoutHandler) {
+                           LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mUser = new User(context);
         mSettingsItemList = settingsItemList;
         mLogoutHandler = logoutHandler;
+        this.fragmentPresenter = fragmentPresenter;
     }
 
     @Override
@@ -106,7 +108,7 @@ public class SettingsAdapter extends BaseAdapter {
                             if (mUser.isUserSignIn()) {
                                 logoutAlert();
                             } else {
-                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
+                                fragmentPresenter.onLoad(mActivity);
                             }
                         }
                     });

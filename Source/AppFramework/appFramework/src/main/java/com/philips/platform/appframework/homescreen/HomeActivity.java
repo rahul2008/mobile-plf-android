@@ -9,7 +9,6 @@ package com.philips.platform.appframework.homescreen;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -31,19 +30,15 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
-import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
-import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
 
 
-public class HomeActivity extends AppFrameworkBaseActivity {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener, com.philips.cdp.prodreg.listener.ActionbarUpdateListener{
     private static String TAG = HomeActivity.class.getSimpleName();
-    protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
     // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -52,39 +47,13 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     private ListView drawerListView;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    protected TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private LinearLayout hamburgerClick = null;
-    private ConsumerCareLauncher mConsumerCareFragment = null;
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            if (hamburgerIconAvailable) {
-                hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-                hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        philipsDrawerLayout.openDrawer(navigationView);
-                    }
-                });
-            } else {
-//                hamburgerIcon.setImageDrawable(R.drawable.consumercare_actionbar_back_arrow_white);
-                hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
-                        R.drawable.consumercare_actionbar_back_arrow_white));
-                hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        backstackFragment();
-                    }
-                });
-            }
-            setTitle(titleActionbar);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +62,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
+        presenter = new HomeActivityPresenter();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " HomeScreen Activity Created ");
 
         setContentView(R.layout.uikit_hamburger_menu);
@@ -104,17 +74,22 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         hamburgerUtil = new HamburgerUtil(this, drawerListView);
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
-        displayView(0);
 
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
-                    displayView(position);
+                    showNavigationDrawerItem(position);
                 }
             }
         });
+    }
+
+    private void showNavigationDrawerItem(int position) {
+
+        philipsDrawerLayout.closeDrawer(navigationView);
+        presenter.onClick(position, HomeActivity.this);
     }
 
     private void initActionBar(ActionBar actionBar) {
@@ -154,7 +129,6 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         adapter = new HamburgerAdapter(this,
                 hamburgerItems);
         drawerListView.setAdapter(adapter);
-        //  actionBarCount.setText(String.valueOf(adapter.getCounterValue()));
     }
 
     @Override
@@ -193,46 +167,6 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         }
     }
 
-    private void displayView(int position) {
-
-        if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
-            showSettingsFragment();
-        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Support")) {
-            showSupportFragment();
-        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Shop")) {
-            showShoppingFragment();
-        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
-            showDebugTestFragment();
-        } else {
-            final HomeFragment fragment = new HomeFragment();
-            String homeTag = HomeFragment.class.getSimpleName();
-            showFragment(fragment, homeTag);
-        }
-        philipsDrawerLayout.closeDrawer(navigationView);
-    }
-
-    private void showShoppingFragment() {
-        InAppPurchasesFragment shoppingFragment = new InAppPurchasesFragment();
-        showFragment(shoppingFragment, "Shop");
-    }
-
-    private void showSettingsFragment() {
-        SettingsFragment settingsFragment = new SettingsFragment();
-
-        showFragment(settingsFragment, "Settings");
-    }
-
-    private void showSupportFragment() {
-        mConsumerCareFragment = new ConsumerCareLauncher();
-        mConsumerCareFragment.initCC(this, actionBarClickListener);
-    }
-
-    private void showDebugTestFragment() {
-        DebugTestFragment debugTestFragment = new DebugTestFragment();
-
-        showFragment(debugTestFragment, "DebugTest");
-    }
-
     @Override
     public void onBackPressed() {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
@@ -247,7 +181,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     private void inAppPurchaseBackPress() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if(currentFragment != null && (currentFragment instanceof  InAppPurchasesFragment)){
+        if(currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)){
             if(((InAppPurchasesFragment) currentFragment).onBackPressed()) {
                 return;
             }
@@ -255,9 +189,43 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        showNavigationDrawerItem(0);
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mConsumerCareFragment != null)
-            mConsumerCareFragment.releaseConsumerCare();
+    }
+
+
+    @Override
+    public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+        Logger.i("testing", "titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " + hamburgerIconAvailable);
+        if (hamburgerIconAvailable) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
+                    R.drawable.consumercare_actionbar_back_arrow_white));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void updateActionbar(String s) {
+
     }
 }

@@ -23,6 +23,7 @@ import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.appframework.utility.NetworkReceiver;
 import com.philips.platform.appframework.utility.NetworkStateListener;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
@@ -48,6 +49,7 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
+    protected UIBasePresenter fragmentPresenter;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;

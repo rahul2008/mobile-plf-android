@@ -5,13 +5,10 @@
 */
 package com.philips.platform.appframework.inapppurchase;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,10 +25,9 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.appframework.utility.Logger;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
@@ -53,6 +49,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int position = 0;
+        fragmentPresenter = new InAppPurchaseFragmentPresenter();
         hideActionbar();
         mRootView = inflater.inflate(R.layout.af_inapppurchase_fragment, container, false);
         Bundle bundle = this.getArguments();
@@ -71,6 +68,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+                Logger.i("testing","IAP back key onclick");
             }
         });
 
@@ -78,8 +76,6 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
         return mRootView;
     }
-
-
 
     @Override
     public String getActionbarTitle() {
@@ -98,11 +94,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
             mIapHandler = IAPHandler.init(getContext(), mIapSettings);
 
-//            if (position != -1) {
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-//            } else if (null != ctn) {
-//            mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, mCtn, null);
-//            }
+            mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else {
             showIAPToast(IAPConstant.IAP_ERROR_NO_CONNECTION);
         }

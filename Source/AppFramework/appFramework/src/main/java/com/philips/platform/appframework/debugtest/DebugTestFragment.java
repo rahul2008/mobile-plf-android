@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -34,6 +33,7 @@ import com.philips.cdp.registration.configuration.RegistrationDynamicConfigurati
 import com.philips.cdp.registration.configuration.SigninProviders;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+//import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -110,7 +110,6 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                     }
                     Log.d(TAG, "After Configuration" + configuration);
                     configurationTextView.setText(configuration);
-
                 }
                 count++;
             }
