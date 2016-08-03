@@ -42,7 +42,12 @@ public class ConfigActivity extends AppCompatActivity {
                     if (null != configError.getErrorCode()) {
                         Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                     } else {
-                        valueET.setText(object.toString());
+                        if(object != null){
+                            valueET.setText(object.toString());
+
+                        } else {
+
+                        }
                     }
                 /*Object o1 = deviceObject.getJSONObject("AI").get("RegistrationEnvironment");
                 object = deviceObject.getJSONObject("AI").get("NL");
