@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
@@ -9,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.PaymentMethodsAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;

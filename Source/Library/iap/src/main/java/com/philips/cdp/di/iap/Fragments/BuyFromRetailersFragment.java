@@ -21,7 +21,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
-
 public class BuyFromRetailersFragment extends BaseAnimationSupportFragment {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();

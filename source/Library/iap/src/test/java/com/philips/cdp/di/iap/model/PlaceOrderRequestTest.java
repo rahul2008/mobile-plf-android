@@ -30,43 +30,44 @@ import static org.mockito.Mockito.mock;
 public class PlaceOrderRequestTest {
     @Mock
     private StoreSpec mStore;
-
+    private AbstractModel request;
     @Before
     public void setUP() {
         mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
         mStore.initStoreConfig("en", "us", null);
+        CartModelContainer.getInstance().setCartNumber("3423423432");
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.SECURITY_CODE, "122");
+        request = new PlaceOrderRequest(mStore, params, null);
     }
 
     @Test
     public void testRequestMethodIsPOST() {
-        PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
         assertEquals(Request.Method.POST, request.getMethod());
     }
 
     @Test
     public void testQueryParamsIsNotNull() {
-        PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
         assertNotNull(request.requestBody());
     }
 
     @Test
     public void testQueryParamsHasBody() {
-        PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
         Map<String, String> params = new HashMap<String, String>();
         params.put(ModelConstants.CART_ID, cartNumber);
+        params.put(ModelConstants.SECURITY_CODE, "122");
+
         assertEquals(request.requestBody(), params);
     }
 
     @Test
     public void matchPlaceOrderURL() {
-        PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
         assertEquals(NetworkURLConstants.PLACE_ORDER_URL, request.getUrl());
     }
 
     @Test
     public void parseResponseShouldBeOfPlaceOrderRequestDataType() {
-        PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
         String oneAddress = TestUtils.readFile(PlaceOrderRequestTest.class, "place_order.txt");
         Object response = request.parseResponse(oneAddress);
         assertEquals(response.getClass(), PlaceOrder.class);

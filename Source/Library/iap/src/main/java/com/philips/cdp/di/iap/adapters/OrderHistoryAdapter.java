@@ -31,10 +31,10 @@ import java.util.List;
 public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final String TAG = OrderHistoryAdapter.class.getName();
-    private Context mContext;
-    private List<Orders> mOrders;
-    private List<ProductData> mProductDetails;
-    private List<OrderDetail> mOrderDetails;
+    final private Context mContext;
+    final private List<Orders> mOrders;
+    final private List<ProductData> mProductDetails;
+    final private List<OrderDetail> mOrderDetails;
     private int mSelectedIndex;
 
     public OrderHistoryAdapter(final Context context, final List<Orders> orders, final List<ProductData> product, final List<OrderDetail> orderDetails) {
@@ -57,41 +57,38 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
         orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
         String orderStatus = order.getStatusDisplay();
-        orderHistoryHolder.mOrderState.setText(orderStatus.substring(0,1).toUpperCase() + orderStatus.substring(1));
+        orderHistoryHolder.mOrderState.setText(orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1));
         orderHistoryHolder.mOrderNumber.setText(order.getCode());
 
         int totalQuantity = 0;
-        for(ProductData data : mProductDetails)
-        {
-            if(data.getOrderCode() != null && data.getOrderCode().equals(order.getCode()))
-            {
+        for (ProductData data : mProductDetails) {
+            if (data.getOrderCode() != null && data.getOrderCode().equals(order.getCode())) {
                 //Inflate the Dynamic Layout Information View
                 View hiddenInfo = View.inflate(mContext, R.layout.iap_order_history_product_details, null);
                 orderHistoryHolder.mProductDetailsLayout.addView(hiddenInfo);
-                ((TextView)hiddenInfo.findViewById(R.id.tv_productName)).setText(data.getProductTitle());
-                ((TextView)hiddenInfo.findViewById(R.id.tv_product_number)).setText(data.getCtnNumber());
-                getNetworkImage(((NetworkImageView)hiddenInfo.findViewById(R.id.iv_product_image)), data.getImageURL());
+                ((TextView) hiddenInfo.findViewById(R.id.tv_productName)).setText(data.getProductTitle());
+                ((TextView) hiddenInfo.findViewById(R.id.tv_product_number)).setText(data.getCtnNumber());
+                getNetworkImage(((NetworkImageView) hiddenInfo.findViewById(R.id.iv_product_image)),
+                        data.getImageURL());
                 totalQuantity += data.getQuantity();
             }
         }
 
         //this is added because in acc, the data was not available in prx but hybris has the data.
-        if(totalQuantity == 0)
-        {
-            for(OrderDetail detail : mOrderDetails)
-            {
-                if(detail.getCode() != null && detail.getCode().equals(order.getCode()))
-                {
+        if (totalQuantity == 0) {
+            for (OrderDetail detail : mOrderDetails) {
+                if (detail.getCode() != null && detail.getCode().equals(order.getCode())) {
                     totalQuantity = detail.getDeliveryItemsQuantity();
                     break;
                 }
             }
         }
 
-        if(totalQuantity > 1)
+        if (totalQuantity > 1) {
             orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " items)");
-        else
+        } else {
             orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " item)");
+        }
         orderHistoryHolder.mTvtotalPrice.setText(order.getTotal().getFormattedValue());
 
     }
@@ -102,16 +99,16 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((OrderHistoryHolder) holder).mProductDetailsLayout.removeAllViews();
     }
 
-    private void getNetworkImage(final NetworkImageView imageView, final String imageURL) {
+    private void getNetworkImage(final NetworkImageView imageView, final String imageUrl) {
         ImageLoader imageLoader;
         // Instantiate the RequestQueue.
         imageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
 
-        imageLoader.get(imageURL, ImageLoader.getImageListener(imageView,
+        imageLoader.get(imageUrl, ImageLoader.getImageListener(imageView,
                 R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));
-        imageView.setImageUrl(imageURL, imageLoader);
+        imageView.setImageUrl(imageUrl, imageLoader);
     }
 
     @Override

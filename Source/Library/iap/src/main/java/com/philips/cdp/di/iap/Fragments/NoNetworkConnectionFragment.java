@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
@@ -10,10 +14,6 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class NoNetworkConnectionFragment extends BaseAnimationSupportFragment {
     public static final String TAG = NoNetworkConnectionFragment.class.getSimpleName();
 

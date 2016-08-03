@@ -1,8 +1,13 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +30,9 @@ import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -33,6 +41,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -47,6 +56,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private Context mContext;
     private ShoppingCartAPI mShoppingCartAPI;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
+    private boolean mIsDeliveryAddress;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -104,7 +114,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        updateCartDetails(mShoppingCartAPI);
+        if (CartModelContainer.getInstance().isCartCreated()) {
+            mAddressController.getUser();
+        } else {
+            mAddressController.getDeliveryModes();
+        }
     }
 
     @Override
@@ -197,12 +211,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
+            Bundle bundle = new Bundle();
+            if (mAdapter.getDeliveryMode() != null)
+                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, (Parcelable) mAdapter.getDeliveryMode());
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
-                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), ShippingAddressFragment.TAG);
+                        ShippingAddressFragment.createInstance(bundle, AnimationType.NONE), ShippingAddressFragment.TAG);
             } else {
                 addFragment(
-                        AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), AddressSelectionFragment.TAG);
+                        AddressSelectionFragment.createInstance(bundle, AnimationType.NONE), AddressSelectionFragment.TAG);
             }
         }
     }
@@ -214,12 +231,19 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-        //NOP
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            mIsDeliveryAddress = true;
+            mAddressController.getDeliveryModes();
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        }
     }
 
     @Override
     public void onSetDeliveryMode(final Message msg) {
         //NOP
+        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -236,12 +260,35 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onGetUser(Message msg) {
-
+        if (msg.obj instanceof IAPNetworkError) {
+            updateCartDetails(mShoppingCartAPI);
+        } else if (msg.obj instanceof GetUser) {
+            GetUser user = (GetUser) msg.obj;
+            if (user.getDefaultAddress() != null) {
+                mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
+            } else {
+                updateCartDetails(mShoppingCartAPI);
+            }
+        }
     }
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-
+        if ((msg.obj instanceof IAPNetworkError)) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            if (CartModelContainer.getInstance().isCartCreated()) {
+                CartModelContainer.getInstance().setCartCreated(false);
+                updateCartDetails(mShoppingCartAPI);
+            } else {
+                if (deliveryModeList.size() > 0) {
+                    mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+                }
+            }
+        }
     }
 
     @Override
@@ -260,6 +307,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mData = data;
         onOutOfStock(false);
         mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
+        if (mIsDeliveryAddress) {
+            mAdapter.setDeliveryAddress(mIsDeliveryAddress);
+            mIsDeliveryAddress = false;
+        }
         if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }

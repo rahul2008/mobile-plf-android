@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/parent_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:background="@drawable/uikit_modal_alert"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/iap_mastercard"
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
+                android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+                android:text="@string/mastercard"
+                android:textAllCaps="true"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+
+            <TextView
+                android:id="@+id/iap_mastercard_number"
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:text="@string/mastercard"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
+                android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uikit_view_height"
+            android:background="@color/uikit_enricher4" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginStart="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+                android:gravity="center_horizontal"
+                android:text="@string/iap_txt_cvv_cvc"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+
+            <EditText
+                android:id="@+id/iap_edit_box"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+                android:digits="0,1,2,3,4,5,6,7,8,9"
+                android:gravity="center_horizontal"
+                android:hint="@string/iap_cvv_astric"
+                android:inputType="numberPassword"
+                android:maxLength="4"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uikit_view_height"
+            android:background="@color/uikit_enricher4" />
+
+        <Button
+            android:id="@+id/dialogButtonOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginStart="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+            android:enabled="false"
+            android:minWidth="@dimen/uikit_modal_alert_button_width"
+            android:text="@string/iap_proceed"
+            android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+    </LinearLayout>
+</FrameLayout>

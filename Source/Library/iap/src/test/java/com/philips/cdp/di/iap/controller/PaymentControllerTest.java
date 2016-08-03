@@ -9,7 +9,10 @@ import android.os.Message;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.model.PaymentRequest;
+import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -23,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -58,7 +62,7 @@ public class PaymentControllerTest {
 
         setStoreAndDelegate();
         mPaymentController.getPaymentDetails();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "Payment.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "Payment.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -73,7 +77,7 @@ public class PaymentControllerTest {
 
         setStoreAndDelegate();
         mPaymentController.getPaymentDetails();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "EmptyResponse.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -121,23 +125,33 @@ public class PaymentControllerTest {
 
     @Test
     public void testPlaceOrderSuccessResponse() throws JSONException {
-
+        mPaymentController = new PaymentController(mContext, new MockMakePaymentListener() {
+            @Override
+            public void onPlaceOrder(Message msg) {
+                assertEquals(RequestCode.PLACE_ORDER, msg.what);
+                assertTrue(msg.obj instanceof PlaceOrder);
+            }
+        });
+        setStoreAndDelegate();
+        mPaymentController.placeOrder("");
+        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "PlaceOrder.txt"));
+        mNetworkController.sendSuccess(obj);
     }
 
     @Test
     public void testPlaceOrderErrorResponse() throws JSONException {
+        mPaymentController = new PaymentController(mContext, new MockMakePaymentListener() {
+            @Override
+            public void onPlaceOrder(Message msg) {
+                testErrorResponse(msg, RequestCode.PLACE_ORDER);
+            }
+        });
 
+        setStoreAndDelegate();
+        mPaymentController.placeOrder("");
+        mNetworkController.sendFailure(new VolleyError());
     }
 
-    @Test
-    public void testMakPaymentSuccessResponse() throws JSONException {
-
-    }
-
-    @Test
-    public void testMakPaymentErrorResponse() throws JSONException {
-
-    }
 
     public void testErrorResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);

@@ -34,6 +34,9 @@ public class PlaceOrderRequest extends AbstractModel {
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
         Map<String, String> params = new HashMap<>();
         params.put(ModelConstants.CART_ID, cartNumber);
+        String securityCode = this.params.get(ModelConstants.SECURITY_CODE);
+        if (securityCode != null)
+            params.put(ModelConstants.SECURITY_CODE, securityCode);
         return params;
     }
 

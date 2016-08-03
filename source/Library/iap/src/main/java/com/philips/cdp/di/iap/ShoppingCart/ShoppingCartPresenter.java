@@ -110,6 +110,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
             cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
             cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
+            cartItem.setVatActualValue(String.valueOf(((int)cartsEntity.getTotalTax().getValue())));
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
             //required for Tagging
             cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
@@ -182,6 +183,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
+                CartModelContainer.getInstance().setCartCreated(true);
                 if (isBuy) {
                     addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                 } else {

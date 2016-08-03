@@ -61,6 +61,7 @@ public class IAPConstant {
     public static final String ORDER_COMPLETED = "completed";
     public static final String ORDER_PROCESSING = "processing";
     public static final String ORDER_DETAIL = "ORDER_DETAIL";
+    public static final String SET_DELIVERY_MODE = "DELIVERY_MODE";
 
     public interface IAPLandingViews {
         int IAP_PRODUCT_CATALOG_VIEW = 0;
@@ -72,4 +73,5 @@ public class IAPConstant {
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
     public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
     public static final String PRODUCT_CTNS = "PRODUCT_CTNS";
+    public static final String CVV_KEY_BUNDLE = "CVV_KEY_BUNDLE";
 }

@@ -32,6 +32,7 @@ public class CartModelContainer {
     private List<DeliveryModes> mDeliveryModes;
 
     private boolean switchToBillingAddress;
+    private boolean mIsCartCreated;
 
     private CartModelContainer() {
         mPRXDataObjects = new HashMap<>();
@@ -196,5 +197,13 @@ public class CartModelContainer {
 
     public HashMap<String, ProductCatalogData> getProductCatalogData() {
         return mProductCatalogData;
+    }
+
+    public boolean isCartCreated() {
+        return mIsCartCreated;
+    }
+
+    public void setCartCreated(boolean mIsCartCreated) {
+        this.mIsCartCreated = mIsCartCreated;
     }
 }

@@ -30,11 +30,13 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     public interface PaymentListener {
         void onGetPaymentDetails(Message msg);
+
         void onSetPaymentDetails(Message msg);
     }
 
     public interface MakePaymentListener {
         void onMakePayment(Message msg);
+
         void onPlaceOrder(Message msg);
     }
 
@@ -61,12 +63,14 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.SET_PAYMENT_DETAILS, model, model);
     }
 
-    public void placeOrder() {
+    public void placeOrder(String pSecurityCode) {
         final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
 
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CART_ID, cartNumber);
+        if (pSecurityCode != null)
+            query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
 
         PlaceOrderRequest request = new PlaceOrderRequest(delegate.getStore(), query, this);
         delegate.sendRequest(RequestCode.PLACE_ORDER, request, request);
