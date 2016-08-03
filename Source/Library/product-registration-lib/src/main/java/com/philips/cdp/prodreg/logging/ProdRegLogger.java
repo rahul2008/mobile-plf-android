@@ -1,82 +1,62 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.logging;
 
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.UnknownHostException;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings("deprecation")
 public class ProdRegLogger {
-
-    private final static LoggingInterface mAppInfraLogger = AppInfraSingleton.getInstance() != null ? AppInfraSingleton.getInstance().getLogging() : null;
 
     private ProdRegLogger() {
     }
 
     public static void v(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
     }
 
     public static void v(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void d(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.DEBUG, tag, msg);
-        }
+
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg);
     }
 
     public static void d(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void i(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.INFO, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg);
     }
 
     public static void i(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void w(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.WARNING, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg);
     }
 
     public static void w(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void e(String tag, String msg) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.ERROR, tag, msg);
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg);
     }
 
     public static void e(String tag, String msg, Throwable tr) {
-        if (mAppInfraLogger != null) {
-            mAppInfraLogger.log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
-        }
+        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static String getStackTraceString(Throwable tr) {
@@ -100,4 +80,20 @@ public class ProdRegLogger {
         pw.flush();
         return sw.toString();
     }
+
+    /*public static void init(Context context) {
+        if (AppInfraSingleton.getInstance() != null && AppInfraSingleton.getInstance().getLogging() != null) {
+            mAppInfraLogger = AppInfraSingleton.getInstance().getLogging().createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
+            if (mAppInfraLogger != null) {
+                boolean isDebuggable = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+                if (isDebuggable) {
+                    mAppInfraLogger.enableConsoleLog(true);
+                    mAppInfraLogger.enableFileLog(true);
+                } else {
+                    mAppInfraLogger.enableConsoleLog(false);
+                    mAppInfraLogger.enableFileLog(false);
+                }
+            }
+        }
+    }*/
 }

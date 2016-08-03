@@ -1,8 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.listener.MetadataListener;
@@ -15,19 +19,13 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-
 import java.io.Serializable;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
 public class Product implements Serializable {
 
-    private String productModelNumber;
-    private String productSerialNumber;
-    private String purchaseDate;
+    protected String productModelNumber;
+    protected String productSerialNumber;
+    protected String purchaseDate;
     private Sector sector;
     private Catalog catalog;
     private String locale;

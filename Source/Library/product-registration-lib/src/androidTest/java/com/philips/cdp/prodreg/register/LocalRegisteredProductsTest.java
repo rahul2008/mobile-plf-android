@@ -2,6 +2,7 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.test.InstrumentationTestCase;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.MockitoTestCase;

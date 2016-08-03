@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.error;
 
+import android.test.InstrumentationTestCase;
+
 import com.philips.cdp.prodreg.MockitoTestCase;
 
 /**

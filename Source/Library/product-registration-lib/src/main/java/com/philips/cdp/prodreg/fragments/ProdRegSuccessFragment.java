@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
@@ -7,19 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegSuccessFragment.class.getName();
@@ -54,8 +53,8 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         super.onActivityCreated(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
-            RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
-            regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            RegisteredProduct registeredProduct = arguments.getParcelable(ProdRegConstants.PROD_REG_PRODUCT);
+            regProdList =  arguments.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             if (registeredProduct != null) {
                 ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
             }

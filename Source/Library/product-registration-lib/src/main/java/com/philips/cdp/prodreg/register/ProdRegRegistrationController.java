@@ -1,14 +1,13 @@
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.register;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
@@ -57,11 +56,12 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
-            final ProdRegSuccessFragment prodRegSuccessFragment = getSuccessFragment();
+            final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
+            updateRegisteredProductsList(registeredProduct);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-            prodRegSuccessFragment.setArguments(bundle);
-            registerControllerCallBacks.showFragment(prodRegSuccessFragment);
+            bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            connectionFragment.setArguments(bundle);
+            registerControllerCallBacks.showFragment(connectionFragment);
         }
     }
 
@@ -77,8 +77,8 @@ public class ProdRegRegistrationController {
 
     public void init(final Bundle bundle) {
         if (bundle != null) {
-            registeredProducts = (ArrayList<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            registeredProduct = (RegisteredProduct) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            registeredProducts = bundle.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            registeredProduct = bundle.getParcelable(ProdRegConstants.PROD_REG_PRODUCT);
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
             updateSummaryView(summaryData);
@@ -181,8 +181,8 @@ public class ProdRegRegistrationController {
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
                     updateRegisteredProductsList(registeredProduct);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
-                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+                    bundle.putParcelable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
+                    bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
                     fragment.setArguments(bundle);
                     registerControllerCallBacks.showFragment(fragment);
                 }
@@ -200,7 +200,7 @@ public class ProdRegRegistrationController {
                         final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
                         updateRegisteredProductsList(registeredProduct);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+                        bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
                         connectionFragment.setArguments(bundle);
                         registerControllerCallBacks.showFragment(connectionFragment);
                     }

@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegConfig;
@@ -94,6 +93,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
+                //noinspection unchecked
                 regProdList = (ArrayList<Product>) extras.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             }
             FragmentLauncher fragLauncher = new FragmentLauncher(
@@ -131,36 +131,38 @@ public class ProdRegBaseActivity extends UiKitActivity {
         final int mExitAnimation = getApplicationContext().getResources().getIdentifier(endAnim, "anim",
                 packageName);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
+        //noinspection WrongConstant
         setRequestedOrientation(orientation);
     }
 
     private void initCustomActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        if (mActionBar != null) {
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setDisplayShowCustomEnabled(true);
+            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
+                    ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER);
+            View mCustomView = LayoutInflater.from(this).inflate(R.layout.prodreg_home_action_bar, null); // layout which contains your button.
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.prodreg_home_action_bar, null); // layout which contains your button.
+            mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
-        mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-
-        final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
-
-        ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
-        arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
-        mActionBar.setCustomView(mCustomView, params);
-        setTitle(getString(R.string.app_name));
-        mActionBar.setDisplayShowCustomEnabled(true);
+            final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+            frameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    onBackPressed();
+                }
+            });
+            ImageView arrowImage = (ImageView) mCustomView
+                    .findViewById(R.id.arrow);
+            //noinspection deprecation
+            arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
+            mActionBar.setCustomView(mCustomView, params);
+            setTitle(getString(R.string.app_name));
+        }
     }
 
     @Override

@@ -9,8 +9,6 @@ import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 
-import static org.mockito.Mockito.mock;
-
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
@@ -73,13 +71,13 @@ public class ProdRegHelperTest extends MockitoTestCase {
         };
     }
 
-    public void testProdRegHelper() {
+  /*  public void testProdRegHelper() {
         prodRegHelper.init(context);
         prodRegHelper.addProductRegistrationListener(prodRegListener);
         registrationHelper = mock(RegistrationHelper.class);
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
         assertTrue(prodRegHelper.getSignedInUserWithProducts() instanceof UserWithProducts);
-    }
+    }*/
 
     public void testBuildVersion() {
         assertEquals(prodRegHelper.getLibVersion(), BuildConfig.VERSION_NAME);

@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg.register;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;

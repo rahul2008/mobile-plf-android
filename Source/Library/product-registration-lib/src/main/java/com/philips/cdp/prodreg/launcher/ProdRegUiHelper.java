@@ -18,12 +18,17 @@ import android.os.Bundle;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
+import com.philips.cdp.product_registration_lib.BuildConfig;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
 
@@ -32,7 +37,8 @@ import java.util.ArrayList;
  */
 public class ProdRegUiHelper {
 
-    private static ProdRegUiHelper prodRegUiHelper;
+    private static ProdRegUiHelper prodRegHelper;
+    private static LoggingInterface loggingInterface;
     private UiLauncher mUiLauncher;
     private ProdRegUiListener prodRegUiListener;
 
@@ -48,10 +54,10 @@ public class ProdRegUiHelper {
      * Singleton pattern.
      */
     public static ProdRegUiHelper getInstance() {
-        if (prodRegUiHelper == null) {
-            prodRegUiHelper = new ProdRegUiHelper();
+        if (prodRegHelper == null) {
+            prodRegHelper = new ProdRegUiHelper();
         }
-        return prodRegUiHelper;
+        return prodRegHelper;
     }
 
     /**
@@ -117,7 +123,7 @@ public class ProdRegUiHelper {
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegConfig prodRegConfig) {
         final Bundle arguments = new Bundle();
         final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegConfig.getProducts());
-        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+        arguments.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
 
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         if (prodRegConfig.isAppLaunch()) {
@@ -144,11 +150,25 @@ public class ProdRegUiHelper {
         RegisteredProduct registeredProduct = null;
         if (currentProduct != null) {
             registeredProduct = new RegisteredProduct(currentProduct.getCtn().trim(), currentProduct.getSector(), currentProduct.getCatalog());
+            registeredProduct.setRegistrationState(RegistrationState.PENDING);
             registeredProduct.setSerialNumber(currentProduct.getSerialNumber().trim());
             registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
             registeredProduct.sendEmail(currentProduct.getEmail());
             registeredProduct.setFriendlyName(currentProduct.getFriendlyName());
         }
         return registeredProduct;
+    }
+
+    @SuppressWarnings("deprecation")
+    public AppInfraInterface getAPPInfraInstance() {
+        return AppInfraSingleton.getInstance();
+    }
+
+    public LoggingInterface getLoggerInterface() {
+        if (loggingInterface == null) {
+            loggingInterface = getAPPInfraInstance().getLogging().
+                    createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
+        }
+        return loggingInterface;
     }
 }

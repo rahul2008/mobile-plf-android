@@ -1,8 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
@@ -28,11 +32,6 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import java.util.List;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
 public class UserWithProducts {
 
     public static final int PRODUCT_REGISTRATION = 0;

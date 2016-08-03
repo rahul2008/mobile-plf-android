@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.register;
 
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.ArrayList;
@@ -55,8 +57,8 @@ public class ProdRegProcessController {
 
     public void process(final Bundle arguments) {
         if (arguments != null) {
-            registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            dependencyBundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            registeredProducts = arguments.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            dependencyBundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             if (registeredProducts != null) {
                 currentProduct = registeredProducts.get(0);
                 if (getUser().isUserSignIn()) {
@@ -73,6 +75,7 @@ public class ProdRegProcessController {
                     } else {
                         //Registration is not yet launched.
                         launchedRegistration = true;
+                        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                         RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
                     }
                 }
@@ -112,7 +115,7 @@ public class ProdRegProcessController {
                     processControllerCallBacks.dismissLoadingDialog();
                     final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
+                    bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
                     connectionFragment.setArguments(bundle);
                     processControllerCallBacks.showFragment(connectionFragment);
                 }
@@ -146,7 +149,7 @@ public class ProdRegProcessController {
 
     private void doSummaryRequest() {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
-            dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
+            dependencyBundle.putParcelable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
             currentProduct.getProductSummary(fragmentActivity, currentProduct, getSummaryListener());
         }
     }

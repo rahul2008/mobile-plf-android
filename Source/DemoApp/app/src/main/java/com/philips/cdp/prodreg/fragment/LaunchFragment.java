@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 /**
@@ -60,6 +61,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_user_registration:
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(context);
                 Util.navigateFromUserRegistration();
                 break;

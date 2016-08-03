@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.register;
 
+import android.test.InstrumentationTestCase;
+
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;

@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.fragments;
 
 import android.content.Context;
@@ -10,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -28,10 +32,6 @@ import com.philips.cdp.prodreg.register.UserWithProducts;
 
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListener {
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();

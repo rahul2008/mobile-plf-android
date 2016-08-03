@@ -105,7 +105,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     public void testHandleState() {
         when(registeredProductMock.isProductAlreadyRegistered(localRegisteredProductsMock)).thenReturn(true);
         prodRegRegistrationController.handleState();
-        verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
+        verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
     }
 
     public void testInit() {
@@ -139,11 +139,12 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         verify(userWithProductsMock).registerProduct(registeredProductMock);
     }
 
+    @SuppressWarnings("deprecation")
     public void testGetProdRegListener() {
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
         ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
         prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
         verify(registerControllerCallBacksMock).dismissLoadingDialog();
         verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);

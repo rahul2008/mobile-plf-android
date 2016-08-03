@@ -1,9 +1,7 @@
 package com.philips.cdp.prodreg.tagging;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 
-import com.adobe.mobile.Analytics;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -24,7 +22,6 @@ public class ProdRegTagging {
 
     private static ProdRegTagging prodRegTagging;
     private static AppTaggingInterface aiAppTaggingInterface;
-
     private ProdRegTagging() {
     }
 
@@ -32,8 +29,6 @@ public class ProdRegTagging {
     public static ProdRegTagging getInstance() {
         if (prodRegTagging == null) {
             prodRegTagging = new ProdRegTagging();
-            aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
-            aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         }
         return prodRegTagging;
     }
@@ -59,6 +54,12 @@ public class ProdRegTagging {
         return date;
     }
 
+    @SuppressWarnings("deprecation")
+    public static void init() {
+        aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
+        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+    }
+
     public AppTaggingInterface getAiAppTaggingInterface() {
         return aiAppTaggingInterface;
     }
@@ -68,7 +69,7 @@ public class ProdRegTagging {
      */
     public Map<String, String> getCommonGoalsMap() {
         Map<String, String> contextData = new HashMap<>();
-        contextData.put(AnalyticsConstants.KEY_APP_NAME,
+        /*contextData.put(AnalyticsConstants.KEY_APP_NAME,
                 AnalyticsConstants.ACTION_VALUE_APP_NAME);
         contextData.put(AnalyticsConstants.KEY_VERSION, String.valueOf(getAppVersion()));
         contextData
@@ -84,7 +85,7 @@ public class ProdRegTagging {
         contextData.put(AnalyticsConstants.KEY_APP_ID,
                 Analytics.getTrackingIdentifier());
         contextData.put(AnalyticsConstants.APP_SOURCE,
-                AnalyticsConstants.APP_SOURCE_VALUE);
+                AnalyticsConstants.APP_SOURCE_VALUE);*/
         return contextData;
     }
 
