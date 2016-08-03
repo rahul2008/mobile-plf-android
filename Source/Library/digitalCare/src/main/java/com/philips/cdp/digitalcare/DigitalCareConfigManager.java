@@ -7,7 +7,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
- * <p/>
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -34,7 +34,9 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.platform.appinfra.*;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.Locale;
@@ -248,7 +250,8 @@ public class DigitalCareConfigManager {
      *
      * @param taggingEnabled True to enable & False to disable
      */
-    public void setAppTaggingInputs(boolean taggingEnabled, String appId, String appName, String launchingPageName) {
+    public void setAppTaggingInputs(boolean taggingEnabled, String appId, String appName,
+                                    String launchingPageName) {
         mTaggingEnabled = taggingEnabled;
         mPageName = launchingPageName;
         mAppName = appName;

@@ -197,7 +197,8 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
             AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
 //  localeManager.setInputLocale("ar", "SA");
         PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
+                mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
 
         // Initializing DigitalCare Component.
