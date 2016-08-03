@@ -12,9 +12,9 @@ import java.util.HashMap;
  * Created by 310238114 on 6/7/2016.
  */
 public class Config {
-    String micrositeId;
-    HashMap<String , String > urls;
-    ArrayList<Tag> tags;
+    private String micrositeId;
+    private HashMap<String , String > urls;
+    private ArrayList<Tag> tags;
 
 
     public String getMicrositeId() {

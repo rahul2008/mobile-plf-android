@@ -59,7 +59,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
 
     private static String[] serverPool;
 
-    // private boolean isRefreshInProgress;
+    private boolean isRefreshInProgress;
 
 
     public TimeSyncSntpClient(AppInfra aAppInfra) {
@@ -93,11 +93,15 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         return mSharedPreferences.getLong(TimeConstants.OFFSET, 0L);
     }
 
+    private long getElapsedOffset() {
+        return mSharedPreferences.getLong(TimeConstants.OFFSET_ELAPSED, 0L);
+    }
+
     public synchronized void refreshOffset() {
         long ntpTime;
         final long elapsedTime = SystemClock.elapsedRealtime();
         final long currentTime = System.currentTimeMillis();
-
+        isRefreshInProgress = true;
         long nowAsPerDeviceTimeZone = 0;
         for (int i = 0; i < TimeConstants.POOL_SIZE; i++) {
             if (this.requestTime(serverPool[i], 30000)) {
@@ -112,6 +116,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
             saveOffset(mOffset);
         }
         saveElapsedOffset(currentTime - elapsedTime);
+        isRefreshInProgress = false;
     }
 
     public String getCurrentTime() {
@@ -230,20 +235,20 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         return true;
     }
 
-    //       public synchronized String getCurrentUTCTimeWithFormat(final String pFormat) {
-//        long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
-//        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ENGLISH);
-//        Date date = null;
-//        if (isRefreshInProgress) {
-//            date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
-//        } else {
-//            date = new Date(getOffset() + System.currentTimeMillis());
-//        }
-//        sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
-//        final String utcTime = sdf.format(date);
-//        Log.i("CurrentUTCTime", "" + utcTime);
-//        return utcTime;
-//    }
+    public String getCurrentUTCTimeWithFormat() {
+        long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
+        final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
+        Date date = null;
+        if (isRefreshInProgress) {
+            date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
+        } else {
+            date = new Date(getOffset() + System.currentTimeMillis());
+        }
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
+        final String utcTime = sdf.format(date);
+        Log.i("CurrentUTCTime", "" + utcTime);
+        return utcTime;
+    }
 
     /**
      * Returns the reference clock value (value of SystemClock.elapsedRealtime())
@@ -317,10 +322,10 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         buffer[offset++] = (byte) (Math.random() * 255.0);
     }
 
-    //    private long getCurrentElapsedDifference(){
-//
-//        return System.currentTimeMillis() - SystemClock.elapsedRealtime();
-//    }
+    private long getCurrentElapsedDifference() {
+
+        return System.currentTimeMillis() - SystemClock.elapsedRealtime();
+    }
 
 
     @Override
@@ -334,9 +339,9 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
                 date_format.format(utcDate);
                 Log.i("DATE_FORMAT", "" + date_format.format(utcDate));
                 refreshTime();
-                ntpDate = date_format.parse(getCurrentTime());
+                ntpDate = date_format.parse(getCurrentUTCTimeWithFormat());
             } else {
-                ntpDate = date_format.parse(getCurrentTime());
+                ntpDate = date_format.parse(getCurrentUTCTimeWithFormat());
             }
         } catch (Exception e) {
             Log.i("Error", "" + e);
@@ -355,6 +360,27 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
                 }
             }
         }).start();
+    }
+
+    @Override
+    public Date getServerTime() {
+        Date ntpDate = null;
+        DateFormat date_format = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
+        try {
+            if (mNtpTime == 0L) {
+                date_format = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
+                final Date utcDate = new Date(mNtpTime);
+                date_format.format(utcDate);
+                Log.i("DATE_FORMAT", "" + date_format.format(utcDate));
+                refreshTime();
+                ntpDate = date_format.parse(getCurrentTime());
+            } else {
+                ntpDate = date_format.parse(getCurrentTime());
+            }
+        } catch (Exception e) {
+            Log.i("Error", "" + e);
+        }
+        return ntpDate;
     }
 
     @Override

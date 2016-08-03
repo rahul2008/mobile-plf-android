@@ -25,4 +25,7 @@ public interface TimeInterface {
      * Calls UTCtime and update local Offset variable (Offset=UTCtime-Devicetime)
      */
     public void refreshTime();
+
+
+    public Date getServerTime();
 }

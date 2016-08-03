@@ -22,6 +22,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="ServerTime"
+        android:id="@+id/servertime"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/servertimetextvalue"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="UTCTime"
         android:id="@+id/utctime"
         android:layout_gravity="center_horizontal"
@@ -36,6 +54,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
         android:padding="5dp" />
+
 
     <Button
         android:layout_width="wrap_content"
