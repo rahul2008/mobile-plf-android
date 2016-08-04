@@ -252,16 +252,16 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     public void onBackPressed() {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
+            super.onBackPressed();
         }
-        else {
+        else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
             inAppPurchaseBackPress();
+            super.onBackPressed();
         }
-
-        super.onBackPressed();
     }
 
     private void inAppPurchaseBackPress() {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.vertical_Container);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if(currentFragment != null && (currentFragment instanceof  InAppPurchasesFragment)){
             if(((InAppPurchasesFragment) currentFragment).onBackPressed()) {
                 return;
