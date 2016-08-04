@@ -32,3 +32,11 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\bin\Co
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.csprojResolveAssemblyReference.cache
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.exe
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.pdb
+D:\ReferenceApp\testfwk_android\Src\bin\AppConfig.xml
+D:\ReferenceApp\testfwk_android\Src\bin\MapNetworkDrive.vbs
+D:\ReferenceApp\testfwk_android\Src\bin\ConsoleRunner.exe.config
+D:\ReferenceApp\testfwk_android\Src\bin\ConsoleRunner.exe
+D:\ReferenceApp\testfwk_android\Src\bin\ConsoleRunner.pdb
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.csprojResolveAssemblyReference.cache
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.exe
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.pdb

@@ -76,3 +76,16 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Ph
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\MobileTestCore\obj\Debug\MobileTestCore.csprojResolveAssemblyReference.cache
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\MobileTestCore\obj\Debug\Philips.SIG.Automation.Foundation.MobileTestCore.dll
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\MobileTestCore\obj\Debug\Philips.SIG.Automation.Foundation.MobileTestCore.pdb
+D:\ReferenceApp\testfwk_android\Src\Bin\UIAutomation\ExecuteAppiumCommand.bat
+D:\ReferenceApp\testfwk_android\Src\Bin\BrowserDriversExe\chromedriver.exe
+D:\ReferenceApp\testfwk_android\Src\Bin\BrowserDriversExe\IEDriverServer.exe
+D:\ReferenceApp\testfwk_android\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar
+D:\ReferenceApp\testfwk_android\Src\Bin\UIAutomation\iOSAppium.txt
+D:\ReferenceApp\testfwk_android\Src\Bin\UIAutomation\iOSKillNodeCommand.txt
+D:\ReferenceApp\testfwk_android\Src\Bin\UIAutomation\logcat.bat
+D:\ReferenceApp\testfwk_android\Src\Bin\UIAutomation\StartAppiumServer.bat
+D:\ReferenceApp\testfwk_android\Src\Bin\Philips.SIG.Automation.Foundation.MobileTestCore.dll
+D:\ReferenceApp\testfwk_android\Src\Bin\Philips.SIG.Automation.Foundation.MobileTestCore.pdb
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\MobileTestCore\obj\Debug\MobileTestCore.csprojResolveAssemblyReference.cache
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\MobileTestCore\obj\Debug\Philips.SIG.Automation.Foundation.MobileTestCore.dll
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\MobileTestCore\obj\Debug\Philips.SIG.Automation.Foundation.MobileTestCore.pdb

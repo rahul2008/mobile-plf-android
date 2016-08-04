@@ -28,3 +28,10 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\bin\Ph
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\TimerNotifier\obj\Debug\TimerNotifier.csprojResolveAssemblyReference.cache
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\TimerNotifier\obj\Debug\Philips.MRAutomation.Foundation.TimerNotifier.dll
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\TimerNotifier\obj\Debug\Philips.MRAutomation.Foundation.TimerNotifier.pdb
+D:\ReferenceApp\testfwk_android\Src\bin\AppConfig.xml
+D:\ReferenceApp\testfwk_android\Src\bin\MapNetworkDrive.vbs
+D:\ReferenceApp\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.TimerNotifier.dll
+D:\ReferenceApp\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.TimerNotifier.pdb
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\TimerNotifier\obj\Debug\TimerNotifier.csprojResolveAssemblyReference.cache
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\TimerNotifier\obj\Debug\Philips.MRAutomation.Foundation.TimerNotifier.dll
+D:\ReferenceApp\testfwk_android\Src\Src\01Foundation\TimerNotifier\obj\Debug\Philips.MRAutomation.Foundation.TimerNotifier.pdb

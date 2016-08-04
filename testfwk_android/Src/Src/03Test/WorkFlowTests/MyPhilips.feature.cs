@@ -18,8 +18,9 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [TechTalk.SpecRun.FeatureAttribute("As a USER i want to login into MyPhilipsAccount via Appframework application", SourceFile="MyPhilips.feature", SourceLine=0)]
-    public partial class AsAUSERIWantToLoginIntoMyPhilipsAccountViaAppframeworkApplicationFeature
+    [TechTalk.SpecRun.FeatureAttribute("As a USER i want to login into User Registration MyPhilipsAccount via Appframewor" +
+        "k application", SourceFile="MyPhilips.feature", SourceLine=0)]
+    public partial class AsAUSERIWantToLoginIntoUserRegistrationMyPhilipsAccountViaAppframeworkApplicationFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,7 +32,8 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "As a USER i want to login into MyPhilipsAccount via Appframework application", "", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "As a USER i want to login into User Registration MyPhilipsAccount via Appframewor" +
+                    "k application", "", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,11 +64,11 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             testRunner.CollectScenarioErrors();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Login into MyPhilips Account and change the account settings", new string[] {
+        [TechTalk.SpecRun.ScenarioAttribute("Login into MyPhilips Account and verify the account settings", new string[] {
                 "MyPhilips"}, SourceLine=4)]
-        public virtual void LoginIntoMyPhilipsAccountAndChangeTheAccountSettings()
+        public virtual void LoginIntoMyPhilipsAccountAndVerifyTheAccountSettings()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login into MyPhilips Account and change the account settings", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login into MyPhilips Account and verify the account settings", new string[] {
                         "MyPhilips"});
 #line 5
 this.ScenarioSetup(scenarioInfo);

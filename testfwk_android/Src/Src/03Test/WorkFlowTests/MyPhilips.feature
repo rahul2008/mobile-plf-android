@@ -1,8 +1,8 @@
-﻿Feature: As a USER i want to login into MyPhilipsAccount via Appframework application
+﻿Feature: As a USER i want to login into User Registration MyPhilipsAccount via Appframework application
 
 
 @MyPhilips
-Scenario: Login into MyPhilips Account and change the account settings
+Scenario: Login into MyPhilips Account and verify the account settings
 	Given I am on the AppFramework Screen
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen 

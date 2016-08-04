@@ -80,7 +80,16 @@ namespace Philips.SIG.Automation.Android.CDPP.Tests.Workflows
         [Then(@"I verify that under my account the user status is Log out")]
         public void ThenIVerifyThatUnderMyAccountTheUserStatusIsLogOut()
         {
+
             WelcomeScreen.Status();
+
+            /*Thread.Sleep(2000);
+            AccountSettings.Click(AccountSettings.Button.LogOut);
+            Thread.Sleep(2000);
+            AccountSettings.Click(AccountSettings.Button.LogOutConfirm);
+            Thread.Sleep(2000);
+            HomeScreen.WaitforHomeScreen();*/
+
         }
 
 
