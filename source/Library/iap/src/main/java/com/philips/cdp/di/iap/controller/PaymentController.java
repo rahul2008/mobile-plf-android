@@ -10,6 +10,7 @@ import android.os.Message;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.model.CartDeleteRequest;
 import com.philips.cdp.di.iap.model.GetPaymentDetailRequest;
 import com.philips.cdp.di.iap.model.PaymentRequest;
 import com.philips.cdp.di.iap.model.PlaceOrderRequest;
@@ -38,6 +39,8 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         void onMakePayment(Message msg);
 
         void onPlaceOrder(Message msg);
+
+        void onDeleteCart(Message msg);
     }
 
     public PaymentController(Context context, PaymentListener listener) {
@@ -48,6 +51,14 @@ public class PaymentController implements AbstractModel.DataLoadListener {
     public PaymentController(Context context, MakePaymentListener listener) {
         mContext = context;
         mMakePaymentListener = listener;
+    }
+
+    public void getCartDelete(String cartId) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.CART_ID, cartId);
+
+        CartDeleteRequest model = new CartDeleteRequest(getStore(), params, this);
+        getHybrisDelegate().sendRequest(RequestCode.DELETE_CART, model, model);
     }
 
     public void getPaymentDetails() {
@@ -115,6 +126,9 @@ public class PaymentController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.MAKE_PAYMENT:
                 mMakePaymentListener.onMakePayment(msg);
+                break;
+            case RequestCode.DELETE_CART:
+                mMakePaymentListener.onDeleteCart(msg);
                 break;
         }
     }

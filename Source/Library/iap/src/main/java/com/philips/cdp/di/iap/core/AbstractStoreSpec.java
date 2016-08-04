@@ -198,7 +198,7 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
-    public String getDeleteCartUrl() {
+    public String getDeleteCartUrl(String cartId) {
         return null;
     }
 }

@@ -265,8 +265,8 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     @Override
-    public String getDeleteCartUrl() {
-        return mDeleteCartUrl;
+    public String getDeleteCartUrl(String cartId) {
+        return String.format(mDeleteCartUrl, cartId);
     }
 
     @Override

@@ -40,7 +40,7 @@ public interface StoreSpec {
 
     String getCreateCartUrl();
 
-    String getDeleteCartUrl();
+    String getDeleteCartUrl(String cartId);
 
     String getAddToCartUrl();
 
