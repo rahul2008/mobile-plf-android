@@ -31,7 +31,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = "6.0.3"
+version = "6.0.4"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -98,7 +98,7 @@ dependencies {
     compile 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.1')
     
     compile 'com.squareup.okio:okio:1.6.0'
     compile project(':servertime')

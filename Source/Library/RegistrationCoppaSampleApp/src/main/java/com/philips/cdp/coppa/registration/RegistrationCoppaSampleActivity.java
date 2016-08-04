@@ -38,6 +38,7 @@ import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -229,11 +230,13 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 RegistrationCoppaLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 RegistrationCoppaLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
