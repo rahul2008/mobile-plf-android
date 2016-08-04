@@ -197,7 +197,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_cancel || v.getId() == R.id.btn_paynow)
+        if (v.getId() == R.id.btn_paynow)
             Toast.makeText(mContext, "Yet to implement", Toast.LENGTH_SHORT).show();
         else if (v.getId() == R.id.track_order_layout) {
             Bundle bundle = new Bundle();
@@ -215,6 +215,13 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
                     bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
                 }
                 addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), TrackOrderFragment.TAG);
+            }
+        }
+        else if(v.getId() == R.id.btn_cancel) {
+            Bundle bundle = new Bundle();
+            if (mOrderDetail != null) {
+                bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, "8867165705");
+                addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
             }
         }
 
