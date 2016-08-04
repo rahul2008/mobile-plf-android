@@ -245,7 +245,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
-        mBtnSignOut.setEnabled(true);
+        if (mBtnSignOut != null) {
+            mBtnSignOut.setEnabled(true);
+        }
     }
-
 }
