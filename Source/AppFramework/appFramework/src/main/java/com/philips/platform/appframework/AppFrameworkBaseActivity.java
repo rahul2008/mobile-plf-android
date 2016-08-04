@@ -16,7 +16,6 @@ import android.view.Window;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
@@ -47,7 +46,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            Logger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -55,25 +53,21 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Logger.i(Constants.ACTIVITY, " onConfigurationChanged ");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.i(Constants.ACTIVITY, " onResume ");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.i(Constants.ACTIVITY, " onPause ");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Logger.i(Constants.ACTIVITY, "onDestroy ");
     }
 
     protected boolean backstackFragment() {

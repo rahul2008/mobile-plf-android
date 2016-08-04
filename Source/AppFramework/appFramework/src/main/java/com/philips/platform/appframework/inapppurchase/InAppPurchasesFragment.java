@@ -25,7 +25,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -68,7 +67,6 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
-                Logger.i("testing","IAP back key onclick");
             }
         });
 
