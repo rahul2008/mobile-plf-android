@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class SettingsFragment extends AppFrameworkBaseFragment {
 
-    private static String TAG = SettingsFragment.class.getSimpleName();
     private SettingsAdapter mAdapter = null;
     private ListView mList = null;
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
@@ -63,7 +62,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
         ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler,fragmentPresenter);
+        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler, fragmentPresenter);
         mList.setAdapter(mAdapter);
 
         return view;

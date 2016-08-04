@@ -5,7 +5,6 @@
 */
 package com.philips.platform.appframework;
 
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,11 +21,7 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity{
-    public static final String SHARED_PREFERENCES = "SharedPref";
-    public static final String DONE_PRESSED = "donePressed";
-    private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
-    private static SharedPreferences mSharedPreference = null;
     public UIBasePresenter presenter;
 
     @Override

@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.statecontroller;
 
 import android.content.Context;
@@ -6,9 +11,6 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/**
- * Created by 310240027 on 6/16/2016.
- */
 abstract public class UIState {
 
     UIBasePresenter uiBasePresenter;

@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.cocointerface;
 
 import android.app.Activity;
@@ -15,10 +20,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-
-/**
- * Created by 310240027 on 6/22/2016.
- */
 
 public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListener,RegistrationTitleBarListener {
 

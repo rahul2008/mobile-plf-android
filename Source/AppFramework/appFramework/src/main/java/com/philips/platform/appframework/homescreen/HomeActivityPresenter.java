@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.homescreen;
 
 import android.content.Context;
@@ -16,9 +21,6 @@ import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.util.UIConstants;
 
-/**
- * Created by 310240027 on 7/4/2016.
- */
 public class HomeActivityPresenter extends UIBasePresenter implements UICoCoConsumerCareImpl.SetStateCallBack {
 
     HomeActivityPresenter(){

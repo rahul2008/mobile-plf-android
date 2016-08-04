@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.utility;
 
 import android.content.Context;
@@ -6,9 +11,6 @@ import android.preference.PreferenceManager;
 
 import com.philips.platform.modularui.statecontroller.UIState;
 
-/**
- * Created by 310240027 on 6/21/2016.
- */
 public class SharedPreferenceUtility {
     private static SharedPreferenceUtility mInstance;
     private Context mContext;
@@ -24,16 +26,6 @@ public class SharedPreferenceUtility {
         return mMyPreferences;
     }
 
-    /*
-    public static SharedPreferenceUtility getInstance(){
-        if (mInstance == null) mInstance = new SharedPreferenceUtility();
-        return mInstance;
-    }*/
-
-   /* public void Initialize(Context ctxt){
-        mContext = ctxt;
-        mMyPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-    }*/
     public void writePreferenceString(String key, String value){
         SharedPreferences.Editor e = mMyPreferences.edit();
         e.putString(key, value);

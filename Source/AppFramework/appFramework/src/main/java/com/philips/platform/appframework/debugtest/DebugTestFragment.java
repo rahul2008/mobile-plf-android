@@ -28,12 +28,9 @@ import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
 import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.configuration.SigninProviders;
-import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-//import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -191,11 +188,6 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     private void initRegistration() {
 
-//        Tagging.enableAppTagging(true);
-//        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-//        Tagging.setLaunchingPageName("demo_app_home");
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 
@@ -203,7 +195,6 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         localeManager.setInputLocale(languageCode, countryCode);
 
         RegistrationHelper.getInstance().initializeUserRegistration(context);
-//        Tagging.init(context, "Product Registration");
     }
 
 }

@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-
 public class WelcomePagerAdapter extends FragmentPagerAdapter {
     protected static final String[] CONTENT = new String[]{"Page 1", "Page 2", "Page 3"};
     private static final int FIRST_INSTANCE = 0;

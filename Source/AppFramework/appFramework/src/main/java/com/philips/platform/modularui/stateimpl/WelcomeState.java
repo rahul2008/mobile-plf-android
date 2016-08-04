@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
@@ -6,9 +11,6 @@ import android.content.Intent;
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 
-/**
- * Created by 310240027 on 7/4/2016.
- */
 public class WelcomeState extends UIState {
     public WelcomeState(@UIStateDef int stateID) {
         super(stateID);

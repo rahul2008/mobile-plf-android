@@ -39,7 +39,6 @@ import java.util.ArrayList;
 public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener, com.philips.cdp.prodreg.listener.ActionbarUpdateListener{
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
-    // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;

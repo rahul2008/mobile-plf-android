@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.cocointerface;
 
 import android.content.Context;
@@ -18,10 +23,6 @@ import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-/**
- * Created by 310213373 on 7/4/2016.
- */
 
 public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener,
         ProductMenuListener, SocialProviderListener {

@@ -91,7 +91,7 @@ import com.shamanland.fonticon.FontIconView;
  * }
  *        </pre>
  */
-public class WelcomeScreenFragment extends Fragment implements  View.OnClickListener{
+public class WelcomeScreenFragment extends Fragment implements View.OnClickListener {
 
     private static String TAG = WelcomeActivity.class.getSimpleName();
     private FontIconView appframework_leftarrow, appframework_rightarrow;
@@ -180,6 +180,6 @@ public class WelcomeScreenFragment extends Fragment implements  View.OnClickList
 
     @Override
     public void onClick(View v) {
-        presenter.onClick(v.getId(),getActivity());
+        presenter.onClick(v.getId(), getActivity());
     }
 }

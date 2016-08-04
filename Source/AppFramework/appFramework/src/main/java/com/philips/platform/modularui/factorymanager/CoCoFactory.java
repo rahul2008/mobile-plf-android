@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.factorymanager;
 
 
@@ -7,9 +12,6 @@ import com.philips.platform.modularui.cocointerface.UICoCoProdRegImpl;
 import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.util.UIConstants;
 
-/**
- * Created by 310213373 on 7/7/2016.
- */
 public class CoCoFactory {
     private static CoCoFactory instance = new CoCoFactory();
 

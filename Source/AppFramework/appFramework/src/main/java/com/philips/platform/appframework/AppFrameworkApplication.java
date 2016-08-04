@@ -21,11 +21,7 @@ import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
-
 import java.util.Locale;
-
-//import com.philips.cdp.tagging.Tagging;
-
 
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;

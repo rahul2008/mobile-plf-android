@@ -10,20 +10,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
-import android.widget.TextView;
 
-import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.shamanland.fonticon.FontIconView;
-
-
 
 public class WelcomeActivity extends AppFrameworkBaseActivity {
-    private static String TAG = WelcomeActivity.class.getSimpleName();
-    private FontIconView appframework_leftarrow, appframework_rightarrow;
-    private TextView startRegistrationScreenButton, appframeworkSkipButton;
-    private CircleIndicator mIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

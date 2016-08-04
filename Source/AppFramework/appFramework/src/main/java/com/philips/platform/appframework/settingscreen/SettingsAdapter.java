@@ -149,13 +149,12 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     private void headerSection(int position, TextView name, PuiSwitch value, TextView number, TextView on_off, FontIconTextView arrow, TextView description) {
-        CharSequence titleText = null;//name.setVisibility(View.VISIBLE);
+        CharSequence titleText = null;
         titleText = mSettingsItemList.get(position).title;
         name.setText(titleText);
 
         value.setVisibility(View.GONE);
         description.setVisibility(View.GONE);
-        //  arrow.setVisibility(View.GONE);
         number.setVisibility(View.GONE);
         on_off.setVisibility(View.GONE);
         arrow.setVisibility(View.INVISIBLE);

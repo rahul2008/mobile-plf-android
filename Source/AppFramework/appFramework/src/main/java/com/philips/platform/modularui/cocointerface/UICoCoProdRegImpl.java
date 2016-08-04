@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.cocointerface;
 
 import android.content.Context;
@@ -17,9 +22,6 @@ import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 310240027 on 6/22/2016.
- */
 public class UICoCoProdRegImpl implements UICoCoInterface, com.philips.cdp.prodreg.listener.ActionbarUpdateListener,ProdRegUiListener {
     private FragmentActivity fa;
     com.philips.cdp.prodreg.listener.ActionbarUpdateListener actionbarUpdateListener;
