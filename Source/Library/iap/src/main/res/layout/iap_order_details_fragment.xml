@@ -196,6 +196,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
             android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
             android:orientation="vertical">
 
             <TextView
@@ -227,7 +228,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
             android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-            android:layout_marginTop="@dimen/iap_shipping_address_margin_top_bottom"
             android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
             android:orientation="vertical">
 
