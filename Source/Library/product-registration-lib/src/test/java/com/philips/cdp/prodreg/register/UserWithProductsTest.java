@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -22,9 +23,6 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
-import junit.framework.TestCase;
-
-import org.junit.Rule;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ import static org.mockito.Mockito.when;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class UserWithProductsTest extends TestCase {
+public class UserWithProductsTest extends MockitoTestCase {
 
     UserWithProducts userWithProducts;
     private Context context;
@@ -51,12 +49,11 @@ public class UserWithProductsTest extends TestCase {
     private ProdRegListener prodRegListener;
     private User userMock;
 
-    @Rule
-
+    @SuppressWarnings("deprecation")
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = mock(Context.class);
+        context = getInstrumentation().getContext();
         userWithProductsMock = mock(UserWithProducts.class);
         userMock = mock(User.class);
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
@@ -566,7 +563,6 @@ public class UserWithProductsTest extends TestCase {
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(true);
     }
-
     public void testGetRegisteredProductsListener() {
         RegisteredProduct registeredProductMock = mock(RegisteredProduct.class);
         when(registeredProductMock.getCtn()).thenReturn("ctn");
