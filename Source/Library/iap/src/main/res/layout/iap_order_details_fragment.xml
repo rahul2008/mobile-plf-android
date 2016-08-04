@@ -304,7 +304,7 @@
             android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:text="@string/iap_cancel_order"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </LinearLayout>
 </ScrollView>

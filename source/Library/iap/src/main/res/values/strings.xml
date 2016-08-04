@@ -182,6 +182,7 @@
     <string name="iap_txt_cvv_cvc">Enter CVV/CVC</string>
     <string name="iap_proceed">Proceed</string>
     <string name="iap_cvv_astric">***</string>
+    <string name="iap_contact_consumer_number">Please contact the below number to cancel your order</string>
 
 
 </resources>
