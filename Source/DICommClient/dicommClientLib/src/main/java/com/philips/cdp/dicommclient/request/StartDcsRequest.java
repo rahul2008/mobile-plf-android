@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public class StartDcsRequest extends Request {
 
+    private long TIME_OUT = 10 * 1000L;
+
     private final CppController cppController;
     private final Object lock;
 
@@ -23,17 +25,36 @@ public class StartDcsRequest extends Request {
     @Override
     public Response execute() {
         synchronized (lock) {
-            //pass the lock to cppcontroller in a safe way
             cppController.startDCSService(lock);
             try {
-                lock.wait();
-                //todo: add timeout and after waiting check if state of cppcontroller moved to 'started'
-                //if not: respond with error
+                lock.wait(TIME_OUT);
+
+                if (cppController.getState() != CppController.ICP_CLIENT_DCS_STATE.STARTED) {
+                    return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+                }
             } catch (InterruptedException e) {
                 return new Response(null, Error.REQUESTFAILED, mResponseHandler);
             }
         }
 
-        return new Response("", null, mResponseHandler);
+        return new Response(null, null, mResponseHandler);
+    }
+
+    /**
+     * Visible for testing.
+     *
+     * @return the synchronization lock
+     */
+    Object getLock() {
+        return lock;
+    }
+
+    /**
+     * Visible for testing
+     *
+     * @param TIME_OUT of the synchronization
+     */
+    void setTimeOut(long TIME_OUT) {
+        this.TIME_OUT = TIME_OUT;
     }
 }
