@@ -118,6 +118,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             mAddressController.getUser();
         } else {
             mAddressController.getDeliveryModes();
+            mIsDeliveryAddress = true;
         }
     }
 
