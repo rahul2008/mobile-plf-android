@@ -4,10 +4,12 @@ import com.philips.cdp.dicommclient.cpp.CppController;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -18,11 +20,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 public class StartDcsRequestTest {
 
+    public static final long TIME_OUT = 10L;
+
     @Mock
     CppController cppControllerMock;
 
     @Mock
     ResponseHandler responseHandlerMock;
+
+    @Captor
+    ArgumentCaptor<CppController.DCSStartListener> dcsStartedListenerCaptor;
 
     private StartDcsRequest startDcsRequest;
 
@@ -42,11 +49,10 @@ public class StartDcsRequestTest {
         @Override
         public void run() {
             try {
-                Thread.sleep(500L);
-                Object lock = startDcsRequest.getLock();
-                synchronized (lock) {
-                    lock.notify();
-                }
+                Thread.sleep(TIME_OUT);
+
+                verify(cppControllerMock).startDCSService(dcsStartedListenerCaptor.capture());
+                dcsStartedListenerCaptor.getValue().onResponseReceived();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -58,7 +64,7 @@ public class StartDcsRequestTest {
         thread.start();
         startDcsRequest.execute();
 
-        verify(cppControllerMock).startDCSService(anyObject());
+        verify(cppControllerMock).startDCSService(any(CppController.DCSStartListener.class));
     }
 
     @Test
@@ -66,6 +72,7 @@ public class StartDcsRequestTest {
         thread.start();
 
         Response response = startDcsRequest.execute();
+        verify(cppControllerMock).startDCSService(dcsStartedListenerCaptor.capture());
 
         assertEquals(null, response.getResponseMessage());
     }
@@ -94,7 +101,7 @@ public class StartDcsRequestTest {
 
     @Test
     public void whenTimeOutOccursAndDSCIsNotStartedThenErrorResponseIsReported() throws Exception {
-        startDcsRequest.setTimeOut(10L);
+        startDcsRequest.setTimeOut(TIME_OUT);
 
         when(cppControllerMock.getState()).thenReturn(CppController.ICP_CLIENT_DCS_STATE.STARTING);
 
@@ -104,5 +111,15 @@ public class StartDcsRequestTest {
         verify(responseHandlerMock).onError(Error.REQUESTFAILED, null);
     }
 
+    @Test
+    public void whenTimeOutOccursAndDSCIsStartedThenNoResponseIsReported() throws Exception {
+        startDcsRequest.setTimeOut(TIME_OUT);
 
+        when(cppControllerMock.getState()).thenReturn(CppController.ICP_CLIENT_DCS_STATE.STARTED);
+
+        Response response = startDcsRequest.execute();
+        response.notifyResponseHandler();
+
+        verify(responseHandlerMock).onSuccess(null);
+    }
 }

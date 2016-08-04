@@ -2,8 +2,6 @@ package com.philips.cdp.dicommclient.request;
 
 import com.philips.cdp.dicommclient.cpp.CppController;
 
-import java.util.Map;
-
 /**
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
@@ -20,12 +18,23 @@ public class StartDcsRequest extends Request {
         this.cppController = cppController;
 
         lock = new Object();
+
     }
+
+    private final CppController.DCSStartListener dcsStartListener = new CppController.DCSStartListener() {
+        @Override
+        public void onResponseReceived() {
+            synchronized (lock) {
+                lock.notify();
+            }
+        }
+    };
 
     @Override
     public Response execute() {
         synchronized (lock) {
-            cppController.startDCSService(lock);
+            cppController.startDCSService(dcsStartListener);
+
             try {
                 lock.wait(TIME_OUT);
 
@@ -38,15 +47,6 @@ public class StartDcsRequest extends Request {
         }
 
         return new Response(null, null, mResponseHandler);
-    }
-
-    /**
-     * Visible for testing.
-     *
-     * @return the synchronization lock
-     */
-    Object getLock() {
-        return lock;
     }
 
     /**
