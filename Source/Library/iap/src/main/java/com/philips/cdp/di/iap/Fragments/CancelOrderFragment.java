@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -59,9 +58,6 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
 
     @Override
     public boolean onBackPressed() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
-            finishActivity();
-        }
         return false;
     }
 }
