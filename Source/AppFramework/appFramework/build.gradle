@@ -244,11 +244,10 @@ dependencies {
     }
 
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0', ext: 'aar')
-    testCompile 'junit:junit:4.12'
+
 }
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
 }
-apply from: "resolution.gradle"
