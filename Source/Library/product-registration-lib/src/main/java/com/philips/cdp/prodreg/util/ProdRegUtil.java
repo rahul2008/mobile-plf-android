@@ -26,10 +26,10 @@ public class ProdRegUtil {
     }
 
     public boolean isFutureDate(String date) {
+        try {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         final String mGetDeviceDate = dateFormat.format(calendar.getTime());
-        try {
             final Date mDisplayDate = dateFormat.parse(date);
             final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
             return mDisplayDate.after(mDeviceDate);

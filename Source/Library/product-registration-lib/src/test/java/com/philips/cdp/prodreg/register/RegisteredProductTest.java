@@ -7,6 +7,7 @@ import com.philips.cdp.prodreg.constants.RegistrationState;
 import junit.framework.TestCase;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,43 +34,52 @@ public class RegisteredProductTest extends TestCase {
         registeredProduct = new RegisteredProduct(mCTN, mSector, mCatalog);
     }
 
+    @Test
     public void testSetRegistrationState() throws Exception {
         registeredProduct.setRegistrationState(RegistrationState.FAILED);
     }
 
+    @Test
     public void testGetEndWarrantyDate() throws Exception {
         registeredProduct.setEndWarrantyDate("29/4/2016");
         assertEquals("29/4/2016", registeredProduct.getEndWarrantyDate());
     }
 
+    @Test
     public void testSetEndWarrantyDate() throws Exception {
         registeredProduct.setEndWarrantyDate("29/4/2016");
     }
 
+    @Test
     public void testGetUserUUid() throws Exception {
         registeredProduct.setUserUUid("ABCD");
         assertEquals("ABCD", registeredProduct.getUserUUid());
     }
 
+    @Test
     public void testGetContractNumber() throws Exception {
         registeredProduct.setContractNumber("900000");
         assertEquals("900000", registeredProduct.getContractNumber());
     }
 
+    @Test
     public void testSetContractNumber() throws Exception {
         registeredProduct.setContractNumber("900000");
     }
 
+    @Test
     public void testIsShouldConsiderUUID() {
         assertFalse(registeredProduct.isShouldConsiderUUID("abc", "abc", true, true));
         assertFalse(registeredProduct.isShouldConsiderUUID("abc", "abc", true, false));
         assertTrue(registeredProduct.isShouldConsiderUUID("abcd", "abc", true, true));
     }
 
+    @Test
     public void testEqual() {
         assertFalse(registeredProduct.equals(registeredProduct.isShouldConsiderUUID("abc", "abc", true, true)));
     }
 
+    @Test
     public void testIsProductAlreadyRegistered() {
         RegisteredProduct registeredProduct = new RegisteredProduct("abcd", null, null);
         RegisteredProduct registeredProduct1 = new RegisteredProduct("abcdef", null, null);
@@ -85,6 +95,7 @@ public class RegisteredProductTest extends TestCase {
         assertFalse(registeredProduct1.isProductAlreadyRegistered(localRegisteredProductsMock));
     }
 
+    @Test
     public void testGetRegisteredProductIfExists() {
         RegisteredProduct registeredProduct = new RegisteredProduct("abcd", null, null);
         RegisteredProduct registeredProduct1 = new RegisteredProduct("abcdef", null, null);
