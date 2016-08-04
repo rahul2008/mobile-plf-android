@@ -40,6 +40,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.security.SecureStorage;
@@ -115,16 +116,32 @@ public class User {
                 new TraditionalLoginHandler() {
                     @Override
                     public void onLoginSuccess() {
-
                         DIUserProfile diUserProfile = getUserInstance();
-                        diUserProfile.setPassword(password);
-                        saveDIUserProfileToDisk(diUserProfile);
-                        traditionalLoginHandler.onLoginSuccess();
+                        if (diUserProfile != null && traditionalLoginHandler != null) {
+                            diUserProfile.setPassword(password);
+                            saveDIUserProfileToDisk(diUserProfile);
+                            traditionalLoginHandler.onLoginSuccess();
+                        } else {
+                            if (traditionalLoginHandler != null) {
+                                UserRegistrationFailureInfo
+                                        userRegistrationFailureInfo =
+                                        new UserRegistrationFailureInfo();
+                                userRegistrationFailureInfo.
+                                        setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+                                traditionalLoginHandler.
+                                        onLoginFailedWithError(userRegistrationFailureInfo
+                                        );
+                            }
+                        }
                     }
 
                     @Override
-                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                        traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    public void onLoginFailedWithError(UserRegistrationFailureInfo
+                                                               userRegistrationFailureInfo) {
+                        if (traditionalLoginHandler != null) {
+                            traditionalLoginHandler.
+                                    onLoginFailedWithError(userRegistrationFailureInfo);
+                        }
                     }
                 }, mContext, mUpdateUserRecordHandler, emailAddress,
                 password);
@@ -132,7 +149,6 @@ public class User {
         loginTraditionalResultHandler.loginTraditionally(emailAddress, password);
 
     }
-
 
     // For Social SignIn Using Provider
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
@@ -323,9 +339,9 @@ public class User {
         }
 
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext,getEmail());
-            if(!isTermAccepted){
-                signedIn=false;
+            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            if (!isTermAccepted) {
+                signedIn = false;
                 clearData();
             }
         }
@@ -557,10 +573,10 @@ public class User {
      * @param handler Callback mHandler
      */
     public void refreshUser(final RefreshUserHandler handler) {
-        if(NetworkUtility.isNetworkAvailable(mContext)) {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
             //ABCD.getInstance().setmP(null);
-        }else{
+        } else {
             handler.onRefreshUserFailed(-1);
         }
         //refreshandUpdateUser(handler);
@@ -723,6 +739,7 @@ public class User {
             oos.close();
             fos.close();
         } catch (Exception e) {
+            RLog.e("Exception : ",e.getMessage());
             e.printStackTrace();
         }
     }

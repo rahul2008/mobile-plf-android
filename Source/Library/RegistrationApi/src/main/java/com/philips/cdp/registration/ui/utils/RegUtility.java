@@ -43,7 +43,6 @@ public class RegUtility {
     }
 
 
-
     public static void linkifyTermsandCondition(TextView termsAndConditionsAcceptance, final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
         String termsAndCondition = activity.getString(R.string.TermsAndConditionsAcceptanceText);
@@ -111,7 +110,6 @@ public class RegUtility {
     }
 
 
-
     private static void removeUnderlineFromLink(SpannableString spanableString) {
         for (ClickableSpan u : spanableString.getSpans(0, spanableString.length(),
                 ClickableSpan.class)) {
@@ -140,6 +138,9 @@ public class RegUtility {
 
 
     public static Configuration getConfiguration(String registrationEnv) {
+        if (registrationEnv == null) {
+            return Configuration.EVALUATION;
+        }
         if (registrationEnv.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue()))
             return Configuration.DEVELOPMENT;
 
@@ -156,13 +157,13 @@ public class RegUtility {
     }
 
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
-        if(providers!=null){
+        if (providers != null) {
             for (Map.Entry<String, ArrayList<String>> entry : providers.entrySet()) {
                 String countryKeyCode = entry.getKey();
                 ArrayList<String> value = entry.getValue();
-                for(String val : value){
-                    if(providers.get(countryKeyCode).contains(SocialProvider.TWITTER)){
-                        throw new RuntimeException( SocialProvider.TWITTER +" Provider is not supporting");
+                for (String val : value) {
+                    if (providers.get(countryKeyCode).contains(SocialProvider.TWITTER)) {
+                        throw new RuntimeException(SocialProvider.TWITTER + " Provider is not supporting");
                     }
                 }
             }
