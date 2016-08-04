@@ -217,34 +217,33 @@ repositories {
 
 dependencies {
     compile 'com.android.support:support-annotations:23.2.0'
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:1.9.5"
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:23.1.1'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.0.0-rc.1', ext: 'aar') {
+
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.0.1', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.2', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.1.0', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.1.1', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '6.0.0-rc.3', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '6.1.0', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '3.1.0-rc.2', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '4.1.0', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.1', ext: 'aar')
 
 }
 
