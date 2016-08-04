@@ -20,153 +20,124 @@ import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 public class RemoteStrategy extends CommunicationStrategy {
-    private final RequestQueue mRequestQueue;
-    private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
-    private final NetworkNode networkNode;
+
+    private final RemoteSubscriptionHandler mRemoteSubscriptionHandler;
+    private final NetworkNode mNetworkNode;
     private final CppController mCppController;
 
+    private RequestQueue mRequestQueue;
+    private boolean isDSCRequestOnGoing;
+
     public RemoteStrategy(final NetworkNode networkNode, final CppController cppController) {
-        this.networkNode = networkNode;
-        mRequestQueue = new RequestQueue();
+        mNetworkNode = networkNode;
         mCppController = cppController;
-        mRemoteSuscriptionHandler = new RemoteSubscriptionHandler(cppController);
+
+        mRequestQueue = createRequestQueue();
+        mRemoteSubscriptionHandler = createRemoteSubscriptionHandler(cppController);
     }
 
     @Override
     public void getProperties(final String portName, final int productId,
                               final ResponseHandler responseHandler) {
-        startDcsIfNecessary(new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-                RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler, mCppController);
-                mRequestQueue.addRequest(request);
-            }
+        startDcsIfNecessary();
 
-            @Override
-            public void onError(final Error error, final String errorData) {
-                responseHandler.onError(error, errorData);
-            }
-        });
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler, mCppController);
+        mRequestQueue.addRequest(request);
     }
 
     @Override
     public void putProperties(final Map<String, Object> dataMap, final String portName,
                               final int productId,
                               final ResponseHandler responseHandler) {
-        startDcsIfNecessary(new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-                RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler, mCppController);
-                mRequestQueue.addRequest(request);
-            }
+        startDcsIfNecessary();
 
-            @Override
-            public void onError(final Error error, final String errorData) {
-                responseHandler.onError(error, errorData);
-            }
-        });
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler, mCppController);
+        mRequestQueue.addRequest(request);
     }
 
     @Override
     public void addProperties(final Map<String, Object> dataMap, final String portName,
                               final int productId,
                               final ResponseHandler responseHandler) {
-        startDcsIfNecessary(new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-                RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler, mCppController);
-                mRequestQueue.addRequest(request);
-            }
+        startDcsIfNecessary();
 
-            @Override
-            public void onError(final Error error, final String errorData) {
-                responseHandler.onError(error, errorData);
-            }
-        });
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler, mCppController);
+        mRequestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        startDcsIfNecessary(new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-                RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler, mCppController);
-                mRequestQueue.addRequest(request);
-            }
+        startDcsIfNecessary();
 
-            @Override
-            public void onError(final Error error, final String errorData) {
-                responseHandler.onError(error, errorData);
-            }
-        });
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler, mCppController);
+        mRequestQueue.addRequest(request);
     }
 
     @Override
     public void subscribe(final String portName, final int productId, final int subscriptionTtl,
                           final ResponseHandler responseHandler) {
-        startDcsIfNecessary(new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-                RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, mCppController);
-                mRequestQueue.addRequest(request);
-            }
+        startDcsIfNecessary();
 
-            @Override
-            public void onError(final Error error, final String errorData) {
-                responseHandler.onError(error, errorData);
-            }
-        });
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, mCppController);
+        mRequestQueue.addRequest(request);
     }
 
     @Override
     public void unsubscribe(final String portName, final int productId,
                             final ResponseHandler responseHandler) {
-        startDcsIfNecessary(new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-                RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, mCppController);
-                mRequestQueue.addRequest(request);
-            }
+        startDcsIfNecessary();
 
-            @Override
-            public void onError(final Error error, final String errorData) {
-                responseHandler.onError(error, errorData);
-            }
-        });
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, mCppController);
+        mRequestQueue.addRequest(request);
     }
 
     @Override
     public boolean isAvailable() {
-        return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_REMOTELY);
+        return mNetworkNode.getConnectionState().equals(ConnectionState.CONNECTED_REMOTELY);
     }
 
     @Override
     public void enableSubscription(final SubscriptionEventListener subscriptionEventListener) {
-        startDcsIfNecessary(new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-                mRemoteSuscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
-            }
+        startDcsIfNecessary();
 
-            @Override
-            public void onError(final Error error, final String errorData) {
-                //nobody to report this error to
-            }
-        });
-
+        mRemoteSubscriptionHandler.enableSubscription(mNetworkNode, subscriptionEventListener);
     }
 
     @Override
     public void disableCommunication() {
-        mRemoteSuscriptionHandler.disableSubscription();
+        mRemoteSubscriptionHandler.disableSubscription();
         mCppController.stopDCSService();
     }
 
-    private void startDcsIfNecessary(ResponseHandler responseHandler) {
-        if (mCppController.getState() != CppController.ICP_CLIENT_DCS_STATE.STARTED) {
-            mRequestQueue.addRequestInFrontOfQueue(new StartDcsRequest(mCppController, responseHandler));
-        } else {
-            responseHandler.onSuccess(null);
+    protected RequestQueue createRequestQueue() {
+        return new RequestQueue();
+    }
+
+    protected RemoteSubscriptionHandler createRemoteSubscriptionHandler(CppController cppController) {
+        return new RemoteSubscriptionHandler(cppController);
+    }
+
+    protected StartDcsRequest createStartDcsRequest(ResponseHandler responseHandler) {
+        return new StartDcsRequest(mCppController, responseHandler);
+    }
+
+    private ResponseHandler responseHandler = new ResponseHandler() {
+        @Override
+        public void onSuccess(String data) {
+            isDSCRequestOnGoing = false;
+        }
+
+        @Override
+        public void onError(Error error, String errorData) {
+            isDSCRequestOnGoing = false;
+        }
+    };
+
+    private void startDcsIfNecessary() {
+        if (mCppController.getState() != CppController.ICP_CLIENT_DCS_STATE.STARTED && !isDSCRequestOnGoing) {
+            StartDcsRequest startRequest = createStartDcsRequest(responseHandler);
+            isDSCRequestOnGoing = true;
+            mRequestQueue.addRequestInFrontOfQueue(startRequest);
         }
     }
 }
