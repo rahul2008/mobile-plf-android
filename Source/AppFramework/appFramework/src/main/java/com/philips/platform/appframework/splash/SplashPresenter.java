@@ -8,11 +8,11 @@ import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.HomeActivityState;
+import com.philips.platform.modularui.stateimpl.WelcomeRegistrationState;
+import com.philips.platform.modularui.stateimpl.WelcomeState;
 import com.philips.platform.modularui.util.UIConstants;
 
-/**
- * Created by 310240027 on 7/4/2016.
- */
 public class SplashPresenter extends UIBasePresenter implements UICoCoUserRegImpl.SetStateCallBack {
     SharedPreferenceUtility sharedPreferenceUtility;
     SplashPresenter(){
@@ -21,6 +21,7 @@ public class SplashPresenter extends UIBasePresenter implements UICoCoUserRegImp
 
     AppFrameworkApplication appFrameworkApplication;
     UICoCoUserRegImpl uiCoCoUserReg;
+    UIState uiState;
 
     @Override
     public void onClick(int componentID, Context context) {
@@ -33,19 +34,23 @@ public class SplashPresenter extends UIBasePresenter implements UICoCoUserRegImp
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         if (uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
-            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
+            uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         } else if (sharedPreferenceUtility.getPreferenceBoolean(UIConstants.DONE_PRESSED) && !uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
             uiCoCoUserReg.registerForNextState(this);
-            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_WELCOME_REGISTRATION_STATE, context, this);
+            uiState = new WelcomeRegistrationState(UIState.UI_WELCOME_REGISTRATION_STATE);
         } else {
-            appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_WELCOME_STATE, context, this);
+            uiState = new WelcomeState(UIState.UI_WELCOME_STATE);
         }
+        uiState.setPresenter(this);
+        appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
 
     }
 
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateToState(UIState.UI_HOME_STATE, context, this);
+        uiState = new HomeActivityState(UIState.UI_HOME_STATE);
+        uiState.setPresenter(this);
+        appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
     }
 }

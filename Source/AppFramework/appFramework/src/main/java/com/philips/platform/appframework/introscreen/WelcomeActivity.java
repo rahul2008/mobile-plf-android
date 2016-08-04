@@ -34,8 +34,8 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
 
     @Override
     protected void onResume() {
-        presenter.onLoad(this);
         super.onResume();
+        presenter.onLoad(this);
     }
 
     void changeActionBarState(boolean isVisible){

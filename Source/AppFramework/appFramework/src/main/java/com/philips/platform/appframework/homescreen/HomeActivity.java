@@ -191,8 +191,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     @Override
     protected void onResume() {
         super.onResume();
-        showNavigationDrawerItem(0);
-
     }
 
     @Override
