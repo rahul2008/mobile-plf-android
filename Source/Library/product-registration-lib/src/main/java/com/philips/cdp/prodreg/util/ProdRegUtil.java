@@ -25,6 +25,7 @@ public class ProdRegUtil {
         } else return false;
     }
 
+    @SuppressWarnings("SimpleDateFormat")
     public boolean isFutureDate(String date) {
         try {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -55,7 +56,7 @@ public class ProdRegUtil {
     /**
      * Return min date for date picker
      *
-     * @return
+     * @return - Return min date for date picker
      */
     public long getMinDate() {
         Calendar cal = Calendar.getInstance();

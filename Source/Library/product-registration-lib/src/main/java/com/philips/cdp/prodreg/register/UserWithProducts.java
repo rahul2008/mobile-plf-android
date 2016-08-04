@@ -377,7 +377,7 @@ public class UserWithProducts {
         registeredProduct.setContractNumber(data.getContractNumber());
     }
 
-    public void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct) {
+    protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct) {
         setRequestType(PRODUCT_REGISTRATION);
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
         RequestManager mRequestManager = getRequestManager(mContext);
