@@ -32,8 +32,12 @@ public class PlaceOrderRequest extends AbstractModel {
     @Override
     public Map<String, String> requestBody() {
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
+        String buyDirectCartNumber = CartModelContainer.getInstance().getBuyDirectCartNumber();
         Map<String, String> params = new HashMap<>();
-        params.put(ModelConstants.CART_ID, cartNumber);
+        if (buyDirectCartNumber != null)
+            params.put(ModelConstants.CART_ID, buyDirectCartNumber);
+        else
+            params.put(ModelConstants.CART_ID, cartNumber);
         String securityCode = this.params.get(ModelConstants.SECURITY_CODE);
         if (securityCode != null)
             params.put(ModelConstants.SECURITY_CODE, securityCode);

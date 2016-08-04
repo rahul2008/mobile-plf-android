@@ -12,6 +12,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.carts.CreateCartData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -30,8 +31,6 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     private Context mContext;
     private String mCTN;
     private String mAddressId;
-    private String mDeliveryMode;
-    private String mPaymentDetailId;
     private PaymentMethod paymentMethod;
 
     public static BuyDirectFragment createInstance(Bundle args, AnimationType animType) {
@@ -64,6 +63,9 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     @Override
     public void onCreateCart(Message msg) {
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onCreateCart =" + TAG);
+        CreateCartData createCartData = (CreateCartData) msg.obj;
+        String buyDirectCode = createCartData.getCode();
+        CartModelContainer.getInstance().setBuyDirectCartNumber(buyDirectCode);
         mBuyDirectController.addToCart(mCTN);
     }
 
@@ -119,10 +121,9 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
         ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
         String code = deliveryModesList.get(0).getCode();
         if (code != null) {
-            mDeliveryMode = code;
             CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
             //Set delivery Mode from Msg
-            mBuyDirectController.setDeliveryMode(mDeliveryMode);
+            mBuyDirectController.setDeliveryMode(code);
         }
 
     }
@@ -138,13 +139,13 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     public void onGetPaymentMode(Message msg) {
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryMode =" + TAG);
         PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
-         paymentMethod = paymentMethods.getPayments().get(0);
-
+        paymentMethod = paymentMethods.getPayments().get(0);
+        String paymentId = null;
         if (paymentMethod != null) {
-            mPaymentDetailId = paymentMethod.getId();
+            paymentId = paymentMethod.getId();
         }
         //Set Payment Mode from Msg
-        mBuyDirectController.setPaymentMode(mPaymentDetailId);
+        mBuyDirectController.setPaymentMode(paymentId);
     }
 
     @Override
@@ -152,7 +153,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
         Utility.dismissProgressDialog();
         //Inflate OrderSummary Fragment here
         Bundle bundle = new Bundle();
-        bundle.putSerializable(IAPConstant.SELECTED_PAYMENT,paymentMethod);
+        bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, paymentMethod);
         addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
     }
 }

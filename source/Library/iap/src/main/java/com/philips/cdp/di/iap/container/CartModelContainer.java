@@ -22,6 +22,7 @@ public class CartModelContainer {
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
     private String cartNumber;
+    private String mBuyDirectCartNumber;
     private String regionIsoCode;
     private String mAddressId;
     private String mOrderNumber;
@@ -205,5 +206,13 @@ public class CartModelContainer {
 
     public void setCartCreated(boolean mIsCartCreated) {
         this.mIsCartCreated = mIsCartCreated;
+    }
+
+    public String getBuyDirectCartNumber() {
+        return mBuyDirectCartNumber;
+    }
+
+    public void setBuyDirectCartNumber(String mBuyDirectCartNumber) {
+        this.mBuyDirectCartNumber = mBuyDirectCartNumber;
     }
 }

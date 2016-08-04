@@ -66,9 +66,14 @@ public class PaymentController implements AbstractModel.DataLoadListener {
     public void placeOrder(String pSecurityCode) {
         final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
+        String buyDirectCartNumber = CartModelContainer.getInstance().getBuyDirectCartNumber();
 
         HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.CART_ID, cartNumber);
+        if (buyDirectCartNumber != null)
+            query.put(ModelConstants.CART_ID, buyDirectCartNumber);
+        else
+            query.put(ModelConstants.CART_ID, cartNumber);
+
         if (pSecurityCode != null)
             query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
 
