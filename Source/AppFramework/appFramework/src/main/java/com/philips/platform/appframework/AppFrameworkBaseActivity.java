@@ -40,15 +40,17 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     protected void showFragment(Fragment fragment, String fragmentTag) {
         int containerId = R.id.frame_container;
 
-        try {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(containerId, fragment, fragmentTag);
-            fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commit();
-        } catch (IllegalStateException e) {
-            Logger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
-        }
+//        if(!findFragmentByTag(fragmentTag)) {
+            try {
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                fragmentTransaction.addToBackStack(fragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                Logger.e(TAG, "IllegalStateException" + e.getMessage());
+                e.printStackTrace();
+            }
+//        }
     }
 
     @Override
@@ -90,6 +92,24 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             transaction.remove(currentFrag);
         }
         transaction.commit();
+    }
+
+    private void removeFragmentByTag(String tag) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        Fragment currentFrag = fragmentManager
+                .findFragmentByTag(tag);
+
+        if (currentFrag != null) {
+            transaction.remove(currentFrag);
+        }
+        transaction.commit();
+    }
+
+    protected boolean findFragmentByTag(String tag) {
+        Fragment currentFrag = getSupportFragmentManager().findFragmentByTag(tag);
+
+        return (currentFrag != null);
     }
 
     protected void setIntroScreenDonePressed() {
