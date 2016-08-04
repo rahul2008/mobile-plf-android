@@ -23,7 +23,7 @@ public class ConfigManager implements ConfigInterface {
     JSONObject jo;
     AppInfra mAppInfra;
     Context mContext;
-    private static final String uAPP_CONFIG_FILE = "uAPP_CONFIG_FILE";
+    protected static final String uAPP_CONFIG_FILE = "uAPP_CONFIG_FILE";
 
     SecureStorageInterface ssi;
 
@@ -33,7 +33,7 @@ public class ConfigManager implements ConfigInterface {
         ssi = mAppInfra.getSecureStorage();
     }
 
-    public JSONObject getMasterConfigFromApp() {
+    protected JSONObject getMasterConfigFromApp() {
         JSONObject result = null;
         try {
             InputStream mInputStream = mContext.getAssets().open("configuration.json");
@@ -53,7 +53,7 @@ public class ConfigManager implements ConfigInterface {
     }
 
 
-    public JSONObject getjSONFromDevice() {
+    private JSONObject getjSONFromDevice() {
         JSONObject jObj = null;
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         String jsonString = ssi.fetchValueForKey(uAPP_CONFIG_FILE, sse);
@@ -86,7 +86,6 @@ public class ConfigManager implements ConfigInterface {
                 if (!isCocoPresent) { // if request coco does not exist
                     configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
                 } else {
-
                     JSONObject cocoJSONobject = deviceObject.optJSONObject(groupName);
                     if (null == cocoJSONobject) { // invalid Coco JSON
                         configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
@@ -111,7 +110,6 @@ public class ConfigManager implements ConfigInterface {
                             }
                         }
                     }
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -140,20 +138,25 @@ public class ConfigManager implements ConfigInterface {
                     if (null == cocoJSONobject) { // invalid Coco JSON
                         configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
                     } else {
-                       // boolean isKeyPresent = cocoJSONobject.has(key);
-                        if(object instanceof ArrayList){
-                            JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
-                            cocoJSONobject.put(key, jsonArray);
-                        }else {
-                            cocoJSONobject.put(key, object);
-                        }
-                        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                        ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
-                        if (null == sse.getErrorCode()) {
-                            setOperation = true;
+                        if (key.matches("[a-zA-Z0-9_.-]+")) {
+                            // boolean isKeyPresent = cocoJSONobject.has(key);
+                            if (object instanceof ArrayList) {
+                                JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
+                                cocoJSONobject.put(key, jsonArray);
+                            } else {
+                                cocoJSONobject.put(key, object);
+                            }
+                            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+                            ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
+                            if (null == sse.getErrorCode()) {
+                                setOperation = true;
+                            } else {
+                                setOperation = false;
+                            }
                         } else {
-                            setOperation = false;
+                            configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
                         }
+
                     }
                 }
 
