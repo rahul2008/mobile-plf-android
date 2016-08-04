@@ -1,9 +1,9 @@
 package com.philips.cdp.prodreg.register;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
@@ -15,7 +15,10 @@ import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 
 import java.util.ArrayList;
 
@@ -41,9 +44,11 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
     private MetadataListener metadataListenerMock;
     private ProdRegConnectionFragment prodRegConnectionFragmentMock;
     private ProdRegRegistrationFragment prodRegRegistrationFragmentMock;
+    private Context context;
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        context = getInstrumentation().getContext();
         fragmentActivity = mock(FragmentActivity.class);
         processControllerCallBacksMock = mock(ProdRegProcessController.ProcessControllerCallBacks.class);
         metadataListenerMock = mock(MetadataListener.class);
@@ -92,10 +97,13 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, products);
     }
 
+    @SuppressWarnings("deprecation")
     public void testProcess() {
         when(userMock.isUserSignIn()).thenReturn(true);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
+//        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        ProdRegTagging.init();
         prodRegProcessController.process(bundle);
         verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
         when(userMock.isUserSignIn()).thenReturn(false);
@@ -105,6 +113,7 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         verify(processControllerCallBacksMock).exitProductRegistration();
     }
 
+    @SuppressWarnings("deprecation")
     public void testGetRegisteredProductsListener() {
         prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
             @NonNull
@@ -119,6 +128,8 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
                 return prodRegConnectionFragmentMock;
             }
         };
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        ProdRegTagging.init();
         prodRegProcessController.process(bundle);
         final RegisteredProductsListener registeredProductsListener = prodRegProcessController.getRegisteredProductsListener();
         final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
@@ -134,8 +145,10 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         verify(processControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
     }
 
+    @SuppressWarnings("deprecation")
     public void testMetadataListener() {
         final SummaryListener summaryListenerMock = mock(SummaryListener.class);
+//        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
         prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
             @NonNull
             @Override
@@ -143,6 +156,7 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
                 return summaryListenerMock;
             }
         };
+        ProdRegTagging.init();
         prodRegProcessController.process(bundle);
         ProductMetadataResponse productMetadataResponse = mock(ProductMetadataResponse.class);
         final MetadataListener metadataListener = prodRegProcessController.getMetadataListener();
@@ -153,7 +167,10 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         verify(processControllerCallBacksMock).showAlertOnError(-1);
     }
 
+    @SuppressWarnings("deprecation")
     public void testGetSummaryListener() {
+//        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        ProdRegTagging.init();
         prodRegProcessController.process(bundle);
         final SummaryListener summaryListener = prodRegProcessController.getSummaryListener();
         ProductSummaryResponse productSummaryResponseMock = mock(ProductSummaryResponse.class);

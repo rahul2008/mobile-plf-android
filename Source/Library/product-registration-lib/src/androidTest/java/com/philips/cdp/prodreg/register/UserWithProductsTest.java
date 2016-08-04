@@ -23,7 +23,6 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
-import org.junit.Rule;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -50,8 +49,7 @@ public class UserWithProductsTest extends MockitoTestCase {
     private ProdRegListener prodRegListener;
     private User userMock;
 
-    @Rule
-
+    @SuppressWarnings("deprecation")
     @Override
     protected void setUp() throws Exception {
         super.setUp();

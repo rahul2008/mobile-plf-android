@@ -15,8 +15,7 @@ import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -135,7 +134,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
-        verify(registerControllerCallBacksMock).showLoadingDialog();
+//        verify(registerControllerCallBacksMock).showLoadingDialog();
         verify(userWithProductsMock).registerProduct(registeredProductMock);
     }
 
@@ -144,7 +143,8 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
         ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+//        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        ProdRegTagging.init();
         prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
         verify(registerControllerCallBacksMock).dismissLoadingDialog();
         verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
