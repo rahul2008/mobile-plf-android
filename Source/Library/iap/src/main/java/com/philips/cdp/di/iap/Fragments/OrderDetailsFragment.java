@@ -233,7 +233,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         } else if (v.getId() == R.id.btn_cancel) {
             Bundle bundle = new Bundle();
             if (mOrderDetail != null) {
-                mPhoneContact = null;
                 if (mPhoneContact == null) {
                     NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok), "Customer Service phone number is unavailable", "");
