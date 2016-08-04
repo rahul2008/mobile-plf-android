@@ -7,6 +7,8 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -15,6 +17,7 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.model.Error;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +40,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     private String countryCode;
     private String mUrl = null;
     private String mCountry;
+    SharedPreferences pref = null;
+
+    ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES mErrorValues = null;
+    String errorMessage = null;
 
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -129,11 +136,32 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
      */
     @Override
     public void getHomeCountry(final OnGetHomeCountryListener listener) {
-        String country = null;
-        country = getCountry();
+        String country = getCountry();
+        String countrySource = pref.getString(RequestManager.COUNTRY_SOURCE, null);
+
         if (country != null) {
             setHomeCountry(country);
-            listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
+            if (countrySource != null && countrySource.equalsIgnoreCase("SIMCARD")) {
+                listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.SIMCARD);
+            } else if (countrySource != null && countrySource.equalsIgnoreCase("GEOIP")) {
+                listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
+            } else {
+                listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE);
+            }
+
+        } else {
+            refresh(new OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+                    listener.onError(error, message);
+                }
+
+                @Override
+                public void onSuccess() {
+                    String country = getCountry();
+                    listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
+                }
+            });
         }
     }
 
@@ -388,23 +416,40 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         }
     }
 
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
 
     @Override
     public void refresh(final OnRefreshListener listener) {
 
-        if (RequestManager.mServiceDiscovery != null) {
-            if (RequestManager.mServiceDiscovery.isSuccess()) {
-                isDataAvailable = true;
-                isDownloadInProgress = false;
-                listener.onSuccess();
+        if (isOnline()) {
+            if (RequestManager.mServiceDiscovery != null) {
+                if (RequestManager.mServiceDiscovery.isSuccess()) {
+                    isDataAvailable = true;
+                    isDownloadInProgress = false;
+                    listener.onSuccess();
+                } else {
+                    if (mErrorValues != null && errorMessage != null) {
+                        listener.onError(mErrorValues, errorMessage);
+                    } else {
+                        listener.onError(ERRORVALUES.SERVER_ERROR, "SERVER_ERROR");
+                    }
+
+                    isDownloadInProgress = false;
+                }
             } else {
-                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-                isDownloadInProgress = false;
+                getService(listener);
+                isDownloadInProgress = true;
             }
         } else {
-            getService(listener);
-            isDownloadInProgress = true;
+            listener.onError(ERRORVALUES.NO_NETWORK, "NO_NETWORK");
         }
+
+
     }
 
     @Override
@@ -421,31 +466,36 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     @Override
     public void onError(ERRORVALUES error, String message) {
         Log.i("Refresh Failed" + error, "Refresh error " + message);
+        mErrorValues = error;
+        errorMessage = message;
         isDownloadInProgress = false;
     }
 
     private String getCountry() {
-        final SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+        pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+
         if (mCountry == null) {
             mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
-            // Log.i("Country", " "+mCountry);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Country", mCountry);
             if (mCountry != null) {
-                if (mAppInfra.getTagging() != null) {
-                    mAppInfra.getTagging().trackActionWithInfo("InternationalizationPage", "KeyCountry", "ValueCountry");
-                }
-                return mCountry.toUpperCase();
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString(RequestManager.COUNTRY_NAME, mCountry.toUpperCase());
+                editor.putString(RequestManager.COUNTRY_SOURCE, OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE.toString());
+                editor.commit();
+
+                return mCountry.toUpperCase(); // Return Country
             }
         }
         if (mCountry == null) {
-            final SharedPreferences.Editor editor = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = pref.edit();
             try {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
                 if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
                     mCountry = simCountry.toUpperCase(Locale.US);
 
-                    editor.putString(RequestManager.COUNTRY_NAME, mCountry);
+                    editor.putString(RequestManager.COUNTRY_NAME, mCountry.toUpperCase());
+                    editor.putString(RequestManager.COUNTRY_SOURCE, OnGetHomeCountryListener.SOURCE.SIMCARD.toString());
                     editor.commit();
                     if (mCountry != null)
                         return mCountry.toUpperCase();
@@ -453,7 +503,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                     final String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
                         mCountry = networkCountry.toUpperCase(Locale.US);
-                        editor.putString(RequestManager.COUNTRY_NAME, mCountry);
+                        editor.putString(RequestManager.COUNTRY_NAME, mCountry.toUpperCase());
+                        editor.putString(RequestManager.COUNTRY_PRREFERENCE, OnGetHomeCountryListener.SOURCE.SIMCARD.toString());
                         editor.commit();
                         if (mCountry != null) {
                             return mCountry.toUpperCase();

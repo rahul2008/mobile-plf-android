@@ -138,7 +138,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
     @Override
     public void onSuccess(String countryCode, SOURCE source) {
-        resultView.setText(countryCode);
+        resultView.setText("Country Code : "+countryCode+" Source : "+source);
     }
 
     @Override

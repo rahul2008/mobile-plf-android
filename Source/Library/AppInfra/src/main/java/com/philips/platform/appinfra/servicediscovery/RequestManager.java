@@ -51,6 +51,7 @@ public class RequestManager {
     String mcountry = null;
     public static final String COUNTRY_PRREFERENCE = "COUNTRY_PRREFERENCE";
     public static final String COUNTRY_NAME = "COUNTRY_NAME";
+    public static final String COUNTRY_SOURCE = "COUNTRY_SOURCE";
 
     public RequestManager(Context context) {
         this.mContext = context;
@@ -74,7 +75,8 @@ public class RequestManager {
                                     mcountry = response.getJSONObject("payload").getString("country");
                                     if (mcountry != null) {
                                         SharedPreferences.Editor editor = mContext.getSharedPreferences(COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
-                                        editor.putString(COUNTRY_NAME, mcountry);
+                                        editor.putString(COUNTRY_NAME, mcountry.toUpperCase());
+                                        editor.putString(RequestManager.COUNTRY_SOURCE, ServiceDiscoveryInterface.OnGetHomeCountryListener.SOURCE.GEOIP.toString());
                                         editor.commit();
                                         Log.i("Responce", "" + mcountry);
                                     }
@@ -99,7 +101,6 @@ public class RequestManager {
                                     resultsJSONArray = new JSONArray();
                                     resultsJSONArray.put(matchByCountryJSONObject.optJSONObject("results"));
                                 }
-//                                matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                                 ArrayList<Config> matchByCountryConfigs = new ArrayList<Config>();
 
                                 ArrayList<String> localeList = new ArrayList<String>();
@@ -116,14 +117,9 @@ public class RequestManager {
                                     matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                                     configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
                                 }
-
+                                // Multi, single Locale verification with locale response object
                                 for (int i =0 ; i<localeList.size(); i++){
                                     for(int j = 0; j<multiLocale.length; j++){
-//                                        if(Locale.getDefault().equals(localeList.get(i))){
-//                                            matchByCountry.setLocale(localeList.get(i));
-//                                            configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
-//                                            break ;
-//                                        }else
                                         if(multiLocale[j].equals(localeList.get(i))){
                                             matchByCountry.setLocale(localeList.get(i));
                                             configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
@@ -230,32 +226,44 @@ public class RequestManager {
                         Error volleyError = new Error();
                         ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorValue = null;
                         if (error instanceof TimeoutError) {
-                            volleyError.setMessage("TimeoutORNoConnection");
+
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT;
                             Log.i("TimeoutORNoConnection", "" + "TimeoutORNoConnection");
+                            volleyError.setMessage("TimeoutORNoConnection");
+                            volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof NoConnectionError) {
-                            volleyError.setMessage("AuthFailureError");
-                            Log.i("AuthFailureError", "" + "AuthFailureError");
+
+                            Log.i("NoConnectionError", "" + "NoConnectionError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK;
+                            volleyError.setMessage("NoConnectionError");
+                            volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof AuthFailureError) {
-                            volleyError.setMessage("AuthFailureError");
+
                             Log.i("AuthFailureError", "" + "AuthFailureError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+                            volleyError.setMessage("AuthFailureError");
+                            volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof ServerError) {
-                            volleyError.setMessage("ServerError");
+
                             Log.i("ServerError", "" + "ServerError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+                            volleyError.setMessage("ServerError");
+                            volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof NetworkError) {
-                            volleyError.setMessage("NetworkError");
+
                             Log.i("NetworkError", "" + "NetworkError");
-                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE;
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+                            volleyError.setMessage("NetworkError");
+                            volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof ParseError) {
-                            volleyError.setMessage("ParseError");
+
                             Log.i("ParseError", "" + "ParseError");
-                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE;
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+                            volleyError.setMessage("ServerError");
+                            volleyError.setErrorvalues(errorValue);
                         }
                         mServiceDiscovery.setError(volleyError);
-                        listener.onError(errorValue, "Error");
+                        listener.onError(errorValue, volleyError.getMessage());
                     }
                 });
 
