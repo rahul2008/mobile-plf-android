@@ -13,18 +13,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_empty_purchase_history_title"
+            android:id="@+id/tv_cancel_order_history_title"
             style="@style/tvOrderHeaderTitle"
             android:text="@string/iap_cancel_your_order" />
 
         <TextView
-            android:id="@+id/tv_empty_order_history"
+            android:id="@+id/tv_cancel_order"
             style="@style/tvTitle"
             android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
             android:text="@string/iap_cancel_order_msg" />
 
         <TextView
             style="@style/tvTitle"
+            android:layout_marginTop="0dp"
             android:text="@string/iap_customer_help" />
 
         <TextView

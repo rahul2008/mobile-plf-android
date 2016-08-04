@@ -238,6 +238,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
                             mContext.getString(R.string.iap_ok), "Customer Service phone number is unavailable", "");
                 } else {
                     bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
+                    bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
                     addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
                 }
             }

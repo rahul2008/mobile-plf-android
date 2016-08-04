@@ -33,13 +33,17 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_cancel_order, container, false);
 
-        TextView mPhoneNumber = (TextView) rootView.findViewById(R.id.tv_phone_number);
+        TextView phoneNumberText = (TextView) rootView.findViewById(R.id.tv_phone_number);
+        TextView cancelOrderId = (TextView) rootView.findViewById(R.id.tv_cancel_order_history_title);
         Bundle bundle = getArguments();
         if (null != bundle) {
             if (bundle.containsKey(IAPConstant.CUSTOMER_CARE_NUMBER)) {
                 String phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
-                mPhoneNumber.setText(PhoneNumberUtils.formatNumber(phoneNumber,
+                phoneNumberText.setText(PhoneNumberUtils.formatNumber(phoneNumber,
                         HybrisDelegate.getInstance().getStore().getCountry()));
+            }
+            if(bundle.containsKey(IAPConstant.IAP_ORDER_ID)) {
+                cancelOrderId.setText(getString(R.string.iap_cancel_your_order) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
             }
         }
         return rootView;
@@ -53,7 +57,7 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_cancel_order);
+        setTitle(R.string.iap_cancel_order_title);
     }
 
     @Override
