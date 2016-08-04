@@ -21,29 +21,30 @@ public class ConfigActivity extends AppCompatActivity {
 
         mConfigInterface = AppInfraApplication.gAppInfra.getConfigInterface();
 
-        final EditText cocoKeyET = (EditText) findViewById(R.id.CocoKeyID);
-        final EditText KeyET = (EditText) findViewById(R.id.keyID);
-        final EditText valueET = (EditText) findViewById(R.id.valueID);
 
-        Button btnFetchValueFromDevice = (Button) findViewById(R.id.btn_fetchValue);
-        assert btnFetchValueFromDevice != null;
-        btnFetchValueFromDevice.setOnClickListener(new View.OnClickListener() {
+        final EditText getGroupKeyET = (EditText) findViewById(R.id.getCocoKeyID);
+        final EditText getKeyET = (EditText) findViewById(R.id.getKeyID);
+        final TextView showValue = (TextView) findViewById(R.id.getValue);
+        Button btnGetValueToDevice = (Button) findViewById(R.id.btn_getValueFromDEvice);
+
+        assert btnGetValueToDevice != null;
+        btnGetValueToDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                valueET.setText(null);
-                String cocokey = cocoKeyET.getText().toString();
-                String key = KeyET.getText().toString();
+                showValue.setText(null);
+                String cocokey = getGroupKeyET.getText().toString();
+                String key = getKeyET.getText().toString();
                 if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty()) {
                     Toast.makeText(ConfigActivity.this, "Please enter Coco name and key", Toast.LENGTH_SHORT).show();
 
                 } else {
                     ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
-                    Object object = mConfigInterface.getPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), configError);
+                    Object object = mConfigInterface.getPropertyForKey(getGroupKeyET.getText().toString(), getKeyET.getText().toString(), configError);
                     if (null != configError.getErrorCode()) {
                         Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                     } else {
                         if(object != null){
-                            valueET.setText(object.toString());
+                            showValue.setText(object.toString());
 
                         } else {
 
@@ -54,16 +55,19 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-        final TextView show = (TextView) findViewById(R.id.show_TV);
-        Button btnSetValueToDevice = (Button) findViewById(R.id.btn_fetchValueFromDEvice);
-        assert btnSetValueToDevice != null;
-        btnSetValueToDevice.setOnClickListener(new View.OnClickListener() {
+
+        final EditText setGroupKeyET = (EditText) findViewById(R.id.setGroupKeyID);
+        final EditText setKeyET = (EditText) findViewById(R.id.setKeyID);
+        final EditText setValueET = (EditText) findViewById(R.id.setValueID);
+        Button btnSetValueFromDevice = (Button) findViewById(R.id.btn_setValueToDEvice);
+        assert btnSetValueFromDevice != null;
+        btnSetValueFromDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String cocokey = cocoKeyET.getText().toString();
-                String key = KeyET.getText().toString();
-                String value = valueET.getText().toString();
+                String cocokey = setGroupKeyET.getText().toString();
+                String key = setKeyET.getText().toString();
+                String value = setValueET.getText().toString();
                 if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty() || value == null || value.isEmpty()) {
 
                     Toast.makeText(ConfigActivity.this, "Please enter Coco name ,key and value", Toast.LENGTH_SHORT).show();
@@ -71,7 +75,7 @@ public class ConfigActivity extends AppCompatActivity {
                 } else {
 
                     ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
-                    boolean success = mConfigInterface.setPropertyForKey(cocoKeyET.getText().toString(), KeyET.getText().toString(), value, configError);
+                    boolean success = mConfigInterface.setPropertyForKey(setGroupKeyET.getText().toString(), setKeyET.getText().toString(), value, configError);
                     if (null != configError.getErrorCode()) {
                         Toast.makeText(ConfigActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                     } else {
