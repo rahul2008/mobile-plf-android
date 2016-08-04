@@ -196,4 +196,9 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     public String getUserUrl() {
         return null;
     }
+
+    @Override
+    public String getPhoneContactUrl(final String category) {
+        return null;
+    }
 }

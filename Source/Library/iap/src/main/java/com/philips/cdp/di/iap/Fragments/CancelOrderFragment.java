@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class CancelOrderFragment extends BaseAnimationSupportFragment {
 
     public static final String TAG = EmptyPurchaseHistoryFragment.class.getName();
-     private TextView mPhoneNumber;
 
     public static CancelOrderFragment createInstance
             (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
@@ -33,11 +34,14 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_cancel_order, container, false);
 
-        mPhoneNumber = (TextView) rootView.findViewById(R.id.tv_phone_number);
+        TextView mPhoneNumber = (TextView) rootView.findViewById(R.id.tv_phone_number);
         Bundle bundle = getArguments();
         if (null != bundle) {
-            if (bundle.containsKey(IAPConstant.CUSTOMER_CARE_NUMBER))
-                mPhoneNumber.setText(bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER));
+            if (bundle.containsKey(IAPConstant.CUSTOMER_CARE_NUMBER)) {
+                String phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
+                mPhoneNumber.setText(PhoneNumberUtils.formatNumber(phoneNumber,
+                        HybrisDelegate.getInstance().getStore().getCountry()));
+            }
         }
         return rootView;
     }

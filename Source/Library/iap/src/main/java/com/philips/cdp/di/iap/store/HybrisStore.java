@@ -50,7 +50,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
-    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + "&lang=en"+"&currentPage=%s&pageSize=%s";
+    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + "&lang=en" + "&currentPage=%s&pageSize=%s";
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
@@ -58,7 +58,9 @@ public class HybrisStore extends AbstractStoreSpec {
 
     private static final String SUFFIX_SEARCH_PRODUCT_URL = "products/%s";
     private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s?fields=FULL&lang=en";
-    private static final String SUFFIX_CURRENT_PAGE="?fields=FULL&lang=en&currentPage=%s";
+    private static final String SUFFIX_CURRENT_PAGE = "?fields=FULL&lang=en&currentPage=%s";
+
+    private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
@@ -90,6 +92,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mOrderDetailUrl;
     private String mSearchProductUrl;
     private String mGetUserUrl;
+    private String mGetPhoneContactUrl;
 
     public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
@@ -202,6 +205,7 @@ public class HybrisStore extends AbstractStoreSpec {
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
         mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_SEARCH_PRODUCT_URL);
         mGetUserUrl = mBaseURl.concat(LANG);
+        mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/en_" + getCountry() +"/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }
 
     @Override
@@ -268,7 +272,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     @Override
     public String getModifyProductUrl(String productID) {
-        if (mModifyProductUrl != null && productID!=null)
+        if (mModifyProductUrl != null && productID != null)
             return String.format(mModifyProductUrl, productID);
         else
             return null;
@@ -367,5 +371,10 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getUserUrl() {
         return mGetUserUrl;
+    }
+
+    @Override
+    public String getPhoneContactUrl(String category) {
+        return String.format(mGetPhoneContactUrl, category);
     }
 }
