@@ -35,7 +35,7 @@ public class SplashPresenter extends UIBasePresenter implements UICoCoUserRegImp
 
     @Override
     public void onLoad(Context context) {
-        sharedPreferenceUtility = new SharedPreferenceUtility(context);
+        sharedPreferenceUtility = getSharedPreferenceUtility(context);
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         if (uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
@@ -49,6 +49,10 @@ public class SplashPresenter extends UIBasePresenter implements UICoCoUserRegImp
         uiState.setPresenter(this);
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
 
+    }
+
+    public SharedPreferenceUtility getSharedPreferenceUtility(Context context) {
+        return new SharedPreferenceUtility(context);
     }
 
     @Override
