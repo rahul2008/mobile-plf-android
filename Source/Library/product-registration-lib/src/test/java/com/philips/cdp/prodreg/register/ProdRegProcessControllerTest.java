@@ -92,7 +92,7 @@ public class ProdRegProcessControllerTest extends TestCase {
         when(productMock.getCtn()).thenReturn("HC5410/83");
         when(productMock.getSerialNumber()).thenReturn("1344");
         products.add(productMock);
-        bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, products);
+        bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, products);
     }
 
     public void testProcess() {

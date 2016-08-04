@@ -5,12 +5,14 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
@@ -21,8 +23,6 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import junit.framework.TestCase;
 
@@ -284,7 +284,9 @@ public class UserWithProductsTest extends TestCase {
     public void testValidatingSerialNumber() {
         ProductMetadataResponseData data = mock(ProductMetadataResponseData.class);
         RegisteredProduct productMock = mock(RegisteredProduct.class);
+        when(productMock.getSerialNumber()).thenReturn("1234");
         when(data.getRequiresSerialNumber()).thenReturn("true");
+        when(data.getSerialNumberFormat()).thenReturn("");
         userWithProducts.isValidSerialNumber(data, productMock);
         when(productMock.getSerialNumber()).thenReturn("1234");
         when(data.getSerialNumberFormat()).thenReturn("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$");
@@ -377,6 +379,9 @@ public class UserWithProductsTest extends TestCase {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
         final LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
+        ProdRegCache prodRegCache = mock(ProdRegCache.class);
+        when(prodRegCache.getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY)).thenReturn("");
+        when(localRegisteredProducts.getProdRegCache()).thenReturn(prodRegCache);
         UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull
             @Override
@@ -581,7 +586,6 @@ public class UserWithProductsTest extends TestCase {
         registeredProducts.add(registeredProduct1);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(false);
         userWithProducts.setCurrentRegisteredProduct(registeredProduct);
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
         userWithProducts.registerCachedProducts(registeredProducts);
 
         verify(userWithProductsMock).updateLocaleCache(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);

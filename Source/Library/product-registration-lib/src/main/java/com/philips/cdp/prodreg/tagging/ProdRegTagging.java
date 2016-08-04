@@ -25,7 +25,6 @@ public class ProdRegTagging {
     private ProdRegTagging() {
     }
 
-    @SuppressWarnings("deprecation")
     public static ProdRegTagging getInstance() {
         if (prodRegTagging == null) {
             prodRegTagging = new ProdRegTagging();

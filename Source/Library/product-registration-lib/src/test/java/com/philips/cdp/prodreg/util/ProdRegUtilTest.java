@@ -8,8 +8,6 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.text.ParseException;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,11 +39,6 @@ public class ProdRegUtilTest extends TestCase {
         assertTrue(prodRegUtil.isFutureDate(date));
         String date1 = "2016-05-16";
         assertFalse(prodRegUtil.isFutureDate(date1));
-        try {
-            assertFalse(prodRegUtil.isFutureDate("05/06/2016"));
-        } catch (Exception e) {
-            assertTrue(e instanceof ParseException);
-        }
     }
 
     @Test
@@ -80,14 +73,11 @@ public class ProdRegUtilTest extends TestCase {
         assertTrue(data2.equals("15"));
     }
 
-   /* @Test
+    @Test
     public void testIsValidSerialNumber() {
         String serialNumber = "124";
         assertTrue(prodRegUtil.isValidSerialNumber(true, "[0-9][0-9][0-9]", serialNumber));
-        assertTrue(prodRegUtil.isValidSerialNumber(true, null, serialNumber));
-        assertTrue(prodRegUtil.isValidSerialNumber(true, "", serialNumber));
-        assertFalse(prodRegUtil.isValidSerialNumber(true, "[0-9][0-9][0-9]", null));
         assertFalse(prodRegUtil.isValidSerialNumber(true, "[0-9][0-9][0-9]", ""));
         assertTrue(prodRegUtil.isValidSerialNumber(false, "[0-9][0-9][0-9]", ""));
-    }*/
+    }
 }

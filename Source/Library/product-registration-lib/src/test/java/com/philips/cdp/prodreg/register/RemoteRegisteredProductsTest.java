@@ -1,13 +1,17 @@
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
+import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
+import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.User;
 
 import junit.framework.TestCase;
 
@@ -65,7 +69,7 @@ public class RemoteRegisteredProductsTest extends TestCase {
         verify(userWithProductsMock).onAccessTokenExpire(null);
     }
 
-  /*  @Test
+    @Test
     public void testRegisterMethod() {
         final ResponseListener responseListenerMock = mock(ResponseListener.class);
         final RequestManager requestManager = mock(RequestManager.class);
@@ -102,5 +106,5 @@ public class RemoteRegisteredProductsTest extends TestCase {
         when(user.getAccessToken()).thenReturn("access_token");
         RegisteredProductsRequest registeredProductsRequest = remoteRegisteredProducts.getRegisteredProductsRequest(user);
         assertEquals(registeredProductsRequest.getAccessToken(), "access_token");
-    }*/
+    }
 }
