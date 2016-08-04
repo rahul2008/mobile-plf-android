@@ -183,6 +183,11 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
             Utility.dismissProgressDialog();
     }
 
+    @Override
+    public void onGetPhoneContact(Message msg) {
+
+    }
+
     private void startOrderDetailFragment() {
         if (isNetworkNotConnected()) return;
         int pos = mAdapter.getSelectedPosition();

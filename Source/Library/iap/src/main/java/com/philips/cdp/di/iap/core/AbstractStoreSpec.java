@@ -51,6 +51,7 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     /**
      * Return default language combining input of lang and country.
      * But depending on requirements, it can be changed or different as per locale matcher result.
+     *
      * @return
      */
     @Override
@@ -182,10 +183,14 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
-    public String getSearchProductUrl(String ctnNumber) { return null; }
+    public String getSearchProductUrl(String ctnNumber) {
+        return null;
+    }
 
     @Override
-    public String getOrderHistoryUrl(String pageNumber) { return null; }
+    public String getOrderHistoryUrl(String pageNumber) {
+        return null;
+    }
 
     @Override
     public String getDeliveryModesUrl() {
@@ -199,6 +204,11 @@ public abstract class AbstractStoreSpec implements StoreSpec {
 
     @Override
     public String getDeleteCartUrl(String cartId) {
+        return null;
+    }
+
+    @Override
+    public String getPhoneContactUrl(final String category) {
         return null;
     }
 }

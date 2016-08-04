@@ -83,4 +83,6 @@ public interface StoreSpec {
     String getDeliveryModesUrl();
 
     String getUserUrl();
+
+    String getPhoneContactUrl(String category);
 }

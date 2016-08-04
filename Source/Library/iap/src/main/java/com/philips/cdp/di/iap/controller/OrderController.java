@@ -10,6 +10,7 @@ import android.os.Message;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.model.ContactCallRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
@@ -37,6 +38,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
         void onGetOrderList(Message msg);
         void onGetOrderDetail(Message msg);
         void updateUiOnProductList();
+        void onGetPhoneContact(Message msg);
     }
 
     public OrderController(Context context, OrderListener listener) {
@@ -60,6 +62,14 @@ public class OrderController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_ORDER_DETAIL, request, request);
     }
 
+    public void getPhoneContact(String subCategory){
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.CATEGORY, subCategory);
+
+        ContactCallRequest request = new ContactCallRequest(getStore(), query, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_PHONE_CONTACT, request, request);
+    }
+
     @Override
     public void onModelDataLoadFinished(Message msg) {
         sendListener(msg);
@@ -81,6 +91,9 @@ public class OrderController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.GET_ORDER_DETAIL:
                 mOrderListener.onGetOrderDetail(msg);
+                break;
+            case RequestCode.GET_PHONE_CONTACT:
+                mOrderListener.onGetPhoneContact(msg);
                 break;
         }
     }
@@ -122,6 +135,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
                 productItem.setFormatedPrice(String.valueOf(entry.getTotalPrice().getFormattedValue()));
                 productItem.setCtnNumber(entry.getProduct().getCode());
                 productItem.setOrderCode(detail.getCode());
+                productItem.setSubCategory(data.getSubcategory());
                 products.add(productItem);
             }
         }

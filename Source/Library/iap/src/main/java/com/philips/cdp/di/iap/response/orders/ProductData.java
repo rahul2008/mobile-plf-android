@@ -9,6 +9,15 @@ public class ProductData {
     private String mImageURL;
     private int mQuantity;
     private String mFormatedPrice;
+    private String mSubCategory;
+
+    public String getSubCategory() {
+        return mSubCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.mSubCategory = subCategory;
+    }
 
     public ProductData() {
     }

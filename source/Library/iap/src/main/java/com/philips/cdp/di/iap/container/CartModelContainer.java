@@ -212,7 +212,7 @@ public class CartModelContainer {
         return mBuyDirectCartNumber;
     }
 
-    public void setBuyDirectCartNumber(String mBuyDirectCartNumber) {
-        this.mBuyDirectCartNumber = mBuyDirectCartNumber;
+    public void setBuyDirectCartNumber(String pBuyDirectCartNumber) {
+        mBuyDirectCartNumber = pBuyDirectCartNumber;
     }
 }
