@@ -1,3 +1,8 @@
+/*
+ * © Koninklijke Philips N.V., 2016.
+ *   All rights reserved.
+ */
+
 package com.philips.cdp.dicommclient.request;
 
 import com.philips.cdp.dicommclient.cpp.CppController;
@@ -14,10 +19,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * (C) Koninklijke Philips N.V., 2016.
- * All rights reserved.
- */
 public class StartDcsRequestTest {
 
     public static final long TIME_OUT = 10L;

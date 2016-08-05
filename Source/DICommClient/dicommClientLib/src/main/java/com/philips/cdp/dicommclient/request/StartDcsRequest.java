@@ -1,11 +1,12 @@
-package com.philips.cdp.dicommclient.request;
-
-import com.philips.cdp.dicommclient.cpp.CppController;
-
 /**
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
+
+package com.philips.cdp.dicommclient.request;
+
+import com.philips.cdp.dicommclient.cpp.CppController;
+
 public class StartDcsRequest extends Request {
 
     private long TIME_OUT = 10 * 1000L;

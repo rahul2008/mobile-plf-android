@@ -2,6 +2,7 @@
  * © Koninklijke Philips N.V., 2016.
  *   All rights reserved.
  */
+
 package com.philips.cdp.dicommclient.communication;
 
 import com.philips.cdp.dicommclient.cpp.CppController;
