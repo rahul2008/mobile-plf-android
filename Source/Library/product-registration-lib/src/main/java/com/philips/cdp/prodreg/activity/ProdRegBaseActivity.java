@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegConfig;
@@ -86,6 +87,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
         super.onResume();
     }
 
+    @SuppressWarnings("noinspection unchecked")
     protected void showFragment() {
         try {
             boolean isFirstLaunch = false;
@@ -93,7 +95,6 @@ public class ProdRegBaseActivity extends UiKitActivity {
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-                //noinspection unchecked
                 regProdList = (ArrayList<Product>) extras.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             }
             FragmentLauncher fragLauncher = new FragmentLauncher(

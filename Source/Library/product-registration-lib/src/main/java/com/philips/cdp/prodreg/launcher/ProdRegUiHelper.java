@@ -123,7 +123,7 @@ public class ProdRegUiHelper {
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegConfig prodRegConfig) {
         final Bundle arguments = new Bundle();
         final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegConfig.getProducts());
-        arguments.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
 
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         if (prodRegConfig.isAppLaunch()) {

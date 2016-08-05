@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Brand implements Serializable {
 
+    private static final long serialVersionUID = -9120576767607019891L;
     private String brandLogo;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

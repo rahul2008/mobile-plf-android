@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class ReviewStatistics implements Serializable {
 
+    private static final long serialVersionUID = -3050137840961928837L;
     private float averageOverallRating;
     private int totalReviewCount;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();

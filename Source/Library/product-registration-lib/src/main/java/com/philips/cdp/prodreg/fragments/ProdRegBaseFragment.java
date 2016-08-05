@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -159,19 +160,23 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     }
 
     protected void showAlertOnError(final int statusCode) {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
-            if (prev != null) {
-                ft.remove(prev);
-                ft.commitAllowingStateLoss();
+        try {
+            final FragmentActivity activity = getActivity();
+            if (activity != null && !activity.isFinishing()) {
+                final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                    ft.commitAllowingStateLoss();
+                }
+                // Create and show the dialog.
+                ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
+                newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
+                newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
             }
-            // Create and show the dialog.
-            ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
-            newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
-            newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
+        } catch (IllegalStateException e) {
+            ProdRegLogger.e(TAG, e.getMessage());
         }
     }
 

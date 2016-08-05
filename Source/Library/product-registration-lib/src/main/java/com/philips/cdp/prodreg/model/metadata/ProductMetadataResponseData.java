@@ -8,6 +8,7 @@ import java.io.Serializable;
  * consent of the copyright holder.
 */
 public class ProductMetadataResponseData implements Serializable {
+    private static final long serialVersionUID = -6227725805634804551L;
     private String message;
 
     private String ctn;

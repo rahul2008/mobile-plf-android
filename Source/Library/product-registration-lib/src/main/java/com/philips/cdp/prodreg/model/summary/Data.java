@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class Data implements Serializable {
 
+    private static final long serialVersionUID = 3102143091240290063L;
     private String locale;
     private String ctn;
     private String dtn;

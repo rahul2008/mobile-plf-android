@@ -5,28 +5,17 @@
 */
 package com.philips.cdp.prodreg.register;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class RegisteredProduct extends Product implements Parcelable {
+public class RegisteredProduct extends Product implements Serializable {
 
-    // Creator
-    public static final Parcelable.Creator CREATOR
-            = new Parcelable.Creator() {
-        public RegisteredProduct createFromParcel(Parcel in) {
-            return new RegisteredProduct(in.readString(), (Sector) in.readSerializable(), (Catalog) in.readSerializable());
-        }
-
-        @Override
-        public RegisteredProduct[] newArray(final int size) {
-            return new RegisteredProduct[size];
-        }
-    };
+    private static final long serialVersionUID = -6635233525340545667L;
     private RegistrationState registrationState;
     private String endWarrantyDate;
     private String uuid = "";
@@ -199,17 +188,5 @@ public class RegisteredProduct extends Product implements Parcelable {
      */
     public void setContractNumber(final String contractNumber) {
         this.contractNumber = contractNumber;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeString(productModelNumber);
-        dest.writeString(productSerialNumber);
-        dest.writeString(purchaseDate);
     }
 }

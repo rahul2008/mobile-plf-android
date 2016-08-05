@@ -46,12 +46,13 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return view;
     }
 
+    @SuppressWarnings("noinspection unchecked")
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            registeredProducts = bundle.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            registeredProducts = (List<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
         }
     }
 

@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,13 +50,14 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         return view;
     }
 
+    @SuppressWarnings("noinspection unchecked")
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
             RegisteredProduct registeredProduct = arguments.getParcelable(ProdRegConstants.PROD_REG_PRODUCT);
-            regProdList =  arguments.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             if (registeredProduct != null) {
                 ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
             }

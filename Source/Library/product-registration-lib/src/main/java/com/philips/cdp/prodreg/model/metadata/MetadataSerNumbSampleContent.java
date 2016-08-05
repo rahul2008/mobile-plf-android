@@ -8,6 +8,7 @@ import java.io.Serializable;
  * consent of the copyright holder.
 */
 public class MetadataSerNumbSampleContent implements Serializable{
+    private static final long serialVersionUID = 395512438298827858L;
     private String title;
 
     private String asset;

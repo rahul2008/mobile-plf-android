@@ -26,6 +26,7 @@ import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
+
 import java.util.List;
 
 public class ProdRegConnectionFragment extends ProdRegBaseFragment implements ProdRegBackListener {
@@ -80,12 +81,13 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
         return view;
     }
 
+    @SuppressWarnings("noinspection unchecked")
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            registeredProducts = bundle.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            registeredProducts = (List<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
         }
     }
 

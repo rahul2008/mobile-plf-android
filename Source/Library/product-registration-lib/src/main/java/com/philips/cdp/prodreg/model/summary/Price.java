@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Price implements Serializable {
 
+    private static final long serialVersionUID = 5055423992827404506L;
     private String productPrice;
     private String displayPriceType;
     private String displayPrice;

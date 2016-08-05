@@ -55,10 +55,11 @@ public class ProdRegProcessController {
         dependencyBundle = new Bundle();
     }
 
+    @SuppressWarnings("noinspection unchecked")
     public void process(final Bundle arguments) {
         if (arguments != null) {
-            registeredProducts = arguments.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            dependencyBundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            dependencyBundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             if (registeredProducts != null) {
                 currentProduct = registeredProducts.get(0);
                 if (getUser().isUserSignIn()) {
@@ -115,7 +116,7 @@ public class ProdRegProcessController {
                     processControllerCallBacks.dismissLoadingDialog();
                     final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
+                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
                     connectionFragment.setArguments(bundle);
                     processControllerCallBacks.showFragment(connectionFragment);
                 }
@@ -149,7 +150,7 @@ public class ProdRegProcessController {
 
     private void doSummaryRequest() {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
-            dependencyBundle.putParcelable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
+            dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
             currentProduct.getProductSummary(fragmentActivity, currentProduct, getSummaryListener());
         }
     }
