@@ -64,7 +64,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     public void onCreateCart(Message msg) {
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onCreateCart =" + TAG);
         CreateCartData createCartData = (CreateCartData) msg.obj;
-        String buyDirectCode = createCartData.getCode();
+        String buyDirectCode = createCartData.getCode();//Saving code is not necessary by using current
         CartModelContainer.getInstance().setBuyDirectCartNumber(buyDirectCode);
         mBuyDirectController.addToCart(mCTN);
     }
@@ -77,7 +77,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     }
 
     @Override
-    public void onGetUser(Message msg) {
+    public void onGetUser(Message msg) { //setRegionIsoCode is missing
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onGetUser =" + TAG);
         GetUser getUser = (GetUser) msg.obj;
         Addresses addressId = getUser.getDefaultAddress();
@@ -120,7 +120,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
         GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
         ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
         String code = deliveryModesList.get(0).getCode();
-        if (code != null) {
+        if (code != null) {//can be avoided by checking the list size
             CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
             //Set delivery Mode from Msg
             mBuyDirectController.setDeliveryMode(code);
@@ -145,7 +145,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
             paymentId = paymentMethod.getId();
         }
         //Set Payment Mode from Msg
-        mBuyDirectController.setPaymentMode(paymentId);
+        mBuyDirectController.setPaymentMode(paymentId); //this line can be moved in if condition to avoid extra variable paymentId
     }
 
     @Override
