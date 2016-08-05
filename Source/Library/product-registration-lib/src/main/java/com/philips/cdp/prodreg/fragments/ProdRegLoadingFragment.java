@@ -44,4 +44,8 @@ public class ProdRegLoadingFragment extends BlurDialogFragment {
         setRetainInstance(true);
         return builder.create();
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
 }

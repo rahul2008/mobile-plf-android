@@ -5,14 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
-import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 
 import junit.framework.TestCase;
 
@@ -133,7 +130,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         verify(registerControllerCallBacksMock).isValidDate(true);
     }
 
-    @Test
+    /*@Test
     @SuppressWarnings("deprecation")
     public void testRegisterEvent() {
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
@@ -143,27 +140,27 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
         verify(registerControllerCallBacksMock).showLoadingDialog();
         verify(userWithProductsMock).registerProduct(registeredProductMock);
-    }
+    }*/
 
-    @Test
-    @SuppressWarnings("deprecation")
-    public void testGetProdRegListener() {
-        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
-        ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
-        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
-        verify(registerControllerCallBacksMock).dismissLoadingDialog();
-        verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
+    /* @Test
+     @SuppressWarnings("deprecation")
+     public void testGetProdRegListener() {
+         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
+         ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
+         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+         prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
+         verify(registerControllerCallBacksMock).dismissLoadingDialog();
+         verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
 
-        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
-        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
-        verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
+         when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+         prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+         verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
 
-        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
-        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
-        verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
-    }
-
+         when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
+         prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+         verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
+     }
+ */
     @Test
     public void testGetMethods() {
         assertTrue(prodRegRegistrationController.getConnectionFragment() != null);
