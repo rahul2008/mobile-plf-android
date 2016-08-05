@@ -235,7 +235,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         return true;
     }
 
-    public String getCurrentUTCTimeWithFormat() {
+    public synchronized String getCurrentUTCTimeWithFormat() {
         long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
         final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
         Date date = null;
