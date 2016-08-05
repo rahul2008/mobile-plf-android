@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.appframework.introscreen.WelcomePresenter;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
@@ -13,6 +13,9 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,12 +23,13 @@ import static org.mockito.Mockito.when;
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
-//@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class WelcomeScreenUnitTestcase {
     Context context;
     WelcomePresenter presenter;
     UIFlowManager flowManager;
-
+    SharedPreferenceUtility sharedPreferenceUtility;
     public WelcomeScreenUnitTestcase() {
     }
 
@@ -38,6 +42,7 @@ public class WelcomeScreenUnitTestcase {
         flowManager = new UIFlowManager();
         when(appFrameworkApplication.getFlowManager()).thenReturn(flowManager);
         presenter = new WelcomePresenter();
+        sharedPreferenceUtility = mock(SharedPreferenceUtility.class);
     }
 
     @Test

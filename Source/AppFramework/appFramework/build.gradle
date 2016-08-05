@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -125,8 +124,6 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArgument "size", "small"
     }
 
     lintOptions {
@@ -208,9 +205,6 @@ android {
         pickFirst 'lib/arm64-v8a/libRSSupport.so'
         pickFirst 'lib/arm64-v8a/librsjni.so'
         exclude 'META-INF/INDEX.LIST'
-    }
-    testOptions {
-        unitTests.returnDefaultValues = true
     }
 }
 
