@@ -172,98 +172,117 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
     @Override
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        if (isDataAvailable) {
-            filterDataForUrlbyLang(serviceId, listener);
-        } else {
-            if (!isDownloadInProgress) {
-                refresh(new OnRefreshListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        listener.onError(error, message);
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        filterDataForUrlbyLang(serviceId, listener);
-                    }
-                });
+        if(serviceId.contains(",") || serviceId == null){
+            listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
+        }else{
+            if (isDataAvailable) {
+                filterDataForUrlbyLang(serviceId, listener);
             } else {
-                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-            }
+                if (!isDownloadInProgress) {
+                    refresh(new OnRefreshListener() {
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            listener.onError(error, message);
+                        }
 
+                        @Override
+                        public void onSuccess() {
+                            filterDataForUrlbyLang(serviceId, listener);
+                        }
+                    });
+                } else {
+                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                }
+
+            }
         }
 
     }
 
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        if (isDataAvailable) {
-            filterDataForUrlbyCountry(serviceId, listener);
-        } else {
-            if (!isDownloadInProgress) {
-                refresh(new OnRefreshListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        listener.onError(error, message);
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        filterDataForUrlbyCountry(serviceId, listener);
-                    }
-                });
+        if(serviceId.contains(",")|| serviceId == null){
+            listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
+        }else {
+            if (isDataAvailable) {
+                filterDataForUrlbyCountry(serviceId, listener);
             } else {
-                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-            }
+                if (!isDownloadInProgress) {
+                    refresh(new OnRefreshListener() {
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            listener.onError(error, message);
+                        }
 
+                        @Override
+                        public void onSuccess() {
+                            filterDataForUrlbyCountry(serviceId, listener);
+                        }
+                    });
+                } else {
+                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                }
+
+            }
         }
 
     }
 
     @Override
     public void getServiceUrlWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        if (isDataAvailable) {
-            filterDataForUrlbyLang(serviceId, listener);
-        } else {
-            if (!isDownloadInProgress) {
-                refresh(new OnRefreshListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        listener.onError(error, message);
-                    }
 
-                    @Override
-                    public void onSuccess() {
-                        filterDataForUrlbyLang(serviceId, listener);
-                    }
-                });
+        if(serviceId == null){
+            listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
+        }else{
+            if (isDataAvailable) {
+                filterDataForUrlbyLang(serviceId, listener);
             } else {
-                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                if (!isDownloadInProgress) {
+                    refresh(new OnRefreshListener() {
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            listener.onError(error, message);
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            filterDataForUrlbyLang(serviceId, listener);
+                        }
+                    });
+                } else {
+                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                }
             }
         }
+
     }
 
     @Override
     public void getServiceUrlWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        if (isDataAvailable) {
-            filterDataForUrlbyCountry(serviceId, listener);
-        } else {
-            if (!isDownloadInProgress) {
-                refresh(new OnRefreshListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        listener.onError(error, message);
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        filterDataForUrlbyCountry(serviceId, listener);
-                    }
-                });
+        if(serviceId == null){
+            listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
+        }else{
+            if (isDataAvailable) {
+                filterDataForUrlbyCountry(serviceId, listener);
             } else {
-                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                if (!isDownloadInProgress) {
+                    refresh(new OnRefreshListener() {
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            listener.onError(error, message);
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            filterDataForUrlbyCountry(serviceId, listener);
+                        }
+                    });
+                } else {
+                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                }
             }
         }
+
     }
 
 
@@ -320,12 +339,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             try {
                 final URL url = new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
                 if (url == null) {
-                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 } else {
                     onGetServiceUrlListener.onSuccess(url);
                 }
             } catch (MalformedURLException e) {
-                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             }
         }
     }
@@ -344,14 +363,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             try {
                 URL url = new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
                 if (url == null) {
-                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 } else {
                     onGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
                 }
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             }
 
         }
@@ -389,7 +408,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             }
         }
         if (responseMap.isEmpty()) {
-            onGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+            onGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         } else {
             onGetServiceUrlMapListener.onSuccess(responseMap);
         }
@@ -399,7 +418,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     private void filterDataForLocalByLang(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
         if (onGetServiceLocaleListener != null) {
             if (RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale() == null) {
-                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             } else {
                 onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
             }
@@ -409,7 +428,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     private void filterDataForLocalByCountry(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
         if (onGetServiceLocaleListener != null) {
             if (RequestManager.mServiceDiscovery.getMatchByCountry().getLocale() == null) {
-                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             } else {
                 onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
             }
@@ -487,13 +506,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             }
         }
         if (mCountry == null) {
-            SharedPreferences.Editor editor = pref.edit();
+
             try {
+                SharedPreferences.Editor editor = pref.edit();
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
                 if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
                     mCountry = simCountry.toUpperCase(Locale.US);
-
                     editor.putString(RequestManager.COUNTRY_NAME, mCountry.toUpperCase());
                     editor.putString(RequestManager.COUNTRY_SOURCE, OnGetHomeCountryListener.SOURCE.SIMCARD.toString());
                     editor.commit();

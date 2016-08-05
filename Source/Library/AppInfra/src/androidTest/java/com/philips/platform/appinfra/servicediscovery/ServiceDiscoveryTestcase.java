@@ -41,7 +41,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         mServiceDiscoveryManager.getServiceUrlWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                assertNotNull(message);
             }
 
             @Override
@@ -61,7 +61,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                assertNotNull(message);
             }
         });
     }
@@ -71,7 +71,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         mServiceDiscoveryManager.getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                assertNotNull(message);
             }
 
             @Override
@@ -91,7 +91,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                assertNotNull(message);
             }
         });
     }
@@ -101,7 +101,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                assertNotNull(message);
             }
 
             @Override
@@ -117,7 +117,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-
+                assertNotNull(message);
             }
 
             @Override
