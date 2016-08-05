@@ -34,7 +34,7 @@ public interface StoreSpec {
     IAPUser getUser();
 
     //Request Urls
-    String getCurrentCartDetailsUrl();
+    String getCartDetailsUrl();
 
     String getProductCatalogUrl(int currentPage, int pageSize);
 

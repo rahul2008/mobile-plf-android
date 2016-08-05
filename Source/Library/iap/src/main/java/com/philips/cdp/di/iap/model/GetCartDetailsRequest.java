@@ -10,15 +10,12 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.carts.Carts;
-import com.philips.cdp.di.iap.response.carts.CartsEntity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class CartCurrentInfoRequest extends AbstractModel {
-    public CartCurrentInfoRequest(StoreSpec store, Map<String, String> query,
-                                  DataLoadListener listener) {
+public class GetCartDetailsRequest extends AbstractModel {
+    public GetCartDetailsRequest(StoreSpec store, Map<String, String> query,
+                                 DataLoadListener listener) {
         super(store, query, listener);
     }
 
@@ -31,11 +28,13 @@ public class CartCurrentInfoRequest extends AbstractModel {
     public Object parseResponse(final Object response) {
         //We recieve only one entity and not an array. To support multiple carts, use constructor
         // with list
-        CartsEntity entity = new Gson().fromJson(response.toString(), CartsEntity.class);
-        List<CartsEntity> list = new ArrayList<CartsEntity>();
-        list.add(entity);
-        Carts carts = new Carts(list);
-        return carts;
+
+        return new Gson().fromJson(response.toString(), Carts.class);
+//        CartsEntity entity = new Gson().fromJson(response.toString(), CartsEntity.class);
+//        List<CartsEntity> list = new ArrayList<CartsEntity>();
+//        list.add(entity);
+//        Carts carts = new Carts(list);
+//        return carts;
     }
 
     @Override
@@ -50,6 +49,6 @@ public class CartCurrentInfoRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getCurrentCartDetailsUrl();
+        return store.getCartDetailsUrl();
     }
 }

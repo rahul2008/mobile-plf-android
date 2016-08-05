@@ -17,7 +17,7 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
-import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
+import com.philips.cdp.di.iap.model.GetCartDetailsRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
@@ -69,7 +69,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     @Override
     public void getCurrentCartDetails() {
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null, this);
+        GetCartDetailsRequest model = new GetCartDetailsRequest(getStore(), null, this);
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
     }
@@ -237,7 +237,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     public void getProductCartCount(final Context context, final IAPCartListener
             iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
+        GetCartDetailsRequest model = new GetCartDetailsRequest(delegate.getStore(), null, null);
         model.setContext(context);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
@@ -276,7 +276,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
+        GetCartDetailsRequest model = new GetCartDetailsRequest(delegate.getStore(), null, null);
         model.setContext(context);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {

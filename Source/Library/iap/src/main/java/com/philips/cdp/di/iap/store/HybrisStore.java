@@ -31,24 +31,24 @@ public class HybrisStore extends AbstractStoreSpec {
             "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret";
 
     //Requests
-    private static final String SUFFIX_CURRENT_CART = "/carts/current";
-    private static final String SUFFIX_GET_CART = "?fields=FULL&lang=en";
+    private static final String SUFFIX_GET_CARTS = "/carts";
+    private static final String SUFFIX_FIELDS_FULL_LANG_EN = "?fields=FULL&lang=en";
     private static final String SUFFIX_CART_CREATE = "/carts";
     private static final String SUFFIX_CART_DELETE = "/%s";
-    private static final String SUFFIX_CART_ENTRIES = "/entries";
-    private static final String SUFFIX_PRODUCT_MODIFY = "/entries/%s";
+    private static final String SUFFIX_CART_ENTRIES = "/current/entries";
+    private static final String SUFFIX_PRODUCT_MODIFY = "/current/entries/%s";
 
     private static final String SUFFIX_PAYMENT_DETAILS = "/paymentdetails";
-    private static final String SUFFIX_SET_PAYMENT_DETAILS = "/paymentdetails";
+    private static final String SUFFIX_SET_PAYMENT_DETAILS = "/current/paymentdetails";
     private static final String SUFFIX_SET_PAYMENT_URL = "/orders/%s/pay";
 
     private static final String SUFFIX_ADDRESSES_FULL = "/addresses";
     private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
 
-    private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
+    private static final String SUFFIX_DELIVERY_MODE = "/current/deliverymode";
     //LANG to be added to delivery mode once hybris comes with the fix.
-    private static final String SUFFIX_GET_DELIVERY_MODE = "/deliverymodes";
-    private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
+    private static final String SUFFIX_GET_DELIVERY_MODE = "/current/deliverymodes";
+    private static final String SUFFIX_DELIVERY_ADDRESS = "/current/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
     private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + "&lang=en" + "&currentPage=%s&pageSize=%s";
@@ -184,11 +184,11 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     protected void generateGenericUrls() {
-        String mCurrentCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART);
-        mGetCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART).concat(SUFFIX_GET_CART);
+        String getCartsUrl = mBaseURl.concat(SUFFIX_GET_CARTS);
+        mGetCartUrl = mBaseURl.concat(SUFFIX_GET_CARTS).concat(SUFFIX_FIELDS_FULL_LANG_EN);
         mCreateCartUrl = mBaseURl.concat(SUFFIX_CART_CREATE);
         mDeleteCartUrl = mCreateCartUrl.concat(SUFFIX_CART_DELETE);
-        mAddToCartUrl = mCurrentCartUrl.concat(SUFFIX_CART_ENTRIES);
+        mAddToCartUrl = getCartsUrl.concat(SUFFIX_CART_ENTRIES);
         mPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS);
         mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES_FULL);
         mRegionsUrl = createRegionsUrl();
@@ -196,11 +196,11 @@ public class HybrisStore extends AbstractStoreSpec {
         mSetPaymentUrl = mBaseURl.concat(SUFFIX_SET_PAYMENT_URL);
         mPlaceOrderUrl = mBaseURl.concat(SUFFIX_PLACE_ORDER);
         mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PPRODUCT_CATALOG);
-        mModifyProductUrl = mCurrentCartUrl.concat(SUFFIX_PRODUCT_MODIFY);
-        mDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_MODE);
-        mGetDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_GET_DELIVERY_MODE);
-        mDeliveryAddressUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_ADDRESS);
-        mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
+        mModifyProductUrl = getCartsUrl.concat(SUFFIX_PRODUCT_MODIFY);
+        mDeliveryModeUrl = getCartsUrl.concat(SUFFIX_DELIVERY_MODE);
+        mGetDeliveryModeUrl = getCartsUrl.concat(SUFFIX_GET_DELIVERY_MODE);
+        mDeliveryAddressUrl = getCartsUrl.concat(SUFFIX_DELIVERY_ADDRESS);
+        mSetPaymentDetails = getCartsUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
         mRetailersAlter = mGetRetailersUrl.concat(RETAILERS_ALTER);
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
@@ -252,7 +252,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     //Request Urls
     @Override
-    public String getCurrentCartDetailsUrl() {
+    public String getCartDetailsUrl() {
         return mGetCartUrl;
     }
 
