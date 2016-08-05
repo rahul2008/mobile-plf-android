@@ -20,7 +20,6 @@ import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -51,10 +50,16 @@ public class EmailFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Map<String, Object> contextData = new HashMap<String, Object>();
-        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
-                getPreviousName(), contextData);
+        Map<String, String> contextData = new HashMap<String, String>();
+        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
+                AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
+        contextData.put(AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
+                getPreviousName());
+       /* AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
+                getPreviousName(), contextData);*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
+                        contextData);
         initView();
         loadEmail();
     }

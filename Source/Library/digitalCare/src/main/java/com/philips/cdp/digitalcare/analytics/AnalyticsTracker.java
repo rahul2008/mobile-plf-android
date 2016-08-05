@@ -5,7 +5,8 @@
  * @author: ritesh.jha@philips.com
  * @since: Mar 25, 2015
  * Copyright (c) 2016 Philips. All rights reserved.
- */
+ *//*
+
 package com.philips.cdp.digitalcare.analytics;
 
 import android.annotation.SuppressLint;
@@ -34,18 +35,22 @@ public class AnalyticsTracker {
     private static String mAppId = null;
 
 
-    /**
+    */
+/**
      * Analytics: Initialize with the context. After initialization only
      * TAGGIN'S APIs can be used.
-     */
+     *//*
+
     public static void initContext(Context context) {
         mContext = context;
         Config.setContext(context);
     }
 
-    /**
+    */
+/**
      * Analytics: This needs to call on onResume() of every activity.
-     */
+     *//*
+
     public static void startCollectLifecycleData() {
         if (!mTaggingEnabled)
             return;
@@ -58,9 +63,11 @@ public class AnalyticsTracker {
         };
     }
 
-    /**
+    */
+/**
      * Analytics: This needs to call on onPause() of every activity.
-     */
+     *//*
+
     public static void stopCollectLifecycleData() {
         if (!mTaggingEnabled)
             return;
@@ -69,36 +76,43 @@ public class AnalyticsTracker {
                 Config.pauseCollectingLifecycleData();
             }
 
-            ;
         };
     }
 
     public static void trackPage(String pageName, String previousPageName) {
         if (!mTaggingEnabled)
             return;
-       /* DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);*/
+       */
+/* DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);*//*
+
         Analytics.trackState(pageName, addPageContextData(previousPageName));
     }
 
     public static void trackPage(String pageName, String previousPageName, Map<String, Object> contextData) {
         if (!mTaggingEnabled)
             return;
-       /* DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);*/
+       */
+/* DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);*//*
+
         Analytics.trackState(pageName, addPageContextData(previousPageName, contextData));
     }
 
-    /**
+    */
+/**
      * Tracking action for events.
      *
      * @param actionName : Name of the action.
      * @param mapKey     : Key field in the Map.
      * @param mapValue   : Value field in the Map.
-     */
+     *//*
+
     public static void trackAction(String actionName, String mapKey,
                                    String mapValue) {
         if (!mTaggingEnabled)
             return;
-       /* DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);*/
+       */
+/* DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);*//*
+
         Analytics.trackAction(actionName,
                 addActionContextData(mapKey, mapValue));
     }
@@ -106,7 +120,9 @@ public class AnalyticsTracker {
     public static void trackAction(String actionName, Map<String, Object> contextData) {
         if (!mTaggingEnabled)
             return;
-     /*   DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);*/
+     */
+/*   DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);*//*
+
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
         contextData.put(AnalyticsConstants.KEY_COMPONENT_VERSION,
                 AnalyticsConstants.ACTION_VALUE_APPNAME + BuildConfig.VERSION_CODE);
@@ -125,9 +141,11 @@ public class AnalyticsTracker {
         return contextData;
     }
 
-    /*
+    */
+/*
      * This context data will be called for every page track.
-     */
+     *//*
+
     private static Map<String, Object> addPageContextData(
             String previousPageName) {
         Map<String, Object> contextData = new HashMap<String, Object>();
@@ -156,9 +174,11 @@ public class AnalyticsTracker {
         return contextData;
     }
 
-    /*
+    */
+/*
      * This context data will be called for every page track if additional Map object is there.
-     */
+     *//*
+
     private static Map<String, Object> addPageContextData(String previousPageName, Map<String, Object> contextData) {
         Map<String, Object> contextDataNew = AnalyticsTracker.addPageContextData(previousPageName);
         contextDataNew.put(AnalyticsConstants.KEY_COMPONENT_VERSION,
@@ -187,9 +207,11 @@ public class AnalyticsTracker {
         try {
             PackageInfo packageInfo = mContext.getPackageManager()
                     .getPackageInfo(mContext.getPackageName(), 0);
-          /*  DigiCareLogger.i(DigiCareLogger.APPLICATION,
+          */
+/*  DigiCareLogger.i(DigiCareLogger.APPLICATION,
                     "Application version: " + packageInfo.versionName + " ("
-                            + packageInfo.versionCode + ")");*/
+                            + packageInfo.versionCode + ")");*//*
+
             appVersion = packageInfo.versionCode;
         } catch (NameNotFoundException e) {
             throw new RuntimeException("Could not get package name: " + e);
@@ -211,3 +233,4 @@ public class AnalyticsTracker {
         mAppId = appId;
     }
 }
+*/

@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
@@ -38,6 +37,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
@@ -84,10 +84,10 @@ public class DigitalCareConfigManager {
     }
 
 
-    private static void initializeTaggingContext(Context context) {
+   /* private static void initializeTaggingContext(Context context) {
         AnalyticsTracker.initContext(context);
     }
-
+*/
     /**
      * Returs the Context used in the DigitalCare Component
      *
@@ -111,7 +111,7 @@ public class DigitalCareConfigManager {
             mLocaleMatchHandler = new LocaleMatchHandler(mContext);
             mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
             LocaleMatchHandler.initializePRXMap();
-            initializeTaggingContext(mContext);
+           // initializeTaggingContext(mContext);
         }
 
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
@@ -162,7 +162,7 @@ public class DigitalCareConfigManager {
         }
       /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
 
-        AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
+        //AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher(context, parentContainerResId,
                 actionbarUpdateListener);
@@ -221,7 +221,7 @@ public class DigitalCareConfigManager {
         }
        /* DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
-        AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
+        //AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -250,18 +250,18 @@ public class DigitalCareConfigManager {
      *
      * @param taggingEnabled True to enable & False to disable
      */
-    public void setAppTaggingInputs(boolean taggingEnabled, String appId, String appName,
+    /*public void setAppTaggingInputs(boolean taggingEnabled, String appId, String appName,
                                     String launchingPageName) {
         mTaggingEnabled = taggingEnabled;
         mPageName = launchingPageName;
         mAppName = appName;
         mAppID = appId;
-    }
+    }*/
 
-    public boolean isTaggingEnabled() {
+   /* public boolean isTaggingEnabled() {
         return mTaggingEnabled;
     }
-
+*/
     /**
      * It returns the previously set Page name for tagging.
      *
@@ -276,13 +276,13 @@ public class DigitalCareConfigManager {
         return AppInfraSingleton.getInstance();
     }
 
-    /*public AppTaggingInterface getTaggingInterface() {
+    public AppTaggingInterface getTaggingInterface() {
         AppTaggingInterface taggingInterface =
                 getAPPInfraInstance().getTagging().createInstanceForComponent
-                        ("com.philips.cdp.digitalcare", "6.0.0");
-        taggingInterface.setPreviousPage("vertical:productSelection:home");
+                        ("com.philips.cdp.digitalcare", "6.1.0");
+        taggingInterface.setPreviousPage("vertical:digitalcare:home");
         return taggingInterface;
-    }*/
+    }
 
     public LoggingInterface getLoggerInterface() {
 

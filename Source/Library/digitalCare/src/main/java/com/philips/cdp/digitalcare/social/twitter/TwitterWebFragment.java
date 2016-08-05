@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.Utils;
 
@@ -48,8 +47,11 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         initView();
         loadInAppTwitter();
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
-                getPreviousName());
+        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
+                getPreviousName());*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
+                        getPreviousName(), getPreviousName());
     }
 
     private void loadInAppTwitter() {

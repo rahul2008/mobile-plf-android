@@ -35,7 +35,6 @@ import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
@@ -300,12 +299,21 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         try {
             if (DigitalCareConfigManager.getInstance().getPreviousPageNameForTagging() != null
                     && mIsFirstScreenLaunch) {
-                AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-                        DigitalCareConfigManager.getInstance().getPreviousPageNameForTagging());
+             /*   AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
+                        DigitalCareConfigManager.getInstance().getPreviousPageNameForTagging());*/
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                        (AnalyticsConstants.PAGE_HOME,
+                                DigitalCareConfigManager.
+                                        getInstance().getPreviousPageNameForTagging(),
+                                DigitalCareConfigManager.getInstance().
+                                        getPreviousPageNameForTagging());
                 mIsFirstScreenLaunch = false;
             } else {
-                AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-                        getPreviousName());
+                /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
+                        getPreviousName());*/
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                        (AnalyticsConstants.PAGE_HOME,
+                                getPreviousName(), getPreviousName());
             }
         } catch (Exception e) {
             Log.e(TAG, "LocaleMatch Crash Controlled : " + e);

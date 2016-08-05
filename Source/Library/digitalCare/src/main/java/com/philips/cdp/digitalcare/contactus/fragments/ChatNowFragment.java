@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
@@ -54,10 +54,13 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Map<String, Object> contextData = new HashMap<String, Object>();
+        Map<String, String> contextData = new HashMap<String, String>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW,
-                getPreviousName(), contextData);
+        contextData.put(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW, getPreviousName());
+      /*  AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW,
+                getPreviousName(), contextData);*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.PAGE_CONTACTUS_CHATNOW, contextData);
         initView();
 
         loadChat();

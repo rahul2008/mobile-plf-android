@@ -10,7 +10,6 @@
 package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
-import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -29,9 +27,9 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -63,10 +61,16 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
 
-        Map<String, Object> contextData = new HashMap<String, Object>();
-        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
-                getPreviousName(), contextData);
+        Map<String, String> contextData = new HashMap<String, String>();
+        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
+                AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
+        contextData.put(AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
+                getPreviousName());
+        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
+                getPreviousName(), contextData);*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
+                        contextData);
 
         return mView;
     }

@@ -32,9 +32,9 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.customview.NetworkAlertView;
 import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
@@ -226,9 +226,13 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                                 R.string.no_internet),
                         getActivity().getResources().getString(
                                 android.R.string.yes));
-                AnalyticsTracker
+          /*      AnalyticsTracker
                         .trackAction(
                                 AnalyticsConstants.ACTION_SET_ERROR,
+                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                        (AnalyticsConstants.ACTION_SET_ERROR,
                                 AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
                                 AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
 
@@ -272,9 +276,13 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                         message,
                         getActivity().getResources().getString(
                                 android.R.string.ok));
-                AnalyticsTracker
+                /*AnalyticsTracker
                         .trackAction(
                                 AnalyticsConstants.ACTION_SET_ERROR,
+                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                        (AnalyticsConstants.ACTION_SET_ERROR,
                                 AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
                                 AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
 

@@ -255,7 +255,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
       we are putting dummy value. Please provide proper APP_ID from you App.
       Also if tagging is not enabled , consumer care is not tagging any events*/
 
-        DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
+     //   DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
 
         /*
          * Take values from GUI editText.

@@ -41,7 +41,6 @@ import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
@@ -251,8 +250,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         mParams = (FrameLayout.LayoutParams) mContactUsParent.getLayoutParams();
 
         try {
-            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
-                    getPreviousName());
+            /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
+                    getPreviousName());*/
+            DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                    (AnalyticsConstants.PAGE_CONTACT_US,
+                            getPreviousName(), getPreviousName());
         } catch (Exception e) {
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
@@ -610,15 +612,18 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                     + getActivity().getResources().getString(
                     R.string.facebook_product_pageID));
             DigiCareLogger.i(TAG, "Launching Facebook with Information : " + uri);
-            final Map<String, Object> contextData = new HashMap<String, Object>();
+            final Map<String, String> contextData = new HashMap<String, String>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
             contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
             contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
                     uri + toString());
-            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
-                    contextData);
+          /*  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
+                    contextData);*/
+            DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                    (AnalyticsConstants.ACTION_EXIT_LINK,
+                            contextData);
 
             getActivity().getApplicationContext().getPackageManager()
                     .getPackageInfo("com.facebook.katana", 0);
@@ -656,11 +661,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             final String twitterUrl = "www.twitter.com/";
             final String twitterSupportAccount = getActivity().getString(R.string.twitter_page);
             final String twitterPageName = twitterUrl + "@" + twitterSupportAccount;
-            final Map<String, Object> contextData = new HashMap<String, Object>();
+            final Map<String, String> contextData = new HashMap<String, String>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
             contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
             contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
-            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
+            //  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
+            DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                    (AnalyticsConstants.ACTION_EXIT_LINK, contextData);
 
             startActivity(tweetIntent);
         } else {
@@ -693,14 +700,21 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private void tagServiceRequest(String serviceChannel) {
-        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SERVICE_REQUEST,
-                AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
+     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SERVICE_REQUEST,
+                AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                (AnalyticsConstants.ACTION_SERVICE_REQUEST,
+                        AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
     }
 
     private void tagTechnicalError() {
-        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
+     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
                 AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);
+                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                (AnalyticsConstants.ACTION_SET_ERROR,
+                        AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+                        AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);
     }
 
     /*

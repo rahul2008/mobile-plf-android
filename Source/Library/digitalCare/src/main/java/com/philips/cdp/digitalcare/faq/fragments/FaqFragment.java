@@ -19,9 +19,9 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
 import com.philips.cdp.digitalcare.faq.view.FAQCustomView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -62,8 +62,8 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
 
         if (faqCustomView == null) {
             faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
-        faqCustomView.setDeviceType(isTablet());
-        mView = faqCustomView.init();
+            faqCustomView.setDeviceType(isTablet());
+            mView = faqCustomView.init();
             faqCustomView.updateView(null, COLLAPSE_ALL);
         }
         return mView;
@@ -92,7 +92,9 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ, getPreviousName());
+        //AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ, getPreviousName());
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.PAGE_FAQ, getPreviousName(), getPreviousName());
     }
 
 

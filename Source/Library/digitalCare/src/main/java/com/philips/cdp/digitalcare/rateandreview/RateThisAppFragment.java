@@ -26,7 +26,6 @@ import android.widget.RelativeLayout;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
@@ -109,8 +108,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
             onPRXProductPageReceived(mProductData);
 
 
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
-                getPreviousName());
+        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
+                getPreviousName());*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().
+                trackPageWithInfo(AnalyticsConstants.PAGE_RATE_THIS_APP,
+                        getPreviousName(), getPreviousName());
     }
 
 
@@ -166,8 +168,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     }
 
     private void tagExitLisk(String url) {
-        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
-                AnalyticsConstants.ACTION_KEY_EXIT_LINK, url);
+       /* AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
+                AnalyticsConstants.ACTION_KEY_EXIT_LINK, url);*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                (AnalyticsConstants.ACTION_EXIT_LINK,
+                        AnalyticsConstants.ACTION_KEY_EXIT_LINK, url);
     }
 
 

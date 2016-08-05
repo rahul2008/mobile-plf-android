@@ -7,7 +7,7 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
  *
  * @author : Ritesh.jha@philips.com
  * @since : 16 Jan 2015
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -47,7 +47,6 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
@@ -105,8 +104,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             mActivity = getActivity();
 
         try {
-            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
-                    getPreviousName());
+            /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
+                    getPreviousName());*/
+            DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                    (AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
+                            getPreviousName(), getPreviousName());
         } catch (Exception e) {
             Log.e(TAG, "IllegaleArgumentException : " + e);
         }
@@ -303,10 +305,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             @Override
             public void onClick(View v) {
 
-                Map<String, Object> contextData = new HashMap<String, Object>();
+                Map<String, String> contextData = new HashMap<String, String>();
                 contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_NAME, video);
-                AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_START, contextData);
-
+                //  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_START, contextData);
+                DigitalCareConfigManager.getInstance().getTaggingInterface().
+                        trackActionWithInfo(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_START,
+                                contextData);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse(video), "video/mp4");
                 mActivity.startActivity(intent);
@@ -601,10 +605,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
                             // mProductImage.setImageResource(R.drawable.image_load_error);
-                            Map<String, Object> contextData = new HashMap<String, Object>();
-                            contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, error.getMessage());
-                            contextData.put(AnalyticsConstants.ACTION_KEY_URL, mViewProductDetailsModel.getProductImage());
-                            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, contextData);
+                            Map<String, String> contextData = new HashMap<String, String>();
+                            contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+                                    error.getMessage());
+                            contextData.put(AnalyticsConstants.ACTION_KEY_URL,
+                                    mViewProductDetailsModel.getProductImage());
+                          /*  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
+                                    contextData);*/
+                            DigitalCareConfigManager.getInstance().getTaggingInterface().
+                                    trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR,
+                                            contextData);
                         }
                     });
             RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());

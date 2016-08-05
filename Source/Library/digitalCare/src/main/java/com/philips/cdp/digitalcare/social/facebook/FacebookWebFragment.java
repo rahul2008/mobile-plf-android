@@ -18,9 +18,9 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.Utils;
 
@@ -54,8 +54,11 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         initView();
         loadInAppFacebook();
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK,
-                getPreviousName());
+       /* AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK,
+                getPreviousName());*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().
+                trackPageWithInfo(AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK,
+                        getPreviousName(), getPreviousName());
     }
 
     private void loadInAppFacebook() {

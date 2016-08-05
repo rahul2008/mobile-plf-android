@@ -8,7 +8,6 @@
  */
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
-import android.content.pm.LauncherActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.widget.ProgressBar;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -58,8 +56,11 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW_WRITING,
-                getPreviousName());
+        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW_WRITING,
+                getPreviousName());*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().
+                trackPageWithInfo(AnalyticsConstants.PAGE_REVIEW_WRITING,
+                        getPreviousName(), getPreviousName());
 
         initView();
 

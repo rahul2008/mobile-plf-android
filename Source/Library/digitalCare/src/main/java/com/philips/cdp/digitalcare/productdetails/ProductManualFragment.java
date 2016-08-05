@@ -26,7 +26,6 @@ import android.widget.ScrollView;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -55,8 +54,11 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         }
         mUrl = getPhilipsProductPageUrl();
 
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL,
-                getPreviousName());
+        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL,
+                getPreviousName());*/
+        DigitalCareConfigManager.getInstance().getTaggingInterface().
+                trackPageWithInfo(AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL,
+                        getPreviousName(), getPreviousName());
 
         return mView;
     }
