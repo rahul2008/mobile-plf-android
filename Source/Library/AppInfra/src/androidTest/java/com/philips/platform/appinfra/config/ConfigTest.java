@@ -7,6 +7,9 @@ import com.philips.platform.appinfra.MockitoTestCase;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by 310238114 on 8/2/2016.
  */
@@ -92,8 +95,27 @@ public class ConfigTest extends MockitoTestCase {
         assertNull( mConfigInterface.getPropertyForKey("AI", "incorrectKey", configError)); //  Existing Group  but Non Existing key
         assertEquals(ConfigInterface.ConfigError.ConfigErrorEnum.KeyNotExists,configError.getErrorCode() );
 
+        //String fetch
         configError.setErrorCode(null);// reset error code to null
         assertNotNull(mConfigInterface.getPropertyForKey("AI", "RegistrationEnvironment", configError));//  Existing Group and  Existing key
+        // make sure AI and MicrositeID exist in configuration file else this test case will fail
+        assertEquals(null,configError.getErrorCode() ); // success
+
+        //Integer fetch
+        configError.setErrorCode(null);// reset error code to null
+        assertNotNull(mConfigInterface.getPropertyForKey("AI", "MicrositeID", configError));//  Existing Group and  Existing key
+        // make sure AI and MicrositeID exist in configuration file else this test case will fail
+        assertEquals(null,configError.getErrorCode() ); // success
+
+        //String array fetch
+        configError.setErrorCode(null);// reset error code to null
+        assertNotNull(mConfigInterface.getPropertyForKey("AI", "US", configError));//  Existing Group and  Existing key
+        // make sure AI and MicrositeID exist in configuration file else this test case will fail
+        assertEquals(null,configError.getErrorCode() ); // success
+
+        //Integer array fetch
+        configError.setErrorCode(null);// reset error code to null
+        assertNotNull(mConfigInterface.getPropertyForKey("AI", "EE", configError));//  Existing Group and  Existing key
         // make sure AI and MicrositeID exist in configuration file else this test case will fail
         assertEquals(null,configError.getErrorCode() ); // success
 
@@ -119,8 +141,30 @@ public class ConfigTest extends MockitoTestCase {
         assertFalse(mConfigInterface.setPropertyForKey("NonExistingGroupKey", "NewKey", "test", configError));// Non Existing Group  and  Existing key
         assertEquals(ConfigInterface.ConfigError.ConfigErrorEnum.GroupNotExists,configError.getErrorCode() );
 
+        //String set
         configError.setErrorCode(null);// reset error code to null
         assertTrue(mConfigInterface.setPropertyForKey("AI", "NewKey", "test", configError));//  Existing Group  and Existing key
+        assertEquals(null,configError.getErrorCode() );
+
+        //Integer set
+        configError.setErrorCode(null);// reset error code to null
+        assertTrue(mConfigInterface.setPropertyForKey("AI", "MicrositeID",new Integer(77000), configError));//  Existing Group  and Existing key
+        assertEquals(null,configError.getErrorCode() );
+
+        //String array set
+        List<String> stringArray = new ArrayList<String>();
+        stringArray.add("twitter");
+        stringArray.add("rss");
+        configError.setErrorCode(null);// reset error code to null
+        assertTrue(mConfigInterface.setPropertyForKey("AI", "US", stringArray, configError));//  Existing Group  and Existing key
+        assertEquals(null,configError.getErrorCode() );
+
+        //Integer array set
+        List<Integer> integerArray = new ArrayList<Integer>();
+        integerArray.add(new Integer(111));
+        integerArray.add(new Integer(222));
+        configError.setErrorCode(null);// reset error code to null
+        assertTrue(mConfigInterface.setPropertyForKey("AI", "EE",integerArray, configError));//  Existing Group  and Existing key
         assertEquals(null,configError.getErrorCode() );
 
 
@@ -145,18 +189,51 @@ public class ConfigTest extends MockitoTestCase {
         assertTrue(mConfigInterface.setPropertyForKey("AI", "NewKey", "test", configError));//  Existing Group  and Non Existing key
         assertEquals(null,configError.getErrorCode() );        assertEquals(null,configError.getErrorCode() );
 
-        // Add a new Key
+        // Add a new String value
         configError.setErrorCode(null);// reset error code to null
-        String newlyAddedKey = "NewKeyAdded";
-        String newlyAddedValue = "New Value";
-        assertTrue(mConfigInterface.setPropertyForKey(existingGroup, newlyAddedKey, newlyAddedValue, configError));//  Existing Group  and Non Existing key
+        String newlyAddedKey1 = "NewKeyAdded1";
+        String newlyAddedValue1 = "New Value";
+        assertTrue(mConfigInterface.setPropertyForKey(existingGroup, newlyAddedKey1, newlyAddedValue1, configError));//  Existing Group  and Non Existing key
         assertEquals(null,configError.getErrorCode() );
         configError.setErrorCode(null);// reset error code to null
-        assertEquals(newlyAddedValue,mConfigInterface.getPropertyForKey(existingGroup, newlyAddedKey, configError));//  Existing Group and  Existing key
+        assertEquals(newlyAddedValue1,mConfigInterface.getPropertyForKey(existingGroup, newlyAddedKey1, configError));//  Existing Group and  Existing key
+        assertEquals(null,configError.getErrorCode() ); // success
+
+        // Add a new Integer value
+        configError.setErrorCode(null);// reset error code to null
+        String newlyAddedKey2 = "NewKeyAdded2";
+        Integer integer = new Integer(23);
+        assertTrue(mConfigInterface.setPropertyForKey(existingGroup, newlyAddedKey2, integer, configError));//  Existing Group  and Non Existing key
+        assertEquals(null,configError.getErrorCode() );
+        configError.setErrorCode(null);// reset error code to null
+        assertEquals(integer,mConfigInterface.getPropertyForKey(existingGroup, newlyAddedKey2, configError));//  Existing Group and  Existing key
+        assertEquals(null,configError.getErrorCode() ); // success
+
+        // Add a new String Arraylist value
+        configError.setErrorCode(null);// reset error code to null
+        String newlyAddedKey3 = "NewKeyAdded3";
+        ArrayList<String> stringArrayList = new   ArrayList<String>();
+        stringArrayList.add("item1");
+        stringArrayList.add("item2");
+        assertTrue(mConfigInterface.setPropertyForKey(existingGroup, newlyAddedKey3, stringArrayList, configError));//  Existing Group  and Non Existing key
+        assertEquals(null,configError.getErrorCode() );
+        configError.setErrorCode(null);// reset error code to null
+        assertEquals(stringArrayList,mConfigInterface.getPropertyForKey(existingGroup, newlyAddedKey3, configError));//  Existing Group and  Existing key
         assertEquals(null,configError.getErrorCode() ); // success
 
 
-
+        // Add a new Integer ArrayList value
+        ArrayList<Integer> integerArrayList = new   ArrayList<Integer>();
+        integerArrayList.add(new Integer(23));
+        integerArrayList.add(new Integer(34));
+        integerArrayList.add(new Integer(84));
+        configError.setErrorCode(null);// reset error code to null
+        String newlyAddedKey4 = "NewKeyAdded4";
+        assertTrue(mConfigInterface.setPropertyForKey(existingGroup, newlyAddedKey4, integerArrayList, configError));//  Existing Group  and Non Existing key
+        assertEquals(null,configError.getErrorCode() );
+        configError.setErrorCode(null);// reset error code to null
+        assertEquals(integerArrayList,mConfigInterface.getPropertyForKey(existingGroup, newlyAddedKey4, configError));//  Existing Group and  Existing key
+        assertEquals(null,configError.getErrorCode() ); // success
     }
 
 }
