@@ -1,72 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/serviceid_editText"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:hint="Enter ServiceID" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Get Local by Lang"
-        android:id="@+id/getlocal_by_lang_button"
-        android:layout_gravity="center_horizontal" />
+        <EditText
+            android:id="@+id/serviceid_editText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:hint="Enter ServiceID" />
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Get Local By Country"
-        android:id="@+id/getlocal_by_country_butn"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:id="@+id/getlocal_by_lang_button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Get Local by Lang" />
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Get URL by Lang"
-        android:id="@+id/geturl_by_lang_buttn"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:id="@+id/getlocal_by_country_butn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Get Local By Country" />
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="get URL By Country"
-        android:id="@+id/geturl_by_country_btn"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:id="@+id/geturl_by_lang_buttn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Get URL by Lang" />
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Get Home country"
-        android:id="@+id/gethome_country_btn"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:id="@+id/geturl_by_country_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="get URL By Country" />
 
-
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Get URL by country with Multiple service id"
-        android:id="@+id/getul_country_btn"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Get URL by Language with Multiple service id"
-        android:id="@+id/getul_language_btn"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:id="@+id/gethome_country_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Get Home country" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView2"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        <Button
+            android:id="@+id/getul_country_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Get URL by country with Multiple service id" />
+
+        <Button
+            android:id="@+id/getul_language_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Get URL by Language with Multiple service id" />
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="New Text" />
+    </LinearLayout>
+
+</ScrollView>
