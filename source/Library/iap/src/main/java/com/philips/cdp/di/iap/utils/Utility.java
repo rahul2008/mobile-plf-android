@@ -59,6 +59,10 @@ public class Utility {
         }
     }
 
+    public static void changeProgressMessage(String message) {
+        mProgressDialog.setMessage(message);
+    }
+
     public static void hideKeypad(Context pContext) {
         InputMethodManager inputMethodManager = (InputMethodManager) pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 

@@ -52,7 +52,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     public void onResume() {
         super.onResume();
         mBuyDirectController = new BuyDirectController(getContext(), this);
-        String msg = getContext().getString(R.string.iap_please_wait);
+        String msg = getContext().getString(R.string.iap_processing);
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, msg);
             mBuyDirectController.createCart();
@@ -75,6 +75,8 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
 
     @Override
     public void onGetUser(Message msg) {
+        if (Utility.isProgressDialogShowing())
+            Utility.changeProgressMessage("Validating Address");
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onGetUser =" + TAG);
         GetUser getUser = (GetUser) msg.obj;
         Addresses addressId = getUser.getDefaultAddress();
@@ -131,6 +133,8 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
 
     @Override
     public void onGetPaymentMode(Message msg) {
+        if (Utility.isProgressDialogShowing())
+            Utility.changeProgressMessage("Fetching Payment details");
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryMode =" + TAG);
         PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
         paymentMethod = paymentMethods.getPayments().get(0);
