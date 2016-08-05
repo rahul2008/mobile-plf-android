@@ -93,12 +93,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
                 mIapSettings.setLaunchAsFragment(true);
                 mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
                 mIapHandler = IAPHandler.init(getContext(), mIapSettings);
-
-                //            if (position != -1) {
                 mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-//            } else if (null != ctn) {
-//            mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, mCtn, null);
-//            }
             }catch(IllegalArgumentException e)  {
 
             }
