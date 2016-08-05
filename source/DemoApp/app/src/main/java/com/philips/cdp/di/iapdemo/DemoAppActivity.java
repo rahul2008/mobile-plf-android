@@ -359,6 +359,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             mLaunchProductDetail.setVisibility(View.GONE);
             return;
         }
+        mPurchaseHistory.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mFragmentLaunch.setVisibility(View.VISIBLE);
         mShoppingCart.setVisibility(View.VISIBLE);
@@ -413,8 +414,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);
         mSelectCountryLl.setVisibility(View.VISIBLE);
-        mPurchaseHistory.setVisibility(View.VISIBLE);
-        mPurchaseHistory.setEnabled(true);
     }
 
     private void hideViews() {
