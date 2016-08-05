@@ -89,7 +89,7 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
         PILLocaleManager localeManager = new PILLocaleManager(mFragmentActivity);
         localeManager.setInputLocale("en", "GB");
 
-        DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
+//        DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
 
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(

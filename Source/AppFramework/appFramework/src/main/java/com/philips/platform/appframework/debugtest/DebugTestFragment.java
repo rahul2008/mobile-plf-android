@@ -42,8 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
-
-    int count = 0;
+    
     private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     private List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
@@ -90,7 +89,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                 if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
                     ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
                 }
-                if (count > 0) {
+                int position1 = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
+                if (position1 != position) {
                     User user = new User(context);
                     user.logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
@@ -108,7 +108,6 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                     Log.d(TAG, "After Configuration" + configuration);
                     configurationTextView.setText(configuration);
                 }
-                count++;
             }
 
             @Override

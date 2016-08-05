@@ -86,13 +86,16 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             String languageCode = "en";
             String countryCode = "US";
 
-            mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
-            mIapSettings.setUseLocalData(false);
-            mIapSettings.setLaunchAsFragment(true);
-            mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
-            mIapHandler = IAPHandler.init(getContext(), mIapSettings);
+            try {
+                mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
+                mIapSettings.setUseLocalData(false);
+                mIapSettings.setLaunchAsFragment(true);
+                mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
+                mIapHandler = IAPHandler.init(getContext(), mIapSettings);
+                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+            }catch(IllegalArgumentException e)  {
 
-            mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+            }
         } else {
             showIAPToast(IAPConstant.IAP_ERROR_NO_CONNECTION);
         }

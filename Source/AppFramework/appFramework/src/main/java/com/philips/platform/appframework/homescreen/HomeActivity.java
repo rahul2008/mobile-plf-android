@@ -170,11 +170,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
         }
-        else {
+        else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
             inAppPurchaseBackPress();
         }
 
-        super.onBackPressed();
+        if(getSupportFragmentManager().getBackStackEntryCount()==1){
+            finishAffinity();
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 
     private void inAppPurchaseBackPress() {
@@ -184,11 +189,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
                 return;
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
