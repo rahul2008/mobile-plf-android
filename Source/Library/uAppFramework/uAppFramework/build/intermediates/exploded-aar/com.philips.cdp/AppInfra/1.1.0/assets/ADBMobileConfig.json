@@ -1,0 +1,29 @@
+{
+    "version" : "1.0",
+    "acquisition": {
+        "server": "c00.adobe.com"
+    },
+
+    "analytics" : {
+        "referrerTimeout": 5, 
+        "rsids" : "philipsmobileappsdev",
+
+//      "server" : "localhost:50000",
+        "server" : "philips.112.2o7.net",
+        "charset" : "UTF-8",
+        "ssl" : true,
+        "offlineEnabled" : true,
+        "lifecycleTimeout" : 30,
+        "batchLimit" : 0,
+        "privacyDefault" : "optunknown",
+  "poi" : [
+  ]
+    },
+    "target" : {
+        "clientCode" : "amsdk",
+         "timeout" : 5
+      },
+    "audienceManager" : {
+          "server" : ""
+     }
+}

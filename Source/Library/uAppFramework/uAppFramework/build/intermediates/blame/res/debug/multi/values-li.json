@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "D:\\AppFramework\\Source\\MicroApp\\uAppFramework\\build\\intermediates\\res\\merged\\debug\\values-li\\values-li.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 74,
+                    "endOffset": 125
+                },
+                "from": {
+                    "file": "D:\\AppFramework\\Source\\MicroApp\\uAppFramework\\build\\intermediates\\exploded-aar\\com.philips.cdp\\AppInfra\\1.1.0\\res\\values-li\\values-li.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 74,
+                        "endOffset": 125
+                    }
+                }
+            }
+        ]
+    }
+]
