@@ -19,8 +19,6 @@ public  class NetworkStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         boolean isOnline = NetworkUtility.isNetworkAvailable(context);
-        RLog.init(context);
-        RLog.i(RLog.NETWORK_STATE, "Network state : " + isOnline);
         if (null != RegistrationHelper.getInstance().getNetworkStateListener()) {
             RegistrationHelper.getInstance().getNetworkStateListener()
                     .notifyEventOccurred(isOnline);
