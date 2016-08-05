@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -45,8 +44,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
-
-    int count = 0;
+    
     private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     private List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
@@ -93,7 +91,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                 if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
                     ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
                 }
-                if (count > 0) {
+                int position1 = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
+                if (position1 != position) {
                     User user = new User(context);
                     user.logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
@@ -112,7 +111,6 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                     configurationTextView.setText(configuration);
 
                 }
-                count++;
             }
 
             @Override
