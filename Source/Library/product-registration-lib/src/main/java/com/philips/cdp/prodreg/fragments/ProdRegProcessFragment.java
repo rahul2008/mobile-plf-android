@@ -28,6 +28,8 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     public static final String TAG = ProdRegProcessFragment.class.getName();
     private ProdRegProcessController prodRegProcessController;
+    private boolean isFailedOnError = false;
+    private int responseCode;
 
     @Override
     public String getActionbarTitle() {
@@ -93,6 +95,18 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void showAlertOnError(int responseCode) {
         super.showAlertOnError(responseCode);
+        this.responseCode = responseCode;
+        isFailedOnError = true;
+    }
+
+    @Override
+    protected void resetErrorDialogIfExists() {
+        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
+        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
+            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
+        } else if (isFailedOnError) {
+            showAlertOnError(responseCode);
+        }
     }
 
     @Override
