@@ -109,7 +109,6 @@ public class UserWithProducts {
         final RegistrationState registrationState = registeredProduct.getRegistrationState();
         final boolean failedOnInvalidInput = isFailedOnInvalidInput(registeredProduct);
         if (!failedOnInvalidInput && (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) && getUuid().equals(registeredProduct.getUserUUid())) {
-            ProdRegLogger.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
             if (!getUserProduct().isUserSignedIn(mContext)) {
                 getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
                 sendErrorCallBack(registeredProduct);
@@ -246,7 +245,7 @@ public class UserWithProducts {
 
 
     private void updateWithCallBack(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
-        getUserProduct().updateLocaleCache(registeredProduct, prodRegError, registrationState);
+        updateLocaleCache(registeredProduct, prodRegError, registrationState);
         sendErrorCallBack(registeredProduct);
     }
 
@@ -302,7 +301,6 @@ public class UserWithProducts {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int error) {
-                ProdRegLogger.d(TAG, "error in refreshing session");
                 if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
