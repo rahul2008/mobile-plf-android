@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -49,7 +50,7 @@ public class ProductCatalogHelper {
             PaginationEntity pagination = null;
             if (productData != null)
                 pagination = productData.getPagination();
-            refreshList(products, pagination,listener);
+            refreshList(products, pagination, listener);
 
         } else {
             notifyEmptyCartFragment();
@@ -75,7 +76,7 @@ public class ProductCatalogHelper {
         ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
         ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
-        if (planBProductList!=null && productData == null) {
+        if (planBProductList != null && productData == null) {
             for (String product : planBProductList) {
                 ctn = product;
                 productsToBeShown.add(ctn);
@@ -83,11 +84,11 @@ public class ProductCatalogHelper {
         } else {
             if (productData != null) {
                 final List<ProductsEntity> productsEntities = productData.getProducts();
-                if(productsEntities!=null)
-                for (ProductsEntity entry : productsEntities) {
-                    ctn = entry.getCode();
-                    productsToBeShown.add(ctn);
-                }
+                if (productsEntities != null)
+                    for (ProductsEntity entry : productsEntities) {
+                        ctn = entry.getCode();
+                        productsToBeShown.add(ctn);
+                    }
             }
         }
         PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
@@ -101,27 +102,31 @@ public class ProductCatalogHelper {
         if (mLoadListener != null) {
             mLoadListener.onLoadFinished(data, paginationEntity);
         }
-        if(listener!=null){
+        if (listener != null) {
             listener.onSuccess(getProductCTNs(data));
         }
-           storeData(data);
+        storeData(data);
     }
 
     private ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
         ArrayList<String> ctns = new ArrayList<>();
-        for(ProductCatalogData entry : data){
+        for (ProductCatalogData entry : data) {
             ctns.add(entry.getCtnNumber());
         }
         return ctns;
     }
 
     private void storeData(final ArrayList<ProductCatalogData> data) {
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, localeManager.getCountryCode());
+        String currentCountry = localeManager.getCountryCode();
         CartModelContainer container = CartModelContainer.getInstance();
         String CTN;
-        for(ProductCatalogData entry: data){
+        for (ProductCatalogData entry : data) {
             CTN = entry.getCtnNumber();
-            if(!container.isProductCatalogDataPresent(CTN)){
-                container.addProductCatalogDataDataToList(CTN, entry);
+            if (!container.isProductCatalogDataPresent(CTN)) {
+                if (!currentCountry.equals(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY)))
+                    container.addProductCatalogDataDataToList(CTN, entry);
             }
         }
     }
@@ -163,25 +168,25 @@ public class ProductCatalogHelper {
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
-        if(entries!=null)
-        for (ProductsEntity entry : entries) {
-            ctn = entry.getCode();
-            ProductCatalogData productItem = new ProductCatalogData();
-            Data data;
-            if (prxModel.containsKey(ctn)) {
-                data = prxModel.get(ctn).getData();
-            } else if (list.containsKey(ctn)) {
-                data = list.get(ctn).getData();
-            } else {
-                continue;
+        if (entries != null)
+            for (ProductsEntity entry : entries) {
+                ctn = entry.getCode();
+                ProductCatalogData productItem = new ProductCatalogData();
+                Data data;
+                if (prxModel.containsKey(ctn)) {
+                    data = prxModel.get(ctn).getData();
+                } else if (list.containsKey(ctn)) {
+                    data = list.get(ctn).getData();
+                } else {
+                    continue;
+                }
+                productItem.setImageUrl(data.getImageURL());
+                productItem.setProductTitle(data.getProductTitle());
+                productItem.setCtnNumber(ctn);
+                productItem.setMarketingTextHeader(data.getMarketingTextHeader());
+                fillEntryBaseData(entry, productItem);
+                products.add(productItem);
             }
-            productItem.setImageUrl(data.getImageURL());
-            productItem.setProductTitle(data.getProductTitle());
-            productItem.setCtnNumber(ctn);
-            productItem.setMarketingTextHeader(data.getMarketingTextHeader());
-            fillEntryBaseData(entry, productItem);
-            products.add(productItem);
-        }
         return products;
     }
 

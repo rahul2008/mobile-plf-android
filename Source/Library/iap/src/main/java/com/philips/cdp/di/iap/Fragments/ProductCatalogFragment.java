@@ -34,6 +34,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.localematch.PILLocaleManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +78,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         return fragment;
     }
 
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,20 +87,28 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
         mBundle = getArguments();
 
+        PILLocaleManager localeManager = new PILLocaleManager(getContext());
+        String currentCountryCode = localeManager.getCountryCode();
+        String savedCountry = Utility.getCountryFromPreferenceForKey(getContext(), IAPConstant.IAP_COUNTRY_KEY);
+
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.PRODUCT_CTNS) != null) {
                 onLoadFinished(getProductCatalog(), null);
-            } else if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
-                onLoadFinished(getProductCatalogDataFromStoredData(), null);
+            } else if (currentCountryCode.equals(savedCountry)) {
+                if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
+                    onLoadFinished(getProductCatalogDataFromStoredData(), null);
+                } else {
+                    loadProductCatalog();
+                }
             } else {
                 loadProductCatalog();
             }
         }
     }
 
-    ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData(){
+    ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData() {
         ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
-         HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
+        HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
                 catalogDatas.add(entry.getValue());
@@ -106,15 +116,16 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         }
         return catalogDatas;
     }
+
     private ArrayList<ProductCatalogData> getProductCatalog() {
         ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
         ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.PRODUCT_CTNS);
 
-        if(ctns!=null) {
+        if (ctns != null) {
             for (String ctn : ctns) {
                 if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
                     catalogDatas.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
-                }else{
+                } else {
                     mPresenter.getProductCategorizedProduct(ctns);
                 }
             }
@@ -226,7 +237,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE,null);
+        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
     }
 
     private void loadMoreItems() {
@@ -243,7 +254,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
         if (mPresenter == null)
             mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE,null);
+        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE, null);
     }
 
     @Override

@@ -7,7 +7,9 @@ package com.philips.cdp.di.iap.utils;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -160,5 +162,18 @@ public class Utility {
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
         return sdf.format(convertedDate);
+    }
+
+    public static void addCountryInPreference(Context pContext, String key, String value) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        prefsEditor.putString(key, value);
+        prefsEditor.commit();
+    }
+
+    public static String getCountryFromPreferenceForKey(Context pContext, String key) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
+        String value = sharedPreferences.getString(key, null);
+        return value;
     }
 }
