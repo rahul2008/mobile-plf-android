@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
@@ -12,7 +16,6 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
-import com.philips.cdp.di.iap.response.carts.CreateCartData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -22,9 +25,6 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-/**
- * Created by Apple on 02/08/16.
- */
 public class BuyDirectFragment extends BaseAnimationSupportFragment implements BuyDirectController.BuyDirectListener {
     public static final String TAG = BuyDirectFragment.class.getName();
     private BuyDirectController mBuyDirectController;
@@ -63,9 +63,6 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     @Override
     public void onCreateCart(Message msg) {
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onCreateCart =" + TAG);
-        CreateCartData createCartData = (CreateCartData) msg.obj;
-        String buyDirectCode = createCartData.getCode();//Saving code is not necessary by using current
-        CartModelContainer.getInstance().setBuyDirectCartNumber(buyDirectCode);
         mBuyDirectController.addToCart(mCTN);
     }
 
@@ -77,7 +74,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     }
 
     @Override
-    public void onGetUser(Message msg) { //setRegionIsoCode is missing
+    public void onGetUser(Message msg) {
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onGetUser =" + TAG);
         GetUser getUser = (GetUser) msg.obj;
         Addresses addressId = getUser.getDefaultAddress();
@@ -93,6 +90,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
             addressFields.setEmail(addressId.getEmail());
             addressFields.setTitleCode(addressId.getTitleCode());
             addressFields.setTown(addressId.getTown());
+            addressFields.setRegionIsoCode(addressId.getRegion().getIsocode());
             addressFields.setCountryIsocode(addressId.getCountry().getIsocode());
             CartModelContainer.getInstance().setShippingAddressFields(addressFields);
         }
@@ -119,13 +117,9 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onGetDeliveryMode =" + TAG);
         GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
         ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
-        String code = deliveryModesList.get(0).getCode();
-        if (code != null) {//can be avoided by checking the list size
-            CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
-            //Set delivery Mode from Msg
-            mBuyDirectController.setDeliveryMode(code);
-        }
-
+        CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
+        //Set delivery Mode from Msg
+        mBuyDirectController.setDeliveryMode(deliveryModesList.get(0).getCode());
     }
 
     @Override
@@ -140,12 +134,10 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryMode =" + TAG);
         PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
         paymentMethod = paymentMethods.getPayments().get(0);
-        String paymentId = null;
         if (paymentMethod != null) {
-            paymentId = paymentMethod.getId();
+            //Set Payment Mode from Msg
+            mBuyDirectController.setPaymentMode(paymentMethod.getId());
         }
-        //Set Payment Mode from Msg
-        mBuyDirectController.setPaymentMode(paymentId); //this line can be moved in if condition to avoid extra variable paymentId
     }
 
     @Override

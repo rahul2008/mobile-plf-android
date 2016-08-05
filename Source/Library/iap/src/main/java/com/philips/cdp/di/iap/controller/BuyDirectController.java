@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.controller;
 
 import android.content.Context;
@@ -7,7 +11,6 @@ import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
-import com.philips.cdp.di.iap.model.GetAddressRequest;
 import com.philips.cdp.di.iap.model.GetDeliveryModesRequest;
 import com.philips.cdp.di.iap.model.GetPaymentDetailRequest;
 import com.philips.cdp.di.iap.model.GetUserRequest;
@@ -20,9 +23,6 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 
-/**
- * Created by Apple on 02/08/16.
- */
 public class BuyDirectController implements AbstractModel.DataLoadListener {
     private BuyDirectListener mBuyDirectListener;
     private Context mContext;
@@ -72,10 +72,10 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);
     }
 
-    public void getDeliveryAddress() {
-        GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
-    }
+//    public void getDeliveryAddress() {
+//        GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
+//        getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
+//    }
 
     public void setDeliveryAddress(String pAddressId) {
         HashMap<String, String> params = new HashMap<>();

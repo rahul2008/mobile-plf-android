@@ -131,7 +131,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             ShowDialogOnBackPressed();
             return true;
         } else {
-            mPaymentController.getCartDelete(CartModelContainer.getInstance().getBuyDirectCartNumber()); // don't delete the cart here should be handled while get cart call
             if (getActivity() != null && getActivity() instanceof IAPActivity) {
                 int count = getFragmentManager().getBackStackEntryCount();
                 IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
@@ -251,14 +250,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             }
-        }
-    }
-
-    @Override
-    public void onDeleteCart(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 

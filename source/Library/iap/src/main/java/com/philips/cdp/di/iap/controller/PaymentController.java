@@ -39,8 +39,6 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         void onMakePayment(Message msg);
 
         void onPlaceOrder(Message msg);
-
-        void onDeleteCart(Message msg);
     }
 
     public PaymentController(Context context, PaymentListener listener) {
@@ -126,9 +124,6 @@ public class PaymentController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.MAKE_PAYMENT:
                 mMakePaymentListener.onMakePayment(msg);
-                break;
-            case RequestCode.DELETE_CART:
-                mMakePaymentListener.onDeleteCart(msg);
                 break;
         }
     }
