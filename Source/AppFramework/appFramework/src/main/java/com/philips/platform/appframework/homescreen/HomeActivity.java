@@ -204,45 +204,60 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
             showDebugTestFragment();
         } else {
-            final HomeFragment fragment = new HomeFragment();
-            String homeTag = HomeFragment.class.getSimpleName();
-            showFragment(fragment, homeTag);
+            if(mHomeFragment == null) {
+                mHomeFragment = new HomeFragment();
+            }
+            showFragment(mHomeFragment, mHomeFragment.getClass().getSimpleName());
         }
         philipsDrawerLayout.closeDrawer(navigationView);
     }
 
+    private HomeFragment mHomeFragment = null;
+    private InAppPurchasesFragment shoppingFragment = null;
+    private DebugTestFragment debugTestFragment = null;
+    private SettingsFragment settingsFragment = null;
+
     private void showShoppingFragment() {
-        InAppPurchasesFragment shoppingFragment = new InAppPurchasesFragment();
-        showFragment(shoppingFragment, "Shop");
+        if(shoppingFragment == null) {
+            shoppingFragment = new InAppPurchasesFragment();
+        }
+        showFragment(shoppingFragment, shoppingFragment.getClass().getSimpleName());
     }
 
-    private void showSettingsFragment() {
-        SettingsFragment settingsFragment = new SettingsFragment();
 
-        showFragment(settingsFragment, "Settings");
+    private void showSettingsFragment() {
+        if(settingsFragment == null) {
+            settingsFragment = new SettingsFragment();
+        }
+
+        showFragment(settingsFragment, settingsFragment.getClass().getSimpleName());
     }
 
     private void showSupportFragment() {
-        mConsumerCareFragment = new ConsumerCareLauncher();
-        mConsumerCareFragment.initCC(this, actionBarClickListener);
+        if(!findFragmentByTag("digitalcare")) {
+            if (mConsumerCareFragment == null) {
+                mConsumerCareFragment = new ConsumerCareLauncher();
+            }
+            mConsumerCareFragment.initCC(this, actionBarClickListener);
+        }
     }
 
     private void showDebugTestFragment() {
         DebugTestFragment debugTestFragment = new DebugTestFragment();
 
-        showFragment(debugTestFragment, "DebugTest");
+        showFragment(debugTestFragment, debugTestFragment.getClass().getSimpleName());
     }
 
     @Override
     public void onBackPressed() {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
+            super.onBackPressed();
         }
-        else {
+        else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
             inAppPurchaseBackPress();
+            super.onBackPressed();
         }
-
-        super.onBackPressed();
     }
 
     private void inAppPurchaseBackPress() {
@@ -257,7 +272,12 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mConsumerCareFragment != null)
+        releaseConsumerCare();
+    }
+
+    private void releaseConsumerCare() {
+        if (mConsumerCareFragment != null) {
             mConsumerCareFragment.releaseConsumerCare();
+        }
     }
 }
