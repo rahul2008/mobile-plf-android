@@ -21,6 +21,8 @@ import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.List;
 
@@ -90,6 +92,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void exitProductRegistration() {
         clearFragmentStack(true);
+    }
+
+    @Override
+    public void launchRegistration() {
+        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+        RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(getActivity());
     }
 
     @Override

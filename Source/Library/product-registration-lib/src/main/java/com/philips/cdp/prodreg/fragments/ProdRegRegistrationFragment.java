@@ -39,6 +39,8 @@ import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
 import java.text.ParseException;
@@ -59,6 +61,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private boolean loadingFlag = false;
+
+    @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -254,6 +258,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     @Override
+    public void launchRegistration() {
+        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+        RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(getActivity());
+    }
+
+    @Override
     public void showAlertOnError(int responseCode) {
         super.showAlertOnError(responseCode);
     }
@@ -321,6 +331,16 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             purchaseDateLayout.setVisibility(View.VISIBLE);
         if (requireSerialNumber)
             serialLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void logEvents(final String tag, final String data) {
+        ProdRegLogger.v(tag, data);
+    }
+
+    @Override
+    public void tagEvents(final String event, final String key, final String value) {
+        ProdRegTagging.getInstance().trackActionWithCommonGoals(event, key, value);
     }
 
     @Override

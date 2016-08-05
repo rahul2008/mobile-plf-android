@@ -5,17 +5,24 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
+import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.User;
 
 import junit.framework.TestCase;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
@@ -28,6 +35,8 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class ProdRegProcessControllerTest extends TestCase {
 
     private ProdRegProcessController prodRegProcessController;
@@ -39,7 +48,6 @@ public class ProdRegProcessControllerTest extends TestCase {
     private ProdRegHelper prodRegHelperMock;
     private RegisteredProductsListener registeredProductsListenerMock;
     private MetadataListener metadataListenerMock;
-    private ProdRegConnectionFragment prodRegConnectionFragmentMock;
     private ProdRegRegistrationFragment prodRegRegistrationFragmentMock;
 
     @Before
@@ -51,7 +59,6 @@ public class ProdRegProcessControllerTest extends TestCase {
         productMock = mock(RegisteredProduct.class);
         userMock = mock(User.class);
         prodRegHelperMock = mock(ProdRegHelper.class);
-        prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
         prodRegRegistrationFragmentMock = mock(ProdRegRegistrationFragment.class);
         registeredProductsListenerMock = mock(RegisteredProductsListener.class);
         bundle = new Bundle();
@@ -93,7 +100,8 @@ public class ProdRegProcessControllerTest extends TestCase {
         bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, products);
     }
 
-    /*public void testProcess() {
+    @Test
+    public void testProcess() {
         when(userMock.isUserSignIn()).thenReturn(true);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
@@ -101,12 +109,15 @@ public class ProdRegProcessControllerTest extends TestCase {
         verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
         when(userMock.isUserSignIn()).thenReturn(false);
         prodRegProcessController.process(bundle);
+        verify(processControllerCallBacksMock).launchRegistration();
         prodRegProcessController.process(bundle);
         verify(processControllerCallBacksMock).dismissLoadingDialog();
         verify(processControllerCallBacksMock).exitProductRegistration();
-    }*/
+    }
 
-    /*public void testGetRegisteredProductsListener() {
+    @Test
+    public void testGetRegisteredProductsListener() {
+        final ProdRegConnectionFragment prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
         prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
             @NonNull
             @Override
@@ -133,9 +144,10 @@ public class ProdRegProcessControllerTest extends TestCase {
         registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
         verify(processControllerCallBacksMock).dismissLoadingDialog();
         verify(processControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
-    }*/
+    }
 
-   /* public void testMetadataListener() {
+    @Test
+    public void testMetadataListener() {
         final SummaryListener summaryListenerMock = mock(SummaryListener.class);
         prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
             @NonNull
@@ -152,8 +164,9 @@ public class ProdRegProcessControllerTest extends TestCase {
         metadataListener.onErrorResponse("error in metadata", -1);
         verify(processControllerCallBacksMock).dismissLoadingDialog();
         verify(processControllerCallBacksMock).showAlertOnError(-1);
-    }*/
+    }
 
+    @Test
     public void testGetSummaryListener() {
         prodRegProcessController.process(bundle);
         final SummaryListener summaryListener = prodRegProcessController.getSummaryListener();

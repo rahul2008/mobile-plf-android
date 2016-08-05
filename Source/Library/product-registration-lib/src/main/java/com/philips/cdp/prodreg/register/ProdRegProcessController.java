@@ -22,8 +22,6 @@ import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,7 @@ public class ProdRegProcessController {
     public interface ProcessControllerCallBacks {
         void dismissLoadingDialog();
         void exitProductRegistration();
-
+        void launchRegistration();
         void showLoadingDialog();
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
@@ -76,8 +74,7 @@ public class ProdRegProcessController {
                     } else {
                         //Registration is not yet launched.
                         launchedRegistration = true;
-                        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                        RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
+                        processControllerCallBacks.launchRegistration();
                     }
                 }
             } else {

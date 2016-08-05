@@ -5,16 +5,23 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
+import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
+import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
+import com.philips.cdp.registration.BuildConfig;
 
 import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -24,6 +31,8 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class ProdRegRegistrationControllerTest extends TestCase {
 
     private ProdRegRegistrationController prodRegRegistrationController;
@@ -130,7 +139,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         verify(registerControllerCallBacksMock).isValidDate(true);
     }
 
-    /*@Test
+    @Test
     @SuppressWarnings("deprecation")
     public void testRegisterEvent() {
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
@@ -138,29 +147,33 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
+        verify(registerControllerCallBacksMock).tagEvents("ProdRegRegistrationScreen", "specialEvents", "extendWarrantyOption");
         verify(registerControllerCallBacksMock).showLoadingDialog();
+        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Registering product with product details as CTN::" + registeredProductMock.getCtn());
         verify(userWithProductsMock).registerProduct(registeredProductMock);
-    }*/
+    }
 
-    /* @Test
+    @Test
      @SuppressWarnings("deprecation")
      public void testGetProdRegListener() {
          when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
          ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
          UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
          prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registered successfully");
          verify(registerControllerCallBacksMock).dismissLoadingDialog();
          verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
 
          when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
          prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registration failed");
          verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
 
          when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
          prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
          verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
      }
- */
+
     @Test
     public void testGetMethods() {
         assertTrue(prodRegRegistrationController.getConnectionFragment() != null);
