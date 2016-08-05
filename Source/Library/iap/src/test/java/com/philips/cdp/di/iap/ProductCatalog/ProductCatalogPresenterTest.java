@@ -115,7 +115,7 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
 
     @Test
     public void getCompleteProductListVerifySuccessPageSize1() throws JSONException {
-        mProductCatalogPresenter =new ProductCatalogPresenter();
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 1);
