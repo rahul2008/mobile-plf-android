@@ -10,7 +10,7 @@ import com.philips.platform.appinfra.MockitoTestCase;
  */
 public class AppIdentityTest extends MockitoTestCase {
 
-    AppIdentityInterface mAppIdentityManager=null;
+   AppIdentityInterface mAppIdentityManager=null;
     // Context context = Mockito.mock(Context.class);
 
     private Context context;
@@ -21,9 +21,23 @@ public class AppIdentityTest extends MockitoTestCase {
         super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra =  new AppInfra.Builder().build(context);
+       mAppInfra =  new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mAppIdentityManager = mAppInfra.getAppIdentity();
+       // mAppIdentityManager = mAppInfra.getAppIdentity();
+        mAppIdentityManager = new AppIdentityManager(mAppInfra){
+            @Override
+            protected String getJsonStringFromAsset(){
+                return
+                        "{\n" +
+                                "    \"micrositeId\" : \"77000\",\n" +
+                                "    \"sector\"  : \"B2C\",\n" +
+                                "    \"AppState\"  : \"PRODUCTION\",\n" +
+                                "    \"ServiceDiscoveryEnvironment\"  : \"PRODUCTION\"\n" +
+                                "}";
+            }
+
+        };
+
         assertNotNull(mAppIdentityManager);
     }
     public void testHappyPath()throws Exception {

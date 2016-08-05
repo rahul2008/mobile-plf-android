@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.appidentity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
@@ -19,7 +18,6 @@ import junit.framework.Assert;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -108,14 +106,13 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     }
 
-
-    public String  loadJSONFromAsset() {
+   // Refactored to support unit test
+    protected String getJsonStringFromAsset(){
         String json = null;
+        InputStream is = null;
         try {
-            InputStream is = context.getAssets().open("AppIdentity.json");
-
+            is = context.getAssets().open("AppIdentity.json");
             int size = is.available();
-
             byte[] buffer = new byte[size];
 
             is.read(buffer);
@@ -123,6 +120,17 @@ public class AppIdentityManager implements AppIdentityInterface {
             is.close();
 
             json = new String(buffer, "UTF-8");
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+            return json;
+    }
+
+    public String  loadJSONFromAsset() {
+        String json = null;
+        try {
+
+            json= getJsonStringFromAsset();
             if(json != null){
                 try {
                     JSONObject obj = new JSONObject(json);
@@ -179,7 +187,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }

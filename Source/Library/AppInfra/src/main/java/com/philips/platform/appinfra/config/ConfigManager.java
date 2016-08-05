@@ -23,7 +23,7 @@ public class ConfigManager implements ConfigInterface {
     JSONObject jo;
     AppInfra mAppInfra;
     Context mContext;
-    protected static final String uAPP_CONFIG_FILE = "uAPP_CONFIG_FILE";
+    private static final String uAPP_CONFIG_FILE = "uAPP_CONFIG_FILE";
 
     SecureStorageInterface ssi;
 
@@ -44,8 +44,6 @@ public class ConfigManager implements ConfigInterface {
                 total.append(line).append('\n');
             }
             result = new JSONObject(total.toString());
-            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-            ssi.storeValueForKey(uAPP_CONFIG_FILE, result.toString(), sse);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,6 +78,8 @@ public class ConfigManager implements ConfigInterface {
             JSONObject deviceObject = getjSONFromDevice();
             if (null == deviceObject) {  // if master file is not yet saved into phone memory
                 deviceObject = getMasterConfigFromApp();// reads from Application asset
+                SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+                ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);// write json to device for further read
             }
             try {
                 boolean isCocoPresent = deviceObject.has(groupName);
@@ -128,6 +128,8 @@ public class ConfigManager implements ConfigInterface {
             JSONObject deviceObject = getjSONFromDevice();
             if (null == deviceObject) {  // if master file is not yet saved into phone memory
                 deviceObject = getMasterConfigFromApp();// reads from Application asset
+                SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+                ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);// write json to device for further read
             }
             try {
                 boolean isCocoPresent = deviceObject.has(groupName);

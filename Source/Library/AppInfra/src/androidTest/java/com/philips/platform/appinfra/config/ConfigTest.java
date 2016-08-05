@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 
@@ -23,7 +22,7 @@ public class ConfigTest extends MockitoTestCase {
         super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra = new AppInfra.Builder().build(context);
+        mAppInfra =  new AppInfra.Builder().build(context);
         //mConfigInterface = mAppInfra.getConfigInterface();
 
           // overriding ConfigManager to get Test JSON data, as AppInfra library does not have uApp configuration file
@@ -59,8 +58,6 @@ public class ConfigTest extends MockitoTestCase {
                            "  }\n" +
                            "}";
                     result = new JSONObject(testJson);
-                    SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                    ssi.storeValueForKey(ConfigManager.uAPP_CONFIG_FILE, result.toString(), sse);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
