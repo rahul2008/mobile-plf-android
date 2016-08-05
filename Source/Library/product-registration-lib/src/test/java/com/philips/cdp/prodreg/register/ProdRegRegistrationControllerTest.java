@@ -94,7 +94,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         when(productMetadataResponseData.getRequiresSerialNumber()).thenReturn("true");
         when(productMetadataResponseData.getSerialNumberFormat()).thenReturn("[0-9]-[0-9]-[0-9]");
         when(registeredProductMock.getSerialNumber()).thenReturn("1234");
-        when(bundle.getParcelable(ProdRegConstants.PROD_REG_PRODUCT)).thenReturn(registeredProductMock);
+        when(bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT)).thenReturn(registeredProductMock);
         when(bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA)).thenReturn(productMetadataResponseData);
         when(bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY)).thenReturn(summaryDataMock);
     }
