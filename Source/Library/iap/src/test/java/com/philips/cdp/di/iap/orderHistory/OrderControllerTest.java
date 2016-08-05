@@ -13,6 +13,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXDataBuilder;
+import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -20,6 +21,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
@@ -49,25 +51,25 @@ public class OrderControllerTest {
     private MockPRXDataBuilder mMockPRXDataBuilder;
 
     @Mock
-    private OrderController mController;
+    private OrderController mOrderController;
     @Mock
     private Context mContext;
-    ArrayList<String> ctns = new ArrayList<>();
+    ArrayList<String> productCatalogNumber = new ArrayList<>();
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
-        ctns.add("HX9033/64");
-        ctns.add("HX9023/64");
-        ctns.add("HX9003/64");
-        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, ctns, mController);
+        productCatalogNumber.add("HX9033/64");
+        productCatalogNumber.add("HX9023/64");
+        productCatalogNumber.add("HX9003/64");
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, productCatalogNumber, mOrderController);
     }
 
     @Test
     public void orderHistorySuccessResponseWithData() throws JSONException {
-        mController = new OrderController(mContext, new MockOrderListener() {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override
             public void onGetOrderDetail(final Message msg) {
                 assertEquals(RequestCode.GET_ORDERS, msg.what);
@@ -76,7 +78,7 @@ public class OrderControllerTest {
         });
 
         setStoreAndDelegate();
-        mController.getOrderList(0);
+        mOrderController.getOrderList(0);
         JSONObject obj = new JSONObject(TestUtils.readFile(OrderControllerTest
                 .class, "orders.txt"));
         mNetworkController.sendSuccess(obj);
@@ -84,14 +86,14 @@ public class OrderControllerTest {
 
     @Test
     public void orderDetailSuccessResponseWithData() throws JSONException {
-        mController = new OrderController(mContext, new MockOrderListener() {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override
             public void onGetOrderDetail(final Message msg) {
                 assertEquals(RequestCode.GET_ORDER_DETAIL, msg.what);
                 assertTrue(msg.obj instanceof OrderDetail);
                 final ArrayList<OrderDetail> detail = new ArrayList<>();
                 detail.add((OrderDetail)msg.obj);
-                mController.requestPrxData(detail, new AbstractModel.DataLoadListener() {
+                mOrderController.requestPrxData(detail, new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(Message msg) {
                         assertTrue(msg.obj instanceof HashMap);
@@ -107,12 +109,12 @@ public class OrderControllerTest {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                assertNotNull(mController.getProductData(detail));
+                assertNotNull(mOrderController.getProductData(detail));
             }
         });
 
         setStoreAndDelegate();
-        mController.getOrderDetails("14000098999");
+        mOrderController.getOrderDetails("14000098999");
         JSONObject obj = new JSONObject(TestUtils.readFile(OrderControllerTest
                 .class, "order_detail.txt"));
         mNetworkController.sendSuccess(obj);
@@ -120,7 +122,7 @@ public class OrderControllerTest {
 
     @Test
     public void orderHistoryErrorResponse() {
-        mController = new OrderController(mContext, new MockOrderListener() {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override
             public void onGetOrderList(final Message msg) {
                 assertEquals(RequestCode.GET_ORDERS, msg.what);
@@ -129,13 +131,13 @@ public class OrderControllerTest {
         });
 
         setStoreAndDelegate();
-        mController.getOrderList(0);
+        mOrderController.getOrderList(0);
         mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test
     public void orderDetailErrorResponse() {
-        mController = new OrderController(mContext, new MockOrderListener() {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override
             public void onGetOrderDetail(final Message msg) {
                 assertEquals(RequestCode.GET_ORDER_DETAIL, msg.what);
@@ -144,13 +146,13 @@ public class OrderControllerTest {
         });
 
         setStoreAndDelegate();
-        mController.getOrderDetails("");
+        mOrderController.getOrderDetails("");
         mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test
     public void orderListEmptySuccessResponse() throws JSONException {
-        mController = new OrderController(mContext, new MockOrderListener() {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override
             public void onGetOrderList(final Message msg) {
                 assertEquals(RequestCode.GET_ORDERS, msg.what);
@@ -159,7 +161,7 @@ public class OrderControllerTest {
         });
 
         setStoreAndDelegate();
-        mController.getOrderList(0);
+        mOrderController.getOrderList(0);
         JSONObject obj = new JSONObject(TestUtils.readFile(OrderControllerTest
                 .class, "EmptyResponse.txt"));
         mNetworkController.sendSuccess(obj);
@@ -187,8 +189,55 @@ public class OrderControllerTest {
         mMockPRXDataBuilder.sendSuccess(responseData);
     }
 
+    @Test
+    public void testGetPhoneContactSuccessResponseWithData() throws JSONException {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
+            @Override
+            public void onGetPhoneContact(Message msg) {
+                assertEquals(RequestCode.GET_PHONE_CONTACT, msg.what);
+                assertTrue(msg.obj instanceof ContactsResponse);
+            }
+        });
+
+        setStoreAndDelegate();
+        mOrderController.getPhoneContact(NetworkURLConstants.SAMPLE_PRODUCT_CATEGORY);
+        JSONObject obj = new JSONObject(TestUtils.readFile(OrderControllerTest.class, "ContactResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetPhoneContactEmptySuccessResponse() throws JSONException {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
+            @Override
+            public void onGetPhoneContact(Message msg) {
+                assertEquals(RequestCode.GET_PHONE_CONTACT, msg.what);
+                assertEquals(NetworkConstants.EMPTY_RESPONSE, msg.obj);
+            }
+        });
+
+        setStoreAndDelegate();
+        mOrderController.getPhoneContact(NetworkURLConstants.SAMPLE_PRODUCT_CATEGORY);
+        JSONObject obj = new JSONObject(TestUtils.readFile(OrderControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetPhoneContactErrorResponse() {
+        mOrderController = new OrderController(mContext, new MockOrderListener() {
+            @Override
+            public void onGetPhoneContact(Message msg) {
+                assertEquals(RequestCode.GET_PHONE_CONTACT, msg.what);
+                assertTrue(msg.obj instanceof IAPNetworkError);
+            }
+        });
+
+        setStoreAndDelegate();
+        mOrderController.getPhoneContact(NetworkURLConstants.SAMPLE_PRODUCT_CATEGORY);
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
     public void setStoreAndDelegate() {
-        mController.setHybrisDelegate(mHybrisDelegate);
-        mController.setStore(TestUtils.getStubbedStore());
+        mOrderController.setHybrisDelegate(mHybrisDelegate);
+        mOrderController.setStore(TestUtils.getStubbedStore());
     }
 }

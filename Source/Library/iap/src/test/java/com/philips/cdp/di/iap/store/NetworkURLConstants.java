@@ -21,6 +21,7 @@ public class NetworkURLConstants {
             "=mobile_android&client_secret=secret", JANRAIN_ID);
     public static final String OAUTH_REFRESH_URL = "https://" + HOST_PORT +
             "/pilcommercewebservices/oauth/token";
+    public static final String SAMPLE_PRODUCT_CATEGORY = "ENERGYLIGHT_SU";
 
     public static final String BASE_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
             "/users/" + JANRAIN_EMAIL;
@@ -46,4 +47,5 @@ public class NetworkURLConstants {
     public static final String ORDER_HISTORY_URL = BASE_URL + "/orders?fields=FULL&lang=en&currentPage=" + DUMMY_PAGE_NUMBER;
     public static final String PRODUCT_DETAIL_URL = PRODUCT_CATALOG_BASE_URL + "/products/" + DUMMY_PRODUCT_ID;
     public static final String GET_UPDATE_ADDRESS_URL = BASE_URL + "/addresses/" + ADDRESS_ID;
+    public static final String PHONE_CONTACT_URL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/" + SAMPLE_PRODUCT_CATEGORY + ".querytype.(fallback)";
 }
