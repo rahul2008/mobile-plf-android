@@ -209,7 +209,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             });
         } else {
             hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
-                    R.drawable.consumercare_actionbar_back_arrow_white));
+                    R.drawable.left_arrow));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,6 +219,38 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         }
     }
 
+    public void updateTitle(){
+        hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
+                R.drawable.left_arrow));
+        hamburgerClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        actionBarTitle.setText(R.string.af_app_name);
+    }
+
+    public void updateTitleWithBack(){
+        hamburgerClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        actionBarTitle.setText(R.string.af_app_name);
+    }
+
+    public void updateTitleWithoutBack(){
+        hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+        hamburgerClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                philipsDrawerLayout.openDrawer(navigationView);
+            }
+        });
+        actionBarTitle.setText(R.string.af_app_name);
+    }
     @Override
     public void updateActionbar(String s) {
 

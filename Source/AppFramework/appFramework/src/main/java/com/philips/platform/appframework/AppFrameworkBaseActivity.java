@@ -82,4 +82,22 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         transaction.commit();
     }
 
+    private void removeFragmentByTag(String tag) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        Fragment currentFrag = fragmentManager
+                .findFragmentByTag(tag);
+
+        if (currentFrag != null) {
+            transaction.remove(currentFrag);
+        }
+        transaction.commit();
+    }
+
+    protected boolean findFragmentByTag(String tag) {
+        Fragment currentFrag = getSupportFragmentManager().findFragmentByTag(tag);
+
+        return (currentFrag != null);
+    }
+
 }
