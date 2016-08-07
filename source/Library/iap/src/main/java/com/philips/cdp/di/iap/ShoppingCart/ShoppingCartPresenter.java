@@ -183,7 +183,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             @Override
             public void onSuccess(Message msg) {
                 if (iapHandlerListener != null) {
-                    iapHandlerListener.onSuccess(0);
+                   getProductCartCount(context, iapHandlerListener, null);
                 }
             }
 

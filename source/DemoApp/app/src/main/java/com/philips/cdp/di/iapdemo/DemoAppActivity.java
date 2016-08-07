@@ -245,7 +245,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_add_ctn:
                 String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
-                mEtCTN.setText("");
                 if (!mCategorizedList.contains(str)) {
                     mCategorizedList.add(str);
                     Toast.makeText(DemoAppActivity.this, "Product Added Successfully", Toast.LENGTH_SHORT).show();
@@ -256,13 +255,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             case R.id.btn_buy_direct:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
-                        if (!mCategorizedList.isEmpty()) {
-                            String ctn = mCategorizedList.get(0);
-                            IAPLog.d(IAPLog.LOG, "Product CTN : " + ctn);
-                            mIapHandler.buyDirect(ctn);
-                        } else {
-                            Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
-                        }
+                        String ctn =mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
+                        mIapHandler.buyDirect(ctn);
                     } catch (RuntimeException e) {
                         Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
