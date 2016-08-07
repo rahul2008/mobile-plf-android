@@ -63,8 +63,11 @@ public class IAPHandler implements IAPExposedAPI {
     }
 
     @Override
-    public void buyDirect(String ctn) {
-        mImplementationHandler.buyDirect(ctn);
+    public void buyDirect(String ctnNumber) {
+        if(ctnNumber == null || ctnNumber.trim().equalsIgnoreCase("")){
+            throw new RuntimeException("Product Ctn passed is null");
+        }
+        mImplementationHandler.buyDirect(ctnNumber);
     }
 
     private void setLangAndCountry(final String language, final String country) {

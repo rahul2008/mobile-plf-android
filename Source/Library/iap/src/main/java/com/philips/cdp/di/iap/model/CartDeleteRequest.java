@@ -2,10 +2,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,17 +27,11 @@ public class CartDeleteRequest extends AbstractModel {
 
     @Override
     public Map<String, String> requestBody() {
-        Map<String, String> payload = new HashMap<>();
-        payload.put(ModelConstants.CART_ID, params.get(ModelConstants.CART_ID));
-        return payload;
+        return null;
     }
 
     @Override
     public String getUrl() {
-        if (params == null) {
-            throw new RuntimeException("Cart ID has to be supplied");
-        }
-        String cartNumber =params.get(ModelConstants.CART_ID);
-        return store.getDeleteCartUrl(cartNumber);
+        return store.getDeleteCartUrl();
     }
 }

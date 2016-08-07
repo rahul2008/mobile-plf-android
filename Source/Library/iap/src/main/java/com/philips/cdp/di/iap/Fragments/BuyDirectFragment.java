@@ -49,15 +49,14 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mBuyDirectController = new BuyDirectController(getContext(), this);
         String msg = getContext().getString(R.string.iap_processing);
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, msg);
             mBuyDirectController.createCart();
         }
-
     }
 
     @Override

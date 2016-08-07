@@ -32,9 +32,8 @@ public class HybrisStore extends AbstractStoreSpec {
 
     //Requests
     private static final String SUFFIX_GET_CARTS = "/carts";
-    private static final String SUFFIX_FIELDS_FULL_LANG_EN = "?fields=FULL&lang=en";
     private static final String SUFFIX_CART_CREATE = "/carts";
-    private static final String SUFFIX_CART_DELETE = "/%s";
+    private static final String SUFFIX_CART_DELETE = "/current";
     private static final String SUFFIX_CART_ENTRIES = "/current/entries";
     private static final String SUFFIX_PRODUCT_MODIFY = "/current/entries/%s";
 
@@ -185,7 +184,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     protected void generateGenericUrls() {
         String getCartsUrl = mBaseURl.concat(SUFFIX_GET_CARTS);
-        mGetCartUrl = mBaseURl.concat(SUFFIX_GET_CARTS).concat(SUFFIX_FIELDS_FULL_LANG_EN);
+        mGetCartUrl = mBaseURl.concat(SUFFIX_GET_CARTS).concat(LANG);
         mCreateCartUrl = mBaseURl.concat(SUFFIX_CART_CREATE);
         mDeleteCartUrl = mCreateCartUrl.concat(SUFFIX_CART_DELETE);
         mAddToCartUrl = getCartsUrl.concat(SUFFIX_CART_ENTRIES);
@@ -269,8 +268,8 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     @Override
-    public String getDeleteCartUrl(String cartId) {
-        return String.format(mDeleteCartUrl, cartId);
+    public String getDeleteCartUrl() {
+        return mDeleteCartUrl;
     }
 
     @Override
