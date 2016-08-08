@@ -729,6 +729,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                                     NO_PRODUCT_KEY));
                             disablePrxDependentButtons();
                             enableSupportButtonClickable();
+                            disableProgressDialog();
                         }
                     }
                 });
@@ -796,6 +797,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                             disablePrxDependentButtons();
                             enableSupportButtonClickable();
                             setConfigurableButton();
+                            disableProgressDialog();
                         }
                     }
                 });
@@ -1015,6 +1017,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     @Override
     public void onDestroy() {
+        disableProgressDialog();
+        super.onDestroy();
+        /*
+        Commenting below finish() because of "Rally DE9081".
+        [Coffee]After switching menu from consumer care to other menu from leftoffcanvas,
+        our application getting close
+         */
+//        getActivity().finish();
+    }
+
+    private void disableProgressDialog() {
         if (mProgressDialog != null && isAdded()) {
             if (mProgressDialog.isShowing()) {
                 try {
@@ -1034,13 +1047,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 Log.e(TAG, "Progress Dialog got IllegalArgumentException");
             }
         }
-        super.onDestroy();
-        /*
-        Commenting below finish() because of "Rally DE9081".
-        [Coffee]After switching menu from consumer care to other menu from leftoffcanvas,
-        our application getting close
-         */
-//        getActivity().finish();
     }
 
     @Override
