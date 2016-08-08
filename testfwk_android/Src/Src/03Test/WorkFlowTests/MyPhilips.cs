@@ -67,7 +67,7 @@ namespace Philips.SIG.Automation.Android.CDPP.Tests.Workflows
         {
             //LoginScreen.LoginUser("inapptest@mailinator.com", "Philips@123");
             Log_In.Click();
-            Log_In.SignIn("inapptest@mailinator.com", "Philips@123");        
+            Log_In.SignIn("hubble@mailinator.com", "Philips@123");        
         }
 
         [Then(@"I click on Settings from the Hamburger Menu List")]
