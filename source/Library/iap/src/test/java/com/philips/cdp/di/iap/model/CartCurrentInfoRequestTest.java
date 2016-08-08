@@ -32,25 +32,25 @@ public class CartCurrentInfoRequestTest {
 
     @Test
     public void matchCartCreateRequestURL() {
-        GetCartDetailsRequest request = new GetCartDetailsRequest(mStore, null, null);
+        GetCartsRequest request = new GetCartsRequest(mStore, null, null);
         Assert.assertEquals(NetworkURLConstants.CART_DETAIL_URL, request.getUrl());
     }
 
     @Test
     public void testRequestMethodIsGET() {
-        GetCartDetailsRequest request = new GetCartDetailsRequest(mStore, null, null);
+        GetCartsRequest request = new GetCartsRequest(mStore, null, null);
         Assert.assertEquals(Request.Method.GET, request.getMethod());
     }
 
     @Test
     public void testQueryParamsIsNull() {
-        GetCartDetailsRequest request = new GetCartDetailsRequest(mStore, null, null);
+        GetCartsRequest request = new GetCartsRequest(mStore, null, null);
         Assert.assertNull(request.requestBody());
     }
 
     @Test
     public void parseResponseShouldBeOfCartCurrentInfoDataType() {
-        GetCartDetailsRequest request = new GetCartDetailsRequest(mStore, null, null);
+        GetCartsRequest request = new GetCartsRequest(mStore, null, null);
         String oneAddress = TestUtils.readFile(CartCurrentInfoRequestTest.class, "create_cart.txt");
         Object response = request.parseResponse(oneAddress);
         Assert.assertEquals(response.getClass(), Carts.class);
@@ -60,8 +60,8 @@ public class CartCurrentInfoRequestTest {
     public void testonPostSuccess() {
         AbstractModel.DataLoadListener listener = Mockito.mock(AbstractModel.DataLoadListener.class);
         Message msg = Mockito.mock(Message.class);
-        GetCartDetailsRequest request = new GetCartDetailsRequest(mStore, null, listener);
-        GetCartDetailsRequest mockrequest = Mockito.spy(request);//new GetCartDetailsRequest(mStore, null, listener);
+        GetCartsRequest request = new GetCartsRequest(mStore, null, listener);
+        GetCartsRequest mockrequest = Mockito.spy(request);//new GetCartsRequest(mStore, null, listener);
         mockrequest.onPostSuccess(msg);
         verify(listener, Mockito.atLeast(1)).onModelDataLoadFinished(msg);
     }

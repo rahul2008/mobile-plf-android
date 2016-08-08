@@ -51,7 +51,7 @@ public class HybrisStoreTest {
 
     @Test
     public void confirmCurrentCartDetailsURL() {
-        assertEquals(NetworkURLConstants.CART_DETAIL_URL, mStore.getCartDetailsUrl());
+        assertEquals(NetworkURLConstants.CART_DETAIL_URL, mStore.getCartsUrl());
     }
 
     @Test

@@ -20,7 +20,7 @@ import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartDeleteRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
-import com.philips.cdp.di.iap.model.GetCartDetailsRequest;
+import com.philips.cdp.di.iap.model.GetCartsRequest;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
@@ -70,7 +70,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     @Override
     public void getCurrentCartDetails() {
-        GetCartDetailsRequest model = new GetCartDetailsRequest(getStore(), null, this);
+        GetCartsRequest model = new GetCartsRequest(getStore(), null, this);
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
     }
@@ -182,7 +182,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             @Override
             public void onSuccess(Message msg) {
                 if (iapHandlerListener != null) {
-                   getProductCartCount(context, iapHandlerListener, null);
+                    getProductCartCount(context, iapHandlerListener, null);
                 }
             }
 
@@ -257,7 +257,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     public void getProductCartCount(final Context context, final IAPCartListener
             iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        GetCartDetailsRequest model = new GetCartDetailsRequest(delegate.getStore(), null, null);
+        GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         model.setContext(context);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
@@ -266,14 +266,13 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                     createCart(context, iapHandlerListener, null, mShoppingCartLauncher, false);
                 } else {
-                    Carts getCartData = (Carts) msg.obj;
-
-                    int quantity = 0;
-                    int totalItems = getCartData.getCarts().get(0).getTotalItems();
-                    List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
-                    if (getCartData != null && getCartData.getCarts().size() > 1 || entries == null) {
+                    Carts getCarts = (Carts) msg.obj;
+                    if (getCarts != null && getCarts.getCarts().size() > 1) {
                         deleteCart(context, iapHandlerListener);
                     } else {
+                        int quantity = 0;
+                        int totalItems = getCarts.getCarts().get(0).getTotalItems();
+                        List<EntriesEntity> entries = getCarts.getCarts().get(0).getEntries();
                         if (totalItems != 0 && null != entries) {
                             for (int i = 0; i < entries.size(); i++) {
                                 quantity = quantity + entries.get(i).getQuantity();
@@ -299,7 +298,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        GetCartDetailsRequest model = new GetCartDetailsRequest(delegate.getStore(), null, null);
+        GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         model.setContext(context);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
@@ -308,33 +307,33 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                     createCart(context, iapHandlerListener, ctnNumber, mShoppingCartLauncher, true);
                 } else if (msg.obj instanceof Carts) {
-                    Carts getCartData = (Carts) msg.obj;
-                    if (getCartData != null && getCartData.getCarts().size() > 1) {
-                        deleteCart(context, iapHandlerListener);
-                    } else {
-                        if (null != getCartData) {
-                            int totalItems = getCartData.getCarts().get(0).getTotalItems();
-                            List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
-                            if (totalItems != 0 && null != entries) {
-                                boolean isProductAvailable = false;
-                                for (int i = 0; i < entries.size(); i++) {
-                                    if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
-                                        isProductAvailable = true;
-                                        mShoppingCartLauncher.launchShoppingCart();
-                                        break;
-                                    }
+                    Carts getCarts = (Carts) msg.obj;
+//                    if (getCarts != null && getCarts.getCarts().size() > 1) {
+//                        deleteCart(context, iapHandlerListener);
+//                    } else {
+                    if (null != getCarts) {
+                        int totalItems = getCarts.getCarts().get(0).getTotalItems();
+                        List<EntriesEntity> entries = getCarts.getCarts().get(0).getEntries();
+                        if (totalItems != 0 && null != entries) {
+                            boolean isProductAvailable = false;
+                            for (int i = 0; i < entries.size(); i++) {
+                                if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
+                                    isProductAvailable = true;
+                                    mShoppingCartLauncher.launchShoppingCart();
+                                    break;
                                 }
-                                if (!isProductAvailable)
-                                    addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher,
-                                            true);
-                                if (iapHandlerListener != null) {
-                                    iapHandlerListener.onSuccess(0);
-                                }
-                            } else {
-                                addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                             }
+                            if (!isProductAvailable)
+                                addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher,
+                                        true);
+                            if (iapHandlerListener != null) {
+                                iapHandlerListener.onSuccess(0);
+                            }
+                        } else {
+                            addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                         }
                     }
+                    // }
                 }
             }
 

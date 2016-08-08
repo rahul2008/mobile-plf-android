@@ -13,9 +13,9 @@ import com.philips.cdp.di.iap.response.carts.Carts;
 
 import java.util.Map;
 
-public class GetCartDetailsRequest extends AbstractModel {
-    public GetCartDetailsRequest(StoreSpec store, Map<String, String> query,
-                                 DataLoadListener listener) {
+public class GetCartsRequest extends AbstractModel {
+    public GetCartsRequest(StoreSpec store, Map<String, String> query,
+                           DataLoadListener listener) {
         super(store, query, listener);
     }
 
@@ -26,15 +26,7 @@ public class GetCartDetailsRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(final Object response) {
-        //We recieve only one entity and not an array. To support multiple carts, use constructor
-        // with list
-
         return new Gson().fromJson(response.toString(), Carts.class);
-//        CartsEntity entity = new Gson().fromJson(response.toString(), CartsEntity.class);
-//        List<CartsEntity> list = new ArrayList<CartsEntity>();
-//        list.add(entity);
-//        Carts carts = new Carts(list);
-//        return carts;
     }
 
     @Override
@@ -49,6 +41,6 @@ public class GetCartDetailsRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getCartDetailsUrl();
+        return store.getCartsUrl();
     }
 }

@@ -81,11 +81,10 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mAddToCartUrl;
     protected String mBaseURl;
     protected String mBaseURlForProductCatalog;
-    private String mCurrentCartUrl;
     private String mGetRetailersUrl;
     private String mOauthUrl;
     private String mOauthRefreshUrl;
-    private String mGetCartUrl;
+    private String mGetCartsUrl;
     private String mGetProductCatalogUrl;
     private boolean mUserLoggedout;
     private String mRetailersAlter;
@@ -184,7 +183,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     protected void generateGenericUrls() {
         String getCartsUrl = mBaseURl.concat(SUFFIX_GET_CARTS);
-        mGetCartUrl = mBaseURl.concat(SUFFIX_GET_CARTS).concat(LANG);
+        mGetCartsUrl = mBaseURl.concat(SUFFIX_GET_CARTS).concat(LANG);
         mCreateCartUrl = mBaseURl.concat(SUFFIX_CART_CREATE);
         mDeleteCartUrl = mCreateCartUrl.concat(SUFFIX_CART_DELETE);
         mAddToCartUrl = getCartsUrl.concat(SUFFIX_CART_ENTRIES);
@@ -249,10 +248,9 @@ public class HybrisStore extends AbstractStoreSpec {
         return mIAPUser;
     }
 
-    //Request Urls
     @Override
-    public String getCartDetailsUrl() {
-        return mGetCartUrl;
+    public String getCartsUrl() {
+        return mGetCartsUrl;
     }
 
     @Override
