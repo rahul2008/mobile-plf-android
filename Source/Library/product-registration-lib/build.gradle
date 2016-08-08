@@ -250,3 +250,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     }
 
 }
+tasks.withType(Test) {
+    maxHeapSize = '4g'
+    scanForTestClasses = false
+    include "**/*Test.class"
+    test {
+        // set JVM arguments for the test JVM(s)
+        jvmArgs '-noverify'
+    }
+}
