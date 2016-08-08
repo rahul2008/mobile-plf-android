@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 
@@ -75,7 +76,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
                     .findViewById(R.id.arrow_left);
             textView = (TextView) mCustomView.findViewById(R.id.action_bar_text);
             //noinspection deprecation
-            arrowImage.setBackground(getResources().getDrawable(R.drawable.left_arrow));
+            arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
             mActionBar.setCustomView(mCustomView, params);
             textView.setText(R.string.af_app_name);
         }
