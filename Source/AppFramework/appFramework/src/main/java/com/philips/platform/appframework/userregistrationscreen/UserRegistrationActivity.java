@@ -20,6 +20,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
@@ -99,8 +100,10 @@ public class UserRegistrationActivity extends AppFrameworkBaseActivity implement
     
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(UserRegistrationActivity.this, HomeActivity.class));
+        if(!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+            startActivity(new Intent(UserRegistrationActivity.this, HomeActivity.class));
+            super.onBackPressed();
+        }
     }
 
     @Override
