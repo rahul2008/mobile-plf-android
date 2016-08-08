@@ -170,6 +170,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     public void onBackPressed() {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
+            return;
         }
         else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
             inAppPurchaseBackPress();
