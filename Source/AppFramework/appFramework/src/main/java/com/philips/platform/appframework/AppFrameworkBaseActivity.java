@@ -43,7 +43,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             try {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                fragmentTransaction.addToBackStack(fragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 Logger.e(TAG, "IllegalStateException" + e.getMessage());

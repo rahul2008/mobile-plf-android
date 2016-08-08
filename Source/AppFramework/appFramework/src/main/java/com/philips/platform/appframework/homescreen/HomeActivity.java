@@ -251,6 +251,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     public void onBackPressed() {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
+            return;
         }
         else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
             inAppPurchaseBackPress();
