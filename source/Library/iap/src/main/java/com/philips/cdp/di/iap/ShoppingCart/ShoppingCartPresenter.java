@@ -101,7 +101,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             cartItem.setImageUrl(data.getImageURL());
             cartItem.setProductTitle(data.getProductTitle());
             cartItem.setCtnNumber(ctn);
-            cartItem.setCartNumber(cartsEntity.getCode());
             cartItem.setQuantity(entry.getQuantity());
             cartItem.setFormatedPrice(entry.getBasePrice().getFormattedValue());
             cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
