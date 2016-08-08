@@ -20,6 +20,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
@@ -90,7 +91,7 @@ public class UserRegistrationActivity extends AppFrameworkBaseActivity implement
                     .findViewById(R.id.arrow_left);
             textView = (TextView) mCustomView.findViewById(R.id.action_bar_text);
             //noinspection deprecation
-            arrowImage.setBackground(getResources().getDrawable(R.drawable.left_arrow));
+            arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
             mActionBar.setCustomView(mCustomView, params);
             textView.setText(R.string.af_app_name);
         }
