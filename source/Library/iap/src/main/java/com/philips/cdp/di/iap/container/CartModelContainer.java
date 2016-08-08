@@ -21,6 +21,7 @@ public class CartModelContainer {
     private boolean isOrderPlaced;
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
+    private String cartNumber;
     private String regionIsoCode;
     private String mAddressId;
     private String mOrderNumber;
@@ -63,6 +64,14 @@ public class CartModelContainer {
 
     public void setRegionIsoCode(String regionIsoCode) {
         this.regionIsoCode = regionIsoCode;
+    }
+
+    public String getCartNumber() {
+        return cartNumber;
+    }
+
+    public void setCartNumber(final String cartNumber) {
+        this.cartNumber = cartNumber;
     }
 
     public ArrayList<ShoppingCartData> getShoppingCartData() {
@@ -116,6 +125,7 @@ public class CartModelContainer {
 
     public void resetApplicationFields() {
         setOrderPlaced(false);
+        cartNumber = null;
         mBillingAddress = null;
         mShoppingCartData = null;
         mShippingAddressFields = null;

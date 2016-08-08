@@ -19,6 +19,7 @@ public class ShoppingCartData {
 
     private int mTotalItems;
     private int mEntryNumber;
+    private String mCartNumber;
     private int mStockLevel;
     private DeliveryModeEntity mDeliveryModeEntity;
     private DeliveryAddressEntity mDeliveryAddressEntity;
@@ -98,6 +99,15 @@ public class ShoppingCartData {
         return mDeliveryModeEntity;
     }
 
+    public String getCartNumber() {
+        return mCartNumber;
+    }
+
+    public void setCartNumber(String cartNumber) {
+        mCartNumber = cartNumber;
+        CartModelContainer.getInstance().setCartNumber(mCartNumber);
+    }
+
     public int getEntryNumber() {
         return mEntry.getEntryNumber();
     }
@@ -163,6 +173,7 @@ public class ShoppingCartData {
                 "Quantity = " + mQuantity +
                 "Total Item" + mTotalItems +
                 "EntryNumber =" + mEntryNumber +
+                "CartNumber =" + mCartNumber +
                 "StockLevel" + mStockLevel;
     }
 
