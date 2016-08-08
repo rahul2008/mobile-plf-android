@@ -52,9 +52,7 @@ public class PlaceOrderRequestTest {
 
     @Test
     public void testQueryParamsHasBody() {
-        String cartNumber = CartModelContainer.getInstance().getCartNumber();
         Map<String, String> params = new HashMap<String, String>();
-        params.put(ModelConstants.CART_ID, "current");
         params.put(ModelConstants.SECURITY_CODE, "122");
 
         assertEquals(request.requestBody(), params);

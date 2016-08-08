@@ -104,15 +104,6 @@ public class ShoppingCartDataTest  extends TestCase {
         assertFalse(productTitle.toString().equalsIgnoreCase("google.com"));
     }
 
-    @Test
-    public void testGetCartNumber() {
-        shoppingCartData.setCartNumber("14000107129");
-        String cartNumber = shoppingCartData.getCartNumber();
-        assertFalse(cartNumber.isEmpty());
-        assertFalse(cartNumber == null);
-        assertTrue(cartNumber.toString().equalsIgnoreCase("14000107129"));
-        assertFalse(cartNumber.toString().equalsIgnoreCase("google.com"));
-    }
 
     @Test
     public void testGetDeliveryMode() {
