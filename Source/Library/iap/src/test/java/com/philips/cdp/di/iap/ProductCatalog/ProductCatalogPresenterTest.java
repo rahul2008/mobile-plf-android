@@ -247,7 +247,6 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
 
         if (productList.size() > 0) {
             assert (productList.get(0) instanceof String);
-           mProductCatalogPresenter.getProductCatalogDataFromStoredData();
         } else {
             assertFalse(false);
         }

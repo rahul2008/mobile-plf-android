@@ -27,6 +27,7 @@ public class NetworkURLConstants {
             "/users/" + JANRAIN_EMAIL;
     public static final String PRODUCT_CATALOG_BASE_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE;
     public static final String CART_DETAIL_URL = BASE_URL + "/carts?fields=FULL&lang=en";
+    public static final String CART_DELETE_URL = BASE_URL+"/carts/current";
     public static final String CART_CREATE_URL = BASE_URL + "/carts";
     public static final String CART_ADD_TO_URL = BASE_URL + "/carts/current/entries";
     public static final String CART_MODIFY_PRODUCT_URL = CART_ADD_TO_URL + "/" + DUMMY_PRODUCT_NUBMBER;
