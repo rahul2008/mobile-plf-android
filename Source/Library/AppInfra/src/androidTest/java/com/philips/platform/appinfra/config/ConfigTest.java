@@ -138,8 +138,8 @@ public class ConfigTest extends MockitoTestCase {
         assertEquals(ConfigInterface.ConfigError.ConfigErrorEnum.InvalidKey,configError.getErrorCode() );
 
         configError.setErrorCode(null);// reset error code to null
-        assertFalse(mConfigInterface.setPropertyForKey("NonExistingGroupKey", "NewKey", "test", configError));// Non Existing Group  and  Existing key
-        assertEquals(ConfigInterface.ConfigError.ConfigErrorEnum.GroupNotExists,configError.getErrorCode() );
+        assertTrue(mConfigInterface.setPropertyForKey("NonExistingGroupKey", "NewKey", "test", configError));// Non Existing Group  and  Existing key
+        assertEquals(null,configError.getErrorCode() );
 
         //String set
         configError.setErrorCode(null);// reset error code to null
