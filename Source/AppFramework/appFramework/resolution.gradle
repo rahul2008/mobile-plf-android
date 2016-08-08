@@ -25,15 +25,15 @@ configurations.all {
         force 'com.philips.cdp:iap:3.1.0-SNAPSHOT'
         force 'com.philips.cdp:AppInfra:1.1.0-SNAPSHOT'
         force 'com.philips.cdp:uikitLib:3.3.0-SNAPSHOT'
+        force 'com.philips.cdp:registrationApi:6.0.0-SNAPSHOT'
 
-
-        force 'com.philips.cdp:hsdp:+'
-        force 'com.philips.cdp:jump:+'
+        //force 'com.philips.cdp:hsdp:+'
+        //force 'com.philips.cdp:jump:+'
         force 'com.philips.cdp:localeMatch:1.1.2-SNAPSHOT'
         force 'com.philips.cdp:prx:1.0.1-SNAPSHOT'
         force 'com.philips.cdp:servertime:+'
         force 'com.philips.cdp:Tagging:3.1.0-SNAPSHOT'
-        force 'com.philips.cdp:registrationApi:+'
+
         cacheChangingModulesFor 15, 'seconds'
 
     }
