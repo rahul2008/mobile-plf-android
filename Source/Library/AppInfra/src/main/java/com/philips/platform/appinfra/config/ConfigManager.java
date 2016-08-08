@@ -133,35 +133,37 @@ public class ConfigManager implements ConfigInterface {
             }
             try {
                 boolean isCocoPresent = deviceObject.has(groupName);
+                JSONObject cocoJSONobject;
                 if (!isCocoPresent) { // if request coco  does not exist
-                    configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
+                    // configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
+                    cocoJSONobject = new JSONObject();
+                    deviceObject.put(groupName, cocoJSONobject);
                 } else {
-                    JSONObject cocoJSONobject = deviceObject.optJSONObject(groupName);
-                    if (null == cocoJSONobject) { // invalid Coco JSON
-                        configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
-                    } else {
-                        if (key.matches("[a-zA-Z0-9_.-]+")) {
-                            // boolean isKeyPresent = cocoJSONobject.has(key);
-                            if (object instanceof ArrayList) {
-                                JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
-                                cocoJSONobject.put(key, jsonArray);
-                            } else {
-                                cocoJSONobject.put(key, object);
-                            }
-                            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                            ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
-                            if (null == sse.getErrorCode()) {
-                                setOperation = true;
-                            } else {
-                                setOperation = false;
-                            }
-                        } else {
-                            configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
-                        }
-
-                    }
+                    cocoJSONobject = deviceObject.optJSONObject(groupName);
                 }
+                if (null == cocoJSONobject) { // invalid Coco JSON
+                    configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
+                } else {
+                    if (key.matches("[a-zA-Z0-9_.-]+")) {
+                        // boolean isKeyPresent = cocoJSONobject.has(key);
+                        if (object instanceof ArrayList) {
+                            JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
+                            cocoJSONobject.put(key, jsonArray);
+                        } else {
+                            cocoJSONobject.put(key, object);
+                        }
+                        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+                        ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
+                        if (null == sse.getErrorCode()) {
+                            setOperation = true;
+                        } else {
+                            setOperation = false;
+                        }
+                    } else {
+                        configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
+                    }
 
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 setOperation = false;
