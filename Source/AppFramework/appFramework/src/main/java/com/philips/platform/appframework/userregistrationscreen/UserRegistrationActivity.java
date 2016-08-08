@@ -101,10 +101,8 @@ public class UserRegistrationActivity extends AppFrameworkBaseActivity implement
     @Override
     public void onBackPressed() {
         if(!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-            super.onBackPressed();
-        }
-        else {
             startActivity(new Intent(UserRegistrationActivity.this, HomeActivity.class));
+            super.onBackPressed();
         }
     }
 
