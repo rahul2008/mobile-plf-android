@@ -31,7 +31,6 @@ public class PlaceOrderRequest extends AbstractModel {
     @Override
     public Map<String, String> requestBody() {
         Map<String, String> params = new HashMap<>();
-        params.put(ModelConstants.CART_ID, "current");
         String securityCode = this.params.get(ModelConstants.SECURITY_CODE);
         if (securityCode != null)
             params.put(ModelConstants.SECURITY_CODE, securityCode);

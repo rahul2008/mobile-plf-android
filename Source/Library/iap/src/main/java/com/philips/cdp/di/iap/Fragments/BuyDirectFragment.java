@@ -31,7 +31,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     private Context mContext;
     private String mCTN;
     private String mAddressId;
-    private PaymentMethod paymentMethod;
+    private PaymentMethod mPaymentMethod;
 
     public static BuyDirectFragment createInstance(Bundle args, AnimationType animType) {
         BuyDirectFragment fragment = new BuyDirectFragment();
@@ -51,8 +51,8 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBuyDirectController = new BuyDirectController(getContext(), this);
-        String msg = getContext().getString(R.string.iap_processing);
+        mBuyDirectController = new BuyDirectController(mContext, this);
+        String msg = mContext.getString(R.string.iap_processing);
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, msg);
             mBuyDirectController.createCart();
@@ -136,10 +136,10 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
             Utility.changeProgressMessage("Fetching Payment details");
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryMode =" + TAG);
         PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
-        paymentMethod = paymentMethods.getPayments().get(0);
-        if (paymentMethod != null) {
+        mPaymentMethod = paymentMethods.getPayments().get(0);
+        if (mPaymentMethod != null) {
             //Set Payment Mode from Msg
-            mBuyDirectController.setPaymentMode(paymentMethod.getId());
+            mBuyDirectController.setPaymentMode(mPaymentMethod.getId());
         }
     }
 
@@ -148,7 +148,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
         Utility.dismissProgressDialog();
         //Inflate OrderSummary Fragment here
         Bundle bundle = new Bundle();
-        bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, paymentMethod);
+        bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
         addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
     }
 }
