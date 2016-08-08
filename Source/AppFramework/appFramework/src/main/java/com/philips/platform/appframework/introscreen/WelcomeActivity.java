@@ -18,9 +18,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.HomeActivityState;
+import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 
 public class WelcomeActivity extends AppFrameworkBaseActivity {
     ImageView arrowImage;
@@ -28,6 +34,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
     FragmentManager mFragmentManager;
     WelcomeScreenFragment welcomeScreenFragment;
     FragmentTransaction fragmentTransaction;
+    final static int backButtonClick = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +50,18 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
         presenter.onLoad(this);
     }
 
-    void changeActionBarState(boolean isVisible){
-        if(!isVisible){
+    @Override
+    public void onBackPressed() {
+        if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+            presenter.onClick(backButtonClick, this);
+        }
+    }
+
+    void changeActionBarState(boolean isVisible) {
+        if (!isVisible) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             getSupportActionBar().hide();
-        }else {
+        } else {
             getSupportActionBar().show();
         }
     }
@@ -82,28 +96,29 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
         }
     }
 
-    void updateTitle(){
+    void updateTitle() {
         arrowImage.setVisibility(View.VISIBLE);
         textView.setText(R.string.af_app_name);
     }
 
-    void updateTitleWithBack(){
+    void updateTitleWithBack() {
         arrowImage.setVisibility(View.VISIBLE);
         textView.setText(R.string.af_app_name);
     }
 
-    void updateTitleWithoutBack(){
+    void updateTitleWithoutBack() {
         arrowImage.setVisibility(View.INVISIBLE);
         textView.setText(R.string.af_app_name);
     }
 
-    void loadWelcomeFragment(){
+    void loadWelcomeFragment() {
         mFragmentManager = this.getSupportFragmentManager();
         welcomeScreenFragment = new WelcomeScreenFragment();
         fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_frame_container, welcomeScreenFragment);
         fragmentTransaction.commit();
     }
+
     @Override
     protected void onRestart() {
         super.onRestart();
