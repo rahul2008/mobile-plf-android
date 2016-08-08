@@ -59,6 +59,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
     private static String TAG = SplashActivity.class.getSimpleName();
+    private boolean isVisible = false;
 
 
     @Override
@@ -93,9 +94,21 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         title.setText(titleText);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isVisible = false;
+    }
+
     /*
-     * Splash screen has to go off after specified timeframe.
-     */
+             * Splash screen has to go off after specified timeframe.
+             */
     private void startTimer() {
         new Handler().postDelayed(new Runnable() {
 
@@ -106,26 +119,32 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
             @Override
             public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main mActivity
-                User user = new User(SplashActivity.this);
-                if (getIntroScreenDonePressed()) {
-                    if (user.isUserSignIn()) {
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Launching HomeActivity ");
+                if (isVisible) {
+                    // This method will be executed once the timer is over
+                    // Start your app main mActivity
+                    User user = new User(SplashActivity.this);
+                    if (getIntroScreenDonePressed()) {
+                        if (user.isUserSignIn()) {
+                            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Launching HomeActivity ");
 
+                        } else {
+                            startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
+                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " User Registration invoked ");
+
+                        }
                     } else {
-                        startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
-                        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " User Registration invoked ");
-
+                        Intent i = new Intent(SplashActivity.this, WelcomeActivity.class);
+                        startActivity(i);
                     }
-                } else {
-                    Intent i = new Intent(SplashActivity.this, WelcomeActivity.class);
-                    startActivity(i);
-                }
 
-                finish();
+                    finish();
+                }
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }
