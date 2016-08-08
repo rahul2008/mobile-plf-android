@@ -38,7 +38,7 @@ public class ConsumerCareLauncher implements MainMenuListener,
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
         localeManager.setInputLocale("en", "GB");
 
-        DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
+//        DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
 
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(

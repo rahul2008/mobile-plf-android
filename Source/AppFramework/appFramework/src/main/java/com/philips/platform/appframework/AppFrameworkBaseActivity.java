@@ -40,7 +40,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     protected void showFragment(Fragment fragment, String fragmentTag) {
         int containerId = R.id.frame_container;
 
-//        if(!findFragmentByTag(fragmentTag)) {
             try {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(containerId, fragment, fragmentTag);
@@ -50,7 +49,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
                 Logger.e(TAG, "IllegalStateException" + e.getMessage());
                 e.printStackTrace();
             }
-//        }
     }
 
     @Override

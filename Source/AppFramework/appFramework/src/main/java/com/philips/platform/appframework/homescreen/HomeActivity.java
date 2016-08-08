@@ -9,6 +9,7 @@ package com.philips.platform.appframework.homescreen;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -234,12 +235,10 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void showSupportFragment() {
-        if(!findFragmentByTag("digitalcare")) {
             if (mConsumerCareFragment == null) {
                 mConsumerCareFragment = new ConsumerCareLauncher();
             }
             mConsumerCareFragment.initCC(this, actionBarClickListener);
-        }
     }
 
     private void showDebugTestFragment() {
@@ -252,10 +251,15 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     public void onBackPressed() {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
-            super.onBackPressed();
         }
         else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
             inAppPurchaseBackPress();
+        }
+
+        if(getSupportFragmentManager().getBackStackEntryCount()==1){
+            finishAffinity();
+        }
+        else{
             super.onBackPressed();
         }
     }
