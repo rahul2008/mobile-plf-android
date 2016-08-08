@@ -55,6 +55,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
     private int SplashID = 90001;
     private static String TAG = SplashActivity.class.getSimpleName();
+    private boolean isVisible = false;
 
 
     @Override
@@ -70,9 +71,21 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isVisible = false;
+    }
+
     /*
-     * Initialize the views.
-     */
+             * Initialize the views.
+             */
     private void initView() {
         //Hide the Action bar
         getSupportActionBar().hide();
@@ -103,11 +116,17 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
             @Override
             public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
-                presenter.onLoad(SplashActivity.this);
-                finish();
+                if(isVisible) {
+                    // This method will be executed once the timer is over
+                    // Start your app main activity
+                    presenter.onLoad(SplashActivity.this);
+                    finish();
+                }
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

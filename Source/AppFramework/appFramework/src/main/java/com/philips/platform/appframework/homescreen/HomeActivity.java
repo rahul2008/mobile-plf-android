@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -173,6 +174,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
             inAppPurchaseBackPress();
         }
+        else
+        if(!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+            super.onBackPressed();
+        }
 
         if(getSupportFragmentManager().getBackStackEntryCount()==1){
             finishAffinity();
@@ -255,4 +260,5 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     public void updateActionbar(String s) {
 
     }
+
 }
