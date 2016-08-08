@@ -207,12 +207,4 @@ public class CartModelContainer {
     public void setCartCreated(boolean mIsCartCreated) {
         this.mIsCartCreated = mIsCartCreated;
     }
-
-    public String getBuyDirectCartNumber() {
-        return mBuyDirectCartNumber;
-    }
-
-    public void setBuyDirectCartNumber(String pBuyDirectCartNumber) {
-        mBuyDirectCartNumber = pBuyDirectCartNumber;
-    }
 }

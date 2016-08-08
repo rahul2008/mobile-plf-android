@@ -160,7 +160,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         IAPCartListener mProductCountListener = new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
-                assertEquals(3,count);
+                assertEquals(1,count);
             }
 
             @Override

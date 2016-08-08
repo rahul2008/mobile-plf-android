@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.controller;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartDeleteRequest;
@@ -51,14 +50,6 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         mMakePaymentListener = listener;
     }
 
-    public void getCartDelete(String cartId) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put(ModelConstants.CART_ID, cartId);
-
-        CartDeleteRequest model = new CartDeleteRequest(getStore(), params, this);
-        getHybrisDelegate().sendRequest(RequestCode.DELETE_CART, model, model);
-    }
-
     public void getPaymentDetails() {
         GetPaymentDetailRequest model = new GetPaymentDetailRequest(getStore(), null, this);
         getHybrisDelegate().sendRequest(RequestCode.GET_PAYMENT_DETAILS, model, model);
@@ -74,15 +65,8 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     public void placeOrder(String pSecurityCode) {
         final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        String cartNumber = CartModelContainer.getInstance().getCartNumber();
-        String buyDirectCartNumber = CartModelContainer.getInstance().getBuyDirectCartNumber();
-
         HashMap<String, String> query = new HashMap<>();
-        if (buyDirectCartNumber != null)
-            query.put(ModelConstants.CART_ID, buyDirectCartNumber);
-        else
-            query.put(ModelConstants.CART_ID, cartNumber);
-
+        query.put(ModelConstants.CART_ID, "current");
         if (pSecurityCode != null)
             query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
 

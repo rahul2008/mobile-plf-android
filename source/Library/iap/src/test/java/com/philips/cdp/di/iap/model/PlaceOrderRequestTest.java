@@ -35,7 +35,6 @@ public class PlaceOrderRequestTest {
     public void setUP() {
         mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
         mStore.initStoreConfig("en", "us", null);
-        CartModelContainer.getInstance().setCartNumber("3423423432");
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.SECURITY_CODE, "122");
         request = new PlaceOrderRequest(mStore, params, null);
@@ -55,7 +54,7 @@ public class PlaceOrderRequestTest {
     public void testQueryParamsHasBody() {
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
         Map<String, String> params = new HashMap<String, String>();
-        params.put(ModelConstants.CART_ID, cartNumber);
+        params.put(ModelConstants.CART_ID, "current");
         params.put(ModelConstants.SECURITY_CODE, "122");
 
         assertEquals(request.requestBody(), params);
