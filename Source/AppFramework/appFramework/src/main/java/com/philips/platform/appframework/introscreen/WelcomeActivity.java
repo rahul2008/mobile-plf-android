@@ -190,6 +190,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements View.On
         switch (v.getId()) {
             case R.id.start_registration_button:
                 setIntroScreenDonePressed();
+                finish();
                 if (user.isUserSignIn()) {
                     startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
                 } else {
@@ -197,6 +198,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements View.On
                 }
                 break;
             case R.id.appframework_skip_button:
+                finish();
                 if (user.isUserSignIn()) {
                     startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
                 } else {
