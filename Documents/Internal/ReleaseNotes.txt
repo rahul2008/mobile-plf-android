@@ -1,9 +1,18 @@
 Product Registration for Android Release Notes
 ===============================================
 
+	Version - 1.2.0	                           Date: 21-07-2016
+----------------------------------------------------------------
+	Following issues are Fixed 
+
+	1. US10198 - Android N Evaluation and Fixes
+	2. DE12603 - Application get crash on developer mode when app sent background and tap on app icon
+	3. DE12583 - Application get crash while getting data from PRX (when app sent back ground immediate)
+
+
 	Version - 1.1.0	                           Date: 21-07-2016
 ----------------------------------------------------------------
-	Follwoing issues are Fixed 
+	Following issues are Fixed 
 	
 	1. Included UserRegistration 7.0.0
 	
