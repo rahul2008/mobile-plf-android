@@ -1,6 +1,7 @@
 package com.philips.platform.appframework;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.appframework.introscreen.WelcomePresenter;
@@ -38,16 +39,15 @@ public class WelcomeScreenUnitTestcase {
         context = mock(WelcomeActivity.class);
         AppFrameworkApplication appFrameworkApplication = mock(AppFrameworkApplication.class);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplication);
-     //   when(context).thenReturn(WelcomeActivity);
         flowManager = new UIFlowManager();
         when(appFrameworkApplication.getFlowManager()).thenReturn(flowManager);
         presenter = new WelcomePresenter();
         sharedPreferenceUtility = mock(SharedPreferenceUtility.class);
+        FragmentManager mFragmentManager = mock(FragmentManager.class);
     }
 
     @Test
     public void testSkipClickTest() {
-
         presenter.onClick(R.id.appframework_skip_button,context);
         Assert.assertEquals(UIState.UI_USER_REGISTRATION_STATE,flowManager.getCurrentState().getStateID());
     }
@@ -61,7 +61,6 @@ public class WelcomeScreenUnitTestcase {
 
     @Test
     public void testDoneClickTest() {
-
         presenter.onClick(R.id.start_registration_button,context);
         Assert.assertEquals(UIState.UI_USER_REGISTRATION_STATE,flowManager.getCurrentState().getStateID());
     }

@@ -17,6 +17,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 import java.util.ArrayList;
 
@@ -24,10 +25,13 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
 
     private SettingsAdapter mAdapter = null;
     private ListView mList = null;
+    UIBasePresenter uiBasePresenter;
+    public static final int logOutButton = 5555;
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {
-            backstackFragment();
+            uiBasePresenter = new SettingsFragmentPresenter();
+            uiBasePresenter.onClick(logOutButton,getActivity());
         }
 
         @Override

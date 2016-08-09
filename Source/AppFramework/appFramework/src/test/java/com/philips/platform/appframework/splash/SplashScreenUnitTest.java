@@ -2,7 +2,6 @@ package com.philips.platform.appframework.splash;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
@@ -19,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
@@ -44,17 +42,12 @@ public class SplashScreenUnitTest {
     @Before
     public void setUp() throws Exception {
         context = mock(Context.class);
-
         AppFrameworkApplication appFrameworkApplication = mock(AppFrameworkApplication.class);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplication);
         flowManager = new UIFlowManager();
         when(appFrameworkApplication.getFlowManager()).thenReturn(flowManager);
         presenter = spy(new SplashPresenter());
-        //presenter.sharedPreferenceUtility = mock(SharedPreferenceUtility.class);
         sharedPreferenceUtility = mock(SharedPreferenceUtility.class);
-        //when(presenter.getSharedPreferenceUtility(any(Context.class))).thenReturn(presenter.sharedPreferenceUtility);
-
-
     }
 
 
@@ -67,19 +60,16 @@ public class SplashScreenUnitTest {
 
     @Test
     public void launchRegistrationTest() {
-        WelcomeRegistrationState welcomeState = new WelcomeRegistrationState(UIState.UI_WELCOME_REGISTRATION_STATE);
+        WelcomeRegistrationState welcomeState = new WelcomeRegistrationState(UIState.UI_WELCOME_STATE);
         flowManager.setCurrentState(welcomeState);
-        User user= UICoCoUserRegImpl.getInstance().getUserObject(RuntimeEnvironment.application.getApplicationContext());
         presenter.onLoad(context);
-        Assert.assertEquals(flowManager.getCurrentState().getStateID(), UIState.UI_WELCOME_REGISTRATION_STATE);
+        Assert.assertEquals(flowManager.getCurrentState().getStateID(), UIState.UI_WELCOME_STATE);
     }
 
 
     @Test
     public void launchWelcomeTest() {
-//        when(sharedPreferenceUtility.getPreferenceBoolean(UIConstants.DONE_PRESSED)).thenReturn(false);
         uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
-        //when((UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION)).thenReturn(uiCoCoUserReg);
         sharedPreferenceUtility.writePreferenceBoolean(UIConstants.DONE_PRESSED,false);
         presenter.onLoad(context);
         Assert.assertEquals(flowManager.getCurrentState().getStateID(), UIState.UI_WELCOME_STATE);

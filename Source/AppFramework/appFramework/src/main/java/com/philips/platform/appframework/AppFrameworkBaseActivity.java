@@ -44,18 +44,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
             }
     }
 
-    public void showFragment(Fragment fragment, String fragmentTag, boolean addToBackStack) {
-        int containerId = R.id.frame_container;
-
-        try {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(containerId, fragment, fragmentTag);
-            fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

@@ -12,7 +12,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 
 public class HomeScreenFragmentPresenter extends UIBasePresenter {
 
-    HomeScreenFragmentPresenter(){
+    public HomeScreenFragmentPresenter(){
         setState(UIState.UI_HOME_FRAGMENT_STATE);
     }
     @Override

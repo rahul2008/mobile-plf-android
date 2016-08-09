@@ -15,6 +15,7 @@ import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
+import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 
@@ -29,6 +30,14 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UICoCo
     UIState uiState;
     @Override
     public void onClick(int componentID, Context context) {
+        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+        switch (componentID){
+            case SettingsFragment.logOutButton:
+                uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
+                uiState.setPresenter(this);
+                appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
+                break;
+        }
     }
 
     @Override

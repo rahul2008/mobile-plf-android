@@ -55,6 +55,7 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
                 appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
                 if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE))
                 {
+                    ((WelcomeActivity) context).finishAffinity();
                     appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
 
                 }
@@ -88,12 +89,12 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
 
     }
 
-
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         uiState.setPresenter(this);
+        ((WelcomeActivity) context).finishAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
     }
 
