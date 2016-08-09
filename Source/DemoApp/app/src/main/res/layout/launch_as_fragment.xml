@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/purchase_history"
+        android:text="@string/order_history"
         android:visibility="visible" />
 
     <Button

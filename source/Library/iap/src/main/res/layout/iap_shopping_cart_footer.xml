@@ -26,21 +26,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_below="@+id/iap_redeem_bottom_divider">
 
-        <ImageView
-            android:id="@+id/edit_icon"
-            android:layout_width="@dimen/iap_edit_icon_width"
-            android:layout_height="@dimen/iap_edit_icon_width"
+        <RelativeLayout
+            android:id="@+id/edit_icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:visibility="gone"/>
-
+            android:visibility="gone"
+            android:paddingRight="@dimen/iap_shopping_cart_image_margin_top">
+            <ImageView
+                android:id="@+id/edit_icon"
+                android:layout_width="@dimen/iap_edit_icon_width"
+                android:layout_height="@dimen/iap_edit_icon_width"/>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/iap_tv_delivery_price"
             style="@style/iap_delivery_price"
-            android:layout_toLeftOf="@id/edit_icon"
+            android:layout_toLeftOf="@id/edit_icon_layout"
             />
 
         <TextView

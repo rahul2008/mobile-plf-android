@@ -269,9 +269,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
 
-                    shoppingCartFooter.mEditIcon.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mEditIconLayout.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
-                    shoppingCartFooter.mEditIcon.setOnClickListener(new View.OnClickListener() {
+                    shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mDialog = new DeliveryModeDialog(mContext, ShoppingCartAdapter.this, (AddressController.AddressListener)mOutOfStock);
@@ -389,6 +389,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatValueUK;
         TextView mVAT;
         ImageView mEditIcon;
+        RelativeLayout mEditIconLayout;
 
         public FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -402,6 +403,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
             mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
+            mEditIconLayout = (RelativeLayout) itemView.findViewById(R.id.edit_icon_layout);
         }
     }
 
