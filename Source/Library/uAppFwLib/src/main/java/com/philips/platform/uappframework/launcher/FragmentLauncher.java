@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-public class FragmentLauncher {
+public class FragmentLauncher extends UiLauncher{
     /**
         * Resource container ID. If you would like to launch uApp using fragment.
     */

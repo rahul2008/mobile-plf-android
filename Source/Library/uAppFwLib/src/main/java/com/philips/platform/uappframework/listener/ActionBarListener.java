@@ -5,12 +5,14 @@
 */
 package com.philips.platform.uappframework.listener;
 
+import android.support.annotation.IdRes;
+
 /**
  * Micro app framework defines the below interface which needs to be implemented by base app to inject as a parameter of launcher API.
  */
 public interface ActionBarListener {
     /**
-     * For setting the title of actiobar and to set backkey Enabled/Disabled
+     * For setting the title of action bar and to set back key Enabled/Disabled
      */
-    void updateActionBar(String titleText, boolean enableBackKey);
+    void updateActionBar(@IdRes int resId, boolean enableBackKey);
 }

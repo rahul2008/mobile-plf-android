@@ -3,3 +3,7 @@ Source/Library/.idea/
 Source/Library/uAppFwLib/.idea/
 .idea/
 Source/Library/uAppFwLib/uAppFwLib.iml
+Source/Library/uAppFwLib/build/
+*.bin
+Source/Library/build/
+*.iml
