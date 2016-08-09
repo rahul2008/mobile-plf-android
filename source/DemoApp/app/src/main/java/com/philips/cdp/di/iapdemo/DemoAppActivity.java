@@ -10,13 +10,16 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.ActionBar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +37,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.uikit.UiKitActivity;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -41,7 +45,7 @@ import net.hockeyapp.android.CrashManagerListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DemoAppActivity extends Activity implements View.OnClickListener,
+public class DemoAppActivity extends UiKitActivity implements View.OnClickListener,
         UserRegistrationListener, AdapterView.OnItemSelectedListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
@@ -53,7 +57,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     private LinearLayout mSelectCountryLl, mAddCTNLl;
     private FrameLayout mShoppingCart;
-    private TextView mCountText = null;
     private Spinner mSpinner;
     private Button mShopNow;
     private Button mBuyDirect;
@@ -67,12 +70,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     private int mSelectedCountryIndex;
     private ProgressDialog mProgressDialog = null;
+    private TextView mTitleTextView;
+    private TextView mCountText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
-
+        //Set Action Bar to vertical
+        addActionBar();
         setContentView(R.layout.demo_app_layout);
         showAppVersion();
 
@@ -107,7 +113,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
 
-        mCountText = (TextView) findViewById(R.id.count_txt);
+//        mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
 
@@ -142,6 +148,51 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
             }, 1000);
         }
+    }
+
+
+    private void addActionBar() {
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "IAPActivity == onCreate");
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER);
+
+        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.action_bar, null); // layout which contains your button.
+
+        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onBackPressed();
+            }
+        });
+        ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
+        //noinspection deprecation
+        arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
+
+        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
+        setTitle(getString(R.string.app_name));
+
+//        FrameLayout cartLayout = (FrameLayout) mCustomView.findViewById(R.id.shopping_cart_icon);
+//        cartLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                onBackPressed();
+//            }
+//        });
+        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
+
+        mActionBar.setCustomView(mCustomView, params);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        mTitleTextView.setText(title);
     }
 
     @Override
@@ -255,7 +306,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             case R.id.btn_buy_direct:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
-                        String ctn =mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
+                        String ctn = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
                         mIapHandler.buyDirect(ctn);
                     } catch (RuntimeException e) {
                         Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
