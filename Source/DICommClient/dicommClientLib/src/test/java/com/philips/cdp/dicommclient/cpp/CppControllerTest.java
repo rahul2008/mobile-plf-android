@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.CallbackHandler;
