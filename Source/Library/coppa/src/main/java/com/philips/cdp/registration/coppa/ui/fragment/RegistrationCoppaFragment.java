@@ -43,9 +43,10 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class RegistrationCoppaFragment extends Fragment implements NetworStateListener,
-        OnClickListener {
+        OnClickListener ,BackEventListener{
 
     private static final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
@@ -399,7 +400,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         super.onViewStateRestored(savedInstanceState);
     }
 
-    public boolean onBackPressed() {
+    private boolean onBackPressed() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onBackPressed");
         return handleBackStack();
     }
@@ -655,4 +656,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        return (onBackPressed());
+    }
 }

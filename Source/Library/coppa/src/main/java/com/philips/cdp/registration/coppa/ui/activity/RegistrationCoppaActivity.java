@@ -12,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,10 +25,10 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
-import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 /**
  * Registration Coppa Actitivty handle back navigation and loading all Fragments
@@ -67,7 +68,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         }
 
         int alwaysFinishActivity = 0;
-        if(savedInstanceState != null)
+        if (savedInstanceState != null)
             alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
 
         setContentView(R.layout.reg_activity_coppa_registration);
@@ -150,10 +151,20 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     @Override
     public void onBackPressed() {
 
-        if (!RegistrationCoppaLaunchHelper.isBackEventConsumedByRegistration(this)) {
-            // not consumed vertical code goes here // actual code
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(R.id.fl_reg_fragment_container);
+        if (fragment != null && fragment instanceof BackEventListener) {
+            boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
+            System.out.println("isConsumed :"+isConsumed);
+            if (isConsumed)
+                return;
+
             super.onBackPressed();
         }
+
+
     }
 
     private void initUi() {
@@ -193,7 +204,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         // Update title and show hamberger
         //ivBack.setVisibility(View.INVISIBLE);
         ivBack.setVisibility(View.VISIBLE);
-        if(titleResourceId > 0){
+        if (titleResourceId > 0) {
             final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceId));
         }
@@ -203,7 +214,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     public void updateRegistrationTitleWithBack(int titleResourceId) {
         // update title and show back
         ivBack.setVisibility(View.VISIBLE);
-        if(titleResourceId > 0){
+        if (titleResourceId > 0) {
             final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceId));
         }
@@ -213,7 +224,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     public void updateRegistrationTitleWithOutBack(int titleResourceId) {
         // update title and show back
         //ivBack.setVisibility(View.INVISIBLE);
-        if(titleResourceId > 0){
+        if (titleResourceId > 0) {
             final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceId));
         }

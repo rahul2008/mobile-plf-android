@@ -12,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,7 +26,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
@@ -91,18 +92,18 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
         @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
-                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+                        Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-       super.onRestoreInstanceState(savedInstanceState);
+        super.onRestoreInstanceState(savedInstanceState);
         @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
-                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+                        Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
-      }
+    }
 
     @Override
     protected void onStart() {
@@ -142,10 +143,19 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     public void onBackPressed() {
-        if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-            // not consumed vertical code goes here // actual code
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(R.id.fl_reg_fragment_container);
+        if (fragment != null && fragment instanceof BackEventListener) {
+            boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
+            if (isConsumed)
+                return;
+
             super.onBackPressed();
         }
+
+
     }
 
     private void initUI() {

@@ -39,11 +39,12 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import org.json.JSONObject;
 
 
-public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
+public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener,BackEventListener {
 
 
     private FragmentManager mFragmentManager;
@@ -142,7 +143,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
 
-    public boolean onBackPressed() {
+    private boolean onBackPressed() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onBackPressed");
         hideKeyBoard();
         return handleBackStack();
@@ -526,5 +527,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public int getCurrentTitleResource() {
         return currentTitleResource;
 
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return !(onBackPressed());
     }
 }
