@@ -257,7 +257,7 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
 
-        Map trackMap = new HashMap<String, String>();
+        Map<String, String> trackMap = new HashMap<String, String>();
         trackMap.put(key, value);
         track(pageName, trackMap, true);
     }
@@ -273,7 +273,7 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
 
-        Map trackMap = new HashMap<String, String>();
+        Map<String, String> trackMap = new HashMap<String, String>();
         trackMap.put(key, value);
         track(pageName,trackMap , false);
 

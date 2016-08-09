@@ -21,6 +21,9 @@ import org.json.JSONObject;
 import java.io.InputStream;
 
 
+/**
+ * The type App identity manager.
+ */
 public class AppIdentityManager implements AppIdentityInterface {
 
     AppInfra mAppInfra;

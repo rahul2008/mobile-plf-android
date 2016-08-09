@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.config;
 
 import android.content.Context;
@@ -20,7 +25,6 @@ import java.util.List;
  */
 public class ConfigManager implements ConfigInterface {
 
-    JSONObject jo;
     AppInfra mAppInfra;
     Context mContext;
     private static final String uAPP_CONFIG_FILE = "uAPP_CONFIG_FILE";

@@ -43,7 +43,7 @@ public class SecureStorage implements SecureStorageInterface{
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private final  Context mContext;
     private static KeyStore keyStore = null;
-    AppInfra mAppInfra;
+    private AppInfra mAppInfra;
 
 
 

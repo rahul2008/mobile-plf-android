@@ -17,7 +17,6 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.servicediscovery.model.Error;
 
 import java.net.MalformedURLException;
 import java.net.URL;
