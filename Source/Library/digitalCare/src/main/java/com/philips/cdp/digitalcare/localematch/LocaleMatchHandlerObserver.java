@@ -28,9 +28,10 @@ public class LocaleMatchHandlerObserver extends Observable {
     }
 
     public void notificationReceived() {
-        setChanged();
-        notifyObservers();
         if (mObservers != null) {
+            setChanged();
+            notifyObservers();
+
             synchronized (mObservers) {
                 mObservers.notifyAll();
             }
