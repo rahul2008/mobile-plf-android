@@ -171,19 +171,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
-        }
-        else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
+        } else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())) {
             inAppPurchaseBackPress();
-        }
-        else
-        if(!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+        } else if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
             super.onBackPressed();
         }
 
-        if(getSupportFragmentManager().getBackStackEntryCount()==1){
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finishAffinity();
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
     }
