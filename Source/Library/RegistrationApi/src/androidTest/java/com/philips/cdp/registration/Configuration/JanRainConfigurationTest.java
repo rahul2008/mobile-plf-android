@@ -10,6 +10,7 @@ package com.philips.cdp.registration.Configuration;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -46,6 +47,11 @@ public class JanRainConfigurationTest extends ActivityInstrumentationTestCase2<R
         JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
         janRainConfiguration.setClientIds(new RegistrationClientId());
         assertNotSame(null, janRainConfiguration.getClientIds());
+        assertEquals(null,janRainConfiguration.getClientId(Configuration.EVALUATION));
+        assertEquals(null,janRainConfiguration.getClientId(Configuration.DEVELOPMENT));
+        assertEquals(null,janRainConfiguration.getClientId(Configuration.PRODUCTION));
+        assertEquals(null,janRainConfiguration.getClientId(Configuration.STAGING));
+        assertEquals(null,janRainConfiguration.getClientId(Configuration.TESTING));
 
     }
 }

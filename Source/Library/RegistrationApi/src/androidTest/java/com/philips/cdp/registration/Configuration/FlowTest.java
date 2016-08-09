@@ -50,6 +50,7 @@ public class FlowTest extends ActivityInstrumentationTestCase2<RegistrationActiv
          }
 
     public void testMinAgeLimit() {
+        assertEquals(0, flow.getMinAgeLimitByCountry("100"));
 
         flow.setMinAgeLimit(null);
         assertEquals(null, flow.getMinAgeLimit());

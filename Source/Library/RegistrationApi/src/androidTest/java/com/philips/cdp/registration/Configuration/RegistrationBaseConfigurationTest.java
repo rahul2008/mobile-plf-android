@@ -39,6 +39,8 @@ public class RegistrationBaseConfigurationTest extends ActivityInstrumentationTe
 
 
         assertEquals(testingString, registrationBaseConfiguration.convertStreamToString(inputStream));
+        assertNotSame("","Hello stream", registrationBaseConfiguration.convertStreamToString(inputStream));
+
 
     }
 
