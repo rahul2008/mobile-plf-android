@@ -20,6 +20,7 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,6 +127,9 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
 
             FragmentLauncher fragLauncher = new FragmentLauncher(mFragmentActivity, R.id.frame_container, actionBarClickListener);
             fragLauncher.setAnimation(0, 0);
+            if(context instanceof HomeActivity){
+                //((HomeActivity)context).getSupportFragmentManager().get
+            }
             DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
         }
     }
