@@ -63,8 +63,6 @@ public class RegistrationApplication extends Application {
         } else {
             initRegistration(Configuration.STAGING);
         }
-
-
     }
 
 
@@ -106,18 +104,18 @@ public class RegistrationApplication extends Application {
         ArrayList<String> values3 = new ArrayList<String>();
         values1.add("facebook");
         values1.add("googleplus");
-        values1.add("sinaweibo");
-        values1.add("qq");
+        /*values1.add("sinaweibo");
+        values1.add("qq");*/
 
         values2.add("facebook");
         values2.add("googleplus");
-        values2.add("sinaweibo");
-        values2.add("qq");
+        /*values2.add("sinaweibo");
+        values2.add("qq");*/
 
         values3.add("facebook");
         values3.add("googleplus");
-        values3.add("sinaweibo");
-        values3.add("qq");
+        /*values3.add("sinaweibo");
+        values3.add("qq");*/
 
         providers.put("NL", values1);
         providers.put("US", values2);
@@ -146,9 +144,9 @@ public class RegistrationApplication extends Application {
             case EVALUATION:
                 hsdpInfo = new HSDPInfo();
                 hsdpInfo.setApplicationName("uGrow");
-                hsdpInfo.setSharedId("41a47ab2-1234-11e5-8994-feff819cdc9f");
-                hsdpInfo.setSecreteId("41a47ec2-1234-7890-2314-feff129cdc9f");
-                hsdpInfo.setBaseURL("https://ugrow-ds-staging.eu-west.philips-healthsuite.com/");
+                hsdpInfo.setSharedId("e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
+                hsdpInfo.setSecreteId("e33a4d97-6ada-491f-84e4-a2f7006625e2");
+                hsdpInfo.setBaseURL("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com");
                 RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION, hsdpInfo);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
@@ -171,10 +169,16 @@ public class RegistrationApplication extends Application {
             case STAGING:
                 hsdpInfo = new HSDPInfo();
                 hsdpInfo.setApplicationName("uGrow");
+                hsdpInfo.setSharedId("e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
+                hsdpInfo.setSecreteId("e33a4d97-6ada-491f-84e4-a2f7006625e2");
+                hsdpInfo.setBaseURL("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com");
+                RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING, hsdpInfo);
+
+                /*hsdpInfo.setApplicationName("uGrow");
                 hsdpInfo.setSharedId("41a47ab2-1234-11e5-8994-feff819cdc9f");
                 hsdpInfo.setSecreteId("41a47ec2-1234-7890-2314-feff129cdc9f");
                 hsdpInfo.setBaseURL("https://ugrow-ds-staging.eu-west.philips-healthsuite.com/");
-                RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING, hsdpInfo);
+                RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING, hsdpInfo);*/
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
                 break;
