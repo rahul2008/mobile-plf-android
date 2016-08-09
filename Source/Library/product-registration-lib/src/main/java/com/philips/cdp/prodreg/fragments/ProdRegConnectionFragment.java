@@ -22,14 +22,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.EnhancedLinkMovementMethod;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
 
 import java.util.List;
 
-public class ProdRegConnectionFragment extends ProdRegBaseFragment implements ProdRegBackListener {
+public class ProdRegConnectionFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegConnectionFragment.class.getName();
     private List<RegisteredProduct> registeredProducts;
@@ -57,7 +56,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onBackPressed();
+                handleBackEvent();
             }
         });
         TextView tv = (TextView) view.findViewById(R.id.link_tv);
@@ -92,7 +91,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             return clearFragmentStack(true);

@@ -24,16 +24,16 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
 
-abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListener {
+abstract class ProdRegBaseFragment extends Fragment implements BackEventListener {
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
     private static ActionbarUpdateListener mActionbarUpdateListener;
@@ -216,7 +216,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         return false;
     }
 

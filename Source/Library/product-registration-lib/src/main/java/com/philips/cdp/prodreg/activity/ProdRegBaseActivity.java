@@ -26,12 +26,12 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegConfig;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
@@ -173,7 +173,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 .findFragmentById(R.id.mainContainer);
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
-        } else if (currentFrag != null && currentFrag instanceof ProdRegBackListener && !((ProdRegBackListener) currentFrag).onBackPressed()) {
+        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
         }
     }

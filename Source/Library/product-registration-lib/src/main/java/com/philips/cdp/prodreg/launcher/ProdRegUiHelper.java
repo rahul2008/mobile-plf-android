@@ -13,6 +13,7 @@
 
 package com.philips.cdp.prodreg.launcher;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,16 +27,20 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.uappframework.configuration.LaunchConfig;
+import com.philips.platform.uappframework.listener.uAppListener;
+import com.philips.platform.uappframework.uAppInterface;
 
 import java.util.ArrayList;
 
 /**
  * Product registration helper class used to invoke product registration
  */
-public class ProdRegUiHelper {
+public class ProdRegUiHelper implements uAppInterface {
 
     private static ProdRegUiHelper prodRegHelper;
     private static LoggingInterface loggingInterface;
@@ -170,5 +175,20 @@ public class ProdRegUiHelper {
                     createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
         }
         return loggingInterface;
+    }
+
+    @Override
+    public void init(final Context context, final AppInfra appInfra) {
+
+    }
+
+    @Override
+    public void launch(final com.philips.platform.uappframework.launcher.UiLauncher uiLauncher, final uAppListener uAppListener) {
+
+    }
+
+    @Override
+    public void setLaunchConfig(final LaunchConfig launchConfig) {
+
     }
 }

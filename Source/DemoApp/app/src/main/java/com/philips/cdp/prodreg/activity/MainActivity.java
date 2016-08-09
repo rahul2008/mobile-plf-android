@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class MainActivity extends UiKitActivity {
 
@@ -104,8 +104,8 @@ public class MainActivity extends UiKitActivity {
         boolean backState = false;
         Fragment currentFrag = fragmentManager
                 .findFragmentById(R.id.parent_layout);
-        if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
-            backState = ((ProdRegBackListener) currentFrag).onBackPressed();
+        if (currentFrag != null && currentFrag instanceof BackEventListener) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
         }
 
         if (!backState) {

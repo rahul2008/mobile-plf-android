@@ -176,6 +176,10 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.1', ext: 'aar') {
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.1', ext: 'aar') {
+        transitive = true
+    }
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "org.robolectric:robolectric:3.1.1"

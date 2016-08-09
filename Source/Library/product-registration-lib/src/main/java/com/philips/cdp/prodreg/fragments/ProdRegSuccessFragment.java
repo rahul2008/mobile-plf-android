@@ -65,7 +65,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             return clearFragmentStack(true);
