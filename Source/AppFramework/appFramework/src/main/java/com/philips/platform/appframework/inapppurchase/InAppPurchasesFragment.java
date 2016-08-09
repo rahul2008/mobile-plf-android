@@ -48,6 +48,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int position = 0;
+        fragmentPresenter = new InAppPurchaseFragmentPresenter();
         hideActionbar();
         mRootView = inflater.inflate(R.layout.af_inapppurchase_fragment, container, false);
         Bundle bundle = this.getArguments();
@@ -73,8 +74,6 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
         return mRootView;
     }
-
-
 
     @Override
     public String getActionbarTitle() {

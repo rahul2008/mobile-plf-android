@@ -5,8 +5,6 @@
 */
 package com.philips.platform.appframework;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,17 +15,14 @@ import android.view.Window;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.appframework.utility.Logger;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity {
-    public static final String SHARED_PREFERENCES = "SharedPref";
-    public static final String DONE_PRESSED = "donePressed";
-    private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
-    private static SharedPreferences mSharedPreference = null;
+public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     private FragmentManager fragmentManager = null;
+    public UIBasePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +32,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         fragmentManager = getSupportFragmentManager();
     }
 
-    protected void showFragment(Fragment fragment, String fragmentTag) {
+    public void showFragment(Fragment fragment, String fragmentTag) {
         int containerId = R.id.frame_container;
 
             try {
@@ -45,7 +40,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
                 fragmentTransaction.replace(containerId, fragment, fragmentTag);
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
-                Logger.e(TAG, "IllegalStateException" + e.getMessage());
                 e.printStackTrace();
             }
     }
@@ -53,25 +47,21 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Logger.i(Constants.ACTIVITY, " onConfigurationChanged ");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.i(Constants.ACTIVITY, " onResume ");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.i(Constants.ACTIVITY, " onPause ");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Logger.i(Constants.ACTIVITY, "onDestroy ");
     }
 
     protected boolean backstackFragment() {
@@ -109,19 +99,4 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         return (currentFrag != null);
     }
 
-    protected void setIntroScreenDonePressed() {
-        if (mSharedPreference == null) {
-            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        }
-        SharedPreferences.Editor editor = mSharedPreference.edit();
-        editor.putBoolean(DONE_PRESSED, true);
-        editor.commit();
-    }
-
-    protected Boolean getIntroScreenDonePressed() {
-        if (mSharedPreference == null) {
-            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        }
-        return mSharedPreference.getBoolean(DONE_PRESSED, false);
-    }
 }
