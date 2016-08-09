@@ -736,7 +736,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher,
                 DigitalCareConfigManager.getInstance()
                         .getProductModelSelectionType());
-        ProductSelectionLogger.enableLogging();
+       // ProductSelectionLogger.enableLogging();
     }
 
     private void launchProductSelectionActivityComponent() {
