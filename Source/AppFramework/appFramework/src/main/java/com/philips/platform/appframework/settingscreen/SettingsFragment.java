@@ -15,29 +15,23 @@ import android.widget.ListView;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.homescreen.HomeFragment;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 import java.util.ArrayList;
 
 public class SettingsFragment extends AppFrameworkBaseFragment {
 
-    private static String TAG = SettingsFragment.class.getSimpleName();
     private SettingsAdapter mAdapter = null;
     private ListView mList = null;
-    private HomeFragment mHomeFragment = null;
-
+    UIBasePresenter uiBasePresenter;
+    public static final int logOutButton = 5555;
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {
-
-            if(mHomeFragment == null) {
-                mHomeFragment = new HomeFragment();
-            }
-            ((AppFrameworkBaseActivity)getActivity()).showFragment(mHomeFragment, mHomeFragment.getClass().getSimpleName());
+            uiBasePresenter = new SettingsFragmentPresenter();
+            uiBasePresenter.onClick(logOutButton,getActivity());
         }
 
         @Override
@@ -68,11 +62,11 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
-
+        fragmentPresenter = new SettingsFragmentPresenter();
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
         ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler);
+        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler, fragmentPresenter);
         mList.setAdapter(mAdapter);
 
         return view;
