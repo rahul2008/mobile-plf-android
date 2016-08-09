@@ -231,7 +231,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
             settingsFragment = new SettingsFragment();
         }
 
-        showFragment(settingsFragment, settingsFragment.getClass().getSimpleName());
+        showFragment(settingsFragment, settingsFragment.getClass().getSimpleName(), true);
     }
 
     private void showSupportFragment() {
