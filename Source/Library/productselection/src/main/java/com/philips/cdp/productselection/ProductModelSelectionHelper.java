@@ -127,8 +127,13 @@ public class ProductModelSelectionHelper {
 
     public LoggingInterface getLoggerInterface() {
 
-        LoggingInterface loggingInterface = getAPPInfraInstance().getLogging().
-                createInstanceForComponent("com.philips.cdp.productselection", "1.4.0");
+        LoggingInterface loggingInterface = null;
+        AppInfraInterface appInfraInstance = getAPPInfraInstance();
+        if (appInfraInstance != null) {
+            loggingInterface = appInfraInstance.getLogging().
+                    createInstanceForComponent("com.philips.cdp.productselection", "1.4.0");
+            return loggingInterface;
+        }
         return loggingInterface;
     }
 

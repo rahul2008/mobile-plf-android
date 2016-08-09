@@ -236,7 +236,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
-        ProductSelectionLogger.enableLogging();
+      //  ProductSelectionLogger.enableLogging();
 
     }
 
