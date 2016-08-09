@@ -9,8 +9,6 @@ import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +33,7 @@ public class DeleteAddressRequestTest {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, query, null);
-        Assert.assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.EDIT_ADDRESS_URL, request.getUrl());
     }
 
     @Test(expected = RuntimeException.class)
@@ -43,7 +41,7 @@ public class DeleteAddressRequestTest {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
-        Assert.assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.EDIT_ADDRESS_URL, request.getUrl());
     }
 
     @Test

@@ -35,6 +35,6 @@ public class GetAddressRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getAddressDetailsUrl();
+        return store.getAddressesUrl();
     }
 }

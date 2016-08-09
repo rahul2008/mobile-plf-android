@@ -48,12 +48,6 @@ public abstract class AbstractStoreSpec implements StoreSpec {
         return null;
     }
 
-    /**
-     * Return default language combining input of lang and country.
-     * But depending on requirements, it can be changed or different as per locale matcher result.
-     *
-     * @return
-     */
     @Override
     public String getLocale() {
         if (mCountry != null && mLanguage != null) {
@@ -103,7 +97,7 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
-    public String getModifyProductUrl(final String productID) {
+    public String getUpdateProductUrl(final String productID) {
         return null;
     }
 
@@ -113,7 +107,7 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
-    public String getAddressDetailsUrl() {
+    public String getAddressesUrl() {
         return null;
     }
 
@@ -123,27 +117,22 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
-    public String getAddressAlterUrl(final String addressID) {
+    public String getEditAddressUrl(final String addressID) {
         return null;
     }
 
     @Override
-    public String getRetailersAlterUrl(final String CTN) {
+    public String getSetDeliveryModeUrl() {
         return null;
     }
 
     @Override
-    public String getUpdateDeliveryModeUrl() {
+    public String getSetDeliveryAddressUrl() {
         return null;
     }
 
     @Override
-    public String getUpdateDeliveryAddressUrl() {
-        return null;
-    }
-
-    @Override
-    public String getSetPaymentUrl(final String id) {
+    public String getMakePaymentUrl(final String id) {
         return null;
     }
 

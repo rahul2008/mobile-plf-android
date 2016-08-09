@@ -25,45 +25,9 @@ public interface StoreSpec {
 
     String getLocale();
 
-    String getOauthUrl();
-
-    String getOauthRefreshUrl();
-
     String getJanRainEmail();
 
     IAPUser getUser();
-
-    String getCartsUrl();
-
-    String getProductCatalogUrl(int currentPage, int pageSize);
-
-    String getCreateCartUrl();
-
-    String getDeleteCartUrl();
-
-    String getAddToCartUrl();
-
-    String getModifyProductUrl(String productID);
-
-    String getPaymentDetailsUrl();
-
-    String getAddressDetailsUrl();
-
-    String getRegionsUrl();
-
-    String getAddressAlterUrl(String addressID);
-
-    String getRetailersAlterUrl(String CTN);
-
-    String getUpdateDeliveryModeUrl();
-
-    String getUpdateDeliveryAddressUrl();
-
-    String getSetPaymentUrl(String id);
-
-    String getPlaceOrderUrl();
-
-    String getSetPaymentDetailsUrl();
 
     void refreshLoginSession();
 
@@ -73,15 +37,57 @@ public interface StoreSpec {
 
     boolean isStoreInitialized();
 
-    String getOrderDetailUrl(String orderID);
+    //OAuth
+    String getOauthUrl();
+
+    String getOauthRefreshUrl();
+
+    //Product
+    String getProductCatalogUrl(int currentPage, int pageSize);
 
     String getSearchProductUrl(String ctnNumber);
 
-    String getOrderHistoryUrl(String pageNumber);
+    String getUpdateProductUrl(String productID);
 
-    String getDeliveryModesUrl();
+    //Carts
+    String getCartsUrl();
+
+    String getCreateCartUrl();
+
+    String getDeleteCartUrl();
+
+    String getAddToCartUrl();
+
+    //Address
+    String getRegionsUrl();
 
     String getUserUrl();
 
+    String getAddressesUrl();
+
+    String getEditAddressUrl(String addressID);
+
+    String getSetDeliveryAddressUrl();
+
+    //Delivery mode
+    String getDeliveryModesUrl();
+
+    String getSetDeliveryModeUrl();
+
+    //Payment
+    String getPaymentDetailsUrl();
+
+    String getSetPaymentDetailsUrl();
+
+    String getMakePaymentUrl(String id);
+
+    String getPlaceOrderUrl();
+
+    //Orders
+    String getOrderHistoryUrl(String pageNumber);
+
+    String getOrderDetailUrl(String orderID);
+
     String getPhoneContactUrl(String category);
+
 }

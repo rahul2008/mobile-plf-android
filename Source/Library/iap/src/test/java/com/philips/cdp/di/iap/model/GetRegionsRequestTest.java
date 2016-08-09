@@ -53,7 +53,7 @@ public class GetRegionsRequestTest {
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.REGION_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.GET_REGIONS_URL, mModel.getUrl());
     }
 
     @Test

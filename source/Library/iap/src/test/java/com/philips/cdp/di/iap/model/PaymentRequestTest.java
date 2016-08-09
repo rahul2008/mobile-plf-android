@@ -135,6 +135,6 @@ public class PaymentRequestTest {
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.PAYMENT_SET_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.MAKE_PAYMENT_URL, mModel.getUrl());
     }
 }

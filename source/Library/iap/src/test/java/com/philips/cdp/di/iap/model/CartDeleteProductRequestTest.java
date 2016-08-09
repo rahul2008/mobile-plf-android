@@ -9,8 +9,6 @@ import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -37,7 +35,7 @@ public class CartDeleteProductRequestTest{
     @Test
     public void matchCartCreateRequestURL() {
         HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.ENTRY_CODE, NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        query.put(ModelConstants.ENTRY_CODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, query, null);
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }

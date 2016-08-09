@@ -34,6 +34,7 @@ public class PlaceOrderRequest extends AbstractModel {
         String securityCode = this.params.get(ModelConstants.SECURITY_CODE);
         if (securityCode != null)
             params.put(ModelConstants.SECURITY_CODE, securityCode);
+        params.put(ModelConstants.CART_ID, "current");
         return params;
     }
 

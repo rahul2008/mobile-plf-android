@@ -11,8 +11,6 @@ import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -39,7 +37,7 @@ public class CartUpdateProductQuantityRequestTest{
     @Test
     public void matchCartCreateRequestURL() {
         HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         query.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         query.put(ModelConstants.PRODUCT_QUANTITY, "2");
         CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, query, null);

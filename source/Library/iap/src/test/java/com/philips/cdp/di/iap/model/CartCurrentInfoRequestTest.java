@@ -33,7 +33,7 @@ public class CartCurrentInfoRequestTest {
     @Test
     public void matchCartCreateRequestURL() {
         GetCartsRequest request = new GetCartsRequest(mStore, null, null);
-        Assert.assertEquals(NetworkURLConstants.CART_DETAIL_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.GET_CARTS_URL, request.getUrl());
     }
 
     @Test

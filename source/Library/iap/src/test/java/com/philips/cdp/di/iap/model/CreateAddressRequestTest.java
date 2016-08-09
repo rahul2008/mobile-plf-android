@@ -34,7 +34,7 @@ public class CreateAddressRequestTest {
         mStore.initStoreConfig("en", "US", null);
 
         HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         query.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         query.put(ModelConstants.PRODUCT_QUANTITY, "2");
         mModel = new CreateAddressRequest(mStore, query, null);
@@ -42,7 +42,7 @@ public class CreateAddressRequestTest {
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.GET_ADDRESSES_URL, mModel.getUrl());
     }
 
 

@@ -37,6 +37,6 @@ public class SetDeliveryAddressModeRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getUpdateDeliveryModeUrl();
+        return store.getSetDeliveryModeUrl();
     }
 }

@@ -51,7 +51,7 @@ public class CartAddProductRequestTest {
     @Test
     public void testQueryParams() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put(ModelConstants.PRODUCT_CODE,NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        params.put(ModelConstants.PRODUCT_CODE,NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         CartAddProductRequest request = new CartAddProductRequest(mStore, params, null);
         assertNotNull(request.requestBody());
     }
@@ -66,10 +66,10 @@ public class CartAddProductRequestTest {
     @Test
     public void matchCartAddProductRequestURL() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        params.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         params.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         params.put(ModelConstants.PRODUCT_QUANTITY, "2");
         CartAddProductRequest request = new CartAddProductRequest(mStore, params, null);
-        assertEquals(NetworkURLConstants.CART_ADD_TO_URL, request.getUrl());
+        assertEquals(NetworkURLConstants.ADD_TO_CART_URL, request.getUrl());
     }
 }

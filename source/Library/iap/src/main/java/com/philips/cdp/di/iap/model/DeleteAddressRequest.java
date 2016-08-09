@@ -38,6 +38,6 @@ public class DeleteAddressRequest extends AbstractModel{
             throw new RuntimeException("Address Id must be specified");
         }
         String addressId = params.get(ModelConstants.ADDRESS_ID);
-        return store.getAddressAlterUrl(addressId);
+        return store.getEditAddressUrl(addressId);
     }
 }

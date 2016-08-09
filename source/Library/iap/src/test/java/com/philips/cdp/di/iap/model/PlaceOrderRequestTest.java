@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.store.IAPUser;
@@ -54,7 +53,7 @@ public class PlaceOrderRequestTest {
     public void testQueryParamsHasBody() {
         Map<String, String> params = new HashMap<String, String>();
         params.put(ModelConstants.SECURITY_CODE, "122");
-
+        params.put(ModelConstants.CART_ID, "current");
         assertEquals(request.requestBody(), params);
     }
 

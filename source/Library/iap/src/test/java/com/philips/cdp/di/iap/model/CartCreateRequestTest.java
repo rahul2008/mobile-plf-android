@@ -10,8 +10,6 @@ import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
-import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +30,7 @@ public class CartCreateRequestTest {
     @Test
     public void matchCartCreateRequestURL() {
         CartCreateRequest request = new CartCreateRequest(mStore, null, null);
-        Assert.assertEquals(NetworkURLConstants.CART_CREATE_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.CREATE_CART_URL, request.getUrl());
     }
 
     @Test

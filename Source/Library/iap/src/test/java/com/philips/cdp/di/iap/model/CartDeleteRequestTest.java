@@ -3,9 +3,7 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.response.carts.CreateCartData;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
@@ -15,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -34,7 +31,7 @@ public class CartDeleteRequestTest {
     @Test
     public void matchCartDeleteRequestURL() {
         CartDeleteRequest request = new CartDeleteRequest(mStore, null, null);
-        Assert.assertEquals(NetworkURLConstants.CART_DELETE_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.DELETE_CART_URL, request.getUrl());
     }
 
     @Test

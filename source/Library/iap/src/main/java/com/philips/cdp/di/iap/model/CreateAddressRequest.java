@@ -49,7 +49,7 @@ public class CreateAddressRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getAddressDetailsUrl();
+        return store.getAddressesUrl();
     }
 
     private String getValue(String key) {

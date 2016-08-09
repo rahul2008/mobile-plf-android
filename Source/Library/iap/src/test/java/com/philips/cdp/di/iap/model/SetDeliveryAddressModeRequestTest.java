@@ -56,7 +56,7 @@ public class SetDeliveryAddressModeRequestTest {
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.UPDATE_DELIVERY_MODE_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.SET_DELIVERY_MODE_URL, mModel.getUrl());
     }
 
     @Test

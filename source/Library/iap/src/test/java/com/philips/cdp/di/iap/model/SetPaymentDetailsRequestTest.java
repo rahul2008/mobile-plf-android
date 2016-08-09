@@ -46,7 +46,7 @@ public class SetPaymentDetailsRequestTest {
     @Test
     public void testQueryParamsHasBody() {
         SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.PAYMENT_DETAILS_URL);
+        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.SET_PAYMENT_DETAIL_URL);
         Map<String, String> params = new HashMap<String, String>();
         assertEquals(mockSetPaymentDetailsRequest.requestBody(), params);
     }
@@ -69,15 +69,15 @@ public class SetPaymentDetailsRequestTest {
     @Test
     public void testTestingUriIsNotNull() {
         SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.PAYMENT_DETAILS_URL);
+        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.SET_PAYMENT_DETAIL_URL);
         assertNotNull(mockSetPaymentDetailsRequest.getUrl());
     }
 
     @Test
     public void testTestingUrilIsForSetPaymentDetailsRequest() {
         SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.PAYMENT_DETAILS_URL);
-        assertEquals(mockSetPaymentDetailsRequest.getUrl(), NetworkURLConstants.PAYMENT_DETAILS_URL);
+        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.SET_PAYMENT_DETAIL_URL);
+        assertEquals(mockSetPaymentDetailsRequest.getUrl(), NetworkURLConstants.SET_PAYMENT_DETAIL_URL);
     }
 
     @Test
@@ -91,6 +91,6 @@ public class SetPaymentDetailsRequestTest {
     @Test
     public void matchAddressDetailURL() {
         SetPaymentDetailsRequest request = new SetPaymentDetailsRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.PAYMENT_DETAILS_URL, request.getUrl());
+        assertEquals(NetworkURLConstants.SET_PAYMENT_DETAIL_URL, request.getUrl());
     }
 }

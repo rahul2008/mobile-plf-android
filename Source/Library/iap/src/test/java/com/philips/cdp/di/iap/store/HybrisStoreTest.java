@@ -51,54 +51,54 @@ public class HybrisStoreTest {
 
     @Test
     public void confirmCurrentCartDetailsURL() {
-        assertEquals(NetworkURLConstants.CART_DETAIL_URL, mStore.getCartsUrl());
+        assertEquals(NetworkURLConstants.GET_CARTS_URL, mStore.getCartsUrl());
     }
 
     @Test
     public void confirmCreateCartDetailsURL() {
-        assertEquals(NetworkURLConstants.CART_CREATE_URL, mStore.getCreateCartUrl());
+        assertEquals(NetworkURLConstants.CREATE_CART_URL, mStore.getCreateCartUrl());
     }
 
     @Test
     public void confirmAddToCartDetailsURL() {
-        assertEquals(NetworkURLConstants.CART_ADD_TO_URL, mStore.getAddToCartUrl());
+        assertEquals(NetworkURLConstants.ADD_TO_CART_URL, mStore.getAddToCartUrl());
     }
 
     @Test
     public void confirmModifyProductURL() {
-        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, mStore.getModifyProductUrl
-                (NetworkURLConstants.DUMMY_PRODUCT_NUBMBER));
+        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, mStore.getUpdateProductUrl
+                (NetworkURLConstants.DUMMY_PRODUCT_NUMBER));
     }
 
     @Test
     public void confirmPaymentDetailsURL() {
-        assertEquals(NetworkURLConstants.CART_PAYMENT_DETAILS_URL, mStore.getPaymentDetailsUrl());
+        assertEquals(NetworkURLConstants.GET_PAYMENT_DETAILS_URL, mStore.getPaymentDetailsUrl());
     }
 
     @Test
     public void confirmAddressDetailURL() {
-        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, mStore.getAddressDetailsUrl());
+        assertEquals(NetworkURLConstants.GET_ADDRESSES_URL, mStore.getAddressesUrl());
     }
 
     @Test
     public void confirmAddressAlterURL() {
-        assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, mStore.getAddressAlterUrl
+        assertEquals(NetworkURLConstants.EDIT_ADDRESS_URL, mStore.getEditAddressUrl
                 (NetworkURLConstants.DUMMY_PRODUCT_ID));
     }
 
     @Test
     public void confirmUpdateDeliveryModeURL() {
-        assertEquals(NetworkURLConstants.UPDATE_DELIVERY_MODE_URL, mStore.getUpdateDeliveryModeUrl());
+        assertEquals(NetworkURLConstants.SET_DELIVERY_MODE_URL, mStore.getSetDeliveryModeUrl());
     }
 
     @Test
     public void confirmUpdateDeliveryAddressURL() {
-        assertEquals(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL, mStore.getUpdateDeliveryAddressUrl());
+        assertEquals(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL, mStore.getSetDeliveryAddressUrl());
     }
 
     @Test
     public void confirmSetPaymentURL() {
-        assertEquals(NetworkURLConstants.PAYMENT_SET_URL, mStore.getSetPaymentUrl
+        assertEquals(NetworkURLConstants.MAKE_PAYMENT_URL, mStore.getMakePaymentUrl
                 (NetworkURLConstants.DUMMY_PRODUCT_ID));
     }
 
@@ -109,7 +109,7 @@ public class HybrisStoreTest {
 
     @Test
     public void confirmSetPaymentDetailsURL() {
-        assertEquals(NetworkURLConstants.PAYMENT_DETAILS_URL, mStore.getSetPaymentDetailsUrl());
+        assertEquals(NetworkURLConstants.SET_PAYMENT_DETAIL_URL, mStore.getSetPaymentDetailsUrl());
     }
 
     @Test
@@ -130,7 +130,7 @@ public class HybrisStoreTest {
 
     @Test
     public void confirmGetLocale(){
-        assertEquals(NetworkURLConstants.LCOALE, mStore.getLocale());
+        assertEquals(NetworkURLConstants.LOCALE, mStore.getLocale());
     }
 
     @Test

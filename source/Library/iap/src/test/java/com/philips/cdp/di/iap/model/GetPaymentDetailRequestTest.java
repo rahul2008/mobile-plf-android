@@ -53,7 +53,7 @@ public class GetPaymentDetailRequestTest {
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.CART_PAYMENT_DETAILS_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.GET_PAYMENT_DETAILS_URL, mModel.getUrl());
     }
 
     @Test

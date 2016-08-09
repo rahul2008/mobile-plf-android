@@ -47,14 +47,14 @@ public class SetDeliveryAddressRequestTest {
     @Test
     public void testQueryParamsIsNotNull() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
         assertNotNull(mockSetDeliveryAddressRequest.requestBody());
     }
 
     @Test
     public void testQueryParamsHasBody() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
         Map<String, String> params = new HashMap<String, String>();
         assertEquals(mockSetDeliveryAddressRequest.requestBody(), params);
     }
@@ -62,15 +62,15 @@ public class SetDeliveryAddressRequestTest {
     @Test
     public void testTestingUriIsNotNull() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
         assertNotNull(mockSetDeliveryAddressRequest.getUrl());
     }
 
     @Test
     public void testTestingUrilIsForSetDeliveryAddressRequest() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
-        assertEquals(mockSetDeliveryAddressRequest.getUrl(), NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
+        assertEquals(mockSetDeliveryAddressRequest.getUrl(), NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
     }
 
     @Test

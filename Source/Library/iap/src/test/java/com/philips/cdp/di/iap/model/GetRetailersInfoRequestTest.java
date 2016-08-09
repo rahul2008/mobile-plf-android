@@ -11,8 +11,6 @@ import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -50,7 +48,7 @@ public class GetRetailersInfoRequestTest{
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.PRODUCT_CODE, ModelConstants.PRODUCT_CODE);
         GetRetailersInfoRequest request = new GetRetailersInfoRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.RETAILORS_URL, request.getUrl());
+        assertEquals(NetworkURLConstants.GET_RETAILERS_URL, request.getUrl());
     }
 
     @Test
@@ -64,6 +62,6 @@ public class GetRetailersInfoRequestTest{
     @Test(expected = RuntimeException.class)
     public void testGetUrlWhenParamsEqualToNull() {
         GetRetailersInfoRequest request = new GetRetailersInfoRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.RETAILORS_URL, request.getUrl());
+        assertEquals(NetworkURLConstants.GET_RETAILERS_URL, request.getUrl());
     }
 }
