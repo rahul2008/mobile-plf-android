@@ -44,7 +44,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
             }
     }
 
-    public void showFragment(Fragment fragment, String fragmentTag, boolean addtoBackStack) {
+    public void showFragment(Fragment fragment, String fragmentTag, boolean addToBackStack) {
         int containerId = R.id.frame_container;
 
         try {

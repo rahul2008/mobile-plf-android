@@ -8,6 +8,7 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.modularui.cocointerface.UICoCoInterface;
 import com.philips.platform.modularui.statecontroller.UIState;
@@ -21,6 +22,8 @@ public class SettingsFragmentState extends UIState {
 
     @Override
     public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new SettingsFragment(), new SettingsFragment().getClass().getSimpleName());
+        if(context instanceof HomeActivity) {
+            ((AppFrameworkBaseActivity) context).showFragment(new SettingsFragment(), new SettingsFragment().getClass().getSimpleName(), true);
+        }
     }
 }
