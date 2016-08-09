@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_register"
         android:enabled="false"
-        android:text="@string/purchase_history"
+        android:text="@string/order_history"
         android:visibility="gone" />
 
     <Button
