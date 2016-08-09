@@ -88,6 +88,7 @@ public class DigitalCareConfigManager {
         AnalyticsTracker.initContext(context);
     }
 */
+
     /**
      * Returs the Context used in the DigitalCare Component
      *
@@ -111,7 +112,7 @@ public class DigitalCareConfigManager {
             mLocaleMatchHandler = new LocaleMatchHandler(mContext);
             mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
             LocaleMatchHandler.initializePRXMap();
-           // initializeTaggingContext(mContext);
+            // initializeTaggingContext(mContext);
         }
 
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
@@ -262,6 +263,7 @@ public class DigitalCareConfigManager {
         return mTaggingEnabled;
     }
 */
+
     /**
      * It returns the previously set Page name for tagging.
      *
@@ -286,8 +288,12 @@ public class DigitalCareConfigManager {
 
     public LoggingInterface getLoggerInterface() {
 
-        LoggingInterface loggingInterface = getAPPInfraInstance().getLogging().
-                createInstanceForComponent("com.philips.cdp.digitalcare", "6.0.0");
+        LoggingInterface loggingInterface = null;
+        AppInfraInterface appInfraInstance = getAPPInfraInstance();
+        if (appInfraInstance != null) {
+            loggingInterface = appInfraInstance.getLogging().
+                    createInstanceForComponent("com.philips.cdp.digitalcare", "6.0.0");
+        }
         return loggingInterface;
     }
 
