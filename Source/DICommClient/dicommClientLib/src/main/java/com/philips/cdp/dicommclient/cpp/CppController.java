@@ -34,6 +34,7 @@ import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.ComponentInfo;
 import com.philips.icpinterface.data.Errors;
+import com.philips.icpinterface.data.IdentityInformation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -166,24 +167,23 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private void startKeyProvisioning() {
         DICommLog.i(DICommLog.KPS, "Start provision");
         mKeyProvisioningState = KEY_PROVISION.PROVISIONING;
-        String appVersion = null;
+        String appVersion = "" + getAppVersion();
 
         // set Peripheral Information
-        Provision prv = new Provision(mICPCallbackHandler, mKpsConfiguration,
-                null, mContext);
+        Provision prv = new Provision(mICPCallbackHandler);
 
         // Set Application Info
         // TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
         PackageManager pm = mContext.getPackageManager();
         String appID = mKpsConfigurationInfo.getAppId();
-        try {
-            appVersion = ""
-                    + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         DICommLog.i(DICommLog.KPS, appID + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
-        prv.setApplicationInfo(appID, mKpsConfigurationInfo.getAppType(), appVersion);
+
+        IdentityInformation applicationInfo = new IdentityInformation();
+        applicationInfo.idInfo = appID;
+        applicationInfo.typeInfo = mKpsConfigurationInfo.getAppType();
+        applicationInfo.versionInfo = appVersion;
+        prv.setApplicationInfo(applicationInfo);
 
         int commandResult = prv.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {
@@ -202,7 +202,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     public boolean isSignOn() {
         if (mSignon == null) {
-            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
+            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration, mContext,  new byte[0]);
         }
         DICommLog.i(DICommLog.CPPCONTROLLER, "isSign " + mSignon.getSignOnStatus());
         return mSignon.getSignOnStatus();
@@ -218,7 +218,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private void init() {
 
         if (mSignon == null) {
-            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
+            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration, mContext, new byte[0]);
         }
 
         mSignon.setInterfaceAndContextObject(this, mContext);
@@ -485,7 +485,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
      * buffer size callback from the download will happen in
      * onICPCallbackEventOccurred
      */
-    public void downloadDataFromCPP(String query, int bufferSize) {
+    public void downloadDataFromCPP(String query) {
         DICommLog.i(DICommLog.CPPCONTROLLER, "downloadDataFromCPP query: " + query + ", isSignOn: " + mIsSignOn + ", state: " + mSignonState);
         try {
             DownloadData mDownloadData = new DownloadData(mICPCallbackHandler);
@@ -744,8 +744,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             for (String asset : assetFiles) {
                 if (asset.contains(CERTIFICATE_EXTENSION)) {
                     in = mContext.getAssets().open(asset);
-                    int read = 0;
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    int read;
                     while ((read = in.read(buffer, 0, buffer.length)) != -1) {
                         baos.write(buffer, 0, read);
                     }
@@ -782,7 +782,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
      */
     public String getICPClientVersion() {
         if (mSignon == null) {
-            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
+            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration, mContext, new byte[0]);
         }
         return mSignon.clientVersion();
     }

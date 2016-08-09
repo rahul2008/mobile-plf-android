@@ -79,7 +79,7 @@ public class CppControllerTest extends RobolectricTest {
         when(EventSubscription.getInstance(any(CallbackHandler.class), anyInt())).thenReturn(eventSubscriptionMock);
 
         mockStatic(SignOn.class);
-        when(SignOn.getInstance(any(CallbackHandler.class), any(Params.class))).thenReturn(signOnMock);
+        when(SignOn.getInstance(any(CallbackHandler.class), any(Params.class), any(Context.class), any(byte [].class))).thenReturn(signOnMock);
     }
 
     @Override
