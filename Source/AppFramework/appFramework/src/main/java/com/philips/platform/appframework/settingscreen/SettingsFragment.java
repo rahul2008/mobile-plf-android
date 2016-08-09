@@ -15,8 +15,11 @@ import android.widget.ListView;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.appframework.homescreen.HomeFragment;
 
 import java.util.ArrayList;
 
@@ -25,10 +28,16 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     private static String TAG = SettingsFragment.class.getSimpleName();
     private SettingsAdapter mAdapter = null;
     private ListView mList = null;
+    private HomeFragment mHomeFragment = null;
+
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {
-            backstackFragment();
+
+            if(mHomeFragment == null) {
+                mHomeFragment = new HomeFragment();
+            }
+            ((AppFrameworkBaseActivity)getActivity()).showFragment(mHomeFragment, mHomeFragment.getClass().getSimpleName());
         }
 
         @Override
