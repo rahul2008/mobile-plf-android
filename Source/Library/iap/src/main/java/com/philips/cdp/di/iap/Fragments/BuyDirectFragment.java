@@ -135,11 +135,19 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
         if (Utility.isProgressDialogShowing())
             Utility.changeProgressMessage("Fetching Payment details");
         IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryMode =" + TAG);
-        PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
-        mPaymentMethod = paymentMethods.getPayments().get(0);
-        if (mPaymentMethod != null) {
-            //Set Payment Mode from Msg
-            mBuyDirectController.setPaymentMode(mPaymentMethod.getId());
+        //TODO : Handle to navigate to Billing Address
+        if("".equals(msg.obj))
+        {
+            finishActivity();
+            return;
+        }else {
+            PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
+
+            mPaymentMethod = paymentMethods.getPayments().get(0);
+            if (mPaymentMethod != null) {
+                //Set Payment Mode from Msg
+                mBuyDirectController.setPaymentMode(mPaymentMethod.getId());
+            }
         }
     }
 
