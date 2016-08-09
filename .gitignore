@@ -1,1 +1,5 @@
 Source/Library/uAppFramework/uAppFwLib/build/
+Source/Library/.idea/
+Source/Library/uAppFwLib/.idea/
+.idea/
+Source/Library/uAppFwLib/uAppFwLib.iml
