@@ -59,4 +59,22 @@ public interface AppIdentityInterface {
      */
     public String getServiceDiscoveryEnvironment();
 
+
+    class InvalidArgumentException extends Exception {
+        String mError;
+
+        InvalidArgumentException() {
+
+        }
+
+        public InvalidArgumentException(String error) {
+            super(error);
+            mError = error;
+        }
+
+        public String getError() {
+            return mError;
+        }
+    }
+
 }
