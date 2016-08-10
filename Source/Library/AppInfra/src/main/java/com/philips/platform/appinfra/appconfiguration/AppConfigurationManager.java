@@ -163,7 +163,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     if (object instanceof ArrayList) {
                         if (((ArrayList) object).get(0) instanceof ArrayList) {
                             throw new InvalidArgumentException("Invalid Argument Exception");
-                        } else if (object instanceof Integer || object instanceof String) {
+                        } else if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String) {
 
                             JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
                             cocoJSONobject.put(key, jsonArray);
