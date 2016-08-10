@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5A2BCE35-0C43-488C-BBA5-844A5D2CBA37}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Philips.MRAutomation.Foundation.FrameworkCore</RootNamespace>
+    <AssemblyName>Philips.MRAutomation.Foundation.FrameworkCore</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\bin\Release\Foundation\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'TestRunner|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\..\..\bin\Debug\NMBinaries\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ImageCapture.cs" />
+    <Compile Include="Common\ImageConcatination.cs" />
+    <Compile Include="Common\InputDevices.cs" />
+    <Compile Include="Common\ITextReader.cs" />
+    <Compile Include="Common\MemoryMappedFile.cs" />
+    <Compile Include="Common\MemoryMappedFileView.cs" />
+    <Compile Include="Common\MemoryMappingFailedException.cs" />
+    <Compile Include="Common\NativeAPI.cs" />
+    <Compile Include="Common\NTKernel.cs" />
+    <Compile Include="Common\Serializer.cs" />
+    <Compile Include="Common\SystemInfo.cs" />
+    <Compile Include="Common\WindowsConstants.cs" />
+    <Compile Include="ConfigurationAccessor.cs" />
+    <Compile Include="GeneralConfiguration.cs" />
+    <Compile Include="ImageCompareLibrary\ImageComparer.cs" />
+    <Compile Include="ImageCompareLibrary\ImageHelper.cs" />
+    <Compile Include="ImageCompareLibrary\ImageHistogram.cs" />
+    <Compile Include="ImageCompareLibrary\ImageMasker.cs" />
+    <Compile Include="ImageCompareLibrary\ImageResizer.cs" />
+    <Compile Include="MRConfiguration\MRConfiguration.cs">
+      <DependentUpon>MRConfiguration.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDataUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AppConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ImageCompareText\Actual.bmp" />
+    <Content Include="ImageCompareText\Diffrence.bmp" />
+    <Content Include="ImageCompareText\Expected.bmp" />
+    <Content Include="MapNetworkDrive.vbs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MRConfiguration\MRConfiguration.xsc">
+      <DependentUpon>MRConfiguration.xsd</DependentUpon>
+    </None>
+    <None Include="MRConfiguration\MRConfiguration.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>MRConfiguration.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MRConfiguration\MRConfiguration.xss">
+      <DependentUpon>MRConfiguration.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
