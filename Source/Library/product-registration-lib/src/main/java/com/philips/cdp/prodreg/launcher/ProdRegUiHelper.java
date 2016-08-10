@@ -70,23 +70,6 @@ public class ProdRegUiHelper implements uAppInterface {
         return prodRegHelper;
     }
 
-    /**
-     * @param uiLauncher        - Launcher to differentiate activity or fragment
-     * @param prodRegConfig     - Product registration config class to define products and app flow
-     * @param prodRegUiListener - Callbacks to be registered for back and continue button
-     */
-    public void invokeProductRegistration(final UiLauncher uiLauncher, final ProdRegConfig prodRegConfig, final ProdRegUiListener prodRegUiListener) {
-        this.mUiLauncher = uiLauncher;
-        this.prodRegUiListener = prodRegUiListener;
-        if (uiLauncher instanceof ActivityLauncher) {
-            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            invokeProductRegistrationAsActivity(activityLauncher, prodRegConfig);
-        } else {
-            FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeProductRegistrationAsFragment(fragmentLauncher, prodRegConfig);
-        }
-    }
-
     private ArrayList<RegisteredProduct> getRegisteredProductsList(final ArrayList<Product> products) {
         final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         for (Product product : products) {
@@ -185,6 +168,10 @@ public class ProdRegUiHelper implements uAppInterface {
         ProdRegTagging.init();
     }
 
+    /**
+     * @param uiLauncher   - Launcher to differentiate activity or fragment
+     * @param uAppListener - Product registration call back listener to receive call backs for continue and back
+     */
     @Override
     public void launch(final UiLauncher uiLauncher, final uAppListener uAppListener) {
         this.mUiLauncher = uiLauncher;
@@ -200,6 +187,10 @@ public class ProdRegUiHelper implements uAppInterface {
         }
     }
 
+    /**
+     *
+     * @param launchConfig     - Product registration config class to define products and app flow
+     */
     @Override
     public void setLaunchConfig(final LaunchConfig launchConfig) {
         this.launchConfig = launchConfig;
