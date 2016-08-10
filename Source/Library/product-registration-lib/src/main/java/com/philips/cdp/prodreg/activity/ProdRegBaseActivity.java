@@ -11,6 +11,7 @@ package com.philips.cdp.prodreg.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -22,15 +23,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegConfig;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
@@ -98,13 +99,13 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 regProdList = (ArrayList<Product>) extras.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             }
             FragmentLauncher fragLauncher = new FragmentLauncher(
-                    this, R.id.mainContainer, new ActionbarUpdateListener() {
+                    this, R.id.mainContainer, new ActionBarListener() {
                 @Override
-                public void updateActionbar(final String var1) {
-                    setTitle(var1);
+                public void updateActionBar(@StringRes final int i, final boolean b) {
+                    setTitle(i);
                 }
             });
-            fragLauncher.setAnimation(0, 0);
+            fragLauncher.setCustomAnimation(0, 0);
             final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
             final ProdRegConfig prodRegConfig = new ProdRegConfig(regProdList, isFirstLaunch);
             prodRegUiHelper.invokeProductRegistration(fragLauncher, prodRegConfig, prodRegUiHelper.getProdRegUiListener());

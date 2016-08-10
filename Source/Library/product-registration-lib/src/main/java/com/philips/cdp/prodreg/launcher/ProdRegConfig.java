@@ -1,6 +1,7 @@
 package com.philips.cdp.prodreg.launcher;
 
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.platform.uappframework.configuration.LaunchConfig;
 
 import java.util.ArrayList;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegConfig {
+public class ProdRegConfig extends LaunchConfig {
     private ArrayList<Product> products;
     private boolean isAppLaunch;
 

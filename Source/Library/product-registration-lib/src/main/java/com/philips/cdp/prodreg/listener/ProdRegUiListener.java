@@ -7,9 +7,11 @@ package com.philips.cdp.prodreg.listener;
 
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.platform.uappframework.listener.uAppListener;
+
 import java.util.List;
 
-public interface ProdRegUiListener {
+public interface ProdRegUiListener extends uAppListener {
 
     void onProdRegContinue(List<RegisteredProduct> registeredProducts, UserWithProducts userWithProduct);
 

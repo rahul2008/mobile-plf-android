@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
 import com.philips.cdp.prodreg.adaptor.ProdRegProductsAdapter;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
@@ -34,8 +35,13 @@ public class ProdRegProductsFragment extends ProdRegBaseFragment {
     private ProgressBar progressBar;
 
     @Override
-    public String getActionbarTitle() {
-        return getActivity().getString(R.string.PPR_NavBar_Title);
+    public int getActionbarTitleResId() {
+        return R.string.PPR_NavBar_Title;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
     }
 
     @Override

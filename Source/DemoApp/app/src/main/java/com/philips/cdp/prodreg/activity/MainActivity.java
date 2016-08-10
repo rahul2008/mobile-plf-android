@@ -124,4 +124,12 @@ public class MainActivity extends UiKitActivity {
         super.setTitle(title);
         mTitleTextView.setText(title);
     }
+
+    @Override
+    public void setTitle(int titleId) {
+        if (mTitleTextView != null)
+            mTitleTextView.setText(titleId);
+        else
+            super.setTitle(titleId);
+    }
 }

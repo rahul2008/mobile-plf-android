@@ -28,10 +28,11 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.uappframework.configuration.LaunchConfig;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.uAppListener;
 import com.philips.platform.uappframework.uAppInterface;
 
@@ -46,6 +47,10 @@ public class ProdRegUiHelper implements uAppInterface {
     private static LoggingInterface loggingInterface;
     private UiLauncher mUiLauncher;
     private ProdRegUiListener prodRegUiListener;
+    private Context context;
+    private AppInfra appInfra;
+    private uAppListener uAppListener;
+    private LaunchConfig launchConfig;
 
     /*
          * Initialize everything(resources, variables etc) required for Product Registration.
@@ -107,14 +112,14 @@ public class ProdRegUiHelper implements uAppInterface {
      */
     private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final ProdRegConfig prodRegConfig) {
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
-        Intent intent = new Intent(activityLauncher.getFragmentActivity(), ProdRegBaseActivity.class);
+        Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prodRegConfig.getProducts());
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
         intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegConfig.isAppLaunch());
-        intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
-        intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
-        activityLauncher.getFragmentActivity().startActivity(intent);
+//        intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
+//        intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
+        context.startActivity(intent);
     }
 
     /**
@@ -164,14 +169,9 @@ public class ProdRegUiHelper implements uAppInterface {
         return registeredProduct;
     }
 
-    @SuppressWarnings("deprecation")
-    public AppInfraInterface getAPPInfraInstance() {
-        return AppInfraSingleton.getInstance();
-    }
-
     public LoggingInterface getLoggerInterface() {
         if (loggingInterface == null) {
-            loggingInterface = getAPPInfraInstance().getLogging().
+            loggingInterface = appInfra.getLogging().
                     createInstanceForComponent("Product Registration", BuildConfig.VERSION_NAME);
         }
         return loggingInterface;
@@ -179,16 +179,27 @@ public class ProdRegUiHelper implements uAppInterface {
 
     @Override
     public void init(final Context context, final AppInfra appInfra) {
-
+        this.context = context;
+        this.appInfra = appInfra;
     }
 
     @Override
-    public void launch(final com.philips.platform.uappframework.launcher.UiLauncher uiLauncher, final uAppListener uAppListener) {
-
+    public void launch(final UiLauncher uiLauncher, final uAppListener uAppListener) {
+        this.uAppListener = uAppListener;
+        this.mUiLauncher = uiLauncher;
+        this.prodRegUiListener = (ProdRegUiListener) uAppListener;
+        final ProdRegConfig prodRegConfig = (ProdRegConfig) launchConfig;
+        if (uiLauncher instanceof ActivityLauncher) {
+            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            invokeProductRegistrationAsActivity(activityLauncher, prodRegConfig);
+        } else {
+            FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
+            invokeProductRegistrationAsFragment(fragmentLauncher, prodRegConfig);
+        }
     }
 
     @Override
     public void setLaunchConfig(final LaunchConfig launchConfig) {
-
+        this.launchConfig = launchConfig;
     }
 }

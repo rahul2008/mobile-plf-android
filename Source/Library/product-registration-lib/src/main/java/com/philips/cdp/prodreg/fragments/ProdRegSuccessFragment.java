@@ -27,8 +27,13 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     private ArrayList<RegisteredProduct> regProdList;
 
     @Override
-    public String getActionbarTitle() {
-        return getActivity().getString(R.string.PPR_NavBar_Title);
+    public int getActionbarTitleResId() {
+        return R.string.PPR_NavBar_Title;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
     }
 
     @Override

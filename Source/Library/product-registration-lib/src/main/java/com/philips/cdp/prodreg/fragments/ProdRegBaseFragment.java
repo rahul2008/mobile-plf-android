@@ -20,15 +20,15 @@ import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
@@ -36,11 +36,13 @@ import java.util.List;
 abstract class ProdRegBaseFragment extends Fragment implements BackEventListener {
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
-    private static ActionbarUpdateListener mActionbarUpdateListener;
+    private static ActionBarListener mActionbarUpdateListener;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
 
-    public abstract String getActionbarTitle();
+    public abstract int getActionbarTitleResId();
+
+    public abstract boolean getBackButtonState();
 
     public abstract List<RegisteredProduct> getRegisteredProducts();
 
@@ -65,7 +67,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().setTitle(getActionbarTitle());
+        getActivity().setTitle(getActionbarTitleResId());
     }
 
     @Override
@@ -77,7 +79,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                              int startAnimation, int endAnimation) {
         ProdRegLogger.i(TAG, "Product Registration Base Fragment -- Fragment Invoke");
         final FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
-        mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
+        mActionbarUpdateListener = fragmentLauncher.getActionbarListener();
         int containerId = fragmentLauncher.getParentContainerResourceID();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             initAnimation(startAnimation, endAnimation, fragmentActivity);
@@ -108,7 +110,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
      */
     private void setActionbarTitle() {
         if (mActionbarUpdateListener != null)
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle());
+            mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
     }
 
     private void handleCallBack(final boolean onBack) {

@@ -34,8 +34,13 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     private int responseCode;
 
     @Override
-    public String getActionbarTitle() {
-        return getActivity().getString(R.string.PPR_NavBar_Title);
+    public int getActionbarTitleResId() {
+        return R.string.PPR_NavBar_Title;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
     }
 
     @Override

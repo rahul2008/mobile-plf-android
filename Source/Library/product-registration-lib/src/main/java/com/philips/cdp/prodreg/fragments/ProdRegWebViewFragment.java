@@ -15,9 +15,11 @@ import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
+
 import java.util.List;
 
 public class ProdRegWebViewFragment extends ProdRegBaseFragment {
@@ -26,8 +28,13 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
     private ProgressBar mProgressBar;
 
     @Override
-    public String getActionbarTitle() {
-        return getActivity().getString(R.string.PPR_NavBar_Title);
+    public int getActionbarTitleResId() {
+        return R.string.PPR_NavBar_Title;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
     }
 
     @Override
