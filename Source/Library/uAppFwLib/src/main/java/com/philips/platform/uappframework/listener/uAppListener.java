@@ -10,6 +10,6 @@ package com.philips.platform.uappframework.listener;
  * uApp has to extend this interface and use them as part of launch API.
  */
 
-public interface uAppListener {
+public interface UappListener {
 
 }

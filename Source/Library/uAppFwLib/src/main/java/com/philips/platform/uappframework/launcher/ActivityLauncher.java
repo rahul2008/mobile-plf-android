@@ -69,14 +69,16 @@ public class ActivityLauncher extends UiLauncher {
      */
     public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation ,int uikitTheme) {
         mScreenOrientation = screenOrientation;
+        mUiKitTheme=uikitTheme;
     }
 
     /**
      Launching As activity with two parameters : Screen Orientation and Bundle
      */
-    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, Bundle bundle) {
+    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation,int uikitTheme, Bundle bundle) {
         mScreenOrientation = screenOrientation;
         mBundle = bundle;
+        mUiKitTheme=uikitTheme;
 
     }
     /**

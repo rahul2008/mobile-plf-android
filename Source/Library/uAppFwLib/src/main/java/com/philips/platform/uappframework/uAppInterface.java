@@ -7,28 +7,26 @@ package com.philips.platform.uappframework;
 
 import android.content.Context;
 
-import com.philips.platform.uappframework.configuration.uAppDependencies;
+import com.philips.platform.uappframework.configuration.UappDependencies;
+import com.philips.platform.uappframework.configuration.UappLaunchInput;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.uappframework.listener.uAppListener;
+import com.philips.platform.uappframework.listener.UappListener;
 /**
  * Micro app framework provides below interface which has standard APIs to initialise, launch and set Launch parameters.
 
  */
 
-public interface uAppInterface {
+public interface UappInterface {
     /**
      *  For intitalizing uApp
      */
-    public void init(Context context, AppInfra appInfra);
+    public void init(Context context, UappDependencies uappDependencies);
 
     /**
      *  For launching the uApp
      */
-    public void launch(UiLauncher uiLauncher, uAppListener uAppListener);
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uAppListener);
 
-    /**
-     *  For setting uApp launch input
-     */
-    public void setLaunchConfig(uAppDependencies launchConfig);
+
 }
