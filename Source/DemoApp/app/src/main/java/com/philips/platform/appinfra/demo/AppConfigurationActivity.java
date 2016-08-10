@@ -67,7 +67,12 @@ public class AppConfigurationActivity extends AppCompatActivity {
 
                 } else {
                     AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-                    Object object = mConfigInterface.getPropertyForKey(getGroupKeyET.getText().toString(), getKeyET.getText().toString(), configError);
+                    Object object = null;
+                    try {
+                        object = mConfigInterface.getPropertyForKey(getGroupKeyET.getText().toString(), getKeyET.getText().toString(), configError);
+                    } catch (AppConfigurationInterface.InvalidArgumentException e) {
+                        e.printStackTrace();
+                    }
                     if (null != configError.getErrorCode()) {
                         Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                     } else {
