@@ -1,6 +1,7 @@
 <resources>
     <string name="af_app_name">AppFramework</string>
     <string name="app_home_title">Mobile App Home</string>
+    <string name="app_connectivity_title">Connectivity</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
 
@@ -40,6 +41,7 @@
         <item>@string/app_home_title </item>
             
         <item>Support</item>
+        <item>Connectivity</item>
         <item>Shop</item>
         <item>Settings</item>
         <item>Debug and Testing</item>
