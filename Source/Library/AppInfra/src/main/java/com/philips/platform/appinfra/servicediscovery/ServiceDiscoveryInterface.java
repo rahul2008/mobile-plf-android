@@ -126,7 +126,7 @@ public interface ServiceDiscoveryInterface {
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
      *                  or returns onError the error code when retrieval failed.
      */
-    void getServiceUrlWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
+    void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
 
 
     /**
@@ -147,7 +147,7 @@ public interface ServiceDiscoveryInterface {
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
      *                  or returns onError the error code when retrieval failed.
      */
-    void getServiceUrlWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
+    void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
 
     /**
      * Returns the locale to be used for a specific service with a preference for the current language.

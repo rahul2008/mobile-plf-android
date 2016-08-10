@@ -17,7 +17,7 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.servicediscovery.model.Error;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,7 +36,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     private AppInfra mAppInfra;
     private Context context;
     private boolean isDataAvailable = false;
-    private boolean isDownloadInProgress = false;
+    public static boolean isDownloadInProgress = false;
     private String countryCode;
     private String mUrl = null;
     private String mCountry;
@@ -172,9 +172,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
     @Override
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        if(serviceId.contains(",") || serviceId == null){
+        if (serviceId.contains(",") || serviceId == null) {
             listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-        }else{
+        } else {
             if (isDataAvailable) {
                 filterDataForUrlbyLang(serviceId, listener);
             } else {
@@ -201,9 +201,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        if(serviceId.contains(",")|| serviceId == null){
+        if (serviceId.contains(",") || serviceId == null) {
             listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-        }else {
+        } else {
             if (isDataAvailable) {
                 filterDataForUrlbyCountry(serviceId, listener);
             } else {
@@ -229,11 +229,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
     @Override
-    public void getServiceUrlWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
+    public void getServicesWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
 
-        if(serviceId == null){
+        if (serviceId == null) {
             listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-        }else{
+        } else {
             if (isDataAvailable) {
                 filterDataForUrlbyLang(serviceId, listener);
             } else {
@@ -258,10 +258,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     }
 
     @Override
-    public void getServiceUrlWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        if(serviceId == null){
+    public void getServicesWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
+        if (serviceId == null) {
             listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-        }else{
+        } else {
             if (isDataAvailable) {
                 filterDataForUrlbyCountry(serviceId, listener);
             } else {
@@ -387,11 +387,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     private void getUrlsMapper(int configSize, String urlByData, ArrayList<String> serviceIds,
                                OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
         Map<String, String> urls = null;
-        final HashMap<String, String> responseMap = new HashMap<String, String>();
+        String modelLocale = null;
+        final HashMap<String, ServiceDiscoveyService> responseMap = new HashMap<String, ServiceDiscoveyService>();
         for (int config = 0; config < configSize; config++) {
             if (urlByData.equalsIgnoreCase("urlbycountry")) {
+                modelLocale = RequestManager.mServiceDiscovery.getMatchByCountry().getLocale();
                 urls = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(config).getUrls();
             } else if (urlByData.equalsIgnoreCase("urlbylanguage")) {
+                modelLocale = RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale();
                 urls = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(config).getUrls();
             }
 
@@ -401,7 +404,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                         if (key.equalsIgnoreCase(serviceIds.get(i).trim())) {
                             final String serviceUrlval = urls.get(key);
                             Log.d("SERVICE DISCOVERY", serviceUrlval);
-                            responseMap.put(key, serviceUrlval);
+                            ServiceDiscoveyService sdService = new ServiceDiscoveyService();
+                            sdService.init(modelLocale, serviceUrlval);
+                            responseMap.put(key, sdService);
                         }
                     }
                 }

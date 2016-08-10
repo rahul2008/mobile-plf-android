@@ -11,10 +11,13 @@ import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -103,7 +106,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             public void onClick(View v) {
                 String[] serviceIds = idEditText.getText().toString().split(",");
                 ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, mOnGetServiceUrlMapListener);
+                mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener);
 
             }
         });
@@ -113,7 +116,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             public void onClick(View v) {
                 String[] serviceIds = idEditText.getText().toString().split(",");
                 ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceId ,mOnGetServiceUrlMapListener);
+                mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId ,mOnGetServiceUrlMapListener);
             }
         });
     }
@@ -143,6 +146,28 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
     @Override
     public void onSuccess(Map urlMap) {
-        resultView.setText("" + urlMap);
+        ServiceDiscoveyService service = new ServiceDiscoveyService();
+
+        String key = null;
+        String locale= null;
+        String configUrl= null ;
+        Iterator it = urlMap.entrySet().iterator();
+        Map mMap= new HashMap<String,Map>();
+        Map dataMap = new HashMap<String,String >();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            key = pair.getKey().toString();
+            service = (ServiceDiscoveyService) pair.getValue();
+            locale = service.getLocale();
+            configUrl = service.getConfigUrls();
+
+            dataMap.put(locale, configUrl);
+            mMap.put(key, dataMap);
+
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        resultView.setText(" URL Model   : " +mMap);
+
     }
 }

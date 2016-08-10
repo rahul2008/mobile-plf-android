@@ -204,7 +204,7 @@ public class RequestManager {
 
                                 matchByLanguage.setConfigs(matchByLanguageConfigs);
                                 mServiceDiscovery.setMatchByLanguage(matchByLanguage);
-
+                                ServiceDiscoveryManager.isDownloadInProgress = false;
                                 listener.onSuccess();
                                 // END setting match by language
 //                                }
@@ -262,6 +262,7 @@ public class RequestManager {
                             volleyError.setMessage("ServerError");
                             volleyError.setErrorvalues(errorValue);
                         }
+                        ServiceDiscoveryManager.isDownloadInProgress = false;
                         mServiceDiscovery.setError(volleyError);
                         listener.onError(errorValue, volleyError.getMessage());
                     }

@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
 
 import java.net.URL;
 
@@ -29,8 +30,13 @@ public class AppInfraApplication extends Application {
         //gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         //AppInfraSingleton appInfraSingleton ;
 
+
+
+
         AppInfraSingleton.setInstance(gAppInfra=new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra=AppInfraSingleton.getInstance();
+
+
        /* LoggingInterface overridenLogger=null;
         AppInfraSingleton.setInstance(gAppInfra=new AppInfra.Builder().setLogging(overridenLogger).build(getApplicationContext()));*/
 
@@ -48,6 +54,10 @@ public class AppInfraApplication extends Application {
                 Log.i("ERRORVALUES ***", ""+message);
             }
         });
+
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler();
+        registerActivityLifecycleCallbacks(handler);
+        registerComponentCallbacks(handler);
 
     }
 

@@ -28,8 +28,6 @@ public class AppTagging implements AppTaggingInterface {
 
     private String mLanguage;
     private String mAppsIdkey;
-    private String mLocalTimestamp;
-    private String mUTCTimestamp;
     private String prevPage;
 
     AppInfra mAppInfra;
@@ -68,6 +66,9 @@ public class AppTagging implements AppTaggingInterface {
         mcontext = context;
         prevPage = appName;
         Config.setContext(context);
+
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler();
+        handler.Init(mAppInfra);
         if (appName == null) {
             throw new RuntimeException("Please set app name for tagging library");
         }
@@ -129,6 +130,7 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     private String getUTCTimestamp() {
+        String mUTCTimestamp = null;
         String UTCtime = null;
 
         if (mAppInfra.getTime() != null) {
@@ -139,20 +141,16 @@ public class AppTagging implements AppTaggingInterface {
             Log.i("mUTCTimestamp", "" + mUTCTimestamp);
         }
 
-        if (mUTCTimestamp != null) {
-            return mUTCTimestamp;
-        }
         return mUTCTimestamp;
     }
 
     private String getLocalTimestamp() {
+
+        String mLocalTimestamp = null;
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
         String formattedDate = df.format(c.getTime());
         mLocalTimestamp = formattedDate;
-        if (mLocalTimestamp != null) {
-            return mLocalTimestamp;
-        }
         return mLocalTimestamp;
     }
 

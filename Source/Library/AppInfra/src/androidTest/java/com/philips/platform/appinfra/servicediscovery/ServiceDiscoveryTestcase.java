@@ -52,7 +52,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceUrlWithLanguageMapUrl() throws Exception {
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        mServiceDiscoveryManager.getServicesWithLanguagePreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map urlMap) {
                 assertNotNull(urlMap);
@@ -82,7 +82,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceUrlWithCountryMapUrl() throws Exception {
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        mServiceDiscoveryManager.getServicesWithCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map urlMap) {
                 assertNotNull(urlMap);
