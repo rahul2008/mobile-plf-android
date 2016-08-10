@@ -140,7 +140,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 }
             };
     private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
-    private int titleResourceId = -99;
+    private int mtitleResourceId = -99;
     private boolean isAccountSettings = true;
     private CoppaExtension coppaExtension;
 
@@ -497,7 +497,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
 
     public int getFragmentBackStackCount() {
-        return mFragmentManager.getBackStackEntryCount();
+
+      //  FragmentManager fragmentManager = getChildFragmentManager();
+        int fragmentCount = mFragmentManager.getFragments().size();
+        return fragmentCount;
+
+       // return mFragmentManager.getBackStackEntryCount();
     }
 
     public RegistrationTitleBarListener getUpdateTitleListener() {
@@ -516,11 +521,11 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     }
 
     public void setResourceId(int titleResourceId) {
-        titleResourceId = titleResourceId;
+        mtitleResourceId = titleResourceId;
     }
 
     public int getResourceID() {
-        return titleResourceId;
+        return mtitleResourceId;
     }
 
 
@@ -554,7 +559,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             final Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
-            registrationFragment.setPreviousResourceId(titleResourceId);
+            registrationFragment.setPreviousResourceId(mtitleResourceId);
             registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
                 @Override
                 public void updateRegistrationTitle(int titleResourceId) {
