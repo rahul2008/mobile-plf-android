@@ -32,6 +32,7 @@
     <string name="settings_list_item_login">Login</string>
     <string name="settings_list_item_log_out">Log out</string>
     <string name="product_registration">Register Your Product</string>
+    <string name="about_screen_description">The details for this Page is to be provided by Philips Design</string>
 
     <!--Settings Screen ends-->
 
@@ -41,6 +42,7 @@
         <item>Shop</item>
         <item>Settings</item>
         <item>Debug and Testing</item>
+        <item>About</item>
     </string-array>
 
     <!-- Consumer Care related-->
