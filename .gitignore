@@ -7,3 +7,4 @@ Source/Library/uAppFwLib/build/
 *.bin
 Source/Library/build/
 *.iml
+Source/Library/uAppFwLib/local.properties
