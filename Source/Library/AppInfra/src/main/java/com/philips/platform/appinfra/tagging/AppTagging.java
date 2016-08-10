@@ -22,9 +22,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class AppTagging implements AppTaggingInterface {
-    private static String newFieldKey;
+    private String newFieldKey;
 
-    private static String newFieldValue;
+    private String newFieldValue;
 
     private String mLanguage;
     private String mAppsIdkey;
@@ -34,7 +34,7 @@ public class AppTagging implements AppTaggingInterface {
     protected String mComponentID;
     protected String mComponentVersion;
 
-    private static String[] defaultValues = {
+    private String[] defaultValues = {
             AppTaggingConstants.LANGUAGE_KEY,
             AppTaggingConstants.APPSID_KEY,
             AppTaggingConstants.COMPONENT_ID,
@@ -46,16 +46,19 @@ public class AppTagging implements AppTaggingInterface {
     };
 
 
-    private static Locale mlocale;
+    private Locale mlocale;
 
-    private static Context mcontext;
+    private Context mcontext;
 
-    private static String mAppName;
-    private static Map<String, Object> contextData;
+    private Map<String, Object> contextData;
+
+    public static AppTaggingInterface mAppTaggingInterface;
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
+
+        mAppTaggingInterface = mAppInfra.getTagging();
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
@@ -67,18 +70,12 @@ public class AppTagging implements AppTaggingInterface {
         prevPage = appName;
         Config.setContext(context);
 
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler();
-        handler.Init(mAppInfra);
-        if (appName == null) {
-            throw new RuntimeException("Please set app name for tagging library");
-        }
     }
 
     private Map<String, Object> addAnalyticsDataObject() {
         Map<String, Object> contextData = new HashMap<String, Object>();
 
         contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
-//        contextData.put(AppTaggingConstants.CURRENCY_KEY, getCurrency());
 
         contextData.put(AppTaggingConstants.APPSID_KEY, getAppsId());
         contextData.put(AppTaggingConstants.COMPONENT_ID, getComponentId());
@@ -104,13 +101,13 @@ public class AppTagging implements AppTaggingInterface {
         return mAppsIdkey;
     }
 
-    private void setNewKey(String newFieldkey) {
-        AppTagging.newFieldKey = newFieldkey;
+    private void setNewKey(String newFieldkeyParam) {
+        newFieldKey = newFieldkeyParam;
 
     }
 
-    private void setNewValue(String newFieldvalue) {
-        AppTagging.newFieldValue = newFieldvalue;
+    private void setNewValue(String newFieldvalueParam) {
+        newFieldValue = newFieldvalueParam;
     }
 
     private String getNewKey() {
@@ -213,10 +210,8 @@ public class AppTagging implements AppTaggingInterface {
                 break;
 
         }
-        if (mPrivacyStatus != null) {
-            return mPrivacyStatus;
-        }
-        return null;
+
+        return mPrivacyStatus;
     }
 
 

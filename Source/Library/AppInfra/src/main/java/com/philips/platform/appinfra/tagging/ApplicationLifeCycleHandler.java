@@ -10,6 +10,7 @@ import android.util.Log;
 import com.adobe.mobile.Config;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 
 /**
  * Created by 310200764 on 9/1/2015.
@@ -17,12 +18,8 @@ import com.philips.platform.appinfra.AppInfraInterface;
 
 public class ApplicationLifeCycleHandler implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
 
-    private AppInfra mAppInfra;
     private static final String TAG = ApplicationLifeCycleHandler.class.getSimpleName();
     public static boolean isInBackground = true;
-    public void Init(AppInfra appInfra){
-        mAppInfra = appInfra;
-    }
 
 
     @Override
@@ -37,8 +34,9 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onActivityResumed(Activity activity) {
 
         if (isInBackground) {
-            Config.collectLifecycleData();
-//    mAppInfra.getTagging().collectLifecycleInfo(activity);
+
+           AppTagging.mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in ForeGround");
+
             isInBackground = false;
         }
     }
@@ -70,8 +68,9 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     @Override
     public void onTrimMemory(int i) {
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            Config.pauseCollectingLifecycleData();
             Log.i("AppisInBackground", "AppisInBackground");
+
+            AppTagging.mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
             isInBackground = true;
         }
     }

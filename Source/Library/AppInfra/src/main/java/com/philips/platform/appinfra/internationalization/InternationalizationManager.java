@@ -10,8 +10,10 @@ import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.RequestManager;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
@@ -32,14 +34,6 @@ public class InternationalizationManager implements InternationalizationInterfac
 
     @Override
     public Locale getUILocale() {
-        if (Locale.getDefault() != null) {
-            if (mAppInfra.getTagging() != null) {
-                mAppInfra.getTagging().trackActionWithInfo("InternationalizationPageAction", "KeyLocal", "ValueLocal");
-            }
-
-            return Locale.getDefault();
-        } else {
-            return null;
-        }
+        return Locale.getDefault();
     }
 }

@@ -15,7 +15,8 @@ import java.util.Map;
  */
 public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
-    ServiceDiscoveryInterface mServiceDiscoveryManager = null;
+    ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
+    ServiceDiscoveryManager mServiceDiscoveryManager = null;
     AppInfra mAppInfra;
 
     String mServiceId = "userreg.janrain.cdn";
@@ -33,12 +34,14 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mServiceDiscoveryManager = mAppInfra.getServiceDiscovery();
+        mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+        assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
     }
 
     public void testgetServiceUrlWithLanguagePreference() throws Exception {
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
                 assertNotNull(message);
@@ -52,7 +55,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceUrlWithLanguageMapUrl() throws Exception {
-        mServiceDiscoveryManager.getServicesWithLanguagePreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        mServiceDiscoveryInterface.getServicesWithLanguagePreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map urlMap) {
                 assertNotNull(urlMap);
@@ -68,7 +71,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
 
     public void testgetServiceUrlWithCountryPreference() throws Exception {
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
                 assertNotNull(message);
@@ -82,7 +85,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceUrlWithCountryMapUrl() throws Exception {
-        mServiceDiscoveryManager.getServicesWithCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        mServiceDiscoveryInterface.getServicesWithCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map urlMap) {
                 assertNotNull(urlMap);
@@ -97,7 +100,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceLocaleWithCountryPreference() throws Exception {
-        mServiceDiscoveryManager.getServiceLocaleWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
 
             @Override
             public void onError(ERRORVALUES error, String message) {
@@ -112,7 +115,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceLocaleWithLanguagePreference() throws Exception {
-        mServiceDiscoveryManager.getServiceLocaleWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
 
 
             @Override
@@ -126,6 +129,20 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             }
         });
     }
+    public void testgetHomeCountry(){
+        mServiceDiscoveryManager.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String countryCode, SOURCE source) {
+                assertNotNull(countryCode);
+                assertNotNull(source);
+            }
 
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+    }
 
 }
