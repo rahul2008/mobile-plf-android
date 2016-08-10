@@ -148,9 +148,9 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
             if (this instanceof ParentalApprovalFragment) {
-                final int count = fragment.getChildFragmentManager().getBackStackEntryCount();
+                final int count = fragment.getFragmentBackStackCount();
                 final Fragment regFragment = fragment.getChildFragmentManager().
-                        getFragments().get(count);
+                        getFragments().get(count-1);
                 if (regFragment != null && regFragment instanceof RegistrationFragment) {
                     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(((
                             RegistrationFragment) regFragment).getCurrentTitleResource());
