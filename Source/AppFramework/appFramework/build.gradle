@@ -90,7 +90,7 @@ def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" +
 def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz' )
 artifacts {
     archives zipDoc
-	archives zipSrc
+	//archives zipSrc
 }
 
 task zipDocuments(type: Zip) {
