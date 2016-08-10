@@ -29,6 +29,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     AppInfra mAppInfra;
     Context mContext;
+    JSONObject configJsonCache;
     private static final String mAppConfig_SecureStoreKey = "ail.app_config";
 
     SecureStorageInterface ssi;
@@ -36,7 +37,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
-        ssi = mAppInfra.getSecureStorage();
+
     }
 
     protected JSONObject getMasterConfigFromApp() {
@@ -60,15 +61,23 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         return result;
     }
 
+    private JSONObject getjSONFromCache(){
+        if(null==configJsonCache){
+            configJsonCache= getjSONFromDevice();
+        }
+        return configJsonCache;
+
+    }
 
     private JSONObject getjSONFromDevice() {
+        ssi = mAppInfra.getSecureStorage();
         JSONObject jObj = null;
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         String jsonString = ssi.fetchValueForKey(mAppConfig_SecureStoreKey, sse);
         if (null == jsonString || null == sse) {
-            // do nothing
+            jObj = getMasterConfigFromApp();// reads from Application asset
         } else {
-            // save master json file to device memory
+
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", jsonString);
             try {
                 jObj = new JSONObject(jsonString);
@@ -87,18 +96,15 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new InvalidArgumentException("Invalid Argument Exception");
         } else {
-            JSONObject deviceObject = getjSONFromDevice();
-            if (null == deviceObject) {  // if master file is not yet saved into phone memory
-                deviceObject = getMasterConfigFromApp();// reads from Application asset
-                SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                ssi.storeValueForKey(mAppConfig_SecureStoreKey, deviceObject.toString(), sse);// write json to device for further read
-            }
+            getjSONFromCache(); // fetch from cache
+
+            //configJsonCache is initialized//
             try {
-                boolean isCocoPresent = deviceObject.has(groupName);
+                boolean isCocoPresent = configJsonCache.has(groupName);
                 if (!isCocoPresent) { // if request coco does not exist
                     configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.GroupNotExists);
                 } else {
-                    JSONObject cocoJSONobject = deviceObject.optJSONObject(groupName);
+                    JSONObject cocoJSONobject = configJsonCache.optJSONObject(groupName);
                     if (null == cocoJSONobject) { // invalid Coco JSON
                         configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
                     } else {
@@ -139,34 +145,40 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new InvalidArgumentException("Invalid Argument Exception");
         } else {
-            JSONObject deviceObject = getjSONFromDevice();
-            if (null == deviceObject) {  // if master file is not yet saved into phone memory
-                deviceObject = getMasterConfigFromApp();// reads from Application asset
-                SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                ssi.storeValueForKey(mAppConfig_SecureStoreKey, deviceObject.toString(), sse);// write json to device for further read
-            }
+            getjSONFromCache(); // fetch from cache
             try {
-                boolean isCocoPresent = deviceObject.has(groupName);
+                boolean isCocoPresent = configJsonCache.has(groupName);
                 JSONObject cocoJSONobject;
                 if (!isCocoPresent) { // if request coco  does not exist
                     // configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
                     cocoJSONobject = new JSONObject();
-                    deviceObject.put(groupName, cocoJSONobject);
+                    configJsonCache.put(groupName, cocoJSONobject);
                 } else {
-                    cocoJSONobject = deviceObject.optJSONObject(groupName);
+                    cocoJSONobject = configJsonCache.optJSONObject(groupName);
                 }
                 if (null == cocoJSONobject) { // invalid Coco JSON
                     configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
                 } else {
                     // boolean isKeyPresent = cocoJSONobject.has(key);
                     if (object instanceof ArrayList) {
-                        JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
-                        cocoJSONobject.put(key, jsonArray);
-                    } else {
+                        if (((ArrayList) object).get(0) instanceof ArrayList) {
+                            throw new InvalidArgumentException("Invalid Argument Exception");
+                        } else if (object instanceof Integer || object instanceof String) {
+
+                            JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
+                            cocoJSONobject.put(key, jsonArray);
+
+                        } else {
+                            throw new InvalidArgumentException("Invalid Argument Exception");
+                        }
+                    } else if (object instanceof Integer || object instanceof String) {
+
                         cocoJSONobject.put(key, object);
+                    } else {
+                        throw new InvalidArgumentException("Invalid Argument Exception");
                     }
                     SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                    ssi.storeValueForKey(mAppConfig_SecureStoreKey, deviceObject.toString(), sse);
+                    ssi.storeValueForKey(mAppConfig_SecureStoreKey, configJsonCache.toString(), sse);
                     if (null == sse.getErrorCode()) {
                         setOperation = true;
                     } else {
