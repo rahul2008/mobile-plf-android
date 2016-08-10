@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.adobe.mobile.Config;
 import com.philips.platform.appinfra.AppInfra;
@@ -36,7 +37,8 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onActivityResumed(Activity activity) {
 
         if (isInBackground) {
-            mAppInfra.getTagging().collectLifecycleInfo(activity);
+            Config.collectLifecycleData();
+//    mAppInfra.getTagging().collectLifecycleInfo(activity);
             isInBackground = false;
         }
     }
@@ -68,7 +70,8 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     @Override
     public void onTrimMemory(int i) {
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            mAppInfra.getTagging().pauseLifecycleInfo();
+            Config.pauseCollectingLifecycleData();
+            Log.i("AppisInBackground", "AppisInBackground");
             isInBackground = true;
         }
     }
