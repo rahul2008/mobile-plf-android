@@ -67,10 +67,13 @@
             android:label="LocalMainDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
-            android:name=".ConfigActivity"
-            android:label="@string/title_activity_config"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".AppConfigurationActivity"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

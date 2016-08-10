@@ -17,6 +17,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+
 public class AppInfraMainActivity extends AppCompatActivity {
 
 
@@ -100,7 +102,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 9:
 
             Intent configActivity = new Intent(AppInfraMainActivity.this,
-                    ConfigActivity.class);
+                    AppConfigurationActivity.class);
             startActivity(configActivity);
                 break;
         }

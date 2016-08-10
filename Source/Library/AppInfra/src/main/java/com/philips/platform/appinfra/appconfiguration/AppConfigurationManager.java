@@ -3,9 +3,11 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.appinfra.config;
+
+package com.philips.platform.appinfra.appconfiguration;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -23,15 +25,15 @@ import java.util.List;
 /**
  * Created by 310238114 on 7/25/2016.
  */
-public class ConfigManager implements ConfigInterface {
+public class AppConfigurationManager implements AppConfigurationInterface {
 
     AppInfra mAppInfra;
     Context mContext;
-    private static final String uAPP_CONFIG_FILE = "uAPP_CONFIG_FILE";
+    private static final String mAppConfig_SecureStoreKey = "ail.app_config";
 
     SecureStorageInterface ssi;
 
-    public ConfigManager(AppInfra appInfra) {
+    public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
         ssi = mAppInfra.getSecureStorage();
@@ -48,8 +50,12 @@ public class ConfigManager implements ConfigInterface {
                 total.append(line).append('\n');
             }
             result = new JSONObject(total.toString());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
+                    result.toString());
+
         } catch (Exception e) {
-            e.printStackTrace();
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                    Log.getStackTraceString(e));
         }
         return result;
     }
@@ -58,7 +64,7 @@ public class ConfigManager implements ConfigInterface {
     private JSONObject getjSONFromDevice() {
         JSONObject jObj = null;
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        String jsonString = ssi.fetchValueForKey(uAPP_CONFIG_FILE, sse);
+        String jsonString = ssi.fetchValueForKey(mAppConfig_SecureStoreKey, sse);
         if (null == jsonString || null == sse) {
             // do nothing
         } else {
@@ -67,40 +73,41 @@ public class ConfigManager implements ConfigInterface {
             try {
                 jObj = new JSONObject(jsonString);
             } catch (Exception e) {
-                e.printStackTrace();
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                        Log.getStackTraceString(e));
             }
         }
         return jObj;
     }
 
     @Override
-    public Object getPropertyForKey(String groupName, String key, ConfigError configError) {
+    public Object getPropertyForKey(String groupName, String key, AppConfigurationError configError) {
         Object object = null;
         if (null == groupName || null == key || key.isEmpty() || key.isEmpty()) {
-            configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
+            configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
         } else {
             JSONObject deviceObject = getjSONFromDevice();
             if (null == deviceObject) {  // if master file is not yet saved into phone memory
                 deviceObject = getMasterConfigFromApp();// reads from Application asset
                 SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);// write json to device for further read
+                ssi.storeValueForKey(mAppConfig_SecureStoreKey, deviceObject.toString(), sse);// write json to device for further read
             }
             try {
                 boolean isCocoPresent = deviceObject.has(groupName);
                 if (!isCocoPresent) { // if request coco does not exist
-                    configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
+                    configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.GroupNotExists);
                 } else {
                     JSONObject cocoJSONobject = deviceObject.optJSONObject(groupName);
                     if (null == cocoJSONobject) { // invalid Coco JSON
-                        configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
+                        configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
                     } else {
                         boolean isKeyPresent = cocoJSONobject.has(key);
                         if (!isKeyPresent) { // if key is not found inside coco
-                            configError.setErrorCode(ConfigError.ConfigErrorEnum.KeyNotExists);
+                            configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.KeyNotExists);
                         } else {
                             object = cocoJSONobject.opt(key); // Returns the value mapped by name, or null if no such mapping exists
                             if (null == object) {
-                                configError.setErrorCode(ConfigError.ConfigErrorEnum.NoDataFoundForKey);
+                                configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
                             } else {
                                 //  KEY FOUND SUCCESS
                                 if (cocoJSONobject.opt(key) instanceof JSONArray) {
@@ -116,24 +123,26 @@ public class ConfigManager implements ConfigInterface {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                        Log.getStackTraceString(e));
             }
         }
         return object;
     }
 
     @Override
-    public boolean setPropertyForKey(String groupName, String key, Object object, ConfigError configError) {
+    public boolean setPropertyForKey(String groupName, String key, Object object, AppConfigurationError configError) throws InvalidArgumentException {
         boolean setOperation = false;
-        if (null == groupName || null == key || key.isEmpty() || key.isEmpty()) {
-            configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
-            return setOperation;
+        if (null == groupName || null == key || key.isEmpty() || !key.matches("[a-zA-Z0-9_.-]+") ||
+                !groupName.matches("[a-zA-Z0-9_.-]+") || object == null) {
+            configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
+            throw new InvalidArgumentException("Invalid Argument Exception");
         } else {
             JSONObject deviceObject = getjSONFromDevice();
             if (null == deviceObject) {  // if master file is not yet saved into phone memory
                 deviceObject = getMasterConfigFromApp();// reads from Application asset
                 SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);// write json to device for further read
+                ssi.storeValueForKey(mAppConfig_SecureStoreKey, deviceObject.toString(), sse);// write json to device for further read
             }
             try {
                 boolean isCocoPresent = deviceObject.has(groupName);
@@ -146,35 +155,29 @@ public class ConfigManager implements ConfigInterface {
                     cocoJSONobject = deviceObject.optJSONObject(groupName);
                 }
                 if (null == cocoJSONobject) { // invalid Coco JSON
-                    configError.setErrorCode(ConfigError.ConfigErrorEnum.FatalError);
+                    configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
                 } else {
-                    if (key.matches("[a-zA-Z0-9_.-]+")) {
-                        // boolean isKeyPresent = cocoJSONobject.has(key);
-                        if (object instanceof ArrayList) {
-                            JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
-                            cocoJSONobject.put(key, jsonArray);
-                        } else {
-                            cocoJSONobject.put(key, object);
-                        }
-                        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                        ssi.storeValueForKey(uAPP_CONFIG_FILE, deviceObject.toString(), sse);
-                        if (null == sse.getErrorCode()) {
-                            setOperation = true;
-                        } else {
-                            setOperation = false;
-                        }
+                    // boolean isKeyPresent = cocoJSONobject.has(key);
+                    if (object instanceof ArrayList) {
+                        JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
+                        cocoJSONobject.put(key, jsonArray);
                     } else {
-                        configError.setErrorCode(ConfigError.ConfigErrorEnum.InvalidKey);
+                        cocoJSONobject.put(key, object);
                     }
-
+                    SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+                    ssi.storeValueForKey(mAppConfig_SecureStoreKey, deviceObject.toString(), sse);
+                    if (null == sse.getErrorCode()) {
+                        setOperation = true;
+                    } else {
+                        configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.SecureStorageError);
+                    }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                        Log.getStackTraceString(e));
                 setOperation = false;
             }
         }
         return setOperation;
     }
-
-
 }

@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra;
 
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.config.ConfigInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -67,5 +67,5 @@ public interface AppInfraInterface {
      *
      * @return the config
      */
-    public ConfigInterface getConfigInterface();
+    public AppConfigurationInterface getConfigInterface();
 }
