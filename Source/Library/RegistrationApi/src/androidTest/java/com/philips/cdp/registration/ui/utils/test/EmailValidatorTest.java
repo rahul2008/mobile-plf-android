@@ -182,6 +182,81 @@ public class EmailValidatorTest extends ActivityInstrumentationTestCase2<Registr
 		boolean result = FieldsValidator.isValidPassword("sAM!@#123");
 		assertTrue(result);
 	}
+	public void testIsPasswordLengthMeetsCase12(){
+		boolean result = FieldsValidator.isPasswordLengthMeets("sAM!@#123");
+		assertTrue(result);
+	}
+
+	public void testIsPasswordLengthMeetsCase13(){
+		boolean result = FieldsValidator.isPasswordLengthMeets(null);
+		assertFalse(result);
+	}
+
+	public void testIsNumberPresentCase1()
+	{
+		boolean result = FieldsValidator.isNumberPresent(null);
+		assertFalse(result);
+	}
+	public void testIsNumberPresentCase2()
+	{
+		boolean result = FieldsValidator.isNumberPresent("");
+		assertFalse(result);
+	}
+	public void testIsNumberPresentCase3()
+	{
+		boolean result = FieldsValidator.isNumberPresent("sAM!@#123");
+		assertTrue(result);
+	}
+	public void testIsSymbolsPresentCase1()
+	{
+		boolean result = FieldsValidator.isSymbolsPresent(null);
+		assertFalse(result);
+	}
+	public void testIsSymbolsPresentCase2()
+	{
+		boolean result = FieldsValidator.isSymbolsPresent("");
+		assertFalse(result);
+	}
+	public void testIsSymbolsPresentCase3()
+	{
+		boolean result = FieldsValidator.isSymbolsPresent("sAM!@#123");
+		assertTrue(result);
+	}
+	public void testIsAlphabetPresentCase1()
+	{
+		boolean result = FieldsValidator.isAlphabetPresent(null);
+		assertFalse(result);
+	}
+	public void testIsAlphabetPresentCase2()
+	{
+		boolean result = FieldsValidator.isAlphabetPresent("");
+		assertFalse(result);
+	}
+	public void testIsAlphabetPresentCase3()
+	{
+		boolean result = FieldsValidator.isAlphabetPresent("sAM!@#123");
+		assertTrue(result);
+	}
+	public void testIsValidSerialNoCase1()
+	{
+		boolean result = FieldsValidator.isValidSerialNo(null);
+		assertFalse(result);
+	}
+	public void testIsValidSerialNoCase2()
+	{
+		boolean result = FieldsValidator.isValidSerialNo("");
+		assertFalse(result);
+	}
+	public void testIsValidSerialNoCase3()
+	{
+		boolean result = FieldsValidator.isValidSerialNo("sAM!@#123");
+		assertFalse(result);
+	}
+	public void testIsValidSerialNoCase4()
+	{
+		boolean result = FieldsValidator.isValidSerialNo("AM1234567890123");
+		assertFalse(result);
+	}
 	
 	// name validation tests
 	
