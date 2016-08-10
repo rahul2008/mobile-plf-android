@@ -43,25 +43,25 @@ public class AppIdentityTest extends MockitoTestCase {
 
             }
 
-            @Override
-            public String loadJSONFromAsset() {
-                String json = getJsonStringFromAsset();
-                if (json != null) {
-                    try {
-                        JSONObject obj = new JSONObject(json);
-                        micrositeId = obj.getString("micrositeId");
-                        sector = obj.getString("sector");
-                        mServiceDiscoveryEnvironment = obj.getString("ServiceDiscoveryEnvironment");
-                        mappState = obj.getString("AppState");
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                return json;
-            }
+//            @Override
+//            public String loadJSONFromAsset() {
+//                String json = getJsonStringFromAsset();
+//                if (json != null) {
+//                    try {
+//                        JSONObject obj = new JSONObject(json);
+//                        micrositeId = obj.getString("micrositeId");
+//                        sector = obj.getString("sector");
+//                        mServiceDiscoveryEnvironment = obj.getString("ServiceDiscoveryEnvironment");
+//                        mappState = obj.getString("AppState");
+//
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//                return json;
+//            }
         };
 
         assertNotNull(mAppIdentityManager);
@@ -77,7 +77,7 @@ public class AppIdentityTest extends MockitoTestCase {
 
         assertNotNull(mAppIdentityManager.getLocalizedAppName());
         assertNotNull(mAppIdentityManager.getAppName());
-        assertNotNull(mappState);
+        assertNotNull(mAppIdentityManager.getAppName());
         assertNotNull(mAppIdentityManager.getAppVersion());
         assertNotNull(mAppIdentityManager.getMicrositeId());
         assertNotNull(mAppIdentityManager.getSector());
