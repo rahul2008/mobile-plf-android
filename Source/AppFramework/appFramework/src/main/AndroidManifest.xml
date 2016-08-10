@@ -34,7 +34,8 @@
         <activity android:name=".userregistrationscreen.UserRegistrationActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <activity android:name=".homescreen.HomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleInstance"/>
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->
             <!--android:exported="false">-->
