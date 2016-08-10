@@ -42,7 +42,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     protected JSONObject getMasterConfigFromApp() {
         JSONObject result = null;
         try {
-            InputStream mInputStream = mContext.getAssets().open("configuration.json");
+            InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
             BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
             StringBuilder total = new StringBuilder();
             String line;
@@ -81,10 +81,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     @Override
-    public Object getPropertyForKey(String groupName, String key, AppConfigurationError configError) {
+    public Object getPropertyForKey(String groupName, String key, AppConfigurationError configError) throws InvalidArgumentException {
         Object object = null;
-        if (null == groupName || null == key || key.isEmpty() || key.isEmpty()) {
+        if (null == groupName || null == key || key.isEmpty() || key.isEmpty() || !key.matches("[a-zA-Z0-9_.-]+") || !groupName.matches("[a-zA-Z0-9_.-]+")) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
+            throw new InvalidArgumentException("Invalid Argument Exception");
         } else {
             JSONObject deviceObject = getjSONFromDevice();
             if (null == deviceObject) {  // if master file is not yet saved into phone memory

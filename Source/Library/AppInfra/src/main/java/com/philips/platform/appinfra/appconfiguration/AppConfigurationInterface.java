@@ -23,7 +23,7 @@ public interface AppConfigurationInterface {
      * if value is array of literal then 'array of String' Object is returned
      * if value is array of number then 'array of Integer' Object is returned
      */
-    Object getPropertyForKey(String groupName, String key, AppConfigurationError configError);
+    Object getPropertyForKey(String groupName, String key, AppConfigurationError configError) throws InvalidArgumentException;
 
     /**
      * Sets property for key.
