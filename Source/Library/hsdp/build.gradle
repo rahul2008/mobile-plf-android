@@ -100,8 +100,10 @@ dependencies {
     compile(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.6.1')
     compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.6.1')
     compile project (':servertime')
-    androidTestCompile project(':dexmaker-mockito-1.4')
-    androidTestCompile project(':dexmaker-1.4')
-    androidTestCompile project(':dexmaker-dx-1.4')
-    androidTestCompile project(':mockito-all-1.10.19')
+    /*   androidTestCompile project(':dexmaker-mockito-1.4')
+       androidTestCompile project(':dexmaker-1.4')
+       androidTestCompile project(':dexmaker-dx-1.4')
+       androidTestCompile project(':mockito-all-1.10.19')*/
+
+    testCompile 'org.mockito:mockito-core:1.9.5'
 }

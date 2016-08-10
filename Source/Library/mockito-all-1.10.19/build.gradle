@@ -1,2 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file('mockito-all-1.10.19.jar'))

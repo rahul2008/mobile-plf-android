@@ -1,5 +1,5 @@
 rootProject.setName("UserRegistration")
-include ':hsdp', ':HockeySDK-3.0.2', ':dexmaker-mockito-1.4', ':dexmaker-1.4', ':dexmaker-dx-1.4', ':mockito-all-1.10.19', ':servertime'
+include ':hsdp', ':HockeySDK-3.0.2', ':servertime'
 include ':jump'
 include ':registrationApi'
 include ':coppa'

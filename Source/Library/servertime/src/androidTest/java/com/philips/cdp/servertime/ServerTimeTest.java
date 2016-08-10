@@ -8,19 +8,16 @@
 
 package com.philips.cdp.servertime;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.recievers.DateTimeChangedReceiver;
 import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
-import org.mockito.Mockito;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+//import org.mockito.Mockito;
 
 
 public class ServerTimeTest extends InstrumentationTestCase {

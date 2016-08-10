@@ -4,7 +4,8 @@
  *  * in whole or in part is prohibited without the prior written
  *  * consent of the copyright holder.
  * /
- */
+ *//*
+
 
 package com.philips.dhpclient.test;
 
@@ -20,16 +21,20 @@ import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.util.MapUtils;
 
 import org.json.JSONException;
-import org.mockito.Mockito;
+//import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+//import org.mockito.Mockito;
+
+*/
 /**
  * Created by 310190722 on 9/8/2015.
- */
+ *//*
+
 public class DhpApiSignerTest extends InstrumentationTestCase {
 
     @Override
@@ -129,7 +134,8 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
                 "uGrowApp",
                 "f129afcc-55f4-11e5-885d-feff819cdc9f",
                 "f129b5a8-55f4-11e5-885d-feff819cdc9f");
-        DhpAuthenticationManagementClient dhpAuthenticationManagementClient = new DhpAuthenticationManagementClient(dhpApiClientConfiguration);
+       */
+/* DhpAuthenticationManagementClient dhpAuthenticationManagementClient = new DhpAuthenticationManagementClient(dhpApiClientConfiguration);
         DhpAuthenticationManagementClient dhpAuthenticationManagementClientMock = Mockito.spy(dhpAuthenticationManagementClient);
         Map<String, Object> rawResponse = new HashMap<>();
 
@@ -147,6 +153,8 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         DhpResponse dhpResponse = new DhpResponse(rawResponse);
         DhpAuthenticationResponse dhpAuthenticationResponse = new DhpAuthenticationResponse("6cstbqh7bzwt3z4b", "bxqyqs86kgq7ks3g4f5n", Integer.parseInt("3600"), "nhggh", dhpResponse.rawResponse);
         Mockito.when(dhpAuthenticationManagementClientMock.authenticate("maqsoodphilips@gmail.com", "password","aa6c3f0dd953bcf11053e00e686af2e0d9b1d05b")).thenReturn(dhpAuthenticationResponse);
+*//*
         return dhpAuthenticationResponse;
     }
 }
+*/

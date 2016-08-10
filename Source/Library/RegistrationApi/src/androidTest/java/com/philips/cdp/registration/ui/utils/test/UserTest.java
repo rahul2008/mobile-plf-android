@@ -9,37 +9,23 @@
 package com.philips.cdp.registration.ui.utils.test;
 
 
+import android.test.InstrumentationTestCase;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.janrain.android.Jump;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.controller.RegisterSocial;
-import com.philips.cdp.registration.controller.RegisterTraditional;
-import com.philips.cdp.registration.dao.DIUserProfile;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-
-import org.mockito.Mockito;
-
-import static org.mockito.Mockito.mock;
-
-public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
+public class UserTest extends InstrumentationTestCase {
 
 	UserTest mUserTest = null;
 
-	public UserTest() {
-		super(RegistrationActivity.class);
-	}
+//	public UserTest() {
+	//	super(RegistrationActivity.class);
+	//}
 
-	@Override
+	/*@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
 		mUserTest = mock(UserTest.class);
+		//getInstrumentation().get
 	}
 	
 	public void testUser() throws Exception {
@@ -48,7 +34,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		assertNotNull(result);
 	}
 
-	/*public void testRegisterUserInfoForTraditionalIsOnSuccess() {
+	*//*public void testRegisterUserInfoForTraditionalIsOnSuccess() {
 
 		User mockUser = Mockito.mock(User.class);
 		TraditionalRegistrationHandler regHandler = Mockito
@@ -99,9 +85,9 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		Mockito.verify(socialRegHandler, Mockito.atLeast(1))
 				.onContinueSocialProviderLoginSuccess();
 
-	}*/
+	}*//*
 	
-/*	public void testForgotPasswordForEmailNull() throws Exception {
+*//*	public void testForgotPasswordForEmailNull() throws Exception {
 
 		User user = new User(getInstrumentation().getTargetContext());
 		user.mEmail = "sampath1421@gmail.com";
@@ -123,7 +109,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 			}
 		};
 		user.forgotPassword(emailAddress, forgotpasswordhandler);
-	}*/
+	}*//*
 	
 	private DIUserProfile setValuesForTraditionalLogin(String mGivenName, String mUserEmail, String password, boolean olderThanAgeLimit, 
 			boolean isReceiveMarketingEmail){
@@ -138,7 +124,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		return profile;
 		
 	}
-	
+
 	private DIUserProfile setValuesForSocialLogin (String mGivenName, String mDisplayName, String mFamilyName, String mUserEmail, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
 			SocialProviderLoginHandler socialProviderLoginHandler,
 			String socialRegistrationToken){
@@ -152,5 +138,5 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
 		
 		return profile;
-	}
+	}*/
 }
