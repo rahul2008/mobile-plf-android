@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+archivesBaseName = "refAppFmwk.apk"
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
