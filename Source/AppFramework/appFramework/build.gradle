@@ -85,18 +85,6 @@ artifactory {
     }
 }
 
-publishing {
-  publications {
-    mavenJava(MavenPublication){
-      project.configure(project) {
-
-      // Set the base name of the artifacts
-      artifactId "refAppFmwk"
-	  }
-    }
-  }
-}
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz' )
