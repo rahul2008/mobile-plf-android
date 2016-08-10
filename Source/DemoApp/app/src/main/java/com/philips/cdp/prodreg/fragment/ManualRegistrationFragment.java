@@ -207,7 +207,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             } else {
                 prodRegConfig = new ProdRegConfig(products, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, prodRegConfig, getProdRegUiListener());
+            ProdRegUiHelper.getInstance().setLaunchConfig(prodRegConfig);
+            ProdRegUiHelper.getInstance().launch(fragLauncher, getProdRegUiListener());
         } else {
             /*ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {

@@ -49,14 +49,13 @@ public class ProdRegUiHelper implements uAppInterface {
     private ProdRegUiListener prodRegUiListener;
     private Context context;
     private AppInfra appInfra;
-    private uAppListener uAppListener;
     private LaunchConfig launchConfig;
 
     /*
-         * Initialize everything(resources, variables etc) required for Product Registration.
-         * Hosting app, which will integrate this Product Registration, has to pass app
-         * context.
-         */
+     * Initialize everything(resources, variables etc) required for Product Registration.
+     * Hosting app, which will integrate this Product Registration, has to pass app
+     * context.
+     */
     private ProdRegUiHelper() {
     }
 
@@ -185,10 +184,10 @@ public class ProdRegUiHelper implements uAppInterface {
 
     @Override
     public void launch(final UiLauncher uiLauncher, final uAppListener uAppListener) {
-        this.uAppListener = uAppListener;
         this.mUiLauncher = uiLauncher;
         this.prodRegUiListener = (ProdRegUiListener) uAppListener;
         final ProdRegConfig prodRegConfig = (ProdRegConfig) launchConfig;
+        //TO-DO - to discuss about handling class cast exception
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeProductRegistrationAsActivity(activityLauncher, prodRegConfig);
