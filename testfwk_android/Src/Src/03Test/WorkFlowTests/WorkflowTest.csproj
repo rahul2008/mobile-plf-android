@@ -75,62 +75,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UJ01.cs" />
-    <Compile Include="UJ01.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ01.feature</DependentUpon>
-    </Compile>
     <Compile Include="UJ02.cs" />
-    <Compile Include="UJ02.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ02.feature</DependentUpon>
-    </Compile>
     <Compile Include="UJ03.cs" />
-    <Compile Include="UJ03.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ03.feature</DependentUpon>
-    </Compile>
     <Compile Include="UJ04.cs" />
-    <Compile Include="UJ04.feature.cs">
-      <DependentUpon>UJ04.feature</DependentUpon>
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="UJ05.cs" />
-    <Compile Include="UJ05.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ05.feature</DependentUpon>
-    </Compile>
     <Compile Include="UJ06.cs" />
-    <Compile Include="UJ06.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ06.feature</DependentUpon>
-    </Compile>
-    <Compile Include="UJ07.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ07.feature</DependentUpon>
-    </Compile>
-    <Compile Include="UJ08.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ08.feature</DependentUpon>
-    </Compile>
-    <Compile Include="UJ09.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ09.feature</DependentUpon>
-    </Compile>
-    <Compile Include="UJ10.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UJ10.feature</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -150,46 +99,6 @@
     <None Include="runtests.cmd" />
     <None Include="SpecRunTestProfile.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="UJ01.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ01.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ02.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ02.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ03.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ03.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ04.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ04.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ05.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ05.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ06.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ06.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ07.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ07.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ08.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ08.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ09.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ09.feature.cs</LastGenOutput>
-    </None>
-    <None Include="UJ10.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>UJ10.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
