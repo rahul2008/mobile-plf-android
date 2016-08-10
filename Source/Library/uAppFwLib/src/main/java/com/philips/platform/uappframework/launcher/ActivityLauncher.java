@@ -24,30 +24,35 @@ public class ActivityLauncher extends UiLauncher {
      * <p> <b>Note : </b> The flags are similar to default android screen orientation flags</p>
      */
 
-    @IntDef({ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,ActivityOrientation.SCREEN_ORIENTATION_LANDSCAPE, ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, ActivityOrientation.SCREEN_ORIENTATION_USER, ActivityOrientation.SCREEN_ORIENTATION_BEHIND, ActivityOrientation.SCREEN_ORIENTATION_SENSOR,
-            ActivityOrientation.SCREEN_ORIENTATION_NOSENSOR, ActivityOrientation.SCREEN_ORIENTATION_SENSOR_LANDSCAPE, ActivityOrientation.SCREEN_ORIENTATION_SENSOR_PORTRAIT, ActivityOrientation.SCREEN_ORIENTATION_REVERSE_LANDSCAPE, ActivityOrientation.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
-            ActivityOrientation.SCREEN_ORIENTATION_FULL_SENSOR, ActivityOrientation.SCREEN_ORIENTATION_USER_LANDSCAPE, ActivityOrientation.SCREEN_ORIENTATION_USER_PORTRAIT, ActivityOrientation.SCREEN_ORIENTATION_FULL_USER, ActivityOrientation.SCREEN_ORIENTATION_LOCKED})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface ActivityOrientation {
-        public static final int SCREEN_ORIENTATION_UNSPECIFIED = -1;
-        public static final int SCREEN_ORIENTATION_LANDSCAPE = 0;
-        public static final int SCREEN_ORIENTATION_PORTRAIT = 1;
-        public static final int SCREEN_ORIENTATION_USER = 2;
-        public static final int SCREEN_ORIENTATION_BEHIND = 3;
-        public static final int SCREEN_ORIENTATION_SENSOR = 4;
-        public static final int SCREEN_ORIENTATION_NOSENSOR = 5;
-        public static final int SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6;
-        public static final int SCREEN_ORIENTATION_SENSOR_PORTRAIT = 7;
-        public static final int SCREEN_ORIENTATION_REVERSE_LANDSCAPE = 8;
-        public static final int SCREEN_ORIENTATION_REVERSE_PORTRAIT = 9;
-        public static final int SCREEN_ORIENTATION_FULL_SENSOR = 10;
-        public static final int SCREEN_ORIENTATION_USER_LANDSCAPE = 11;
-        public static final int SCREEN_ORIENTATION_USER_PORTRAIT = 12;
-        public static final int SCREEN_ORIENTATION_FULL_USER = 13;
-        public static final int SCREEN_ORIENTATION_LOCKED = 14;
+    public enum ActivityOrientation {
+        SCREEN_ORIENTATION_UNSPECIFIED(-1),
+        SCREEN_ORIENTATION_LANDSCAPE(0),
+        SCREEN_ORIENTATION_PORTRAIT(1),
+        SCREEN_ORIENTATION_USER(2),
+        SCREEN_ORIENTATION_BEHIND(3),
+        SCREEN_ORIENTATION_SENSOR(4),
+        SCREEN_ORIENTATION_NOSENSOR(5),
+        SCREEN_ORIENTATION_SENSOR_LANDSCAPE(6),
+        SCREEN_ORIENTATION_SENSOR_PORTRAIT(7),
+        SCREEN_ORIENTATION_REVERSE_LANDSCAPE(8),
+        SCREEN_ORIENTATION_REVERSE_PORTRAIT(9),
+        SCREEN_ORIENTATION_FULL_SENSOR(10),
+        SCREEN_ORIENTATION_USER_LANDSCAPE(11),
+        SCREEN_ORIENTATION_USER_PORTRAIT(12),
+        SCREEN_ORIENTATION_FULL_USER(13),
+        SCREEN_ORIENTATION_LOCKED(14);
 
+        private int value;
+
+        ActivityOrientation(int value) {
+            this.value = value;
+        }
+
+        public int getOrientationValue() {
+            return this.value;
+        }
     }
-
+    protected int mUiKitTheme;
 
 
     /**
@@ -62,7 +67,7 @@ public class ActivityLauncher extends UiLauncher {
     /**
      Launching As activity with Screen Orientation
      */
-    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation) {
+    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation ,int uikitTheme) {
         mScreenOrientation = screenOrientation;
     }
 
@@ -80,6 +85,10 @@ public class ActivityLauncher extends UiLauncher {
     public ActivityLauncher.ActivityOrientation getScreenOrientation() {
         return mScreenOrientation;
     }
+    public int getUiKitTheme() {
+        return this.mUiKitTheme;
+    }
+
 
 
     public Bundle getBundle() {

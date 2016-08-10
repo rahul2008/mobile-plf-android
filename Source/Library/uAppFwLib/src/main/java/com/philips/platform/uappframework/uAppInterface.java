@@ -7,7 +7,7 @@ package com.philips.platform.uappframework;
 
 import android.content.Context;
 
-import com.philips.platform.uappframework.configuration.LaunchConfig;
+import com.philips.platform.uappframework.configuration.uAppDependencies;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.uAppListener;
@@ -30,5 +30,5 @@ public interface uAppInterface {
     /**
      *  For setting uApp launch input
      */
-    public void setLaunchConfig(LaunchConfig launchConfig);
+    public void setLaunchConfig(uAppDependencies launchConfig);
 }
