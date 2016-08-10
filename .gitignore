@@ -8,3 +8,4 @@ Source/Library/uAppFwLib/build/
 Source/Library/build/
 *.iml
 Source/Library/uAppFwLib/local.properties
+Source/Library/local.properties
