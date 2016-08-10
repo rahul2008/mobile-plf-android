@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
+import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
@@ -180,6 +181,8 @@ public class ProdRegUiHelper implements uAppInterface {
     public void init(final Context context, final AppInfra appInfra) {
         this.context = context;
         this.appInfra = appInfra;
+        new ProdRegHelper().init(context);
+        ProdRegTagging.init();
     }
 
     @Override

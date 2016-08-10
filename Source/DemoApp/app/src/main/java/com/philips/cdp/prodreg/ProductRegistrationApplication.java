@@ -5,7 +5,6 @@ import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -25,8 +24,9 @@ public class ProductRegistrationApplication extends Application {
         initRegistration();
     }
 
+    @SuppressWarnings("deprecation")
     private void initProductRegistration() {
-        new ProdRegHelper().init(getApplicationContext());
+        ProdRegUiHelper.getInstance().init(getApplicationContext(), (AppInfra) AppInfraSingleton.getInstance());
     }
 
     private void initRegistration() {
@@ -41,6 +41,5 @@ public class ProductRegistrationApplication extends Application {
     @SuppressWarnings("deprecation")
     private void initAppInfra() {
         AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
-        ProdRegUiHelper.getInstance().init(getApplicationContext(), (AppInfra) AppInfraSingleton.getInstance());
     }
 }
