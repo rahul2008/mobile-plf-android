@@ -138,8 +138,8 @@ public abstract class DICommAppliance {
         }
     }
 
-    public void enableSubscription() {
-        mCommunicationStrategy.enableSubscription(mSubscriptionEventListener);
+    public void enableCommunication() {
+        mCommunicationStrategy.enableCommunication(mSubscriptionEventListener);
     }
 
     public void disableCommunication() {

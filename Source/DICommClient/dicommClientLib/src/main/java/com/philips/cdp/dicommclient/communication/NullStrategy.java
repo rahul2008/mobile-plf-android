@@ -50,7 +50,7 @@ public class NullStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableSubscription(
+    public void enableCommunication(
             SubscriptionEventListener subscriptionEventListener) {
     }
 

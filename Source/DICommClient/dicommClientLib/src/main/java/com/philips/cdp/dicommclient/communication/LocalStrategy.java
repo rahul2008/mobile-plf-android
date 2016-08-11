@@ -128,7 +128,7 @@ public class LocalStrategy extends CommunicationStrategy {
     };
 
     @Override
-    public void enableSubscription(SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         mLocalSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
     }
 

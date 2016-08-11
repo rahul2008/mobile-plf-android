@@ -72,9 +72,9 @@ public class CommunicationMarshal extends CommunicationStrategy {
     }
 
     @Override
-    public void enableSubscription(
+    public void enableCommunication(
             SubscriptionEventListener subscriptionEventListener) {
-        findAvailableStrategy().enableSubscription(subscriptionEventListener);
+        findAvailableStrategy().enableCommunication(subscriptionEventListener);
     }
 
     @Override

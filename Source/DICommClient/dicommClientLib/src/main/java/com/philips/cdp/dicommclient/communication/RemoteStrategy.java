@@ -97,7 +97,7 @@ public class RemoteStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableSubscription(final SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication(final SubscriptionEventListener subscriptionEventListener) {
         startDcsIfNecessary();
 
         mRemoteSubscriptionHandler.enableSubscription(mNetworkNode, subscriptionEventListener);

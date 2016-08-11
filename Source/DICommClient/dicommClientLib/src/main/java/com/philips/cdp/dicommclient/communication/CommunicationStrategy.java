@@ -31,7 +31,7 @@ public abstract class CommunicationStrategy {
 
     public abstract boolean isAvailable();
 
-    public abstract void enableSubscription(SubscriptionEventListener subscriptionEventListener);
+    public abstract void enableCommunication(SubscriptionEventListener subscriptionEventListener);
 
     public abstract void disableCommunication();
 

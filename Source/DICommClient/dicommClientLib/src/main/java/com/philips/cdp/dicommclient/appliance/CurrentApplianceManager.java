@@ -166,7 +166,7 @@ public class CurrentApplianceManager implements Observer {
 
         if (!appliance.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) {
             appliance.subscribe();
-            appliance.enableSubscription();
+            appliance.enableCommunication();
         }
     }
 
