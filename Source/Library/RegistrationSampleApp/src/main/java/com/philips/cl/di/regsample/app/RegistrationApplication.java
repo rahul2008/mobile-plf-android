@@ -8,12 +8,11 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URDependancies;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 
@@ -39,15 +38,17 @@ public class RegistrationApplication extends Application {
         super.onCreate();
         mRegistrationHelper = this;
 
-        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
+
+        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
 
         RLog.init(this);
-        RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
+       // RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
-       RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+
+
+
+     //  RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -124,6 +125,8 @@ public class RegistrationApplication extends Application {
         providers.put("DEFAULT", values3);
         RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
 
+
+
         //Configure HSDP
         //initHSDP(configuration);
 
@@ -133,7 +136,12 @@ public class RegistrationApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        RegistrationHelper.getInstance().initializeUserRegistration(this);
+        URDependancies urDependancies = new URDependancies();
+        urDependancies.setAppInfraInterface(AppInfraSingleton.getInstance());
+        urDependancies.setRegistrationConfiguration(RegistrationDynamicConfiguration.getInstance());
+
+        URInterface.getInstance().init(this,urDependancies);
+        // RegistrationHelper.getInstance().initializeUserRegistration(this);
       //  Tagging.init(this, "Philips Registration");
 
     }

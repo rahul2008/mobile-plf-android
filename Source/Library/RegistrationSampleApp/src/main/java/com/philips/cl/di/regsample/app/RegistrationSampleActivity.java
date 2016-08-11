@@ -41,7 +41,9 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -263,13 +265,29 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
+
+                URLaunchInput urLaunchInput = new URLaunchInput();
+                urLaunchInput.setAccountSettings(true);
+
+                ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR,0);
+
+               // AppInfraSingleton.setInstance( new AppInfra.Builder().build(mContext.getApplicationContext()));
+
+
+
+               // URInterface urInterface = new URInterface();
+               // urInterface.init(mContext,urDependancies);
+                URInterface.getInstance().launch(activityLauncher,urLaunchInput,RegistrationSampleActivity.this);
+
+
+                //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
+               // RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_user:
