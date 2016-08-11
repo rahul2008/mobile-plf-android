@@ -28,7 +28,6 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -39,19 +38,21 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import org.json.JSONObject;
 
 
-public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener,BackEventListener {
+public class RegistrationFragment extends Fragment implements NetworStateListener,
+        OnClickListener,BackEventListener {
 
 
     private FragmentManager mFragmentManager;
 
     private Activity mActivity;
 
-    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
+    private ActionBarListener mActionBarListener;
 
     private int titleResourceID = -99;
 
@@ -139,11 +140,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void setPrevTiltle() {
         if (mPreviousResourceId != -99)
-            mRegistrationUpdateTitleListener.updateRegistrationTitle(getPreviousResourceId());
+            mActionBarListener.updateActionBar(getPreviousResourceId(),true);
+            //mActionBarListener.updateRegistrationTitle(getPreviousResourceId());
     }
 
 
-    private boolean onBackPressed() {
+    public boolean onBackPressed() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onBackPressed");
         hideKeyBoard();
         return handleBackStack();
@@ -492,12 +494,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         return fragmentCount;
     }
 
-    public RegistrationTitleBarListener getUpdateTitleListener() {
-        return mRegistrationUpdateTitleListener;
+    public ActionBarListener getUpdateTitleListener() {
+        return mActionBarListener;
     }
 
-    public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
-        this.mRegistrationUpdateTitleListener = listener;
+    public void setOnUpdateTitleListener(ActionBarListener listener) {
+        this.mActionBarListener = listener;
     }
 
     public void setResourceID(int titleResourceId) {

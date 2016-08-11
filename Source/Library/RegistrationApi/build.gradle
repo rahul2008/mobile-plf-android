@@ -148,7 +148,7 @@ dependencies {
     compile project(':jump')
     compile project(':hsdp')
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.1')
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.2')
     androidTestCompile project(':dexmaker-mockito-1.4')
     androidTestCompile project(':dexmaker-1.4')
     androidTestCompile project(':dexmaker-dx-1.4')

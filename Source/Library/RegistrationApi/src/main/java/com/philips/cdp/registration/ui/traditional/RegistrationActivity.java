@@ -23,13 +23,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
-        RegistrationTitleBarListener {
+        ActionBarListener {
 
     private boolean isAccountSettings = true;
     private TextView ivBack;
@@ -169,7 +169,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
-            registrationFragment.setOnUpdateTitleListener(this);
+           registrationFragment.setOnUpdateTitleListener(this);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
@@ -189,6 +189,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         }
     }
 
+/*
     @Override
     public void updateRegistrationTitle(int titleResourceID) {
         // Update title and show hamberger
@@ -213,5 +214,18 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }
+*/
 
+    @Override
+    public void updateActionBar(int titleResourceID, boolean isShowBack) {
+        if(isShowBack){
+            ivBack.setVisibility(View.VISIBLE);
+            TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+            tvTitle.setText(getString(titleResourceID));
+        }else{
+            ivBack.setVisibility(View.VISIBLE);
+            TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+            tvTitle.setText(getString(titleResourceID));
+        }
+    }
 }

@@ -25,16 +25,16 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 /**
  * Registration Coppa Actitivty handle back navigation and loading all Fragments
  */
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
-        RegistrationTitleBarListener {
+        ActionBarListener {
 
     final private Handler mSiteCatalistHandler = new Handler();
     final private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -199,7 +199,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         }
     }
 
-    @Override
+   /* @Override
     public void updateRegistrationTitle(int titleResourceId) {
         // Update title and show hamberger
         //ivBack.setVisibility(View.INVISIBLE);
@@ -227,6 +227,23 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         if (titleResourceId > 0) {
             final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceId));
+        }
+    }*/
+
+    @Override
+    public void updateActionBar(int titleResourceID, boolean isShowBack) {
+        if(isShowBack){
+            ivBack.setVisibility(View.VISIBLE);
+            if (titleResourceID > 0) {
+                final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+                tvTitle.setText(getString(titleResourceID));
+            }
+        }else{
+            ivBack.setVisibility(View.VISIBLE);
+            if (titleResourceID > 0) {
+                final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+                tvTitle.setText(getString(titleResourceID));
+            }
         }
     }
 }

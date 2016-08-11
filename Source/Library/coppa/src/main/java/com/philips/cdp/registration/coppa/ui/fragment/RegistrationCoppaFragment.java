@@ -33,7 +33,6 @@ import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -43,6 +42,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class RegistrationCoppaFragment extends Fragment implements NetworStateListener,
@@ -140,7 +140,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     }
                 }
             };
-    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
+    private ActionBarListener mActionBarListener;
     private int mtitleResourceId = -99;
     private boolean isAccountSettings = true;
     private CoppaExtension coppaExtension;
@@ -506,8 +506,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
        // return mFragmentManager.getBackStackEntryCount();
     }
 
-    public RegistrationTitleBarListener getUpdateTitleListener() {
-        return mRegistrationUpdateTitleListener;
+    public ActionBarListener getUpdateTitleListener() {
+        return mActionBarListener;
     }
 
     @Override
@@ -517,8 +517,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
-        this.mRegistrationUpdateTitleListener = listener;
+    public void setOnUpdateTitleListener(ActionBarListener listener) {
+        this.mActionBarListener = listener;
     }
 
     public void setResourceId(int titleResourceId) {
@@ -561,12 +561,26 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
-            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+            registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
+                @Override
+                public void updateActionBar(int titleResourceID, boolean isShowBack) {
+                    lastKnownResourceId = titleResourceID;
+                    if (mActionBarListener != null) {
+
+                        mActionBarListener.
+                                updateActionBar(titleResourceID,true);
+
+                        /*mActionBarListener.
+                                updateRegistrationTitleWithBack(titleResourceId);*/
+                    }
+                }
+            });
+            /*registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
                 @Override
                 public void updateRegistrationTitle(int titleResourceId) {
                     lastKnownResourceId = titleResourceId;
-                    if (mRegistrationUpdateTitleListener != null) {
-                        mRegistrationUpdateTitleListener.
+                    if (mActionBarListener != null) {
+                        mActionBarListener.
                                 updateRegistrationTitleWithBack(titleResourceId);
                     }
                 }
@@ -574,8 +588,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 @Override
                 public void updateRegistrationTitleWithBack(int titleResourceId) {
                     lastKnownResourceId = titleResourceId;
-                    if (mRegistrationUpdateTitleListener != null) {
-                        mRegistrationUpdateTitleListener.
+                    if (mActionBarListener != null) {
+                        mActionBarListener.
                                 updateRegistrationTitleWithBack(titleResourceId);
                     }
                 }
@@ -583,12 +597,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 @Override
                 public void updateRegistrationTitleWithOutBack(int titleResourceId) {
                     lastKnownResourceId = titleResourceId;
-                    if (mRegistrationUpdateTitleListener != null) {
-                        mRegistrationUpdateTitleListener.
+                    if (mActionBarListener != null) {
+                        mActionBarListener.
                                 updateRegistrationTitleWithBack(titleResourceId);
                     }
                 }
-            });
+            });*/
             final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(registrationFragment.getTag());
 
@@ -610,20 +624,32 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             final Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
-            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+
+            registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
+                @Override
+                public void updateActionBar(int titleResourceID, boolean isShowBack) {
+                        lastKnownResourceId = titleResourceID;
+                        if (mActionBarListener != null) {
+                            mActionBarListener.updateActionBar(
+                                    titleResourceID,isShowBack);
+                        }
+                }
+            });
+
+           /* registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
                 @Override
                 public void updateRegistrationTitle(int titleResourceId) {
                     lastKnownResourceId = titleResourceId;
-                    if (mRegistrationUpdateTitleListener != null) {
-                        mRegistrationUpdateTitleListener.updateRegistrationTitle(titleResourceId);
+                    if (mActionBarListener != null) {
+                        mActionBarListener.updateRegistrationTitle(titleResourceId);
                     }
                 }
 
                 @Override
                 public void updateRegistrationTitleWithBack(int titleResourceId) {
                     lastKnownResourceId = titleResourceId;
-                    if (mRegistrationUpdateTitleListener != null) {
-                        mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(
+                    if (mActionBarListener != null) {
+                        mActionBarListener.updateRegistrationTitleWithBack(
                                 titleResourceId);
                     }
                 }
@@ -631,12 +657,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 @Override
                 public void updateRegistrationTitleWithOutBack(int titleResourceId) {
                     lastKnownResourceId = titleResourceId;
-                    if (mRegistrationUpdateTitleListener != null) {
-                        mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(
+                    if (mActionBarListener != null) {
+                        mActionBarListener.updateRegistrationTitleWithBack(
                                 titleResourceId);
                     }
                 }
-            });
+            });*/
             final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
