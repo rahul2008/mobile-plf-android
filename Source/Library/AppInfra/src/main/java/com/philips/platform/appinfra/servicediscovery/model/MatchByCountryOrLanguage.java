@@ -15,16 +15,6 @@ public class MatchByCountryOrLanguage {
     String locale;
     ArrayList<Config> configs;
 
-    public ArrayList<Results> getResults() {
-        return results;
-    }
-
-    public void setResults(ArrayList<Results> results) {
-        this.results = results;
-    }
-
-    ArrayList<Results> results;
-
     public boolean isAvailable() {
         return available;
     }

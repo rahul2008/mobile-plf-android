@@ -22,7 +22,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     String mServiceId = "userreg.janrain.cdn";
     // Context context = Mockito.mock(Context.class);
     ArrayList<String> mServicesId = new ArrayList<String>(
-            Arrays.asList("userreg.janrain.cdn", "userreg.janrain.cdn", "userreg.landing.emailverif"));
+            Arrays.asList("userreg.janrain.api", "userreg.janrain.cdn", "userreg.landing.emailverif"));
 
 
     private Context context;
@@ -40,6 +40,21 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         assertNotNull(mServiceDiscoveryManager);
     }
 
+    public void testRefresh() {
+        mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+    }
+
     public void testgetServiceUrlWithLanguagePreference() throws Exception {
         mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
@@ -54,12 +69,12 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         });
     }
 
-    public void testgetServiceUrlWithLanguageMapUrl() throws Exception {
+    public void testgetServicesWithLanguageMapUrl() throws Exception {
         mServiceDiscoveryInterface.getServicesWithLanguagePreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map urlMap) {
                 assertNotNull(urlMap);
-                assertFalse(urlMap.size()<0);
+                assertFalse(urlMap.size() < 0);
             }
 
             @Override
@@ -84,12 +99,12 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         });
     }
 
-    public void testgetServiceUrlWithCountryMapUrl() throws Exception {
+    public void testgetServicesWithCountryMapUrl() throws Exception {
         mServiceDiscoveryInterface.getServicesWithCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map urlMap) {
                 assertNotNull(urlMap);
-                assertFalse(urlMap.size()<0);
+                assertFalse(urlMap.size() < 0);
             }
 
             @Override
@@ -129,8 +144,9 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             }
         });
     }
-    public void testgetHomeCountry(){
-        mServiceDiscoveryManager.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+
+    public void testgetHomeCountry() {
+        mServiceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String countryCode, SOURCE source) {
                 assertNotNull(countryCode);
@@ -143,6 +159,14 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(message);
             }
         });
+    }
+
+    public void testisOnline() {
+        if (mServiceDiscoveryManager.isOnline()) {
+            assertTrue(mServiceDiscoveryManager.isOnline());
+        } else {
+            assertFalse(mServiceDiscoveryManager.isOnline());
+        }
     }
 
 }

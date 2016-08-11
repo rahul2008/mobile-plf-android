@@ -105,25 +105,25 @@ public class RequestManager {
 
                                 ArrayList<String> localeList = new ArrayList<String>();
                                 JSONArray configCountryJSONArray = null;
-                                Locale[] multiLocale= Locale.getAvailableLocales();
+                                Locale[] multiLocale = Locale.getAvailableLocales();
 
                                 if (resultsJSONArray.length() > 1) {
 
-                                    for(int i=0; i< resultsJSONArray.length(); i++){
+                                    for (int i = 0; i < resultsJSONArray.length(); i++) {
                                         localeList.add(resultsJSONArray.getJSONObject(i).optString("locale"));
                                     }
 
-                                }else{
+                                } else {
                                     matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                                     configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
                                 }
                                 // Multi, single Locale verification with locale response object
-                                for (int i =0 ; i<localeList.size(); i++){
-                                    for(int j = 0; j<multiLocale.length; j++){
-                                        if(multiLocale[j].equals(localeList.get(i))){
+                                for (int i = 0; i < localeList.size(); i++) {
+                                    for (int j = 0; j < multiLocale.length; j++) {
+                                        if (multiLocale[j].equals(localeList.get(i))) {
                                             matchByCountry.setLocale(localeList.get(i));
                                             configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
-                                            break ;
+                                            break;
                                         }
                                     }
 
@@ -136,9 +136,9 @@ public class RequestManager {
                                     config.setMicrositeId(configCountryJSONArray.optJSONObject(configCount).optString("micrositeId"));
                                     HashMap<String, String> urlHashMap = new HashMap<String, String>();
                                     JSONObject urlJSONObject = configCountryJSONArray.optJSONObject(configCount).optJSONObject("urls");
-                                    Iterator iter = urlJSONObject.keys();
+                                    Iterator<String> iter = urlJSONObject.keys();
                                     while (iter.hasNext()) {
-                                        String key = (String) iter.next();
+                                        String key = iter.next();
                                         String value = urlJSONObject.getString(key);
                                         urlHashMap.put(key, value);
                                     }
@@ -181,9 +181,9 @@ public class RequestManager {
                                     config.setMicrositeId(configLanguageJSONArray.optJSONObject(configCount).optString("micrositeId"));
                                     HashMap<String, String> urlHashMap = new HashMap<String, String>();
                                     JSONObject urlJSONObject = configLanguageJSONArray.optJSONObject(configCount).optJSONObject("urls");
-                                    Iterator iter = urlJSONObject.keys();
+                                    Iterator<String> iter = urlJSONObject.keys();
                                     while (iter.hasNext()) {
-                                        String key = (String) iter.next();
+                                        String key = iter.next();
                                         String value = urlJSONObject.getString(key);
                                         urlHashMap.put(key, value);
                                     }
