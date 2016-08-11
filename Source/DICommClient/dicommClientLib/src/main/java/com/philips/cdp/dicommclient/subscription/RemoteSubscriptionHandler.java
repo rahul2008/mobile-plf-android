@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -30,7 +30,6 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         mSubscriptionEventListener = subscriptionEventListener;
         //DI-Comm change. Moved from Constructor
         mCppController.addDCSEventListener(networkNode.getCppId(), this);
-        mCppController.startDCSService();
     }
 
     @Override
@@ -41,7 +40,6 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         if (mNetworkNode != null) {
             mCppController.removeDCSEventListener(mNetworkNode.getCppId());
         }
-        mCppController.stopDCSService();
     }
 
     @Override

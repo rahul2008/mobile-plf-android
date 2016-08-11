@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -23,91 +23,85 @@ import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.subscription.UdpEventReceiver;
 
 public class LocalStrategy extends CommunicationStrategy {
-	private final RequestQueue mRequestQueue;
+    private final RequestQueue mRequestQueue;
     private DISecurity mDISecurity;
     private boolean isKeyExchangeOngoing;
     private LocalSubscriptionHandler mLocalSubscriptionHandler;
+    private final NetworkNode networkNode;
 
-	public LocalStrategy(DISecurity diSecurity){
-		mDISecurity = diSecurity;
-		mDISecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
+    public LocalStrategy(DISecurity diSecurity, final NetworkNode networkNode) {
+        mDISecurity = diSecurity;
+        this.networkNode = networkNode;
+        mDISecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
         mRequestQueue = new RequestQueue();
         mLocalSubscriptionHandler = new LocalSubscriptionHandler(mDISecurity, UdpEventReceiver.getInstance());
-	}
-
-	@Override
-	public void getProperties(String portName, int productId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
-	    exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode, portName, productId, LocalRequestType.GET, null, responseHandler, mDISecurity);
-		mRequestQueue.addRequest(request);
-	}
+    }
 
     @Override
-	public void putProperties(Map<String, Object> dataMap, String portName,
-			int productId, NetworkNode networkNode,
-			ResponseHandler responseHandler) {
+    public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-		Request request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.PUT, dataMap, responseHandler, mDISecurity);
-		mRequestQueue.addRequest(request);
-	}
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.GET, null, responseHandler, mDISecurity);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void addProperties(Map<String,Object> dataMap,String portName, int productId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
+    @Override
+    public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-		Request request = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, dataMap, responseHandler, mDISecurity);
-		mRequestQueue.addRequest(request);
-	}
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.PUT, dataMap, responseHandler, mDISecurity);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
+    @Override
+    public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-		Request request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, null, responseHandler, mDISecurity);
-		mRequestQueue.addRequest(request);
-	}
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.POST, dataMap, responseHandler, mDISecurity);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void subscribe(String portName,int productId, int subscriptionTtl, NetworkNode networkNode,
-			ResponseHandler responseHandler) {
+    @Override
+    public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-		Request request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, mDISecurity);
-		mRequestQueue.addRequest(request);
-	}
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.DELETE, null, responseHandler, mDISecurity);
+        mRequestQueue.addRequest(request);
+    }
 
-	@Override
-	public void unsubscribe(String portName, int productId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
+    @Override
+    public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-		Request request = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, getUnsubscriptionData(), responseHandler, mDISecurity);
-		mRequestQueue.addRequest(request);
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, mDISecurity);
+        mRequestQueue.addRequest(request);
+    }
 
-	}
-
-	@Override
-	public boolean isAvailable(NetworkNode networkNode) {
-		if(networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY)){
-			return true;
-		}
-		return false;
-	}
-
-	private void triggerKeyExchange(NetworkNode networkNode) {
-		networkNode.setEncryptionKey(null);
+    @Override
+    public void unsubscribe(String portName, int productId,
+                            ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-	}
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.DELETE, getUnsubscriptionData(), responseHandler, mDISecurity);
+        mRequestQueue.addRequest(request);
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
+    }
+
+    private void triggerKeyExchange(NetworkNode networkNode) {
+        networkNode.setEncryptionKey(null);
+        exchangeKeyIfNecessary(networkNode);
+    }
 
     private void exchangeKeyIfNecessary(NetworkNode networkNode) {
-        if(networkNode.getEncryptionKey()==null && !isKeyExchangeOngoing){
+        if (networkNode.getEncryptionKey() == null && !isKeyExchangeOngoing) {
             doKeyExchange(networkNode);
         }
     }
 
     private void doKeyExchange(final NetworkNode networkNode) {
-        ExchangeKeyRequest request = new ExchangeKeyRequest(networkNode, new ResponseHandler() {
+        ExchangeKeyRequest request = new ExchangeKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), new ResponseHandler() {
 
             @Override
-            public void onSuccess(String data) {
+            public void onSuccess(String key) {
+                networkNode.setEncryptionKey(key);
                 isKeyExchangeOngoing = false;
             }
 
@@ -120,7 +114,7 @@ public class LocalStrategy extends CommunicationStrategy {
         mRequestQueue.addRequestInFrontOfQueue(request);
     }
 
-    EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
+    private EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
 
         @Override
         public void onDecryptionFailed(NetworkNode networkNode) {
@@ -129,18 +123,17 @@ public class LocalStrategy extends CommunicationStrategy {
 
         @Override
         public void onEncryptionFailed(NetworkNode networkNode) {
-        	triggerKeyExchange(networkNode);
+            triggerKeyExchange(networkNode);
         }
     };
 
-	@Override
-	public void enableSubscription(
-			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
-		mLocalSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
-	}
+    @Override
+    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
+        mLocalSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
+    }
 
-	@Override
-	public void disableSubscription() {
-		mLocalSubscriptionHandler.disableSubscription();
-	}
+    @Override
+    public void disableCommunication() {
+        mLocalSubscriptionHandler.disableSubscription();
+    }
 }

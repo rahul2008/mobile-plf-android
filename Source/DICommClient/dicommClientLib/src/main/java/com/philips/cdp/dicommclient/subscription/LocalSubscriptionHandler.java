@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -44,7 +44,7 @@ public class LocalSubscriptionHandler extends SubscriptionHandler implements Udp
 			return;
 
 		if (mNetworkNode.getIpAddress() == null || !mNetworkNode.getIpAddress().equals(fromIp)) {
-			DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromIp == null? "null" : fromIp) + ")");
+			DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, "Ignoring event, not from associated network node (" + fromIp + ")");
 			return;
 		}
 
@@ -67,7 +67,7 @@ public class LocalSubscriptionHandler extends SubscriptionHandler implements Udp
 
 	private String decryptData(String cypher) {
         if (mDISecurity != null) {
-            return mDISecurity.decryptData(cypher, mNetworkNode);
+            return mDISecurity.decryptData(cypher);
         }
         return cypher;
     }

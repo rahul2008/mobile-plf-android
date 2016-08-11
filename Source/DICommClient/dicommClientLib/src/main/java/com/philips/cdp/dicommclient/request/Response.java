@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -25,9 +25,7 @@ public class Response {
 		}
 	}
 	
-	//TODO: DICOMM Refactor, Remove this after request queue is added
 	public String getResponseMessage(){
 		return mResponse;
 	}
-
 }
