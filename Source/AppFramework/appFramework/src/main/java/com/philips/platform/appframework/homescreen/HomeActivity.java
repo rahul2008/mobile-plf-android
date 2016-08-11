@@ -231,6 +231,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     }
 
     public void updateTitleWithBack(){
+        hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
