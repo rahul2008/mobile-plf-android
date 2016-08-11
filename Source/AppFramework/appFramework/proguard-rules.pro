@@ -143,7 +143,7 @@ public static <fields>;
 
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
+-keep class com.google.gson.** {*;}
 -keep class com.philips.cdp.prxclient.** {*;}
 -keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
