@@ -1,7 +1,0 @@
-Source/AppFramework/appFramework/gradle.properties
-Source/AppFramework/appFramework/gradlew
-Source/AppFramework/appFramework/gradlew.bat
-Source/AppFramework/appFramework/local.properties
-Source/AppFramework/appFramework/gradle/wrapper/gradle-wrapper.jar
-Source/AppFramework/appFramework/gradle/wrapper/gradle-wrapper.properties
-Source/AppFramework/appFramework/src/main/res/layout/af_connectivity_fragment.xml

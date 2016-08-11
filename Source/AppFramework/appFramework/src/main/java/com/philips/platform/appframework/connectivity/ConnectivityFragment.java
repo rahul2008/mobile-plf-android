@@ -30,6 +30,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
     }
 
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
