@@ -2,6 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclientsample;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
@@ -28,7 +29,7 @@ class SampleApplianceFactory extends DICommApplianceFactory<AirPurifier> {
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
         if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
-            CommunicationStrategy communicationStrategy = new CommunicationMarshal(new DISecurity());
+            CommunicationStrategy communicationStrategy = new CommunicationMarshal(new DISecurity(networkNode), networkNode);
             if (ComfortAirPurifier.MODELNUMBER.equals(networkNode.getModelType())) {
                 return new ComfortAirPurifier(networkNode, communicationStrategy);
             }

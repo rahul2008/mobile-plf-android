@@ -242,7 +242,7 @@ public abstract class DICommPort<T> {
 
         DICommLog.i(LOG_TAG, "Start putProperties");
         setIsApplyingChanges(true);
-        mCommunicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -267,7 +267,7 @@ public abstract class DICommPort<T> {
 
     private void performGetProperties() {
         DICommLog.i(LOG_TAG, "Start reloadProperties");
-        mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -288,7 +288,7 @@ public abstract class DICommPort<T> {
 
     private void performSubscribe() {
         DICommLog.i(LOG_TAG, "Start subscribe");
-        mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -310,7 +310,7 @@ public abstract class DICommPort<T> {
 
     private void performUnsubscribe() {
         DICommLog.i(LOG_TAG, "Start unsubscribe");
-        mCommunicationStrategy.unsubscribe(getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
+        mCommunicationStrategy.unsubscribe(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {

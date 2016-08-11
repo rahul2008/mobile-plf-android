@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -33,7 +33,7 @@ public abstract class DICommAppliance {
 
     protected final CommunicationStrategy mCommunicationStrategy;
 
-    private final List<DICommPort<?>> mPortList = new ArrayList<DICommPort<?>>();
+    private final List<DICommPort<?>> mPortList = new ArrayList<>();
 
     public DICommAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         mNetworkNode = networkNode;
@@ -138,12 +138,12 @@ public abstract class DICommAppliance {
         }
     }
 
-    public void enableSubscription() {
-        mCommunicationStrategy.enableSubscription(mSubscriptionEventListener, mNetworkNode);
+    public void enableCommunication() {
+        mCommunicationStrategy.enableCommunication(mSubscriptionEventListener);
     }
 
-    public void disableSubscription() {
-        mCommunicationStrategy.disableSubscription();
+    public void disableCommunication() {
+        mCommunicationStrategy.disableCommunication();
     }
 
     private SubscriptionEventListener mSubscriptionEventListener = new SubscriptionEventListener() {

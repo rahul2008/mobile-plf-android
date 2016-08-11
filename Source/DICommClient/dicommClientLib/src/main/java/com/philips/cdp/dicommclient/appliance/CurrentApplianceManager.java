@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -23,8 +23,8 @@ public class CurrentApplianceManager implements Observer {
     private DICommAppliance mDICommAppliance = null;
     private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
-    private List<DICommApplianceListener> mApplianceListenersList;
-    private List<CurrentApplianceChangedListener> mCurrentApplianceChangedListenerList;
+    private final List<DICommApplianceListener> mApplianceListenersList;
+    private final List<CurrentApplianceChangedListener> mCurrentApplianceChangedListenerList;
 
     private DICommPortListener mDICommAppliancePortListener = new DICommPortListener() {
 
@@ -48,8 +48,8 @@ public class CurrentApplianceManager implements Observer {
     }
 
     protected CurrentApplianceManager() {
-        mApplianceListenersList = new ArrayList<DICommApplianceListener>();
-        mCurrentApplianceChangedListenerList = new ArrayList<CurrentApplianceChangedListener>();
+        mApplianceListenersList = new ArrayList<>();
+        mCurrentApplianceChangedListenerList = new ArrayList<>();
     }
 
     public synchronized void setCurrentAppliance(DICommAppliance diCommAppliance) {
@@ -166,7 +166,7 @@ public class CurrentApplianceManager implements Observer {
 
         if (!appliance.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) {
             appliance.subscribe();
-            appliance.enableSubscription();
+            appliance.enableCommunication();
         }
     }
 
@@ -176,7 +176,7 @@ public class CurrentApplianceManager implements Observer {
         if (diCommAppliance == null) {
             return;
         }
-        diCommAppliance.disableSubscription();
+        diCommAppliance.disableCommunication();
         diCommAppliance.stopResubscribe();
     }
 
