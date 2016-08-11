@@ -9,8 +9,6 @@ package com.philips.platform.appframework.homescreen;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -32,11 +30,11 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.connectivity.ConnectivityFragment;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
-import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
@@ -86,6 +84,11 @@ public class HomeActivity extends AppFrameworkBaseActivity {
             setTitle(titleActionbar);
         }
     };
+    private HomeFragment mHomeFragment = null;
+    private InAppPurchasesFragment shoppingFragment = null;
+    private DebugTestFragment debugTestFragment = null;
+    private SettingsFragment settingsFragment = null;
+    private ConnectivityFragment connectivityFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +204,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Support")) {
             showSupportFragment();
         } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Shop")) {
-            showShoppingFragment();
+            showSupportFragment();
+        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Connectivity")) {
+            showConnectivityFragment();
         } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
             showDebugTestFragment();
         } else {
@@ -212,11 +217,6 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         }
         philipsDrawerLayout.closeDrawer(navigationView);
     }
-
-    private HomeFragment mHomeFragment = null;
-    private InAppPurchasesFragment shoppingFragment = null;
-    private DebugTestFragment debugTestFragment = null;
-    private SettingsFragment settingsFragment = null;
 
     private void showShoppingFragment() {
         if(shoppingFragment == null) {
@@ -232,6 +232,14 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         }
 
         showFragment(settingsFragment, settingsFragment.getClass().getSimpleName());
+    }
+
+    private void showConnectivityFragment() {
+        if (connectivityFragment == null) {
+            connectivityFragment = new ConnectivityFragment();
+        }
+
+        showFragment(connectivityFragment, connectivityFragment.getClass().getSimpleName());
     }
 
     private void showSupportFragment() {
