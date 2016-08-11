@@ -33,7 +33,6 @@
 
 #Gson
 -keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
 #Prx
 -keep class com.philips.cdp.prxclient.** {*;}
 -keep interface com.philips.cdp.prxclient.** { *; }
@@ -148,6 +147,10 @@ public static <fields>;
 -keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 
+#Product Registration library
+-keep class com.philips.cdp.prodreg.** {*;}
+-keep interface com.philips.cdp.prodreg.** {*;}
+-keep enum com.philips.cdp.prodreg.** {*;}
 
 
 
