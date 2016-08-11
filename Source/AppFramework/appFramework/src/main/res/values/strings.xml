@@ -56,4 +56,9 @@
     <string name="iap_unknown_error">Unknow Error</string>
     <!--InAppPurchase related ends-->
 
+
+    <string name="af_country">US</string>
+    <string name="af_language">en</string>
+
+
 </resources>

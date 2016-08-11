@@ -27,6 +27,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     private ListView mList = null;
     UIBasePresenter uiBasePresenter;
     public static final int logOutButton = 5555;
+    public static final int iapHistoryLaunch = 5454;
+
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {

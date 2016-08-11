@@ -22,6 +22,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.inapppurchase.InAppPurchaseHistoryFragmentPresenter;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -35,6 +36,7 @@ public class SettingsAdapter extends BaseAdapter {
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
     private UIBasePresenter fragmentPresenter;
+    public static final int iapHistoryLaunch = 5454;
 
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
@@ -112,6 +114,10 @@ public class SettingsAdapter extends BaseAdapter {
                             }
                         }
                     });
+                }
+                else  if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_order_history)))) {
+                    fragmentPresenter = new InAppPurchaseHistoryFragmentPresenter();
+                    fragmentPresenter.onClick(iapHistoryLaunch, mActivity);
                 }
 
                 break;

@@ -28,16 +28,12 @@ import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
 
-public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
+public class InAppPurchasesHistoryFragment extends AppFrameworkBaseFragment {
 
     private View mRootView;
-
     private int mInitFragmentBackStackCount = 0;
-
     private IAPHandler mIapHandler;
-
     private IAPActionLayout mLayout;
-
     private IAPSettings mIapSettings;
 
     private View mCustomView;
@@ -48,9 +44,9 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int position = 0;
-        fragmentPresenter = new InAppPurchaseFragmentPresenter();
+        fragmentPresenter = new InAppPurchaseHistoryFragmentPresenter();
         hideActionbar();
-        mRootView = inflater.inflate(R.layout.af_inapppurchase_fragment, container, false);
+        mRootView = inflater.inflate(R.layout.af_inapppurchase_history_fragment, container, false);
         Bundle bundle = this.getArguments();
         if (null != bundle) {
             position = bundle.getInt("catagoryNumber");
@@ -61,7 +57,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
         mLayout = new IAPActionLayout(getContext(), getActivity().getSupportFragmentManager());
         mCustomView = mLayout.getCustomView(getContext());
-        ((ViewGroup) mRootView.findViewById(R.id.ll_custom_action)).addView(mCustomView);
+        ((ViewGroup) mRootView.findViewById(R.id.ll_custom_action_history)).addView(mCustomView);
         ((TextView) mCustomView.findViewById(R.id.iap_header_title)).setText("Shopping List");
         mCustomView.findViewById(R.id.iap_header_back_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,10 +86,10 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
                 mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
                 mIapSettings.setUseLocalData(false);
                 mIapSettings.setLaunchAsFragment(true);
-                mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
+                mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container_history);
                 mIapHandler = IAPHandler.init(getContext(), mIapSettings);
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-            }catch(IllegalArgumentException e)  {
+                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
+            } catch (IllegalArgumentException e) {
 
             }
         } else {
