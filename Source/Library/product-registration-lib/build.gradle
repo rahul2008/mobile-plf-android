@@ -4,7 +4,7 @@ apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
 def coverageSourceDirs = [
-        '../Library/product-registration-lib/src/test/java/com/philips/cdp/prodreg'
+        '../product-registration-lib/src/main/java'
 ]
 buildscript {
     repositories {
