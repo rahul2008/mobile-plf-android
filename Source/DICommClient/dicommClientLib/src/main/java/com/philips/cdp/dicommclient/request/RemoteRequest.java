@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -29,7 +29,6 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private static int REQUEST_TTL = 5;
     private final String cppId;
 
-    private String mEventData;
     private String mResponse;
     private int mMessageId;
     private String mConversationId;
@@ -62,7 +61,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         mCppController.addDCSResponseListener(this);
         mCppController.addPublishEventListener(this);
 
-        mEventData = createDataToSend(mPortName, mProductId, mDataMap);
+        String mEventData = createDataToSend(mPortName, mProductId, mDataMap);
         mMessageId = mCppController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
                 "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
         try {

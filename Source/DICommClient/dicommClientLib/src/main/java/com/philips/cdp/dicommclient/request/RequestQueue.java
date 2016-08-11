@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -15,12 +15,10 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class RequestQueue {
 
-	// TODO: DICOMM Refactor, add mechanism to start and stop thread.
-    private HandlerThread mRequestThread;
     private Handler mRequestHandler;
-    private final Handler mResponseHandler;
 
-    private final ArrayList<Request> mThreadNotYetStartedQueue = new ArrayList<Request>();
+    private final Handler mResponseHandler;
+    private final ArrayList<Request> mThreadNotYetStartedQueue = new ArrayList<>();
 
     public RequestQueue() {
         initializeRequestThread();
@@ -60,7 +58,7 @@ public class RequestQueue {
                 DICommLog.d(DICommLog.REQUESTQUEUE, "Processing new request");
                 Response response = request.execute();
                 postResponseOnUIThread(response);
-            };
+            }
         };
         mRequestHandler.post(requestRunnable);
     }
@@ -72,7 +70,7 @@ public class RequestQueue {
                 DICommLog.d(DICommLog.REQUESTQUEUE, "Processing new request");
                 Response response = request.execute();
                 postResponseOnUIThread(response);
-            };
+            }
         };
         mRequestHandler.postAtFrontOfQueue(requestRunnable);
     }
@@ -88,7 +86,7 @@ public class RequestQueue {
     }
 
 	private void initializeRequestThread() {
-		mRequestThread = new HandlerThread(this.getClass().getSimpleName()) {
+        HandlerThread mRequestThread = new HandlerThread(this.getClass().getSimpleName()) {
             @Override
             protected void onLooperPrepared() {
                 initializeRequestHandler(getLooper());

@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 public class CurrentApplianceManagerTest extends RobolectricTest {
 
     private CurrentApplianceManager mCurrentApplianceMan;
-    private DICommApplianceListener mApplianceListener;
 
     private static final String APPLIANCE_IP = "198.168.1.145";
     private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
@@ -33,7 +32,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
 
-        mApplianceListener = mock(DICommApplianceListener.class);
+        DICommApplianceListener mApplianceListener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(mApplianceListener);
     }
 
