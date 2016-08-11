@@ -7,7 +7,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -32,17 +32,23 @@ import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.UappInterface;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.UappListener;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.Locale;
 
 
-public class DigitalCareConfigManager {
+public class DigitalCareConfigManager implements UappInterface {
 
     private static final String TAG = DigitalCareConfigManager.class.getSimpleName();
     public static ProductModelSelectionType mProductModelSelectionType = null;
@@ -181,23 +187,66 @@ public class DigitalCareConfigManager {
             if (productModelSelectionType.getHardCodedProductList().length == 0)
                 throw new IllegalStateException("Please make sure to set valid CTN before invoke");
         } else
-            throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
+            throw new IllegalArgumentException("Please make sure to set the valid " +
+                    "ProductModelSelectionType object");
 
         if (uiLauncher instanceof ActivityLauncher) {
 
             DigiCareLogger.i(TAG, "Launching as Activity");
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
+            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
+                    uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         } else {
             DigiCareLogger.i(TAG, "Launching through Fragment Manager instance");
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
-                    fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(),
+                    fragmentLauncher.getParentContainerResourceID(),
+                    fragmentLauncher.getActionbarUpdateListener(),
+                    uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
         }
     }
+
+
+    @Override
+    public void init(Context context, UappDependencies uappDependencies) {
+
+        initializeDigitalCareLibrary(context);
+    }
+
+    @Override
+    public void launch(com.philips.platform.uappframework.launcher.UiLauncher uiLauncher,
+                       UappLaunchInput uappLaunchInput, UappListener uappListener) {
+
+        HardcodedProductList hardcodedProductList = (HardcodedProductList) uappLaunchInput;
+
+        if (uiLauncher instanceof com.philips.platform.uappframework.launcher.ActivityLauncher) {
+
+            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
+                    uiLauncher.getExitAnimation(), null);
+
+        } else {
+
+            com.philips.platform.uappframework.launcher.FragmentLauncher fragmentLauncher
+                    = (com.philips.platform.uappframework.launcher.FragmentLauncher) uiLauncher;
+
+            FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
+            int containerViewId = fragmentLauncher.getParentContainerResourceID();
+            int enterAnimation = fragmentLauncher.getEnterAnimation();
+            int exitAnimation = fragmentLauncher.getExitAnimation();
+            ActionBarListener actionBarListener = fragmentLauncher.getActionbarListener();
+
+
+            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(),
+                    fragmentLauncher.getParentContainerResourceID(),
+                    null,
+                    uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+        }
+
+    }
+
 
     public UiLauncher getUiLauncher() {
         return mUiLauncher;
@@ -211,13 +260,19 @@ public class DigitalCareConfigManager {
      * @param endAnimation   Animation Resource ID.
      * @param orientation
      */
-    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation orientation) {
+    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation,
+                                             com.philips.cdp.productselection.launchertype.
+                                                     ActivityLauncher.ActivityOrientation
+                                                     orientation) {
         if (mContext == null || mLocale == null) {
-            throw new RuntimeException("Please initialise context,  and locale before Support page is invoked");
+            throw new RuntimeException("Please initialise context, " +
+                    " and locale before Support page is invoked");
         }
         if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("") || (mAppName == null) || (mAppName == "") || (mPageName == null) || (mPageName == "")) {
-                throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
+            if (mAppID == null || mAppID.equals("") || (mAppName == null) ||
+                    (mAppName == "") || (mPageName == null) || (mPageName == "")) {
+                throw new RuntimeException("Please make sure to set the valid " +
+                        "App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
        /* DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
