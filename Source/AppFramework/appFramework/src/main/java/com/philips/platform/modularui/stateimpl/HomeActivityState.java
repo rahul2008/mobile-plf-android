@@ -20,4 +20,9 @@ public class HomeActivityState extends UIState {
     public void navigate(Context context) {
         context.startActivity(new Intent(context, HomeActivity.class));
     }
+
+    @Override
+    public void back(final Context context) {
+        //NOP
+    }
 }

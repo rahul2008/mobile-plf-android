@@ -6,10 +6,11 @@
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
-        import android.content.Intent;
+import android.content.Intent;
 
-        import com.philips.platform.appframework.introscreen.WelcomeActivity;
-        import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.introscreen.WelcomeActivity;
+import com.philips.platform.modularui.statecontroller.UIState;
 
 public class WelcomeRegistrationState extends UIState {
 
@@ -20,5 +21,10 @@ public class WelcomeRegistrationState extends UIState {
     @Override
     protected void navigate(Context context) {
         context.startActivity(new Intent(context, WelcomeActivity.class));
+    }
+
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 }

@@ -26,4 +26,9 @@ public class SettingsFragmentState extends UIState {
             ((AppFrameworkBaseActivity) context).showFragment(new SettingsFragment(), new SettingsFragment().getClass().getSimpleName());
         }
     }
+
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
 }

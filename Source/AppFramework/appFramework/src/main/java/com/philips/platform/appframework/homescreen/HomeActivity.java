@@ -33,6 +33,8 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.modularui.statecontroller.UIState;
 
 import java.util.ArrayList;
 
@@ -168,29 +170,34 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
 
     @Override
     public void onBackPressed() {
-        if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            finishAffinity();
+        } else if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
         } else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())) {
-            inAppPurchaseBackPress();
-        } else if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-            super.onBackPressed();
-        }
-
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finishAffinity();
+            if (!inAppPurchaseBackPress()) {
+                super.onBackPressed();
+            }
+        } else if (findFragmentByTag("Registration_fragment_tag")) {
+            if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+                super.onBackPressed();
+            }
         } else {
-            super.onBackPressed();
+            AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
+            UIFlowManager flowManager = applicationContext.getFlowManager();
+            UIState currentState = flowManager.getCurrentState();
+            currentState.back(this);
         }
     }
 
-    private void inAppPurchaseBackPress() {
+    private boolean inAppPurchaseBackPress() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if(currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)){
-            if(((InAppPurchasesFragment) currentFragment).onBackPressed()) {
-                return;
-            }
+            boolean isBackPressed = ((InAppPurchasesFragment) currentFragment).onBackPressed();
+            return isBackPressed;
         }
+        return false;
     }
 
     @Override

@@ -7,6 +7,7 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.cocointerface.UICoCoInterface;
 import com.philips.platform.modularui.factorymanager.CoCoFactory;
@@ -27,5 +28,10 @@ public class SupportFragmentState extends UIState {
         uiCoCoConsumerCare.setFragActivity((HomeActivity)context);
         uiCoCoConsumerCare.loadPlugIn(context);
         uiCoCoConsumerCare.runCoCo(context);
+    }
+
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 }

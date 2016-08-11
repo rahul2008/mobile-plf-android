@@ -141,18 +141,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
         }
 
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             debuggable true
-            testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
         }
     }
 

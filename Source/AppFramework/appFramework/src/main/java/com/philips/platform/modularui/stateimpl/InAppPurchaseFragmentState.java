@@ -24,4 +24,9 @@ public class InAppPurchaseFragmentState extends UIState {
         InAppPurchasesFragment iap = new InAppPurchasesFragment();
         ((AppFrameworkBaseActivity)context).showFragment( iap, iap.getClass().getSimpleName());
     }
+
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
 }

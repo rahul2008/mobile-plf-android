@@ -24,4 +24,8 @@ public class DebugTestFragmentState extends UIState {
         ((AppFrameworkBaseActivity)context).showFragment( new DebugTestFragment(), new DebugTestFragment().getClass().getSimpleName());
     }
 
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
 }

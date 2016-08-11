@@ -58,6 +58,8 @@ abstract public class UIState {
 
     protected abstract void navigate(Context context);
 
+    public abstract void back(Context context);
+
     public void setPresenter(UIBasePresenter uiBasePresenter){
         this.uiBasePresenter = uiBasePresenter;
     }
