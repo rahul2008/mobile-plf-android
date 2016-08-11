@@ -14,8 +14,8 @@ public interface AppConfigurationInterface {
     /**
      * Gets property for key.
      *
-     * @param groupName   the group name
-     * @param key         the key
+     * @param key   the group name
+     * @param group         the key
      * @param configError the config configError as OUT parameter
      * @return the value for key mapped by name, or null if no such mapping exists
      * if value in literal then 'String' Object is returned
@@ -23,18 +23,18 @@ public interface AppConfigurationInterface {
      * if value is array of literal then 'array of String' Object is returned
      * if value is array of number then 'array of Integer' Object is returned
      */
-    Object getPropertyForKey(String groupName, String key, AppConfigurationError configError) throws InvalidArgumentException;
+    Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws InvalidArgumentException;
 
     /**
      * Sets property for key.
      *
-     * @param groupName   the group name
-     * @param key         the key
+     * @param key   the group name
+     * @param group         the key
      * @param object      the object (String/Integer/String[]/Integer[])
      * @param configError the configError object as OUT parameter
      * @return the set operation status (success/failure)
      */
-    boolean setPropertyForKey(String groupName, String key, Object object, AppConfigurationError configError)
+    boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError)
             throws InvalidArgumentException;
 
     /**

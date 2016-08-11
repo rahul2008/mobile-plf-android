@@ -90,9 +90,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     @Override
-    public Object getPropertyForKey(String groupName, String key, AppConfigurationError configError) throws InvalidArgumentException {
+    public Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws InvalidArgumentException {
         Object object = null;
-        if (null == groupName || null == key || key.isEmpty() || key.isEmpty() || !key.matches("[a-zA-Z0-9_.-]+") || !groupName.matches("[a-zA-Z0-9_.-]+")) {
+        if (null == group || null == group || group.isEmpty() || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") || !group.matches("[a-zA-Z0-9_.-]+")) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new InvalidArgumentException("Invalid Argument Exception");
         } else {
@@ -100,11 +100,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
             //configJsonCache is initialized//
             try {
-                boolean isCocoPresent = configJsonCache.has(groupName);
+                boolean isCocoPresent = configJsonCache.has(group);
                 if (!isCocoPresent) { // if request coco does not exist
                     configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.GroupNotExists);
                 } else {
-                    JSONObject cocoJSONobject = configJsonCache.optJSONObject(groupName);
+                    JSONObject cocoJSONobject = configJsonCache.optJSONObject(group);
                     if (null == cocoJSONobject) { // invalid Coco JSON
                         configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
                     } else {
@@ -138,23 +138,23 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     @Override
-    public boolean setPropertyForKey(String groupName, String key, Object object, AppConfigurationError configError) throws InvalidArgumentException {
+    public boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError) throws InvalidArgumentException {
         boolean setOperation = false;
-        if (null == groupName || null == key || key.isEmpty() || !key.matches("[a-zA-Z0-9_.-]+") ||
-                !groupName.matches("[a-zA-Z0-9_.-]+") || object == null) {
+        if (null == key || null == group || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") ||
+                !key.matches("[a-zA-Z0-9_.-]+") || object == null) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new InvalidArgumentException("Invalid Argument Exception");
         } else {
             getjSONFromCache(); // fetch from cache
             try {
-                boolean isCocoPresent = configJsonCache.has(groupName);
+                boolean isCocoPresent = configJsonCache.has(group);
                 JSONObject cocoJSONobject;
                 if (!isCocoPresent) { // if request coco  does not exist
                     // configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
                     cocoJSONobject = new JSONObject();
-                    configJsonCache.put(groupName, cocoJSONobject);
+                    configJsonCache.put(group, cocoJSONobject);
                 } else {
-                    cocoJSONobject = configJsonCache.optJSONObject(groupName);
+                    cocoJSONobject = configJsonCache.optJSONObject(group);
                 }
                 if (null == cocoJSONobject) { // invalid Coco JSON
                     configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
