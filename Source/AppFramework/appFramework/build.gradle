@@ -127,6 +127,7 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
+
     }
 
     lintOptions {
@@ -144,14 +145,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             debuggable true
             testCoverageEnabled true
