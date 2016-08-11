@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/parent_id"
-        android:layout_width="@dimen/uikit_modal_alert_dialog_width"
+        android:layout_width="@dimen/pr_modal_alert_dialog_width"
         android:layout_height="300dp"
         android:layout_gravity="center"
         android:minHeight="300dp"
@@ -29,10 +29,9 @@
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
-            android:layout_marginRight="@dimen/uikit_modal_alert_text_right_margin"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
 
@@ -41,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:minWidth="@dimen/uikit_modal_alert_button_width"
