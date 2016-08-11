@@ -73,62 +73,70 @@ public class AppConfigurationTest extends MockitoTestCase {
     }
 
     public void testGetPropertyForKey() throws AppConfigurationInterface.InvalidArgumentException {
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                .AppConfigurationError();
-
-//        configError.setErrorCode(null);// reset error code to null
-//        assertNull(mConfigInterface.getPropertyForKey("", "", configError));//invalid Group and  invalid key
-//        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey,
-//                configError.getErrorCode());
-
-//        configError.setErrorCode(null);// reset error code to null
-//        assertNull(mConfigInterface.getPropertyForKey(null, null, configError));// invalid Group and  invalid key
-//        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey, configError.getErrorCode());
-//
-//        configError.setErrorCode(null);// reset error code to null
-//        assertNull(mConfigInterface.getPropertyForKey("AI", null, configError)); //  Existing Group but invalid key
-//        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey, configError.getErrorCode());
-
-        configError.setErrorCode(null);// reset error code to null
-        assertNull(mConfigInterface.getPropertyForKey("incorrectGroupKey", "incorrectKey", configError)); // Non Existing Group  and Non Existing key
-        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.GroupNotExists, configError.getErrorCode());
-
-        configError.setErrorCode(null);// reset error code to null
-        assertNull(mConfigInterface.getPropertyForKey("AI", "incorrectKey", configError)); //  Existing Group  but Non Existing key
-        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.KeyNotExists, configError.getErrorCode());
-
-        assertNull(mConfigInterface.getPropertyForKey("NonExistingGroupKey", "NewKey",configError));// Non Existing Group  and  Existing key
+        try {
+            AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                    .AppConfigurationError();
 
 
-        //String fetch
-        configError.setErrorCode(null);// reset error code to null
-        assertNotNull(mConfigInterface.getPropertyForKey("AI", "RegistrationEnvironment", configError));//  Existing Group and  Existing key
-        // make sure AI and MicrositeID exist in configuration file else this test case will fail
-        assertEquals(null, configError.getErrorCode()); // success
+            configError.setErrorCode(null);// reset error code to null
+            assertNull(mConfigInterface.getPropertyForKey("", "", configError));//invalid Group and  invalid key
+            assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey,
+                    configError.getErrorCode());
 
-        //Integer fetch
-        configError.setErrorCode(null);// reset error code to null
-        assertNotNull(mConfigInterface.getPropertyForKey("AI", "MicrositeID", configError));//  Existing Group and  Existing key
-        // make sure AI and MicrositeID exist in configuration file else this test case will fail
-        assertEquals(null, configError.getErrorCode()); // success
+            configError.setErrorCode(null);// reset error code to null
+            assertNull(mConfigInterface.getPropertyForKey(null, null, configError));// invalid Group and  invalid key
+            assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey, configError.getErrorCode());
 
-        //String array fetch
-        configError.setErrorCode(null);// reset error code to null
-        assertNotNull(mConfigInterface.getPropertyForKey("AI", "US", configError));//  Existing Group and  Existing key
-        // make sure AI and MicrositeID exist in configuration file else this test case will fail
-        assertEquals(null, configError.getErrorCode()); // success
+            configError.setErrorCode(null);// reset error code to null
+            assertNull(mConfigInterface.getPropertyForKey("AI", null, configError)); //  Existing Group but invalid key
+            assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey, configError.getErrorCode());
 
-        //Integer array fetch
-        configError.setErrorCode(null);// reset error code to null
-        assertNotNull(mConfigInterface.getPropertyForKey("AI", "EE", configError));//  Existing Group and  Existing key
-        // make sure AI and MicrositeID exist in configuration file else this test case will fail
-        assertEquals(null, configError.getErrorCode()); // success
+            configError.setErrorCode(null);// reset error code to null
+            assertNull(mConfigInterface.getPropertyForKey("incorrectGroupKey", "incorrectKey", configError)); // Non Existing Group  and Non Existing key
+            assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.GroupNotExists, configError.getErrorCode());
+
+            configError.setErrorCode(null);// reset error code to null
+            assertNull(mConfigInterface.getPropertyForKey("AI", "incorrectKey", configError)); //  Existing Group  but Non Existing key
+            assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.KeyNotExists, configError.getErrorCode());
+
+            assertNull(mConfigInterface.getPropertyForKey("NonExistingGroupKey", "NewKey", configError));// Non Existing Group  and  Existing key
+
+
+            //String fetch
+            configError.setErrorCode(null);// reset error code to null
+            assertNotNull(mConfigInterface.getPropertyForKey("AI", "RegistrationEnvironment", configError));//  Existing Group and  Existing key
+            // make sure AI and MicrositeID exist in configuration file else this test case will fail
+            assertEquals(null, configError.getErrorCode()); // success
+
+            //Integer fetch
+            configError.setErrorCode(null);// reset error code to null
+            assertNotNull(mConfigInterface.getPropertyForKey("AI", "MicrositeID", configError));//  Existing Group and  Existing key
+            // make sure AI and MicrositeID exist in configuration file else this test case will fail
+            assertEquals(null, configError.getErrorCode()); // success
+
+            //String array fetch
+            configError.setErrorCode(null);// reset error code to null
+            assertNotNull(mConfigInterface.getPropertyForKey("AI", "US", configError));//  Existing Group and  Existing key
+            // make sure AI and MicrositeID exist in configuration file else this test case will fail
+            assertEquals(null, configError.getErrorCode()); // success
+
+            //Integer array fetch
+            configError.setErrorCode(null);// reset error code to null
+            assertNotNull(mConfigInterface.getPropertyForKey("AI", "EE", configError));//  Existing Group and  Existing key
+            // make sure AI and MicrositeID exist in configuration file else this test case will fail
+            assertEquals(null, configError.getErrorCode()); // success
+
+        } catch (AppConfigurationInterface.InvalidArgumentException exception) {
+            exception.printStackTrace();
+        }
 
     }
 
 
     public void testSetPropertyForKey() throws AppConfigurationInterface.InvalidArgumentException {
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        try {
+
+            AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
 //        configError.setErrorCode(null);// reset error code to null
 //        assertFalse(mConfigInterface.setPropertyForKey("", "", "", configError));//invalid Group and  invalid key
@@ -142,36 +150,40 @@ public class AppConfigurationTest extends MockitoTestCase {
 //        assertFalse(mConfigInterface.setPropertyForKey("AI", null, "null", configError)); //  Existing Group and  invalid key
 //        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey, configError.getErrorCode());
 
-        configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey("NonExistingGroupKey", "NewKey", "val", configError));// Non Existing Group  and  Existing key
-        assertEquals(null, configError.getErrorCode());
+            configError.setErrorCode(null);// reset error code to null
+            assertTrue(mConfigInterface.setPropertyForKey("NonExistingGroupKey", "NewKey", "val", configError));// Non Existing Group  and  Existing key
+            assertEquals(null, configError.getErrorCode());
 
-        //String set
-        configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey("AI", "NewKey", "test", configError));//  Existing Group  and Existing key
-        assertEquals(null, configError.getErrorCode());
+            //String set
+            configError.setErrorCode(null);// reset error code to null
+            assertTrue(mConfigInterface.setPropertyForKey("AI", "NewKey", "test", configError));//  Existing Group  and Existing key
+            assertEquals(null, configError.getErrorCode());
 
-        //Integer set
-        configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey("AI", "MicrositeID", new Integer(77000), configError));//  Existing Group  and Existing key
-        assertEquals(null, configError.getErrorCode());
+            //Integer set
+            configError.setErrorCode(null);// reset error code to null
+            assertTrue(mConfigInterface.setPropertyForKey("AI", "MicrositeID", new Integer(77000), configError));//  Existing Group  and Existing key
+            assertEquals(null, configError.getErrorCode());
 
-        //String array set
-        List<String> stringArray = new ArrayList<String>();
-        stringArray.add("twitter");
-        stringArray.add("rss");
-        configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey("AI", "US", stringArray, configError));//  Existing Group  and Existing key
-        assertEquals(null, configError.getErrorCode());
+            //String array set
+            List<String> stringArray = new ArrayList<String>();
+            stringArray.add("twitter");
+            stringArray.add("rss");
+            configError.setErrorCode(null);// reset error code to null
+            assertTrue(mConfigInterface.setPropertyForKey("AI", "US", stringArray, configError));//  Existing Group  and Existing key
+            assertEquals(null, configError.getErrorCode());
 
-        //Integer array set
-        List<Integer> integerArray = new ArrayList<Integer>();
-        integerArray.add(new Integer(111));
-        integerArray.add(new Integer(222));
-        configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey("AI", "EE", integerArray, configError));//  Existing Group  and Existing key
-        assertEquals(null, configError.getErrorCode());
+            //Integer array set
+            List<Integer> integerArray = new ArrayList<Integer>();
+            integerArray.add(new Integer(111));
+            integerArray.add(new Integer(222));
+            configError.setErrorCode(null);// reset error code to null
+            assertTrue(mConfigInterface.setPropertyForKey("AI", "EE", integerArray, configError));//  Existing Group  and Existing key
+            assertEquals(null, configError.getErrorCode());
 
+
+        } catch (AppConfigurationInterface.InvalidArgumentException exception) {
+            exception.printStackTrace();
+        }
 
     }
 
