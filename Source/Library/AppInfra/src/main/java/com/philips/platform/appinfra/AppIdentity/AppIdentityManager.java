@@ -11,17 +11,14 @@ import android.content.pm.PackageManager;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -45,9 +42,9 @@ public class AppIdentityManager implements AppIdentityInterface {
     public String mAppState;
 
     List<String> mSectorValues = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
-    List<String> mServiceDiscoveryEnv = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
+    List<String> mServiceDiscoveryEnv = Arrays.asList("TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
     List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
-    Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> set;
 
 
     @Override
@@ -168,46 +165,73 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     }
 
-    public void validateAppIdentity(JSONObject jsonObject) throws JSONException, InvalidArgumentException {
+    public void validateAppIdentity(JSONObject jsonObject) throws JSONException {
         micrositeId = jsonObject.getString("micrositeId");
         sector = jsonObject.getString("sector");
         mServiceDiscoveryEnvironment = jsonObject.getString("ServiceDiscoveryEnvironment");
         mAppState = jsonObject.getString("AppState");
 
-        if (micrositeId != null && !micrositeId.isEmpty()) {
-            if (!micrositeId.matches("[a-zA-Z0-9_.-]+")) {
-                micrositeId = null;
-                throw new InvalidArgumentException("micrositeId must not contain special charectors in appIdentityConfig json file");
+        try {
+            if (micrositeId != null && !micrositeId.isEmpty()) {
+                if (!micrositeId.matches("[a-zA-Z0-9_.-]+")) {
+                    micrositeId = null;
+                    Assert.fail("\"micrositeId must not contain special charectors in appIdentityConfig json file\"");
+                }
+            } else {
+                Assert.fail("micrositeId cannot be empty in appIdentityConfig  file");
             }
-        } else {
-            throw new InvalidArgumentException("micrositeId cannot be empty in appIdentityConfig  file ");
+        } catch (AssertionError error) {
+        }
+
+        try {
+            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+            if (sector != null && !sector.isEmpty()) {
+                set.addAll(mSectorValues);
+                if (!set.contains(sector)) {
+                    sector = null;
+                    Assert.fail("\"Sector in appIdentityConfig  file must match one of the following values\" +\n" +
+                            "                            \" \\\\n b2b,\\\\n b2c,\\\\n b2b_Li, \\\\n b2b_HC\"");
+
+                }
+            } else {
+                Assert.fail("\"App Sector cannot be empty in appIdentityConfig json file\"");
+            }
+
+        } catch (AssertionError error) {
+
+        }
+
+        try {
+            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+            if (mAppState != null && !mAppState.isEmpty()) {
+                set.addAll(mAppStateValues);
+                if (!set.contains(mAppState)) {
+                    ///mAppState = null;
+                    Assert.fail("\"App State in appIdentityConfig  file must match\" +\n" +
+                            "                            \" one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
+                }
+            } else {
+                Assert.fail("AppState cannot be empty in appIdentityConfig json file");
+            }
+
+        } catch (AssertionError error) {
         }
 
 
-        if (sector != null && !sector.isEmpty()) {
-            set.addAll(mSectorValues);
-            if (!set.contains(sector)) {
-                throw new InvalidArgumentException("Sector in appIdentityConfig  file must match one of the following values" +
-                        " \\n b2b,\\n b2c,\\n b2b_Li, \\n b2b_HC");
+        try {
+            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+            if (mServiceDiscoveryEnvironment != null && !mServiceDiscoveryEnvironment.isEmpty()) {
+                set.addAll(mServiceDiscoveryEnv);
+                if (!set.contains(mServiceDiscoveryEnvironment)) {
+                    mServiceDiscoveryEnvironment = null;
+                    Assert.fail("\"servicediscoveryENV in appIdentityConfig  file must match \" +\n" +
+                            "                            \"one of the following values \\n TEST,\\n STAGING, \\n ACCEPTANCE, \\n PRODUCTION\"");
+                }
+            } else {
+                Assert.fail("ServiceDiscovery Environment cannot be empty in appIdentityConfig json file");
             }
-        } else {
-            throw new InvalidArgumentException("App Sector cannot be empty in appIdentityConfig json file");
-        }
-
-        if (mServiceDiscoveryEnvironment != null && !mServiceDiscoveryEnvironment.isEmpty()) {
-            set.addAll(mServiceDiscoveryEnv);
-            if (!set.contains(mServiceDiscoveryEnvironment)) {
-                throw new InvalidArgumentException("servicediscoveryENV in appIdentityConfig  file must match " +
-                        "one of the following values \n TEST,\n DEVELOPMENT,\n STAGING, \n ACCEPTANCE, \n PRODUCTION");
-            }
-        }
-
-        if (mAppState != null && !mAppState.isEmpty()) {
-            set.addAll(mAppStateValues);
-            if (!set.contains(mAppState)) {
-                throw new InvalidArgumentException("App State in appIdentityConfig  file must match" +
-                        " one of the following values \\n TEST,\\n DEVELOPMENT,\\n STAGING, \\n ACCEPTANCE, \\n PRODUCTION");
-            }
+        } catch (AssertionError error) {
+            System.out.println("ERROR");
 
         }
 
@@ -218,24 +242,25 @@ public class AppIdentityManager implements AppIdentityInterface {
 
             mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
 
-            System.out.println("APPNAME " + " " + mAppName);
                         /* Vertical App should have this string defined for all supported language files
                         *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
                         * */
             mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
 
+
             mAppVersion = String.valueOf(pInfo.versionName);
             if (mAppVersion != null && !mAppVersion.isEmpty()) {
-                if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_-].*)]")) {
-                    throw new InvalidArgumentException("AppVersion should be in proper format");
+                if (!mAppVersion.matches(" [0-9]+\\.[0-9]+\\.[0-9]+([_-].*)?]")) {
+                    Assert.fail("AppVersion should in this format \" [0-9]+\\\\.[0-9]+\\\\.[0-9]+([_-].*)?]\" ");
                 }
+            } else {
+                Assert.fail("Appversion cannot be null");
             }
 
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException | AssertionError e) {
             e.printStackTrace();
         }
-
-
     }
+
 
 }
