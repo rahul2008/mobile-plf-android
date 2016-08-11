@@ -23,7 +23,7 @@ public class SettingsFragmentState extends UIState {
     @Override
     public void navigate(Context context) {
         if(context instanceof HomeActivity) {
-            ((AppFrameworkBaseActivity) context).showFragment(new SettingsFragment(), new SettingsFragment().getClass().getSimpleName());
+            ((AppFrameworkBaseActivity) context).showFragment(new SettingsFragment(), SettingsFragment.TAG);
         }
     }
 

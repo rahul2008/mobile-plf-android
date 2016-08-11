@@ -170,18 +170,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finishAffinity();
-        } else if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+       if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
-        } else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())) {
+        }
+        else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            finishAffinity();
+        }
+        else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
             if (!inAppPurchaseBackPress()) {
                 super.onBackPressed();
             }
         } else if (findFragmentByTag("Registration_fragment_tag")) {
             if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-                super.onBackPressed();
+                super.popBack();
             }
         } else {
             AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();

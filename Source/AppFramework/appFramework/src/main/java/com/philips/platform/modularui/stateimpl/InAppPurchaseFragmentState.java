@@ -22,7 +22,7 @@ public class InAppPurchaseFragmentState extends UIState {
     @Override
     public void navigate(Context context) {
         InAppPurchasesFragment iap = new InAppPurchasesFragment();
-        ((AppFrameworkBaseActivity)context).showFragment( iap, iap.getClass().getSimpleName());
+        ((AppFrameworkBaseActivity)context).showFragment( iap, InAppPurchasesFragment.TAG);
     }
 
     @Override

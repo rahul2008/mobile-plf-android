@@ -21,7 +21,7 @@ public class DebugTestFragmentState extends UIState {
 
     @Override
     public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new DebugTestFragment(), new DebugTestFragment().getClass().getSimpleName());
+        ((AppFrameworkBaseActivity)context).showFragment( new DebugTestFragment(), DebugTestFragment.TAG);
     }
 
     @Override

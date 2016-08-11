@@ -14,7 +14,10 @@ import android.view.Window;
 
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.homescreen.HomeFragment;
+import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
+import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
@@ -50,8 +53,21 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
     }
 
+    boolean isLaunchedFromHamburgerMenu(String tag){
+        if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(InAppPurchasesFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
+            return true;
+        }
+        return false;
+    }
+
     public void popBack(){
-        getSupportFragmentManager().popBackStack();
+        FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
+        String str=backEntry.getName();
+        if(str!=null && isLaunchedFromHamburgerMenu(str)){
+            popBackTillHomeFragment();
+        }else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     @Override
