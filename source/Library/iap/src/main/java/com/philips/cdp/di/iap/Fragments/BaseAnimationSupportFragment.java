@@ -12,17 +12,25 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
 
-public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
-    private IAPFragmentActionLayout mFragmentLayout;
+public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener {
+    //private IAPFragmentActionLayout mFragmentLayout;
     private Context mContext;
+    private ActionBarListener mActionbarUpdateListener;
+    public void setActionBarListener(ActionBarListener actionBarListener){
+        mActionbarUpdateListener = actionBarListener;
+    }
+    protected void updateActionBar(int titleResId, boolean backButtonVisibility){
+        mActionbarUpdateListener.updateActionBar(titleResId, backButtonVisibility);
+    }
 
     private View.OnClickListener mCartIconListener = new View.OnClickListener() {
         @Override
@@ -50,9 +58,9 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     public void onAttach(final Context context) {
         super.onAttach(context);
         mContext = context;
-        if (mFragmentLayout == null) {
-            mFragmentLayout = new IAPFragmentActionLayout(getContext(), getActivity().getSupportFragmentManager());
-        }
+//        if (mFragmentLayout == null) {
+//            mFragmentLayout = new IAPFragmentActionLayout(getContext(), getActivity().getSupportFragmentManager());
+//        }
     }
 
     public enum AnimationType {
@@ -62,12 +70,13 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         NONE,
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
         setBackButtonVisibility(View.VISIBLE);
         setCartIconVisibility(View.GONE);
-        mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
+        //mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
     }
 
     @Override
@@ -134,16 +143,17 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         }
     }
 
+
     protected void setTitle(int resourceId) {
-        mFragmentLayout.setHeaderTitle(resourceId);
+       // mFragmentLayout.setHeaderTitle(resourceId);
     }
 
     protected void setTitle(String title) {
-        mFragmentLayout.setHeaderTitle(title);
+      //  mFragmentLayout.setHeaderTitle(title);
     }
 
     protected void setBackButtonVisibility(final int isVisible) {
-        mFragmentLayout.setBackButtonVisibility(isVisible);
+      //  mFragmentLayout.setBackButtonVisibility(isVisible);
     }
 
     protected void finishActivity() {
@@ -154,7 +164,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         return false;
     }
 
@@ -183,14 +193,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     public void updateCount(final int count) {
-        mFragmentLayout.updateCount(count);
+        // mFragmentLayout.updateCount(count);
     }
 
     public void setCartIconVisibility(final int visibility) {
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
-            mFragmentLayout.setCartIconVisibility(View.GONE);
+            //  mFragmentLayout.setCartIconVisibility(View.GONE);
         } else {
-            mFragmentLayout.setCartIconVisibility(visibility);
+            //  mFragmentLayout.setCartIconVisibility(visibility);
         }
     }
 }

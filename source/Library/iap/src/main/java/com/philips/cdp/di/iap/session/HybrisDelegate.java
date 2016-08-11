@@ -37,8 +37,8 @@ public class HybrisDelegate {
     }
 
 
-    static HybrisDelegate getDelegateWithNetworkEssentials(Context context,
-                                                           NetworkEssentials networkEssentials) {
+    public static HybrisDelegate getDelegateWithNetworkEssentials(Context context,
+                                                                  NetworkEssentials networkEssentials) {
         delegate.mContext = context.getApplicationContext();
         delegate.controller = new NetworkController(context, networkEssentials);
         return delegate;

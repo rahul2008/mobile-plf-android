@@ -49,8 +49,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingRight="12dp"
             android:contentDescription="@string/app_title"
+            android:paddingRight="12dp"
             android:src="@drawable/shopping_cart_xml" />
 
         <com.philips.cdp.uikit.customviews.BadgeView

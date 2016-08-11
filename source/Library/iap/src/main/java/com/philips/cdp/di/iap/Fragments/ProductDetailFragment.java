@@ -247,14 +247,15 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     mBuyFromRetailors.setOnClickListener(this);
                     mBuyFromRetailors.setVisibility(View.VISIBLE);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                    setTitle(mProductTitle);
+                    //setTitle(mProductTitle);
+                    updateActionBar(R.string.iap_product_catalog, true);
                 } else {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(View.GONE);
-                    setTitle(R.string.iap_shopping_cart_item);
+                    //setTitle(R.string.iap_shopping_cart_item);
                 }
             } else {
-                setTitle(mProductTitle);
+                //setTitle(mProductTitle);
                 setButtonState();
                 mBuyFromRetailors.setVisibility(View.VISIBLE);
                 mBuyFromRetailors.setOnClickListener(this);

@@ -51,26 +51,26 @@ public class IAPConstant {
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR = "IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR";
     public static final String IAP_BUY_URL = "IAP_BUY_URL";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
-    public static final java.lang.String MODEL_ALERT_CONFIRM_DESCRIPTION = "MODEL_ALERT_CONFIRM_DESCRIPTION";
+    public static final String MODEL_ALERT_CONFIRM_DESCRIPTION = "MODEL_ALERT_CONFIRM_DESCRIPTION";
     public static final String SWITCH_TO_NO_NETWORK_CONNECTION = "SWITCH_TO_NO_NETWORK_CONNECTION";
     public static final String PURCHASE_HISTORY_DETAIL = "PURCHASE_HISTORY_DETAIL";
     public static final String PURCHASE_ID = "PURCHASE_ID";
     public static final String ORDER_STATUS = "ORDER_STATUS";
     public static final String TRACKING_ID = "TRACKING_ID";
-    public static final String DELIVERY_NAME="DELIVERY_NAME";
+    public static final String DELIVERY_NAME = "DELIVERY_NAME";
     public static final String ORDER_COMPLETED = "completed";
     public static final String ORDER_PROCESSING = "processing";
     public static final String ORDER_DETAIL = "ORDER_DETAIL";
     public static final String SET_DELIVERY_MODE = "DELIVERY_MODE";
     public static final String IAP_COUNTRY_KEY = "IAP_COUNTRY_KEY";
 
-    public interface IAPLandingViews {
-        int IAP_PRODUCT_CATALOG_VIEW = 0;
-        int IAP_SHOPPING_CART_VIEW = 1;
-        int IAP_PURCHASE_HISTORY_VIEW = 2;
-        int IAP_PRODUCT_DETAIL_VIEW = 3;
-        int IAP_BUY_DIRECT_VIEW = 4;
-    }
+//    public interface IAPLandingViews {
+//        int IAP_PRODUCT_CATALOG_VIEW = 0;
+//        int IAP_SHOPPING_CART_VIEW = 1;
+//        int IAP_PURCHASE_HISTORY_VIEW = 2;
+//        int IAP_PRODUCT_DETAIL_VIEW = 3;
+//        int IAP_BUY_DIRECT_VIEW = 4;
+//    }
 
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
     public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";

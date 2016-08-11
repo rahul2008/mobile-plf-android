@@ -61,7 +61,7 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         return false;
     }
 }

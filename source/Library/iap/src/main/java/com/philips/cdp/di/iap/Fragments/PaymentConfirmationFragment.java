@@ -60,7 +60,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         ShowDialogOnBackPressed();
         return true;
     }

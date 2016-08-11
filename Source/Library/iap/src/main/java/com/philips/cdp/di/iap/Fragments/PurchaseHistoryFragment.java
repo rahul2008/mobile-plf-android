@@ -93,7 +93,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         if (getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         }

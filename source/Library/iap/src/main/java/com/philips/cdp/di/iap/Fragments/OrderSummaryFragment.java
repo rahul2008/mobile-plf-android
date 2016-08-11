@@ -60,10 +60,15 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
-        setTitle(R.string.iap_order_summary);
+//        setTitle(R.string.iap_order_summary);
+//        if (isOrderPlaced()) {
+//            setBackButtonVisibility(View.GONE);
+//        }
+        boolean enableBackKey = false;
         if (isOrderPlaced()) {
-            setBackButtonVisibility(View.GONE);
+            enableBackKey = true;
         }
+        updateActionBar(R.string.iap_order_summary, enableBackKey);
     }
 
     @Override
@@ -126,7 +131,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         if (isOrderPlaced()) {
             ShowDialogOnBackPressed();
             return true;

@@ -7,19 +7,23 @@ package com.philips.cdp.di.iap.applocal;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
-import com.philips.cdp.di.iap.core.IAPLaunchHelper;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPLauncher;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
-import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.listener.UappListener;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
-import java.util.ArrayList;
-
-public class AppLocalHandler implements IAPExposedAPI {
+public class AppLocalHandler extends IAPLauncher implements IAPExposedAPI {
 
     private Context mContext;
     private int mThemeIndex;
     private IAPSettings mIAPSettings;
+    private IAPLaunchInput mIAPConfig;
 
     public AppLocalHandler(Context context, IAPSettings config) {
         mContext = context;
@@ -27,15 +31,30 @@ public class AppLocalHandler implements IAPExposedAPI {
         mIAPSettings = config;
     }
 
-    @Override
-    public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
-        if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView, ctnNumber,null);
-        } else {
-            IAPLaunchHelper.launchIAPActivity(mContext,
-                    landingView, mThemeIndex, ctnNumber,null);
-        }
+    public AppLocalHandler(Context pContext, IAPLaunchInput pIapConfig) {
+        mContext = pContext;
+        mIAPConfig = pIapConfig;
     }
+
+    @Override
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+        if (uiLauncher instanceof ActivityLauncher) {
+            launchActivity(mContext, mIAPConfig, (ActivityLauncher) uiLauncher);
+        } else if (uiLauncher instanceof FragmentLauncher) {
+            launchFragment(mIAPConfig, (FragmentLauncher) uiLauncher);
+        }
+        super.launch(uiLauncher, uappLaunchInput, uappListener);
+    }
+
+//      @Override
+//       public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
+//        if (mIAPSettings.isLaunchAsFragment()) {
+//            //IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView, ctnNumber, null);
+//        } else {
+//            IAPLaunchHelper.launchIAPActivity(mContext,
+//                    landingView, mThemeIndex, ctnNumber, null);
+//        }
+//     }
 
     /**
      * App local store doesn't support cart feature. Always return success with 0 count.
@@ -54,19 +73,19 @@ public class AppLocalHandler implements IAPExposedAPI {
         //NOP
     }
 
-    @Override
-    public void launchCategorizedCatalog(final ArrayList<String> pProductCTNs) {
-        if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW,null,pProductCTNs);
-        } else {
-            IAPLaunchHelper.launchIAPActivity(mContext, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex, null, pProductCTNs);
-        }
-    }
+//    @Override
+//    public void launchCategorizedCatalog(final ArrayList<String> pProductCTNs) {
+//        if (mIAPSettings.isLaunchAsFragment()) {
+//            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, pProductCTNs);
+//        } else {
+//            IAPLaunchHelper.launchIAPActivity(mContext, IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex, null, pProductCTNs);
+//        }
+//    }
 
-    @Override
-    public void getCatalogCountAndCallCatalog() {
-        //NOP
-    }
+//    @Override
+//    public void getCatalogCountAndCallCatalog() {
+//        //NOP
+//    }
 
     @Override
     public void buyDirect(String ctn) {

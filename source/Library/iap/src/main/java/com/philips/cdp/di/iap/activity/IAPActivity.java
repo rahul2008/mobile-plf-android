@@ -25,6 +25,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -45,43 +46,47 @@ public class IAPActivity extends UiKitActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
         addActionBar();
+        addLandingViews(savedInstanceState);
+    }
 
+    private void addLandingViews(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             setLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.PRODUCT_CTNS);
-            if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList(IAPConstant.PRODUCT_CTNS,CTNs);
-                addFragment(ProductCatalogFragment.createInstance(bundle,
-                        BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
-            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
-            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
-                addFragment(PurchaseHistoryFragment.createInstance(new Bundle(),
-                        BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
-            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW) {
-                if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
-                            getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
-                    addFragment(ProductDetailFragment.createInstance(bundle,
-                            BaseAnimationSupportFragment.AnimationType.NONE), ProductDetailFragment.TAG);
-                }
-
-            }else if (landingScreen == IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW) {
-                if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
-                            getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
-                    addFragment(BuyDirectFragment.createInstance(bundle,
-                            BaseAnimationSupportFragment.AnimationType.NONE), BuyDirectFragment.TAG);
-                }
-
+            Bundle bundle = new Bundle();
+            switch (landingScreen) {
+                case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
+                    bundle.putStringArrayList(IAPConstant.PRODUCT_CTNS, CTNs);
+                    addFragment(ProductCatalogFragment.createInstance(bundle,
+                            BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
+                    break;
+                case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
+                    addFragment(ShoppingCartFragment.createInstance(bundle,
+                            BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+                    break;
+                case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
+                    addFragment(PurchaseHistoryFragment.createInstance(bundle,
+                            BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
+                    break;
+                case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
+                    if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+                        bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
+                                getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                        addFragment(ProductDetailFragment.createInstance(bundle,
+                                BaseAnimationSupportFragment.AnimationType.NONE), ProductDetailFragment.TAG);
+                    }
+                    break;
+                case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
+                    if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+                        bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
+                                getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                        addFragment(BuyDirectFragment.createInstance(bundle,
+                                BaseAnimationSupportFragment.AnimationType.NONE), BuyDirectFragment.TAG);
+                    }
+                    break;
             }
         }
-
     }
 
     private void initTheme() {

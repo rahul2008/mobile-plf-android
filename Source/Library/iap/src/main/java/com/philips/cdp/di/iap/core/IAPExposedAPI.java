@@ -10,15 +10,15 @@ import java.util.ArrayList;
  * All rights reserved.
  */
 public interface IAPExposedAPI {
-    void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener);
+   // void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener);
 
     void getProductCartCount(IAPHandlerListener iapHandlerListener);
 
     void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener);
 
-    void launchCategorizedCatalog(ArrayList<String> pProductCTNs);
+    //void launchCategorizedCatalog(ArrayList<String> pProductCTNs);
 
-    void getCatalogCountAndCallCatalog();
+    //void getCatalogCountAndCallCatalog();
 
     void buyDirect(String ctn);
 }

@@ -154,8 +154,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
-        setTitle(R.string.iap_product_catalog);
-
+        //setTitle(R.string.iap_product_catalog);
+        updateActionBar(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().loadLocalData()) {
             mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         }
@@ -191,7 +191,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         if (getActivity() != null && getActivity() instanceof IAPActivity) {
             int count = getFragmentManager().getBackStackEntryCount();
             IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);

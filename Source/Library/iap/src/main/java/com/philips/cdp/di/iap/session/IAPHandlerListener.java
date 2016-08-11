@@ -4,7 +4,8 @@
  */
 package com.philips.cdp.di.iap.session;
 
-public interface IAPHandlerListener {
+
+public interface IAPHandlerListener /*extends uAppListener*/ {
 
     /**
      * If called with addProductToCart, returns the cart items count

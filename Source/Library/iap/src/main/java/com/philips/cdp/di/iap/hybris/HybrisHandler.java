@@ -6,15 +6,15 @@ package com.philips.cdp.di.iap.hybris;
 
 import android.content.Context;
 import android.os.Message;
-import android.text.TextUtils;
 
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
-import com.philips.cdp.di.iap.core.IAPLaunchHelper;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPLauncher;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
@@ -22,6 +22,11 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.listener.UappListener;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
 
@@ -29,13 +34,14 @@ import java.util.ArrayList;
  * We go via Hybris interface.
  * Initialize Hybris related queries, logic in this.
  */
-public class HybrisHandler implements IAPExposedAPI {
+public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 
     private int mThemeIndex;
     private Context mContext;
     private String mLanguage;
     private String mCountry;
     private IAPSettings mIAPSettings;
+    private IAPLaunchInput mIapConfig;
     private final int CURRENT_PAGE = 0;
     //Hybris default page size is 20. We are using the same
     private final int PAGE_SIZE = 20;
@@ -48,12 +54,37 @@ public class HybrisHandler implements IAPExposedAPI {
         mIAPSettings = settings;
     }
 
+    public HybrisHandler(Context context, IAPLaunchInput pIapConfig) {
+        mContext = context;
+        mIapConfig = pIapConfig;
+    }
+
+//    @Override
+//    public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
+//        if (isStoreInitialized()) {
+//            checkLaunchOrBuy(landingView, ctnNumber, listener);
+//        } else {
+//            initIAP(landingView, ctnNumber, listener);
+//        }
+//    }
+
+
     @Override
-    public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uAppListener) {
         if (isStoreInitialized()) {
-            checkLaunchOrBuy(landingView, ctnNumber, listener);
+            // checkLaunchOrBuy(landingView, ctnNumber, listener);
+            launchIAP(uiLauncher, uAppListener);
         } else {
-            initIAP(landingView, ctnNumber, listener);
+           // initIAP(landingView, ctnNumber, listener);
+            initIAP(uiLauncher, (IAPHandlerListener) uAppListener);
+        }
+    }
+
+    private void launchIAP(UiLauncher uiLauncher, UappListener uAppListener) {
+        if (uiLauncher instanceof ActivityLauncher) {
+            launchActivity(mContext, mIapConfig, null);
+        } else if (uiLauncher instanceof FragmentLauncher) {
+            launchFragment(mIapConfig, (FragmentLauncher) uiLauncher);
         }
     }
 
@@ -98,57 +129,57 @@ public class HybrisHandler implements IAPExposedAPI {
         }
     }
 
-    @Override
-    public void launchCategorizedCatalog(final ArrayList<String> pProductCTNs) {
-        if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW,null,pProductCTNs);
-        } else {
-            IAPLaunchHelper.launchIAPActivity(mContext, IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex, null, pProductCTNs);
-        }
-    }
+//    @Override
+//    public void launchCategorizedCatalog(final ArrayList<String> pProductCTNs) {
+//        if (mIAPSettings.isLaunchAsFragment()) {
+//            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, pProductCTNs);
+//        } else {
+//            IAPLaunchHelper.launchIAPActivity(mContext, IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex, null, pProductCTNs);
+//        }
+//    }
 
-    @Override
-    public void getCatalogCountAndCallCatalog() {
-
-        final ProductCatalogAPI mPresenter = ControllerFactory.getInstance()
-                .getProductCatalogPresenter(mContext, null, null);
-
-        final IAPHandlerListener listener = new IAPHandlerListener() {
-            @Override
-            public void onSuccess(final int count) {
-                mPresenter.getProductCatalog(0, count,null);
-            }
-
-            @Override
-            public void onFailure(final int errorCode) {
-
-            }
-        };
-
-        if (isStoreInitialized()) {
-            mPresenter.getCatalogCount(listener);
-        }else{
-            HybrisDelegate.getInstance(mContext).getStore().
-                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
-                        @Override
-                        public void onSuccess(final Message msg) {
-                            mPresenter.getCatalogCount(listener);
-                        }
-
-                        @Override
-                        public void onError(final Message msg) {
-
-                        }
-                    });
-        }
-    }
+//    @Override
+//    public void getCatalogCountAndCallCatalog() {
+//
+//        final ProductCatalogAPI mPresenter = ControllerFactory.getInstance()
+//                .getProductCatalogPresenter(mContext, null, null);
+//
+//        final IAPHandlerListener listener = new IAPHandlerListener() {
+//            @Override
+//            public void onSuccess(final int count) {
+//                mPresenter.getProductCatalog(0, count, null);
+//            }
+//
+//            @Override
+//            public void onFailure(final int errorCode) {
+//
+//            }
+//        };
+//
+//        if (isStoreInitialized()) {
+//            mPresenter.getCatalogCount(listener);
+//        } else {
+//            HybrisDelegate.getInstance(mContext).getStore().
+//                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
+//                        @Override
+//                        public void onSuccess(final Message msg) {
+//                            mPresenter.getCatalogCount(listener);
+//                        }
+//
+//                        @Override
+//                        public void onError(final Message msg) {
+//
+//                        }
+//                    });
+//        }
+//    }
 
     @Override
     public void buyDirect(String ctn) {
         if (isStoreInitialized()) {
-            checkLaunchOrBuy(IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW, ctn, null);
+           // checkLaunchOrBuy(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
         } else {
-            initIAP(IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW, ctn, null);
+            //initIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
         }
     }
 
@@ -157,33 +188,38 @@ public class HybrisHandler implements IAPExposedAPI {
         return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
     }
 
-    void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
-        if (screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, ctnNumber);
-        } else if (screen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, ctnNumber);
-        } else if (screen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, ctnNumber);
-        }else if( screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW){
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctnNumber);
-        }else if( screen == IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW){
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_BUY_DIRECT_VIEW, ctnNumber);
-        }
-        else {
-            buyProduct(ctnNumber, listener);
-        }
-    }
+//    void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
+//        if (screen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW) {
+//            launchIAPActivity(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, ctnNumber);
+//        } else if (screen == IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
+//            launchIAPActivity(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, ctnNumber);
+//        } else if (screen == IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW) {
+//            launchIAPActivity(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, ctnNumber);
+//        } else if (screen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW) {
+//            launchIAPActivity(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, ctnNumber);
+//        } else if (screen == IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW) {
+//            launchIAPActivity(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctnNumber);
+//        } else {
+//            buyProduct(ctnNumber, listener);
+//        }
+//    }
 
-    void initIAP(final int screen, final String ctnNumber, final IAPHandlerListener listener) {
+    void initIAP(final UiLauncher uiLauncher,final IAPHandlerListener listener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         delegate.getStore().initStoreConfig(mLanguage, mCountry, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                checkLaunchOrBuy(screen, ctnNumber, listener);
+               // checkLaunchOrBuy(screen, ctnNumber, listener);
+                if(uiLauncher instanceof ActivityLauncher){
+                    launchActivity(mContext, mIapConfig, (ActivityLauncher) uiLauncher);
+                }else{
+                    launchFragment(mIapConfig, (FragmentLauncher) uiLauncher);
+                }
+
                 if (listener != null) {
                     listener.onSuccess(IAPConstant.IAP_SUCCESS);
                 }
-                getCatalogCountAndCallCatalog();
+                //getCatalogCountAndCallCatalog();
             }
 
             @Override
@@ -195,13 +231,13 @@ public class HybrisHandler implements IAPExposedAPI {
         });
     }
 
-    void launchIAPActivity(int screen, String ctnNumber) {
-        if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, ctnNumber,null);
-        } else {
-            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, ctnNumber,null);
-        }
-    }
+//    void launchIAPActivity(int screen, String ctnNumber) {
+//        if (mIAPSettings.isLaunchAsFragment()) {
+//            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, ctnNumber, null);
+//        } else {
+//            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, ctnNumber, null);
+//        }
+//    }
 
     private void getProductCount(final IAPHandlerListener iapHandlerListener) {
         ShoppingCartAPI presenter = new ShoppingCartPresenter();
@@ -223,7 +259,7 @@ public class HybrisHandler implements IAPExposedAPI {
         presenter.buyProduct(mContext, ctnNumber, new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
-                launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, ctnNumber);
+                //launchIAPActivity(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, ctnNumber);
             }
 
             @Override

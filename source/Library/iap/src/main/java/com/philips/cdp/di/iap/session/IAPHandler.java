@@ -13,7 +13,6 @@ import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.hybris.HybrisHandler;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
@@ -24,28 +23,28 @@ public class IAPHandler implements IAPExposedAPI {
     private IAPHandler() {
     }
 
-    public static IAPHandler init(Context context, IAPSettings config) {
-        IAPHandler handler = new IAPHandler();
-        handler.mImplementationHandler = handler.getExposedAPIImplementor(context, config);
-        handler.initHybrisDelegate(context, config);
-        handler.initControllerFactory(config);
-        handler.setLangAndCountry(config.getLanguage(), config.getCountry());
-        handler.getCatalogCountAndCallCatalog();
-        return handler;
-    }
+//    public static IAPHandler init(Context context, IAPSettings config) {
+//        IAPHandler handler = new IAPHandler();
+//        handler.mImplementationHandler = handler.getExposedAPIImplementor(context, config);
+//        handler.initHybrisDelegate(context, config);
+//        handler.initControllerFactory(config);
+//        handler.setLangAndCountry(config.getLanguage(), config.getCountry());
+//        handler.getCatalogCountAndCallCatalog();
+//        return handler;
+//    }
 
     public void launchCategorizedCatalog(ArrayList<String> pProductCTNs) {
-        mImplementationHandler.launchCategorizedCatalog(pProductCTNs);
+       // mImplementationHandler.launchCategorizedCatalog(pProductCTNs);
     }
 
-    @Override
-    public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
-        if(landingView == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW &&
-                (ctnNumber == null || ctnNumber.trim().equalsIgnoreCase("")) ){
-            throw new RuntimeException("Product Ctn passed is null");
-        }
-        mImplementationHandler.launchIAP(landingView, ctnNumber, listener);
-    }
+//    @Override
+//    public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
+//        if(landingView == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW &&
+//                (ctnNumber == null || ctnNumber.trim().equalsIgnoreCase("")) ){
+//            throw new RuntimeException("Product Ctn passed is null");
+//        }
+//        mImplementationHandler.launchIAP(landingView, ctnNumber, listener);
+//    }
 
     @Override
     public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
@@ -57,10 +56,10 @@ public class IAPHandler implements IAPExposedAPI {
         mImplementationHandler.getCompleteProductList(iapHandlerListener);
     }
 
-    @Override
-    public void getCatalogCountAndCallCatalog() {
-        mImplementationHandler.getCatalogCountAndCallCatalog();
-    }
+//    @Override
+//    public void getCatalogCountAndCallCatalog() {
+//        mImplementationHandler.getCatalogCountAndCallCatalog();
+//    }
 
     @Override
     public void buyDirect(String ctnNumber) {

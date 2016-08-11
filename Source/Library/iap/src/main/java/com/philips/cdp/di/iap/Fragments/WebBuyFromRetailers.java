@@ -70,7 +70,7 @@ public class WebBuyFromRetailers extends WebFragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if (mWebView.canGoBack()) {
-                    onBackPressed();
+                    handleBackEvent();
                 }
             }
         });
@@ -78,7 +78,7 @@ public class WebBuyFromRetailers extends WebFragment {
 
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         // hideKeyboard();
         if (mWebView.canGoBack()) {
             mWebView.goBack();

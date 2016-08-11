@@ -71,7 +71,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
