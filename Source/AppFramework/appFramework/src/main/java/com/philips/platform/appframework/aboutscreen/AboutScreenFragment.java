@@ -28,10 +28,8 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
         View view = inflater.inflate(R.layout.uikit_about_screen, container, false);
         TextView  version =(TextView)view.findViewById(R.id.about_version);
         version.setText("App Version" +BuildConfig.VERSION_NAME);
-        version.setTextColor(Color.BLACK);
-        view.setBackgroundColor(Color.WHITE);
+       view.setBackgroundColor(getResources().getColor(R.color.uikit_philips_dark_blue));
         TextView  content =(TextView)view.findViewById(R.id.about_content);
-        content.setTextColor(Color.BLACK);
         content.setText(R.string.about_screen_description);
         return view;
     }
