@@ -11,6 +11,9 @@ import com.philips.platform.appinfra.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by 310238114 on 6/22/2016.
  */
@@ -28,7 +31,10 @@ public class AppIdentityTest extends MockitoTestCase {
     String appname;
     String localizedappname;
     String appverion;
+    String json;
     JSONObject obj;
+    List<String> mServiceDiscoveryEnv = Arrays.asList("TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
+    List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
 
 
     @Override
@@ -43,7 +49,7 @@ public class AppIdentityTest extends MockitoTestCase {
             @Override
             protected String getJsonStringFromAsset() {
 
-                String json = "{\n" +
+                json = "{\n" +
                         "    \"micrositeId\" : \"77000\",\n" +
                         "    \"sector\"  : \"B2C\",\n" +
                         "    \"AppState\"  : \"PRODUCTION\",\n" +
@@ -54,78 +60,143 @@ public class AppIdentityTest extends MockitoTestCase {
 
             }
 
-            @Override
-            public String loadJSONFromAsset() {
-                String json = getJsonStringFromAsset();
-                if (json != null) {
-                    try {
-                        obj = new JSONObject(json);
-                        micrositeid = obj.getString("micrositeId");
-                        msector = obj.getString("sector");
-                        servicediscoveryEnv = obj.getString("ServiceDiscoveryEnvironment");
-                        mappState = obj.getString("AppState");
 
-
-                        try {
-                            PackageInfo pInfo;
-                            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-
-                            appname = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
-
-                        /* Vertical App should have this string defined for all supported language files
-                        *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
-                        * */
-                            localizedappname = context.getResources().getString(R.string.localized_commercial_app_name);
-
-                            appverion = String.valueOf(pInfo.versionName);
-
-                        } catch (PackageManager.NameNotFoundException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                return json;
-            }
         };
-
+        AppIdentityManager appIdentity = new AppIdentityManager(mAppInfra);
+        String json = appIdentity.getJsonStringFromAsset();
+        obj = new JSONObject(json);
         assertNotNull(mAppIdentityManager);
     }
 
     public void testHappyPath() throws Exception {
-        assertNotNull(localizedappname);
-        assertNotNull(appname);
-        assertNotNull(appverion);
-        assertNotNull(micrositeid);
-        assertNotNull(msector);
-        assertNotNull(servicediscoveryEnv);
-        assertNotNull(mappState);
+
+        assertNotNull(mAppIdentityManager.getLocalizedAppName());
+        assertNotNull(mAppIdentityManager.getAppName());
+        assertNotNull(mAppIdentityManager.getAppVersion());
+        assertNotNull(mAppIdentityManager.getMicrositeId());
+        assertNotNull(mAppIdentityManager.getSector());
+        assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
+        assertNotNull(mAppIdentityManager.getAppState());
     }
 
-    public void testMicrositeId() {
-        assertEquals("micrositeId is equal", micrositeid, "77000");
-        assertNotSame("micrositeId doesnt match", micrositeid, "@3434");
+    public void testgetMicrositeId() {
+
+        assertEquals("micrositeId is equal", mAppIdentityManager.getMicrositeId(), "77000");
+        assertNotSame("micrositeId doesnt match", mAppIdentityManager.getMicrositeId(), "@3434");
     }
 
-    public void testSector() {
-        assertEquals("Sector matches ", msector, "B2C");
+    public void testgetSector() {
+        assertEquals("Sector matches ", mAppIdentityManager.getSector(), "B2C");
+        assertNotSame("Sector doesnt match ", mAppIdentityManager.getSector(), "@@B2C");
+        try {
+            obj.putOpt("sector", "b2b");
+            msector = obj.getString("sector");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("Sector matches ", msector, "b2b");
         assertNotSame("Sector doesnt match ", msector, "@@B2C");
+
+        try {
+            obj.putOpt("sector", "b2b_Li");
+            msector = obj.getString("sector");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("Sector matches ", msector, "b2b_Li");
+        assertNotSame("Sector doesnt match ", msector, "@@safd");
+
+
     }
 
-    public void testAppState() {
-        assertEquals("Appstate is equal", mappState, "PRODUCTION");
-        assertNotSame("Appstate doesnt match", mappState, "PROD");
+    public void testgetAppState() {
+        assertEquals("Appstate is equal", mAppIdentityManager.getAppState().toString(), "PRODUCTION");
+        assertNotSame("Appstate doesnt match", mAppIdentityManager.getAppState(), "PROD");
+        try {
+            obj.put("AppState", "TEST");
+            mappState = obj.getString("AppState");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        assertEquals("Appstate is equal", mappState, "TEST");
+        assertNotSame("Appstate is not equal", mappState, "#FAF");
+
+        try {
+            obj.put("AppState", "STAGING");
+            mappState = obj.getString("AppState");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("Appstate is equal", mappState, "STAGING");
+        assertNotSame("Appstate is not equal", mappState, "STAG");
+
+        try {
+            obj.put("AppState", "ACCEPTANCE");
+            mappState = obj.getString("AppState");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("Appstate is equal", mappState, "ACCEPTANCE");
+        if (mAppStateValues.contains(mappState)) {
+            mappState = "acceptance";
+        }
+        assertEquals("AppState is equal", mappState, "acceptance");
+        assertNotSame("Appstate is not equal", mappState, "#@@ACCEP");
     }
 
     public void testServiceDiscoveryEnv() {
-        assertEquals("Service Env is equal ", servicediscoveryEnv, "PRODUCTION");
-        assertNotSame("Service Env doesnt match", mappState, "PROD");
+        assertEquals("Service Env is equal ", mAppIdentityManager.getServiceDiscoveryEnvironment(), "PRODUCTION");
+        assertNotSame("Service Env doesnt match", mAppIdentityManager.getServiceDiscoveryEnvironment(), "PROD");
+
+        try {
+            obj.put("ServiceDiscoveryEnvironment", "TEST");
+            servicediscoveryEnv = obj.getString("ServiceDiscoveryEnvironment");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("ServiceDiscovery Environment is equal", servicediscoveryEnv, "TEST");
+        assertNotSame("ServiceDiscovery Environment is not equal", servicediscoveryEnv, "#FAF");
+
+
+        try {
+            obj.put("ServiceDiscoveryEnvironment", "STAGING");
+            servicediscoveryEnv = obj.getString("ServiceDiscoveryEnvironment");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("ServiceDiscovery Environment is equal", servicediscoveryEnv, "STAGING");
+        assertNotSame("ServiceDiscovery Environment is not equal", servicediscoveryEnv, "STAG");
+
+        try {
+            obj.put("ServiceDiscoveryEnvironment", "ACCEPTANCE");
+            servicediscoveryEnv = obj.getString("ServiceDiscoveryEnvironment");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("ServiceDiscovery Environment is equal", servicediscoveryEnv, "ACCEPTANCE");
+        if (mServiceDiscoveryEnv.contains(servicediscoveryEnv)) {
+            servicediscoveryEnv = "acceptance";
+        }
+        assertEquals("ServiceDiscovery Environment is equal", servicediscoveryEnv, "acceptance");
+        assertNotSame("ServiceDiscovery Environment is not equal", servicediscoveryEnv, "#@@ACCEP");
 
     }
+
+    public void testgetAppVersion() {
+        //  assertNotNull(appverion);
+        //assertEquals("Appversion is in proper format", appverion, "1.0");
+        // assertNotSame("Appversion is not in proper format" , appverion ,"!!2.0");
+    }
+
 
 }
