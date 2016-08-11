@@ -26,7 +26,7 @@ public class ProductRegistrationApplication extends Application {
 
     @SuppressWarnings("deprecation")
     private void initProductRegistration() {
-        ProdRegUiHelper.getInstance().init(getApplicationContext(), (AppInfra) AppInfraSingleton.getInstance());
+        ProdRegUiHelper.getInstance().init(getApplicationContext(), null);
     }
 
     private void initRegistration() {

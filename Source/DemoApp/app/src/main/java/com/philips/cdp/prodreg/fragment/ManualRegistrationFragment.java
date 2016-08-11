@@ -30,6 +30,7 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -207,16 +208,15 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             } else {
                 prodRegConfig = new ProdRegConfig(products, false);
             }
-            ProdRegUiHelper.getInstance().setLaunchConfig(prodRegConfig);
-            ProdRegUiHelper.getInstance().launch(fragLauncher, getProdRegUiListener());
+            ProdRegUiHelper.getInstance().launch(fragLauncher, prodRegConfig, getProdRegUiListener());
         } else {
-            /*ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
+            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {
                 prodRegConfig = new ProdRegConfig(products, true);
             } else {
                 prodRegConfig = new ProdRegConfig(products, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, prodRegConfig, getProdRegUiListener());*/
+            ProdRegUiHelper.getInstance().launch(activityLauncher, prodRegConfig, getProdRegUiListener());
         }
     }
 

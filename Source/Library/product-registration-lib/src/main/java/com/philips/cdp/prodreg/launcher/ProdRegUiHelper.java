@@ -30,19 +30,20 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.uappframework.configuration.LaunchConfig;
+import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.uAppListener;
-import com.philips.platform.uappframework.uAppInterface;
+import com.philips.platform.uappframework.listener.UappListener;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
 
 /**
  * Product registration helper class used to invoke product registration
  */
-public class ProdRegUiHelper implements uAppInterface {
+public class ProdRegUiHelper implements UappInterface {
 
     private static ProdRegUiHelper prodRegHelper;
     private static LoggingInterface loggingInterface;
@@ -50,7 +51,7 @@ public class ProdRegUiHelper implements uAppInterface {
     private ProdRegUiListener prodRegUiListener;
     private Context context;
     private AppInfra appInfra;
-    private LaunchConfig launchConfig;
+    private UappLaunchInput launchConfig;
 
     /*
      * Initialize everything(resources, variables etc) required for Product Registration.
@@ -161,7 +162,7 @@ public class ProdRegUiHelper implements uAppInterface {
     }
 
     @Override
-    public void init(final Context context, final AppInfra appInfra) {
+    public void init(final Context context, UappDependencies uappDependencies) {
         this.context = context;
         this.appInfra = appInfra;
         new ProdRegHelper().init(context);
@@ -170,13 +171,13 @@ public class ProdRegUiHelper implements uAppInterface {
 
     /**
      * @param uiLauncher   - Launcher to differentiate activity or fragment
-     * @param uAppListener - Product registration call back listener to receive call backs for continue and back
+     * @param uappListener - Product registration call back listener to receive call backs for continue and back
      */
     @Override
-    public void launch(final UiLauncher uiLauncher, final uAppListener uAppListener) {
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
         this.mUiLauncher = uiLauncher;
-        this.prodRegUiListener = (ProdRegUiListener) uAppListener;
-        final ProdRegConfig prodRegConfig = (ProdRegConfig) launchConfig;
+        this.prodRegUiListener = (ProdRegUiListener) uappListener;
+        final ProdRegConfig prodRegConfig = (ProdRegConfig) uappLaunchInput;
         //TO-DO - to discuss about handling class cast exception
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
@@ -185,14 +186,5 @@ public class ProdRegUiHelper implements uAppInterface {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeProductRegistrationAsFragment(fragmentLauncher, prodRegConfig);
         }
-    }
-
-    /**
-     *
-     * @param launchConfig     - Product registration config class to define products and app flow
-     */
-    @Override
-    public void setLaunchConfig(final LaunchConfig launchConfig) {
-        this.launchConfig = launchConfig;
     }
 }

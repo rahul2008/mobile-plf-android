@@ -108,8 +108,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             fragLauncher.setCustomAnimation(0, 0);
             final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
             final ProdRegConfig prodRegConfig = new ProdRegConfig(regProdList, isFirstLaunch);
-            prodRegUiHelper.setLaunchConfig(prodRegConfig);
-            prodRegUiHelper.launch(fragLauncher, prodRegUiHelper.getProdRegUiListener());
+            prodRegUiHelper.launch(fragLauncher, prodRegConfig, prodRegUiHelper.getProdRegUiListener());
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }
