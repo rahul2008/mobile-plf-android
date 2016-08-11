@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -40,7 +39,7 @@ public class AppInfraLogging implements  LoggingInterface {
     private Logger javaLogger;
     private ConsoleHandler consoleHandler;
     private FileHandler fileHandler;
-    private Properties mProperties = new Properties();
+    //private Properties mProperties = new Properties();
     private InputStream mInputStream = null;
 
 
@@ -97,9 +96,16 @@ public class AppInfraLogging implements  LoggingInterface {
         javaLogger.log(Level.INFO, "Logger created"); //R-AI-LOG-6
     }
 
+
+    protected InputStream getLoggerPropertiesInputStream() throws IOException{
+
+        return mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME);
+    }
+
+
     private void readLogConfigFileFromAppAsset(){
         try {
-            mInputStream = mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME);
+            mInputStream = getLoggerPropertiesInputStream();
             if (mInputStream != null) {
                 LogManager.getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
             }
