@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib;
 
+import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
 /**
@@ -186,7 +187,14 @@ public enum SHNCapabilityType {
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityDataModelDebugging
      */
-    DATA_MODEL_DEBUG;
+    DATA_MODEL_DEBUG,
+
+    /**
+     * Generic plugin for reading, writing data and notifications
+     *
+     * @see CapabilityGeneric
+     */
+    GENERIC;
 
     /**
      * Provides support for backwards compatibility,
@@ -251,6 +259,7 @@ public enum SHNCapabilityType {
             case CONFIG_HEARTRATE_ZONES:
             case CONFIG_ENERGY_INTAKE:
             case CLEAR_USER_DATA:
+            case GENERIC:
             default:
                 break;
         }
