@@ -41,6 +41,8 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
                 uiCoCoUserReg.registerForNextState(this);
                 uiCoCoUserReg.setFragActivity((WelcomeActivity) context);
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+                uiState.setPresenter(this);
+                appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
                 break;
             case R.id.start_registration_button:
                 sharedPreferenceUtility = new SharedPreferenceUtility(context);
@@ -48,21 +50,21 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
                 uiCoCoUserReg.registerForNextState(this);
                 uiCoCoUserReg.setFragActivity((WelcomeActivity) context);
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+                uiState.setPresenter(this);
+                appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
                 break;
             case WelcomeActivity.backButtonClick:
-                AppFrameworkApplication appFrameworkApplication;
                 uiState = new HomeActivityState(UIState.UI_HOME_STATE);
                 appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
                 if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE))
                 {
                     ((WelcomeActivity) context).finishAffinity();
+                    uiState.setPresenter(this);
                     appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
-
                 }
                 break;
         }
-        uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
+
 
     }
 
@@ -70,7 +72,7 @@ public class WelcomePresenter extends UIBasePresenter implements UICoCoUserRegIm
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
-        if (appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_WELCOME_REGISTRATION_STATE) {
+        if (appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_WELCOME_REGISTRATION_STATE || appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
             ((WelcomeActivity) context).changeActionBarState(true);
             setState(UIState.UI_WELCOME_REGISTRATION_STATE);
             uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
