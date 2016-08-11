@@ -152,7 +152,7 @@ dependencies {
      androidTestCompile project(':dexmaker-1.4')
      androidTestCompile project(':dexmaker-dx-1.4')
      androidTestCompile project(':mockito-all-1.10.19')*/
-
+    androidTestCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
 
 
