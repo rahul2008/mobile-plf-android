@@ -97,7 +97,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertNull(mConfigInterface.getPropertyForKey("AI", "incorrectKey", configError)); //  Existing Group  but Non Existing key
         assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.KeyNotExists, configError.getErrorCode());
 
-        assertNotNull(mConfigInterface.getPropertyForKey("NonExistingGroupKey", "NewKey",configError));// Non Existing Group  and  Existing key
+        assertNull(mConfigInterface.getPropertyForKey("NonExistingGroupKey", "NewKey",configError));// Non Existing Group  and  Existing key
 
 
         //String fetch
@@ -143,7 +143,7 @@ public class AppConfigurationTest extends MockitoTestCase {
 //        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.InvalidKey, configError.getErrorCode());
 
         configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey("NonExistingGroupKey", "NewKey", mConfigInterface, configError));// Non Existing Group  and  Existing key
+        assertTrue(mConfigInterface.setPropertyForKey("NonExistingGroupKey", "NewKey", "val", configError));// Non Existing Group  and  Existing key
         assertEquals(null, configError.getErrorCode());
 
         //String set
