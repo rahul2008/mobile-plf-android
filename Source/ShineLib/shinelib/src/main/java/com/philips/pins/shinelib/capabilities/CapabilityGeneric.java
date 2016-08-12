@@ -19,7 +19,7 @@ public interface CapabilityGeneric extends SHNCapability {
         // TODO: notify
     }
 
-    void readCharacteristic(SHNDataRawResultListener listener);
+    void readCharacteristic(SHNDataRawResultListener listener, UUID uuid);
 
     /**
      * Set callback to receive notifications about battery level changes.
