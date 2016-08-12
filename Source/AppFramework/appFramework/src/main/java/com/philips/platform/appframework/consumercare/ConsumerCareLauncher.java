@@ -51,6 +51,7 @@ public class ConsumerCareLauncher implements MainMenuListener,
         DigitalCareConfigManager.getInstance().registerSocialProviderListener(this);
 
         DigiCareLogger.enableLogging();
+
     }
 
     public void initCC(FragmentActivity context, ActionbarUpdateListener actionBarClickListener) {
