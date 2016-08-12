@@ -13,6 +13,7 @@ def coverageSourceDirs = [
 
 buildscript {
     repositories {
+        mavenCentral()
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
         }
