@@ -7,7 +7,6 @@ package com.philips.platform.appframework.settingscreen;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -22,8 +21,9 @@ import android.widget.TextView;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -35,14 +35,17 @@ public class SettingsAdapter extends BaseAdapter {
     private User mUser = null;
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
+    private UIBasePresenter fragmentPresenter;
+
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                           LogoutHandler logoutHandler) {
+                           LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mUser = new User(context);
         mSettingsItemList = settingsItemList;
         mLogoutHandler = logoutHandler;
+        this.fragmentPresenter = fragmentPresenter;
     }
 
     @Override
@@ -68,54 +71,57 @@ public class SettingsAdapter extends BaseAdapter {
     @NonNull
     private View getView(int position, View convertView) {
         View vi = convertView;
+        if( mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
+                || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
 
-        if (convertView == null) {
-            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
-        }
-
-        TextView name = (TextView) vi.findViewById(R.id.ifo);
-        PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
-        TextView on_off = (TextView) vi.findViewById(R.id.medium);
-        FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
-        TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
-
-        SettingListItemType type = mSettingsItemList.get(position).type;
-
-        switch (type) {
-            case HEADER:
-                headerSection(position, name, value, number, on_off, arrow, description);
-                vi.setClickable(false);
-                vi.setEnabled(false);
-                vi.setActivated(false);
-                break;
-            case CONTENT:
-                subSection(position, name, value, on_off, arrow, description);
-
-                if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
-                        || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
-                    if (mUser.isUserSignIn()) {
-                        name.setText(getString(R.string.settings_list_item_log_out));
-                    } else {
-                        name.setText(getString(R.string.settings_list_item_login));
-                    }
-
-                    vi.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mUser.isUserSignIn()) {
-                                logoutAlert();
-                            } else {
-                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
-                            }
-                        }
-                    });
+            if (convertView == null) {
+                vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
+                UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
+                if (mUser.isUserSignIn()) {
+                    btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
+                } else {
+                    btn_settings_logout.setText(getString(R.string.settings_list_item_login));
                 }
 
-                break;
-            case NOTIFICATION:
-                notificationSection(position, name, value, arrow, description);
-                break;
+                btn_settings_logout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mUser.isUserSignIn()) {
+                            logoutAlert();
+                        } else {
+                            fragmentPresenter.onLoad(mActivity);
+                        }
+                    }
+                });
+            }
+
+        }
+        else {
+            if (convertView == null) {
+                vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
+            }
+            TextView name = (TextView) vi.findViewById(R.id.ifo);
+            PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
+            TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
+            TextView on_off = (TextView) vi.findViewById(R.id.medium);
+            FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
+            TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
+            SettingListItemType type = mSettingsItemList.get(position).type;
+
+            switch (type) {
+                case HEADER:
+                    headerSection(position, name, value, number, on_off, arrow, description);
+                    vi.setClickable(false);
+                    vi.setEnabled(false);
+                    vi.setActivated(false);
+                    break;
+                case CONTENT:
+                    subSection(position, name, value, on_off, arrow, description);
+                    break;
+                case NOTIFICATION:
+                    notificationSection(position, name, value, arrow, description);
+                    break;
+            }
         }
         return vi;
     }
@@ -147,13 +153,12 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     private void headerSection(int position, TextView name, PuiSwitch value, TextView number, TextView on_off, FontIconTextView arrow, TextView description) {
-        CharSequence titleText = null;//name.setVisibility(View.VISIBLE);
+        CharSequence titleText = null;
         titleText = mSettingsItemList.get(position).title;
         name.setText(titleText);
 
         value.setVisibility(View.GONE);
         description.setVisibility(View.GONE);
-        //  arrow.setVisibility(View.GONE);
         number.setVisibility(View.GONE);
         on_off.setVisibility(View.GONE);
         arrow.setVisibility(View.INVISIBLE);

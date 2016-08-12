@@ -10,16 +10,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 
 
 public class HomeFragment extends AppFrameworkBaseFragment {
-    private TextView textView;
-    private ImageView imageView;
 
     public HomeFragment() {
     }

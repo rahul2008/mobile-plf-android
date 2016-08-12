@@ -29,21 +29,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".introscreen.WelcomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection" />
-        <activity
-            android:name=".userregistrationscreen.UserRegistrationActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection" />
-        <activity
-            android:name=".homescreen.HomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection" />
+        <activity android:name=".introscreen.WelcomeActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
+        <activity android:name=".homescreen.HomeActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            />
         <!--<receiver-->
-        <!--android:name="NetworkReceiver"-->
-        <!--android:exported="false">-->
-        <!--<intent-filter android:priority="999">-->
-        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-        <!--</intent-filter>-->
+            <!--android:name="NetworkReceiver"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter android:priority="999">-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+            <!--</intent-filter>-->
         <!--</receiver>-->
 
         <!--Credentials For LocatePhilips Near you feature(Google Map)-->
