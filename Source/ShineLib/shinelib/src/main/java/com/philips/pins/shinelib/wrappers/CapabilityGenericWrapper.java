@@ -26,8 +26,23 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
         wrappedShnCapability.setCapabilityGenericListener(this);
     }
 
+
+
     @Override
-    public void readCharacteristic(final SHNDataRawResultListener listener) {
+    public void onReadCompleted(final UUID aChar, final byte[] data) {
+        Runnable callback = new Runnable() {
+            @Override
+            public void run() {
+                if (capabilityGenericListener != null) {
+                    capabilityGenericListener.onReadCompleted(aChar, data);
+                }
+            }
+        };
+        userHandler.post(callback);
+    }
+
+    @Override
+    public void readCharacteristic(final SHNDataRawResultListener listener, final UUID uuid) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
@@ -43,23 +58,10 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
                         };
                         userHandler.post(resultRunnable);
                     }
-                });
+                }, uuid);
             }
         };
         internalHandler.post(command);
-    }
-
-    @Override
-    public void onReadCompleted(final UUID aChar, final byte[] data) {
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                if (capabilityGenericListener != null) {
-                    capabilityGenericListener.onReadCompleted(aChar, data);
-                }
-            }
-        };
-        userHandler.post(callback);
     }
 
     @Override
