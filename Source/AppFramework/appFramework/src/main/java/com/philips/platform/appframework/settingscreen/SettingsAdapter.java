@@ -17,12 +17,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -36,6 +40,7 @@ public class SettingsAdapter extends BaseAdapter {
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
     private UIBasePresenter fragmentPresenter;
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
@@ -46,6 +51,7 @@ public class SettingsAdapter extends BaseAdapter {
         mSettingsItemList = settingsItemList;
         mLogoutHandler = logoutHandler;
         this.fragmentPresenter = fragmentPresenter;
+        sharedPreferenceUtility= new SharedPreferenceUtility(context);
     }
 
     @Override
@@ -127,10 +133,51 @@ public class SettingsAdapter extends BaseAdapter {
         name.setVisibility(View.VISIBLE);
         name.setText(mSettingsItemList.get(position).title);
         value.setVisibility(View.VISIBLE);
-        setSwitchState(value, "s1");
 
-        value.setChecked(mUser.getReceiveMarketingEmail());
-        value.setClickable(false);
+        if(mUser.getReceiveMarketingEmail()){
+            value.setChecked(true);
+        }
+        else {
+            value.setChecked(false);
+        }
+        if(sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)){
+            value.setChecked(true);
+        }else {
+            value.setChecked(false);
+        }
+        value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                        @Override
+                        public void onUpdateReceiveMarketingEmailSuccess() {
+                            Toast.makeText(mActivity,"Successfully subscribed", Toast.LENGTH_SHORT).show();
+                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled,true);
+                        }
+
+                        @Override
+                        public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            Toast.makeText(mActivity,"failed to subscribe", Toast.LENGTH_SHORT).show();
+                        }
+                    },true);
+                }
+                else {
+                    mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                        @Override
+                        public void onUpdateReceiveMarketingEmailSuccess() {
+                            Toast.makeText(mActivity,"Successfully unsubscribed", Toast.LENGTH_SHORT).show();
+                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled,false);
+                        }
+
+                        @Override
+                        public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            Toast.makeText(mActivity,"failed to unsubscribed", Toast.LENGTH_SHORT).show();
+                        }
+                    },false);
+                }
+            }
+        });
 
         String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
                 getString(R.string.settings_list_item_four_term_cond);
@@ -178,20 +225,6 @@ public class SettingsAdapter extends BaseAdapter {
                         })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
-    }
-
-    public Bundle getSavedBundle() {
-        return saveBundle;
-    }
-
-    public void setSavedBundle(Bundle bundle) {
-        saveBundle = bundle;
-    }
-
-    private void setSwitchState(CompoundButton toggleSwitch, String code) {
-        if (saveBundle.containsKey(code)) {
-            toggleSwitch.setChecked(saveBundle.getBoolean(code));
-        }
     }
 
     @Override

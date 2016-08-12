@@ -21,6 +21,7 @@ import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
+
 import java.util.Locale;
 
 public class AppFrameworkApplication extends Application {
@@ -41,8 +42,17 @@ public class AppFrameworkApplication extends Application {
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
+        setLocale();
         initializeUserRegistrationLibrary();
         initializeProductRegistrationLibrary();
+    }
+
+    private void setLocale() {
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode, countryCode);
     }
 
     private void initializeProductRegistrationLibrary() {
@@ -69,13 +79,6 @@ public class AppFrameworkApplication extends Application {
         RegistrationConfiguration.getInstance().
                 setPrioritisedFunction(RegistrationFunction.Registration);
         RLog.init(this);
-
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-
         RegistrationHelper.getInstance().initializeUserRegistration(this);
     }
 }
