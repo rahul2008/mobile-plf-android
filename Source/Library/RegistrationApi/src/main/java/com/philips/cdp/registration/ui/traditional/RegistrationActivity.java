@@ -15,7 +15,6 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -23,10 +22,15 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uappframework.listener.UappListener;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         ActionBarListener {
@@ -163,11 +167,27 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings) {
-        try {
+
+
+        URLaunchInput urLaunchInput = new URLaunchInput();
+        urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+
+
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this,R.id.fl_reg_fragment_container,this);
+
+        URInterface.getInstance().launch(fragmentLauncher, urLaunchInput, new UappListener() {
+        });
+
+
+
+        /*try {
             FragmentManager mFragmentManager = getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+          *//*  bundle.putSerializable(RegConstants.USER_REGISTRATION_LISTENER,
+                    getIntent().getExtras().getSerializable(RegConstants.USER_REGISTRATION_LISTENER));*//*
             registrationFragment.setArguments(bundle);
            registrationFragment.setOnUpdateTitleListener(this);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -178,7 +198,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             RLog.e(RLog.EXCEPTION,
                     "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
-        }
+        }*/
     }
 
 

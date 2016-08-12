@@ -28,6 +28,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -58,6 +59,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private boolean isAccountSettings = true;
 
+    private UserRegistrationListener userRegistrationListener;
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreate");
@@ -71,6 +76,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Bundle bunble = getArguments();
         if (bunble != null) {
             isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            if(bunble.
+                    getSerializable(RegConstants.USER_REGISTRATION_LISTENER)!=null){
+                userRegistrationListener = (UserRegistrationListener) bunble.
+                        getSerializable(RegConstants.USER_REGISTRATION_LISTENER);
+            }
+
         }
         RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
         super.onCreate(savedInstanceState);
@@ -87,6 +98,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         mFragmentManager = getChildFragmentManager();
         if(mFragmentManager.getBackStackEntryCount() < 1){
             loadFirstFragment();
+        }
+        if(null!= userRegistrationListener) {
+            RegistrationHelper.getInstance().registerUserRegistrationListener(userRegistrationListener);
         }
         return view;
     }
@@ -125,6 +139,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         setPrevTiltle();
+        if(null!= userRegistrationListener) {
+            RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
+        }
         super.onDestroy();
     }
 
