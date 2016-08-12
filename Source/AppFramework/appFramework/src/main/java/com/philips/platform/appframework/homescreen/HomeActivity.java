@@ -5,10 +5,10 @@
 */
 package com.philips.platform.appframework.homescreen;
 
-
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -32,9 +32,9 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-
+import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.modularui.statecontroller.UIState;
 import java.util.ArrayList;
-
 
 public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener, com.philips.cdp.prodreg.listener.ActionbarUpdateListener{
     private static String TAG = HomeActivity.class.getSimpleName();
@@ -170,26 +170,41 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
-        } else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())) {
-            inAppPurchaseBackPress();
-        } else if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-            super.onBackPressed();
-        }
-
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finishAffinity();
+        } else if (findIfHomeFragmentSentBack()) {
+            finishAffinity();
+        } else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
+            if (!inAppPurchaseBackPress()) {
+                super.popBackTillHomeFragment();
+            }
+        } else if (findFragmentByTag("Registration_fragment_tag")) {
+            if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+                super.popBack();
+            }
         } else {
-            super.onBackPressed();
+            AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
+            UIFlowManager flowManager = applicationContext.getFlowManager();
+            UIState currentState = flowManager.getCurrentState();
+            currentState.back(this);
         }
     }
 
-    private void inAppPurchaseBackPress() {
+    private boolean findIfHomeFragmentSentBack() {
+        FragmentManager.BackStackEntry backStackEntryAt = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+        String name = backStackEntryAt.getName();
+        if(name.equalsIgnoreCase(HomeFragment.TAG))
+            return true;
+        return false;
+    }
+
+    private boolean inAppPurchaseBackPress() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if(currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)){
-            if(((InAppPurchasesFragment) currentFragment).onBackPressed()) {
-                return;
-            }
+            boolean isBackPressed = ((InAppPurchasesFragment) currentFragment).onBackPressed();
+            return isBackPressed;
         }
+        return false;
     }
 
     @Override

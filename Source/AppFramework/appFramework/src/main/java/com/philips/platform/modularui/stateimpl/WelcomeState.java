@@ -20,4 +20,9 @@ public class WelcomeState extends UIState {
     public void navigate(Context context) {
         context.startActivity(new Intent(context, WelcomeActivity.class));
     }
+
+    @Override
+    public void back(final Context context) {
+        //NOP
+    }
 }

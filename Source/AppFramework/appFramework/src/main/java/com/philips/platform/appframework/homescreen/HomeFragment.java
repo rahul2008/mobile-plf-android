@@ -16,8 +16,14 @@ import com.philips.platform.appframework.R;
 
 
 public class HomeFragment extends AppFrameworkBaseFragment {
-
+    public static final String TAG =  HomeFragment.class.getSimpleName();
     public HomeFragment() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity)getContext()).updateTitleWithoutBack();
     }
 
     @Override
