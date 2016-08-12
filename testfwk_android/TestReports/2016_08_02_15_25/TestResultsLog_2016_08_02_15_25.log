@@ -1,0 +1,22 @@
+DEBUG 2016-08-02 15:25:42,580 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 15:25:42,589 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_15_25\
+DEBUG 2016-08-02 15:25:42,590 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 15:25:42,590 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 15:25:42,590 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 15:25:42,590 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 15:25:42,723 - adb: error: cannot stat 'D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar': No such file or directory
+
+DEBUG 2016-08-02 15:25:42,723 - 
+DEBUG 2016-08-02 15:25:42,739 - Exception while Killing Process: 15372 Exception: Process with an Id of 15372 is not running.
+ERROR 2016-08-02 15:25:48,748 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 15:25:48,848 - BIN Path of the Assembly: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 15:25:48,848 - Log Path of the Test Execution: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_15_25\
+DEBUG 2016-08-02 15:25:48,848 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 15:25:48,848 - UiAutomation Script Path: D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 15:25:48,848 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 15:25:48,848 - Pushing file from source : D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 15:25:49,001 - adb: error: cannot stat 'D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar': No such file or directory
+
+DEBUG 2016-08-02 15:25:49,001 - 
+DEBUG 2016-08-02 15:25:49,018 - Exception while Killing Process: 21448 Exception: Process with an Id of 21448 is not running.
+ERROR 2016-08-02 15:25:55,019 - Could not unlock the device, stopping Test Execution.

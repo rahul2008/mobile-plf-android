@@ -40,3 +40,10 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\bin\Ph
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\FrameworkCore\obj\Debug\Philips.MRAutomation.Foundation.FrameworkCore.dll
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\FrameworkCore\obj\Debug\Philips.MRAutomation.Foundation.FrameworkCore.pdb
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\FrameworkCore\obj\Debug\Philips.MRAutomation.Foundation.FrameworkCore.csprojResolveAssemblyReference.cache
+C:\dev\reference_app_android\testfwk_android\Src\bin\AppConfig.xml
+C:\dev\reference_app_android\testfwk_android\Src\bin\MapNetworkDrive.vbs
+C:\dev\reference_app_android\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.FrameworkCore.dll
+C:\dev\reference_app_android\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.FrameworkCore.pdb
+C:\dev\reference_app_android\testfwk_android\Src\Src\01Foundation\FrameworkCore\obj\Debug\Philips.MRAutomation.Foundation.FrameworkCore.csprojResolveAssemblyReference.cache
+C:\dev\reference_app_android\testfwk_android\Src\Src\01Foundation\FrameworkCore\obj\Debug\Philips.MRAutomation.Foundation.FrameworkCore.dll
+C:\dev\reference_app_android\testfwk_android\Src\Src\01Foundation\FrameworkCore\obj\Debug\Philips.MRAutomation.Foundation.FrameworkCore.pdb

@@ -1,0 +1,45 @@
+﻿VS filter: testpath:TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:POC/Scenario:Add+two+numbers
+Discovering target: Default
+Discovering tests from assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll
+Appdomain Disposed
+Test Suite Dump
+#0: Philips.CDP.Automation.IAP.Tests.Workflows/Default - 
+#1: Default - 
+#2: Philips.CDP.Automation.IAP.Tests.Workflows - 
+#3: POC - 
+#4: Add two numbers - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:POC/Scenario:Add+two+numbers
+End: Test Suite Dump -- X
+Scheduler: considering #4 for thread #0
+Scheduler: using #4 for thread #0
+Test #4 is scheduled for thread #0
+Thread #0: creating new test thread executor for Philips.CDP.Automation.IAP.Tests.Workflows, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null (target: Default)
+Loading SpecRun type 'TechTalk.SpecRun.Framework.TestAssemblyExecutor' from: C:\Users\310199989\AppData\Local\Temp\VisualStudioTestExplorerExtensions\SpecRun.Runner.1.3.0\tools\TechTalk.SpecRun.Framework.Executor.dll
+Test #4/0 is started on thread #0
+B:Given I am on the AppFramework Screen
+T:done: POC.GivenIAmOnTheAppFrameworkScreen() (3.5s)
+B:Then I click on Skip
+T:error: Could not find page control to click with Id: com.philips.platform.appframework:id/appframework_skip_button
+B:Then Verify that the user is in User Registration screen
+T:No matching step definition found for the step. Use the following code to create one:
+T:        [Then(@"Verify that the user is in User Registration screen")]
+T:        public void ThenVerifyThatTheUserIsInUserRegistrationScreen()
+T:        {
+T:            ScenarioContext.Current.Pending();
+T:        }
+B:Then I register using My Philips account
+T:skipped because of previous errors
+B:And I click on "Shop" from the Hamburger Menu List
+T:No matching step definition found for the step. Use the following code to create one:
+T:        [Then(@"I click on ""(.*)"" from the Hamburger Menu List")]
+T:        public void ThenIClickOnFromTheHamburgerMenuList(string p0)
+T:        {
+T:            ScenarioContext.Current.Pending();
+T:        }
+Test #4 is finished on thread #0 as Failed within 58.1093236 seconds
+Appdomain Disposed
+Total: 1
+Succeeded: 0
+Ignored: 0
+Pending: 0
+Skipped: 0
+Failed: 1

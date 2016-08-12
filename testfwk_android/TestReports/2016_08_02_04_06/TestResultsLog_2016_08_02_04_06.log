@@ -1,0 +1,22 @@
+DEBUG 2016-08-02 04:06:45,493 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 04:06:45,500 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_04_06\
+DEBUG 2016-08-02 04:06:45,500 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 04:06:45,500 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 04:06:45,500 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 04:06:45,500 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 04:06:45,651 - 
+DEBUG 2016-08-02 04:06:45,651 - cannot stat 'C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar': No such file or directory
+
+DEBUG 2016-08-02 04:06:45,675 - Exception while Killing Process: 32912 Exception: Process with an Id of 32912 is not running.
+ERROR 2016-08-02 04:06:51,680 - Could not unlock the device, stopping Test Execution.
+DEBUG 2016-08-02 04:06:51,757 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 04:06:51,757 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_04_06\
+DEBUG 2016-08-02 04:06:51,757 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 04:06:51,757 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 04:06:51,757 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 04:06:51,757 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 04:06:51,842 - 
+DEBUG 2016-08-02 04:06:51,843 - cannot stat 'C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar': No such file or directory
+
+DEBUG 2016-08-02 04:06:51,859 - Exception while Killing Process: 33164 Exception: Process with an Id of 33164 is not running.
+ERROR 2016-08-02 04:06:57,860 - Could not unlock the device, stopping Test Execution.

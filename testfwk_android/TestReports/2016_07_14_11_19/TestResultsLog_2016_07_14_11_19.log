@@ -1,0 +1,948 @@
+DEBUG 2016-07-14 11:19:30,740 - BIN Path of the Assembly: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-07-14 11:19:30,747 - Log Path of the Test Execution: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_07_14_11_19\
+DEBUG 2016-07-14 11:19:30,747 - Unlocking Android device for test execution.....
+DEBUG 2016-07-14 11:19:30,747 - UiAutomation Script Path: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-07-14 11:19:30,747 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-07-14 11:19:30,748 - Pushing file from source : C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-07-14 11:19:35,254 - * daemon not running. starting it now on port 5037 *
+* daemon started successfully *
+
+DEBUG 2016-07-14 11:19:35,255 - 1 KB/s (5741 bytes in 4.087s)
+
+DEBUG 2016-07-14 11:19:35,269 - Exception while Killing Process: 11216 Exception: Process with an Id of 11216 is not running.
+DEBUG 2016-07-14 11:19:42,453 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.031
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-07-14 11:19:42,453 - 
+DEBUG 2016-07-14 11:19:42,459 - Exception while Killing Process: 6380 Exception: Process with an Id of 6380 is not running.
+DEBUG 2016-07-14 11:19:48,459 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-07-14 11:19:48,459 - Closing running Appium server instance....
+DEBUG 2016-07-14 11:19:49,486 - Appium Server Log Path: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-07-14 11:19:50,503 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:19:50,503 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:19:51,003 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:19:51,999 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:19:51,999 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:19:52,499 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:19:53,515 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:19:53,515 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:19:54,015 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:19:55,015 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:19:55,015 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:19:55,515 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:19:56,515 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:19:56,515 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:19:57,017 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:19:58,067 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:19:58,067 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:19:58,567 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:19:59,567 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:19:59,567 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:00,067 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:01,067 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:01,067 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:01,567 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:02,567 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:02,567 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:03,067 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:04,067 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:04,067 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:04,567 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:05,574 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:05,574 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:06,074 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:07,074 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:07,074 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:07,574 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:08,619 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:08,620 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:09,127 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:10,164 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:10,164 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:10,664 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:11,674 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:11,674 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:12,174 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:13,184 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:13,184 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:13,707 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:14,711 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:14,711 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:15,211 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:16,222 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:16,222 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:16,758 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:17,790 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:17,790 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:18,290 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:19,290 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:19,290 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:19,790 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:20,790 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:20,790 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:21,314 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:22,332 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:22,332 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:22,832 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:23,833 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:23,835 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:24,335 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:25,335 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:25,335 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:25,835 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:26,835 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:26,835 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:27,337 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:28,338 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:28,338 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:28,838 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:29,838 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:29,838 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:30,338 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:31,338 - Appium Server Running Status: False
+DEBUG 2016-07-14 11:20:31,338 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:31,838 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:32,338 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-07-14 11:20:32,338 - Waiting for 2000 milliseconds
+DEBUG 2016-07-14 11:20:34,338 - Waiting completed after 2000 milliseconds
+DEBUG 2016-07-14 11:20:34,362 - Appium server is running / Starting Execution
+DEBUG 2016-07-14 11:20:40,422 - Waiting for 3000 milliseconds
+DEBUG 2016-07-14 11:20:43,422 - Waiting completed after 3000 milliseconds
+INFO 2016-07-14 11:20:43,437 - UserJourney-1 started
+INFO 2016-07-14 11:20:43,497 - Busy: Start
+DEBUG 2016-07-14 11:20:45,026 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:20:45,660 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:20:45,660 - Busy: End
+DEBUG 2016-07-14 11:20:51,660 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:20:51,712 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 11:20:51,825 - User is in  Launch page
+DEBUG 2016-07-14 11:20:51,826 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/btn_register
+DEBUG 2016-07-14 11:20:51,877 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/btn_register in the page.
+INFO 2016-07-14 11:20:52,321 - Busy: Start
+DEBUG 2016-07-14 11:20:52,852 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:20:52,852 - Busy: End
+DEBUG 2016-07-14 11:20:52,852 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/tv_reg_header_title
+DEBUG 2016-07-14 11:20:52,865 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/tv_reg_header_title in the page.
+DEBUG 2016-07-14 11:20:52,879 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iv_reg_back
+DEBUG 2016-07-14 11:20:52,894 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iv_reg_back in the page.
+DEBUG 2016-07-14 11:20:53,209 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:20:53,802 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:20:53,802 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:20:54,302 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:20:54,537 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 11:20:54,595 - Seeing: E-Commerce Demo App
+DEBUG 2016-07-14 11:20:54,621 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/spinner
+DEBUG 2016-07-14 11:20:54,680 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/spinner in the page.
+DEBUG 2016-07-14 11:20:55,191 - Clicking on Text : US
+DEBUG 2016-07-14 11:20:55,958 - Found Requested Element: By.Name: US in the page.
+INFO 2016-07-14 11:20:56,119 - Busy: Start
+DEBUG 2016-07-14 11:20:56,750 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:20:56,750 - Busy: End
+INFO 2016-07-14 11:20:56,750 - Busy: Start
+DEBUG 2016-07-14 11:20:57,408 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:20:57,408 - Busy: End
+DEBUG 2016-07-14 11:20:57,409 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/btn_shop_now
+DEBUG 2016-07-14 11:20:57,451 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/btn_shop_now in the page.
+INFO 2016-07-14 11:20:57,916 - Busy: Start
+DEBUG 2016-07-14 11:20:58,548 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:20:59,230 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:20:59,768 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:20:59,768 - Busy: End
+INFO 2016-07-14 11:20:59,768 - Busy: Start
+DEBUG 2016-07-14 11:21:00,390 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:21:00,390 - Busy: End
+DEBUG 2016-07-14 11:21:00,463 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:21:00,636 - Seeing: Products title:  try: 0
+DEBUG 2016-07-14 11:21:00,666 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/arrow in the page.
+DEBUG 2016-07-14 11:21:00,708 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:21:01,149 - Products are loaded: count:3 try: 0
+INFO 2016-07-14 11:21:01,158 - Adding: HX8071/10 to basket
+INFO 2016-07-14 11:21:01,160 - SelectProduct: start
+DEBUG 2016-07-14 11:21:04,453 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:21:05,172 - SelectProduct: OpenQA.Selenium.Appium.Android.AndroidElement
+INFO 2016-07-14 11:21:05,172 - previousLast: 
+INFO 2016-07-14 11:21:05,259 - SelectProduct: in list: System.Collections.Generic.List`1[OpenQA.Selenium.Appium.Android.AndroidElement]
+INFO 2016-07-14 11:21:05,303 - SelectProduct: HX8071/10 found, selecting
+INFO 2016-07-14 11:21:06,147 - SelectProduct: end
+DEBUG 2016-07-14 11:21:07,170 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+DEBUG 2016-07-14 11:21:07,171 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/add_to_cart
+DEBUG 2016-07-14 11:21:07,237 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+INFO 2016-07-14 11:21:08,027 - Busy: Start
+DEBUG 2016-07-14 11:21:08,656 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:21:09,265 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:21:10,191 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:21:10,773 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:21:10,773 - Busy: End
+INFO 2016-07-14 11:21:15,778 - WaitForShoppingCartScreen: start
+DEBUG 2016-07-14 11:21:15,778 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:21:15,867 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:21:15,900 - Seeing: Shopping Cart title: Shopping Cart try: 0
+DEBUG 2016-07-14 11:21:15,967 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/ratingtheme in the page.
+INFO 2016-07-14 11:21:15,967 - Cart items are loaded try: 0
+INFO 2016-07-14 11:21:15,968 - Step Passed: User is in the Shopping Cart Screen
+DEBUG 2016-07-14 11:21:24,140 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:21:24,140 - swipe to top
+DEBUG 2016-07-14 11:21:24,201 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:25,262 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:21:25,427 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:25,493 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:25,551 - Stop scrolling
+DEBUG 2016-07-14 11:21:27,689 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:28,385 - location: {X=0,Y=320}
+INFO 2016-07-14 11:21:28,385 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:21:28,407 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:21:29,840 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 1 : $30.00
+DEBUG 2016-07-14 11:21:29,911 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:21:29,911 - Stop swiping
+INFO 2016-07-14 11:21:29,912 - Sonicare TongueCare+ Tongue cleaning starter kit : $30.00 : 1
+
+DEBUG 2016-07-14 11:21:29,945 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:21:30,039 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:30,132 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:30,157 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:21:30,313 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:31,462 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:31,580 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:31,604 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:21:31,756 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:31,803 - ---product names---
+Sonicare TongueCare+ Tongue cleaning starter kit
+
+INFO 2016-07-14 11:21:31,803 - IsProductExist: start:Sonicare TongueCare+ Tongue cleaning starter kit
+DEBUG 2016-07-14 11:21:35,014 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:21:35,014 - swipe to top
+DEBUG 2016-07-14 11:21:35,129 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:35,532 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:21:35,677 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:35,722 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:35,758 - Stop scrolling
+DEBUG 2016-07-14 11:21:37,849 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:38,182 - location: {X=0,Y=320}
+INFO 2016-07-14 11:21:38,182 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:21:38,205 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:21:39,078 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 1 : $30.00
+DEBUG 2016-07-14 11:21:39,129 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:21:39,129 - Stop swiping
+INFO 2016-07-14 11:21:39,129 - Sonicare TongueCare+ Tongue cleaning starter kit : $30.00 : 1
+
+DEBUG 2016-07-14 11:21:39,150 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:21:39,249 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:40,146 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:40,213 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:21:40,345 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:41,437 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:41,594 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:41,683 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:21:41,861 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:41,899 - ---product names---
+Sonicare TongueCare+ Tongue cleaning starter kit
+
+INFO 2016-07-14 11:21:41,900 - IsProductExist: end:Sonicare TongueCare+ Tongue cleaning starter kit
+INFO 2016-07-14 11:21:41,900 - Correct Thumbnail Image and Short Product Description are added
+DEBUG 2016-07-14 11:21:44,933 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:21:44,933 - swipe to top
+DEBUG 2016-07-14 11:21:45,381 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:45,541 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:21:45,681 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:45,789 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:45,876 - Stop scrolling
+DEBUG 2016-07-14 11:21:48,194 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:48,359 - location: {X=0,Y=320}
+INFO 2016-07-14 11:21:48,359 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:21:48,611 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:21:49,750 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 1 : $30.00
+DEBUG 2016-07-14 11:21:49,971 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:21:49,971 - Stop swiping
+INFO 2016-07-14 11:21:49,971 - Sonicare TongueCare+ Tongue cleaning starter kit : $30.00 : 1
+
+DEBUG 2016-07-14 11:21:50,006 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:21:50,175 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:50,365 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:50,420 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:21:50,568 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:51,718 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:52,095 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:52,126 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:21:52,311 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:52,375 - ---product names---
+Sonicare TongueCare+ Tongue cleaning starter kit
+
+DEBUG 2016-07-14 11:21:55,421 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:21:55,421 - swipe to top
+DEBUG 2016-07-14 11:21:55,637 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:56,027 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:21:56,196 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:21:56,241 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:56,304 - Stop scrolling
+DEBUG 2016-07-14 11:21:58,573 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:21:58,727 - location: {X=0,Y=320}
+INFO 2016-07-14 11:21:58,727 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:21:58,748 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:22:00,802 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 1 : $30.00
+DEBUG 2016-07-14 11:22:00,831 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:22:00,831 - Stop swiping
+INFO 2016-07-14 11:22:00,831 - Sonicare TongueCare+ Tongue cleaning starter kit : $30.00 : 1
+
+DEBUG 2016-07-14 11:22:00,943 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:22:00,968 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:01,137 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:01,296 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:01,535 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:02,713 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:03,050 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:03,076 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:03,228 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:03,335 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:03,396 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:03,411 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1526
+DEBUG 2016-07-14 11:22:06,708 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:22:06,709 - swipe to top
+DEBUG 2016-07-14 11:22:06,782 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:07,004 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:22:07,174 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:07,218 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:07,303 - Stop scrolling
+DEBUG 2016-07-14 11:22:09,554 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:10,517 - location: {X=0,Y=320}
+INFO 2016-07-14 11:22:10,517 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:22:10,543 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:22:12,521 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 1 : $30.00
+DEBUG 2016-07-14 11:22:12,547 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:22:12,547 - Stop swiping
+INFO 2016-07-14 11:22:12,547 - Sonicare TongueCare+ Tongue cleaning starter kit : $30.00 : 1
+
+DEBUG 2016-07-14 11:22:12,568 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:22:12,586 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:13,021 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:13,046 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:13,197 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:14,300 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:14,453 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:14,514 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:14,666 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:14,832 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:14,895 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:14,926 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1526
+DEBUG 2016-07-14 11:22:18,088 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:22:18,088 - swipe to top
+DEBUG 2016-07-14 11:22:18,178 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:18,438 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:22:18,601 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:18,653 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:18,709 - Stop scrolling
+DEBUG 2016-07-14 11:22:20,902 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:21,345 - location: {X=0,Y=320}
+INFO 2016-07-14 11:22:21,345 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:22:21,370 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:22:22,578 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 1 : $30.00
+DEBUG 2016-07-14 11:22:22,598 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:22:22,599 - Stop swiping
+INFO 2016-07-14 11:22:22,599 - Sonicare TongueCare+ Tongue cleaning starter kit : $30.00 : 1
+
+DEBUG 2016-07-14 11:22:22,619 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:22:22,640 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:22,817 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:22,837 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:22,973 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:24,078 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:24,435 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:24,515 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:24,670 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:24,784 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:24,846 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:24,867 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1526
+DEBUG 2016-07-14 11:22:28,027 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:22:28,027 - swipe to top
+DEBUG 2016-07-14 11:22:28,056 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:28,461 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:22:28,692 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:28,742 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:28,835 - Stop scrolling
+DEBUG 2016-07-14 11:22:30,908 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:31,650 - location: {X=0,Y=320}
+INFO 2016-07-14 11:22:31,650 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:22:31,680 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:22:32,991 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 1 : $30.00
+DEBUG 2016-07-14 11:22:33,039 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:22:33,039 - Stop swiping
+INFO 2016-07-14 11:22:33,039 - Sonicare TongueCare+ Tongue cleaning starter kit : $30.00 : 1
+
+DEBUG 2016-07-14 11:22:33,091 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:22:33,194 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:33,310 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:33,460 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:33,614 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:35,121 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:35,737 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:35,907 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:36,070 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:36,466 - Busy: Start
+DEBUG 2016-07-14 11:22:37,070 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:22:37,070 - Busy: End
+INFO 2016-07-14 11:22:39,998 - WaitForShoppingCartScreen: start
+DEBUG 2016-07-14 11:22:39,998 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:22:40,147 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:22:40,235 - Seeing: Shopping Cart title: Shopping Cart try: 0
+DEBUG 2016-07-14 11:22:40,306 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/ratingtheme in the page.
+INFO 2016-07-14 11:22:40,306 - Cart items are loaded try: 0
+DEBUG 2016-07-14 11:22:43,341 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:22:43,341 - swipe to top
+DEBUG 2016-07-14 11:22:43,390 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:43,855 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:22:44,015 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:44,186 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:44,239 - Stop scrolling
+DEBUG 2016-07-14 11:22:46,503 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:22:46,677 - location: {X=0,Y=320}
+INFO 2016-07-14 11:22:46,677 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:22:46,705 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:22:47,363 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 3 : $90.00
+DEBUG 2016-07-14 11:22:47,386 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:22:47,386 - Stop swiping
+INFO 2016-07-14 11:22:47,386 - Sonicare TongueCare+ Tongue cleaning starter kit : $90.00 : 3
+
+DEBUG 2016-07-14 11:22:47,605 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:22:47,642 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:47,855 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:47,909 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:48,060 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:49,243 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:49,470 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:49,566 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:22:49,742 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:49,858 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:49,926 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:49,944 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1526
+INFO 2016-07-14 11:22:50,058 - Step Passed: Correct Quantity and Price of the Product is Displayed
+DEBUG 2016-07-14 11:22:50,060 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:50,078 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:50,078 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:50,578 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:50,605 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:50,606 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:51,106 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:51,158 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:51,158 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:51,658 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:51,949 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:51,949 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:52,449 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:52,895 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:52,895 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:53,395 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:53,444 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:53,444 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:53,944 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:54,047 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:54,047 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:54,547 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:54,687 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:54,687 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:55,187 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:55,251 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:55,251 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:55,751 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:55,837 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:55,837 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:56,338 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:56,476 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:56,476 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:56,976 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:57,080 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+DEBUG 2016-07-14 11:22:57,080 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:22:57,580 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:22:57,694 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_redeem_vochur
+INFO 2016-07-14 11:22:57,694 - Busy: Start
+DEBUG 2016-07-14 11:22:58,283 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:22:58,283 - Busy: End
+INFO 2016-07-14 11:22:58,284 - Claim Voucher option Displayed
+INFO 2016-07-14 11:22:58,285 - GetText: SwipeToBottom
+DEBUG 2016-07-14 11:22:58,304 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:58,722 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:22:58,763 - Swiping Screens Coordinates: X1: 720 Y1: 1116 X2: 720 Y2: 526
+DEBUG 2016-07-14 11:22:59,541 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalItems in the page.
+DEBUG 2016-07-14 11:23:00,541 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:00,595 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:00,596 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:01,096 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:01,233 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:01,233 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:01,733 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:01,749 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:01,749 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:02,249 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:02,269 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:02,269 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:02,769 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:02,856 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:02,856 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:03,356 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:03,449 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:03,449 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:03,949 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:04,264 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:04,264 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:04,764 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:04,799 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:04,799 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:05,299 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:05,324 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:05,324 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:05,824 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:05,998 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:05,998 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:06,498 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:06,558 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:06,558 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:07,058 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:07,080 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:07,081 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:07,581 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:07,620 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+INFO 2016-07-14 11:23:07,621 - GetText: SwipeToBottom
+DEBUG 2016-07-14 11:23:07,745 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:07,905 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:07,931 - Swiping Screens Coordinates: X1: 720 Y1: 1116 X2: 720 Y2: 526
+DEBUG 2016-07-14 11:23:08,115 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalItems in the page.
+DEBUG 2016-07-14 11:23:09,173 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:23:09,480 - GetText: SwipeToBottom
+DEBUG 2016-07-14 11:23:09,513 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:09,694 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:09,859 - Swiping Screens Coordinates: X1: 720 Y1: 1116 X2: 720 Y2: 526
+DEBUG 2016-07-14 11:23:10,042 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalItems in the page.
+DEBUG 2016-07-14 11:23:11,042 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:11,119 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:11,119 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:11,619 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:11,662 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:11,662 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:12,162 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:12,298 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:12,298 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:12,798 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:12,834 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:12,835 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:13,335 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:13,364 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:13,365 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:13,865 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:13,899 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:13,899 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:14,399 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:14,437 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:14,437 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:14,937 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:15,053 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:15,053 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:15,553 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:15,663 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:15,663 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:16,163 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:16,306 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:16,306 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:16,806 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:16,933 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:16,934 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:17,434 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:17,535 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:17,535 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:18,035 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:18,363 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+INFO 2016-07-14 11:23:18,363 -  Fail: UPS Delivery is not charged even when the total cost is less than 100
+INFO 2016-07-14 11:23:18,364 - UPS Delivery Parcel Price is not Correct
+INFO 2016-07-14 11:23:18,367 - GetText: SwipeToBottom
+DEBUG 2016-07-14 11:23:18,400 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:18,753 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:18,972 - Swiping Screens Coordinates: X1: 720 Y1: 1116 X2: 720 Y2: 526
+DEBUG 2016-07-14 11:23:19,106 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalItems in the page.
+DEBUG 2016-07-14 11:23:20,156 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_vat_value in the page.
+INFO 2016-07-14 11:23:20,230 - GetText: SwipeToBottom
+DEBUG 2016-07-14 11:23:20,268 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:20,522 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:20,570 - Swiping Screens Coordinates: X1: 720 Y1: 1116 X2: 720 Y2: 526
+DEBUG 2016-07-14 11:23:20,739 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalItems in the page.
+DEBUG 2016-07-14 11:23:21,811 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:23:21,848 - GetText: SwipeToBottom
+DEBUG 2016-07-14 11:23:21,875 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:22,211 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:22,229 - Swiping Screens Coordinates: X1: 720 Y1: 1116 X2: 720 Y2: 526
+DEBUG 2016-07-14 11:23:22,420 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalItems in the page.
+DEBUG 2016-07-14 11:23:23,420 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:23,458 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:23,458 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:23,958 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:23,991 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:23,991 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:24,491 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:24,530 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:24,530 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:25,030 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:25,228 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:25,228 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:25,728 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:25,764 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:25,764 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:26,264 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:26,302 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:26,302 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:26,802 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:27,110 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:27,111 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:27,611 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:27,700 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:27,700 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:28,200 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:28,336 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:28,336 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:28,836 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:29,006 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:29,006 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:29,506 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:29,526 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:29,526 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:30,026 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:30,065 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:30,065 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:23:30,565 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:23:30,716 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_delivery_price
+DEBUG 2016-07-14 11:23:30,733 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:30,824 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:30,848 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:23:31,641 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:23:31,665 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:31,736 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:31,749 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:23:31,877 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:32,963 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:33,178 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:33,257 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:23:33,460 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:36,765 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+INFO 2016-07-14 11:23:36,765 - swipe to top
+DEBUG 2016-07-14 11:23:36,788 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:36,850 - Swiping Screens Coordinates: X1: 100 Y1: 400 X2: 100 Y2: 900
+DEBUG 2016-07-14 11:23:37,028 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:37,070 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:23:37,126 - Stop scrolling
+DEBUG 2016-07-14 11:23:39,294 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:23:39,737 - location: {X=0,Y=320}
+INFO 2016-07-14 11:23:39,737 - coords: OpenQA.Selenium.Remote.RemoteCoordinates
+INFO 2016-07-14 11:23:39,894 - size: {Width=1440, Height=516}
+INFO 2016-07-14 11:23:40,695 - ProductDetails added: Sonicare TongueCare+ Tongue cleaning starter kit : 3 : $90.00
+DEBUG 2016-07-14 11:23:40,717 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_tv_totalcost in the page.
+INFO 2016-07-14 11:23:40,717 - Stop swiping
+INFO 2016-07-14 11:23:40,717 - Sonicare TongueCare+ Tongue cleaning starter kit : $90.00 : 3
+
+DEBUG 2016-07-14 11:23:40,857 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/empty_cart
+DEBUG 2016-07-14 11:23:40,946 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:41,189 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:41,446 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:23:41,633 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:42,728 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:43,040 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+DEBUG 2016-07-14 11:23:43,064 - Swiping Screens Coordinates: X1: 720 Y1: 1126 X2: 720 Y2: 1726
+DEBUG 2016-07-14 11:23:43,224 - Found Requested Element: By.ClassName[Contains]: android.support.v7.widget.RecyclerView in the page.
+INFO 2016-07-14 11:23:43,278 - Step Passed : Total cost is Verified
+DEBUG 2016-07-14 11:23:43,309 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/checkout_btn in the page.
+INFO 2016-07-14 11:23:43,322 - Checkout Tab is Enabled
+DEBUG 2016-07-14 11:23:43,325 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/continues_btn
+DEBUG 2016-07-14 11:23:43,338 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/continues_btn in the page.
+INFO 2016-07-14 11:23:43,529 - Busy: Start
+DEBUG 2016-07-14 11:23:44,161 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:23:44,161 - Busy: End
+INFO 2016-07-14 11:23:44,162 - User Clicked on Continue Shopping Button
+DEBUG 2016-07-14 11:23:44,281 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:23:44,329 - Seeing: Products title:  try: 0
+DEBUG 2016-07-14 11:23:44,377 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/arrow in the page.
+DEBUG 2016-07-14 11:23:44,435 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:23:44,728 - Products are loaded: count:3 try: 0
+DEBUG 2016-07-14 11:23:45,216 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:23:45,244 - Navigated to Product Catalog page
+DEBUG 2016-07-14 11:23:45,619 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:23:45,649 - Seeing: Products title:  try: 0
+DEBUG 2016-07-14 11:23:45,692 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/arrow in the page.
+DEBUG 2016-07-14 11:23:45,858 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:23:46,737 - Products are loaded: count:3 try: 0
+DEBUG 2016-07-14 11:23:46,737 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/item_count
+DEBUG 2016-07-14 11:23:46,825 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/item_count in the page.
+INFO 2016-07-14 11:23:46,931 - Adding: HX8071/10 to basket
+INFO 2016-07-14 11:23:46,931 - SelectProduct: start
+DEBUG 2016-07-14 11:23:50,082 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:23:50,800 - SelectProduct: OpenQA.Selenium.Appium.Android.AndroidElement
+INFO 2016-07-14 11:23:50,800 - previousLast: 
+INFO 2016-07-14 11:23:51,069 - SelectProduct: in list: System.Collections.Generic.List`1[OpenQA.Selenium.Appium.Android.AndroidElement]
+INFO 2016-07-14 11:23:51,179 - SelectProduct: HX8071/10 found, selecting
+INFO 2016-07-14 11:23:51,615 - SelectProduct: end
+DEBUG 2016-07-14 11:23:52,236 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+DEBUG 2016-07-14 11:23:52,236 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/add_to_cart
+DEBUG 2016-07-14 11:23:52,353 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+INFO 2016-07-14 11:23:52,857 - Busy: Start
+DEBUG 2016-07-14 11:23:53,482 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:23:54,084 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:23:54,686 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:23:55,593 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:23:56,204 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:23:56,204 - Busy: End
+INFO 2016-07-14 11:23:56,204 - User Selected the Same Product and Clicked on BuyNow Button
+INFO 2016-07-14 11:23:56,207 - WaitForShoppingCartScreen: start
+DEBUG 2016-07-14 11:23:56,207 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:23:56,454 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:23:56,497 - Seeing: Shopping Cart title: Shopping Cart try: 0
+DEBUG 2016-07-14 11:23:56,558 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/ratingtheme in the page.
+INFO 2016-07-14 11:23:56,558 - Cart items are loaded try: 0
+DEBUG 2016-07-14 11:23:56,558 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:23:56,625 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+INFO 2016-07-14 11:23:56,841 - Busy: Start
+DEBUG 2016-07-14 11:23:57,439 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:23:57,439 - Busy: End
+DEBUG 2016-07-14 11:23:57,439 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:23:57,510 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+DEBUG 2016-07-14 11:23:57,709 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:23:58,408 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+DEBUG 2016-07-14 11:23:58,815 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:23:59,582 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:23:59,583 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:00,083 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:00,459 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 11:24:00,800 - Seeing: E-Commerce Demo App
+DEBUG 2016-07-14 11:24:00,801 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/count_txt
+DEBUG 2016-07-14 11:24:00,891 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/count_txt in the page.
+INFO 2016-07-14 11:24:00,966 - Step Passed: Cart number has not Incremented
+DEBUG 2016-07-14 11:24:28,965 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:28,965 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:29,465 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:29,575 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:29,575 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:30,075 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:30,186 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:30,187 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:30,687 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:30,809 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:30,809 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:31,309 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:31,470 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:31,470 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:31,970 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:32,092 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:32,092 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:32,592 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:32,716 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:32,717 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:33,217 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:33,311 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:33,311 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:33,811 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:33,910 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:33,910 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:34,410 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:34,498 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:34,498 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:34,998 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:35,143 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:35,143 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:35,643 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:35,726 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+DEBUG 2016-07-14 11:24:35,726 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:24:36,226 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:24:36,321 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='You are offline']
+INFO 2016-07-14 11:24:36,321 - Busy: Start
+DEBUG 2016-07-14 11:24:36,946 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:24:36,946 - Busy: End
+DEBUG 2016-07-14 11:25:19,438 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/btn_shop_now
+DEBUG 2016-07-14 11:25:19,529 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/btn_shop_now in the page.
+INFO 2016-07-14 11:25:19,963 - Busy: Start
+DEBUG 2016-07-14 11:25:20,557 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:21,174 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:21,777 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:21,778 - Busy: End
+INFO 2016-07-14 11:25:24,779 - Adding: HX8071/10 to basket
+INFO 2016-07-14 11:25:24,780 - SelectProduct: start
+DEBUG 2016-07-14 11:25:27,814 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:25:28,079 - SelectProduct: OpenQA.Selenium.Appium.Android.AndroidElement
+INFO 2016-07-14 11:25:28,079 - previousLast: 
+INFO 2016-07-14 11:25:28,110 - SelectProduct: in list: System.Collections.Generic.List`1[OpenQA.Selenium.Appium.Android.AndroidElement]
+INFO 2016-07-14 11:25:28,437 - SelectProduct: HX8071/10 found, selecting
+INFO 2016-07-14 11:25:28,795 - SelectProduct: end
+DEBUG 2016-07-14 11:25:29,442 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+DEBUG 2016-07-14 11:25:29,442 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/add_to_cart
+DEBUG 2016-07-14 11:25:29,584 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+INFO 2016-07-14 11:25:30,009 - Busy: Start
+DEBUG 2016-07-14 11:25:30,637 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:31,251 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:31,871 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:32,483 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:32,483 - Busy: End
+INFO 2016-07-14 11:25:32,483 - WaitForShoppingCartScreen: start
+DEBUG 2016-07-14 11:25:32,483 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:25:32,924 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:25:33,019 - Seeing: Shopping Cart title: Shopping Cart try: 0
+DEBUG 2016-07-14 11:25:33,112 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/ratingtheme in the page.
+INFO 2016-07-14 11:25:33,112 - Cart items are loaded try: 0
+DEBUG 2016-07-14 11:25:33,112 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:25:33,247 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:25:33,340 - Step Passed: User Clicked the Buy Now and is on Shopping Cart Screen
+DEBUG 2016-07-14 11:25:33,340 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:25:33,428 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+INFO 2016-07-14 11:25:33,576 - Busy: Start
+DEBUG 2016-07-14 11:25:34,177 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:34,177 - Busy: End
+DEBUG 2016-07-14 11:25:34,177 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:25:34,228 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+INFO 2016-07-14 11:25:34,396 - Adding: HX8071/10 to basket
+INFO 2016-07-14 11:25:34,396 - SelectProduct: start
+DEBUG 2016-07-14 11:25:37,458 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:25:38,557 - SelectProduct: OpenQA.Selenium.Appium.Android.AndroidElement
+INFO 2016-07-14 11:25:38,557 - previousLast: 
+INFO 2016-07-14 11:25:38,780 - SelectProduct: in list: System.Collections.Generic.List`1[OpenQA.Selenium.Appium.Android.AndroidElement]
+INFO 2016-07-14 11:25:38,879 - SelectProduct: HX8071/10 found, selecting
+INFO 2016-07-14 11:25:39,149 - SelectProduct: end
+DEBUG 2016-07-14 11:25:39,809 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+DEBUG 2016-07-14 11:25:39,809 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/add_to_cart
+DEBUG 2016-07-14 11:25:39,858 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+INFO 2016-07-14 11:25:40,258 - Busy: Start
+DEBUG 2016-07-14 11:25:40,920 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:41,499 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:42,403 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:43,020 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:43,020 - Busy: End
+INFO 2016-07-14 11:25:43,020 - WaitForShoppingCartScreen: start
+DEBUG 2016-07-14 11:25:43,020 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:25:43,039 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:25:43,060 - Seeing: Shopping Cart title: Shopping Cart try: 0
+DEBUG 2016-07-14 11:25:43,080 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/ratingtheme in the page.
+INFO 2016-07-14 11:25:43,080 - Cart items are loaded try: 0
+DEBUG 2016-07-14 11:25:43,080 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:25:43,106 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+INFO 2016-07-14 11:25:43,498 - Busy: Start
+DEBUG 2016-07-14 11:25:44,121 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:44,121 - Busy: End
+DEBUG 2016-07-14 11:25:44,121 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:25:44,139 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+DEBUG 2016-07-14 11:25:44,320 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:25:45,033 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+DEBUG 2016-07-14 11:25:45,242 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:25:46,015 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:25:46,016 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:25:46,516 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:25:46,939 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/demo_title in the page.
+INFO 2016-07-14 11:25:47,019 - Seeing: E-Commerce Demo App
+DEBUG 2016-07-14 11:25:47,021 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/btn_shop_now
+DEBUG 2016-07-14 11:25:47,096 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/btn_shop_now in the page.
+INFO 2016-07-14 11:25:47,596 - Busy: Start
+DEBUG 2016-07-14 11:25:48,110 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:48,110 - Busy: End
+INFO 2016-07-14 11:25:48,110 - Adding: HX8071/10 to basket
+INFO 2016-07-14 11:25:48,110 - SelectProduct: start
+DEBUG 2016-07-14 11:25:51,211 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/product_catalog_recycler_view in the page.
+INFO 2016-07-14 11:25:51,563 - SelectProduct: OpenQA.Selenium.Appium.Android.AndroidElement
+INFO 2016-07-14 11:25:51,563 - previousLast: 
+INFO 2016-07-14 11:25:51,660 - SelectProduct: in list: System.Collections.Generic.List`1[OpenQA.Selenium.Appium.Android.AndroidElement]
+INFO 2016-07-14 11:25:51,741 - SelectProduct: HX8071/10 found, selecting
+INFO 2016-07-14 11:25:52,183 - SelectProduct: end
+DEBUG 2016-07-14 11:25:52,774 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+DEBUG 2016-07-14 11:25:52,775 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/add_to_cart
+DEBUG 2016-07-14 11:25:52,818 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/add_to_cart in the page.
+INFO 2016-07-14 11:25:53,332 - Busy: Start
+DEBUG 2016-07-14 11:25:53,957 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:54,613 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:55,214 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:55,833 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:56,437 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:57,072 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:57,677 - Found Requested Element: By.XPath: //android.widget.TextView[@text='Please Wait...'] in the page.
+DEBUG 2016-07-14 11:25:58,275 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:58,276 - Busy: End
+INFO 2016-07-14 11:25:58,276 - WaitForShoppingCartScreen: start
+DEBUG 2016-07-14 11:25:58,276 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:25:58,443 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:25:58,516 - Seeing: Shopping Cart title: Shopping Cart try: 0
+DEBUG 2016-07-14 11:25:58,707 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/ratingtheme in the page.
+INFO 2016-07-14 11:25:58,707 - Cart items are loaded try: 0
+DEBUG 2016-07-14 11:25:58,707 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/iap_header_title
+DEBUG 2016-07-14 11:25:58,752 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_header_title in the page.
+INFO 2016-07-14 11:25:58,832 - User is in shopping cart page stock is present
+DEBUG 2016-07-14 11:25:58,832 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:25:58,857 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+INFO 2016-07-14 11:25:59,013 - Busy: Start
+DEBUG 2016-07-14 11:25:59,632 - Element not found, retrying again...: By.XPath: //android.widget.TextView[@text='Please Wait...']
+INFO 2016-07-14 11:25:59,632 - Busy: End
+DEBUG 2016-07-14 11:25:59,632 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:25:59,650 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+DEBUG 2016-07-14 11:25:59,796 - Clicking on Element By Id : com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button
+DEBUG 2016-07-14 11:26:00,489 - Found Requested Element: By.Id: com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button in the page.
+DEBUG 2016-07-14 11:26:00,706 - Trying to Fetch text from the Element with Resource Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:01,481 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:01,481 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:01,982 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:02,034 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:02,034 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:02,534 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:02,585 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:02,585 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:03,085 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:03,273 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:03,273 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:03,773 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:03,825 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:03,825 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:04,325 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:04,365 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:04,365 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:04,865 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:04,917 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:04,917 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:05,417 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:05,634 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:05,634 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:06,134 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:06,173 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:06,173 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:06,673 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:06,706 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:06,706 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:07,206 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:07,240 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:07,240 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:07,740 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:07,778 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:07,778 - Waiting for 500 milliseconds
+DEBUG 2016-07-14 11:26:08,278 - Waiting completed after 500 milliseconds
+DEBUG 2016-07-14 11:26:08,428 - Element not found, retrying again...: By.Id: com.philips.cdp.di.iapdemo:id/demo_title
+DEBUG 2016-07-14 11:26:10,122 - Screenshot captured and File Name: C:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_07_14_11_19\Screenshots\UserJourney-1_DemoAppActivity_e298bf212ce840c096729658dd5e87cb.jpeg
+DEBUG 2016-07-14 11:26:11,173 - 
+DEBUG 2016-07-14 11:26:11,173 - 
+DEBUG 2016-07-14 11:26:11,185 - Exception while Killing Process: 5412 Exception: Process with an Id of 5412 is not running.
+DEBUG 2016-07-14 11:26:18,064 - Starting: Intent { cmp=com.philips.cdp.di.iapdemo/.DemoAppActivity VirtualScreenParam=Params{mDisplayId=-1, null, mFlags=0x00000000)} }
+
+DEBUG 2016-07-14 11:26:18,064 - 
+DEBUG 2016-07-14 11:26:18,072 - Exception while Killing Process: 11576 Exception: Process with an Id of 11576 is not running.
+ERROR 2016-07-14 11:26:24,116 - Failure Message: 
+Object reference not set to an instance of an object.
+    at Philips.H2H.Foundation.AutomationCore.MobilePageInstance.GetTextById(String sId) in c:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\Common\Mobile\MobilePageInstance.cs:line 259
+   at Philips.SIG.Automation.Android.CDP.IAPTestPlugin.HomeScreen.GetScreenTitle() in c:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\CDP_TestPlugin\HomeScreen.cs:line 292
+   at Philips.SIG.Automation.Android.CDP.IAPTestPlugin.HomeScreen.WaitforHomeScreen() in c:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\CDP_TestPlugin\HomeScreen.cs:line 258
+   at Philips.CDP.Automation.IAP.Tests.Regression.UJ01.ThenVerifyTheOutOfStockOnClickingTheBuyNowOption() in c:\Users\310225041\Desktop\CDP_TestAutomation\CDP_TestAutomation\Src\Src\03Test\WorkFlowTests\UJ01.cs:line 492
+INFO 2016-07-14 11:26:24,168 - UserJourney-1 stopped
+DEBUG 2016-07-14 11:26:25,010 - Closing running Appium server instance....

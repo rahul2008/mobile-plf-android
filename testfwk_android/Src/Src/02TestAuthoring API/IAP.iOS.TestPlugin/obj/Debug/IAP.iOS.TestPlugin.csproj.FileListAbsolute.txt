@@ -68,3 +68,20 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\Ph
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\IAP.iOS.TestPlugin\obj\Debug\IAP.iOS.TestPlugin.csprojResolveAssemblyReference.cache
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\IAP.iOS.TestPlugin\obj\Debug\Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS.dll
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\02TestAuthoring API\IAP.iOS.TestPlugin\obj\Debug\Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS.pdb
+C:\dev\reference_app_android\testfwk_android\Src\Bin\UIAutomation\ExecuteAppiumCommand.bat
+C:\dev\reference_app_android\testfwk_android\Src\Bin\BrowserDriversExe\chromedriver.exe
+C:\dev\reference_app_android\testfwk_android\Src\Bin\BrowserDriversExe\IEDriverServer.exe
+C:\dev\reference_app_android\testfwk_android\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar
+C:\dev\reference_app_android\testfwk_android\Src\Bin\UIAutomation\iOSAppium.txt
+C:\dev\reference_app_android\testfwk_android\Src\Bin\UIAutomation\iOSKillNodeCommand.txt
+C:\dev\reference_app_android\testfwk_android\Src\Bin\UIAutomation\logcat.bat
+C:\dev\reference_app_android\testfwk_android\Src\Bin\UIAutomation\StartAppiumServer.bat
+C:\dev\reference_app_android\testfwk_android\Src\Bin\AppConfig.xml
+C:\dev\reference_app_android\testfwk_android\Src\Bin\MapNetworkDrive.vbs
+C:\dev\reference_app_android\testfwk_android\Src\Bin\Repository.xml
+C:\dev\reference_app_android\testfwk_android\Src\Bin\Repository_iOS.xml
+C:\dev\reference_app_android\testfwk_android\Src\Bin\Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS.dll
+C:\dev\reference_app_android\testfwk_android\Src\Bin\Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS.pdb
+C:\dev\reference_app_android\testfwk_android\Src\Src\02TestAuthoring API\IAP.iOS.TestPlugin\obj\Debug\IAP.iOS.TestPlugin.csprojResolveAssemblyReference.cache
+C:\dev\reference_app_android\testfwk_android\Src\Src\02TestAuthoring API\IAP.iOS.TestPlugin\obj\Debug\Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS.dll
+C:\dev\reference_app_android\testfwk_android\Src\Src\02TestAuthoring API\IAP.iOS.TestPlugin\obj\Debug\Philips.SIG.Automation.iOS.CDPP.IAPTestPluginForiOS.pdb

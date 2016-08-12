@@ -18,3 +18,9 @@ D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\Philips.MRAutomation.Foundation.WinEventHook.dll
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\Philips.MRAutomation.Foundation.WinEventHook.pdb
 D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\WinEventHook.csprojResolveAssemblyReference.cache
+C:\dev\reference_app_android\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.WinEventHook.dll
+C:\dev\reference_app_android\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.WinEventHook.pdb
+C:\dev\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\WinEventHook.csprojResolveAssemblyReference.cache
+C:\dev\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\WinEventHook.csproj.ResolveComReference.cache
+C:\dev\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\Philips.MRAutomation.Foundation.WinEventHook.dll
+C:\dev\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\Philips.MRAutomation.Foundation.WinEventHook.pdb

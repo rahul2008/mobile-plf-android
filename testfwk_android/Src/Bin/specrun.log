@@ -1,0 +1,69 @@
+﻿Discovering target: Default
+Discovering tests from assembly: C:\Users\310245051\Documents\reference_app_android\testfwk_android\Src\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll
+Appdomain Disposed
+Test Suite Dump
+#0: Philips.CDP.Automation.IAP.Tests.Workflows/Default - 
+#1: Default - 
+#2: Philips.CDP.Automation.IAP.Tests.Workflows - 
+#3: As a USER i want to login into MyPhilipsAccount via Appframework application - 
+#5: User Journey - 1 - 
+#7: UJ02 - 
+#9: UJ03 - 
+#11: UJ04 - 
+#13: UJ05 - 
+#15: UJ06 - 
+#17: UJ07 - 
+#19: UJ08 - 
+#21: UJ09 - 
+#23: UJ10 - 
+#4: Login into MyPhilips Account and change the account settings - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:As+a+USER+i+want+to+login+into+MyPhilipsAccount+via+Appframework+application/Scenario:Login+into+MyPhilips+Account+and+change+the+account+settings
+#6: UserJourney-1 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:User+Journey+-+1/Scenario:UserJourney-1
+#8: UserJourney-2 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ02/Scenario:UserJourney-2
+#10: UserJourney-3 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ03/Scenario:UserJourney-3
+#12: UserJourney-4 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ04/Scenario:UserJourney-4
+#14: UserJourney-5 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ05/Scenario:UserJourney-5
+#16: UserJourney-6 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ06/Scenario:UserJourney-6
+#18: UserJourney-7 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ07/Scenario:UserJourney-7
+#20: UserJourney-8 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ08/Scenario:UserJourney-8
+#22: UserJourney-9 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ09/Scenario:UserJourney-9
+#24: UserJourney-10 - TestAssembly:Philips.CDP.Automation.IAP.Tests.Workflows/Feature:UJ10/Scenario:UserJourney-10
+End: Test Suite Dump -- X
+Scheduler: considering #4 for thread #0
+Scheduler: using #4 for thread #0
+Test #4 is scheduled for thread #0
+Thread #0: creating new test thread executor for Philips.CDP.Automation.IAP.Tests.Workflows, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null (target: Default)
+Loading SpecRun type 'TechTalk.SpecRun.Framework.TestAssemblyExecutor' from: C:\Users\310245051\Documents\reference_app_android\testfwk_android\Src\Src\03Test\packages\SpecRun.Runner.1.3.0\tools\TechTalk.SpecRun.Framework.Executor.dll
+Test #4/0 is started on thread #0
+B:Given I am on the AppFramework Screen
+T:done: MyPhilips.GivenIAmOnTheAppFrameworkScreen() (11.2s)
+B:Then I click on Skip
+T:done: MyPhilips.ThenIClickOnSkip() (0.5s)
+B:Then Verify that the user is in User Registration screen
+T:done: MyPhilips.ThenVerifyThatTheUserIsInUserRegistrationScreen() (8.3s)
+B:Then I register using My Philips account
+T:error: Object reference not set to an instance of an object.
+B:Then I click on Hamburger Menu Icon
+T:skipped because of previous errors
+B:Then I click on Settings from the Hamburger Menu List
+T:skipped because of previous errors
+B:And I verify that under my account the user status is Log out
+T:skipped because of previous errors
+Scheduler: considering #6 for thread #0
+Scheduler: using #6 for thread #0
+Test #6 is scheduled for thread #0
+Test #4 is finished on thread #0 as Failed within 68.6838677 seconds
+Test #6/0 is started on thread #0
+B:Given I am on the AppFramework Screen
+T:done: MyPhilips.GivenIAmOnTheAppFrameworkScreen() (16.8s)
+B:Then I click on Skip
+T:done: MyPhilips.ThenIClickOnSkip() (7.2s)
+B:Then I Click on phone back button
+T:No matching step definition found for the step. Use the following code to create one:
+T:        [Then(@"I Click on phone back button")]
+T:        public void ThenIClickOnPhoneBackButton()
+T:        {
+T:            ScenarioContext.Current.Pending();
+T:        }
+B:Then Verify that the user can see the Home Screen
+T:skipped because of previous errors
+B:Then I click on Hamburger M

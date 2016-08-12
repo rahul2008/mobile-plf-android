@@ -1,0 +1,105 @@
+DEBUG 2016-08-02 13:00:25,179 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 13:00:25,192 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_13_00\
+DEBUG 2016-08-02 13:00:25,192 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 13:00:25,192 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 13:00:25,192 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 13:00:25,193 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 13:00:25,376 - 
+DEBUG 2016-08-02 13:00:25,376 - 100 KB/s (5741 bytes in 0.056s)
+
+DEBUG 2016-08-02 13:00:25,386 - Exception while Killing Process: 1284 Exception: Process with an Id of 1284 is not running.
+DEBUG 2016-08-02 13:00:32,027 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.034
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 13:00:32,027 - 
+DEBUG 2016-08-02 13:00:32,041 - Exception while Killing Process: 13712 Exception: Process with an Id of 13712 is not running.
+DEBUG 2016-08-02 13:00:38,041 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 13:00:38,042 - Closing running Appium server instance....
+DEBUG 2016-08-02 13:00:39,053 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 13:00:40,073 - Appium Server Running Status: False
+DEBUG 2016-08-02 13:00:40,073 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 13:00:40,573 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 13:00:41,573 - Appium Server Running Status: False
+DEBUG 2016-08-02 13:00:41,573 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 13:00:42,073 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 13:00:43,073 - Appium Server Running Status: False
+DEBUG 2016-08-02 13:00:43,074 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 13:00:43,574 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 13:00:44,636 - Appium Server Running Status: False
+DEBUG 2016-08-02 13:00:44,636 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 13:00:45,154 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 13:00:46,406 - Appium Server Running Status: False
+DEBUG 2016-08-02 13:00:46,406 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 13:00:46,933 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 13:00:47,495 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 13:00:47,495 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 13:00:49,506 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 13:00:49,519 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 13:01:04,746 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 13:01:04,746 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_13_00\
+DEBUG 2016-08-02 13:01:04,746 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 13:01:04,746 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 13:01:04,746 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 13:01:04,746 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 13:01:04,919 - 
+DEBUG 2016-08-02 13:01:04,919 - 103 KB/s (5741 bytes in 0.054s)
+
+DEBUG 2016-08-02 13:01:04,928 - Exception while Killing Process: 1296 Exception: Process with an Id of 1296 is not running.
+DEBUG 2016-08-02 13:01:11,611 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device screen is up and running.
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.037
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 13:01:11,611 - 
+DEBUG 2016-08-02 13:01:11,620 - Exception while Killing Process: 4444 Exception: Process with an Id of 4444 is not running.
+DEBUG 2016-08-02 13:01:17,620 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 13:01:17,620 - Closing running Appium server instance....
+DEBUG 2016-08-02 13:01:17,625 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 13:01:18,627 - Appium Server Running Status: False
+DEBUG 2016-08-02 13:01:18,627 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 13:01:19,127 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 13:01:20,131 - Appium Server Running Status: False
+DEBUG 2016-08-02 13:01:20,131 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 13:01:20,631 - Waiting completed after 500 milliseconds

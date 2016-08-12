@@ -1,0 +1,144 @@
+DEBUG 2016-08-02 09:36:10,677 - BIN Path of the Assembly: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 09:36:10,688 - Log Path of the Test Execution: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\TestReports\2016_08_02_09_36\
+DEBUG 2016-08-02 09:36:10,689 - Unlocking Android device for test execution.....
+DEBUG 2016-08-02 09:36:10,689 - UiAutomation Script Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation
+DEBUG 2016-08-02 09:36:10,689 - Pushing UIAutomator JAR to the Android Test device
+DEBUG 2016-08-02 09:36:10,689 - Pushing file from source : C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin\UIAutomation\ECPUIAutomatorTest.jar to destination : /data/local/tmp/
+DEBUG 2016-08-02 09:36:10,903 - 
+DEBUG 2016-08-02 09:36:10,903 - 100 KB/s (5741 bytes in 0.056s)
+
+DEBUG 2016-08-02 09:36:10,937 - Exception while Killing Process: 9860 Exception: Process with an Id of 9860 is not running.
+DEBUG 2016-08-02 09:36:18,391 - INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.philips.uiautomator.eCP_DeviceAdminUiTest:
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 1
+[ECP - UIAUTOMATION] [info] Device Screen is not up/Waking up Screen.
+[ECP - UIAUTOMATION] [info] DEVICE ADMIN LOG: Unlocking android device
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: id=UiAutomatorTestRunner
+INSTRUMENTATION_STATUS: test=testDeviceIsLocked
+INSTRUMENTATION_STATUS: class=com.philips.uiautomator.eCP_DeviceAdminUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=
+Test results for WatcherResultPrinter=.
+Time: 0.574
+
+OK (1 test)
+
+
+INSTRUMENTATION_STATUS_CODE: -1
+
+DEBUG 2016-08-02 09:36:18,391 - 
+DEBUG 2016-08-02 09:36:18,445 - Exception while Killing Process: 11172 Exception: Process with an Id of 11172 is not running.
+DEBUG 2016-08-02 09:36:24,445 - Android device is unlocked/Proceeding for test execution...
+DEBUG 2016-08-02 09:36:24,445 - Closing running Appium server instance....
+DEBUG 2016-08-02 09:36:25,648 - Appium Server Log Path: C:\drive\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Bin
+DEBUG 2016-08-02 09:36:26,731 - Appium Server Running Status: False
+DEBUG 2016-08-02 09:36:26,731 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:27,231 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:28,292 - Appium Server Running Status: False
+DEBUG 2016-08-02 09:36:28,292 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:28,792 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:29,904 - Appium Server Running Status: False
+DEBUG 2016-08-02 09:36:29,904 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:30,405 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:38,489 - Appium Server Running Status: False
+DEBUG 2016-08-02 09:36:38,489 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:38,989 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:40,076 - Appium Server Running Status: False
+DEBUG 2016-08-02 09:36:40,076 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:40,576 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:41,711 - Appium Server Running Status: False
+DEBUG 2016-08-02 09:36:41,712 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:42,212 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:43,386 - Appium Server Running Status: False
+DEBUG 2016-08-02 09:36:43,386 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:43,886 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:44,392 - Appium Server is Started, Continuing to for Test Execution
+DEBUG 2016-08-02 09:36:44,392 - Waiting for 2000 milliseconds
+DEBUG 2016-08-02 09:36:46,392 - Waiting completed after 2000 milliseconds
+DEBUG 2016-08-02 09:36:46,422 - Appium server is running / Starting Execution
+DEBUG 2016-08-02 09:36:53,386 - Waiting for 3000 milliseconds
+DEBUG 2016-08-02 09:36:56,386 - Waiting completed after 3000 milliseconds
+INFO 2016-08-02 09:36:56,398 - Add two numbers started
+DEBUG 2016-08-02 09:36:56,592 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:36:56,592 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:57,092 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:57,189 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:36:57,189 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:57,689 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:57,771 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:36:57,771 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:58,271 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:58,425 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:36:58,425 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:58,925 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:59,003 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:36:59,003 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:36:59,503 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:36:59,588 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:36:59,589 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:00,089 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:00,173 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:37:00,173 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:00,673 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:00,756 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:37:00,757 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:01,257 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:01,326 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:37:01,326 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:01,826 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:01,901 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:37:01,901 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:02,401 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:02,479 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:37:02,479 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:02,979 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:03,050 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:37:03,050 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:03,550 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:03,649 - Element not found, retrying again...: By.Id: com.philips.platform.appframework:id/decor_content_parent
+DEBUG 2016-08-02 09:37:30,651 - Clicking on Text : Skip
+DEBUG 2016-08-02 09:37:30,718 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:30,718 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:31,218 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:31,288 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:31,288 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:31,788 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:31,863 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:31,863 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:32,363 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:32,457 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:32,457 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:32,957 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:33,038 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:33,038 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:33,541 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:33,602 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:33,602 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:34,102 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:34,195 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:34,195 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:34,695 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:34,778 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:34,778 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:35,278 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:35,351 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:35,351 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:35,851 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:35,932 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:35,932 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:36,432 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:36,524 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:36,524 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:37,024 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:37,106 - Element not found, retrying again...: By.Name: Skip
+DEBUG 2016-08-02 09:37:37,106 - Waiting for 500 milliseconds
+DEBUG 2016-08-02 09:37:37,606 - Waiting completed after 500 milliseconds
+DEBUG 2016-08-02 09:37:37,667 - Element not found, retrying again...: By.Name: Skip

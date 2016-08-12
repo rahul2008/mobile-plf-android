@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestProfile xmlns="http://www.specrun.com/schemas/2011/09/TestProfile">
+  <Settings projectName="Philips.CDP.Automation.IAP.Tests.Workflows" projectId="{20654ece-0c42-4dfa-9bd4-d0f12306f81f}" />
+  <Execution stopAfterFailures="3" testThreadCount="3" testSchedulingMode="Sequential" />
+  <!-- For collecting by a SpecRun server update and enable the following element. For using the 
+      collected statistics, set testSchedulingMode="Adaptive" attribute on the <Execution> element.
+    <Server serverUrl="http://specrunserver:6365" publishResults="true" />
+  -->
+  <TestAssemblyPaths>
+    <TestAssemblyPath>Philips.CDP.Automation.IAP.Tests.Workflows.dll</TestAssemblyPath>
+  </TestAssemblyPaths>
+
+  <Targets>
+    <Target name="S5">
+      <DeploymentTransformationSteps>
+        <ConfigFileTransformation configFile="App.config">
+          <Transformation>
+            <![CDATA[<?xml version="1.0" encoding="utf-8"?>
+							<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+                <appSettings>
+                  <add key="udid" value="3208525585db713d" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="Version" value="5.0" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="ServerPort" value="4724" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="BootStrapPort" value="2252" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="UsernameIAP" value="lokesh" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="PasswordIAP" value="philips@123" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                </appSettings>
+							</configuration>
+						]]>
+          </Transformation>
+        </ConfigFileTransformation>
+      </DeploymentTransformationSteps>
+    </Target>
+  </Targets>
+
+  <!--<Targets>
+    <Target name="S6EdgePlus">
+      <DeploymentTransformationSteps>
+        <ConfigFileTransformation configFile="App.config">
+          <Transformation>
+            <![CDATA[<?xml version="1.0" encoding="utf-8"?>
+							<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+                <appSettings>
+                  <add key="udid" value="83f04b5342423034" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="Version" value="5.0" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />/>
+                  <add key="ServerPort" value="4734" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="BootStrapPort" value="2262" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="UsernameIAP" value="lokesh@e3e.com" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="PasswordIAP" value="lokesh@e3e.com" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                </appSettings>
+							</configuration>
+						]]>
+          </Transformation>
+        </ConfigFileTransformation>
+      </DeploymentTransformationSteps>
+    </Target>
+  </Targets>-->
+
+  <Targets>
+    <Target name="Emulator">
+      <DeploymentTransformationSteps>
+        <ConfigFileTransformation configFile="App.config">
+          <Transformation>
+            <![CDATA[<?xml version="1.0" encoding="utf-8"?>
+							<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+                <appSettings>
+                  <add key="udid" value="192.168.56.101:5555" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="Version" value="5.0" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />/>
+                  <add key="ServerPort" value="4734" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="BootStrapPort" value="2262" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="UsernameIAP" value="lokesh@e3e.com" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                  <add key="PasswordIAP" value="lokesh@e3e.com" xdt:Locator="Match(key)" xdt:Transform="SetAttributes(value)" />
+                </appSettings>
+							</configuration>
+						]]>
+          </Transformation>
+        </ConfigFileTransformation>
+      </DeploymentTransformationSteps>
+    </Target>
+  </Targets>
+
+  <DeploymentTransformation>
+    <Steps>
+      <RelocateConfigurationFile target="CustomConfig{TestThreadId}.config" />
+      <ConfigFileTransformation configFile="App.config">
+        <Transformation>
+          <![CDATA[<?xml version="1.0" encoding="utf-8"?>
+							<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+                <appSettings>
+										<add key="udid" value="{Target}" xdt:Locator="Match(key)" xdt:Transform="Insert" />
+                    <add key="Version" value="{Target}" xdt:Locator="Match(key)" xdt:Transform="Insert" />
+                    <add key="ServerPort" value="{Target}" xdt:Locator="Match(key)" xdt:Transform="Insert" />
+								</appSettings>
+							</configuration>
+						]]>
+        </Transformation>
+      </ConfigFileTransformation>
+    </Steps>
+  </DeploymentTransformation>
+
+
+  <TestThreads>
+    <TestThread id="0">
+      <TestAffinity>testpath:Target:GalaxyTab_4</TestAffinity>
+    </TestThread>
+    <TestThread id="1">
+      <TestAffinity>testpath:Target:GalaxyTab_5</TestAffinity>
+    </TestThread>
+  </TestThreads>
+  
+</TestProfile>
