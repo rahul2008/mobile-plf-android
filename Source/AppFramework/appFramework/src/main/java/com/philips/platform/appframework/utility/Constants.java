@@ -10,4 +10,5 @@ public class Constants {
     public static final String APPLICATION = "AppFrameoworkApp";
     public static final String ACTIVITY = "ActivityLifecycle";
     public static final String FRAGMENT = "FragmentLifecycle";
+    public static final String isEmailMarketingEnabled = "FragmentLifecycle";
 }
