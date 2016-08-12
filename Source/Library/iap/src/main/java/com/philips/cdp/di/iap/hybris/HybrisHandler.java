@@ -22,6 +22,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -45,6 +46,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
     private final int CURRENT_PAGE = 0;
     //Hybris default page size is 20. We are using the same
     private final int PAGE_SIZE = 20;
+    PILLocaleManager localeManager;
 
     public HybrisHandler(Context context, IAPSettings settings) {
         mContext = context;
@@ -56,6 +58,8 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 
     public HybrisHandler(Context context, IAPLaunchInput pIapConfig) {
         mContext = context;
+        mLanguage = pIapConfig.getLanguage();
+        mCountry = pIapConfig.getCountry();
         mIapConfig = pIapConfig;
     }
 

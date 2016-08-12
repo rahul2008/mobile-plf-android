@@ -13,11 +13,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPLauncher;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.utils.AppInfraHelper;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by 310164421 on 6/8/2016.
  */
-public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener {
+public class LauncherFragmentActivity extends UiKitActivity  {
     IAPHandler mIapHandler;
     UappListener uAppListener;
     ArrayList<String> mProductCTNs;
@@ -46,7 +48,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         setContentView(R.layout.fragment_launcher_layout);
         mProductCTNs = new ArrayList<>();
         mProductCTNs.add("HX8331/11");
-
+        setLocale("en", "US");
         LaunchIAPFragment();
     }
 
@@ -56,18 +58,20 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         //mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
         IAPLauncher iapLauncher = new IAPLauncher();
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setUseLocalData(true);
-        iapLauncher.init(this, null);
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, mProductCTNs);
-        iapLauncher.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput, uAppListener);
+        IAPDependencies iapDependencies = new IAPDependencies("en", "US");
+        iapLaunchInput.setUseLocalData(false);
+        iapLauncher.init(this, iapDependencies);
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, mProductCTNs);
+        iapLauncher.launch(new FragmentLauncher(this, R.id.vertical_Container, new ActionBarListener() {
+            @Override
+            public void updateActionBar(@StringRes int i, boolean b) {
+
+                mTitleTextView.setText(i);
+            }
+        }), iapLaunchInput, uAppListener);
 
     }
 
-    @Override
-    public void updateActionBar(@StringRes int i, boolean b) {
-
-        mTitleTextView.setText(i);
-    }
 
     @Override
     public void onBackPressed() {
@@ -122,5 +126,9 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         mActionBar.setCustomView(mCustomView, params);
     }
 
+    private void setLocale(String languageCode, String countryCode) {
+        PILLocaleManager localeManager = new PILLocaleManager(LauncherFragmentActivity.this);
+        localeManager.setInputLocale(languageCode, countryCode);
+    }
 
 }

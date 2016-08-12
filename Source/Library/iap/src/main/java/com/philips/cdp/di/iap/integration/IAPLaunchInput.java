@@ -13,6 +13,18 @@ public class IAPLaunchInput extends UappLaunchInput {
     private boolean mUseLocalData;
     int mLandingViews;
     ArrayList<String> mProductCTNs;
+    private String language;
+
+    public String setCountry(String country) {
+        this.country = country;
+        return country;
+    }
+
+    public String setLanguage(String language) {
+        return this.language = language;
+    }
+
+    private String country;
 
     public boolean isUseLocalData() {
         return mUseLocalData;
@@ -25,6 +37,14 @@ public class IAPLaunchInput extends UappLaunchInput {
     public void setIAPFlow(int pLandingViews, ArrayList<String> pProductCTNs) {
         mLandingViews = pLandingViews;
         mProductCTNs = pProductCTNs;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public interface IAPFlows {

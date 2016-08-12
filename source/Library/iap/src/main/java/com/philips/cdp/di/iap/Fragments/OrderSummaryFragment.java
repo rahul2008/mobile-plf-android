@@ -64,11 +64,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 //        if (isOrderPlaced()) {
 //            setBackButtonVisibility(View.GONE);
 //        }
-        boolean enableBackKey = false;
+
         if (isOrderPlaced()) {
-            enableBackKey = true;
+            IAPConstant.BACKBUTTON_VISIBILITY_GONE = true;
         }
-        updateActionBar(R.string.iap_order_summary, enableBackKey);
+        updateActionBar(R.string.iap_order_summary, IAPConstant.BACKBUTTON_VISIBILITY_GONE);
     }
 
     @Override

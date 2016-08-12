@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.integration;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
@@ -19,6 +20,9 @@ import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.hybris.HybrisHandler;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.uappframework.UappInterface;
@@ -42,19 +46,65 @@ public class IAPLauncher implements UappInterface {
     public void init(Context context, UappDependencies uappDependencies) {
         mContext = context;
 
+        //setLangAndCountry(uappDependencies.getLanguage(), uappDependencies.getCountry());
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
         mLaunchInput = (IAPLaunchInput) uappLaunchInput;
+        String lang = mLaunchInput.setLanguage("en");
+        String country = mLaunchInput.setCountry("US");
         getExposedAPIImplementor(mContext, mLaunchInput);
         initHybrisDelegate(mContext, mLaunchInput);
         initControllerFactory(mLaunchInput);
-        if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(mContext, mLaunchInput, (ActivityLauncher) uiLauncher);
-        } else if (uiLauncher instanceof FragmentLauncher) {
-            launchFragment(mLaunchInput,(FragmentLauncher) uiLauncher);
+        setLangAndCountry(lang, country);
+//        if (uiLauncher instanceof ActivityLauncher) {
+//            launchActivity(mContext, mLaunchInput, (ActivityLauncher) uiLauncher);
+//        } else if (uiLauncher instanceof FragmentLauncher) {
+//            launchFragment(mLaunchInput,(FragmentLauncher) uiLauncher);
+//        }
+        if (isStoreInitialized()) {
+            // checkLaunchOrBuy(landingView, ctnNumber, listener);
+            launchIAP(uiLauncher, mLaunchInput, uappListener);
+        } else {
+            // initIAP(landingView, ctnNumber, listener);
+            initIAP(uiLauncher, mLaunchInput, (IAPHandlerListener) uappListener);
         }
+    }
+
+    private void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, UappListener uAppListener) {
+        if (uiLauncher instanceof ActivityLauncher) {
+            launchActivity(mContext, pLaunchInput, (ActivityLauncher) uiLauncher);
+        } else if (uiLauncher instanceof FragmentLauncher) {
+            launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
+        }
+    }
+
+    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput mLaunchInput, final IAPHandlerListener listener) {
+        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+        delegate.getStore().initStoreConfig(mLaunchInput.getLanguage(), mLaunchInput.getCountry(), new RequestListener() {
+            @Override
+            public void onSuccess(final Message msg) {
+                // checkLaunchOrBuy(screen, ctnNumber, listener);
+                if (uiLauncher instanceof ActivityLauncher) {
+                    launchActivity(mContext, mLaunchInput, (ActivityLauncher) uiLauncher);
+                } else {
+                    launchFragment(mLaunchInput, (FragmentLauncher) uiLauncher);
+                }
+
+                if (listener != null) {
+                    listener.onSuccess(IAPConstant.IAP_SUCCESS);
+                }
+                //getCatalogCountAndCallCatalog();
+            }
+
+            @Override
+            public void onError(final Message msg) {
+                if (listener != null) {
+                    listener.onFailure(getIAPErrorCode(msg));
+                }
+            }
+        });
     }
 
     protected void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
@@ -152,5 +202,18 @@ public class IAPLauncher implements UappInterface {
         ControllerFactory.getInstance().init(requestCode);
     }
 
+    private void setLangAndCountry(final String language, final String country) {
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(language, country);
+    }
 
+    private boolean isStoreInitialized() {
+        return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
+    }
+
+    private int getIAPErrorCode(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            return ((IAPNetworkError) msg.obj).getIAPErrorCode();
+        }
+        return IAPConstant.IAP_ERROR_UNKNOWN;
+    }
 }

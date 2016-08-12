@@ -42,6 +42,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -248,13 +249,15 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     mBuyFromRetailors.setVisibility(View.VISIBLE);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     //setTitle(mProductTitle);
-                    updateActionBar(R.string.iap_product_catalog, true);
+                  //  updateActionBar(R.string.iap_product_catalog, true);
                 } else {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(View.GONE);
                     //setTitle(R.string.iap_shopping_cart_item);
+                   // updateActionBar(R.string.iap_shopping_cart_item, true);
                 }
             } else {
+                //updateActionBar(R.string.iap_product_catalog, true);
                 //setTitle(mProductTitle);
                 setButtonState();
                 mBuyFromRetailors.setVisibility(View.VISIBLE);
@@ -361,7 +364,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onModelDataError(Message msg) {
         mDetailLayout.setVisibility(View.GONE);
         mEmptyCatalogText.setVisibility(View.VISIBLE);
-        setTitle(R.string.iap_product_catalog);
+      //  setTitle(R.string.iap_product_catalog);
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
@@ -390,7 +393,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
-                setTitle(mProductTitle);
+               // setTitle(mProductTitle);
 
                 mProductDescription.setText(mProductTitle);
                 mCTN.setText(mCTNValue);
