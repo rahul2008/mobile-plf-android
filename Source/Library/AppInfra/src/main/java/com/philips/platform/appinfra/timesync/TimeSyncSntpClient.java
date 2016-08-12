@@ -156,9 +156,9 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
      *
      * @return round trip time in milliseconds.
      */
-    public long getRoundTripTime() {
-        return mRoundTripTime;
-    }
+//    public long getRoundTripTime() {
+//        return mRoundTripTime;
+//    }
 
     /**
      * To get the timezone difference from the current time.
@@ -238,7 +238,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
     public synchronized String getCurrentUTCTimeWithFormat() {
         long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
         final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
-        Date date = null;
+        Date date ;
         if (isRefreshInProgress) {
             date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
         } else {
@@ -256,9 +256,9 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
      *
      * @return reference clock corresponding to the NTP time.
      */
-    private long getNtpTimeReference() {
-        return mNtpTimeReference;
-    }
+//    private long getNtpTimeReference() {
+//        return mNtpTimeReference;
+//    }
 
     /**
      * Returns the time computed from the NTP transaction.

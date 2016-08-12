@@ -25,17 +25,13 @@ public class AppIdentityTest extends MockitoTestCase {
     private Context context;
     AppInfra mAppInfra;
     String mappState;
-    String micrositeid;
     String msector;
     String servicediscoveryEnv;
-    String appname;
-    String localizedappname;
-    String appverion;
     String json;
     JSONObject obj;
     List<String> mServiceDiscoveryEnv = Arrays.asList("TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
     List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
-
+    AppIdentityManager appIdentity;
 
     @Override
     protected void setUp() throws Exception {
@@ -62,7 +58,7 @@ public class AppIdentityTest extends MockitoTestCase {
 
 
         };
-        AppIdentityManager appIdentity = new AppIdentityManager(mAppInfra);
+        appIdentity = new AppIdentityManager(mAppInfra);
         String json = appIdentity.getJsonStringFromAsset();
         obj = new JSONObject(json);
         assertNotNull(mAppIdentityManager);
@@ -193,8 +189,8 @@ public class AppIdentityTest extends MockitoTestCase {
     }
 
     public void testgetAppVersion() {
-        //  assertNotNull(appverion);
-        //assertEquals("Appversion is in proper format", appverion, "1.0");
+        assertNotNull(mAppIdentityManager.getAppVersion());
+        //assertEquals("Appversion is in proper format", mAppIdentityManager.getAppVersion(), "1.1.0");
         // assertNotSame("Appversion is not in proper format" , appverion ,"!!2.0");
     }
 

@@ -57,4 +57,17 @@ public class TimeSyncTest extends MockitoTestCase {
     }
 
 
+    public void testgetServerTime() {
+        mTimeSyncSntpClient = new TimeSyncSntpClient();
+        assertNotNull(mTimeSyncSntpClient);
+        final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
+        Date date = mTimeSyncSntpClient.getServerTime();
+        Date d  = new Date(0);
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
+        String str = sdf.format(date);
+        String str1 = sdf.format(d);
+        assertNotSame(str, str1);
+    }
+
+
 }

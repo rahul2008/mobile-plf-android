@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.appidentity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
@@ -30,21 +31,20 @@ import java.util.TreeSet;
  */
 public class AppIdentityManager implements AppIdentityInterface {
 
-    AppInfra mAppInfra;
-    Context context;
+    private AppInfra mAppInfra;
+    private Context context;
 
-    public String mAppName;
-    public String mAppVersion;
-    public String mServiceDiscoveryEnvironment;
-    public String mLocalizedAppName;
-    public String micrositeId;
-    public String sector;
-    public String mAppState;
+    private String mAppName;
+    private String mAppVersion;
+    private String mServiceDiscoveryEnvironment;
+    private String mLocalizedAppName;
+    private String micrositeId;
+    private String sector;
+    private String mAppState;
 
-    List<String> mSectorValues = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
-    List<String> mServiceDiscoveryEnv = Arrays.asList("TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
-    List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
-    Set<String> set;
+    private List<String> mSectorValues = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
+    private List<String> mServiceDiscoveryEnv = Arrays.asList("TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
+    private List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
 
 
     @Override
@@ -123,8 +123,8 @@ public class AppIdentityManager implements AppIdentityInterface {
         InputStream is = null;
         try {
             is = context.getAssets().open("AppIdentity.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
+            final int size = is.available();
+            final byte[] buffer = new byte[size];
 
             is.read(buffer);
 
@@ -143,7 +143,7 @@ public class AppIdentityManager implements AppIdentityInterface {
             json = getJsonStringFromAsset();
             if (json != null) {
                 try {
-                    JSONObject obj = new JSONObject(json);
+                    final JSONObject obj = new JSONObject(json);
                     validateAppIdentity(obj);
 
 
@@ -154,18 +154,19 @@ public class AppIdentityManager implements AppIdentityInterface {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppVersion", "" + getAppVersion());
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppLocalizedNAme", "" + getLocalizedAppName());
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
+                            Log.getStackTraceString(e));                }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
+                    Log.getStackTraceString(ex));
             return null;
         }
         return json;
 
     }
 
-    public void validateAppIdentity(JSONObject jsonObject) throws JSONException {
+    private void validateAppIdentity(JSONObject jsonObject) throws JSONException {
         micrositeId = jsonObject.getString("micrositeId");
         sector = jsonObject.getString("sector");
         mServiceDiscoveryEnvironment = jsonObject.getString("ServiceDiscoveryEnvironment");
@@ -181,8 +182,12 @@ public class AppIdentityManager implements AppIdentityInterface {
                 Assert.fail("micrositeId cannot be empty in appIdentityConfig  file");
             }
         } catch (AssertionError error) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
+                    Log.getStackTraceString(error));
+
         }
 
+        Set<String> set;
         try {
             set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
             if (sector != null && !sector.isEmpty()) {
@@ -198,7 +203,8 @@ public class AppIdentityManager implements AppIdentityInterface {
             }
 
         } catch (AssertionError error) {
-
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
+                    Log.getStackTraceString(error));
         }
 
         try {
@@ -215,6 +221,8 @@ public class AppIdentityManager implements AppIdentityInterface {
             }
 
         } catch (AssertionError error) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
+                    Log.getStackTraceString(error));
         }
 
 
@@ -231,8 +239,8 @@ public class AppIdentityManager implements AppIdentityInterface {
                 Assert.fail("ServiceDiscovery Environment cannot be empty in appIdentityConfig json file");
             }
         } catch (AssertionError error) {
-            System.out.println("ERROR");
-
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
+                    Log.getStackTraceString(error));
         }
 
 
@@ -258,7 +266,8 @@ public class AppIdentityManager implements AppIdentityInterface {
             }
 
         } catch (PackageManager.NameNotFoundException | AssertionError e) {
-            e.printStackTrace();
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
+                    Log.getStackTraceString(e));
         }
     }
 
