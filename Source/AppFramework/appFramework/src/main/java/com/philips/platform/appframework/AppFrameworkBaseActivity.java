@@ -14,6 +14,7 @@ import android.view.Window;
 
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.homescreen.HomeFragment;
 import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
@@ -57,7 +58,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
      * Add all the drawer fragments here
      */
     boolean isLaunchedFromHamburgerMenu(String tag){
-        if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(InAppPurchasesFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
+        if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(AboutScreenFragment.TAG) || tag.equalsIgnoreCase(InAppPurchasesFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
             return true;
         }
         return false;

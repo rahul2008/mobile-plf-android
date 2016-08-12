@@ -1,6 +1,5 @@
 package com.philips.platform.appframework.aboutscreen;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import com.philips.platform.appframework.R;
  */
 public class AboutScreenFragment extends AppFrameworkBaseFragment
 {
-    private String TAG = getClass().toString();
+    public static final String TAG =AboutScreenFragment.class.getSimpleName();
 
     @Override
     public String getActionbarTitle() {
