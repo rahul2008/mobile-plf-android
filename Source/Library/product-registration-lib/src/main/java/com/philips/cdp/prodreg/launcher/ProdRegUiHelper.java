@@ -51,7 +51,6 @@ public class ProdRegUiHelper implements UappInterface {
     private ProdRegUiListener prodRegUiListener;
     private Context context;
     private AppInfra appInfra;
-    private UappLaunchInput launchConfig;
 
     /*
      * Initialize everything(resources, variables etc) required for Product Registration.
@@ -97,12 +96,13 @@ public class ProdRegUiHelper implements UappInterface {
     private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final ProdRegConfig prodRegConfig) {
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prodRegConfig.getProducts());
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
         intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegConfig.isAppLaunch());
-//        intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
-//        intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
+        intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
+        intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
         context.startActivity(intent);
     }
 
@@ -164,7 +164,8 @@ public class ProdRegUiHelper implements UappInterface {
     @Override
     public void init(final Context context, UappDependencies uappDependencies) {
         this.context = context;
-        this.appInfra = appInfra;
+        final ProdRegDependencies prodRegDependencies = (ProdRegDependencies) uappDependencies;
+        this.appInfra = prodRegDependencies.getAppInfra();
         new ProdRegHelper().init(context);
         ProdRegTagging.init();
     }
