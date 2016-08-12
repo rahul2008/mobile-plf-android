@@ -5,9 +5,11 @@
 */
 package com.philips.platform.uappframework.listener;
 
+import java.io.Serializable;
+
 /**
  * This interface is intended to be used as callbacks to communicate success or failure only to the component who has launched uApp.
  * uApp has to extend this interface and use them as part of launch API.
  */
-public interface UappListener {
+public interface UappListener extends Serializable {
 }

@@ -12,12 +12,14 @@ import com.philips.platform.uappframework.listener.UappListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import java.io.Serializable;
+
 /**
  * Micro app framework provides below interface which has standard APIs to initialise, launch and set Launch parameters.
 
  */
 
-public interface UappInterface {
+public interface UappInterface extends Serializable {
     /**
      *  For intitalizing uApp
      */
