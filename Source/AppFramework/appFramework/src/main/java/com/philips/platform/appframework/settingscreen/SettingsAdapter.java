@@ -111,9 +111,6 @@ public class SettingsAdapter extends BaseAdapter {
             switch (type) {
                 case HEADER:
                     headerSection(position, name, value, number, on_off, arrow, description);
-                    vi.setClickable(false);
-                    vi.setEnabled(false);
-                    vi.setActivated(false);
                     break;
                 case CONTENT:
                     subSection(position, name, value, on_off, arrow, description);
@@ -194,6 +191,18 @@ public class SettingsAdapter extends BaseAdapter {
     private void setSwitchState(CompoundButton toggleSwitch, String code) {
         if (saveBundle.containsKey(code)) {
             toggleSwitch.setChecked(saveBundle.getBoolean(code));
+        }
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if( mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_main)).toString())
+                || mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_purchases)).toString())
+                || mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_my_acc)).toString())){
+            return false;
+        }
+        else {
+            return super.isEnabled(position);
         }
     }
 
