@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
@@ -32,6 +36,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +44,16 @@ import java.util.Locale;
 
 public class IAPActivity extends UiKitActivity {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    private TextView mTitleTextView;
+    private TextView mCountText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.iap_activity);
         addActionBar();
+        setContentView(R.layout.iap_activity);
+
         addLandingViews(savedInstanceState);
     }
 
@@ -138,29 +146,65 @@ public class IAPActivity extends UiKitActivity {
 
 
     private void addActionBar() {
+//        ActionBar mActionBar = getSupportActionBar();
+//        mActionBar.setDisplayShowHomeEnabled(false);
+//        mActionBar.setDisplayShowTitleEnabled(false);
+//        mActionBar.setDisplayShowCustomEnabled(true);
+//        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "IAPActivity == onCreate");
+//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+//                ActionBar.LayoutParams.MATCH_PARENT,
+//                ActionBar.LayoutParams.WRAP_CONTENT,
+//                Gravity.CENTER);
+//
+//        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
+//        ViewGroup mUPButtonLayout = (ViewGroup) mCustomView.findViewById(R.id.iap_header_back_button);
+//        mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                onBackPressed();
+//            }
+//        });
+//        mActionBar.setCustomView(mCustomView);
+//
+//        Toolbar parent = (Toolbar) mCustomView.getParent();
+//        parent.setContentInsetsAbsolute(0, 0);
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
-        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "IAPActivity == onCreate");
+        mActionBar.setDisplayShowCustomEnabled(true);
+        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
 
         View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
-        ViewGroup mUPButtonLayout = (ViewGroup) mCustomView.findViewById(R.id.iap_header_back_button);
-        mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
+
+        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 onBackPressed();
             }
         });
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
+        //noinspection deprecation
+        arrowImage.setBackground(getResources().getDrawable(R.drawable.iap_back_arrow));
 
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
+        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
+        setTitle(getString(R.string.app_name));
+
+        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
+
+        mActionBar.setCustomView(mCustomView, params);
     }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        mTitleTextView.setText(title);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -168,9 +212,18 @@ public class IAPActivity extends UiKitActivity {
         Utility.hideKeypad(this);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-        boolean dispatchBackHandled = dispatchBackToFragments();
-        if (!dispatchBackHandled)
+//        boolean dispatchBackHandled = dispatchBackToFragments();
+//        if (!dispatchBackHandled)
+//            super.onBackPressed();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.fl_mainFragmentContainer);
+        boolean backState = false;
+        if (currentFrag != null && currentFrag instanceof BackEventListener) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+        }
+        if (!backState) {
             super.onBackPressed();
+        }
     }
 
     @Override

@@ -154,7 +154,7 @@ public class IAPLauncher implements UappInterface {
             intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mProductCTNs);
         }
         //TODO : Activity Theme has to get from ActivityLauncher
-        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, 1);
+        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         intent.putStringArrayListExtra(IAPConstant.PRODUCT_CTNS, pLaunchConfig.mProductCTNs);
         pContext.startActivity(intent);
     }
