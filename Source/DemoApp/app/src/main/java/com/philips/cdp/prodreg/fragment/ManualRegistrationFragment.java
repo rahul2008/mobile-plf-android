@@ -22,8 +22,8 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.activity.MainActivity;
+import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.ProdRegConfig;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
@@ -208,7 +208,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             } else {
                 prodRegConfig = new ProdRegConfig(products, false);
             }
-            ProdRegUiHelper.getInstance().launch(fragLauncher, prodRegConfig, getProdRegUiListener());
+            new PRInterface().launch(fragLauncher, prodRegConfig, getProdRegUiListener());
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {
@@ -216,7 +216,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             } else {
                 prodRegConfig = new ProdRegConfig(products, false);
             }
-            ProdRegUiHelper.getInstance().launch(activityLauncher, prodRegConfig, getProdRegUiListener());
+            new PRInterface().launch(activityLauncher, prodRegConfig, getProdRegUiListener());
         }
     }
 

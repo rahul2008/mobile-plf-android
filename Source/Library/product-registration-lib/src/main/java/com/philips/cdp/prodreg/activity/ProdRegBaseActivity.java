@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.ProdRegConfig;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -108,7 +109,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             fragLauncher.setCustomAnimation(0, 0);
             final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
             final ProdRegConfig prodRegConfig = new ProdRegConfig(regProdList, isFirstLaunch);
-            prodRegUiHelper.launch(fragLauncher, prodRegConfig, prodRegUiHelper.getProdRegUiListener());
+            new PRInterface().launch(fragLauncher, prodRegConfig, prodRegUiHelper.getProdRegUiListener());
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }
