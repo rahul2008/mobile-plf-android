@@ -57,6 +57,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UICoCo
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         uiState.setPresenter(this);
+        ((HomeActivity)context).finishAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
     }
 

@@ -13,6 +13,7 @@ import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
@@ -47,6 +48,9 @@ public class HomeActivityPresenter extends UIBasePresenter implements UICoCoCons
                 break;
  			case 4:
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
+                break;
+            case 5:
+                uiState=new AboutScreenState(UIState.UI_ABOUT_SCREEN_STATE);
                 break;
             default:uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
         }
