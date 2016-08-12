@@ -9,6 +9,7 @@ package com.philips.platform.appframework.homescreen;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -170,16 +171,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
 
     @Override
     public void onBackPressed() {
-       if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+        if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
-        }
-        else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finishAffinity();
-        }
-        else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
+        } else if (findIfHomeFragmentSentBack()) {
+            finishAffinity();
+        } else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
             if (!inAppPurchaseBackPress()) {
-                super.onBackPressed();
+                super.popBackTillHomeFragment();
             }
         } else if (findFragmentByTag("Registration_fragment_tag")) {
             if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
@@ -191,6 +192,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             UIState currentState = flowManager.getCurrentState();
             currentState.back(this);
         }
+    }
+
+    private boolean findIfHomeFragmentSentBack() {
+        FragmentManager.BackStackEntry backStackEntryAt = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+        String name = backStackEntryAt.getName();
+        if(name.equalsIgnoreCase(HomeFragment.TAG))
+            return true;
+        return false;
     }
 
     private boolean inAppPurchaseBackPress() {

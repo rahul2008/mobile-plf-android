@@ -53,6 +53,9 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
     }
 
+    /*
+     * Add all the drawer fragments here
+     */
     boolean isLaunchedFromHamburgerMenu(String tag){
         if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(InAppPurchasesFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
             return true;

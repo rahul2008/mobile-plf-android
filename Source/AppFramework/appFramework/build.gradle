@@ -245,6 +245,7 @@ dependencies {
 
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.1', ext: 'aar')
 
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }
 
 task copyToLib(type: Copy) {
