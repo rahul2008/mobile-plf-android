@@ -7,6 +7,7 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.cocointerface.UICoCoProdRegImpl;
@@ -28,5 +29,10 @@ public class ProductRegistrationState extends UIState {
         uiCoCoProdReg.setFragActivity((HomeActivity)context);
         uiCoCoProdReg.setFragmentContainer(R.id.frame_container);
         uiCoCoProdReg.runCoCo(context);
+    }
+
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 }

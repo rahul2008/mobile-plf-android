@@ -29,6 +29,7 @@ import com.philips.platform.appframework.R;
 import java.util.ArrayList;
 
 public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
+    public static final String TAG = InAppPurchasesFragment.class.getSimpleName();
 
     private View mRootView;
 

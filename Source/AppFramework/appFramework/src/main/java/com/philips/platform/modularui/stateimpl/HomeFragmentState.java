@@ -21,6 +21,11 @@ public class HomeFragmentState extends UIState {
 
     @Override
     public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new HomeFragment(), new HomeFragment().getClass().getSimpleName());
+        ((AppFrameworkBaseActivity)context).showFragment( new HomeFragment(), HomeFragment.TAG);
+    }
+
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).finishActivity();
     }
 }

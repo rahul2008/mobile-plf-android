@@ -14,6 +14,10 @@ import android.view.Window;
 
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.debugtest.DebugTestFragment;
+import com.philips.platform.appframework.homescreen.HomeFragment;
+import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
+import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
@@ -38,10 +42,35 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
             try {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                fragmentTransaction.addToBackStack(fragmentTag);
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
+    }
+
+    public void popBackTillHomeFragment() {
+        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
+    }
+
+    /*
+     * Add all the drawer fragments here
+     */
+    boolean isLaunchedFromHamburgerMenu(String tag){
+        if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(InAppPurchasesFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
+            return true;
+        }
+        return false;
+    }
+
+    public void popBack(){
+        FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
+        String str=backEntry.getName();
+        if(str!=null && isLaunchedFromHamburgerMenu(str)){
+            popBackTillHomeFragment();
+        }else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     @Override
@@ -91,6 +120,10 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
             transaction.remove(currentFrag);
         }
         transaction.commit();
+    }
+
+    public void finishActivity() {
+        this.finishAffinity();
     }
 
     protected boolean findFragmentByTag(String tag) {
