@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -196,6 +197,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
 
         mActionBar.setCustomView(mCustomView, params);
+        Toolbar parent = (Toolbar) mCustomView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
     }
 
     @Override

@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +36,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
@@ -146,28 +147,6 @@ public class IAPActivity extends UiKitActivity {
 
 
     private void addActionBar() {
-//        ActionBar mActionBar = getSupportActionBar();
-//        mActionBar.setDisplayShowHomeEnabled(false);
-//        mActionBar.setDisplayShowTitleEnabled(false);
-//        mActionBar.setDisplayShowCustomEnabled(true);
-//        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "IAPActivity == onCreate");
-//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-//                ActionBar.LayoutParams.MATCH_PARENT,
-//                ActionBar.LayoutParams.WRAP_CONTENT,
-//                Gravity.CENTER);
-//
-//        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
-//        ViewGroup mUPButtonLayout = (ViewGroup) mCustomView.findViewById(R.id.iap_header_back_button);
-//        mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(final View v) {
-//                onBackPressed();
-//            }
-//        });
-//        mActionBar.setCustomView(mCustomView);
-//
-//        Toolbar parent = (Toolbar) mCustomView.getParent();
-//        parent.setContentInsetsAbsolute(0, 0);
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -177,9 +156,7 @@ public class IAPActivity extends UiKitActivity {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-
         View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
-
         FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,15 +165,24 @@ public class IAPActivity extends UiKitActivity {
             }
         });
         ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
-        //noinspection deprecation
-        arrowImage.setBackground(getResources().getDrawable(R.drawable.iap_back_arrow));
-
+        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
+        arrowImage.setBackground(mBackDrawable);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.app_name));
-
+        ImageView cartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
+        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        cartIcon.setBackground(mCartIconDrawable);
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+            }
+        });
         mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
-
         mActionBar.setCustomView(mCustomView, params);
+        Toolbar parent = (Toolbar) mCustomView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
     }
 
     @Override
