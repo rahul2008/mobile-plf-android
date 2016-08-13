@@ -116,8 +116,13 @@ public class SettingsAdapter extends BaseAdapter {
                     });
                 }
                 else  if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_order_history)))) {
-                    fragmentPresenter = new InAppPurchaseHistoryFragmentPresenter();
-                    fragmentPresenter.onClick(iapHistoryLaunch, mActivity);
+                    vi.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            fragmentPresenter = new SettingsFragmentPresenter();
+                            fragmentPresenter.onClick(iapHistoryLaunch, mActivity);
+                        }
+                    });
                 }
 
                 break;

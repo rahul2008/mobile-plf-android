@@ -38,7 +38,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UICoCo
                 uiState.setPresenter(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
                 break;
-            case SettingsFragment.iapHistoryLaunch:
+            case SettingsAdapter.iapHistoryLaunch:
                 uiState = new InAppPurchaseHistoryFragmentState(UIState.UI_IAP_SHOPPING_HISTORY_FRAGMENT_STATE);
                 uiState.setPresenter(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,context);

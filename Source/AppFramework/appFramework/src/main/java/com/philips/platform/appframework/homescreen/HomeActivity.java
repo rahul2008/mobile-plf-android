@@ -32,6 +32,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
+import com.philips.platform.appframework.inapppurchase.InAppPurchasesHistoryFragment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
@@ -173,7 +174,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             return;
         } else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())) {
             inAppPurchaseBackPress();
-        } else if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+        }
+        else if (findFragmentByTag(InAppPurchasesHistoryFragment.class.getSimpleName())) {
+            inAppPurchaseBackPress();
+        }
+        else if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
             super.onBackPressed();
         }
 
@@ -186,9 +191,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
 
     private void inAppPurchaseBackPress() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if(currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)){
-            if(((InAppPurchasesFragment) currentFragment).onBackPressed()) {
-                return;
+        if(currentFragment != null ) {
+            if (currentFragment instanceof InAppPurchasesFragment) {
+                if (((InAppPurchasesFragment) currentFragment).onBackPressed()) {
+                    return;
+                }
+            }
+            else if (currentFragment instanceof InAppPurchasesHistoryFragment) {
+                if (((InAppPurchasesHistoryFragment) currentFragment).onBackPressed()) {
+                    return;
+                }
             }
         }
     }

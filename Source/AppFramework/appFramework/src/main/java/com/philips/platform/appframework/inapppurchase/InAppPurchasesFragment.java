@@ -20,11 +20,14 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.actionlayout.IAPActionLayout;
 import com.philips.cdp.di.iap.session.IAPHandler;
+import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -34,11 +37,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
     private int mInitFragmentBackStackCount = 0;
 
-    private IAPHandler mIapHandler;
-
     private IAPActionLayout mLayout;
-
-    private IAPSettings mIapSettings;
 
     private View mCustomView;
 
@@ -87,12 +86,13 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             String languageCode = getResources().getString(R.string.af_language);
 
             try {
-                mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
+                IAPSettings mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
                 mIapSettings.setUseLocalData(false);
                 mIapSettings.setLaunchAsFragment(true);
                 mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
-                mIapHandler = IAPHandler.init(getContext(), mIapSettings);
+                IAPHandler mIapHandler = IAPHandler.init(getContext(), mIapSettings);
                 mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+                mIapHandler.getProductCartCount(mProductCountListener);
             }catch(IllegalArgumentException e)  {
 
             }
@@ -100,6 +100,21 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             showIAPToast(IAPConstant.IAP_ERROR_NO_CONNECTION);
         }
     }
+
+    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(int count) {
+            if (count > 0) {
+            }
+            else {
+            }
+        }
+
+        @Override
+        public void onFailure(int i) {
+        }
+    };
+
 
     private void showIAPToast(int errorCode) {
         Context context = getContext();
@@ -126,8 +141,8 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
         hideKeyboard();
         boolean result = mLayout.onHWBackPressed();
 
-        if ((getFragmentManager().getBackStackEntryCount() - mInitFragmentBackStackCount) == 2) {
-            getFragmentManager().popBackStackImmediate();
+        if ((getActivity().getSupportFragmentManager().getBackStackEntryCount() - mInitFragmentBackStackCount) == 2) {
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
         }
         return result;
     }
