@@ -88,6 +88,7 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.addToBackStack(RegConstants.REGISTRATION_FRAGMENT_TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

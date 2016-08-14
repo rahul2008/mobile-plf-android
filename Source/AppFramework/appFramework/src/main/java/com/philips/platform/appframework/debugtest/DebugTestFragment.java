@@ -42,10 +42,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
-    
+    public static final String TAG = DebugTestFragment.class.getSimpleName();
     private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     private List<String> list = Arrays.asList(configurationType);
-    private String TAG = getClass().toString();
+    //private String TAG = getClass().toString();
     private TextView txt_title, configurationTextView;
     private Spinner spinner;
     private SharedPreferences sharedPreferences;

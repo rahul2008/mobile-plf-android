@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:minHeight="52dp"
+    android:paddingBottom="11dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="20dp"
+    android:paddingTop="11dp">
+
+
+    <com.philips.cdp.uikit.customviews.UIKitButton
+        android:id="@+id/btn_settings_logout"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:text="@string/settings_list_item_log_out"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
