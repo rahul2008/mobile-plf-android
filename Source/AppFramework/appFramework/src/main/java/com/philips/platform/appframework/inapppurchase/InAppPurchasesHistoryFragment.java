@@ -37,7 +37,7 @@ public class InAppPurchasesHistoryFragment extends AppFrameworkBaseFragment {
     private IAPSettings mIapSettings;
 
     private View mCustomView;
-
+    public static final String TAG = InAppPurchasesHistoryFragment.class.getSimpleName();
     private String mCtn = "HX6064/33" /*"UK-HX6064/33"*/;
 
     @Nullable

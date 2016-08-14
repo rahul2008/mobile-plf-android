@@ -211,19 +211,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
 
     private boolean inAppPurchaseBackPress() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if(currentFragment != null ) {
-            if (currentFragment instanceof InAppPurchasesFragment) {
-                if (((InAppPurchasesFragment) currentFragment).onBackPressed()) {
-                    return;
-                }
-            }
-            else if (currentFragment instanceof InAppPurchasesHistoryFragment) {
-                if (((InAppPurchasesHistoryFragment) currentFragment).onBackPressed()) {
-                    return;
-                }
-            }
         if(currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)){
             boolean isBackPressed = ((InAppPurchasesFragment) currentFragment).onBackPressed();
+            return isBackPressed;
+        }
+		else if(currentFragment != null && (currentFragment instanceof InAppPurchasesHistoryFragment)){
+            boolean isBackPressed = ((InAppPurchasesHistoryFragment) currentFragment).onBackPressed();
             return isBackPressed;
         }
         return false;
@@ -288,9 +281,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         });
         actionBarTitle.setText(R.string.af_app_name);
     }
-    @Override
-    public void updateActionbar(String s) {
-
-    }
+//    @Override
+//    public void updateActionbar(String s) {
+//
+//    }
 
 }

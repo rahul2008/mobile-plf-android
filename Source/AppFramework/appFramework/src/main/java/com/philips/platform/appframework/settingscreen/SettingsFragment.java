@@ -28,6 +28,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     private ListView mList = null;
     UIBasePresenter uiBasePresenter;
     public static final int logOutButton = 5555;
+    public static final String TAG = SettingsFragment.class.getSimpleName();
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {

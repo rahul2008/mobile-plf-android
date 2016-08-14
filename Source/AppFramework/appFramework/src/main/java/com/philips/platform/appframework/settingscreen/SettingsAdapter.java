@@ -7,7 +7,6 @@ package com.philips.platform.appframework.settingscreen;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -23,7 +22,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
-import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
@@ -34,14 +32,14 @@ import java.util.ArrayList;
 
 public class SettingsAdapter extends BaseAdapter {
     private Context mActivity;
-    private Bundle saveBundle = new Bundle();
+//    private Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
     private User mUser = null;
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
     private UIBasePresenter fragmentPresenter;
-    public static final int iapHistoryLaunch = 5454;
     private SharedPreferenceUtility sharedPreferenceUtility;
+	public static final int iapHistoryLaunch = 5454;
 
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
@@ -78,27 +76,48 @@ public class SettingsAdapter extends BaseAdapter {
     @NonNull
     private View getView(int position, View convertView) {
         View vi = convertView;
-        if( mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
-                || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
 
-            if (convertView == null) {
-                vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
-                UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
-                if (mUser.isUserSignIn()) {
-                    btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
-                } else {
-                    btn_settings_logout.setText(getString(R.string.settings_list_item_login));
-                }
+        if (convertView == null) {
+            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
+        }
 
-                btn_settings_logout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mUser.isUserSignIn()) {
-                            logoutAlert();
-                        } else {
-                            fragmentPresenter.onLoad(mActivity);
+        TextView name = (TextView) vi.findViewById(R.id.ifo);
+        PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
+        TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
+        TextView on_off = (TextView) vi.findViewById(R.id.medium);
+        FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
+        TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
+
+        SettingListItemType type = mSettingsItemList.get(position).type;
+
+        switch (type) {
+            case HEADER:
+                headerSection(position, name, value, number, on_off, arrow, description);
+                vi.setClickable(false);
+                vi.setEnabled(false);
+                vi.setActivated(false);
+                break;
+            case CONTENT:
+                subSection(position, name, value, on_off, arrow, description);
+
+                if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
+                        || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
+                    if (mUser.isUserSignIn()) {
+                        name.setText(getString(R.string.settings_list_item_log_out));
+                    } else {
+                        name.setText(getString(R.string.settings_list_item_login));
+                    }
+
+                    vi.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mUser.isUserSignIn()) {
+                                logoutAlert();
+                            } else {
+                                fragmentPresenter.onLoad(mActivity);
+                            }
                         }
-                    }});
+                    });
                 }
                 else  if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_order_history)))) {
                     vi.setOnClickListener(new View.OnClickListener() {
@@ -109,33 +128,11 @@ public class SettingsAdapter extends BaseAdapter {
                         }
                     });
                 }
-                    }
-//                });
-//            }
-//        }
-        else {
-            if (convertView == null) {
-                vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
-            }
-            TextView name = (TextView) vi.findViewById(R.id.ifo);
-            PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-            TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
-            TextView on_off = (TextView) vi.findViewById(R.id.medium);
-            FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
-            TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
-            SettingListItemType type = mSettingsItemList.get(position).type;
 
-            switch (type) {
-                case HEADER:
-                    headerSection(position, name, value, number, on_off, arrow, description);
-                    break;
-                case CONTENT:
-                    subSection(position, name, value, on_off, arrow, description);
-                    break;
-                case NOTIFICATION:
-                    notificationSection(position, name, value, arrow, description);
-                    break;
-            }
+                break;
+            case NOTIFICATION:
+                notificationSection(position, name, value, arrow, description);
+                break;
         }
         return vi;
     }
@@ -249,6 +246,12 @@ public class SettingsAdapter extends BaseAdapter {
             return super.isEnabled(position);
         }
     }
+	
+//    private void setSwitchState(CompoundButton toggleSwitch, String code) {
+//        if (saveBundle.containsKey(code)) {
+//            toggleSwitch.setChecked(saveBundle.getBoolean(code));
+//        }
+//    }
 
     private String getString(int id) {
         return mActivity.getResources().getString(id);

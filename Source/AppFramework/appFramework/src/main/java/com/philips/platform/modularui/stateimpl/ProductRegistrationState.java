@@ -25,7 +25,7 @@ public class ProductRegistrationState extends UIState {
     protected void navigate(Context context) {
         uiCoCoProdReg = (UICoCoProdRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_PRODUCT_REGISTRATION);
         uiCoCoProdReg.loadPlugIn(context);
-        uiCoCoProdReg.setActionBar((HomeActivity)context);
+        uiCoCoProdReg.setActionbar((HomeActivity)context);
         uiCoCoProdReg.setFragActivity((HomeActivity)context);
         uiCoCoProdReg.setFragmentContainer(R.id.frame_container);
         uiCoCoProdReg.runCoCo(context);
