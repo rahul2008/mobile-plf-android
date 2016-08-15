@@ -64,6 +64,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private LinearLayout hamburgerClick = null;
+    private static int mCartItemCount = 0;
+    private final int CART_POSITION_IN_MENU = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -357,9 +359,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         }
     }
 
-    private static int mCartItemCount = 0;
-    private final int CART_POSITION_IN_MENU = 2;
-
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -378,7 +377,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         @Override
         public void onSuccess(int count) {
             mCartItemCount = count;
-            if (count > 0) {
+            if (count > 0 && mHandler != null) {
                 mHandler.sendEmptyMessageDelayed(0, 200);
             } else {
             }

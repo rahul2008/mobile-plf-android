@@ -38,11 +38,11 @@
 
     <string-array name="hamburger_drawer_items">
         <item>@string/app_home_title </item>
-        <item>Support</item>
-        <item>Philips Shop</item>
         <item>Settings</item>
-        <item>Debug and Testing</item>
+        <item>Philips Shop</item>
+        <item>Support</item>
         <item>About</item>
+        <item>Debug and Testing</item>
     </string-array>
 
     <array name="hamburger_drawer_icons">

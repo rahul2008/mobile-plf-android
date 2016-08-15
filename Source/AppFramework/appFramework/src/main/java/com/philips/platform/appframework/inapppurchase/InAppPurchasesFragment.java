@@ -93,7 +93,6 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
                 mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
                 IAPHandler mIapHandler = IAPHandler.init(getContext(), mIapSettings);
                 mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-//                mIapHandler.getProductCartCount(mProductCountListener);
             }catch(IllegalArgumentException e)  {
 
             }
