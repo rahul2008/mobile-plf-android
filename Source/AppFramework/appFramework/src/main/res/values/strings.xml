@@ -39,11 +39,20 @@
     <string-array name="hamburger_drawer_items">
         <item>@string/app_home_title </item>
         <item>Support</item>
-        <item>Shop</item>
+        <item>Philips Shop</item>
         <item>Settings</item>
         <item>Debug and Testing</item>
         <item>About</item>
     </string-array>
+
+    <array name="hamburger_drawer_icons">
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_radio</item>
+        <item>@drawable/uikit_factory</item>
+    </array>
 
     <!-- Consumer Care related-->
 

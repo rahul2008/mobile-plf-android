@@ -76,7 +76,7 @@ public class InAppPurchasesHistoryFragment extends AppFrameworkBaseFragment {
         return "Shopping";
     }
 
-    public void launchInAppPurchases(/*int position, String ctn*/) {
+    private void launchInAppPurchases(/*int position, String ctn*/) {
         ArrayList<String> ctnList;
         if (NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
             String countryCode = getResources().getString(R.string.af_country);
