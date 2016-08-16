@@ -13,4 +13,9 @@ node('Android') {
     stage 'Lint'
     sh 'cd ./Source/ShineLib && ./gradlew lintDebug || true'
     step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
+
+    if(env.BRANCH_NAME == "develop"){
+        stage 'Publish'
+        sh 'cd ./Source/ShineLib && ./gradlew zipDocuments artifactoryPublish'
+    }
 }
