@@ -1,12 +1,12 @@
 /**
- * DigitalCareConfigManager is the Singleton class helps to manage,customize the features through
+ * ProdRegUiHelper is the Singleton class helps to manage,customize the features through
  * the supported API's.
  * <b> Note: </b>
  * <p> Few Methods may not relevant your requirement. As it playing the Horizontal Component
- * - API's are added by considering the commmon requirement  for the integrating applciations.
+ * - API's are added by considering the common requirement  for the integrating applications.
  *
- * @author : Ritesh.jha@philips.com
- * @since : 5 Dec 2014
+ * @author : yogesh.hs@philips.com
+ * @since : 5 May 2015
  * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
