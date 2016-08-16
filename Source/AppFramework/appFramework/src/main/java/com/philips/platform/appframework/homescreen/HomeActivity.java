@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
-    private TypedArray hamburgerMenuIcons;
+//    private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -81,10 +81,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
-        initAdapter();
+        initAdapter(mCartItemCount);
     }
 
-    private void initAdapter() {
+    public void initAdapter(int  count) {
+        mCartItemCount = count;
         hamburgerUtil = null;
         drawerListView = null;
         loadSlideMenuItems();
@@ -181,12 +182,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
 
     private void loadSlideMenuItems() {
         hamburgerMenuTitles = null;
-        hamburgerMenuIcons = null;
+//        hamburgerMenuIcons = null;
         hamburgerItems = null;
 
         hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
-        hamburgerMenuIcons = getResources()
-                .obtainTypedArray(R.array.hamburger_drawer_icons);
+//        hamburgerMenuIcons = getResources()
+//                .obtainTypedArray(R.array.hamburger_drawer_icons);
 
         hamburgerItems = new ArrayList<>();
     }
@@ -194,10 +195,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private void addDrawerItems() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
             if (i == 2 && mCartItemCount > 0) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), mCartItemCount));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, mCartItemCount));
             } else {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i],
-                        VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1))));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i],null));
             }
         }
     }
@@ -367,7 +367,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             mHandler.removeMessages(0);
             for (int i = 0; i < hamburgerMenuTitles.length; i++) {
                 if (i == CART_POSITION_IN_MENU) {
-                    initAdapter();
+                    initAdapter(mCartItemCount);
                 }
             }
         }

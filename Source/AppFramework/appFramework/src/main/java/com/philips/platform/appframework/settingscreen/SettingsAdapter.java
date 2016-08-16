@@ -33,15 +33,13 @@ import java.util.ArrayList;
 
 public class SettingsAdapter extends BaseAdapter {
     private Context mActivity;
-//    private Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
     private User mUser = null;
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
-	public static final int iapHistoryLaunch = 5454;
-
+    public static final int iapHistoryLaunch = 5454;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
@@ -51,7 +49,7 @@ public class SettingsAdapter extends BaseAdapter {
         mSettingsItemList = settingsItemList;
         mLogoutHandler = logoutHandler;
         this.fragmentPresenter = fragmentPresenter;
-        sharedPreferenceUtility= new SharedPreferenceUtility(context);
+        sharedPreferenceUtility = new SharedPreferenceUtility(context);
     }
 
     @Override
@@ -77,35 +75,34 @@ public class SettingsAdapter extends BaseAdapter {
     @NonNull
     private View getView(int position, View convertView) {
         View vi = convertView;
-        if( mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
+        if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
                 || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
 
-            if (convertView == null) {
-                vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
-                UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
-                if (mUser.isUserSignIn()) {
-                    btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
-                } else {
-                    btn_settings_logout.setText(getString(R.string.settings_list_item_login));
-                }
+//            if (convertView == null) {
+            vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
+            UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
+            if (mUser.isUserSignIn()) {
+                btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
+            } else {
+                btn_settings_logout.setText(getString(R.string.settings_list_item_login));
+            }
 
-                btn_settings_logout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mUser.isUserSignIn()) {
-                            logoutAlert();
-                        } else {
-                            fragmentPresenter.onLoad(mActivity);
-                        }
+            btn_settings_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mUser.isUserSignIn()) {
+                        logoutAlert();
+                    } else {
+                        fragmentPresenter.onLoad(mActivity);
                     }
-                });
-            }
+                }
+            });
+//            }
 
-        }
-        else {
-            if (convertView == null) {
-                vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
-            }
+        } else {
+//            if (convertView == null) {
+            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
+//            }
             TextView name = (TextView) vi.findViewById(R.id.ifo);
             PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
             TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
@@ -125,7 +122,6 @@ public class SettingsAdapter extends BaseAdapter {
                         vi.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                fragmentPresenter = new SettingsFragmentPresenter();
                                 fragmentPresenter.onClick(iapHistoryLaunch, mActivity);
                             }
                         });
@@ -136,6 +132,7 @@ public class SettingsAdapter extends BaseAdapter {
                     break;
             }
         }
+
         return vi;
     }
 
@@ -144,47 +141,45 @@ public class SettingsAdapter extends BaseAdapter {
         name.setText(mSettingsItemList.get(position).title);
         value.setVisibility(View.VISIBLE);
 
-        if(mUser.getReceiveMarketingEmail()){
+        if (mUser.getReceiveMarketingEmail()) {
             value.setChecked(true);
-        }
-        else {
+        } else {
             value.setChecked(false);
         }
-        if(sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)){
+        if (sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)) {
             value.setChecked(true);
-        }else {
+        } else {
             value.setChecked(false);
         }
         value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
                         @Override
                         public void onUpdateReceiveMarketingEmailSuccess() {
-                            Toast.makeText(mActivity,"Successfully subscribed", Toast.LENGTH_SHORT).show();
-                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled,true);
+                            Toast.makeText(mActivity, "Successfully subscribed", Toast.LENGTH_SHORT).show();
+                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                         }
 
                         @Override
                         public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
-                            Toast.makeText(mActivity,"failed to subscribe", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mActivity, "failed to subscribe", Toast.LENGTH_SHORT).show();
                         }
-                    },true);
-                }
-                else {
+                    }, true);
+                } else {
                     mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
                         @Override
                         public void onUpdateReceiveMarketingEmailSuccess() {
-                            Toast.makeText(mActivity,"Successfully unsubscribed", Toast.LENGTH_SHORT).show();
-                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled,false);
+                            Toast.makeText(mActivity, "Successfully unsubscribed", Toast.LENGTH_SHORT).show();
+                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                         }
 
                         @Override
                         public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
-                            Toast.makeText(mActivity,"failed to unsubscribed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mActivity, "failed to unsubscribed", Toast.LENGTH_SHORT).show();
                         }
-                    },false);
+                    }, false);
                 }
             }
         });
@@ -239,16 +234,15 @@ public class SettingsAdapter extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        if( mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_main)).toString())
+        if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_main)).toString())
                 || mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_purchases)).toString())
-                || mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_my_acc)).toString())){
+                || mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_my_acc)).toString())) {
             return false;
-        }
-        else {
+        } else {
             return super.isEnabled(position);
         }
     }
-	
+
 //    private void setSwitchState(CompoundButton toggleSwitch, String code) {
 //        if (saveBundle.containsKey(code)) {
 //            toggleSwitch.setChecked(saveBundle.getBoolean(code));
