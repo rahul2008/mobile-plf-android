@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/pr_bottom_padding_sm"
             android:layout_marginTop="@dimen/pr_d_value_sm"
-            android:text="@string/continue_text"
+            android:text="@string/PPR_Continue"
             android:textAllCaps="false"/>
 
         <Button
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_c_value_sm"
-            android:text="@string/register_next"
+            android:text="@string/PPR_Register_Next"
             android:textAllCaps="false"
             android:visibility="gone"/>
 
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_c_value_sm"
-            android:text="@string/back_to_list"
+            android:text="@string/PPR_Back_To_List"
             android:textAllCaps="false"
             android:visibility="gone"/>
     </LinearLayout>
