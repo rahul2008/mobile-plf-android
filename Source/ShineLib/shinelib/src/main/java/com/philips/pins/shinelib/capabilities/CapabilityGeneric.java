@@ -14,12 +14,14 @@ public interface CapabilityGeneric extends SHNCapability {
     interface CapabilityGenericListener {
         void onReadCompleted(final UUID aChar, byte[] data);
 
-        // TODO: onWrite
+        void onWriteCompleted(final UUID aChar, byte[] data);
 
         // TODO: notify
     }
 
     void readCharacteristic(SHNDataRawResultListener listener, UUID uuid);
+
+    void writeCharacteristic(SHNDataRawResultListener listener, UUID uuid, byte[] data);
 
     /**
      * Set callback to receive notifications about battery level changes.
