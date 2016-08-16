@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -167,6 +168,122 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         } else {
             assertFalse(mServiceDiscoveryManager.isOnline());
         }
+    }
+
+    public void testBuildURL(){
+        assertNotNull(mServiceDiscoveryManager.buildUrl());
+    }
+
+    public void testgetService(){
+        assertNotNull(mServiceDiscoveryManager.getService(new ServiceDiscoveryInterface.OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }));
+    }
+
+    public void testgetCountry(){
+        if(mServiceDiscoveryManager.getCountry() == null){
+            assertNull(mServiceDiscoveryManager.getCountry());
+        }else{
+            mServiceDiscoveryManager.mCountry = null;
+            assertNotSame(mServiceDiscoveryManager.mCountry,mServiceDiscoveryManager.getCountry() );
+            assertNotNull(mServiceDiscoveryManager.getCountry());
+        }
+
+    }
+
+    public void testfilterDataForUrlbyLang(){
+        mServiceDiscoveryManager.filterDataForUrlbyLang(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                assertNotNull(url);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+    }
+    public void testfilterDataForUrlbyLangArray(){
+
+        mServiceDiscoveryManager.filterDataForUrlbyLang(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                assertNotNull(urlMap);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+    }
+    public void testfilterDataForUrlbyCountry(){
+        mServiceDiscoveryManager.filterDataForUrlbyCountry(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                assertNotNull(url);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+    }
+    public void testfilterDataForUrlbyCountryArray(){
+        mServiceDiscoveryManager.filterDataForUrlbyCountry(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                assertNotNull(urlMap);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+    }
+    public void testfilterDataForLocalByLang(){
+        mServiceDiscoveryManager.filterDataForLocalByLang(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            @Override
+            public void onSuccess(String locale) {
+                assertNotNull(locale);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+    }
+    public void testfilterDataForLocalByCountry(){
+        mServiceDiscoveryManager.filterDataForLocalByCountry(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            @Override
+            public void onSuccess(String locale) {
+                assertNotNull(locale);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
     }
 
 }

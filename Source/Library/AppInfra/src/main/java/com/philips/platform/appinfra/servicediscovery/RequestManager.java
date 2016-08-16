@@ -61,6 +61,8 @@ public class RequestManager {
 
     public void execute(final String url, final ServiceDiscoveryInterface.OnRefreshListener listener) {
 
+
+
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -274,14 +276,14 @@ public class RequestManager {
             this.isHttpsRequest = false;
         }
 
-        this.setSSLSocketFactory();
+//        this.setSSLSocketFactory();
         mVolleyRequest.add(jsObjRequest);
     }
 
-    private void setSSLSocketFactory() {
-        if (this.isHttpsRequest) {
-            SSLCertificateManager.disableAllServerCertificateChecking();
-        }
-
-    }
+//    private void setSSLSocketFactory() {
+//        if (this.isHttpsRequest) {
+//            SSLCertificateManager.disableAllServerCertificateChecking();
+//        }
+//
+//    }
 }
