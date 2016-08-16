@@ -31,7 +31,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.shamanland:fonticon:0.1.+'
-        classpath 'com.mcxiaoke.volley:library:1.0.+'
         classpath 'com.google.code.gson:gson:2.2.+'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2"
         classpath 'com.philips.cdp:cdpSCM:0.1.0'

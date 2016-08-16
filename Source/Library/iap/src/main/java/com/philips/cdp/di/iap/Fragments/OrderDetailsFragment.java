@@ -235,7 +235,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
             if (mOrderDetail != null) {
                 if (mPhoneContact == null) {
                     NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                            mContext.getString(R.string.iap_ok), "Customer Service phone number is unavailable", "");
+                            mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
                 } else {
                     bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
                     bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());

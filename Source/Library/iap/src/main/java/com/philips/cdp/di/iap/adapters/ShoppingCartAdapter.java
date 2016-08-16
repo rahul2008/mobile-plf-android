@@ -71,7 +71,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private DeliveryModes mDeliveryMode;
     private DeliveryModeDialog mDialog;
 
-    private boolean mIsDeliveryAddressSet;
+    public boolean mIsDeliveryAddressSet;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -140,6 +140,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         int quantityStatus = getQuantityStatus(newCount, oldCount);
                         if (!Utility.isProgressDialogShowing()) {
                             Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+                            mIsDeliveryAddressSet = true;
                             mPresenter.updateProductQuantity(mData.get(position), newCount, quantityStatus);
                         }
                     }

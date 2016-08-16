@@ -12,26 +12,30 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.BuyDirectController;
+import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class BuyDirectFragment extends BaseAnimationSupportFragment implements BuyDirectController.BuyDirectListener {
+public class BuyDirectFragment extends BaseAnimationSupportFragment implements
+        BuyDirectController.BuyDirectListener, ErrorDialogFragment.ErrorDialogListener {
     public static final String TAG = BuyDirectFragment.class.getName();
     private BuyDirectController mBuyDirectController;
     private Context mContext;
     private String mCTN;
     private String mAddressId;
     private PaymentMethod mPaymentMethod;
+    private ErrorDialogFragment mErrorDialogFragment;
 
     public static BuyDirectFragment createInstance(Bundle args, AnimationType animType) {
         BuyDirectFragment fragment = new BuyDirectFragment();
@@ -52,100 +56,111 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBuyDirectController = new BuyDirectController(mContext, this);
-        String msg = mContext.getString(R.string.iap_processing);
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, msg);
+            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_processing));
             mBuyDirectController.createCart();
         }
     }
 
     @Override
     public void onCreateCart(Message msg) {
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onCreateCart =" + TAG);
-        mBuyDirectController.addToCart(mCTN);
+        if ((msg.obj instanceof IAPNetworkError)) {
+            handleError(msg);
+        } else {
+            mBuyDirectController.addToCart(mCTN);
+        }
     }
 
     @Override
     public void onAddToCart(Message msg) {
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onAddToCart =" + TAG);
-        mBuyDirectController.getUser();
+        if ((msg.obj instanceof IAPNetworkError)) {
+            handleError(msg);
+        } else {
+            mBuyDirectController.getRegions();
+        }
+    }
 
+    @Override
+    public void onGetRegions(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            handleError(msg);
+        } else if (msg.obj instanceof RegionsList) {
+            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+            mBuyDirectController.getUser();
+        }
     }
 
     @Override
     public void onGetUser(Message msg) {
         if (Utility.isProgressDialogShowing())
             Utility.changeProgressMessage("Validating Address");
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onGetUser =" + TAG);
-        GetUser getUser = (GetUser) msg.obj;
-        Addresses addressId = getUser.getDefaultAddress();
-        if (addressId.getId() != null) {
-            mAddressId = addressId.getId();
-            AddressFields addressFields = new AddressFields();
-            addressFields.setFirstName(addressId.getFirstName());
-            addressFields.setLastName(addressId.getLastName());
-            addressFields.setLine1(addressId.getLine1());
-            addressFields.setLine2(addressId.getLine2());
-            addressFields.setPhoneNumber(addressId.getPhone1());
-            addressFields.setPostalCode(addressId.getPostalCode());
-            addressFields.setEmail(addressId.getEmail());
-            addressFields.setTitleCode(addressId.getTitleCode());
-            addressFields.setTown(addressId.getTown());
-            addressFields.setRegionIsoCode(addressId.getRegion().getIsocode());
-            addressFields.setCountryIsocode(addressId.getCountry().getIsocode());
-            CartModelContainer.getInstance().setShippingAddressFields(addressFields);
+
+        if (msg.obj instanceof IAPNetworkError) {
+            handleError(msg);
+        } else if (msg.obj instanceof GetUser) {
+            GetUser user = (GetUser) msg.obj;
+            Addresses defaultAddress = user.getDefaultAddress();
+            if (defaultAddress != null) {
+                setAddressField(defaultAddress);
+            } else {
+                Utility.dismissProgressDialog();
+                addFragment(
+                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), ShippingAddressFragment.TAG);
+            }
         }
-        //Set delivery address from Msg
-        mBuyDirectController.setDeliveryAddress(mAddressId);
     }
 
     @Override
     public void onGetDeliveryAddress(Message msg) {
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onGetDeliveryAddress =" + TAG);
-        //Set delivery address from Msg
         mBuyDirectController.setDeliveryAddress(mAddressId);
     }
 
     @Override
     public void onSetDeliveryAddress(Message msg) {
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryAddress =" + TAG);
-        //Get delivery Mode from Msg
-        mBuyDirectController.getDeliveryModes();
+        if ((msg.obj instanceof IAPNetworkError)) {
+            handleError(msg);
+        } else {
+            mBuyDirectController.getDeliveryModes();
+        }
     }
 
     @Override
     public void onGetDeliveryMode(Message msg) {
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onGetDeliveryMode =" + TAG);
-        GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-        ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
-        CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
-        //Set delivery Mode from Msg
-        mBuyDirectController.setDeliveryMode(deliveryModesList.get(0).getCode());
+        if ((msg.obj instanceof IAPNetworkError)) {
+            handleError(msg);
+        } else {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
+            CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
+            mBuyDirectController.setDeliveryMode(deliveryModesList.get(0).getCode());
+        }
     }
 
     @Override
     public void onSetDeliveryMode(Message msg) {
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryMode =" + TAG);
-        //Get Payment Mode from Msg
-        mBuyDirectController.getPaymentMode();
+        if ((msg.obj instanceof IAPNetworkError)) {
+            handleError(msg);
+        } else {
+            mBuyDirectController.getPaymentMode();
+        }
     }
 
     @Override
     public void onGetPaymentMode(Message msg) {
         if (Utility.isProgressDialogShowing())
             Utility.changeProgressMessage("Fetching Payment details");
-        IAPLog.d(IAPLog.BUY_DIRECT_FRAGMENT, "onSetDeliveryMode =" + TAG);
-        //TODO : Handle to navigate to Billing Address
-        if("".equals(msg.obj))
-        {
-            finishActivity();
-            return;
-        }else {
-            PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
 
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            Utility.dismissProgressDialog();
+            addFragment(
+                    BillingAddressFragment.createInstance(new Bundle(),
+                            AnimationType.NONE), BillingAddressFragment.TAG);
+        } else if ((msg.obj instanceof IAPNetworkError)) {
+            handleError(msg);
+        } else if ((msg.obj instanceof PaymentMethods)) {
+            PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethod = paymentMethods.getPayments().get(0);
             if (mPaymentMethod != null) {
-                //Set Payment Mode from Msg
                 mBuyDirectController.setPaymentMode(mPaymentMethod.getId());
             }
         }
@@ -154,9 +169,69 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements B
     @Override
     public void onSetPaymentMode(Message msg) {
         Utility.dismissProgressDialog();
-        //Inflate OrderSummary Fragment here
+        if ((msg.obj instanceof IAPNetworkError)) {
+            handleError(msg);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
+            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
+        }
+    }
+
+    @Override
+    public void onDeleteCart(Message msg) {
+
+    }
+
+    private void setAddressField(Addresses address) {
+        mAddressId = address.getId();
+        AddressFields addressFields = new AddressFields();
+        addressFields.setFirstName(address.getFirstName());
+        addressFields.setLastName(address.getLastName());
+        addressFields.setLine1(address.getLine1());
+        addressFields.setLine2(address.getLine2());
+        addressFields.setPhoneNumber(address.getPhone1());
+        addressFields.setPostalCode(address.getPostalCode());
+        addressFields.setEmail(address.getEmail());
+        addressFields.setTitleCode(address.getTitleCode());
+        addressFields.setTown(address.getTown());
+        addressFields.setRegionIsoCode(address.getRegion().getName());
+        addressFields.setCountryIsocode(address.getCountry().getIsocode());
+        CartModelContainer.getInstance().setRegionIsoCode(address.getRegion().getIsocode());
+        CartModelContainer.getInstance().setShippingAddressFields(addressFields);
+        CartModelContainer.getInstance().setAddressId(mAddressId);
+        mBuyDirectController.setDeliveryAddress(mAddressId);
+    }
+
+    private void handleError(Message msg) {
+        Utility.dismissProgressDialog();
+        showErrorDialog(msg);
+    }
+
+    private void showErrorDialog(Message msg) {
+        IAPNetworkError error = (IAPNetworkError) msg.obj;
         Bundle bundle = new Bundle();
-        bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
-        addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
+        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, mContext.getString(R.string.iap_ok));
+        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT,
+                NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()));
+        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION,
+                NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
+        if (mErrorDialogFragment == null) {
+            mErrorDialogFragment = new ErrorDialogFragment();
+            mErrorDialogFragment.setErrorDialogListener(this);
+            mErrorDialogFragment.setArguments(bundle);
+            mErrorDialogFragment.setShowsDialog(false);
+        }
+        try {
+            mErrorDialogFragment.show(getFragmentManager(), "NetworkErrorDialog");
+            mErrorDialogFragment.setShowsDialog(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDialogOkClick() {
+        moveToDemoAppByClearingStack();
     }
 }

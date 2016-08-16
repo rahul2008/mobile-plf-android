@@ -18,7 +18,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
-import com.philips.cdp.di.iap.model.CartDeleteRequest;
+import com.philips.cdp.di.iap.model.DeleteCartRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.GetCartsRequest;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
@@ -177,7 +177,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     private void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        CartDeleteRequest model = new CartDeleteRequest(delegate.getStore(), null, null);
+        DeleteCartRequest model = new DeleteCartRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.DELETE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(Message msg) {

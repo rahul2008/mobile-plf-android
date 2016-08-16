@@ -114,12 +114,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        if (CartModelContainer.getInstance().isCartCreated()) {
+
+        mAddressController.getUser();
+
+       /* if (CartModelContainer.getInstance().isCartCreated()) {
             mAddressController.getUser();
         } else {
             mAddressController.getDeliveryModes();
             mIsDeliveryAddress = true;
-        }
+        }*/
     }
 
     @Override
@@ -236,14 +239,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             mIsDeliveryAddress = true;
             mAddressController.getDeliveryModes();
         } else {
-            Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            updateCartDetails(mShoppingCartAPI);
         }
     }
 
     @Override
     public void onSetDeliveryMode(final Message msg) {
-        //NOP
         updateCartDetails(mShoppingCartAPI);
     }
 
@@ -276,7 +277,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetDeliveryModes(Message msg) {
         if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
@@ -307,6 +308,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (getActivity() == null) return;
         mData = data;
         onOutOfStock(false);
+        if(mAdapter.mIsDeliveryAddressSet){
+            mIsDeliveryAddress = true;
+        }
         mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
         if (mIsDeliveryAddress) {
             mAdapter.setDeliveryAddress(mIsDeliveryAddress);

@@ -88,7 +88,7 @@ public class NetworkUtility {
         }
     }
 
-    private String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
+    public String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
         String errorMessage = null;
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
             errorMessage = context.getString(R.string.iap_you_are_offline);
@@ -98,7 +98,7 @@ public class NetworkUtility {
         return errorMessage;
     }
 
-    private String getErrorDescriptionMessageFromErrorCode(final Context context,
+    public String getErrorDescriptionMessageFromErrorCode(final Context context,
                                                            IAPNetworkError error) {
         if (error.getIAPErrorCode() != IAPConstant.IAP_ERROR_NO_CONNECTION
                 && !TextUtils.isEmpty(error.getMessage())) {

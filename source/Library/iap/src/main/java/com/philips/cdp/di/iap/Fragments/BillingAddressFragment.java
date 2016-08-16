@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +94,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtTown.setText(mBillingAddressFields.getTown());
             mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
             mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-            mEtEmail.setText(mBillingAddressFields.getEmail());
+            mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
 
             if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
                     mBillingAddressFields.getRegionIsoCode() != null) {
@@ -182,6 +183,12 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                         OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
             }
         } else if (v == mBtnCancel) {
+            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+            if(fragment != null){
+                moveToDemoAppByClearingStack();
+            }else {
+                getFragmentManager().popBackStackImmediate();
+            }
             moveToPreviousFragment();
         }
     }
@@ -240,5 +247,17 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtEmail.setFocusable(false);
         mEtEmail.setEnabled(false);
         mEtCountry.setEnabled(false);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            if(getFragmentManager().findFragmentByTag(ShippingAddressFragment.TAG) != null){
+                return false;
+            }
+            moveToDemoAppByClearingStack();
+        }
+        return super.onBackPressed();
     }
 }

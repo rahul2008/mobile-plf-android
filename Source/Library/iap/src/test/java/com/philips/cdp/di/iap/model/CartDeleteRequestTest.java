@@ -30,26 +30,26 @@ public class CartDeleteRequestTest {
 
     @Test
     public void matchCartDeleteRequestURL() {
-        CartDeleteRequest request = new CartDeleteRequest(mStore, null, null);
+        DeleteCartRequest request = new DeleteCartRequest(mStore, null, null);
         Assert.assertEquals(NetworkURLConstants.DELETE_CART_URL, request.getUrl());
     }
 
     @Test
     public void testRequestMethodIsPOST() {
-        CartDeleteRequest request = new CartDeleteRequest(mStore, null, null);
+        DeleteCartRequest request = new DeleteCartRequest(mStore, null, null);
         Assert.assertEquals(Request.Method.DELETE, request.getMethod());
     }
 
     @Test
     public void testQueryParamsIsNull() {
-        CartDeleteRequest request = new CartDeleteRequest(mStore, null, null);
+        DeleteCartRequest request = new DeleteCartRequest(mStore, null, null);
         Assert.assertNull(request.requestBody());
     }
 
 
     @Test
     public void parseResponseShouldBeOfCartCreateDataType() {
-        CartDeleteRequest request = new CartDeleteRequest(mStore, null, null);
+        DeleteCartRequest request = new DeleteCartRequest(mStore, null, null);
         Object response = request.parseResponse(null);
         Assert.assertNull(response);
     }

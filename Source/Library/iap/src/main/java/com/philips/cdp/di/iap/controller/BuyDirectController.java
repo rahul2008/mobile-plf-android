@@ -11,8 +11,10 @@ import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
+import com.philips.cdp.di.iap.model.DeleteCartRequest;
 import com.philips.cdp.di.iap.model.GetDeliveryModesRequest;
 import com.philips.cdp.di.iap.model.GetPaymentDetailRequest;
+import com.philips.cdp.di.iap.model.GetRegionsRequest;
 import com.philips.cdp.di.iap.model.GetUserRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
@@ -39,9 +41,10 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
 
         void onAddToCart(Message msg);
 
+        void onGetRegions(Message msg);
+
         void onGetUser(Message msg);
 
-        // This can be use with 0th index address
         void onGetDeliveryAddress(Message msg);
 
         void onSetDeliveryAddress(Message msg);
@@ -53,6 +56,8 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
         void onGetPaymentMode(Message msg);
 
         void onSetPaymentMode(Message msg);
+
+        void onDeleteCart(Message msg);
     }
 
     public void createCart() {
@@ -67,15 +72,15 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.ADD_TO_CART, model, model);
     }
 
+    public void getRegions(){
+        GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
+    }
+
     public void getUser() {
         GetUserRequest model = new GetUserRequest(getStore(), null, this);
         getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);
     }
-
-//    public void getDeliveryAddress() {
-//        GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
-//        getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
-//    }
 
     public void setDeliveryAddress(String pAddressId) {
         HashMap<String, String> params = new HashMap<>();
@@ -108,6 +113,11 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
 
         SetPaymentDetailsRequest model = new SetPaymentDetailsRequest(getStore(), params, this);
         getHybrisDelegate().sendRequest(RequestCode.SET_PAYMENT_DETAILS, model, model);
+    }
+
+    public void deleteCart(){
+        DeleteCartRequest model = new DeleteCartRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.DELETE_CART, model, model);
     }
 
     @Override
@@ -154,6 +164,9 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
             case RequestCode.ADD_TO_CART:
                 mBuyDirectListener.onAddToCart(msg);
                 break;
+            case RequestCode.GET_REGIONS:
+                mBuyDirectListener.onGetRegions(msg);
+                break;
             case RequestCode.GET_USER:
                 mBuyDirectListener.onGetUser(msg);
                 break;
@@ -174,6 +187,9 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.SET_PAYMENT_DETAILS:
                 mBuyDirectListener.onSetPaymentMode(msg);
+                break;
+            case RequestCode.DELETE_CART:
+                mBuyDirectListener.onDeleteCart(msg);
                 break;
         }
     }

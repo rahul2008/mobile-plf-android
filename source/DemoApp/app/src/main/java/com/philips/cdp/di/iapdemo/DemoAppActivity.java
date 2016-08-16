@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.AppInfraHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -129,8 +130,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
-
-        /*Pls uncommnet when vertical wants to get complete product list from hybris*/
 
         mIAPSettings.setUseLocalData(false);
         if (!mIAPSettings.isUseLocalData()) {
@@ -255,7 +254,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             case R.id.btn_buy_direct:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
-                        String ctn =mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
+                        String ctn = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
+                        mEtCTN.setText("");
+                        Utility.hideKeypad(this);
                         mIapHandler.buyDirect(ctn);
                     } catch (RuntimeException e) {
                         Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();

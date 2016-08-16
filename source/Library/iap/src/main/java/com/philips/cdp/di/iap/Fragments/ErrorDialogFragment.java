@@ -18,12 +18,12 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class ErrorDialogFragment extends DialogFragment {
     public interface ErrorDialogListener {
-        void OnOkClickFromSomethingWentWrong();
+        void onDialogOkClick();
     }
 
-    private Button mOkBtn, mTryAgain;
-    private ErrorDialogListener mClickListener;
+    private Button mOkBtn;
     Bundle bundle;
+    private ErrorDialogListener mErrorDialogListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,14 +43,21 @@ public class ErrorDialogFragment extends DialogFragment {
 
         mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
         mOkBtn.setText(bundle.getString(IAPConstant.MODEL_ALERT_BUTTON_TEXT));
-        mOkBtn.setOnClickListener(dismissDialog());
+        mOkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mErrorDialogListener != null) {
+                    mErrorDialogListener.onDialogOkClick();
+                }
+                dismissDialog();
+            }
+        });
         return v;
     }
 
     @Override
     public void onDismiss(final DialogInterface dialog) {
         super.onDismiss(dialog);
-        onClickOfOK();
     }
 
     @Override
@@ -58,47 +65,12 @@ public class ErrorDialogFragment extends DialogFragment {
         super.setShowsDialog(showsDialog);
     }
 
-    private View.OnClickListener dismissDialog() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickOfOK();
-            }
-        };
+    public void setErrorDialogListener(ErrorDialogListener dialogClickListener) {
+        mErrorDialogListener = dialogClickListener;
     }
 
-    private void onClickOfOK() {
-//        String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
-//        if (error != null && error.equals(getString(R.string.iap_time_out_error))) {
-//            IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
-//            addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
-//                    NoNetworkConnectionFragment.TAG);
-//        }
-        setShowsDialog(false);
+    private void dismissDialog() {
         dismiss();
+        setShowsDialog(false);
     }
-
-//    public void addFragment(BaseAnimationSupportFragment newFragment,
-//                            String newFragmentTag) {
-//
-//        if (getActivity() != null && !getActivity().isFinishing()) {
-//            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//            transaction.replace(getId(), newFragment, newFragmentTag);
-//            transaction.addToBackStack(null);
-//            transaction.commitAllowingStateLoss();
-//
-//            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-//                    + newFragmentTag + ")");
-//        }
-//    }
-
-    // TODO: 08-06-2016  This must be avoided and code using this function must be moved to
-    // basefragment. It can have side effects if this is the first fragment. It will replace the
-    // vertical fragment. Please check for code duplication as well.
-//    private int getPreviousFragmentID() {
-//        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
-//        List<Fragment> fragments = supportFragmentManager.getFragments();
-//        int size = fragments.size();
-//        return fragments.get(fragments.size() -1).getId();
-//    }
 }

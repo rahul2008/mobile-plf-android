@@ -122,6 +122,8 @@ public class PaymentRequestTest {
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, "US");
         if (CartModelContainer.getInstance().getRegionIsoCode() != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+        }else{
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, "");
         }
         addressHashMap.put(ModelConstants.LINE_1, "dfs");
         addressHashMap.put(ModelConstants.LINE_2, "dfs");

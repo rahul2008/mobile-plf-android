@@ -19,7 +19,6 @@ import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -131,19 +130,21 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             ShowDialogOnBackPressed();
             return true;
         } else {
-            if (getActivity() != null && getActivity() instanceof IAPActivity) {
-                int count = getFragmentManager().getBackStackEntryCount();
-                IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
-                for (int i = 0; i < count; i++) {
-                    getFragmentManager().popBackStack();
+            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+            if (fragment != null) {
+                if(getFragmentManager().findFragmentByTag(BillingAddressFragment.TAG) != null ||
+                        getFragmentManager().findFragmentByTag(PaymentSelectionFragment.TAG) != null){
+                    return false;
                 }
-                finishActivity();
+                moveToDemoAppByClearingStack();
+                return false;
+            } else {
+                return false;
             }
-            return false;
         }
     }
 
-    private void setSetOrderPlaceFalse() {
+    private void setOrderPlaced() {
         CartModelContainer.getInstance().setOrderPlaced(false);
     }
 
@@ -179,19 +180,12 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     private void doOnCancelOrder() {
-        setSetOrderPlaceFalse();
+        setOrderPlaced();
         Fragment fragment = getFragmentManager().findFragmentByTag(ShoppingCartFragment.TAG);
         if (fragment != null) {
             moveToFragment(ShoppingCartFragment.TAG);
         } else {
-            if (getActivity() != null && getActivity() instanceof IAPActivity) {
-                int count = getFragmentManager().getBackStackEntryCount();
-                IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
-                for (int i = 0; i < count; i++) {
-                    getFragmentManager().popBackStack();
-                }
-                finishActivity();
-            }
+            moveToDemoAppByClearingStack();
         }
     }
 

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -295,7 +296,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            getFragmentManager().popBackStackImmediate();
+            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+            if (fragment != null) {
+                moveToDemoAppByClearingStack();
+            } else {
+                getFragmentManager().popBackStackImmediate();
+            }
         }
     }
 
@@ -488,7 +494,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Bundle bundle = getArguments();
             DeliveryModes deliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
-            if(deliveryMode == null)
+            if (deliveryMode == null)
                 mAddressController.getDeliveryModes();
             else
                 mPaymentController.getPaymentDetails();
@@ -606,7 +612,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
         if (mAddressFieldsHashmap != null)
             addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
-       // addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
+        // addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.PHONE_2, "");
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
@@ -715,5 +721,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToDemoAppByClearingStack();
+        }
+        return super.onBackPressed();
     }
 }

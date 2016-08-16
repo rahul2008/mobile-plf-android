@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -191,6 +192,16 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             mFragmentLayout.setCartIconVisibility(View.GONE);
         } else {
             mFragmentLayout.setCartIconVisibility(visibility);
+        }
+    }
+
+    public void moveToDemoAppByClearingStack() {
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            int count = getFragmentManager().getBackStackEntryCount();
+            for (int i = 0; i < count; i++) {
+                getFragmentManager().popBackStack();
+            }
+            finishActivity();
         }
     }
 }
