@@ -144,10 +144,10 @@ public class DigitalCareConfigManager {
      * @param enterAnim               Animation resource ID.
      * @param exitAnim                Animation resource ID.
      */
-    private void invokeDigitalCareAsFragment(FragmentActivity context,
-                                             int parentContainerResId,
-                                             ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
-                                             int exitAnim) {
+    protected void invokeDigitalCareAsFragment(FragmentActivity context,
+                                               int parentContainerResId,
+                                               ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                               int exitAnim) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, before Support page is invoked");
         }
@@ -199,13 +199,7 @@ public class DigitalCareConfigManager {
         }
     }
 
-
- /*   @Override
-    public void init(Context context, UappDependencies uappDependencies) {
-
-        initializeDigitalCareLibrary(context);
-    }
-
+     /*
     @Override
     public void launch(com.philips.platform.uappframework.launcher.UiLauncher uiLauncher,
                        UappLaunchInput uappLaunchInput, UappListener uappListener) {
@@ -250,8 +244,8 @@ public class DigitalCareConfigManager {
      * @param endAnimation   Animation Resource ID.
      * @param orientation
      */
-    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation,
-                                             com.philips.cdp.productselection.launchertype.
+    protected void invokeDigitalCareAsActivity(int startAnimation, int endAnimation,
+                                               com.philips.cdp.productselection.launchertype.
                                                      ActivityLauncher.ActivityOrientation
                                                      orientation) {
         if (mContext == null || mLocale == null) {

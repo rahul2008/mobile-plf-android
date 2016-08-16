@@ -740,6 +740,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     private void launchProductSelectionActivityComponent() {
 
+        DigiCareLogger.d(TAG, "Launching ProductSelection as Activity Instance");
+
         /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));
         AIAppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().
         getAPPInfraInstance().getTagging();
