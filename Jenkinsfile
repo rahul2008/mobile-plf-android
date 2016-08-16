@@ -12,4 +12,9 @@ node('Android') {
 
     stage 'Archive App'
     step([$class: 'ArtifactArchiver', artifacts: 'Source/DICommClientSample/sampleApp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+
+    if(env.BRANCH_NAME == "develop"){
+        stage 'Publish'
+        sh 'cd ./Source/ShineLib && ./gradlew zipDocuments artifactoryPublish'
+    }
 }
