@@ -31,12 +31,12 @@
         </activity>
 
         <activity
-            android:name="com.philips.cdp.sampledigitalcare.SampleActivity"
+            android:name="com.philips.cdp.sampledigitalcare.launcher.componentLaunch.SampleActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"
             android:theme="@style/app_theme_vertical">
         </activity>
         <activity
-            android:name="com.philips.cdp.sampledigitalcare.LaunchDigitalCare"
+            android:name="com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLauncher"
             android:configChanges="orientation|screenSize|locale|layoutDirection"
             android:label="@string/app_name"
             android:theme="@style/app_theme_vertical">

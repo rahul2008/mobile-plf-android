@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcare;
+package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +19,7 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.sampledigitalcare.launcher.componentLaunch.LaunchDigitalCare;
 import com.philips.cl.di.dev.pa.R;
 
 /**
@@ -29,8 +30,8 @@ import com.philips.cl.di.dev.pa.R;
  */
 
 
-public class SampleActivity extends FragmentActivity implements View.OnClickListener {
-    private static final String TAG = SampleActivity.class.getSimpleName();
+public class MicroAppFragmentActivity extends FragmentActivity implements View.OnClickListener {
+    private static final String TAG = MicroAppFragmentActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
@@ -57,8 +58,8 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
 
         if (LaunchDigitalCare.mList != null) {
             String[] ctnList = new String[LaunchDigitalCare.mList.size()];
-            for (int i = 0; i < LaunchDigitalCare.mList.size(); i++)
-                ctnList[i] = LaunchDigitalCare.mList.get(i);
+            for (int i = 0; i < MicroAppLauncher.mList.size(); i++)
+                ctnList[i] = MicroAppLauncher.mList.get(i);
 
             ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
             productsSelection.setCatalog(Catalog.CARE);

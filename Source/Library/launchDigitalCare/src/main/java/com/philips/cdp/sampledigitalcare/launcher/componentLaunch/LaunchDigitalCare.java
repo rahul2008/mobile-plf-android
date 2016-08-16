@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcare;
+package com.philips.cdp.sampledigitalcare.launcher.componentLaunch;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,14 +17,14 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.listeners.MainMenuListener;
-import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
-import com.philips.cdp.digitalcare.social.SocialProviderListener;
+import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
+import com.philips.cdp.sampledigitalcare.DummyScreen;
+import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
@@ -43,7 +43,7 @@ import java.util.List;
  */
 
 public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
-        MainMenuListener, ProductMenuListener, SocialProviderListener {
+        CcListener {
 
     private static final String TAG = LaunchDigitalCare.class.getSimpleName();
     public static ArrayList<String> mList = null;
@@ -124,9 +124,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     @Override
     protected void onDestroy() {
-        DigitalCareConfigManager.getInstance().unregisterMainMenuListener(this);
-        DigitalCareConfigManager.getInstance().unregisterProductMenuListener(this);
-        DigitalCareConfigManager.getInstance().unregisterSocialProviderListener(this);
+        DigitalCareConfigManager.getInstance().unRegisterCcListener(this);
         super.onDestroy();
     }
 
@@ -205,11 +203,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 this);
 
         // Set DigitalCareLibrary Listeners
-        DigitalCareConfigManager.getInstance().registerMainMenuListener(this);
-        DigitalCareConfigManager.getInstance()
-                .registerProductMenuListener(this);
-        DigitalCareConfigManager.getInstance().registerSocialProviderListener(
-                this);
+        DigitalCareConfigManager.getInstance().registerCcListener(this);
 
     }
 
@@ -306,4 +300,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
 
     }*/
+
+
 }

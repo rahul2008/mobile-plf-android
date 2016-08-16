@@ -532,9 +532,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         String tag = (String) view.getTag();
 
         if (DigitalCareConfigManager.getInstance()
-                .getProductMenuListener() != null) {
+                .getCcListener() != null) {
             DigitalCareConfigManager.getInstance()
-                    .getProductMenuListener().onProductMenuItemClicked(tag);
+                    .getCcListener().onProductMenuItemClicked(tag);
         }
 
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(

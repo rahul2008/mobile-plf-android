@@ -7,7 +7,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -19,12 +19,10 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
-import com.philips.cdp.digitalcare.listeners.MainMenuListener;
+import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
-import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -56,9 +54,7 @@ public class DigitalCareConfigManager {
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private static UiLauncher mUiLauncher = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
-    private MainMenuListener mMainMenuListener = null;
-    private ProductMenuListener mProductMenuListener = null;
-    private SocialProviderListener mSocialProviderListener = null;
+    private CcListener mCcListener = null;
     private String mAppID = null;
     private String mAppName = null;
     private String mPageName = null;
@@ -148,10 +144,10 @@ public class DigitalCareConfigManager {
      * @param enterAnim               Animation resource ID.
      * @param exitAnim                Animation resource ID.
      */
-    private void invokeDigitalCareAsFragment(FragmentActivity context,
-                                             int parentContainerResId,
-                                             ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
-                                             int exitAnim) {
+    protected void invokeDigitalCareAsFragment(FragmentActivity context,
+                                               int parentContainerResId,
+                                               ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                               int exitAnim) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, before Support page is invoked");
         }
@@ -181,23 +177,60 @@ public class DigitalCareConfigManager {
             if (productModelSelectionType.getHardCodedProductList().length == 0)
                 throw new IllegalStateException("Please make sure to set valid CTN before invoke");
         } else
-            throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
+            throw new IllegalArgumentException("Please make sure to set the valid " +
+                    "ProductModelSelectionType object");
 
         if (uiLauncher instanceof ActivityLauncher) {
 
             DigiCareLogger.i(TAG, "Launching as Activity");
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
+            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
+                    uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         } else {
             DigiCareLogger.i(TAG, "Launching through Fragment Manager instance");
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
-                    fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(),
+                    fragmentLauncher.getParentContainerResourceID(),
+                    fragmentLauncher.getActionbarUpdateListener(),
+                    uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
         }
     }
+
+     /*
+    @Override
+    public void launch(com.philips.platform.uappframework.launcher.UiLauncher uiLauncher,
+                       UappLaunchInput uappLaunchInput, UappListener uappListener) {
+
+        HardcodedProductList hardcodedProductList = (HardcodedProductList) uappLaunchInput;
+
+        if (uiLauncher instanceof com.philips.platform.uappframework.launcher.ActivityLauncher) {
+
+            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
+                    uiLauncher.getExitAnimation(), null);
+
+        } else {
+
+            com.philips.platform.uappframework.launcher.FragmentLauncher fragmentLauncher
+                    = (com.philips.platform.uappframework.launcher.FragmentLauncher) uiLauncher;
+
+            FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
+            int containerViewId = fragmentLauncher.getParentContainerResourceID();
+            int enterAnimation = fragmentLauncher.getEnterAnimation();
+            int exitAnimation = fragmentLauncher.getExitAnimation();
+            ActionBarListener actionBarListener = fragmentLauncher.getActionbarListener();
+
+
+            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(),
+                    fragmentLauncher.getParentContainerResourceID(),
+                    null,
+                    uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+        }
+
+    }*/
+
 
     public UiLauncher getUiLauncher() {
         return mUiLauncher;
@@ -211,13 +244,19 @@ public class DigitalCareConfigManager {
      * @param endAnimation   Animation Resource ID.
      * @param orientation
      */
-    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation orientation) {
+    protected void invokeDigitalCareAsActivity(int startAnimation, int endAnimation,
+                                               com.philips.cdp.productselection.launchertype.
+                                                     ActivityLauncher.ActivityOrientation
+                                                     orientation) {
         if (mContext == null || mLocale == null) {
-            throw new RuntimeException("Please initialise context,  and locale before Support page is invoked");
+            throw new RuntimeException("Please initialise context, " +
+                    " and locale before Support page is invoked");
         }
         if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("") || (mAppName == null) || (mAppName == "") || (mPageName == null) || (mPageName == "")) {
-                throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
+            if (mAppID == null || mAppID.equals("") || (mAppName == null) ||
+                    (mAppName == "") || (mPageName == null) || (mPageName == "")) {
+                throw new RuntimeException("Please make sure to set the valid " +
+                        "App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
        /* DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
@@ -318,91 +357,26 @@ public class DigitalCareConfigManager {
     }
 
 
-    /**
-     * set the {@link MainMenuListener} object.
-     *
-     * @param mainMenuListener MainMenuListener interface object.
-     */
-    public void registerMainMenuListener(MainMenuListener mainMenuListener) {
-        mMainMenuListener = mainMenuListener;
+    public void registerCcListener(CcListener mainMenuListener) {
+        mCcListener = mainMenuListener;
     }
 
     /**
-     * Removing the {@link MainMenuListener} object.
+     * Removing the {@link CcListener} object.
      *
      * @param mainMenuListener MainMenuListener interface object.
      */
-    public void unregisterMainMenuListener(MainMenuListener mainMenuListener) {
-        mMainMenuListener = null;
+    public void unRegisterCcListener(CcListener mainMenuListener) {
+        mCcListener = null;
     }
 
     /**
-     * Returns {@link MainMenuListener} object.
+     * Returns {@link CcListener} object.
      *
      * @return Returns the MainMenuListener object using across the DigitalCare component.
      */
-    public MainMenuListener getMainMenuListener() {
-        return mMainMenuListener;
-    }
-
-
-    /**
-     * set the {@link ProductMenuListener} object.
-     *
-     * @param productMenuListener ProductMenuListener object.
-     */
-    public void registerProductMenuListener(
-            ProductMenuListener productMenuListener) {
-        mProductMenuListener = productMenuListener;
-    }
-
-    /**
-     * Unregister {@link ProductMenuListener} Object.
-     *
-     * @param productMenuListener ProductMenuListener object.
-     */
-    public void unregisterProductMenuListener(
-            ProductMenuListener productMenuListener) {
-        mProductMenuListener = null;
-    }
-
-    /**
-     * Returns the {@link ProductMenuListener} object.
-     *
-     * @return {@link ProductMenuListener}
-     */
-    public ProductMenuListener getProductMenuListener() {
-        return mProductMenuListener;
-    }
-
-
-    /**
-     * set the {@link SocialProviderListener} object.
-     *
-     * @param socialProviderListener (@link socialProviderListener)
-     */
-    public void registerSocialProviderListener(
-            SocialProviderListener socialProviderListener) {
-        mSocialProviderListener = socialProviderListener;
-    }
-
-    /**
-     * Remove the {@link SocialProviderListener} object.
-     *
-     * @param socialProviderListener {@link SocialProviderListener}
-     */
-    public void unregisterSocialProviderListener(
-            SocialProviderListener socialProviderListener) {
-        mSocialProviderListener = null;
-    }
-
-    /**
-     * Returns the {@link SocialProviderListener} object.
-     *
-     * @return {@link SocialProviderListener} object using across the DigitalCare component.
-     */
-    public SocialProviderListener getSocialProviderListener() {
-        return mSocialProviderListener;
+    public CcListener getCcListener() {
+        return mCcListener;
     }
 
 
