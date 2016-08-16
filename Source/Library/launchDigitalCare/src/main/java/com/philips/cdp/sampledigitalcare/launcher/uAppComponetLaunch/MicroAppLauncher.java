@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcare;
+package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +23,12 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
+import com.philips.cdp.sampledigitalcare.DummyScreen;
+import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
+import com.philips.cdp.sampledigitalcare.launcher.componentLaunch.LaunchDigitalCare;
+import com.philips.cdp.sampledigitalcare.launcher.componentLaunch.SampleActivity;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
