@@ -19,12 +19,10 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
-import com.philips.cdp.digitalcare.listeners.MainMenuListener;
+import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
-import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -32,23 +30,17 @@ import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
-import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.UappInterface;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.UappListener;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.Locale;
 
 
-public class DigitalCareConfigManager implements UappInterface {
+public class DigitalCareConfigManager {
 
     private static final String TAG = DigitalCareConfigManager.class.getSimpleName();
     public static ProductModelSelectionType mProductModelSelectionType = null;
@@ -62,9 +54,7 @@ public class DigitalCareConfigManager implements UappInterface {
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private static UiLauncher mUiLauncher = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
-    private MainMenuListener mMainMenuListener = null;
-    private ProductMenuListener mProductMenuListener = null;
-    private SocialProviderListener mSocialProviderListener = null;
+    private CcListener mCcListener = null;
     private String mAppID = null;
     private String mAppName = null;
     private String mPageName = null;
@@ -210,7 +200,7 @@ public class DigitalCareConfigManager implements UappInterface {
     }
 
 
-    @Override
+ /*   @Override
     public void init(Context context, UappDependencies uappDependencies) {
 
         initializeDigitalCareLibrary(context);
@@ -245,7 +235,7 @@ public class DigitalCareConfigManager implements UappInterface {
                     uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
         }
 
-    }
+    }*/
 
 
     public UiLauncher getUiLauncher() {
@@ -373,91 +363,26 @@ public class DigitalCareConfigManager implements UappInterface {
     }
 
 
-    /**
-     * set the {@link MainMenuListener} object.
-     *
-     * @param mainMenuListener MainMenuListener interface object.
-     */
-    public void registerMainMenuListener(MainMenuListener mainMenuListener) {
-        mMainMenuListener = mainMenuListener;
+    public void registerCcListener(CcListener mainMenuListener) {
+        mCcListener = mainMenuListener;
     }
 
     /**
-     * Removing the {@link MainMenuListener} object.
+     * Removing the {@link CcListener} object.
      *
      * @param mainMenuListener MainMenuListener interface object.
      */
-    public void unregisterMainMenuListener(MainMenuListener mainMenuListener) {
-        mMainMenuListener = null;
+    public void unRegisterCcListener(CcListener mainMenuListener) {
+        mCcListener = null;
     }
 
     /**
-     * Returns {@link MainMenuListener} object.
+     * Returns {@link CcListener} object.
      *
      * @return Returns the MainMenuListener object using across the DigitalCare component.
      */
-    public MainMenuListener getMainMenuListener() {
-        return mMainMenuListener;
-    }
-
-
-    /**
-     * set the {@link ProductMenuListener} object.
-     *
-     * @param productMenuListener ProductMenuListener object.
-     */
-    public void registerProductMenuListener(
-            ProductMenuListener productMenuListener) {
-        mProductMenuListener = productMenuListener;
-    }
-
-    /**
-     * Unregister {@link ProductMenuListener} Object.
-     *
-     * @param productMenuListener ProductMenuListener object.
-     */
-    public void unregisterProductMenuListener(
-            ProductMenuListener productMenuListener) {
-        mProductMenuListener = null;
-    }
-
-    /**
-     * Returns the {@link ProductMenuListener} object.
-     *
-     * @return {@link ProductMenuListener}
-     */
-    public ProductMenuListener getProductMenuListener() {
-        return mProductMenuListener;
-    }
-
-
-    /**
-     * set the {@link SocialProviderListener} object.
-     *
-     * @param socialProviderListener (@link socialProviderListener)
-     */
-    public void registerSocialProviderListener(
-            SocialProviderListener socialProviderListener) {
-        mSocialProviderListener = socialProviderListener;
-    }
-
-    /**
-     * Remove the {@link SocialProviderListener} object.
-     *
-     * @param socialProviderListener {@link SocialProviderListener}
-     */
-    public void unregisterSocialProviderListener(
-            SocialProviderListener socialProviderListener) {
-        mSocialProviderListener = null;
-    }
-
-    /**
-     * Returns the {@link SocialProviderListener} object.
-     *
-     * @return {@link SocialProviderListener} object using across the DigitalCare component.
-     */
-    public SocialProviderListener getSocialProviderListener() {
-        return mSocialProviderListener;
+    public CcListener getCcListener() {
+        return mCcListener;
     }
 
 

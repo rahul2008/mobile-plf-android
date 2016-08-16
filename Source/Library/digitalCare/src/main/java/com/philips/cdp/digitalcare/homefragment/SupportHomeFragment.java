@@ -53,7 +53,6 @@ import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
@@ -578,9 +577,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         boolean actionTaken = false;
         if (DigitalCareConfigManager.getInstance()
-                .getMainMenuListener() != null) {
+                .getCcListener() != null) {
             actionTaken = DigitalCareConfigManager.getInstance()
-                    .getMainMenuListener().onMainMenuItemClicked(tag.toString());
+                    .getCcListener().onMainMenuItemClicked(tag.toString());
         }
 
         if (actionTaken) {

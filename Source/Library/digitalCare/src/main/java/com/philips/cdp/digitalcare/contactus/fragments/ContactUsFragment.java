@@ -517,7 +517,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         try {
             if (tag != null) {
                 actionTaken = DigitalCareConfigManager.getInstance()
-                        .getSocialProviderListener()
+                        .getCcListener()
                         .onSocialProviderItemClicked(tag.toString());
             }
         } catch (NullPointerException exception) {
