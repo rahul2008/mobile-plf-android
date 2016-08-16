@@ -13,11 +13,7 @@ import android.app.Activity;
 
 import com.philips.platform.uappframework.listener.UappListener;
 
-import java.io.Serializable;
-
-public interface UserRegistrationListener extends UappListener, Serializable {
-
-    long serialVersionUID = 1240231269747142242L;
+public interface UserRegistrationListener extends UappListener{
 
     void onUserRegistrationComplete(Activity activity);
 
