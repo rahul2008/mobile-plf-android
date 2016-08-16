@@ -2,7 +2,8 @@
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+*//*
+
 package com.philips.platform.modularui.cocointerface;
 
 import android.app.Activity;
@@ -63,20 +64,17 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     public void loadPlugIn(Context context) {
         this.context = context;
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-
-
     }
 
     @Override
     public void runCoCo(Context context) {
-        //if(context instanceof UserRegistrationActivity) {
             launchRegistrationFragment(containerID,fragmentActivity, true);
-        //}
-
     }
-    /**
+    */
+/**
      * Launch registration fragment
-     */
+     *//*
+
     private void launchRegistrationFragment(int container, FragmentActivity fragmentActivity, boolean isAccountSettings ) {
         try {
             FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
@@ -161,3 +159,4 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     }
 
 }
+*/

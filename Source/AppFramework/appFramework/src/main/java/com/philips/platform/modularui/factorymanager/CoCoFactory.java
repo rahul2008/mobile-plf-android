@@ -8,8 +8,6 @@ package com.philips.platform.modularui.factorymanager;
 
 import com.philips.platform.modularui.cocointerface.UICoCoConsumerCareImpl;
 import com.philips.platform.modularui.cocointerface.UICoCoInterface;
-import com.philips.platform.modularui.cocointerface.UICoCoProdRegImpl;
-import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.util.UIConstants;
 
 public class CoCoFactory {
@@ -29,10 +27,6 @@ public class CoCoFactory {
     public UICoCoInterface getCoCo(@UIConstants.UICoCoConstants int coCo) {
 
         switch (coCo) {
-            case UIConstants.UI_COCO_PRODUCT_REGISTRATION:
-                return new UICoCoProdRegImpl();
-            case UIConstants.UI_COCO_USER_REGISTRATION:
-                return UICoCoUserRegImpl.getInstance();
             case UIConstants.UI_COCO_CONSUMER_CARE:
                 return UICoCoConsumerCareImpl.getInstance();
             case UIConstants.UI_COCO_IN_APP_PURCHASE:

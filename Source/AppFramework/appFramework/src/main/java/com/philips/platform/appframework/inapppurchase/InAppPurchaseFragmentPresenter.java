@@ -6,11 +6,12 @@
 package com.philips.platform.appframework.inapppurchase;
 
 import android.content.Context;
-import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
-public class InAppPurchaseFragmentPresenter extends UIBasePresenter implements UICoCoUserRegImpl.SetStateCallBack {
+import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+
+public class InAppPurchaseFragmentPresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
     private AppFrameworkApplication appFrameworkApplication;
 
     @Override

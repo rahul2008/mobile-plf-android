@@ -2,7 +2,8 @@
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+*//*
+
 package com.philips.platform.modularui.cocointerface;
 
 import android.content.Context;
@@ -43,9 +44,9 @@ public class UICoCoProdRegImpl implements UICoCoInterface, com.philips.cdp.prodr
 
     @Override
     public void runCoCo(Context context) {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(loadProduct());
-        ProdRegConfig prodRegConfig;
+            ArrayList<Product> products = new ArrayList<>();
+            products.add(loadProduct());
+            ProdRegConfig prodRegConfig;
             FragmentLauncher fragLauncher = new FragmentLauncher(fa, containerID, this);
             fragLauncher.setAnimation(0, 0);
             prodRegConfig = new ProdRegConfig(products, false);
@@ -72,8 +73,10 @@ public class UICoCoProdRegImpl implements UICoCoInterface, com.philips.cdp.prodr
 
     @Override
     public void updateActionbar(String s) {
-        /*if (getActivity() != null && getActivity().getActionBar() != null)
-            getActivity().getActionBar().setTitle(var1);*/
+        */
+/*if (getActivity() != null && getActivity().getActionBar() != null)
+            getActivity().getActionBar().setTitle(var1);*//*
+
     }
 
     @Override
@@ -90,3 +93,4 @@ public class UICoCoProdRegImpl implements UICoCoInterface, com.philips.cdp.prodr
         this.containerID = containerID;
     }
 }
+*/

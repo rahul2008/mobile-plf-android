@@ -65,4 +65,7 @@ abstract public class UIState {
         this.uiBasePresenter = uiBasePresenter;
     }
 
+    public UIBasePresenter getPresenter(){
+        return uiBasePresenter;
+    }
 }
