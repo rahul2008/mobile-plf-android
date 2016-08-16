@@ -25,7 +25,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     ServiceDiscoveryManager mServiceDiscoveryManager = null;
     AppInfra mAppInfra;
-    ServiceDiscovery mServiceDiscovery  = null;
+    ServiceDiscovery mserviceDiscovery  = null;
     MatchByCountryOrLanguage mMatchByCountryOrLanguage = null;
     String mServiceId = "userreg.janrain.cdn";
     // Context context = Mockito.mock(Context.class);
@@ -44,9 +44,9 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         assertNotNull(mAppInfra);
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mServiceDiscovery = new ServiceDiscovery();
+        mserviceDiscovery = new ServiceDiscovery();
         mMatchByCountryOrLanguage= new MatchByCountryOrLanguage();
-        assertNotNull(mServiceDiscovery);
+        assertNotNull(mserviceDiscovery);
         assertNotNull(mMatchByCountryOrLanguage);
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
@@ -212,9 +212,10 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testfilterDataForUrlbyLang(){
-        mServiceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
-        mServiceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
         mMatchByCountryOrLanguage.setLocale("TestLocale");
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
         mServiceDiscoveryManager.filterDataForUrlbyLang(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -229,9 +230,10 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         });
     }
     public void testfilterDataForUrlbyLangArray(){
-        mServiceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
-        mServiceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
         mMatchByCountryOrLanguage.setLocale("TestLocale");
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
 
         mServiceDiscoveryManager.filterDataForUrlbyLang(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
@@ -247,9 +249,10 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         });
     }
     public void testfilterDataForUrlbyCountry(){
-        mServiceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
-        mServiceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
         mMatchByCountryOrLanguage.setLocale("TestLocale");
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
         mServiceDiscoveryManager.filterDataForUrlbyCountry(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -264,9 +267,10 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         });
     }
     public void testfilterDataForUrlbyCountryArray(){
-        mServiceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
-        mServiceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
         mMatchByCountryOrLanguage.setLocale("TestLocale");
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
         mServiceDiscoveryManager.filterDataForUrlbyCountry(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
@@ -281,9 +285,10 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         });
     }
     public void testfilterDataForLocalByLang(){
-        mServiceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
-        mServiceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
         mMatchByCountryOrLanguage.setLocale("TestLocale");
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
         mServiceDiscoveryManager.filterDataForLocalByLang(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String locale) {
@@ -298,9 +303,12 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         });
     }
     public void testfilterDataForLocalByCountry(){
-        mServiceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
-        mServiceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage());
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage());
         mMatchByCountryOrLanguage.setLocale("TestLocale");
+
+//        mMatchByCountryOrLanguage.setConfigs(mConfigArray);
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
         mServiceDiscoveryManager.filterDataForLocalByCountry(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String locale) {
@@ -314,6 +322,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             }
         });
     }
+
     public MatchByCountryOrLanguage commonMatchByCountryOrLanguage() {
 
         Tag mTag = new Tag();
@@ -342,7 +351,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         assertNotNull(mconfig.getUrls());
 
         ArrayList mConfigArray = new ArrayList();
-        mTagArray.add(mconfig);
+        mConfigArray.add(mconfig);
 
         MatchByCountryOrLanguage mMatchByCountryOrLanguage = new MatchByCountryOrLanguage();
         mMatchByCountryOrLanguage.setLocale("TestLocale");
