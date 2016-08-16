@@ -15,6 +15,6 @@ node('Android') {
 
     if(env.BRANCH_NAME == "develop"){
         stage 'Publish'
-        sh 'cd ./Source/ShineLib && ./gradlew zipDocuments artifactoryPublish'
+        sh 'cd ./Source/DICommClient && ./gradlew zipDocuments artifactoryPublish'
     }
 }
