@@ -155,7 +155,8 @@ public class AppIdentityManager implements AppIdentityInterface {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppLocalizedNAme", "" + getLocalizedAppName());
                 } catch (JSONException e) {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                            Log.getStackTraceString(e));                }
+                            Log.getStackTraceString(e));
+                }
             }
         } catch (Exception ex) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
@@ -184,7 +185,6 @@ public class AppIdentityManager implements AppIdentityInterface {
         } catch (AssertionError error) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
                     Log.getStackTraceString(error));
-
         }
 
         Set<String> set;
@@ -258,7 +258,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
             mAppVersion = String.valueOf(pInfo.versionName);
             if (mAppVersion != null && !mAppVersion.isEmpty()) {
-                if (!mAppVersion.matches(" [0-9]+\\.[0-9]+\\.[0-9]+([_-].*)?]")) {
+                if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_-].*)?")) {
                     Assert.fail("AppVersion should in this format \" [0-9]+\\\\.[0-9]+\\\\.[0-9]+([_-].*)?]\" ");
                 }
             } else {

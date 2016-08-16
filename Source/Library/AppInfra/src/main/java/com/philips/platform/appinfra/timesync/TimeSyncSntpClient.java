@@ -15,6 +15,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.R;
 
@@ -33,7 +34,7 @@ import java.util.TimeZone;
  * Created by 310243577 on 6/27/2016.
  * * This provides API's to retrieve and refresh the server time .
  */
-public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterface {
+public class TimeSyncSntpClient extends BroadcastReceiver  implements TimeInterface {
 
 
     private static final String TAG = "TimeSyncSntpClient";
@@ -72,6 +73,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
 
     public TimeSyncSntpClient() {
     }
+
 
     public synchronized void init() {
         mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE, Context.MODE_PRIVATE);
@@ -331,6 +333,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
     @Override
     public Date getUTCTime() {
         Date ntpDate = null;
+        System.out.println("NTPTIME"+" "+mNtpTime);
         DateFormat date_format = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
         try {
             if (mNtpTime == 0L) {
@@ -338,7 +341,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
                 final Date utcDate = new Date(mNtpTime);
                 date_format.format(utcDate);
                 Log.i("DATE_FORMAT", "" + date_format.format(utcDate));
-                refreshTime();
+              //  refreshTime();
                 ntpDate = date_format.parse(getCurrentUTCTimeWithFormat());
             } else {
                 ntpDate = date_format.parse(getCurrentUTCTimeWithFormat());
@@ -372,7 +375,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
                 final Date utcDate = new Date(mNtpTime);
                 date_format.format(utcDate);
                 Log.i("DATE_FORMAT", "" + date_format.format(utcDate));
-                refreshTime();
+             //   refreshTime();
                 ntpDate = date_format.parse(getCurrentTime());
             } else {
                 ntpDate = date_format.parse(getCurrentTime());
