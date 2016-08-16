@@ -27,6 +27,6 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
 
     @Override
     public void back(final Context context) {
-        ((AppFrameworkBaseActivity) context).popBackTillHomeFragment();
+        ((AppFrameworkBaseActivity) context).popBack();
     }
 }

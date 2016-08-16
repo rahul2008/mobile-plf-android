@@ -207,11 +207,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
-        } else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())) {
+        } /*else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())) {
             inAppPurchaseBackPress();
         } else if (findFragmentByTag(InAppPurchasesHistoryFragment.class.getSimpleName())) {
             inAppPurchaseBackPress();
-        } else if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+        } */else if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
             super.onBackPressed();
         }
 
@@ -219,11 +219,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             finishAffinity();
         } else if (findIfHomeFragmentSentBack()) {
             finishAffinity();
-        } else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
+        } else if (findFragmentByTag(InAppPurchasesFragment.TAG) || findFragmentByTag(InAppPurchasesHistoryFragment.TAG)) {
             if (!inAppPurchaseBackPress()) {
                 super.popBackTillHomeFragment();
             }
-        } else if (findFragmentByTag("Registration_fragment_tag")) {
+        }
+        else if (findFragmentByTag("Registration_fragment_tag")) {
             if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
                 super.popBack();
             }
