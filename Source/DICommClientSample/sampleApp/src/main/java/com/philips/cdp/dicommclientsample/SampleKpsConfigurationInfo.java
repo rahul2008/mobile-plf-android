@@ -2,6 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclientsample;
 
 import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
@@ -66,6 +67,6 @@ class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
 
     @Override
     public String getDevicePortUrl() {
-        return "https://www.bat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
+        return "https://www.uat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
     }
 }

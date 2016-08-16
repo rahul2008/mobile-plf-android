@@ -35,6 +35,6 @@ dependencies {
     if (findProject(':dicommClientLib')) {
         compile project(':dicommClientLib')
     } else {
-        compile 'com.philips.cdp:dicommClientLib:1.0.3'
+        compile 'com.philips.cdp:dicommClientLib:1.2.1'
     }
 }

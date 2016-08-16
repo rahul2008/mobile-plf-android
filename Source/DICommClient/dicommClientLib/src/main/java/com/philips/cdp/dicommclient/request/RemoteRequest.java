@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -10,7 +10,6 @@ import android.util.Log;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.data.Errors;
 
@@ -28,8 +27,8 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private static final String DICOMM_REQUEST = "DICOMM-REQUEST";
     private static int REQUEST_PRIORITY = 20;
     private static int REQUEST_TTL = 5;
+    private final String cppId;
 
-    private String mEventData;
     private String mResponse;
     private int mMessageId;
     private String mConversationId;
@@ -39,15 +38,16 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private CppController mCppController;
     private final RemoteRequestType mRequestType;
 
-    public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler) {
-        super(networkNode, dataMap, responseHandler);
-        mCppController = CppController.getInstance();
+    public RemoteRequest(String cppId, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, final CppController cppController) {
+        super(dataMap, responseHandler);
+        this.cppId = cppId;
+        mCppController = cppController;
         mRequestType = requestType;
         mPortName = portName;
         mProductId = productId;
     }
 
-    private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String, Object> dataMap) {
+    private String createDataToSend(String portName, int productId, Map<String, Object> dataMap) {
         String data = Request.convertKeyValuesToJson(dataMap);
         String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
 
@@ -58,13 +58,12 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     @Override
     public Response execute() {
         DICommLog.d(DICommLog.REMOTEREQUEST, "Start request REMOTE");
-        //TODO - Add publish event listener for handling error cases
         mCppController.addDCSResponseListener(this);
         mCppController.addPublishEventListener(this);
 
-        mEventData = createDataToSend(mNetworkNode, mPortName, mProductId, mDataMap);
+        String mEventData = createDataToSend(mPortName, mProductId, mDataMap);
         mMessageId = mCppController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
-                "", REQUEST_PRIORITY, REQUEST_TTL, mNetworkNode.getCppId());
+                "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
         try {
             long startTime = System.currentTimeMillis();
             synchronized (this) {

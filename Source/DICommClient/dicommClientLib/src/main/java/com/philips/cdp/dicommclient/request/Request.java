@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -13,12 +13,10 @@ import java.util.Set;
 public abstract class Request {
 
     protected final Map<String, Object> mDataMap;
-    protected final NetworkNode mNetworkNode;
     protected final ResponseHandler mResponseHandler;
 
-    public Request(NetworkNode networkNode, Map<String, Object> dataMap, ResponseHandler responseHandler) {
+    public Request(Map<String, Object> dataMap, ResponseHandler responseHandler) {
         this.mDataMap = dataMap;
-        this.mNetworkNode = networkNode;
         this.mResponseHandler = responseHandler;
     }
 
