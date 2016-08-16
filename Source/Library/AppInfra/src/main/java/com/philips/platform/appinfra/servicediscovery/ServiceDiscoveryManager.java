@@ -32,8 +32,7 @@ import java.util.Map;
  * This class downloads list of URLs from service discovery server,
  * providing the locale and the identity of the application.
  */
-public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, ServiceDiscoveryInterface
-        .OnRefreshListener {
+public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private AppInfra mAppInfra;
     private Context context;
@@ -41,7 +40,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     public static boolean isDownloadInProgress = false;
     private String countryCode;
     private String mUrl = null;
-    private String mCountry;
+    String mCountry;
     SharedPreferences pref = null;
 
     ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES mErrorValues = null;
@@ -50,16 +49,33 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
-        OnRefreshListener mOnRefreshListener = this;
+//        OnRefreshListener mOnRefreshListener = this;
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
-        refresh(mOnRefreshListener);
+        refresh(new OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+                Log.i("Refresh Success", "Refresh Success");
+                if (RequestManager.mServiceDiscovery != null) {
+                    if (RequestManager.mServiceDiscovery.isSuccess()) {
+                        isDataAvailable = true;
+                        isDownloadInProgress = false;
+                    }
+                }
+            }
 
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                Log.i("Refresh Failed" + error, "Refresh error " + message);
+                mErrorValues = error;
+                errorMessage = message;
+                isDownloadInProgress = false;
+            }
+        });
     }
 
-
-    private String getService(OnRefreshListener listener) {
+    String getService(OnRefreshListener listener) {
         String urlBuild;
         final String country = getCountry();
         if (null != country) {
@@ -76,7 +92,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         return urlBuild;
     }
 
-    private String buildUrl() {
+    String buildUrl() {
         final AppIdentityManager identityManager = new AppIdentityManager(mAppInfra);
         identityManager.loadJSONFromAsset();
         final InternationalizationManager localManager = new InternationalizationManager(mAppInfra);
@@ -184,33 +200,33 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
     @Override
     public void getServicesWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        ServicesWithLanguageorCountryPreference(serviceId,listener, false );
+        ServicesWithLanguageorCountryPreference(serviceId, listener, false);
     }
 
     @Override
     public void getServicesWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        ServicesWithLanguageorCountryPreference(serviceId,listener, true );
+        ServicesWithLanguageorCountryPreference(serviceId, listener, true);
     }
 
     @Override
     public void getServiceLocaleWithLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener) {
 
-        ServiceLocaleWithCountryorLanguagePreference(serviceId,listener, false );
+        ServiceLocaleWithCountryorLanguagePreference(serviceId, listener, false);
     }
 
     @Override
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        ServiceLocaleWithCountryorLanguagePreference(serviceId,listener, true );
+        ServiceLocaleWithCountryorLanguagePreference(serviceId, listener, true);
     }
 
     private void serviceURLwithCountryorLanguagePreferences(final String serviceId, final OnGetServiceUrlListener listener, final boolean isserviceURLwithCountryPreference) {
         if (serviceId.contains(",") || serviceId == null) {
-            listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
+            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
         } else {
             if (isDataAvailable) {
-                if(isserviceURLwithCountryPreference){
+                if (isserviceURLwithCountryPreference) {
                     filterDataForUrlbyCountry(serviceId, listener);
-                }else{
+                } else {
                     filterDataForUrlbyLang(serviceId, listener);
                 }
             } else {
@@ -220,31 +236,32 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                         public void onError(ERRORVALUES error, String message) {
                             listener.onError(error, message);
                         }
+
                         @Override
                         public void onSuccess() {
-                            if(isserviceURLwithCountryPreference){
+                            if (isserviceURLwithCountryPreference) {
                                 filterDataForUrlbyCountry(serviceId, listener);
-                            }else{
+                            } else {
                                 filterDataForUrlbyLang(serviceId, listener);
                             }
                         }
                     });
                 } else {
-                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                    listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
                 }
 
             }
         }
     }
 
-    private void ServicesWithLanguageorCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener, final boolean isserviceswithCountryPreference ){
+    private void ServicesWithLanguageorCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener, final boolean isserviceswithCountryPreference) {
         if (serviceId == null) {
-            listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
+            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
         } else {
             if (isDataAvailable) {
-                if(isserviceswithCountryPreference){
+                if (isserviceswithCountryPreference) {
                     filterDataForUrlbyCountry(serviceId, listener);
-                }else{
+                } else {
                     filterDataForUrlbyLang(serviceId, listener);
                 }
             } else {
@@ -257,25 +274,25 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
                         @Override
                         public void onSuccess() {
-                            if(isserviceswithCountryPreference){
+                            if (isserviceswithCountryPreference) {
                                 filterDataForUrlbyCountry(serviceId, listener);
-                            }else{
+                            } else {
                                 filterDataForUrlbyLang(serviceId, listener);
                             }
                         }
                     });
                 } else {
-                    listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                    listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
                 }
             }
         }
     }
 
-    private void ServiceLocaleWithCountryorLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener, final boolean isServiceLocaleWithCountry){
+    private void ServiceLocaleWithCountryorLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener, final boolean isServiceLocaleWithCountry) {
         if (isDataAvailable) {
-            if(isServiceLocaleWithCountry){
+            if (isServiceLocaleWithCountry) {
                 filterDataForLocalByCountry(serviceId, listener);
-            }else{
+            } else {
                 filterDataForLocalByLang(serviceId, listener);
             }
 
@@ -289,67 +306,95 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
 
                     @Override
                     public void onSuccess() {
-                        if(isServiceLocaleWithCountry){
+                        if (isServiceLocaleWithCountry) {
                             filterDataForLocalByCountry(serviceId, listener);
-                        }else{
+                        } else {
                             filterDataForLocalByLang(serviceId, listener);
                         }
                     }
                 });
             } else {
-                listener.onError(ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
             }
         }
     }
 
-    private void filterDataForUrlbyLang(String serviceIds, OnGetServiceUrlListener onGetServiceUrlListener) {
-        if (onGetServiceUrlListener != null && serviceIds != null) {
-            try {
-                final URL url = new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
-                if (url == null) {
-                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-                } else {
-                    onGetServiceUrlListener.onSuccess(url);
+     void filterDataForUrlbyLang(String serviceIds, OnGetServiceUrlListener onGetServiceUrlListener) {
+        if(RequestManager.mServiceDiscovery != null){
+            if (onGetServiceUrlListener != null && serviceIds != null) {
+                try {
+                    final URL url = new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
+                    if (url == null) {
+                        onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                    } else {
+                        onGetServiceUrlListener.onSuccess(url);
+                    }
+                } catch (MalformedURLException e) {
+                    onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 }
-            } catch (MalformedURLException e) {
-                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+            }else{
+                onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             }
+        }else{
+            onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
+
     }
 
-    private void filterDataForUrlbyLang(ArrayList<String> serviceIds, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-        String dataByUrl = "urlbylanguage";
-        if (onGetServiceUrlMapListener != null && serviceIds != null) {
-            final int configSize = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().size();
-            getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
-        }
+     void filterDataForUrlbyLang(ArrayList<String> serviceIds, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+         if(RequestManager.mServiceDiscovery != null){
+             String dataByUrl = "urlbylanguage";
+             if (onGetServiceUrlMapListener != null && serviceIds != null) {
+                 final int configSize = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().size();
+                 getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
+             }else{
+                 onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }
+         }else{
+             onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }
+
     }
 
 
-    private void filterDataForUrlbyCountry(String serviceIds, OnGetServiceUrlListener onGetServiceUrlListener) {
-        if (onGetServiceUrlListener != null && serviceIds != null) {
-            try {
-                URL url = new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
-                if (url == null) {
-                    onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-                } else {
-                    onGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
-                }
+     void filterDataForUrlbyCountry(String serviceIds, OnGetServiceUrlListener onGetServiceUrlListener) {
+         if(RequestManager.mServiceDiscovery != null){
+             if (onGetServiceUrlListener != null && serviceIds != null) {
+                 try {
+                     URL url = new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
+                     if ( url == null) {
+                         onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                     } else {
+                         onGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
+                     }
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                onGetServiceUrlListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-            }
+                 } catch (MalformedURLException e) {
+                     e.printStackTrace();
+                     onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                 }
 
-        }
+             }else{
+                 onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }
+         }else{
+             onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }
+
     }
 
-    private void filterDataForUrlbyCountry(ArrayList<String> serviceIds, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-        String dataByUrl = "urlbycountry";
-        if (onGetServiceUrlMapListener != null && serviceIds != null) {
-            final int configSize = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();
-            getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
-        }
+     void filterDataForUrlbyCountry(ArrayList<String> serviceIds, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+         if(RequestManager.mServiceDiscovery != null){
+             String dataByUrl = "urlbycountry";
+             if (onGetServiceUrlMapListener != null && serviceIds != null) {
+                 final int configSize = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();
+                 getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
+             }else{
+                 onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }
+         }else{
+             onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }
+
     }
 
     private void getUrlsMapper(int configSize, String urlByData, ArrayList<String> serviceIds,
@@ -381,31 +426,47 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
             }
         }
         if (responseMap.isEmpty()) {
-            onGetServiceUrlMapListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+            onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         } else {
             onGetServiceUrlMapListener.onSuccess(responseMap);
         }
     }
 
 
-    private void filterDataForLocalByLang(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-        if (onGetServiceLocaleListener != null) {
-            if (RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale() == null) {
-                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-            } else {
-                onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
-            }
-        }
+     void filterDataForLocalByLang(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+         if(RequestManager.mServiceDiscovery != null){
+             if (onGetServiceLocaleListener != null) {
+                 String locale = RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale();
+                 if ( locale == null) {
+                     onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                 } else {
+                     onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
+                 }
+             }else{
+                 onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }
+         }else{
+             onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }
+
     }
 
-    private void filterDataForLocalByCountry(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-        if (onGetServiceLocaleListener != null) {
-            if (RequestManager.mServiceDiscovery.getMatchByCountry().getLocale() == null) {
-                onGetServiceLocaleListener.onError(ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-            } else {
-                onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
-            }
-        }
+     void filterDataForLocalByCountry(String serviceIds, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+         if(RequestManager.mServiceDiscovery != null){
+             if (onGetServiceLocaleListener != null) {
+                 String locale = RequestManager.mServiceDiscovery.getMatchByCountry().getLocale();
+                 if (locale== null) {
+                     onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                 } else {
+                     onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
+                 }
+             }else{
+                 onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }
+         }else{
+             onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }
+
     }
 
     public boolean isOnline() {
@@ -428,7 +489,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                     if (mErrorValues != null && errorMessage != null) {
                         listener.onError(mErrorValues, errorMessage);
                     } else {
-                        listener.onError(ERRORVALUES.SERVER_ERROR, "SERVER_ERROR");
+                        listener.onError(OnErrorListener.ERRORVALUES.SERVER_ERROR, "SERVER_ERROR");
                     }
 
                     isDownloadInProgress = false;
@@ -438,32 +499,32 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
                 isDownloadInProgress = true;
             }
         } else {
-            listener.onError(ERRORVALUES.NO_NETWORK, "NO_NETWORK");
+            listener.onError(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK");
         }
 
 
     }
 
-    @Override
-    public void onSuccess() {
-        Log.i("Refresh Success", "Refresh Success");
-        if (RequestManager.mServiceDiscovery != null) {
-            if (RequestManager.mServiceDiscovery.isSuccess()) {
-                isDataAvailable = true;
-                isDownloadInProgress = false;
-            }
-        }
-    }
+//    @Override
+//    public void onSuccess() {
+//        Log.i("Refresh Success", "Refresh Success");
+//        if (RequestManager.mServiceDiscovery != null) {
+//            if (RequestManager.mServiceDiscovery.isSuccess()) {
+//                isDataAvailable = true;
+//                isDownloadInProgress = false;
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onError(OnErrorListener.ERRORVALUES error, String message) {
+//        Log.i("Refresh Failed" + error, "Refresh error " + message);
+//        mErrorValues = error;
+//        errorMessage = message;
+//        isDownloadInProgress = false;
+//    }
 
-    @Override
-    public void onError(ERRORVALUES error, String message) {
-        Log.i("Refresh Failed" + error, "Refresh error " + message);
-        mErrorValues = error;
-        errorMessage = message;
-        isDownloadInProgress = false;
-    }
-
-    private String getCountry() {
+    String getCountry() {
         pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
 
         if (mCountry == null) {
