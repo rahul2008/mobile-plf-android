@@ -9,7 +9,7 @@
 
   },
   "AI": {
-    "MicrositeID": "@#$%,",
+    "MicrositeID": 66777,
     "RegistrationEnvironment": "Staging",
     "NL": ["googleplus", "facebook"  ],
     "US": ["facebook","googleplus" ],
