@@ -143,7 +143,7 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
         assertNotNull(mconfig.getUrls());
 
         ArrayList mConfigArray = new ArrayList();
-        mTagArray.add(mconfig);
+        mConfigArray.add(mconfig);
 
         MatchByCountryOrLanguage mMatchByCountryOrLanguage = new MatchByCountryOrLanguage();
         mMatchByCountryOrLanguage.setLocale("TestLocale");
