@@ -26,8 +26,6 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
         wrappedShnCapability.setCapabilityGenericListener(this);
     }
 
-
-
     @Override
     public void readCharacteristic(final SHNDataRawResultListener listener, final UUID uuid) {
         Runnable command = new Runnable() {
@@ -52,12 +50,12 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void onReadCompleted(final UUID aChar, final byte[] data) {
+    public void onReadCompleted(final UUID aChar, final byte[] data, final int status) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (capabilityGenericListener != null) {
-                    capabilityGenericListener.onReadCompleted(aChar, data);
+                    capabilityGenericListener.onReadCompleted(aChar, data, status);
                 }
             }
         };
@@ -88,12 +86,25 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void onWriteCompleted(final UUID aChar, final byte[] data) {
+    public void onWriteCompleted(final UUID aChar, final int status) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (capabilityGenericListener != null) {
-                    capabilityGenericListener.onWriteCompleted(aChar, data);
+                    capabilityGenericListener.onWriteCompleted(aChar, status);
+                }
+            }
+        };
+        userHandler.post(callback);
+    }
+
+    @Override
+    public void onCharacteristicChanged(final UUID aChar, final byte[] data, final int status) {
+        Runnable callback = new Runnable() {
+            @Override
+            public void run() {
+                if (capabilityGenericListener != null) {
+                    capabilityGenericListener.onCharacteristicChanged(aChar, data, status);
                 }
             }
         };

@@ -12,11 +12,11 @@ import java.util.UUID;
 public interface CapabilityGeneric extends SHNCapability {
 
     interface CapabilityGenericListener {
-        void onReadCompleted(final UUID aChar, byte[] data);
+        void onWriteCompleted(final UUID aChar, int status);
 
-        void onWriteCompleted(final UUID aChar, byte[] data);
+        void onReadCompleted(final UUID aChar, byte[] data, int status);
 
-        // TODO: notify
+        void onCharacteristicChanged(final UUID aChar, byte[] data, int status);
     }
 
     void readCharacteristic(SHNDataRawResultListener listener, UUID uuid);
