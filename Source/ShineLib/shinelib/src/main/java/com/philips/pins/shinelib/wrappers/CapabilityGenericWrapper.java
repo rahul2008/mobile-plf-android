@@ -14,6 +14,9 @@ import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 import java.util.UUID;
 
 public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGeneric.CapabilityGenericListener {
+
+    private static final String TAG = CapabilityGenericWrapper.class.getSimpleName();
+
     private final CapabilityGeneric wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;
@@ -50,19 +53,6 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void onReadCompleted(final UUID aChar, final byte[] data, final int status) {
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                if (capabilityGenericListener != null) {
-                    capabilityGenericListener.onReadCompleted(aChar, data, status);
-                }
-            }
-        };
-        userHandler.post(callback);
-    }
-
-    @Override
     public void writeCharacteristic(final SHNDataRawResultListener listener, final UUID uuid, final byte[] data) {
         Runnable command = new Runnable() {
             @Override
@@ -86,19 +76,6 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void onWriteCompleted(final UUID aChar, final int status) {
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                if (capabilityGenericListener != null) {
-                    capabilityGenericListener.onWriteCompleted(aChar, status);
-                }
-            }
-        };
-        userHandler.post(callback);
-    }
-
-    @Override
     public void onCharacteristicChanged(final UUID aChar, final byte[] data, final int status) {
         Runnable callback = new Runnable() {
             @Override
@@ -109,6 +86,29 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
             }
         };
         userHandler.post(callback);
+    }
+
+    @Override
+    public void setNotify(final SHNDataRawResultListener listener, final boolean notify, final UUID uuid) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                wrappedShnCapability.setNotify(new SHNDataRawResultListener() {
+
+                    @Override
+                    public void onActionCompleted(final SHNDataRaw value, @NonNull final SHNResult result) {
+                        Runnable resultRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onActionCompleted(value, result);
+                            }
+                        };
+                        userHandler.post(resultRunnable);
+                    }
+                }, notify, uuid);
+            }
+        };
+        internalHandler.post(command);
     }
 
     @Override

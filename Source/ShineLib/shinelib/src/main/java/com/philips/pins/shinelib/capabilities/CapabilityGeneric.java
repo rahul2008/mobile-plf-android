@@ -12,9 +12,6 @@ import java.util.UUID;
 public interface CapabilityGeneric extends SHNCapability {
 
     interface CapabilityGenericListener {
-        void onWriteCompleted(final UUID aChar, int status);
-
-        void onReadCompleted(final UUID aChar, byte[] data, int status);
 
         void onCharacteristicChanged(final UUID aChar, byte[] data, int status);
     }
@@ -22,6 +19,8 @@ public interface CapabilityGeneric extends SHNCapability {
     void readCharacteristic(SHNDataRawResultListener listener, UUID uuid);
 
     void writeCharacteristic(SHNDataRawResultListener listener, UUID uuid, byte[] data);
+
+    void setNotify(SHNDataRawResultListener listener, boolean notify, UUID uuid);
 
     /**
      * Set callback to receive notifications about battery level changes.

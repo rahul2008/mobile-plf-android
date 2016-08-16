@@ -70,17 +70,6 @@ public class CapabilityGenericWrapperTest extends SHNCapabilityWrapperTestBase {
     }
 
     @Test
-    public void shouldPostReadCompletedCallbacksOnUserThread() {
-        verify(capabilityMock).setCapabilityGenericListener(shnCapabilityGenericListenerArgumentCaptor.capture());
-
-        capabilityWrapper.setCapabilityGenericListener(shnCapabilityGenericListenerMock);
-        shnCapabilityGenericListenerArgumentCaptor.getValue().onReadCompleted(UUID.randomUUID(), READ_RAW, 1);
-        captureUserHandlerRunnable().run();
-
-        verify(shnCapabilityGenericListenerMock).onReadCompleted(any(UUID.class), any(byte[].class), anyInt());
-    }
-
-    @Test
     public void shouldReceiveCallWriteCharacteristicOnInternalThread_whenWriteCharacteristicIsCalledOnWrapper() {
         final UUID uuid = UUID.randomUUID();
         capabilityWrapper.writeCharacteristic(rawResultListener, uuid, READ_RAW);
@@ -99,17 +88,6 @@ public class CapabilityGenericWrapperTest extends SHNCapabilityWrapperTestBase {
         captureUserHandlerRunnable().run();
 
         verify(rawResultListener).onActionCompleted(READ_VALUE, EXPECTED_RESULT);
-    }
-
-    @Test
-    public void shouldPostWriteCompletedCallbacksOnUserThread() {
-        verify(capabilityMock).setCapabilityGenericListener(shnCapabilityGenericListenerArgumentCaptor.capture());
-
-        capabilityWrapper.setCapabilityGenericListener(shnCapabilityGenericListenerMock);
-        shnCapabilityGenericListenerArgumentCaptor.getValue().onWriteCompleted(UUID.randomUUID(), 1);
-        captureUserHandlerRunnable().run();
-
-        verify(shnCapabilityGenericListenerMock).onWriteCompleted(any(UUID.class), anyInt());
     }
 
     @Test
