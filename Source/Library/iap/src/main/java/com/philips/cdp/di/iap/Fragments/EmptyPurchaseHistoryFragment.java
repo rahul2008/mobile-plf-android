@@ -52,7 +52,7 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_order_history);
+        setTitle(R.string.iap_order_history, true);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class WebBuyFromRetailers extends WebFragment {
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE_NAME);
-        setTitle(getArguments().getString(IAPConstant.IAP_STORE_NAME));
+        setTitle(getArguments().getString(IAPConstant.IAP_STORE_NAME), true);
         initializeWebView();
     }
 

@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 
 public interface ShoppingCartAPI {
     void getCurrentCartDetails();
@@ -18,14 +17,12 @@ public interface ShoppingCartAPI {
     void updateProductQuantity(ShoppingCartData data, int count, int quantityStatus);
 
     void addProductToCart(Context context, String productCTN, IAPCartListener iapHandlerListener,
-                          ShoppingCartPresenter.ShoppingCartLauncher mShoppingCartLauncher,
+
                           boolean isFromBuyNow);
 
-    void getProductCartCount(Context context, IAPCartListener iapHandlerListener,
-                             ShoppingCartPresenter.ShoppingCartLauncher mShoppingCartLauncher);
+    void getProductCartCount(Context context, IAPCartListener iapHandlerListener);
 
-    void buyProduct(Context context, String ctnNumber, IAPCartListener iapHandlerListener,
-                    ShoppingCartPresenter.ShoppingCartLauncher mShoppingCartLauncher);
+    void buyProduct(Context context, String ctnNumber, IAPCartListener iapHandlerListener);
 
     void getRetailersInformation(String ctn);
 }

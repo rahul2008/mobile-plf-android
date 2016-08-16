@@ -71,7 +71,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_order_details);
+        setTitle(R.string.iap_order_details, true);
     }
 
     @Override

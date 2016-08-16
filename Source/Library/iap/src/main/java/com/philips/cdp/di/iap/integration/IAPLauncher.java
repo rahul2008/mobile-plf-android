@@ -161,6 +161,7 @@ public class IAPLauncher implements UappInterface {
 
     protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher) {
 
+        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
         String tag = newFragment.getClass().getSimpleName();
         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);

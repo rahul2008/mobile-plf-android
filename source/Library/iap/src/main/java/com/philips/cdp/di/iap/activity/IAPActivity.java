@@ -37,17 +37,19 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class IAPActivity extends UiKitActivity {
+public class IAPActivity extends UiKitActivity implements ActionBarListener{
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private TextView mTitleTextView;
     private TextView mCountText;
-
+    private ImageView mBackImage;
+    private ImageView mCartIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
@@ -135,7 +137,7 @@ public class IAPActivity extends UiKitActivity {
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
-
+        newFragment.setActionBarListener(this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
         transaction.addToBackStack(newFragmentTag);
@@ -164,15 +166,15 @@ public class IAPActivity extends UiKitActivity {
                 onBackPressed();
             }
         });
-        ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
+        mBackImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
-        arrowImage.setBackground(mBackDrawable);
+        mBackImage.setBackground(mBackDrawable);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.app_name));
-        ImageView cartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
+        mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
         Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-        cartIcon.setBackground(mCartIconDrawable);
-        cartIcon.setOnClickListener(new View.OnClickListener() {
+        mCartIcon.setBackground(mCartIconDrawable);
+        mCartIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addFragment(ShoppingCartFragment.createInstance(new Bundle(),
@@ -244,4 +246,29 @@ public class IAPActivity extends UiKitActivity {
         super.onResume();
     }
 
+    @Override
+    public void updateActionBar(int resourceId, boolean visibility) {
+        if(visibility){
+            mTitleTextView.setText(getString(resourceId));
+            mBackImage.setVisibility(View.VISIBLE);
+            mCartIcon.setVisibility(View.VISIBLE);
+        }else{
+            mTitleTextView.setText(getString(resourceId));
+            mBackImage.setVisibility(View.INVISIBLE);
+            mCartIcon.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void updateActionBar(String resourceString, boolean visibility) {
+        if(visibility){
+            mTitleTextView.setText(resourceString);
+            mBackImage.setVisibility(View.VISIBLE);
+            mCartIcon.setVisibility(View.VISIBLE);
+        }else{
+            mTitleTextView.setText(resourceString);
+            mBackImage.setVisibility(View.INVISIBLE);
+            mCartIcon.setVisibility(View.INVISIBLE);
+        }
+    }
 }

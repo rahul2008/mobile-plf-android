@@ -48,7 +48,7 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
         layout.setGravity(Gravity.CENTER);
         layout.addView(mImageView);
         if(mLaunchedFromProductCatalog){
-            setCartIconVisibility(View.VISIBLE);
+            setCartIconVisibility(true);
         }
         return layout;
     }
@@ -57,7 +57,7 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     public void onResume() {
         super.onResume();
         if(mLaunchedFromProductCatalog){
-            setCartIconVisibility(View.VISIBLE);
+            setCartIconVisibility(true);
         }
     }
 

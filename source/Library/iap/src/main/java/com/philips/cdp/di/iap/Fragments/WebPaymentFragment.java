@@ -31,8 +31,8 @@ public class WebPaymentFragment extends WebFragment {
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
-        setTitle(R.string.iap_payment);
-        setBackButtonVisibility(View.GONE);
+        setTitle(R.string.iap_payment, false);
+        //setBackButtonVisibility(false);
     }
 
     public static WebPaymentFragment createInstance(Bundle args, AnimationType animType) {

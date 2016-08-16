@@ -97,8 +97,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-        setTitle(R.string.iap_address);
-
+        setTitle(R.string.iap_address, true);
+        //setBackButtonVisibility(true);
         if (!isNetworkNotConnected()) {
             getAddresses();
         }
@@ -120,6 +120,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 moveToShoppingCart();
             }
         });
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return false;
     }
 
     private void moveToShoppingCart() {

@@ -255,7 +255,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
             public void onFailure(final Message msg) {
                 updateErrorListener(msg, iapHandlerListener);
             }
-        }, null);
+        });
     }
 
     private void buyProduct(final String ctnNumber, final IAPHandlerListener listener) {
@@ -270,7 +270,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
             public void onFailure(final Message msg) {
                 updateErrorListener(msg, listener);
             }
-        }, null);
+        });
     }
 
     private void updateErrorListener(final Message msg, final IAPHandlerListener iapHandlerListener) {

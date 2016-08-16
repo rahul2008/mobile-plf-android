@@ -21,16 +21,19 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
 
-public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener {
+public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener{
     //private IAPFragmentActionLayout mFragmentLayout;
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
-    public void setActionBarListener(ActionBarListener actionBarListener){
+    private String mTitle = "";
+
+    public void setActionBarListener(ActionBarListener actionBarListener) {
         mActionbarUpdateListener = actionBarListener;
     }
-    protected void updateActionBar(int titleResId, boolean backButtonVisibility){
-        mActionbarUpdateListener.updateActionBar(titleResId, backButtonVisibility);
-    }
+
+//    protected void updateActionBar(int titleResId, boolean backButtonVisibility) {
+//        mActionbarUpdateListener.updateActionBar(titleResId, backButtonVisibility);
+//    }
 
     private View.OnClickListener mCartIconListener = new View.OnClickListener() {
         @Override
@@ -74,8 +77,8 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
     @Override
     public void onResume() {
         super.onResume();
-        setBackButtonVisibility(View.VISIBLE);
-        setCartIconVisibility(View.GONE);
+       // setBackButtonVisibility(true);
+        //setCartIconVisibility(false);
         //mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
     }
 
@@ -89,7 +92,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
-
+        newFragment.setActionBarListener(mActionbarUpdateListener);
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(getId(), newFragment, newFragmentTag);
@@ -144,17 +147,22 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
     }
 
 
-    protected void setTitle(int resourceId) {
-       // mFragmentLayout.setHeaderTitle(resourceId);
+    protected void setTitle(int resourceId, boolean isVisible) {
+        // mFragmentLayout.setHeaderTitle(resourceId);
+        mTitle = getString(resourceId);
+        mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
     }
 
-    protected void setTitle(String title) {
-      //  mFragmentLayout.setHeaderTitle(title);
+    protected void setTitle(String title, boolean isVisible) {
+        //  mFragmentLayout.setHeaderTitle(title);
+        mTitle = title;
+        mActionbarUpdateListener.updateActionBar(title, isVisible);
     }
 
-    protected void setBackButtonVisibility(final int isVisible) {
-      //  mFragmentLayout.setBackButtonVisibility(isVisible);
-    }
+//    protected void setBackButtonVisibility(final boolean isVisible) {
+//        //  mFragmentLayout.setBackButtonVisibility(isVisible);
+//        mActionbarUpdateListener.updateActionBar(mTitle, isVisible);
+//    }
 
     protected void finishActivity() {
 //        IAPAnalytics.trackPage(Tagging.getLaunchingPageName());
@@ -196,11 +204,13 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         // mFragmentLayout.updateCount(count);
     }
 
-    public void setCartIconVisibility(final int visibility) {
+    public void setCartIconVisibility(final boolean visibility) {
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
             //  mFragmentLayout.setCartIconVisibility(View.GONE);
+            mActionbarUpdateListener.updateActionBar(mTitle, false);
         } else {
             //  mFragmentLayout.setCartIconVisibility(visibility);
+            mActionbarUpdateListener.updateActionBar(mTitle, visibility);
         }
     }
 }

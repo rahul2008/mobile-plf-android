@@ -78,5 +78,5 @@ public class IAPConstant {
     public static final String CVV_KEY_BUNDLE = "CVV_KEY_BUNDLE";
     public static final String CUSTOMER_CARE_NUMBER = "CUSTOMER_CARE_NUMBER";
     public static final String IAP_ORDER_ID = "IAP_ORDER_ID";
-    public static boolean BACKBUTTON_VISIBILITY_GONE = false;
+    public static final String IAP_LAUNCH_SHOPPING_CART = "IAP_LAUNCH_SHOPPING_CART";
 }

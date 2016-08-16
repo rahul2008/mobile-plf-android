@@ -57,7 +57,8 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_cancel_order_title);
+        setTitle(R.string.iap_cancel_order_title,true);
+        //setBackButtonVisibility(true);
     }
 
     @Override
