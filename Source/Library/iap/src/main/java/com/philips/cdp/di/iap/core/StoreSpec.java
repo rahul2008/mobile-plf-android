@@ -52,6 +52,8 @@ public interface StoreSpec {
     //Carts
     String getCartsUrl();
 
+    String getCurrentCartUrl();
+
     String getCreateCartUrl();
 
     String getDeleteCartUrl();

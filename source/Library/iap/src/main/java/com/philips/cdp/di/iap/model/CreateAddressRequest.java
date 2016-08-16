@@ -16,7 +16,8 @@ import java.util.Map;
 
 public class CreateAddressRequest extends AbstractModel {
 
-    public CreateAddressRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
+    public CreateAddressRequest(final StoreSpec store, final Map<String, String> query,
+                                DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 

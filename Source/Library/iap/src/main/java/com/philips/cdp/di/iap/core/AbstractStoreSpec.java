@@ -82,6 +82,11 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
+    public String getCurrentCartUrl() {
+        return null;
+    }
+
+    @Override
     public String getProductCatalogUrl(int currentPage, int pageSize) {
         return null;
     }

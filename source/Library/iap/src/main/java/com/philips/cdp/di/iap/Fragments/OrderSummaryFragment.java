@@ -41,7 +41,8 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class OrderSummaryFragment extends BaseAnimationSupportFragment implements View.OnClickListener, TwoButtonDailogFragment.TwoButtonDialogListener,
+public class OrderSummaryFragment extends BaseAnimationSupportFragment implements
+        View.OnClickListener, TwoButtonDailogFragment.TwoButtonDialogListener,
         PaymentController.MakePaymentListener, AddressController.AddressListener {
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;

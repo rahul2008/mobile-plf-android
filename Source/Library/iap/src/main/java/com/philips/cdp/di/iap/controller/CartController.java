@@ -30,6 +30,8 @@ public class CartController implements AbstractModel.DataLoadListener {
         void onBuyProduct(Message msg);
 
         void onDeleteCart(Message msg);
+
+        void onGetCurrentCart(Message msg);
     }
 
     public CartController(Context context, CartListener listener) {
@@ -40,6 +42,10 @@ public class CartController implements AbstractModel.DataLoadListener {
     public void deleteCart() {
         DeleteCartRequest model = new DeleteCartRequest(getStore(), null, this);
         getHybrisDelegate().sendRequest(RequestCode.DELETE_CART, model, model);
+    }
+
+    public void getCurrentCart(){
+
     }
 
     @Override
