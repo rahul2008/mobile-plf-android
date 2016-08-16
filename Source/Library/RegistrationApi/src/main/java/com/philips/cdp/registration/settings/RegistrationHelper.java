@@ -187,6 +187,18 @@ public class RegistrationHelper {
     }
 
 
+    private UserRegistrationListener userRegistrationListener;
+
+    public synchronized UserRegistrationListener getUserRegistrationEventListener() {
+        return userRegistrationListener;
+    }
+
+    public synchronized UserRegistrationListener setUserRegistrationEventListener
+            (UserRegistrationListener userRegistrationListener) {
+        return this.userRegistrationListener = userRegistrationListener;
+    }
+
+
     public synchronized void registerNetworkStateListener(NetworStateListener networStateListener) {
         NetworkStateHelper.getInstance().registerEventNotification(networStateListener);
     }

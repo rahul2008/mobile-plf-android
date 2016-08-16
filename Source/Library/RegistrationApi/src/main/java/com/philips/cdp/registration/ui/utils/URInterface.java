@@ -49,24 +49,30 @@ public class URInterface implements UappInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+
+
+        if (null != uappListener) {
+            RegistrationHelper.getInstance().registerUserRegistrationListener((UserRegistrationListener) uappListener);
+            RegistrationHelper.getInstance().registerUserRegistrationListener((UserRegistrationListener) uappListener);
+        }
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput, uappListener);
         } else {
-            launchAsFragment((FragmentLauncher)uiLauncher, uappLaunchInput, uappListener);
+            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput, uappListener);
         }
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
 
         try {
-            FragmentManager mFragmentManager =  fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
+            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput) uappLaunchInput).isAccountSettings());
-            bundle.putSerializable(RegConstants.USER_REGISTRATION_LISTENER,
-                    (UserRegistrationListener)uappListener);
             registrationFragment.setArguments(bundle);
-          registrationFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
+
+
+            registrationFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
@@ -87,14 +93,15 @@ public class URInterface implements UappInterface {
             if (null != registrationFunction) {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction(registrationFunction);
             }
+
+
             Intent registrationIntent = new Intent(mContext, RegistrationActivity.class);
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput) uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().getOrientationValue());
-            bundle.putSerializable(RegConstants.USER_REGISTRATION_LISTENER,(UserRegistrationListener)uappListener);
             registrationIntent.putExtras(bundle);
             registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          //  RegistrationHelper.getInstance().registerUserRegistrationListener((UserRegistrationListener) uappListener);
+            //  RegistrationHelper.getInstance().registerUserRegistrationListener((UserRegistrationListener) uappListener);
             mContext.startActivity(registrationIntent);
         }
 
