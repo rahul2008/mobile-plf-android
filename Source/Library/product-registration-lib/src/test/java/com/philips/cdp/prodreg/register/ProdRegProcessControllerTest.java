@@ -119,7 +119,7 @@ public class ProdRegProcessControllerTest extends TestCase {
         final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(new RegisteredProduct("124", null, null));
         registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
-        verify(productMock).getProductMetadata(fragmentActivity, metadataListenerMock);
+        verify(productMock, atLeastOnce()).getProductMetadata(fragmentActivity, metadataListenerMock);
         final RegisteredProduct registeredProduct = new RegisteredProduct("HC5410/83", null, null);
         registeredProduct.setSerialNumber("1344");
         registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
@@ -151,6 +151,8 @@ public class ProdRegProcessControllerTest extends TestCase {
 
     @Test
     public void testGetSummaryListener() {
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
         prodRegProcessController.process(bundle);
         final SummaryListener summaryListener = prodRegProcessController.getSummaryListener();
         ProductSummaryResponse productSummaryResponseMock = mock(ProductSummaryResponse.class);
@@ -169,9 +171,5 @@ public class ProdRegProcessControllerTest extends TestCase {
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
         prodRegProcessController.process(bundle);
         verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
-        when(userMock.isUserSignIn()).thenReturn(false);
-        bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, null);
-        prodRegProcessController.process(bundle);
-        verify(processControllerCallBacksMock).exitProductRegistration();
     }
 }
