@@ -5,7 +5,6 @@
 */
 package com.philips.platform.uappframework.listener;
 
-import java.io.Serializable;
 
 /**
  * This interface needs to be implemented by uApp fragments for handling back key events.
@@ -13,7 +12,7 @@ import java.io.Serializable;
  * whether fragment is an instance of this interface.
  */
 
-public interface BackEventListener extends Serializable {
+public interface BackEventListener  {
     /**
     * return true if uApp is handling back key event
      * else return false.

@@ -7,19 +7,14 @@ package com.philips.platform.uappframework.launcher;
 
 
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 
-import java.io.Serializable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 /**
  The purpose of the class if to launch microapp as activity
  */
 
-public class ActivityLauncher extends UiLauncher implements Serializable {
+public class ActivityLauncher extends UiLauncher  {
 
-    private static final long serialVersionUID = -1288110156572593468L;
 
     /**
      * These are Flags used for specifying screen orientation.
