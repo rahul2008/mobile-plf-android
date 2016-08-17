@@ -181,7 +181,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
-            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
         }
     }
 

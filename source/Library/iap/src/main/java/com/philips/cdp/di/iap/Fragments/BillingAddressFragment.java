@@ -250,7 +250,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
             if(getFragmentManager().findFragmentByTag(ShippingAddressFragment.TAG) != null){
@@ -258,6 +258,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }
             moveToDemoAppByClearingStack();
         }
-        return super.onBackPressed();
+        return super.handleBackEvent();
     }
 }

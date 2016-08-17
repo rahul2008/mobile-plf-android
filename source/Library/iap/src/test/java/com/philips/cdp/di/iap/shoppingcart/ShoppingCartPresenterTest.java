@@ -171,7 +171,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
         mShoppingCartPresenter =new ShoppingCartPresenter(mFragmentManager);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
-        mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener, this);
+        mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "get_cart_api_success_response.txt"));
         mNetworkController.sendSuccess(obj);
@@ -194,7 +194,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
         mShoppingCartPresenter =new ShoppingCartPresenter(mFragmentManager);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
-        mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener, this);
+        mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "get_cart_api_empty_response.txt"));
         mNetworkController.sendSuccess(obj);
@@ -217,7 +217,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
         mShoppingCartPresenter =new ShoppingCartPresenter(mContext, this, mFragmentManager);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
-        mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener, this);
+        mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "get_product_count_error_no_cart_created.txt"));
         NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(),null,true,1222L);
@@ -242,7 +242,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
         mShoppingCartPresenter =new ShoppingCartPresenter();
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
-        mShoppingCartPresenter.buyProduct(mContext, "HX9003/64", mProductCountListener, this);
+        mShoppingCartPresenter.buyProduct(mContext, "HX9003/64", mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "get_cart_api_success_response.txt"));
         mNetworkController.sendSuccess(obj);
@@ -265,7 +265,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
         mShoppingCartPresenter =new ShoppingCartPresenter();
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
-        mShoppingCartPresenter.buyProduct(mContext, "HX9003/63", mProductCountListener, this);
+        mShoppingCartPresenter.buyProduct(mContext, "HX9003/63", mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "get_cart_api_success_response.txt"));
         mNetworkController.sendSuccess(obj);

@@ -725,11 +725,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
             moveToDemoAppByClearingStack();
         }
-        return super.onBackPressed();
+        return super.handleBackEvent();
     }
 }
