@@ -332,11 +332,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 } catch (MalformedURLException e) {
                     onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 }
-            }else{
+            }else if(serviceIds == null && onGetServiceUrlListener != null){
                 onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+            }else if(onGetServiceUrlListener == null){
+                Log.i("null interface found", "null interface found");
             }
-        }else{
+        }else if(onGetServiceUrlListener != null){
             onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+        }else{
+            Log.i("no Data found", "no Data found");
         }
 
     }
@@ -347,11 +351,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
              if (onGetServiceUrlMapListener != null && serviceIds != null) {
                  final int configSize = RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().size();
                  getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
-             }else{
+             }else if(serviceIds == null && onGetServiceUrlMapListener != null){
                  onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }else if(onGetServiceUrlMapListener == null){
+                 Log.i("null interface found", "null interface found");
              }
-         }else{
+         }else if(onGetServiceUrlMapListener != null){
              onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }else{
+             Log.i("no Data found", "no Data found");
          }
 
     }
@@ -373,11 +381,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                      onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                  }
 
-             }else{
+             }else if(serviceIds == null && onGetServiceUrlListener != null){
                  onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }else if(onGetServiceUrlListener == null){
+                 Log.i("null interface found", "null interface found");
              }
-         }else{
+         }else if(onGetServiceUrlListener != null){
              onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }else{
+             Log.i("no Data found", "no Data found");
          }
 
     }
@@ -388,11 +400,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
              if (onGetServiceUrlMapListener != null && serviceIds != null) {
                  final int configSize = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();
                  getUrlsMapper(configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
-             }else{
+             }else if(serviceIds == null && onGetServiceUrlMapListener != null){
                  onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+             }else if(onGetServiceUrlMapListener == null){
+                 Log.i("null interface found", "null interface found");
              }
-         }else{
+         }else if(onGetServiceUrlMapListener != null){
              onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }else{
+             Log.i("no Data found", "no Data found");
          }
 
     }
@@ -443,10 +459,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                      onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
                  }
              }else{
-                 onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                 Log.i("null interface found", "null interface found");
              }
-         }else{
+         }else if(onGetServiceLocaleListener != null){
              onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }else{
+             Log.i("no Data found", "no Data found");
          }
 
     }
@@ -461,10 +479,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                      onGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
                  }
              }else{
-                 onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                 Log.i("null interface found", "null interface found");
              }
-         }else{
+         }else if(onGetServiceLocaleListener != null){
              onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+         }else{
+             Log.i("no Data found", "no Data found");
          }
 
     }

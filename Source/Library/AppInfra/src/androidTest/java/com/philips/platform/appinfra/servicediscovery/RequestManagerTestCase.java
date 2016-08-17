@@ -61,4 +61,28 @@ public class RequestManagerTestCase extends MockitoTestCase {
 
 
     }
+
+    public void testexecuteNegetivePath() {
+        mRequestManager.execute("https://acc", new ServiceDiscoveryInterface.OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+
+                assertNotNull(mRequestManager.mcountry);
+                if(mRequestManager.mServiceDiscovery == null){
+                    assertNull(mRequestManager.mServiceDiscovery);
+                }else{
+                    assertNotNull(mRequestManager.mServiceDiscovery);
+                }
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        });
+
+
+    }
 }
