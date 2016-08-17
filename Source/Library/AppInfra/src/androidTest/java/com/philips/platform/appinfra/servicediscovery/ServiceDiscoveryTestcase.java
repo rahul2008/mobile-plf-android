@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
@@ -428,12 +429,14 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             }
         });
     }
+
     public void testfilterDataForUrlbyCountryNegetivePathForListner() {
         mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
         mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
         RequestManager.mServiceDiscovery = mserviceDiscovery;
-        mServiceDiscoveryManager.filterDataForUrlbyCountry(mServiceId, null );
+        mServiceDiscoveryManager.filterDataForUrlbyCountry(mServiceId, null);
     }
+
     public void testfilterDataForUrlbyCountryNegetivePathForServiceIDWithListner() {
         mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
         mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
@@ -451,10 +454,12 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             }
         });
     }
+
     public void testfilterDataForUrlbyCountryNegetivePathForServiceDiscoveryWithNullListner() {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForUrlbyCountry(mServiceId, null);
     }
+
     public void testfilterDataForUrlbyCountryNegetivePathForServiceDiscoveryWithListner() {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForUrlbyCountry(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -519,6 +524,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForUrlbyCountry(mServicesId, null);
     }
+
     public void testfilterDataForUrlbyCountryArrayNegetivePathForServiceDiscoveryWithListner() {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForUrlbyCountry(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -534,6 +540,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             }
         });
     }
+
     public void testfilterDataForUrlbyCountryArrayNegetivePathFormServicesIdWithListner() {
         mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
         mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
@@ -602,6 +609,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForLocalByLang(mServiceId, null);
     }
+
     public void testfilterDataForLocalByLangNegetivePathServiceDiscoveryWithListner() {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForLocalByLang(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
@@ -672,6 +680,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForLocalByCountry(mServiceId, null);
     }
+
     public void testfilterDataForLocalByCountryNegetivePathServiceDiscoveryWithListner() {
         RequestManager.mServiceDiscovery = null;
         mServiceDiscoveryManager.filterDataForLocalByCountry(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
@@ -735,5 +744,212 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         return mMatchByCountryOrLanguage;
     }
 
+    public void testserviceURLwithCountryorLanguagePreferencesForNullServiceId() {
+
+        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(null, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                assertNotNull(url);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
+
+    public void testserviceURLwithCountryorLanguagePreferencesForServiceId() {
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
+        mServiceDiscoveryManager.isDataAvailable = true;
+        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                assertNotNull(url);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, true);
+    }
+
+    public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProg() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = true;
+        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, null, false);
+    }
+
+    public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = true;
+        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                assertNotNull(url);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
+
+    public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = false;
+        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                assertNotNull(url);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
+
+    public void testserviceswithCountryorLanguagePreferencesForNullServiceId() {
+        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(null, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                assertNotNull(urlMap);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
+
+    public void testserviceswithCountryorLanguagePreferencesForServiceId() {
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
+        mServiceDiscoveryManager.isDataAvailable = true;
+        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                assertNotNull(urlMap);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, true);
+    }
+
+    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProg() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = true;
+        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, null, false);
+    }
+
+    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = true;
+        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                assertNotNull(urlMap);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
+
+    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = false;
+        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                assertNotNull(urlMap);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
+
+    public void testserviceLocalewithCountryorLanguagePreferencesForServiceId() {
+        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
+        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
+        RequestManager.mServiceDiscovery = mserviceDiscovery;
+        mServiceDiscoveryManager.isDataAvailable = true;
+        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            @Override
+            public void onSuccess(String locale) {
+                assertNotNull(locale);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, true);
+    }
+
+    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProg() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = true;
+        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, null, false);
+    }
+
+    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = true;
+        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            @Override
+            public void onSuccess(String locale) {
+                assertNotNull(locale);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
+
+    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
+        mServiceDiscoveryManager.isDataAvailable = false;
+        mServiceDiscoveryManager.isDownloadInProgress = false;
+        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            @Override
+            public void onSuccess(String locale) {
+                assertNotNull(locale);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        }, false);
+    }
 
 }

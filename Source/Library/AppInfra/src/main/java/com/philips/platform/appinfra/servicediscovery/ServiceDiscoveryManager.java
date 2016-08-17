@@ -36,7 +36,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private AppInfra mAppInfra;
     private Context context;
-    private boolean isDataAvailable = false;
+    boolean isDataAvailable = false;
     public static boolean isDownloadInProgress = false;
     private String countryCode;
     private String mUrl = null;
@@ -219,8 +219,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         ServiceLocaleWithCountryorLanguagePreference(serviceId, listener, true);
     }
 
-    private void serviceURLwithCountryorLanguagePreferences(final String serviceId, final OnGetServiceUrlListener listener, final boolean isserviceURLwithCountryPreference) {
-        if (serviceId.contains(",") || serviceId == null) {
+    void serviceURLwithCountryorLanguagePreferences(final String serviceId, final OnGetServiceUrlListener listener, final boolean isserviceURLwithCountryPreference) {
+        if ( serviceId == null || serviceId.contains(",")) {
             listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
         } else {
             if (isDataAvailable) {
@@ -246,15 +246,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                             }
                         }
                     });
-                } else {
+                } else if(listener != null) {
                     listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                }else{
+                    Log.i("null interface found", "null interface found");
                 }
 
             }
         }
     }
 
-    private void ServicesWithLanguageorCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener, final boolean isserviceswithCountryPreference) {
+    void ServicesWithLanguageorCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener, final boolean isserviceswithCountryPreference) {
         if (serviceId == null) {
             listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
         } else {
@@ -281,14 +283,16 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                             }
                         }
                     });
-                } else {
+                } else if(listener != null) {
                     listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+                }else{
+                    Log.i("null interface found", "null interface found");
                 }
             }
         }
     }
 
-    private void ServiceLocaleWithCountryorLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener, final boolean isServiceLocaleWithCountry) {
+    void ServiceLocaleWithCountryorLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener, final boolean isServiceLocaleWithCountry) {
         if (isDataAvailable) {
             if (isServiceLocaleWithCountry) {
                 filterDataForLocalByCountry(serviceId, listener);
@@ -313,8 +317,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         }
                     }
                 });
-            } else {
+            } else if(listener != null) {
                 listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
+            }else{
+                Log.i("null interface found", "null interface found");
             }
         }
     }
