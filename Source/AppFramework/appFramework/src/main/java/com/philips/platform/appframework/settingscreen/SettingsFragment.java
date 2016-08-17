@@ -11,6 +11,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.philips.cdp.registration.User;
@@ -74,9 +75,17 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         fragmentPresenter = new SettingsFragmentPresenter();
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
-        ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
+        final ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
         mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler, fragmentPresenter);
         mList.setAdapter(mAdapter);
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(settingScreenItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())){
+                    fragmentPresenter.onClick(SettingsAdapter.iapHistoryLaunch, getActivity());
+                }
+            }
+        });
 
         return view;
     }

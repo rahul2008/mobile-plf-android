@@ -75,10 +75,10 @@ public class SettingsAdapter extends BaseAdapter {
     @NonNull
     private View getView(int position, View convertView) {
         View vi = convertView;
-        if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
-                || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
+        if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
+                ||mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
 
-//            if (convertView == null) {
+           if (convertView == null) {
             vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
             UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
             if (mUser.isUserSignIn()) {
@@ -97,12 +97,12 @@ public class SettingsAdapter extends BaseAdapter {
                     }
                 }
             });
-//            }
+            }
 
         } else {
-//            if (convertView == null) {
+            if (convertView == null) {
             vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
-//            }
+            }
             TextView name = (TextView) vi.findViewById(R.id.ifo);
             PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
             TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
@@ -118,13 +118,13 @@ public class SettingsAdapter extends BaseAdapter {
                 case CONTENT:
                     subSection(position, name, value, on_off, arrow, description);
 
-                    if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_order_history)))) {
-                        vi.setOnClickListener(new View.OnClickListener() {
+                    if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())) {
+                        /*vi.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 fragmentPresenter.onClick(iapHistoryLaunch, mActivity);
                             }
-                        });
+                        });*/
                     }
                     break;
                 case NOTIFICATION:
