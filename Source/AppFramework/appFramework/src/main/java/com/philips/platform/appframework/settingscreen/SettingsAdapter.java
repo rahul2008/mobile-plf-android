@@ -117,15 +117,6 @@ public class SettingsAdapter extends BaseAdapter {
                     break;
                 case CONTENT:
                     subSection(position, name, value, on_off, arrow, description);
-
-                    if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())) {
-                        /*vi.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                fragmentPresenter.onClick(iapHistoryLaunch, mActivity);
-                            }
-                        });*/
-                    }
                     break;
                 case NOTIFICATION:
                     notificationSection(position, name, value, arrow, description);
