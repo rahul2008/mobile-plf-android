@@ -12,7 +12,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.digitalcare.ConsumerCareIntegration;
+import com.philips.cdp.digitalcare.CcInterface;
+import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -22,6 +23,7 @@ import com.philips.cdp.productselection.productselectiontype.HardcodedProductLis
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -38,6 +40,8 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
     private FragmentManager mFragmentManager = null;
+    private UappSettings uappSettings = null;
+    private CcLaunchInput ccLaunchInput = null;
 
    /* private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
@@ -103,9 +107,20 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
                             (this, R.id.sampleMainContainer, actionBarListener);
             launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
-            ConsumerCareIntegration consumerCareIntegration = new ConsumerCareIntegration();
-            consumerCareIntegration.init(this, null);
-            consumerCareIntegration.launch(launcher, productsSelection, this);
+           /* CcInterface ccInterface = new CcInterface();
+            ccInterface.init(this, null);
+            ccInterface.launch(launcher, productsSelection, this);*/
+
+
+            CcInterface ccInterface = new CcInterface();
+            if (uappSettings == null) uappSettings = new UappSettings(this);
+            if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
+            ccLaunchInput.setProductModelSelectionType(productsSelection);
+            ccLaunchInput.setConsumerCareListener(this);
+
+            ccInterface.init(null, uappSettings);
+            ccInterface.launch(launcher, ccLaunchInput);
+
 
             try {
                 initActionBar();

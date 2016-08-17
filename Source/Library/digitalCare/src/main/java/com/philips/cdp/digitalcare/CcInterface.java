@@ -1,6 +1,5 @@
 package com.philips.cdp.digitalcare;
 
-import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -11,20 +10,20 @@ import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.UappListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
  * Created by 310190678 on 8/16/2016.
  */
-public class ConsumerCareIntegration implements UappInterface {
+public class CcInterface implements UappInterface {
 
 
-    private static final String TAG = ConsumerCareIntegration.class.getSimpleName();
+    private static final String TAG = CcInterface.class.getSimpleName();
 
 
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+    /*private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
         @Override
         public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
@@ -34,18 +33,27 @@ public class ConsumerCareIntegration implements UappInterface {
                 //  enableActionBarLeftArrow();
             }
         }
-    };
+    };*/
 
-    @Override
+    /*@Override
     public void init(Context context, UappDependencies uappDependencies) {
 
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(context);
 
+    }*/
+
+    @Override
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(uappSettings.
+                getContext());
     }
 
     @Override
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
-        HardcodedProductList productList = (HardcodedProductList) uappLaunchInput;
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+
+        CcLaunchInput ccLaunchInput = (CcLaunchInput) uappLaunchInput;
+        HardcodedProductList productList = (HardcodedProductList)
+                ccLaunchInput.getProductModelSelectionType();
 
         if (uiLauncher instanceof com.philips.platform.uappframework.launcher.ActivityLauncher) {
 

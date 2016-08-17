@@ -16,7 +16,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.philips.cdp.digitalcare.ConsumerCareIntegration;
+import com.philips.cdp.digitalcare.CcInterface;
+import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -32,6 +33,7 @@ import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +61,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
+    private UappSettings uappSettings;
+    private CcLaunchInput ccLaunchInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,9 +283,13 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
-                ConsumerCareIntegration consumerCareIntegration = new ConsumerCareIntegration();
-                consumerCareIntegration.init(this, null);
-                consumerCareIntegration.launch(activityLauncher, productsSelection, null);
+                CcInterface ccInterface = new CcInterface();
+                if (uappSettings == null) uappSettings = new UappSettings(this);
+                if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
+                ccLaunchInput.setProductModelSelectionType(productsSelection);
+
+                ccInterface.init(null, uappSettings);
+                ccInterface.launch(activityLauncher, ccLaunchInput);
               /*  } else
                     Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
                 break;
