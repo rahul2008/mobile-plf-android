@@ -7,12 +7,14 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.PaymentMethodsAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -98,7 +100,12 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(View v) {
         if (v == mBtnCancel) {
-            moveToFragment(ShoppingCartFragment.TAG);
+            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+            if (fragment != null) {
+                moveToDemoAppByClearingStack();
+            } else {
+                moveToFragment(ShoppingCartFragment.TAG);
+            }
         }
     }
 

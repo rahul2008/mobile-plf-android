@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
@@ -6,10 +10,6 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class DeleteAddressRequest extends AbstractModel{
 
     public DeleteAddressRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {

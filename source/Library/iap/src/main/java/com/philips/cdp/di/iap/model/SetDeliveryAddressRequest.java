@@ -30,7 +30,7 @@ public class SetDeliveryAddressRequest extends AbstractModel {
 
     @Override
     public Map<String, String> requestBody() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(ModelConstants.ADDRESS_ID, this.params.get(ModelConstants.ADDRESS_ID));
         return params;
     }

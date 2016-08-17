@@ -1,3 +1,8 @@
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.shoppingcart;
 
 import android.content.Context;
@@ -30,7 +35,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,10 +42,6 @@ import java.util.ArrayList;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @RunWith(RobolectricTestRunner.class)
 public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadListener<ShoppingCartData>, ShoppingCartPresenter.ShoppingCartLauncher{
     private MockNetworkController mNetworkController;
@@ -63,8 +63,8 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
         mCTNS.add("HX9033/64");
-        mCTNS.add("HX9023/64");
-        mCTNS.add("HX9003/64");
+//        mCTNS.add("HX9023/64");
+//        mCTNS.add("HX9003/64");
     }
 
     @Test
@@ -75,7 +75,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         mShoppingCartPresenter.getCurrentCartDetails();
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
-                .class, "get_cart_api_success_response.txt"));
+                .class, "get_current_cart_response.txt"));
         mNetworkController.sendSuccess(obj);
 
         makePRXData();

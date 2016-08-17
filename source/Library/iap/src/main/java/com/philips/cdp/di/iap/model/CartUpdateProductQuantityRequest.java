@@ -30,7 +30,7 @@ public class CartUpdateProductQuantityRequest extends AbstractModel {
 
     @Override
     public Map<String, String> requestBody() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(ModelConstants.PRODUCT_CODE, this.params.get(ModelConstants.PRODUCT_CODE));
         params.put(ModelConstants.PRODUCT_QUANTITY, this.params.get(ModelConstants.PRODUCT_QUANTITY));
         return params;

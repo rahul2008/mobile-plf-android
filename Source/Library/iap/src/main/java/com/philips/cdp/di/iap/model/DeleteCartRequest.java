@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
@@ -5,13 +9,10 @@ import com.philips.cdp.di.iap.core.StoreSpec;
 
 import java.util.Map;
 
-/**
- * Created by Apple on 04/08/16.
- */
-public class CartDeleteRequest extends AbstractModel {
+public class DeleteCartRequest extends AbstractModel {
 
 
-    public CartDeleteRequest(StoreSpec store, Map<String, String> query, DataLoadListener listener) {
+    public DeleteCartRequest(StoreSpec store, Map<String, String> query, DataLoadListener listener) {
         super(store, query, listener);
     }
 

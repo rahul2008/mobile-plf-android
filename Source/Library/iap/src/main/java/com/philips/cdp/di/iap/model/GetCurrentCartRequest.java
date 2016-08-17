@@ -4,22 +4,30 @@
  */
 package com.philips.cdp.di.iap.model;
 
+import android.os.Message;
+
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.response.carts.CartsEntity;
 
 import java.util.Map;
 
-public class GetCartsRequest extends AbstractModel {
-    public GetCartsRequest(StoreSpec store, Map<String, String> query,
+public class GetCurrentCartRequest extends AbstractModel{
+
+    public GetCurrentCartRequest(StoreSpec store, Map<String, String> query,
                            DataLoadListener listener) {
         super(store, query, listener);
     }
 
     @Override
-    public Object parseResponse(final Object response) {
-        return new Gson().fromJson(response.toString(), Carts.class);
+    protected void onPostSuccess(Message msg) {
+        mDataloadListener.onModelDataLoadFinished(msg);
+    }
+
+    @Override
+    public Object parseResponse(Object response) {
+        return new Gson().fromJson(response.toString(), CartsEntity.class);
     }
 
     @Override
@@ -34,6 +42,6 @@ public class GetCartsRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getCartsUrl();
+        return store.getCurrentCartUrl();
     }
 }

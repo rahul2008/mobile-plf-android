@@ -68,6 +68,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     private String mCreateCartUrl;
     private String mGetCartsUrl;
+    private String mGetCurrentCartUrl;
     private String mAddToCartUrl;
     private String mDeleteCartUrl;
 
@@ -176,6 +177,7 @@ public class HybrisStore extends AbstractStoreSpec {
         //Carts
         String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);
         mGetCartsUrl = baseCartUrl.concat(LANG);
+        mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG);
         mCreateCartUrl = baseCartUrl.concat(LANG);
         mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT);
         mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(LANG);
@@ -292,6 +294,11 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getCartsUrl() {
         return mGetCartsUrl;
+    }
+
+    @Override
+    public String getCurrentCartUrl() {
+        return mGetCurrentCartUrl;
     }
 
     @Override
