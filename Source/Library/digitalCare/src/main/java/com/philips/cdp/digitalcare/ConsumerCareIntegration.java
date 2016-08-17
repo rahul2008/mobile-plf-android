@@ -3,6 +3,9 @@ package com.philips.cdp.digitalcare;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -18,6 +21,21 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 public class ConsumerCareIntegration implements UappInterface {
 
 
+    private static final String TAG = ConsumerCareIntegration.class.getSimpleName();
+
+
+    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+
+        @Override
+        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+            if (hamburgerIconAvailable) {
+                // enableActionBarHome();
+            } else {
+                //  enableActionBarLeftArrow();
+            }
+        }
+    };
+
     @Override
     public void init(Context context, UappDependencies uappDependencies) {
 
@@ -27,9 +45,11 @@ public class ConsumerCareIntegration implements UappInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
-        HardcodedProductList hardcodedProductList = (HardcodedProductList) uappLaunchInput;
+        HardcodedProductList productList = (HardcodedProductList) uappLaunchInput;
 
         if (uiLauncher instanceof com.philips.platform.uappframework.launcher.ActivityLauncher) {
+
+            DigiCareLogger.i(TAG, "Activitylauncher Instance");
 
             ActivityLauncher.ActivityOrientation orientation = ((ActivityLauncher) uiLauncher).getScreenOrientation();
             int orientationvalue = orientation.getOrientationValue();
@@ -46,10 +66,12 @@ public class ConsumerCareIntegration implements UappInterface {
 
 
             DigitalCareConfigManager.getInstance().invokeDigitalCare(consumerCarelauncher,
-                    hardcodedProductList);
+                    productList);
 
 
         } else {
+
+            DigiCareLogger.i(TAG, "FragmentLauncher Instance");
 
             com.philips.platform.uappframework.launcher.FragmentLauncher fragmentLauncher
                     = (com.philips.platform.uappframework.launcher.FragmentLauncher) uiLauncher;
@@ -58,14 +80,21 @@ public class ConsumerCareIntegration implements UappInterface {
             int containerViewId = fragmentLauncher.getParentContainerResourceID();
             int enterAnimation = fragmentLauncher.getEnterAnimation();
             int exitAnimation = fragmentLauncher.getExitAnimation();
-            ActionBarListener actionBarListener = fragmentLauncher.getActionbarListener();
+            final ActionBarListener actionBarListener = fragmentLauncher.getActionbarListener();
 
 
-            DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(fragmentLauncher.
-                            getFragmentActivity(),
-                    fragmentLauncher.getParentContainerResourceID(),
-                    null,
-                    uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+            FragmentLauncher fragLauncher = new FragmentLauncher(
+                    fragmentActivity, containerViewId, new ActionbarUpdateListener() {
+                @Override
+                public void updateActionbar(String s, Boolean hamburger) {
+                    actionBarListener.updateActionBar(s, hamburger);
+                }
+            });
+            fragLauncher.setAnimation(enterAnimation, exitAnimation);
+
+
+            DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher,
+                    productList);
         }
 
     }

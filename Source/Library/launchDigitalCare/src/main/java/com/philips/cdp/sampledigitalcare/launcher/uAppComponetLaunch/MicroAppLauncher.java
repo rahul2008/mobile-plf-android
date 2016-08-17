@@ -28,7 +28,6 @@ import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcare.launcher.componentLaunch.LaunchDigitalCare;
-import com.philips.cdp.sampledigitalcare.launcher.componentLaunch.SampleActivity;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
@@ -294,7 +293,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
 
-                startActivity(new Intent(this, SampleActivity.class));
+                startActivity(new Intent(this, MicroAppFragmentActivity.class));
                 break;
 
         }

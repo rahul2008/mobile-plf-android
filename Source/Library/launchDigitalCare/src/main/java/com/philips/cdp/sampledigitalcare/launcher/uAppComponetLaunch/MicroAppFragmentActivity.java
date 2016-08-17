@@ -1,6 +1,7 @@
 package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,16 +12,16 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.digitalcare.ConsumerCareIntegration;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.sampledigitalcare.launcher.componentLaunch.LaunchDigitalCare;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -30,13 +31,15 @@ import com.philips.cl.di.dev.pa.R;
  */
 
 
-public class MicroAppFragmentActivity extends FragmentActivity implements View.OnClickListener {
+public class MicroAppFragmentActivity extends FragmentActivity implements View.OnClickListener,
+        CcListener {
     private static final String TAG = MicroAppFragmentActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
     private FragmentManager mFragmentManager = null;
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+
+   /* private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
         @Override
         public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
@@ -47,17 +50,38 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
                 enableActionBarLeftArrow();
             }
         }
+    };*/
+
+
+    private ActionBarListener actionBarListener = new ActionBarListener() {
+        @Override
+        public void updateActionBar(@IdRes int i, boolean b) {
+
+        }
+
+        @Override
+        public void updateActionBar(String title, boolean hamburgerMenu) {
+
+            // Toast.makeText(MicroAppFragmentActivity.this, title, Toast.LENGTH_SHORT).show();
+            mActionBarTitle.setText(title);
+            if (hamburgerMenu) {
+                enableActionBarHome();
+            } else {
+                enableActionBarLeftArrow();
+            }
+
+        }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        DigiCareLogger.i(TAG, " SampleActivity onCreate");
+        DigiCareLogger.i(TAG, " onCreate ++ ");
         setContentView(R.layout.activity_sample);
 
-        if (LaunchDigitalCare.mList != null) {
-            String[] ctnList = new String[LaunchDigitalCare.mList.size()];
+        if (MicroAppLauncher.mList != null) {
+            String[] ctnList = new String[MicroAppLauncher.mList.size()];
             for (int i = 0; i < MicroAppLauncher.mList.size(); i++)
                 ctnList[i] = MicroAppLauncher.mList.get(i);
 
@@ -66,13 +90,22 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
             productsSelection.setSector(Sector.B2C);
 
 
-            FragmentLauncher fragLauncher = new FragmentLauncher(
+            /*FragmentLauncher fragLauncher = new FragmentLauncher(
                     this, R.id.sampleMainContainer, actionBarClickListener);
             // fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
             //Testing purpose (Fragments Launch without Animation)
             fragLauncher.setAnimation(0, 0);
 
-            DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
+            DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);*/
+
+            com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
+                    new com.philips.platform.uappframework.launcher.FragmentLauncher
+                            (this, R.id.sampleMainContainer, actionBarListener);
+            launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+
+            ConsumerCareIntegration consumerCareIntegration = new ConsumerCareIntegration();
+            consumerCareIntegration.init(this, null);
+            consumerCareIntegration.launch(launcher, productsSelection, this);
 
             try {
                 initActionBar();
@@ -84,6 +117,21 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
             DigitalCareConfigManager.getInstance();
             mFragmentManager = getSupportFragmentManager();
         }
+    }
+
+    @Override
+    public boolean onMainMenuItemClicked(String mainMenuItem) {
+        return false;
+    }
+
+    @Override
+    public boolean onProductMenuItemClicked(String productMenu) {
+        return false;
+    }
+
+    @Override
+    public boolean onSocialProviderItemClicked(String socialProviderItem) {
+        return false;
     }
 
     protected void initActionBar() throws ClassCastException {

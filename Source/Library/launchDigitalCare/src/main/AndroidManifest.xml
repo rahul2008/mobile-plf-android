@@ -35,6 +35,11 @@
             android:configChanges="orientation|screenSize|locale|layoutDirection"
             android:theme="@style/app_theme_vertical">
         </activity>
+
+        <activity
+            android:name="com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppFragmentActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            android:theme="@style/app_theme_vertical"></activity>
         <activity
             android:name="com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLauncher"
             android:configChanges="orientation|screenSize|locale|layoutDirection"
