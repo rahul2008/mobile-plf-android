@@ -8,8 +8,8 @@ package com.philips.pins.shinelib.wrappers;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
-import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 import java.util.UUID;
@@ -54,18 +54,18 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void writeCharacteristic(final SHNIntegerResultListener listener, final UUID uuid, final byte[] data) {
+    public void writeCharacteristic(final SHNResultListener listener, final UUID uuid, final byte[] data) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.writeCharacteristic(new SHNIntegerResultListener() {
+                wrappedShnCapability.writeCharacteristic(new SHNResultListener() {
 
                     @Override
-                    public void onActionCompleted(final int value, @NonNull final SHNResult result) {
+                    public void onActionCompleted(@NonNull final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
                             @Override
                             public void run() {
-                                listener.onActionCompleted(value, result);
+                                listener.onActionCompleted(result);
                             }
                         };
                         userHandler.post(resultRunnable);
@@ -90,18 +90,18 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void setNotify(final SHNIntegerResultListener listener, final boolean notify, final UUID uuid) {
+    public void setNotify(final SHNResultListener listener, final boolean notify, final UUID uuid) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setNotify(new SHNIntegerResultListener() {
+                wrappedShnCapability.setNotify(new SHNResultListener() {
 
                     @Override
-                    public void onActionCompleted(final int value, @NonNull final SHNResult result) {
+                    public void onActionCompleted(@NonNull final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
                             @Override
                             public void run() {
-                                listener.onActionCompleted(value, result);
+                                listener.onActionCompleted(result);
                             }
                         };
                         userHandler.post(resultRunnable);

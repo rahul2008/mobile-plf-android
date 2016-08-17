@@ -1,7 +1,6 @@
 package com.philips.pins.shinelib.wrappers;
 
 import com.philips.pins.shinelib.SHNDataRawResultListener;
-import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
@@ -28,14 +27,11 @@ public class CapabilityGenericWrapperTest extends SHNCapabilityWrapperTestBase {
     @Mock private CapabilityGeneric capabilityMock;
 
     @Mock private SHNDataRawResultListener rawResultListener;
-    @Mock private SHNIntegerResultListener intResultListener;
-
     @Mock private SHNResultListener resultListener;
 
     @Mock private CapabilityGeneric.CapabilityGenericListener shnCapabilityGenericListenerMock;
 
     @Captor ArgumentCaptor<SHNDataRawResultListener> rawResultListenerArgumentCaptor;
-    @Captor ArgumentCaptor<SHNIntegerResultListener> intResultListenerArgumentCaptor;
 
     @Captor ArgumentCaptor<SHNResultListener> resultListenerArgumentCaptor;
 
@@ -75,43 +71,43 @@ public class CapabilityGenericWrapperTest extends SHNCapabilityWrapperTestBase {
     @Test
     public void shouldReceiveCallWriteCharacteristicOnInternalThread_whenWriteCharacteristicIsCalledOnWrapper() {
         final UUID uuid = UUID.randomUUID();
-        capabilityWrapper.writeCharacteristic(intResultListener, uuid, READ_RAW);
+        capabilityWrapper.writeCharacteristic(resultListener, uuid, READ_RAW);
         captureInternalHandlerRunnable().run();
 
-        verify(capabilityMock).writeCharacteristic(intResultListenerArgumentCaptor.capture(), eq(uuid), eq(READ_RAW));
+        verify(capabilityMock).writeCharacteristic(resultListenerArgumentCaptor.capture(), eq(uuid), eq(READ_RAW));
     }
 
     @Test
     public void shouldReceiveCorrectWriteResultOnUserThread_whenResultReturnOnInternalThread() {
         shouldReceiveCallWriteCharacteristicOnInternalThread_whenWriteCharacteristicIsCalledOnWrapper();
 
-        SHNIntegerResultListener internalResultListener = intResultListenerArgumentCaptor.getValue();
+        SHNResultListener internalResultListener = resultListenerArgumentCaptor.getValue();
 
-        internalResultListener.onActionCompleted(0, EXPECTED_RESULT);
+        internalResultListener.onActionCompleted(EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
 
-        verify(intResultListener).onActionCompleted(0, EXPECTED_RESULT);
+        verify(resultListener).onActionCompleted(EXPECTED_RESULT);
     }
 
     @Test
     public void shouldReceiveCallSetNotifyOnInternalThread_whenSetNotifyIsCalledOnWrapper() {
         final UUID uuid = UUID.randomUUID();
-        capabilityWrapper.setNotify(intResultListener, true, uuid);
+        capabilityWrapper.setNotify(resultListener, true, uuid);
         captureInternalHandlerRunnable().run();
 
-        verify(capabilityMock).setNotify(intResultListenerArgumentCaptor.capture(), eq(true), eq(uuid));
+        verify(capabilityMock).setNotify(resultListenerArgumentCaptor.capture(), eq(true), eq(uuid));
     }
 
     @Test
     public void shouldReceiveCorrectNotifyResultOnUserThread_whenResultReturnOnInternalThread() {
         shouldReceiveCallSetNotifyOnInternalThread_whenSetNotifyIsCalledOnWrapper();
 
-        SHNIntegerResultListener internalResultListener = intResultListenerArgumentCaptor.getValue();
+        SHNResultListener internalResultListener = resultListenerArgumentCaptor.getValue();
 
-        internalResultListener.onActionCompleted(0, EXPECTED_RESULT);
+        internalResultListener.onActionCompleted(EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
 
-        verify(intResultListener).onActionCompleted(0, EXPECTED_RESULT);
+        verify(resultListener).onActionCompleted(EXPECTED_RESULT);
     }
 
     @Test
