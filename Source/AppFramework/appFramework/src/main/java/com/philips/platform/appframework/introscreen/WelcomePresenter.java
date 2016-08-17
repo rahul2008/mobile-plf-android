@@ -57,8 +57,6 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
                 }
                 break;
         }
-
-
     }
 
     @Override
