@@ -22,7 +22,6 @@ import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
-import com.philips.cdp.registration.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +42,11 @@ public class ProdRegProcessController {
     private boolean launchedRegistration = false;
     private boolean isApiCallingProgress = false;
     private FragmentActivity fragmentActivity;
-    private User user;
     private ArrayList<RegisteredProduct> registeredProducts;
 
     public ProdRegProcessController(final ProcessControllerCallBacks processControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.processControllerCallBacks = processControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
-        this.user = new User(fragmentActivity);
         dependencyBundle = new Bundle();
     }
 
@@ -60,11 +57,7 @@ public class ProdRegProcessController {
             dependencyBundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             if (registeredProducts != null) {
                 currentProduct = registeredProducts.get(0);
-                if (!getUser().isUserSignIn()) {
-                    processControllerCallBacks.dismissLoadingDialog();
-                    processControllerCallBacks.exitProductRegistration();
-                    ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
-                } else if (!isApiCallingProgress) {
+                if (!isApiCallingProgress) {
                     getRemoteRegisteredProducts();
                 }
             } else {
@@ -191,10 +184,6 @@ public class ProdRegProcessController {
 
     public boolean isApiCallingProgress() {
         return isApiCallingProgress;
-    }
-
-    protected User getUser() {
-        return user;
     }
 
     public List<RegisteredProduct> getRegisteredProductsList() {

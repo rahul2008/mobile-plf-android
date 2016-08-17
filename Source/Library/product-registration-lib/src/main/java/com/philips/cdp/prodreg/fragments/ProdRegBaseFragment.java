@@ -42,6 +42,8 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
 
     public abstract int getActionbarTitleResId();
 
+    public abstract String getActionbarTitle();
+
     public abstract boolean getBackButtonState();
 
     public abstract List<RegisteredProduct> getRegisteredProducts();
@@ -109,8 +111,10 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
      * seletion/creation.
      */
     private void setActionbarTitle() {
-        if (mActionbarUpdateListener != null)
+        if (mActionbarUpdateListener != null) {
             mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(), getBackButtonState());
+        }
     }
 
     protected void handleCallBack(final boolean onBack) {

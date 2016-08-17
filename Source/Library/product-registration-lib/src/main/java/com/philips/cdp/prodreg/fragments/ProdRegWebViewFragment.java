@@ -33,6 +33,11 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
     }
 
     @Override
+    public String getActionbarTitle() {
+        return getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
     public boolean getBackButtonState() {
         return true;
     }

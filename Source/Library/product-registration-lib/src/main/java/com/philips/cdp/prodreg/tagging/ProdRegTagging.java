@@ -8,7 +8,7 @@ package com.philips.cdp.prodreg.tagging;
 import android.annotation.SuppressLint;
 
 import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.text.SimpleDateFormat;
@@ -54,8 +54,8 @@ public class ProdRegTagging {
     }
 
     @SuppressWarnings("deprecation")
-    public static void init() {
-        aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
+    public static void init(AppInfra appInfra) {
+        aiAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }
 

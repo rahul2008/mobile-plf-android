@@ -19,6 +19,7 @@ import android.os.Bundle;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
@@ -28,6 +29,7 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.uappframework.UappInterface;
@@ -115,21 +117,30 @@ public class ProdRegUiHelper implements UappInterface {
      * Fragment ID. </p>
      */
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegLaunchInput prodRegLaunchInput) {
-        final Bundle arguments = new Bundle();
-        final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegLaunchInput.getProducts());
-        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+        if (prodRegUiListener != null) {
+            final Bundle arguments = new Bundle();
+            final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegLaunchInput.getProducts());
+            arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
 
-        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
-        if (prodRegLaunchInput.isAppLaunch()) {
-            ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
-            prodRegFirstLaunchFragment.setArguments(arguments);
-            prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
-                    fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
+            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
+            final User user = new User(fragmentLauncher.getFragmentActivity());
+            if (prodRegLaunchInput.isAppLaunch()) {
+                ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
+                prodRegFirstLaunchFragment.setArguments(arguments);
+                prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
+                        fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
+            } else if (!user.isUserSignIn()) {
+                prodRegUiListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
+                if (fragmentLauncher.getFragmentActivity() instanceof ProdRegBaseActivity)
+                    fragmentLauncher.getFragmentActivity().finish();
+            } else {
+                ProdRegProcessFragment prodRegProcessFragment = new ProdRegProcessFragment();
+                prodRegProcessFragment.setArguments(arguments);
+                prodRegProcessFragment.showFragment(prodRegProcessFragment,
+                        fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
+            }
         } else {
-            ProdRegProcessFragment prodRegProcessFragment = new ProdRegProcessFragment();
-            prodRegProcessFragment.setArguments(arguments);
-            prodRegProcessFragment.showFragment(prodRegProcessFragment,
-                    fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
+            throw new RuntimeException("Listener not set");
         }
     }
 
@@ -166,7 +177,7 @@ public class ProdRegUiHelper implements UappInterface {
         this.context = uappSettings.getContext();
         this.appInfra = (AppInfra) uappDependencies.getAppInfra();
         new ProdRegHelper().init(context);
-        ProdRegTagging.init();
+        ProdRegTagging.init(appInfra);
     }
 
 

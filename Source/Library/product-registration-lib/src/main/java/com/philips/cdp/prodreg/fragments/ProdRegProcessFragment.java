@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
@@ -39,6 +40,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     }
 
     @Override
+    public String getActionbarTitle() {
+        return getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
     public boolean getBackButtonState() {
         return true;
     }
@@ -58,7 +64,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
             final ProdRegCache prodRegCache = new ProdRegCache(activity);
             new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT, 1);
             ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegProcessScreen", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT)));
-
             showLoadingDialog();
         } else {
             prodRegProcessController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));
@@ -90,6 +95,9 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
                 if (activity != null && !activity.isFinishing()) {
                     clearFragmentStack();
                     ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
+                    if (activity instanceof ProdRegBaseActivity) {
+                        getActivity().finish();
+                    }
                 }
             }
         };

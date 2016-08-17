@@ -64,10 +64,6 @@ public class ProdRegProcessControllerTest extends TestCase {
         bundle = new Bundle();
         when(fragmentActivity.isFinishing()).thenReturn(false);
         prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
-            @Override
-            protected User getUser() {
-                return userMock;
-            }
 
             @NonNull
             @Override

@@ -90,6 +90,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     @Override
+    public String getActionbarTitle() {
+        return getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
     public boolean getBackButtonState() {
         return true;
     }
