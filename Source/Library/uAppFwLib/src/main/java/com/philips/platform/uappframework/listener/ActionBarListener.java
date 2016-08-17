@@ -14,8 +14,15 @@ import android.support.annotation.StringRes;
 public interface ActionBarListener  {
     /**
      * For setting the title of action bar and to set back key Enabled/Disabled
+     * @param resId : The resource Id of the String to be displayed
+     * @param enableBackKey to set back key enabled or disbaled
      */
     void updateActionBar(@StringRes int resId, boolean enableBackKey);
 
+    /**
+     * For setting the title of action bar and to set back key Enabled/Disabled
+     * @param resString : The String to be displayed
+     * @param enableBackKey to set back key enabled or disbaled
+     */
     void updateActionBar(String resString, boolean enableBackKey);
 }

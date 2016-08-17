@@ -21,20 +21,23 @@ public abstract class UiLauncher  {
     protected int mExitAnimResId;
 
     /**
-     * returns the enter animation ID  {@Link android.view.animation}
+     * @returns the enter animation ID  {@Link android.view.animation}
      */
     public int getEnterAnimation() {
         return mEnterAnimResId;
     }
     /**
-     * returns the exit animation ID  {@Link android.view.animation}
+     * @returns the exit animation ID  {@Link android.view.animation}
      */
     public int getExitAnimation() {
         return mExitAnimResId;
     }
 
     /**
-     * for setting custom animations  {@Link android.view.animation}
+     * @param enterAnim
+     * @param exitAnim
+     *
+     *  setting custom animations  {@Link android.view.animation}
      */
     public void setCustomAnimation(@AnimRes int enterAnim, @AnimRes int exitAnim) {
         this.mEnterAnimResId = enterAnim;

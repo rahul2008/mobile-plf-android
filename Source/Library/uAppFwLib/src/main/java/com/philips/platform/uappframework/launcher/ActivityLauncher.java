@@ -45,6 +45,10 @@ public class ActivityLauncher extends UiLauncher  {
         ActivityOrientation(int value) {
             this.value = value;
         }
+        /**
+         To retrive Screen Orientation
+         @return  Orientation value
+         */
 
         public int getOrientationValue() {
             return this.value;
@@ -62,8 +66,14 @@ public class ActivityLauncher extends UiLauncher  {
      Bundle object
      */
     protected Bundle mBundle;
+
+
     /**
-     Launching As activity with Screen Orientation
+     Constructor
+     @param screenOrientation : takes screen Oreintation
+     @param uikitTheme takes Uikit Theme
+
+
      */
     public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation ,int uikitTheme) {
         mScreenOrientation = screenOrientation;
@@ -71,7 +81,11 @@ public class ActivityLauncher extends UiLauncher  {
     }
 
     /**
-     Launching As activity with two parameters : Screen Orientation and Bundle
+     Constructor
+     @param screenOrientation : takes screen Oreintation
+     @param uikitTheme takes Uikit Theme
+     @param bundle bundle object
+
      */
     public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation,int uikitTheme, Bundle bundle) {
         mScreenOrientation = screenOrientation;
@@ -80,17 +94,22 @@ public class ActivityLauncher extends UiLauncher  {
 
     }
     /**
-     returns screen orientation
+     @returns screen orientation
      */
     public ActivityLauncher.ActivityOrientation getScreenOrientation() {
         return mScreenOrientation;
     }
+    /**
+     @returns uikitTheme
+     */
     public int getUiKitTheme() {
         return this.mUiKitTheme;
     }
 
 
-
+    /**
+     @returns Bundle
+     */
     public Bundle getBundle() {
         return mBundle;
     }

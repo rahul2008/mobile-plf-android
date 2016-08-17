@@ -21,11 +21,15 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public interface UappInterface  {
     /**
      *  For intitalizing uApp
+     *  @param uappDependencies : Object of UappDependencies
+     *  @param uappSettings: : Object of UappSettings
      */
     public void init( UappDependencies uappDependencies,UappSettings uappSettings);
 
     /**
      *  For launching the uApp
+     *  @param uappLaunchInput: : Object of  UappLaunchInput
+     *  @param  uiLauncher : Object of UiLauncher
      */
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput);
 

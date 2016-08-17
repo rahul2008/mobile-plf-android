@@ -26,7 +26,10 @@ public class FragmentLauncher extends UiLauncher {
     protected FragmentActivity mFragmentActivity = null;
 
     /**
-     * FragmentLauncher method for launching the uApp.
+     * FragmentLauncher constructor for launching the uApp.
+     * @param fragmentActivity Associated fragment Activity
+     * @param containerResId The res Id of the container
+     * @param actionBarListener instance of ActionBarListener
      */
 
     public FragmentLauncher(FragmentActivity fragmentActivity,
@@ -38,20 +41,20 @@ public class FragmentLauncher extends UiLauncher {
     }
 
     /**
-     * Returns fragment Container resource ID
+     * @return  fragment Container resource ID
      */
     public int getParentContainerResourceID() {
         return mContainerResId;
     }
     /**
-     * Returns actionBar listener object
+     * @return actionBar listener object
      */
     public ActionBarListener getActionbarListener() {
         return mActionBarListener;
     }
 
     /**
-     * Returns associated fragment activity
+     * @return associated fragment activity
      */
     public FragmentActivity getFragmentActivity() {
         return mFragmentActivity;
