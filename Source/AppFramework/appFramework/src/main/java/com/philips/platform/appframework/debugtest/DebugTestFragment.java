@@ -73,7 +73,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
         initViews(view);
         setSpinnerAdaptor();
-        final int position = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
+        final int position = list.indexOf(sharedPreferences.getString("reg_env", "Development"));
         setSpinnerSelection(position);
         spinner.setOnItemSelectedListener(getSpinnerListener());
         configurationTextView.setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
@@ -91,7 +91,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                 if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
                     ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
                 }
-                int position1 = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
+                int position1 = list.indexOf(sharedPreferences.getString("reg_env", "Development"));
                 if (position1 != position) {
                     User user = new User(context);
                     user.logout(null);
