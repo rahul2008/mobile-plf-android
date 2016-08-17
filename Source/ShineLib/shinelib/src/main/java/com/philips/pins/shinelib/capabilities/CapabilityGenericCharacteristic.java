@@ -7,13 +7,12 @@ package com.philips.pins.shinelib.capabilities;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
-import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResultListener;
 import java.util.UUID;
 
-public interface CapabilityGeneric extends SHNCapability {
+public interface CapabilityGenericCharacteristic extends SHNCapability {
 
-    interface CapabilityGenericListener {
+    interface CharacteristicChangedListener {
 
         void onCharacteristicChanged(final UUID aChar, byte[] data, int status);
     }
@@ -29,7 +28,7 @@ public interface CapabilityGeneric extends SHNCapability {
      * <p/>
      * Requires subscription to be enabled.
      *
-     * @param genericCapabilityListener to receive updates.
+     * @param listener to receive updates.
      */
-    void setCapabilityGenericListener(CapabilityGenericListener genericCapabilityListener);
+    void setCharacteristicChangedListener(CharacteristicChangedListener listener);
 }

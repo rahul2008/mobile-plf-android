@@ -10,24 +10,25 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
-import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
+import com.philips.pins.shinelib.capabilities.CapabilityGenericCharacteristic;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 import java.util.UUID;
 
-public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGeneric.CapabilityGenericListener {
+public class CapabilityGenericCharacteristicWrapper
+        implements CapabilityGenericCharacteristic, CapabilityGenericCharacteristic.CharacteristicChangedListener {
 
-    private static final String TAG = CapabilityGenericWrapper.class.getSimpleName();
+    private static final String TAG = CapabilityGenericCharacteristicWrapper.class.getSimpleName();
 
-    private final CapabilityGeneric wrappedShnCapability;
+    private final CapabilityGenericCharacteristic wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;
-    private CapabilityGeneric.CapabilityGenericListener capabilityGenericListener;
+    private CharacteristicChangedListener characteristicChangedListener;
 
-    public CapabilityGenericWrapper(CapabilityGeneric shnCapability, Handler internalHandler, Handler userHandler) {
+    public CapabilityGenericCharacteristicWrapper(CapabilityGenericCharacteristic shnCapability, Handler internalHandler, Handler userHandler) {
         wrappedShnCapability = shnCapability;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;
-        wrappedShnCapability.setCapabilityGenericListener(this);
+        wrappedShnCapability.setCharacteristicChangedListener(this);
     }
 
     @Override
@@ -81,8 +82,8 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
         Runnable callback = new Runnable() {
             @Override
             public void run() {
-                if (capabilityGenericListener != null) {
-                    capabilityGenericListener.onCharacteristicChanged(aChar, data, status);
+                if (characteristicChangedListener != null) {
+                    characteristicChangedListener.onCharacteristicChanged(aChar, data, status);
                 }
             }
         };
@@ -112,8 +113,7 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
         internalHandler.post(command);
     }
 
-    @Override
-    public void setCapabilityGenericListener(CapabilityGenericListener genericCapabilityListener) {
-        this.capabilityGenericListener = genericCapabilityListener;
+    public void setCharacteristicChangedListener(CharacteristicChangedListener listener) {
+        this.characteristicChangedListener = listener;
     }
 }

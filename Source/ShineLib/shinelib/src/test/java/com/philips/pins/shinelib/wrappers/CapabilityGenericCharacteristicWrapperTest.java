@@ -3,7 +3,7 @@ package com.philips.pins.shinelib.wrappers;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
-import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
+import com.philips.pins.shinelib.capabilities.CapabilityGenericCharacteristic;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 import java.util.UUID;
 import org.junit.Before;
@@ -18,18 +18,18 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CapabilityGenericWrapperTest extends SHNCapabilityWrapperTestBase {
+public class CapabilityGenericCharacteristicWrapperTest extends SHNCapabilityWrapperTestBase {
 
     public static final SHNResult EXPECTED_RESULT = SHNResult.SHNOk;
     public static final byte[] READ_RAW = new byte[] { 0x42 };
     public static final SHNDataRaw READ_VALUE = new SHNDataRaw(READ_RAW);
 
-    @Mock private CapabilityGeneric capabilityMock;
+    @Mock private CapabilityGenericCharacteristic capabilityMock;
 
     @Mock private SHNDataRawResultListener rawResultListener;
     @Mock private SHNResultListener resultListener;
 
-    @Mock private CapabilityGeneric.CapabilityGenericListener shnCapabilityGenericListenerMock;
+    @Mock private CapabilityGenericCharacteristic.CharacteristicChangedListener shnCharacteristicChangedListenerMock;
 
     @Captor ArgumentCaptor<SHNDataRawResultListener> rawResultListenerArgumentCaptor;
 
@@ -37,14 +37,14 @@ public class CapabilityGenericWrapperTest extends SHNCapabilityWrapperTestBase {
 
     @Captor ArgumentCaptor<Boolean> booleanArgumentCaptor;
 
-    @Captor ArgumentCaptor<CapabilityGeneric.CapabilityGenericListener> shnCapabilityGenericListenerArgumentCaptor;
+    @Captor ArgumentCaptor<CapabilityGenericCharacteristic.CharacteristicChangedListener> shnCapabilityGenericListenerArgumentCaptor;
 
-    private CapabilityGenericWrapper capabilityWrapper;
+    private CapabilityGenericCharacteristicWrapper capabilityWrapper;
 
     @Before
     public void setUp() {
         initMocks(this);
-        capabilityWrapper = new CapabilityGenericWrapper(capabilityMock, internalHandlerMock, userHandlerMock);
+        capabilityWrapper = new CapabilityGenericCharacteristicWrapper(capabilityMock, internalHandlerMock, userHandlerMock);
     }
 
     @Test
@@ -112,12 +112,12 @@ public class CapabilityGenericWrapperTest extends SHNCapabilityWrapperTestBase {
 
     @Test
     public void shouldPostCharacteristicChangedCallbacksOnUserThread() {
-        verify(capabilityMock).setCapabilityGenericListener(shnCapabilityGenericListenerArgumentCaptor.capture());
+        verify(capabilityMock).setCharacteristicChangedListener(shnCapabilityGenericListenerArgumentCaptor.capture());
 
-        capabilityWrapper.setCapabilityGenericListener(shnCapabilityGenericListenerMock);
+        capabilityWrapper.setCharacteristicChangedListener(shnCharacteristicChangedListenerMock);
         shnCapabilityGenericListenerArgumentCaptor.getValue().onCharacteristicChanged(UUID.randomUUID(), READ_RAW, 1);
         captureUserHandlerRunnable().run();
 
-        verify(shnCapabilityGenericListenerMock).onCharacteristicChanged(any(UUID.class), any(byte[].class), anyInt());
+        verify(shnCharacteristicChangedListenerMock).onCharacteristicChanged(any(UUID.class), any(byte[].class), anyInt());
     }
 }
