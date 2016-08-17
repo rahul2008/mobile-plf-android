@@ -237,7 +237,9 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
 
             @Override
             public void onProdRegFailed(final ProdRegError prodRegError) {
-                Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
+                ProdRegLogger.v(TAG, prodRegError.getDescription() + "");
+                if (getActivity() != null && !getActivity().isFinishing())
+                    Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
     }

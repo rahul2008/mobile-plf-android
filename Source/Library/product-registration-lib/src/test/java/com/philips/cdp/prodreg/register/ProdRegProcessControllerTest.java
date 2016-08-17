@@ -100,20 +100,7 @@ public class ProdRegProcessControllerTest extends TestCase {
         bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, products);
     }
 
-    @Test
-    public void testProcess() {
-        when(userMock.isUserSignIn()).thenReturn(true);
-        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
-        prodRegProcessController.process(bundle);
-        verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
-        when(userMock.isUserSignIn()).thenReturn(false);
-        prodRegProcessController.process(bundle);
-        verify(processControllerCallBacksMock).launchRegistration();
-        prodRegProcessController.process(bundle);
-        verify(processControllerCallBacksMock).dismissLoadingDialog();
-        verify(processControllerCallBacksMock).exitProductRegistration();
-    }
+
 
     @Test
     public void testGetRegisteredProductsListener() {
@@ -177,5 +164,18 @@ public class ProdRegProcessControllerTest extends TestCase {
         summaryListener.onErrorResponse("error in getting summary", -1);
         verify(processControllerCallBacksMock, atLeastOnce()).dismissLoadingDialog();
         verify(processControllerCallBacksMock, atLeastOnce()).showFragment(prodRegRegistrationFragmentMock);
+    }
+
+    @Test
+    public void testProcess() {
+        when(userMock.isUserSignIn()).thenReturn(true);
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
+        prodRegProcessController.process(bundle);
+        verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
+        when(userMock.isUserSignIn()).thenReturn(false);
+        bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, null);
+        prodRegProcessController.process(bundle);
+        verify(processControllerCallBacksMock).exitProductRegistration();
     }
 }

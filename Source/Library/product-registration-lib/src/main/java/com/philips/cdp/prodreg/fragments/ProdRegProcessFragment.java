@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
@@ -21,8 +23,6 @@ import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.List;
 
@@ -88,7 +88,8 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
                 dismissAlertOnError();
                 final FragmentActivity activity = getActivity();
                 if (activity != null && !activity.isFinishing()) {
-                    clearFragmentStack(true);
+                    clearFragmentStack();
+                    ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
                 }
             }
         };
@@ -96,13 +97,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public void exitProductRegistration() {
-        clearFragmentStack(true);
-    }
-
-    @Override
-    public void launchRegistration() {
-        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-        RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(getActivity());
+        clearFragmentStack();
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
@@ -31,7 +32,6 @@ public class ProdRegProcessController {
     public interface ProcessControllerCallBacks {
         void dismissLoadingDialog();
         void exitProductRegistration();
-        void launchRegistration();
         void showLoadingDialog();
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
@@ -60,25 +60,16 @@ public class ProdRegProcessController {
             dependencyBundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             if (registeredProducts != null) {
                 currentProduct = registeredProducts.get(0);
-                if (getUser().isUserSignIn()) {
-                    //Signed in case
-                    if (!isApiCallingProgress) {
-                        getRemoteRegisteredProducts();
-                    }
-                } else {
-                    //Not signed in
-                    if (launchedRegistration) {
-                        //Registration page has already launched
-                        processControllerCallBacks.dismissLoadingDialog();
-                        processControllerCallBacks.exitProductRegistration();
-                    } else {
-                        //Registration is not yet launched.
-                        launchedRegistration = true;
-                        processControllerCallBacks.launchRegistration();
-                    }
+                if (!getUser().isUserSignIn()) {
+                    processControllerCallBacks.dismissLoadingDialog();
+                    processControllerCallBacks.exitProductRegistration();
+                    ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
+                } else if (!isApiCallingProgress) {
+                    getRemoteRegisteredProducts();
                 }
             } else {
                 processControllerCallBacks.exitProductRegistration();
+                ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.PRODUCTS_NOT_FOUND);
             }
         }
     }

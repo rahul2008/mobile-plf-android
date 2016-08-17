@@ -39,8 +39,6 @@ import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
 import java.text.ParseException;
@@ -54,7 +52,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView;
-    private Button registerButton;
     private ImageView productImageView;
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
@@ -121,7 +118,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serialLayout = (InlineForms) view.findViewById(R.id.InlineForms_serial_number);
         purchaseDateLayout = (InlineForms) view.findViewById(R.id.InlineForms_date);
         imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-        registerButton = (Button) view.findViewById(R.id.btn_register);
+        final Button registerButton = (Button) view.findViewById(R.id.btn_register);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
@@ -242,7 +239,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public boolean handleBackEvent() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            return clearFragmentStack(true);
+            final boolean fragmentStack = clearFragmentStack();
+            handleCallBack(true);
+            return fragmentStack;
         }
         return true;
     }
@@ -259,13 +258,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void exitProductRegistration() {
-        clearFragmentStack(true);
-    }
-
-    @Override
-    public void launchRegistration() {
-        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-        RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(getActivity());
+        clearFragmentStack();
     }
 
     @Override

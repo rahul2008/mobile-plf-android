@@ -99,7 +99,9 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
     public boolean handleBackEvent() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            return clearFragmentStack(true);
+            final boolean fragmentStack = clearFragmentStack();
+            handleCallBack(true);
+            return fragmentStack;
         }
         return true;
     }

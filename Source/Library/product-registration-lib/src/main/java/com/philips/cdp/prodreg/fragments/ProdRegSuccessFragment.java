@@ -49,7 +49,8 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                clearFragmentStack(false);
+                clearFragmentStack();
+                handleCallBack(false);
             }
         });
         return view;
@@ -73,7 +74,9 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     public boolean handleBackEvent() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            return clearFragmentStack(true);
+            final boolean fragmentStack = clearFragmentStack();
+            handleCallBack(true);
+            return fragmentStack;
         }
         return true;
     }

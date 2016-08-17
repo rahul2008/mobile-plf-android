@@ -66,7 +66,8 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                clearFragmentStack(true);
+                clearFragmentStack();
+                handleCallBack(true);
             }
         };
     }

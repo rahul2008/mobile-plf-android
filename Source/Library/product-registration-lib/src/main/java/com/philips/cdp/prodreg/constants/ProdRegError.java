@@ -24,6 +24,8 @@ public enum ProdRegError {
     INVALID_CTN(404, "Enter valid CTN number"),
     ACCESS_TOKEN_INVALID(401, "malformed access token"),
     INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE(507, "purchase date is missing and please enter valid serialnumber also"),
+    PRODUCTS_NOT_FOUND(12, "No Products Found"),
+    LISTENER_NOT_SET(13, "No Listener Set"),
     INVALID_VALIDATION(422, "Input validation Error");
 
     private final int id;

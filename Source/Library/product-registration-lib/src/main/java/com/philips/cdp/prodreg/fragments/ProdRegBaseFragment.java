@@ -113,7 +113,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
     }
 
-    private void handleCallBack(final boolean onBack) {
+    protected void handleCallBack(final boolean onBack) {
         final ProdRegUiListener prodRegUiListener = ProdRegUiHelper.getInstance().getProdRegUiListener();
         final UserWithProducts signedInUserWithProducts = new ProdRegHelper().getSignedInUserWithProducts();
         if (onBack && prodRegUiListener != null)
@@ -202,17 +202,19 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         }
     }
 
-    public boolean clearFragmentStack(boolean onBack) {
+    public boolean clearFragmentStack() {
         final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            if (activity instanceof ProdRegBaseActivity) {
-                activity.finish();
-                handleCallBack(onBack);
-            } else {
-                FragmentManager fragManager = activity.getSupportFragmentManager();
-                handleCallBack(onBack);
-                return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        try {
+            if (activity != null && !activity.isFinishing()) {
+                if (activity instanceof ProdRegBaseActivity) {
+                    activity.finish();
+                } else {
+                    FragmentManager fragManager = activity.getSupportFragmentManager();
+                    return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
             }
+        } catch (IllegalStateException e) {
+            ProdRegLogger.e(TAG, e.getMessage());
         }
         return false;
     }
