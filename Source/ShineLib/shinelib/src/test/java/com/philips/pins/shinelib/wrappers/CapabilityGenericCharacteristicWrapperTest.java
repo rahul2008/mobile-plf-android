@@ -92,10 +92,10 @@ public class CapabilityGenericCharacteristicWrapperTest extends SHNCapabilityWra
     @Test
     public void shouldReceiveCallSetNotifyOnInternalThread_whenSetNotifyIsCalledOnWrapper() {
         final UUID uuid = UUID.randomUUID();
-        capabilityWrapper.setNotify(resultListener, true, uuid);
+        capabilityWrapper.setNotify(resultListener, uuid, true);
         captureInternalHandlerRunnable().run();
 
-        verify(capabilityMock).setNotify(resultListenerArgumentCaptor.capture(), eq(true), eq(uuid));
+        verify(capabilityMock).setNotify(resultListenerArgumentCaptor.capture(), eq(uuid), eq(true));
     }
 
     @Test

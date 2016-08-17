@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -19,12 +20,13 @@ public class CapabilityGenericCharacteristicWrapper
 
     private static final String TAG = CapabilityGenericCharacteristicWrapper.class.getSimpleName();
 
-    private final CapabilityGenericCharacteristic wrappedShnCapability;
-    private final Handler userHandler;
-    private final Handler internalHandler;
-    private CharacteristicChangedListener characteristicChangedListener;
+    @NonNull private final CapabilityGenericCharacteristic wrappedShnCapability;
+    @NonNull private final Handler userHandler;
+    @NonNull private final Handler internalHandler;
+    @Nullable private CharacteristicChangedListener characteristicChangedListener;
 
-    public CapabilityGenericCharacteristicWrapper(CapabilityGenericCharacteristic shnCapability, Handler internalHandler, Handler userHandler) {
+    public CapabilityGenericCharacteristicWrapper(@NonNull CapabilityGenericCharacteristic shnCapability,
+            @NonNull Handler internalHandler, @NonNull Handler userHandler) {
         wrappedShnCapability = shnCapability;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;
@@ -32,7 +34,7 @@ public class CapabilityGenericCharacteristicWrapper
     }
 
     @Override
-    public void readCharacteristic(final SHNDataRawResultListener listener, final UUID uuid) {
+    public void readCharacteristic(@NonNull final SHNDataRawResultListener listener, @NonNull final UUID uuid) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
@@ -55,7 +57,8 @@ public class CapabilityGenericCharacteristicWrapper
     }
 
     @Override
-    public void writeCharacteristic(final SHNResultListener listener, final UUID uuid, final byte[] data) {
+    public void writeCharacteristic(@NonNull final SHNResultListener listener, @NonNull final UUID uuid,
+            final byte[] data) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
@@ -78,7 +81,7 @@ public class CapabilityGenericCharacteristicWrapper
     }
 
     @Override
-    public void onCharacteristicChanged(final UUID aChar, final byte[] data, final int status) {
+    public void onCharacteristicChanged(@NonNull final UUID aChar, final byte[] data, final int status) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
@@ -91,7 +94,7 @@ public class CapabilityGenericCharacteristicWrapper
     }
 
     @Override
-    public void setNotify(final SHNResultListener listener, final boolean notify, final UUID uuid) {
+    public void setNotify(@NonNull final SHNResultListener listener, @NonNull final UUID uuid, final boolean notify) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
@@ -107,13 +110,13 @@ public class CapabilityGenericCharacteristicWrapper
                         };
                         userHandler.post(resultRunnable);
                     }
-                }, notify, uuid);
+                }, uuid, notify);
             }
         };
         internalHandler.post(command);
     }
 
-    public void setCharacteristicChangedListener(CharacteristicChangedListener listener) {
+    public void setCharacteristicChangedListener(@NonNull CharacteristicChangedListener listener) {
         this.characteristicChangedListener = listener;
     }
 }
