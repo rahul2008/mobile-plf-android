@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.philips.cdp.di.iap.R;
@@ -17,7 +18,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 public class WebPaymentFragment extends WebFragment implements
-        TwoButtonDialogFragment.TwoButtonDialogListener{
+        TwoButtonDialogFragment.TwoButtonDialogListener {
     public static final String TAG = WebPaymentFragment.class.getName();
     private TwoButtonDialogFragment mDialogFragment;
 
@@ -61,7 +62,7 @@ public class WebPaymentFragment extends WebFragment implements
         return builder.toString();
     }
 
-    private Bundle createSuccessBundle(String url) {
+    private Bundle createSuccessBundle() {
         String orderNum = CartModelContainer.getInstance().getOrderNumber();
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, orderNum);
@@ -87,7 +88,7 @@ public class WebPaymentFragment extends WebFragment implements
     private boolean verifyResultCallBacks(String url) {
         boolean match = true;
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
-            launchConfirmationScreen(createSuccessBundle(url));
+            launchConfirmationScreen(createSuccessBundle());
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
@@ -130,7 +131,12 @@ public class WebPaymentFragment extends WebFragment implements
     public void onDialogOkClick() {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
-        launchProductCatalog();
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToDemoAppByClearingStack();
+        } else {
+            launchProductCatalog();
+        }
     }
 
     @Override

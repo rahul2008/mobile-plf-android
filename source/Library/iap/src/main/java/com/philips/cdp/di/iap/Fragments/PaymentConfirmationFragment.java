@@ -118,7 +118,8 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
             if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
-            String emailConfirmation = String.format(mContext.getString(R.string.iap_confirmation_email_msg), email);
+            String emailConfirmation = String.format(mContext.getString(R.string.iap_confirmation_email_msg),
+                    email);
             mConfirmWithEmail.setText(emailConfirmation);
             setConfirmationTitle(R.string.iap_thank_for_order);
         }
@@ -145,15 +146,15 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     }
 
     private void handleExit() {
-        if (mPaymentSuccessful) {
-            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
-            if (fragment != null) {
-                moveToDemoAppByClearingStack();
-            } else {
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToDemoAppByClearingStack();
+        }else{
+            if(mPaymentSuccessful){
                 moveToProductCatalog();
+            }else{
+                moveToFragment(ShoppingCartFragment.TAG);
             }
-        } else {
-            moveToFragment(OrderSummaryFragment.TAG);
         }
     }
 
@@ -178,7 +179,12 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
 
     @Override
     public void onDialogOkClick() {
-        moveToProductCatalog();
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToDemoAppByClearingStack();
+        } else {
+            moveToProductCatalog();
+        }
     }
 
     @Override
