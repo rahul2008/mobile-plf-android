@@ -5,7 +5,7 @@
 
 package com.philips.pins.shinelib;
 
-import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
+import com.philips.pins.shinelib.capabilities.CapabilityGenericCharacteristic;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
 /**
@@ -192,7 +192,7 @@ public enum SHNCapabilityType {
     /**
      * Generic plugin for reading, writing data and notifications
      *
-     * @see CapabilityGeneric
+     * @see CapabilityGenericCharacteristic
      */
     GENERIC;
 

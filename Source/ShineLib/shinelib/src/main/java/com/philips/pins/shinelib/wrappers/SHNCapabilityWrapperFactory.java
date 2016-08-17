@@ -9,7 +9,7 @@ import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
-import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
+import com.philips.pins.shinelib.capabilities.CapabilityGenericCharacteristic;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityClearUserData;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
@@ -135,8 +135,8 @@ public class SHNCapabilityWrapperFactory {
                 );
                 break;
             case GENERIC:
-                shnCapabilityWrapper = new CapabilityGenericWrapper(
-                    (CapabilityGeneric) shnCapability,
+                shnCapabilityWrapper = new CapabilityGenericCharacteristicWrapper(
+                    (CapabilityGenericCharacteristic) shnCapability,
                     internalHandler,
                     userHandler
                 );
