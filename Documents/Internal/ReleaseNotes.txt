@@ -1,5 +1,14 @@
 Product Registration for Android Release Notes
 ===============================================
+	Version - 1.2.0.rc.1	                   Date: 17-08-2016
+----------------------------------------------------------------
+
+	Following issues are Fixed 
+	
+	1. US10438 - Bug Fixing for Android 16.4.2
+	2. US9829  - Change of interface APIs as per App framework and App infra.-Android
+	3. DE12573 - Error message pop up is looking hard
+	4. DE12718 - Product Registration UI issue's
 
 	Version - 1.2.0	                           Date: 8-08-2016
 ----------------------------------------------------------------
