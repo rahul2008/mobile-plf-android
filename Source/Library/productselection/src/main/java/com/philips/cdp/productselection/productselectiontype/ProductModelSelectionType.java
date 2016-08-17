@@ -3,12 +3,11 @@ package com.philips.cdp.productselection.productselectiontype;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 /**
  * Created by naveen@philips.com on 12-Feb-16.
  */
-public abstract class ProductModelSelectionType extends UappLaunchInput {
+public abstract class ProductModelSelectionType {
 
     public Catalog mCatalog;
     public Sector mSector;
