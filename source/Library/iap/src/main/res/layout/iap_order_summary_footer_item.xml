@@ -10,10 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
         android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -30,8 +29,8 @@
             style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="@dimen/iap_order_one_spacing"
+            android:layout_marginTop="@dimen/iap_order_margin_top"
             android:textColor="?attr/uikit_baseColor" />
 
         <TextView
@@ -40,36 +39,30 @@
             android:layout_marginTop="0dp"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/iap_selection_address_layout_margin"
         android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
         android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_title_billing_address"
             style="@style/tvHeaderTitle"
-            android:layout_marginBottom="0dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="0dp" />
 
         <TextView
             android:id="@+id/tv_billing_first_name"
             style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="@dimen/iap_order_one_spacing"
+            android:layout_marginTop="@dimen/iap_order_margin_top"
             android:textColor="?attr/uikit_baseColor" />
 
         <TextView
@@ -87,31 +80,29 @@
         android:id="@+id/ll_payment_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
         android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
         android:orientation="vertical"
         android:visibility="gone">
 
 
         <TextView
             style="@style/tvHeaderTitle"
-            android:layout_marginBottom="0dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:text="@string/iap_payment_method" />
 
         <TextView
             android:id="@+id/tv_card_type"
             style="@style/tvTitle"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top"
             android:text="@string/mastercard" />
 
         <TextView
             android:id="@+id/tv_card_holder_name"
             style="@style/tvTitle"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="@dimen/iap_order_one_spacing"
             android:text="@string/iap_first_name" />
     </LinearLayout>
 
