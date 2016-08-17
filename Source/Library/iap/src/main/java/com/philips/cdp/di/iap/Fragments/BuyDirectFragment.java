@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class BuyDirectFragment extends BaseAnimationSupportFragment implements
         BuyDirectController.BuyDirectListener, ErrorDialogFragment.ErrorDialogListener {
@@ -193,7 +194,9 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
         addressFields.setPhoneNumber(address.getPhone1());
         addressFields.setPostalCode(address.getPostalCode());
         addressFields.setEmail(address.getEmail());
-        addressFields.setTitleCode(address.getTitleCode());
+        String titleCode = address.getTitleCode();
+        addressFields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault())
+                + titleCode.substring(1));
         addressFields.setTown(address.getTown());
         addressFields.setRegionIsoCode(address.getRegion().getName());
         addressFields.setCountryIsocode(address.getCountry().getIsocode());

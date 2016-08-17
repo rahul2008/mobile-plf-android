@@ -13,10 +13,14 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-public class WebPaymentFragment extends WebFragment {
+public class WebPaymentFragment extends WebFragment implements
+        TwoButtonDialogFragment.TwoButtonDialogListener{
     public static final String TAG = WebPaymentFragment.class.getName();
+    private TwoButtonDialogFragment mDialogFragment;
+
     private static final String SUCCESS_KEY = "successURL";
     private static final String PENDING_KEY = "pendingURL";
     private static final String FAILURE_KEY = "failureURL";
@@ -97,5 +101,39 @@ public class WebPaymentFragment extends WebFragment {
             match = false;
         }
         return match;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        ShowDialogOnBackPressed();
+        return true;
+    }
+
+    private void ShowDialogOnBackPressed() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.cancelPaymentMsg));
+        if (mDialogFragment == null) {
+            mDialogFragment = new TwoButtonDialogFragment();
+            mDialogFragment.setArguments(bundle);
+            mDialogFragment.setOnDialogClickListener(this);
+            mDialogFragment.setShowsDialog(false);
+        }
+        try {
+            mDialogFragment.show(getFragmentManager(), "TwoButtonDialog");
+            mDialogFragment.setShowsDialog(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDialogOkClick() {
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
+        launchProductCatalog();
+    }
+
+    @Override
+    public void onDialogCancelClick() {
     }
 }

@@ -26,7 +26,7 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 
-public class PaymentConfirmationFragment extends BaseAnimationSupportFragment implements TwoButtonDailogFragment.TwoButtonDialogListener {
+public class PaymentConfirmationFragment extends BaseAnimationSupportFragment implements TwoButtonDialogFragment.TwoButtonDialogListener {
     private TextView mConfirmationText;
     private TextView mOrderText;
     private TextView mOrderNumber;
@@ -34,7 +34,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     private Context mContext;
     private boolean mPaymentSuccessful;
     public static final String TAG = PaymentConfirmationFragment.class.getName();
-    private TwoButtonDailogFragment mDailogFragment;
+    private TwoButtonDialogFragment mDailogFragment;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.iap_continue_shopping_description));
         if (mDailogFragment == null) {
-            mDailogFragment = new TwoButtonDailogFragment();
+            mDailogFragment = new TwoButtonDialogFragment();
             mDailogFragment.setOnDialogClickListener(this);
             mDailogFragment.setArguments(bundle);
             mDailogFragment.setShowsDialog(false);

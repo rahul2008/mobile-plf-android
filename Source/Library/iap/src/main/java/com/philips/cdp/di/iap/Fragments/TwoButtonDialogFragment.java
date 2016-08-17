@@ -15,11 +15,11 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public class TwoButtonDailogFragment extends DialogFragment {
+public class TwoButtonDialogFragment extends DialogFragment {
     public interface TwoButtonDialogListener {
-        public void onDialogOkClick();
+        void onDialogOkClick();
 
-        public void onDialogCancelClick();
+        void onDialogCancelClick();
     }
 
     private TwoButtonDialogListener mDialogClickListener;
@@ -34,7 +34,7 @@ public class TwoButtonDailogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.iap_two_button_dialog, container, false);
         TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
-        dialogTitle.setText(R.string.iap_confirmation);
+        dialogTitle.setText(R.string.iap_cancel_order_title);
         Bundle bundle = getArguments();
         TextView errorDescription = (TextView) v.findViewById(R.id.dialogDescription);
         //errorDescription.setText(R.string.cancelPaymentMsg);
