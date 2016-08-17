@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.capabilities;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
+import com.philips.pins.shinelib.SHNIntegerResultListener;
 import java.util.UUID;
 
 public interface CapabilityGeneric extends SHNCapability {
@@ -18,9 +19,9 @@ public interface CapabilityGeneric extends SHNCapability {
 
     void readCharacteristic(SHNDataRawResultListener listener, UUID uuid);
 
-    void writeCharacteristic(SHNDataRawResultListener listener, UUID uuid, byte[] data);
+    void writeCharacteristic(SHNIntegerResultListener listener, UUID uuid, byte[] data);
 
-    void setNotify(SHNDataRawResultListener listener, boolean notify, UUID uuid);
+    void setNotify(SHNIntegerResultListener listener, boolean notify, UUID uuid);
 
     /**
      * Set callback to receive notifications about battery level changes.

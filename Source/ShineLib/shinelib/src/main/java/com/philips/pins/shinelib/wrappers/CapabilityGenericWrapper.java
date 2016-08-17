@@ -8,6 +8,7 @@ package com.philips.pins.shinelib.wrappers;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
+import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityGeneric;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
@@ -53,14 +54,14 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void writeCharacteristic(final SHNDataRawResultListener listener, final UUID uuid, final byte[] data) {
+    public void writeCharacteristic(final SHNIntegerResultListener listener, final UUID uuid, final byte[] data) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.writeCharacteristic(new SHNDataRawResultListener() {
+                wrappedShnCapability.writeCharacteristic(new SHNIntegerResultListener() {
 
                     @Override
-                    public void onActionCompleted(final SHNDataRaw value, @NonNull final SHNResult result) {
+                    public void onActionCompleted(final int value, @NonNull final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
                             @Override
                             public void run() {
@@ -89,14 +90,14 @@ public class CapabilityGenericWrapper implements CapabilityGeneric, CapabilityGe
     }
 
     @Override
-    public void setNotify(final SHNDataRawResultListener listener, final boolean notify, final UUID uuid) {
+    public void setNotify(final SHNIntegerResultListener listener, final boolean notify, final UUID uuid) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setNotify(new SHNDataRawResultListener() {
+                wrappedShnCapability.setNotify(new SHNIntegerResultListener() {
 
                     @Override
-                    public void onActionCompleted(final SHNDataRaw value, @NonNull final SHNResult result) {
+                    public void onActionCompleted(final int value, @NonNull final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
                             @Override
                             public void run() {
