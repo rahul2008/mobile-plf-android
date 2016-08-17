@@ -5,13 +5,21 @@
 */
 package com.philips.platform.appframework;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.Window;
+import android.widget.Toast;
 
+import com.philips.cdp.di.iap.session.IAPHandler;
+import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPSettings;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
@@ -21,6 +29,8 @@ import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+
+import java.util.ArrayList;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -132,5 +142,4 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
 
         return (currentFrag != null);
     }
-
 }

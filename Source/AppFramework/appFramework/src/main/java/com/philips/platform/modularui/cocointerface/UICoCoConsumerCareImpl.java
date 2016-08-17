@@ -13,6 +13,7 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
@@ -85,6 +86,15 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
 
+        PILLocaleManager localeManager = new PILLocaleManager(mFragmentActivity);
+        String country = mFragmentActivity.getResources().getString(R.string.af_country);
+        String language = mFragmentActivity.getResources().getString(R.string.af_language);
+
+        localeManager.setInputLocale(language, country);
+
+//        DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
+
+        // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
                 mFragmentActivity);
 
