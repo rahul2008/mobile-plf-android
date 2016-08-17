@@ -22,9 +22,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class AppTagging implements AppTaggingInterface {
-    private String newFieldKey;
-
-    private String newFieldValue;
+//    private String newFieldKey;
+//    private String newFieldValue;
 
     private String mLanguage;
     private String mAppsIdkey;
@@ -82,14 +81,6 @@ public class AppTagging implements AppTaggingInterface {
         contextData.put(AppTaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
-        if (null != getNewKey() && null != getNewValue()) {
-
-            if (!getNewKey().contains(",") && !getNewValue().contains(",")) {
-                contextData.put(getNewKey(), getNewValue());
-            }
-
-        }
-
         return contextData;
     }
 
@@ -99,23 +90,6 @@ public class AppTagging implements AppTaggingInterface {
         }
 
         return mAppsIdkey;
-    }
-
-    private void setNewKey(String newFieldkeyParam) {
-        newFieldKey = newFieldkeyParam;
-
-    }
-
-    private void setNewValue(String newFieldvalueParam) {
-        newFieldValue = newFieldvalueParam;
-    }
-
-    private String getNewKey() {
-        return newFieldKey;
-    }
-
-    private String getNewValue() {
-        return newFieldValue;
     }
 
     private String getLanguage() {
@@ -216,21 +190,12 @@ public class AppTagging implements AppTaggingInterface {
 
 
     private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-
-//        if (key != null && value != null) {
-//            if (!Arrays.asList(defaultValues).contains(key)) {
-//
-//                setNewKey(key);
-//                setNewValue(value);
-//            }
-//        } else
+        Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData = addAnalyticsDataObject();
         if (paramMap != null) {
             for (Map.Entry<String, String> entry : paramMap.entrySet()) {
                 if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
-
-                    setNewKey(entry.getKey());
-                    setNewValue(entry.getValue());
-                    contextData = addAnalyticsDataObject();
+                    contextData.put(entry.getKey(), entry.getValue());
                 }
             }
         }
@@ -238,10 +203,10 @@ public class AppTagging implements AppTaggingInterface {
         if (null != prevPage && isTrackPage) {
             contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
-        if (isTrackPage){
+        if (isTrackPage) {
             Analytics.trackState(pageName, contextData);
             prevPage = pageName;
-        }else{
+        } else {
             Analytics.trackAction(pageName, contextData);
         }
 
@@ -258,7 +223,7 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 
-        track(pageName,paramMap, true);
+        track(pageName, paramMap, true);
 
     }
 
@@ -268,7 +233,7 @@ public class AppTagging implements AppTaggingInterface {
 
         Map<String, String> trackMap = new HashMap<String, String>();
         trackMap.put(key, value);
-        track(pageName,trackMap , false);
+        track(pageName, trackMap, false);
 
     }
 

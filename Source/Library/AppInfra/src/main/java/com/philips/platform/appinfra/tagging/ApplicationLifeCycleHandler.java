@@ -21,6 +21,12 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     private static final String TAG = ApplicationLifeCycleHandler.class.getSimpleName();
     public static boolean isInBackground = true;
 
+    AppTaggingInterface mAppTaggingInterface;
+
+    public ApplicationLifeCycleHandler(AppTaggingInterface appTaggingInterface){
+        mAppTaggingInterface = appTaggingInterface;
+    }
+
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
@@ -33,16 +39,17 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     @Override
     public void onActivityResumed(Activity activity) {
 
-        if (isInBackground) {
+//        if (isInBackground) {
 
-           AppTagging.mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in ForeGround");
+            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in ForeGround");
 
-            isInBackground = false;
-        }
+//            isInBackground = false;
+//        }
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
+        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
     }
 
     @Override
@@ -67,11 +74,11 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onTrimMemory(int i) {
-        if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            Log.i("AppisInBackground", "AppisInBackground");
-
-            AppTagging.mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
-            isInBackground = true;
-        }
+//        if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+//            Log.i("AppisInBackground", "AppisInBackground");
+//
+//            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
+//            isInBackground = true;
+//        }
     }
 }

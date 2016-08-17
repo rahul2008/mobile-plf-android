@@ -55,7 +55,7 @@ public class AppInfraApplication extends Application {
             }
         });
 
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler();
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAIAppTaggingInterface);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
 
