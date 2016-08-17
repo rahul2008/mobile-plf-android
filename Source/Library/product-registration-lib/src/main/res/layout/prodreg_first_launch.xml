@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@+id/yes_register_button"
     android:layout_marginBottom="@dimen/scroll_view_bottom_padding"
     android:fillViewport="true">
 
