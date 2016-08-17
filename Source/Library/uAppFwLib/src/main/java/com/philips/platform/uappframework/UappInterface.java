@@ -10,7 +10,7 @@ import android.content.Context;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.UappListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
 /**
@@ -27,6 +27,6 @@ public interface UappInterface  {
     /**
      *  For launching the uApp
      */
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener);
+    public void launch(UiLauncher uiLauncher, UappSettings uappLaunchInput, UappListener uappListener);
 
 }
