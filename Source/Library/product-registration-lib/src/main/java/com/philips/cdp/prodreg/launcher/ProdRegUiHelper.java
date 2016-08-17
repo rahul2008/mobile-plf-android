@@ -91,16 +91,16 @@ public class ProdRegUiHelper implements UappInterface {
      * <b> Note: </b> Please make sure to set the Locale before invoking this method.
      *
      * @param activityLauncher launcher which includes orientation, start and end animation.
-     * @param prodRegConfig   product registration configuration.
+     * @param prodRegLaunchInput   product registration configuration.
      */
-    private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final ProdRegConfig prodRegConfig) {
+    private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final ProdRegLaunchInput prodRegLaunchInput) {
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prodRegConfig.getProducts());
+        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prodRegLaunchInput.getProducts());
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
-        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegConfig.isAppLaunch());
+        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegLaunchInput.isAppLaunch());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
         intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
         context.startActivity(intent);
@@ -114,13 +114,13 @@ public class ProdRegUiHelper implements UappInterface {
      * <p> 1) Please consider the string "product_registration" to identify the MainScreen Fragment as a
      * Fragment ID. </p>
      */
-    private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegConfig prodRegConfig) {
+    private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final ProdRegLaunchInput prodRegLaunchInput) {
         final Bundle arguments = new Bundle();
-        final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegConfig.getProducts());
+        final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegLaunchInput.getProducts());
         arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
 
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
-        if (prodRegConfig.isAppLaunch()) {
+        if (prodRegLaunchInput.isAppLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(arguments);
             prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
@@ -178,14 +178,14 @@ public class ProdRegUiHelper implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
         this.mUiLauncher = uiLauncher;
         this.prodRegUiListener = (ProdRegUiListener) uappListener;
-        final ProdRegConfig prodRegConfig = (ProdRegConfig) uappLaunchInput;
+        final ProdRegLaunchInput prodRegLaunchInput = (ProdRegLaunchInput) uappLaunchInput;
         //TO-DO - to discuss about handling class cast exception
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            invokeProductRegistrationAsActivity(activityLauncher, prodRegConfig);
+            invokeProductRegistrationAsActivity(activityLauncher, prodRegLaunchInput);
         } else {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeProductRegistrationAsFragment(fragmentLauncher, prodRegConfig);
+            invokeProductRegistrationAsFragment(fragmentLauncher, prodRegLaunchInput);
         }
     }
 }

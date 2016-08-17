@@ -9,11 +9,11 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegConfig extends UappLaunchInput {
+public class ProdRegLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
     private boolean isAppLaunch;
 
-    public ProdRegConfig(final ArrayList<Product> products, final boolean isAppLaunch) {
+    public ProdRegLaunchInput(final ArrayList<Product> products, final boolean isAppLaunch) {
         this.products = products;
         this.isAppLaunch = isAppLaunch;
     }

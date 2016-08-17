@@ -16,14 +16,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.activity.MainActivity;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.ProdRegConfig;
+import com.philips.cdp.prodreg.launcher.ProdRegLaunchInput;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
@@ -192,7 +194,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
-        ProdRegConfig prodRegConfig;
+        ProdRegLaunchInput prodRegLaunchInput;
         if (!isActivity) {
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, R.id.parent_layout, new ActionBarListener() {
@@ -204,19 +206,19 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             });
             fragLauncher.setCustomAnimation(0, 0);
             if (type.equalsIgnoreCase("app_flow")) {
-                prodRegConfig = new ProdRegConfig(products, true);
+                prodRegLaunchInput = new ProdRegLaunchInput(products, true);
             } else {
-                prodRegConfig = new ProdRegConfig(products, false);
+                prodRegLaunchInput = new ProdRegLaunchInput(products, false);
             }
-            new PRInterface().launch(fragLauncher, prodRegConfig, getProdRegUiListener());
+            new PRInterface().launch(fragLauncher, prodRegLaunchInput, getProdRegUiListener());
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {
-                prodRegConfig = new ProdRegConfig(products, true);
+                prodRegLaunchInput = new ProdRegLaunchInput(products, true);
             } else {
-                prodRegConfig = new ProdRegConfig(products, false);
+                prodRegLaunchInput = new ProdRegLaunchInput(products, false);
             }
-            new PRInterface().launch(activityLauncher, prodRegConfig, getProdRegUiListener());
+            new PRInterface().launch(activityLauncher, prodRegLaunchInput, getProdRegUiListener());
         }
     }
 
@@ -231,6 +233,11 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             @Override
             public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                 ProdRegLogger.v(TAG, registeredProduct.get(0).getProdRegError() + "");
+            }
+
+            @Override
+            public void onProdRegFailed(final ProdRegError prodRegError) {
+                Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
     }
