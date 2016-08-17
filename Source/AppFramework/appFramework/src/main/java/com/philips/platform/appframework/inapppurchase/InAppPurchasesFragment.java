@@ -42,7 +42,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
     private View mCustomView;
 
-    private String mCtn = "HX6064/33" /*"UK-HX6064/33"*/;
+    private String mCtn = "HX8331/11";/*"HX6064/33" *//*"UK-HX6064/33"*/;
 
     @Nullable
     @Override

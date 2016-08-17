@@ -213,9 +213,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             finishAffinity();
         } else if (findIfHomeFragmentSentBack()) {
             finishAffinity();
-        } else if (findFragmentByTag(InAppPurchasesFragment.TAG) || findFragmentByTag(InAppPurchasesHistoryFragment.TAG)) {
+        } else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
             if (!inAppPurchaseBackPress()) {
                 super.popBackTillHomeFragment();
+            }
+        }
+        else if (findFragmentByTag(InAppPurchasesHistoryFragment.TAG)) {
+            if (!inAppPurchaseBackPress()) {
+                super.popBack();
             }
         }
         else if (findFragmentByTag("Registration_fragment_tag")) {
@@ -233,7 +238,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private boolean findIfHomeFragmentSentBack() {
         FragmentManager.BackStackEntry backStackEntryAt = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
         String name = backStackEntryAt.getName();
-        if (name.equalsIgnoreCase(HomeFragment.TAG))
+        if (name != null && name.equalsIgnoreCase(HomeFragment.TAG))
             return true;
         return false;
     }
