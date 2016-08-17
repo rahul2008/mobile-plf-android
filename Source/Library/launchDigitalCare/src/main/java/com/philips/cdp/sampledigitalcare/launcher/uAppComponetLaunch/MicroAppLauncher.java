@@ -16,8 +16,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
 import com.philips.cdp.digitalcare.CcLaunchInput;
+import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -28,12 +30,10 @@ import com.philips.cdp.sampledigitalcare.DummyScreen;
 import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
-import com.philips.cdp.sampledigitalcare.launcher.componentLaunch.LaunchDigitalCare;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +48,7 @@ import java.util.List;
 public class MicroAppLauncher extends FragmentActivity implements OnClickListener,
         CcListener {
 
-    private static final String TAG = LaunchDigitalCare.class.getSimpleName();
+    private static final String TAG = MicroAppLauncher.class.getSimpleName();
     public static ArrayList<String> mList = null;
     private static boolean mActivityButtonSelected = true;
     private static boolean mFragmentButtonSelected = true;
@@ -61,7 +61,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
-    private UappSettings uappSettings;
+    private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
 
     @Override
@@ -284,15 +284,19 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
                 CcInterface ccInterface = new CcInterface();
-                if (uappSettings == null) uappSettings = new UappSettings(this);
+                if (ccSettings == null) ccSettings = new CcSettings(this);
                 if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
                 ccLaunchInput.setProductModelSelectionType(productsSelection);
 
-                ccInterface.init(null, uappSettings);
+
+                CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
+
+                ccInterface.init(ccDependencies, ccSettings);
                 ccInterface.launch(activityLauncher, ccLaunchInput);
               /*  } else
                     Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
                 break;
+
             case R.id.launchAsFragment:
 
                 mActivityButtonSelected = false;

@@ -34,6 +34,7 @@ public class CcInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
         CcLaunchInput ccLaunchInput = (CcLaunchInput) uappLaunchInput;
+
         HardcodedProductList productList = (HardcodedProductList)
                 ccLaunchInput.getProductModelSelectionType();
 

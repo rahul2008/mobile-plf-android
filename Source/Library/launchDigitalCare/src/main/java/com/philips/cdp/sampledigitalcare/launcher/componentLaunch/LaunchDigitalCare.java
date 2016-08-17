@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.sampledigitalcare.launcher.componentLaunch;
 
 import android.content.Intent;
@@ -35,11 +36,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+*/
 /*
     This is sample class which will try to simulate, "how to use APIs and integrate digitalcare.
 
     @author: ritesh.jha@philips.com
- */
+ *//*
+
 
 public class LaunchDigitalCare extends FragmentActivity implements OnClickListener {
 
@@ -204,12 +207,14 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
             startActivity(intent);
             return true;
         }
-        /*if (mainMenuItem.equals(getStringKey(R.string.consumercare_view_product_details))) {
+        */
+/*if (mainMenuItem.equals(getStringKey(R.string.consumercare_view_product_details))) {
             Intent intent = new Intent(LaunchDigitalCare.this,
                     DummyScreen.class);
             startActivity(intent);
             return true;
-        }*/
+        }*//*
+
         return false;
     }
 
@@ -221,16 +226,20 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     @Override
     public void onClick(View view) {
-    /*
+    */
+/*
       Setting AppID is very much required from App side, in order to TAG the page. Here in below code
       we are putting dummy value. Please provide proper APP_ID from you App.
-      Also if tagging is not enabled , consumer care is not tagging any events*/
+      Also if tagging is not enabled , consumer care is not tagging any events*//*
+
 
         //   DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
 
-        /*
+        */
+/*
          * Take values from GUI editText.
-         */
+         *//*
+
 
 
         switch (view.getId()) {
@@ -257,8 +266,10 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                         R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
                 uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);
-              /*  } else
-                    Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
+              */
+/*  } else
+                    Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*//*
+
                 break;
             case R.id.launchAsFragment:
 
@@ -274,12 +285,15 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         }
     }
 
-   /* private void setDigitalCareLocale(String language, String country) {
+   */
+/* private void setDigitalCareLocale(String language, String country) {
 
         DigitalCareConfigManager.getInstance().setLocale(language, country);
 
 
-    }*/
+    }*//*
+
 
 
 }
+*/

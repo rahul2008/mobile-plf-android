@@ -32,7 +32,6 @@ import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -172,7 +171,7 @@ public class DigitalCareConfigManager {
                 fragmentLauncher, enterAnim, exitAnim);
     }
 
-    public void invokeDigitalCare(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+    protected void invokeDigitalCare(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
         mUiLauncher = uiLauncher;
 
         if (productModelSelectionType != null) {
@@ -249,8 +248,8 @@ public class DigitalCareConfigManager {
      */
     protected void invokeDigitalCareAsActivity(int startAnimation, int endAnimation,
                                                com.philips.cdp.productselection.launchertype.
-                                                     ActivityLauncher.ActivityOrientation
-                                                     orientation) {
+                                                       ActivityLauncher.ActivityOrientation
+                                                       orientation) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, " +
                     " and locale before Support page is invoked");
@@ -274,52 +273,15 @@ public class DigitalCareConfigManager {
         getContext().startActivity(intent);
     }
 
-    /**
-     * @throws RuntimeException
-     */
-    public String getAppIdForTagging() throws RuntimeException {
-        return mAppID;
-    }
-
-    /**
-     * @throws RuntimeException
-     */
-    public String getAppNameForTagging() throws RuntimeException {
-        return mAppName;
-    }
-
-    /**
-     * This method provides to enable Debug Logs
-     *
-     * @param taggingEnabled True to enable & False to disable
-     */
-    /*public void setAppTaggingInputs(boolean taggingEnabled, String appId, String appName,
-                                    String launchingPageName) {
-        mTaggingEnabled = taggingEnabled;
-        mPageName = launchingPageName;
-        mAppName = appName;
-        mAppID = appId;
-    }*/
-
-   /* public boolean isTaggingEnabled() {
-        return mTaggingEnabled;
-    }
-*/
-
-    /**
-     * It returns the previously set Page name for tagging.
-     *
-     * @return mPageScreenpageName
-     */
     public String getPreviousPageNameForTagging() {
         return mPageName;
     }
 
     @SuppressWarnings("deprecation")
     public AppInfraInterface getAPPInfraInstance() {
-        // return mAppInfraInterface;
+        return mAppInfraInterface;
 
-        return AppInfraSingleton.getInstance();
+        //return AppInfraSingleton.getInstance();
     }
 
     public AppTaggingInterface getTaggingInterface() {

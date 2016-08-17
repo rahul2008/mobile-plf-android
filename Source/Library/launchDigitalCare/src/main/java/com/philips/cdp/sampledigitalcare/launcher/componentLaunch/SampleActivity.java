@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.sampledigitalcare.launcher.componentLaunch;
 
 import android.os.Bundle;
@@ -21,12 +22,14 @@ import com.philips.cdp.productselection.productselectiontype.HardcodedProductLis
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cl.di.dev.pa.R;
 
+*/
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
  *
  * @author : Ritesh.jha@philips.com
  * @since : 6 Aug 2015
- */
+ *//*
+
 
 
 public class SampleActivity extends FragmentActivity implements View.OnClickListener {
@@ -152,3 +155,4 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
             previousFragment();
     }
 }
+*/
