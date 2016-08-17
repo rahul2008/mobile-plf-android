@@ -11,6 +11,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
@@ -27,9 +28,9 @@ public class ProductRegistrationApplication extends Application {
 
     @SuppressWarnings("deprecation")
     private void initProductRegistration() {
-        ProdRegDependencies prodRegDependencies = new ProdRegDependencies();
-        prodRegDependencies.setAppInfra((AppInfra) AppInfraSingleton.getInstance());
-        new PRInterface().init(getApplicationContext(), prodRegDependencies);
+        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
+        UappSettings uappSettings = new UappSettings(getApplicationContext());
+        new PRInterface().init(prodRegDependencies, uappSettings);
     }
 
     private void initRegistration() {

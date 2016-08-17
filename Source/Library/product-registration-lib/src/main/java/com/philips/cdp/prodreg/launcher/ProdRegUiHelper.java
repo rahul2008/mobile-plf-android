@@ -34,9 +34,9 @@ import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.UappListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 
@@ -162,23 +162,23 @@ public class ProdRegUiHelper implements UappInterface {
     }
 
     @Override
-    public void init(final Context context, UappDependencies uappDependencies) {
-        this.context = context;
-        final ProdRegDependencies prodRegDependencies = (ProdRegDependencies) uappDependencies;
-        this.appInfra = prodRegDependencies.getAppInfra();
+    public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
+        this.context = uappSettings.getContext();
+        this.appInfra = (AppInfra) uappDependencies.getAppInfra();
         new ProdRegHelper().init(context);
         ProdRegTagging.init();
     }
 
+
     /**
      * @param uiLauncher   - Launcher to differentiate activity or fragment
-     * @param uappListener - Product registration call back listener to receive call backs for continue and back
      */
     @Override
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+    public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         this.mUiLauncher = uiLauncher;
-        this.prodRegUiListener = (ProdRegUiListener) uappListener;
+
         final ProdRegLaunchInput prodRegLaunchInput = (ProdRegLaunchInput) uappLaunchInput;
+        this.prodRegUiListener = prodRegLaunchInput.getProdRegUiListener();
         //TO-DO - to discuss about handling class cast exception
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;

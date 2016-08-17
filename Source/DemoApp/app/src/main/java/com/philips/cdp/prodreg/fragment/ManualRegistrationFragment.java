@@ -203,6 +203,11 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                     MainActivity mainActivity = (MainActivity) fragmentActivity;
                     mainActivity.setTitle(i);
                 }
+
+                @Override
+                public void updateActionBar(final String s, final boolean b) {
+
+                }
             });
             fragLauncher.setCustomAnimation(0, 0);
             if (type.equalsIgnoreCase("app_flow")) {
@@ -210,7 +215,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             } else {
                 prodRegLaunchInput = new ProdRegLaunchInput(products, false);
             }
-            new PRInterface().launch(fragLauncher, prodRegLaunchInput, getProdRegUiListener());
+            prodRegLaunchInput.setProdRegUiListener(getProdRegUiListener());
+            new PRInterface().launch(fragLauncher, prodRegLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {
@@ -218,7 +224,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             } else {
                 prodRegLaunchInput = new ProdRegLaunchInput(products, false);
             }
-            new PRInterface().launch(activityLauncher, prodRegLaunchInput, getProdRegUiListener());
+            prodRegLaunchInput.setProdRegUiListener(getProdRegUiListener());
+            new PRInterface().launch(activityLauncher, prodRegLaunchInput);
         }
     }
 

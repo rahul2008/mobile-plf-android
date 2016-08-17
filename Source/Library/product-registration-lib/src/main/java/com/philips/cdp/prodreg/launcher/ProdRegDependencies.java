@@ -1,6 +1,6 @@
 package com.philips.cdp.prodreg.launcher;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 /**
@@ -9,13 +9,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
  */
 public class ProdRegDependencies extends UappDependencies {
 
-    private AppInfra appInfra;
-
-    public AppInfra getAppInfra() {
-        return appInfra;
-    }
-
-    public void setAppInfra(final AppInfra appInfra) {
-        this.appInfra = appInfra;
+    public ProdRegDependencies(final AppInfraInterface appInfra) {
+        super(appInfra);
     }
 }

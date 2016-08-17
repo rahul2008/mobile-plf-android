@@ -105,11 +105,17 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 public void updateActionBar(@StringRes final int resId, final boolean enableBack) {
                     setTitle(resId);
                 }
+
+                @Override
+                public void updateActionBar(final String s, final boolean b) {
+
+                }
             });
             fragLauncher.setCustomAnimation(0, 0);
             final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
             final ProdRegLaunchInput prodRegLaunchInput = new ProdRegLaunchInput(regProdList, isFirstLaunch);
-            new PRInterface().launch(fragLauncher, prodRegLaunchInput, prodRegUiHelper.getProdRegUiListener());
+            prodRegLaunchInput.setProdRegUiListener(prodRegUiHelper.getProdRegUiListener());
+            new PRInterface().launch(fragLauncher, prodRegLaunchInput);
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }
