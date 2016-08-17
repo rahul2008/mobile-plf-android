@@ -72,7 +72,7 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_track_order_title, true);
+        setTitleAndBackButtonVisibility(R.string.iap_track_order_title, true);
     }
 
     @Override

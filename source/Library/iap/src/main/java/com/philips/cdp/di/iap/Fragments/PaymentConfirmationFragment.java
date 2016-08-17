@@ -55,7 +55,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
-        setTitle(R.string.iap_confirmation,false);
+        setTitleAndBackButtonVisibility(R.string.iap_confirmation,false);
        // setBackButtonVisibility(false);
     }
 

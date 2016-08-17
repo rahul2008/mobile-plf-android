@@ -22,7 +22,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import java.util.List;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener{
-    //private IAPFragmentActionLayout mFragmentLayout;
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
     private String mTitle = "";
@@ -30,10 +29,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
     public void setActionBarListener(ActionBarListener actionBarListener) {
         mActionbarUpdateListener = actionBarListener;
     }
-
-//    protected void updateActionBar(int titleResId, boolean backButtonVisibility) {
-//        mActionbarUpdateListener.updateActionBar(titleResId, backButtonVisibility);
-//    }
 
     private View.OnClickListener mCartIconListener = new View.OnClickListener() {
         @Override
@@ -104,17 +99,17 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         }
     }
 
-    public void removeFragment() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment currentFragment = getActivity().getSupportFragmentManager()
-                    .findFragmentById(getId());
-            if (currentFragment != null) {
-                transaction.remove(currentFragment);
-            }
-            transaction.commit();
-        }
-    }
+//    public void removeFragment() {
+//        if (getActivity() != null && !getActivity().isFinishing()) {
+//            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//            Fragment currentFragment = getActivity().getSupportFragmentManager()
+//                    .findFragmentById(getId());
+//            if (currentFragment != null) {
+//                transaction.remove(currentFragment);
+//            }
+//            transaction.commit();
+//        }
+//    }
 
     private void clearStackAndLaunchProductCatalog() {
         if (getActivity() != null && !getActivity().isFinishing()) {
@@ -136,24 +131,24 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         }
     }
 
-    public void launchShoppingCart() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentManager manager = getActivity().getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(getId(), new ShoppingCartFragment());
-            transaction.addToBackStack(ShoppingCartFragment.TAG);
-            transaction.commitAllowingStateLoss();
-        }
-    }
+//    public void launchShoppingCart() {
+//        if (getActivity() != null && !getActivity().isFinishing()) {
+//            FragmentManager manager = getActivity().getSupportFragmentManager();
+//            FragmentTransaction transaction = manager.beginTransaction();
+//            transaction.replace(getId(), new ShoppingCartFragment());
+//            transaction.addToBackStack(ShoppingCartFragment.TAG);
+//            transaction.commitAllowingStateLoss();
+//        }
+//    }
 
 
-    protected void setTitle(int resourceId, boolean isVisible) {
+    protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
         // mFragmentLayout.setHeaderTitle(resourceId);
         mTitle = getString(resourceId);
         mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
     }
 
-    protected void setTitle(String title, boolean isVisible) {
+    protected void setTitleAndBackButtonVisibility(String title, boolean isVisible) {
         //  mFragmentLayout.setHeaderTitle(title);
         mTitle = title;
         mActionbarUpdateListener.updateActionBar(title, isVisible);

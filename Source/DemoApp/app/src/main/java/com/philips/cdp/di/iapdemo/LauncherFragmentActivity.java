@@ -20,7 +20,6 @@ import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPLauncher;
-import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.utils.AppInfraHelper;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -37,7 +36,7 @@ import java.util.ArrayList;
  * Created by 310164421 on 6/8/2016.
  */
 public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener {
-    IAPHandler mIapHandler;
+    //IAPHandler mIapHandler;
     UappListener uAppListener;
     ArrayList<String> mProductCTNs;
     private TextView mTitleTextView;
@@ -113,7 +112,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 //        arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
 //
 //        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-//        setTitle(getString(R.string.app_name));
+//        setTitleAndBackButtonVisibility(getString(R.string.app_name));
 //
 //
 //        mActionBar.setCustomView(mCustomView, params);
@@ -175,11 +174,11 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     @Override
     public void updateActionBar(@IdRes int resourceId, boolean visibility) {
-        if(visibility){
+        if (visibility) {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.VISIBLE);
             mCartIcon.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.INVISIBLE);
             mCartIcon.setVisibility(View.INVISIBLE);
@@ -188,11 +187,11 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     @Override
     public void updateActionBar(String resourceString, boolean visibility) {
-        if(visibility){
+        if (visibility) {
             mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.VISIBLE);
             mCartIcon.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.INVISIBLE);
             mCartIcon.setVisibility(View.INVISIBLE);

@@ -462,7 +462,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_address, true);
+        setTitleAndBackButtonVisibility(R.string.iap_address, true);
         //setBackButtonVisibility(true);
         if (!(this instanceof BillingAddressFragment)) {
             if (getArguments() != null &&

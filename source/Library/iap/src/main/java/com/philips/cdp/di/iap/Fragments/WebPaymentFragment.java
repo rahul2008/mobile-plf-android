@@ -6,7 +6,6 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -31,7 +30,7 @@ public class WebPaymentFragment extends WebFragment {
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
-        setTitle(R.string.iap_payment, false);
+        setTitleAndBackButtonVisibility(R.string.iap_payment, false);
         //setBackButtonVisibility(false);
     }
 

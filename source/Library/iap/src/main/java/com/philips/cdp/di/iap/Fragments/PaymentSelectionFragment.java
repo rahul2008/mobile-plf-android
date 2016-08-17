@@ -78,7 +78,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
-        setTitle(R.string.iap_payment, true);
+        setTitleAndBackButtonVisibility(R.string.iap_payment, true);
     }
 
     @Override

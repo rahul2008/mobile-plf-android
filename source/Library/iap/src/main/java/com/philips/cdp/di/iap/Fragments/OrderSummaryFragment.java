@@ -60,10 +60,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
-        setTitle(R.string.iap_order_summary, true);
+        setTitleAndBackButtonVisibility(R.string.iap_order_summary, true);
         if (isOrderPlaced()) {
             //setBackButtonVisibility(false);
-            setTitle(R.string.iap_order_summary, false);
+            setTitleAndBackButtonVisibility(R.string.iap_order_summary, false);
         }
 
 //        if (isOrderPlaced()) {

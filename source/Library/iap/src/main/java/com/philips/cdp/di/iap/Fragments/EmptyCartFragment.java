@@ -47,7 +47,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_shopping_cart, true);
+        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
     }
 

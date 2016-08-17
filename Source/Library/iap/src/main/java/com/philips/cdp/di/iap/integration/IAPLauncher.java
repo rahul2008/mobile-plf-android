@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.hybris.HybrisHandler;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -38,9 +39,10 @@ import java.util.ArrayList;
 /**
  * Created by Apple on 10/08/16.
  */
-public class IAPLauncher implements UappInterface {
+public class IAPLauncher implements UappInterface, IAPExposedAPI {
     private IAPLaunchInput mLaunchInput;
     private Context mContext;
+    private IAPExposedAPI mImplementationHandler;
 
     @Override
     public void init(Context context, UappDependencies uappDependencies) {
@@ -54,7 +56,7 @@ public class IAPLauncher implements UappInterface {
         mLaunchInput = (IAPLaunchInput) uappLaunchInput;
         String lang = mLaunchInput.setLanguage("en");
         String country = mLaunchInput.setCountry("US");
-        getExposedAPIImplementor(mContext, mLaunchInput);
+        mImplementationHandler = getExposedAPIImplementor(mContext, mLaunchInput);
         initHybrisDelegate(mContext, mLaunchInput);
         initControllerFactory(mLaunchInput);
         setLangAndCountry(lang, country);
@@ -111,11 +113,6 @@ public class IAPLauncher implements UappInterface {
         BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingViews, iapLaunchInput.mProductCTNs);
         addFragment(target, uiLauncher);
     }
-
-//    @Override
-//    public void setLaunchConfig(LaunchConfig launchConfig) {
-//        mLaunchConfig = (IAPLaunchInput) launchConfig;
-//    }
 
     private BaseAnimationSupportFragment getFragmentFromScreenID(final int screen, final ArrayList<String> ctnNumbers) {
         BaseAnimationSupportFragment fragment;
@@ -216,5 +213,20 @@ public class IAPLauncher implements UappInterface {
             return ((IAPNetworkError) msg.obj).getIAPErrorCode();
         }
         return IAPConstant.IAP_ERROR_UNKNOWN;
+    }
+
+    @Override
+    public void getProductCartCount(IAPHandlerListener iapHandlerListener) {
+        mImplementationHandler.getProductCartCount(iapHandlerListener);
+    }
+
+    @Override
+    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
+        mImplementationHandler.getCompleteProductList(iapHandlerListener);
+    }
+
+    @Override
+    public void buyDirect(String ctn) {
+        mImplementationHandler.buyDirect(ctn);
     }
 }
