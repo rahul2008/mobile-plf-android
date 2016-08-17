@@ -255,4 +255,4 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-apply from: "resolution.gradle"
+//apply from: "resolution.gradle"
