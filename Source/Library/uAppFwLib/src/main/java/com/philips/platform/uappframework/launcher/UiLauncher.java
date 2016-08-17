@@ -6,7 +6,7 @@
 package com.philips.platform.uappframework.launcher;
 
 
-
+import android.support.annotation.AnimRes;
 
 public abstract class UiLauncher  {
 
@@ -36,7 +36,7 @@ public abstract class UiLauncher  {
     /**
      * for setting custom animations  {@Link android.view.animation}
      */
-    public void setCustomAnimation(int enterAnim, int exitAnim) {
+    public void setCustomAnimation(@AnimRes int enterAnim, @AnimRes int exitAnim) {
         this.mEnterAnimResId = enterAnim;
         this.mExitAnimResId = exitAnim;
     }

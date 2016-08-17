@@ -6,7 +6,17 @@
 package com.philips.platform.uappframework.uappinput;
 
 /*
-This class needs to be extended for defining the input Type prerequisites for launching micro app
+This class is used for Setting application Context
  */
+import android.content.Context;
+
 public class UappSettings {
+     protected  Context mContext;
+
+   public UappSettings(Context applicationContext){
+       this.mContext=applicationContext;
+   }
+    public Context getContext(){
+        return mContext;
+    }
 }

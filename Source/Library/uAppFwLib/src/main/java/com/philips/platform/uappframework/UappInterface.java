@@ -8,8 +8,8 @@ package com.philips.platform.uappframework;
 import android.content.Context;
 
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.UappListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
@@ -22,11 +22,11 @@ public interface UappInterface  {
     /**
      *  For intitalizing uApp
      */
-    public void init(Context context, UappDependencies uappDependencies);
+    public void init( UappDependencies uappDependencies,UappSettings uappSettings);
 
     /**
      *  For launching the uApp
      */
-    public void launch(UiLauncher uiLauncher, UappSettings uappLaunchInput, UappListener uappListener);
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput);
 
 }

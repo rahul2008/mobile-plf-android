@@ -17,5 +17,5 @@ public interface ActionBarListener  {
      */
     void updateActionBar(@StringRes int resId, boolean enableBackKey);
 
-    void updateActionBar(String resId, boolean enableBackKey);
+    void updateActionBar(String resString, boolean enableBackKey);
 }
