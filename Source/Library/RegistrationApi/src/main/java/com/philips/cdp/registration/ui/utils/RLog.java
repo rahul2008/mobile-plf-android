@@ -44,6 +44,9 @@ public class RLog {
     private static boolean isLoggingEnabled = true;
 
     private static LoggingInterface mLoggingInterface;
+
+    public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
+
     private static Context mContext;
 
     public static void enableLogging() {

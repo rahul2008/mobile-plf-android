@@ -16,6 +16,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,11 +42,11 @@ public class RegistrationApplication extends Application {
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
         RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-
-
+        AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
         RLog.init(this);
         RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
         RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
+        RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());
 
        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 

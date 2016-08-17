@@ -155,29 +155,8 @@ public class UserRegistrationInitializer {
 
 
     public void initializeConfiguredEnvironment(Context context, Configuration registrationType, String initLocale) {
-
-        switch (registrationType) {
-            case EVALUATION:
-                mRegistrationSettings = new EvalRegistrationSettings();
-                break;
-            case DEVELOPMENT:
-                mRegistrationSettings = new DevRegistrationSettings();
-                break;
-            case PRODUCTION:
-                mRegistrationSettings = new ProdRegistrationSettings();
-                break;
-            case STAGING:
-                mRegistrationSettings = new StaginglRegistrationSettings();
-                break;
-            case TESTING:
-                mRegistrationSettings = new TestingRegistrationSettings();
-                break;
-        }
-
-
+        mRegistrationSettings = new RegistrationSettingsURL();
         mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getJanRainConfiguration().getClientId(registrationType), initLocale);
-
-
     }
 
 
