@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -42,8 +41,7 @@ import java.util.List;
     @author: ritesh.jha@philips.com
  */
 
-public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
-        CcListener {
+public class LaunchDigitalCare extends FragmentActivity implements OnClickListener {
 
     private static final String TAG = LaunchDigitalCare.class.getSimpleName();
     public static ArrayList<String> mList = null;
@@ -124,7 +122,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     @Override
     protected void onDestroy() {
-        DigitalCareConfigManager.getInstance().unRegisterCcListener(this);
         super.onDestroy();
     }
 
@@ -197,17 +194,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
                 mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
-
-        // Initializing DigitalCare Component.
-        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
-                this);
-
-        // Set DigitalCareLibrary Listeners
-        DigitalCareConfigManager.getInstance().registerCcListener(this);
-
     }
 
-    @Override
+
     public boolean onMainMenuItemClicked(String mainMenuItem) {
         if (mainMenuItem.equals(getStringKey(R.string.sign_into_my_philips))) {
             Intent intent = new Intent(LaunchDigitalCare.this,
@@ -229,15 +218,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         return getResources().getResourceEntryName(resId);
     }
 
-    @Override
-    public boolean onProductMenuItemClicked(String productMenu) {
-        return false;
-    }
-
-    @Override
-    public boolean onSocialProviderItemClicked(String socialProviderItem) {
-        return false;
-    }
 
     @Override
     public void onClick(View view) {
@@ -246,7 +226,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
       we are putting dummy value. Please provide proper APP_ID from you App.
       Also if tagging is not enabled , consumer care is not tagging any events*/
 
-     //   DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
+        //   DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
 
         /*
          * Take values from GUI editText.

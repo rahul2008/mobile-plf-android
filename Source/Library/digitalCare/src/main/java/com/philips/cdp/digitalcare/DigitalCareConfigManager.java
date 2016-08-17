@@ -53,6 +53,7 @@ public class DigitalCareConfigManager {
     //  private static Locale mLocaleMatchWithLanguageFallBack = null;
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private static UiLauncher mUiLauncher = null;
+    AppInfraInterface mAppInfraInterface;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private CcListener mCcListener = null;
     private String mAppID = null;
@@ -102,12 +103,14 @@ public class DigitalCareConfigManager {
      *
      * @param applicationContext Please pass the valid  Context
      */
-    public void initializeDigitalCareLibrary(Context applicationContext) {
+    public void initializeDigitalCareLibrary(Context applicationContext, AppInfraInterface
+            appInfraInterface) {
         if (mContext == null) {
             DigitalCareConfigManager.mContext = applicationContext;
             mLocaleMatchHandler = new LocaleMatchHandler(mContext);
             mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
             LocaleMatchHandler.initializePRXMap();
+            mAppInfraInterface = appInfraInterface;
             // initializeTaggingContext(mContext);
         }
 
@@ -314,6 +317,8 @@ public class DigitalCareConfigManager {
 
     @SuppressWarnings("deprecation")
     public AppInfraInterface getAPPInfraInstance() {
+        // return mAppInfraInterface;
+
         return AppInfraSingleton.getInstance();
     }
 

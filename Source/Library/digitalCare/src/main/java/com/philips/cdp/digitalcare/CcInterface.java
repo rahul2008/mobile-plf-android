@@ -22,30 +22,12 @@ public class CcInterface implements UappInterface {
 
     private static final String TAG = CcInterface.class.getSimpleName();
 
-
-    /*private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            if (hamburgerIconAvailable) {
-                // enableActionBarHome();
-            } else {
-                //  enableActionBarLeftArrow();
-            }
-        }
-    };*/
-
-    /*@Override
-    public void init(Context context, UappDependencies uappDependencies) {
-
-        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(context);
-
-    }*/
-
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(uappSettings.
-                getContext());
+        CcSettings ccSettings = (CcSettings) uappSettings;
+        CcDependencies ccDependencies = (CcDependencies) uappDependencies;
+        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(ccSettings.getContext()
+                , ccDependencies.getAppInfra());
     }
 
     @Override
@@ -65,6 +47,7 @@ public class CcInterface implements UappInterface {
             int exitAnimation = uiLauncher.getExitAnimation();
             int uiKitTheme = ((ActivityLauncher) uiLauncher).getUiKitTheme();
 
+            // TODO: Remove local ACTivity and fragment launcher, orientaion needs to be passed as is from uAPP
             com.philips.cdp.productselection.launchertype.ActivityLauncher consumerCarelauncher =
                     new com.philips.cdp.productselection.launchertype.ActivityLauncher(
                             com.philips.cdp.productselection.launchertype.ActivityLauncher.
@@ -91,6 +74,7 @@ public class CcInterface implements UappInterface {
             final ActionBarListener actionBarListener = fragmentLauncher.getActionbarListener();
 
 
+            // TODO: Use actionbar listener provided by uAPp and remove local copy.
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, containerViewId, new ActionbarUpdateListener() {
                 @Override

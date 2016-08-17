@@ -12,8 +12,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
 import com.philips.cdp.digitalcare.CcLaunchInput;
+import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -22,8 +24,8 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -40,22 +42,8 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
     private FragmentManager mFragmentManager = null;
-    private UappSettings uappSettings = null;
+    private CcSettings ccSettings = null;
     private CcLaunchInput ccLaunchInput = null;
-
-   /* private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            mActionBarTitle.setText(titleActionbar);
-            if (hamburgerIconAvailable) {
-                enableActionBarHome();
-            } else {
-                enableActionBarLeftArrow();
-            }
-        }
-    };*/
-
 
     private ActionBarListener actionBarListener = new ActionBarListener() {
         @Override
@@ -113,12 +101,13 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
 
 
             CcInterface ccInterface = new CcInterface();
-            if (uappSettings == null) uappSettings = new UappSettings(this);
+            if (ccSettings == null) ccSettings = new CcSettings(this);
             if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);
+            CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
 
-            ccInterface.init(null, uappSettings);
+            ccInterface.init(ccDependencies, ccSettings);
             ccInterface.launch(launcher, ccLaunchInput);
 
 

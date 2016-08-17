@@ -45,12 +45,13 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.Locale;
 
 
 public abstract class DigitalCareBaseFragment extends Fragment implements
-        OnClickListener, NetworkStateListener {
+        OnClickListener, NetworkStateListener, BackEventListener {
 
     protected static SummaryModel mViewProductSummaryModel = null;
     protected static FragmentLauncher mFragmentLauncher = null;
@@ -527,5 +528,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
     protected String getPreviousName() {
         return mPreviousPageName;
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return false;
     }
 }
