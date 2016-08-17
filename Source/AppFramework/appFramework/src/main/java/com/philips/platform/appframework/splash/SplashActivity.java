@@ -9,6 +9,7 @@ package com.philips.platform.appframework.splash;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Html;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -93,7 +94,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
         ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
         ImageView logo = (ImageView) findViewById(R.id.splash_logo);
-        logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
+        logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getTheme()) );
 
 
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
