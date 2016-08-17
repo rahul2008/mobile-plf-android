@@ -21,7 +21,6 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.modularui.cocointerface.UICoCoInterface;
 import com.philips.platform.modularui.statecontroller.UIState;
 
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ import java.util.Arrays;
 
 public class SupportFragmentState extends UIState implements MainMenuListener,
         ProductMenuListener, SocialProviderListener {
-    UICoCoInterface uiCoCoConsumerCare;
     private ArrayList<String> mCtnList = null;
     private FragmentActivity mFragmentActivity = null;
     private Context mContext;
