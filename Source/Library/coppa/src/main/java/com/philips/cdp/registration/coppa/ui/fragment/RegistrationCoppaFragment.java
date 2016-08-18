@@ -141,7 +141,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 }
             };
 
-    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
 
     private ActionBarListener mActionBarListener;
 
@@ -565,9 +564,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
-<<<<<<< HEAD
-            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
-=======
+
+
+
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
                 @Override
                 public void updateActionBar(int titleResourceID, boolean isShowBack) {
@@ -588,7 +587,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 }
             });
             /*registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
->>>>>>> AppFrameworkAPI
+
                 @Override
                 public void updateRegistrationTitle(int titleResourceId) {
                     lastKnownResourceId = titleResourceId;
