@@ -10,18 +10,4 @@ public class URDependancies extends UappDependencies {
         super(appInfra);
     }
 
-
-
-
-
-
-
-    public AppInfraInterface getAppInfraInterface() {
-        return getAppInfra();
-    }
-
-
-
-
-
 }

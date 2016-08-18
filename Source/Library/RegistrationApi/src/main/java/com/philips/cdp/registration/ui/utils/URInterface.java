@@ -98,9 +98,12 @@ public class URInterface implements UappInterface {
     }
 
 
+
+
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         mContext = uappSettings.getContext();
+
         RLog.init(mContext);
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
 
