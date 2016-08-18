@@ -8,6 +8,7 @@ package com.philips.cdp.di.iap.store;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.core.AbstractStoreSpec;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -91,9 +92,9 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mMakePaymentUrl;
     private String mPlaceOrderUrl;
 
-    public HybrisStore(Context context) {
+    public HybrisStore(Context context, IAPDependencies iapDependencies) {
         mIAPUser = initIAPUser(context);
-        mStoreConfig = getStoreConfig(context);
+        mStoreConfig = getStoreConfig(context, iapDependencies);
     }
 
     IAPUser initIAPUser(Context context) {
@@ -109,8 +110,8 @@ public class HybrisStore extends AbstractStoreSpec {
         generateStoreUrls();
     }
 
-    StoreConfiguration getStoreConfig(final Context context) {
-        return new StoreConfiguration(context, this);
+    StoreConfiguration getStoreConfig(final Context context, IAPDependencies iapDependencies) {
+        return new StoreConfiguration(context, this, iapDependencies);
     }
 
     @Override

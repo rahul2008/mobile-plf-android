@@ -12,11 +12,6 @@ import com.philips.cdp.di.iap.integration.IAPLauncher;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.UappListener;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class AppLocalHandler extends IAPLauncher implements IAPExposedAPI {
 
@@ -36,15 +31,15 @@ public class AppLocalHandler extends IAPLauncher implements IAPExposedAPI {
         mIAPConfig = pIapConfig;
     }
 
-    @Override
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
-        if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(mContext, mIAPConfig, (ActivityLauncher) uiLauncher);
-        } else if (uiLauncher instanceof FragmentLauncher) {
-            launchFragment(mIAPConfig, (FragmentLauncher) uiLauncher);
-        }
-        super.launch(uiLauncher, uappLaunchInput, uappListener);
-    }
+//    @Override
+//    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+//        if (uiLauncher instanceof ActivityLauncher) {
+//            launchActivity(mContext, mIAPConfig, (ActivityLauncher) uiLauncher);
+//        } else if (uiLauncher instanceof FragmentLauncher) {
+//            launchFragment(mIAPConfig, (FragmentLauncher) uiLauncher);
+//        }
+//        super.launch(uiLauncher, uappLaunchInput, uappListener);
+//    }
 
 //      @Override
 //       public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {

@@ -2,15 +2,17 @@ package com.philips.cdp.di.iapdemo;
 
 import android.app.Application;
 
-import com.philips.cdp.di.iap.utils.AppInfraHelper;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
@@ -21,15 +23,17 @@ public class DemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppInfraHelper.getInstance().initializeAppInfra(this);
+        initAppInfra();
         initializeUserRegistration();
+        new IAPDependencies(AppInfraSingleton.getInstance());
+
     }
 
     private void initializeUserRegistration() {
         //Required in case Production has to be added to dynamic configuration
         //mAppEnvironmentPreference = new EnvironmentPreferences(getApplicationContext());
 
-        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
+
         AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
                 getAppInfraInstance().getTagging();
         aiAppTaggingInterface.createInstanceForComponent("User Registration",
@@ -48,5 +52,13 @@ public class DemoApplication extends Application {
         localeManager.setInputLocale(languageCode, countryCode);
 
         RegistrationHelper.getInstance().initializeUserRegistration(this);
+    }
+
+    private void initAppInfra() {
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
+    }
+
+   public AppInfraInterface getAppInfra() {
+        return AppInfraSingleton.getInstance();
     }
 }

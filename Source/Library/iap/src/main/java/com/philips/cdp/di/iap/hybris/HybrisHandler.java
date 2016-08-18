@@ -23,11 +23,6 @@ import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.UappListener;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
 
@@ -72,25 +67,25 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 //        }
 //    }
 
-
-    @Override
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uAppListener) {
-        if (isStoreInitialized()) {
-            // checkLaunchOrBuy(landingView, ctnNumber, listener);
-            launchIAP(uiLauncher, uAppListener);
-        } else {
-           // initIAP(landingView, ctnNumber, listener);
-            initIAP(uiLauncher, (IAPHandlerListener) uAppListener);
-        }
-    }
-
-    private void launchIAP(UiLauncher uiLauncher, UappListener uAppListener) {
-        if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(mContext, mIapConfig, null);
-        } else if (uiLauncher instanceof FragmentLauncher) {
-            launchFragment(mIapConfig, (FragmentLauncher) uiLauncher);
-        }
-    }
+//
+//    @Override
+//    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uAppListener) {
+//        if (isStoreInitialized()) {
+//            // checkLaunchOrBuy(landingView, ctnNumber, listener);
+//            launchIAP(uiLauncher, uAppListener);
+//        } else {
+//           // initIAP(landingView, ctnNumber, listener);
+//            initIAP(uiLauncher, (IAPHandlerListener) uAppListener);
+//        }
+//    }
+//
+//    private void launchIAP(UiLauncher uiLauncher, UappListener uAppListener) {
+//        if (uiLauncher instanceof ActivityLauncher) {
+//            launchActivity(mContext, mIapConfig, null);
+//        } else if (uiLauncher instanceof FragmentLauncher) {
+//            launchFragment(mIapConfig, (FragmentLauncher) uiLauncher);
+//        }
+//    }
 
     @Override
     public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
@@ -181,7 +176,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
     @Override
     public void buyDirect(String ctn) {
         if (isStoreInitialized()) {
-           // checkLaunchOrBuy(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
+            // checkLaunchOrBuy(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
         } else {
             //initIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
         }
@@ -208,32 +203,32 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 //        }
 //    }
 
-    void initIAP(final UiLauncher uiLauncher,final IAPHandlerListener listener) {
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        delegate.getStore().initStoreConfig(mLanguage, mCountry, new RequestListener() {
-            @Override
-            public void onSuccess(final Message msg) {
-               // checkLaunchOrBuy(screen, ctnNumber, listener);
-                if(uiLauncher instanceof ActivityLauncher){
-                    launchActivity(mContext, mIapConfig, (ActivityLauncher) uiLauncher);
-                }else{
-                    launchFragment(mIapConfig, (FragmentLauncher) uiLauncher);
-                }
-
-                if (listener != null) {
-                    listener.onSuccess(IAPConstant.IAP_SUCCESS);
-                }
-                //getCatalogCountAndCallCatalog();
-            }
-
-            @Override
-            public void onError(final Message msg) {
-                if (listener != null) {
-                    listener.onFailure(getIAPErrorCode(msg));
-                }
-            }
-        });
-    }
+//    void initIAP(final UiLauncher uiLauncher,final IAPHandlerListener listener) {
+//        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+//        delegate.getStore().initStoreConfig(mLanguage, mCountry, new RequestListener() {
+//            @Override
+//            public void onSuccess(final Message msg) {
+//               // checkLaunchOrBuy(screen, ctnNumber, listener);
+//                if(uiLauncher instanceof ActivityLauncher){
+//                    launchActivity(mContext, mIapConfig, (ActivityLauncher) uiLauncher);
+//                }else{
+//                    launchFragment(mIapConfig, (FragmentLauncher) uiLauncher);
+//                }
+//
+//                if (listener != null) {
+//                    listener.onSuccess(IAPConstant.IAP_SUCCESS);
+//                }
+//                //getCatalogCountAndCallCatalog();
+//            }
+//
+//            @Override
+//            public void onError(final Message msg) {
+//                if (listener != null) {
+//                    listener.onFailure(getIAPErrorCode(msg));
+//                }
+//            }
+//        });
+//    }
 
 //    void launchIAPActivity(int screen, String ctnNumber) {
 //        if (mIAPSettings.isLaunchAsFragment()) {

@@ -13,6 +13,7 @@ import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.applocal.AppLocalHandler;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
@@ -30,9 +31,9 @@ import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.UappListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 
@@ -41,40 +42,40 @@ import java.util.ArrayList;
  */
 public class IAPLauncher implements UappInterface, IAPExposedAPI {
     private IAPLaunchInput mLaunchInput;
-    private Context mContext;
     private IAPExposedAPI mImplementationHandler;
+    private Context mContext;
+    private IAPDependencies mIAPDependencies;
 
     @Override
-    public void init(Context context, UappDependencies uappDependencies) {
-        mContext = context;
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        mContext = uappSettings.getContext();
+        mIAPDependencies = (IAPDependencies)uappDependencies;
+        initTaggingLogging((IAPDependencies) uappDependencies);
+    }
 
-        //setLangAndCountry(uappDependencies.getLanguage(), uappDependencies.getCountry());
+    private void initTaggingLogging(IAPDependencies iapDependencies) {
+        IAPAnalytics.initIAPAnalytics(iapDependencies);
+        IAPLog.initIAPLog(iapDependencies);
     }
 
     @Override
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         mLaunchInput = (IAPLaunchInput) uappLaunchInput;
         String lang = mLaunchInput.setLanguage("en");
         String country = mLaunchInput.setCountry("US");
+
         mImplementationHandler = getExposedAPIImplementor(mContext, mLaunchInput);
-        initHybrisDelegate(mContext, mLaunchInput);
+        initHybrisDelegate(mContext, mLaunchInput, mIAPDependencies);
         initControllerFactory(mLaunchInput);
         setLangAndCountry(lang, country);
-//        if (uiLauncher instanceof ActivityLauncher) {
-//            launchActivity(mContext, mLaunchInput, (ActivityLauncher) uiLauncher);
-//        } else if (uiLauncher instanceof FragmentLauncher) {
-//            launchFragment(mLaunchInput,(FragmentLauncher) uiLauncher);
-//        }
         if (isStoreInitialized()) {
-            // checkLaunchOrBuy(landingView, ctnNumber, listener);
-            launchIAP(uiLauncher, mLaunchInput, uappListener);
+            launchIAP(uiLauncher, mLaunchInput);
         } else {
-            // initIAP(landingView, ctnNumber, listener);
-            initIAP(uiLauncher, mLaunchInput, (IAPHandlerListener) uappListener);
+            initIAP(uiLauncher, mLaunchInput, ((IAPLaunchInput) uappLaunchInput).getIapHandlerListener());
         }
     }
 
-    private void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, UappListener uAppListener) {
+    private void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
             launchActivity(mContext, pLaunchInput, (ActivityLauncher) uiLauncher);
         } else if (uiLauncher instanceof FragmentLauncher) {
@@ -179,10 +180,10 @@ public class IAPLauncher implements UappInterface, IAPExposedAPI {
         return api;
     }
 
-    private void initHybrisDelegate(Context context, IAPLaunchInput iapConfig) {
+    private void initHybrisDelegate(Context context, IAPLaunchInput iapConfig, IAPDependencies iapDependencies) {
         int requestCode = getNetworkEssentialReqeustCode(iapConfig.isUseLocalData());
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(requestCode);
-        HybrisDelegate.getDelegateWithNetworkEssentials(context, essentials);
+        HybrisDelegate.getDelegateWithNetworkEssentials(context, essentials,iapDependencies);
     }
 
 
@@ -229,4 +230,5 @@ public class IAPLauncher implements UappInterface, IAPExposedAPI {
     public void buyDirect(String ctn) {
         mImplementationHandler.buyDirect(ctn);
     }
+
 }

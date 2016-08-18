@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
 
+import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
@@ -12,8 +13,13 @@ import java.util.ArrayList;
 public class IAPLaunchInput extends UappLaunchInput {
     private boolean mUseLocalData;
     int mLandingViews;
-    ArrayList<String> mProductCTNs;
+    public ArrayList<String> mProductCTNs;
     private String language;
+
+
+
+    private IAPHandlerListener iapHandlerListener;
+
 
     public String setCountry(String country) {
         this.country = country;
@@ -46,6 +52,16 @@ public class IAPLaunchInput extends UappLaunchInput {
     public String getCountry() {
         return country;
     }
+
+    public IAPHandlerListener getIapHandlerListener() {
+        return iapHandlerListener;
+    }
+
+    public void setIapHandlerListener(IAPHandlerListener iapHandlerListener) {
+        this.iapHandlerListener = iapHandlerListener;
+    }
+
+
 
     public interface IAPFlows {
         int IAP_PRODUCT_CATALOG_VIEW = 0;

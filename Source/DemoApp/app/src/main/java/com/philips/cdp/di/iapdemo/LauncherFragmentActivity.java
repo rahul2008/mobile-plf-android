@@ -20,7 +20,6 @@ import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPLauncher;
-import com.philips.cdp.di.iap.utils.AppInfraHelper;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -28,7 +27,6 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uappframework.listener.UappListener;
 
 import java.util.ArrayList;
 
@@ -37,7 +35,7 @@ import java.util.ArrayList;
  */
 public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener {
     //IAPHandler mIapHandler;
-    UappListener uAppListener;
+    // UappListener uAppListener;
     ArrayList<String> mProductCTNs;
     private TextView mTitleTextView;
     private TextView mCountText;
@@ -60,15 +58,15 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     private void LaunchIAPFragment() {
         // mIapHandler = IAPHandler.init(this, mIAPSettings);
-        AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
+        //AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
         //mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
         IAPLauncher iapLauncher = new IAPLauncher();
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        IAPDependencies iapDependencies = new IAPDependencies("en", "US");
+        //IAPDependencies iapDependencies = new IAPDependencies();
         iapLaunchInput.setUseLocalData(false);
-        iapLauncher.init(this, iapDependencies);
+        //iapLauncher.init(this, iapDependencies);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, mProductCTNs);
-        iapLauncher.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput, uAppListener);
+        iapLauncher.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
 
     }
 
@@ -89,33 +87,6 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
 
     private void addActionBar() {
-//        ActionBar mActionBar = getSupportActionBar();
-//        mActionBar.setDisplayShowHomeEnabled(false);
-//        mActionBar.setDisplayShowTitleEnabled(false);
-//        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "IAPActivity == onCreate");
-//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-//                ActionBar.LayoutParams.MATCH_PARENT,
-//                ActionBar.LayoutParams.WRAP_CONTENT,
-//                Gravity.CENTER);
-//
-//        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.action_bar, null); // layout which contains your button.
-//
-//        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
-//        frameLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(final View v) {
-//                onBackPressed();
-//            }
-//        });
-//        ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
-//        //noinspection deprecation
-//        arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
-//
-//        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-//        setTitleAndBackButtonVisibility(getString(R.string.app_name));
-//
-//
-//        mActionBar.setCustomView(mCustomView, params);
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);

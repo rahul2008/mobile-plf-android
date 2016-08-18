@@ -6,21 +6,23 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.platform.appinfra.AppInfra;
 
 /**
  * This class having responsible for Store configuration
  */
-public class StoreConfiguration {
+public class StoreConfiguration  {
     private static final String SUFFIX_INAPPCONFIG = "inAppConfig";
 
     private final HybrisStore mStore;
     private final VerticalAppConfig mVerticalAppConfig;
     private final WebStoreConfig mWebStoreConfig;
 
-    public StoreConfiguration(Context context, HybrisStore store) {
+    public StoreConfiguration(Context context, HybrisStore store, IAPDependencies iapDependencies) {
         mStore = store;
-        mVerticalAppConfig = getVerticalAppConfig(context);
+        mVerticalAppConfig = getVerticalAppConfig(context, iapDependencies);
         mWebStoreConfig = getWebStoreConfig(context);
     }
 
@@ -40,8 +42,8 @@ public class StoreConfiguration {
         return mVerticalAppConfig.getProposition();
     }
 
-    VerticalAppConfig getVerticalAppConfig(final Context context) {
-        return new VerticalAppConfig(context);
+    VerticalAppConfig getVerticalAppConfig(final Context context, final IAPDependencies iapDependencies) {
+        return new VerticalAppConfig(context,iapDependencies);
     }
 
     WebStoreConfig getWebStoreConfig(final Context context) {

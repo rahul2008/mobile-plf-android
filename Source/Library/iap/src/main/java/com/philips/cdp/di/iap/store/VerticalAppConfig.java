@@ -4,12 +4,15 @@
  */
 package com.philips.cdp.di.iap.store;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.response.config.AppConfigResponse;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.platform.appinfra.config.ConfigInterface;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,42 +26,51 @@ import java.io.Reader;
 public class VerticalAppConfig {
     private String mHostPort;
     private String mProposition;
+     private ConfigInterface mConfigInterface;
 
-    public VerticalAppConfig(final Context context) {
-        loadConfigurationFromAsset(context);
+
+    public VerticalAppConfig(final Context context, IAPDependencies iapDependencies) {
+        loadConfigurationFromAsset(context,iapDependencies);
     }
 
-    void loadConfigurationFromAsset(Context context) {
-        InputStream fromAsset = null;
-        Reader reader = null;
-        try {
-            fromAsset = readJsonInputStream(context);
-            reader = new BufferedReader(new InputStreamReader(fromAsset));
-            AppConfigResponse configuration = new Gson().fromJson(reader, AppConfigResponse.class);
-            mHostPort = configuration.getHostport();
-            mProposition = configuration.getPropositionid();
-        } catch (IOException e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
-        } finally {
-            if (fromAsset != null) {
-                try {
-                    fromAsset.close();
-                } catch (IOException e) {
-                    IAPLog.e(IAPLog.LOG, e.getMessage());
-                }
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    IAPLog.e(IAPLog.LOG, e.getMessage());
-                }
-            }
+    void loadConfigurationFromAsset(Context context, IAPDependencies iapDependencies) {
+        mConfigInterface = iapDependencies.getAppInfra().getConfigInterface();
+        ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
+        mHostPort = (String) mConfigInterface.getPropertyForKey("IAP", "hostport", configError);
+        mProposition = (String) mConfigInterface.getPropertyForKey("IAP", "propositionid", configError);
+        if (configError.getErrorCode() != null) {
+            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
+//        InputStream fromAsset = null;
+//        Reader reader = null;
+//        try {
+//            fromAsset = readJsonInputStream(context);
+//            reader = new BufferedReader(new InputStreamReader(fromAsset));
+//            AppConfigResponse configuration = new Gson().fromJson(reader, AppConfigResponse.class);
+//            mHostPort = configuration.getHostport();
+//            mProposition = configuration.getPropositionid();
+//        } catch (IOException e) {
+//            IAPLog.e(IAPLog.LOG, e.getMessage());
+//        } finally {
+//            if (fromAsset != null) {
+//                try {
+//                    fromAsset.close();
+//                } catch (IOException e) {
+//                    IAPLog.e(IAPLog.LOG, e.getMessage());
+//                }
+//            }
+//            if (reader != null) {
+//                try {
+//                    reader.close();
+//                } catch (IOException e) {
+//                    IAPLog.e(IAPLog.LOG, e.getMessage());
+//                }
+//            }
+//        }
     }
 
     public InputStream readJsonInputStream(final Context context) throws IOException {
-       final AssetManager assetManager = context.getAssets();
+        final AssetManager assetManager = context.getAssets();
         return assetManager.open("PhilipsInAppPurchaseConfiguration.json");
     }
 
