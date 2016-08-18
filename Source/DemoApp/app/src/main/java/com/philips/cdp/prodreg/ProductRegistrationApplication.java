@@ -6,12 +6,12 @@ import android.support.multidex.MultiDex;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
+import com.philips.cdp.prodreg.launcher.ProdRegSettings;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
@@ -29,8 +29,8 @@ public class ProductRegistrationApplication extends Application {
     @SuppressWarnings("deprecation")
     private void initProductRegistration() {
         ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
-        UappSettings uappSettings = new UappSettings(getApplicationContext());
-        new PRInterface().init(prodRegDependencies, uappSettings);
+        ProdRegSettings prodRegSettings = new ProdRegSettings(getApplicationContext());
+        new PRInterface().init(prodRegDependencies, prodRegSettings);
     }
 
     private void initRegistration() {
