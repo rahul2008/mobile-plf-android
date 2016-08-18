@@ -72,7 +72,7 @@ public class AppConfigurationTest extends MockitoTestCase {
 
     }
 
-    public void testGetPropertyForKey() throws AppConfigurationInterface.InvalidArgumentException {
+    public void testGetPropertyForKey() throws IllegalArgumentException {
         try {
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                     .AppConfigurationError();
@@ -126,14 +126,14 @@ public class AppConfigurationTest extends MockitoTestCase {
             // make sure AI and MicrositeID exist in configuration file else this test case will fail
             assertEquals(null, configError.getErrorCode()); // success
 
-        } catch (AppConfigurationInterface.InvalidArgumentException exception) {
+        } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
         }
 
     }
 
 
-    public void testSetPropertyForKey() throws AppConfigurationInterface.InvalidArgumentException {
+    public void testSetPropertyForKey() throws IllegalArgumentException {
         try {
 
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
@@ -181,13 +181,13 @@ public class AppConfigurationTest extends MockitoTestCase {
             assertEquals(null, configError.getErrorCode());
 
 
-        } catch (AppConfigurationInterface.InvalidArgumentException exception) {
+        } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
         }
 
     }
 
-    public void testSetAndGetKey() throws AppConfigurationInterface.InvalidArgumentException {
+    public void testSetAndGetKey() throws IllegalArgumentException {
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         String existingGroup = "AI";
 

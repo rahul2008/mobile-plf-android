@@ -25,8 +25,7 @@ public class TimeSyncDemo extends AppCompatActivity {
         setContentView(R.layout.timesync_demopage);
         TextView localTimeTextView = (TextView) findViewById(R.id.localtime);
         final TextView localTimeTextvalue = (TextView) findViewById(R.id.localtimevalue);
-        TextView serverTimeTextView = (TextView) findViewById(R.id.servertime);
-        final TextView serverTimeTextvalue = (TextView) findViewById(R.id.servertimetextvalue);
+
         final TextView UTCtimeVal = (TextView) findViewById(R.id.utctimetextvalue);
 
         Button localTimeUpdateButton = (Button) findViewById(R.id.localtimebutton);
@@ -54,8 +53,8 @@ public class TimeSyncDemo extends AppCompatActivity {
             public void onClick(View v) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
                 mTimeSyncInterface.refreshTime();
+               // Calendar c = mTimeSyncInterface.getUTCTime();
                 UTCtimeVal.setText(formatter.format(mTimeSyncInterface.getUTCTime()));
-                serverTimeTextvalue.setText(formatter.format(mTimeSyncInterface.getServerTime()));
             }
         });
     }

@@ -14,8 +14,8 @@ public interface AppConfigurationInterface {
     /**
      * Gets property for key.
      *
-     * @param key   the group name
-     * @param group         the key
+     * @param key         the group name
+     * @param group       the key
      * @param configError the config configError as OUT parameter
      * @return the value for key mapped by name, or null if no such mapping exists
      * if value in literal then 'String' Object is returned
@@ -23,19 +23,20 @@ public interface AppConfigurationInterface {
      * if value is array of literal then 'array of String' Object is returned
      * if value is array of number then 'array of Integer' Object is returned
      */
-    Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws InvalidArgumentException;
+    Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws
+            IllegalArgumentException;
 
     /**
      * Sets property for key.
      *
-     * @param key   the group name
-     * @param group         the key
+     * @param key         the group name
+     * @param group       the key
      * @param object      the object (String/Integer/String[]/Integer[])
      * @param configError the configError object as OUT parameter
      * @return the set operation status (success/failure)
      */
     boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError)
-            throws InvalidArgumentException;
+            throws IllegalArgumentException;
 
     /**
      * The type Config error.
@@ -45,8 +46,8 @@ public interface AppConfigurationInterface {
          * The enum Config error enum.
          */
         public enum AppConfigErrorEnum {
-            InvalidKey, GroupNotExists, KeyNotExists , FatalError, DeviceStoreError,
-            NoDataFoundForKey , SecureStorageError
+            InvalidKey, GroupNotExists, KeyNotExists, FatalError, DeviceStoreError,
+            NoDataFoundForKey, SecureStorageError
         }
 
         private AppConfigErrorEnum errorCode = null;
@@ -69,22 +70,5 @@ public interface AppConfigurationInterface {
             this.errorCode = errorCode;
         }
 
-    }
-
-    class InvalidArgumentException extends Exception {
-        String mError;
-
-        InvalidArgumentException() {
-
-        }
-
-        public InvalidArgumentException(String error) {
-            super(error);
-            mError = error;
-        }
-
-        public String getError() {
-            return mError;
-        }
     }
 }

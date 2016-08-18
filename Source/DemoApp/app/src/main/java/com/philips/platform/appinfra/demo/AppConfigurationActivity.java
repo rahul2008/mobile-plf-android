@@ -70,7 +70,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     Object object = null;
                     try {
                         object = mConfigInterface.getPropertyForKey(getKeyET.getText().toString(), getGroupKeyET.getText().toString(),  configError);
-                    } catch (AppConfigurationInterface.InvalidArgumentException e) {
+                    } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
                     if (null != configError.getErrorCode()) {
@@ -158,7 +158,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         boolean success = false;
                         try {
                             success = mConfigInterface.setPropertyForKey(setKeyET.getText().toString(), setGroupKeyET.getText().toString(),  value, configError);
-                        } catch (AppConfigurationInterface.InvalidArgumentException e) {
+                        } catch (IllegalArgumentException e) {
                             e.printStackTrace();
                         }
                         if (null != configError.getErrorCode()) {

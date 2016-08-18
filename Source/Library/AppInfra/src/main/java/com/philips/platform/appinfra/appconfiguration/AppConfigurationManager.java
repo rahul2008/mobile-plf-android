@@ -90,11 +90,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     @Override
-    public Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws InvalidArgumentException {
+    public Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException {
         Object object = null;
         if (null == group || null == group || group.isEmpty() || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") || !group.matches("[a-zA-Z0-9_.-]+")) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
-            throw new InvalidArgumentException("Invalid Argument Exception");
+            throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
             getjSONFromCache(); // fetch from cache
 
@@ -138,12 +138,12 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     @Override
-    public boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError) throws InvalidArgumentException {
+    public boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError) throws IllegalArgumentException {
         boolean setOperation = false;
         if (null == key || null == group || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") ||
                 !key.matches("[a-zA-Z0-9_.-]+") || object == null) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
-            throw new InvalidArgumentException("Invalid Argument Exception");
+            throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
             getjSONFromCache(); // fetch from cache
             try {
@@ -162,20 +162,20 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     // boolean isKeyPresent = cocoJSONobject.has(key);
                     if (object instanceof ArrayList) {
                         if (((ArrayList) object).get(0) instanceof ArrayList) {
-                            throw new InvalidArgumentException("Invalid Argument Exception");
+                            throw new IllegalArgumentException("Invalid Argument Exception");
                         } else if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String) {
 
                             JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
                             cocoJSONobject.put(key, jsonArray);
 
                         } else {
-                            throw new InvalidArgumentException("Invalid Argument Exception");
+                            throw new IllegalArgumentException("Invalid Argument Exception");
                         }
                     } else if (object instanceof Integer || object instanceof String) {
 
                         cocoJSONobject.put(key, object);
                     } else {
-                        throw new InvalidArgumentException("Invalid Argument Exception");
+                        throw new IllegalArgumentException("Invalid Argument Exception");
                     }
                     SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
                     ssi.storeValueForKey(mAppConfig_SecureStoreKey, configJsonCache.toString(), sse);

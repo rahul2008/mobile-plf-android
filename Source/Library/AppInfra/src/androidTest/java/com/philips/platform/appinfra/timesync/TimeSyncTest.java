@@ -39,31 +39,22 @@ public class TimeSyncTest extends MockitoTestCase {
         assertNotNull(mTimeSyncInterface.getUTCTime());
     }
 
-    public void testgetCurrentTime() {
-        assertNotNull(mTimeSyncSntpClient);
-        mTimeSyncSntpClient.refreshOffset();
-        assertNotNull(mTimeSyncSntpClient.getCurrentTime());
-        assertNotNull(mTimeSyncSntpClient.getCurrentUTCTimeWithFormat());
-    }
-
     public void testRefreshOffsetCall() {
         assertNotNull(mTimeSyncSntpClient);
-        assertNotNull(mTimeSyncSntpClient.getCurrentTime());
-        final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
+        final SimpleDateFormat sdf = new SimpleDateFormat(TimeSyncSntpClient.DATE_FORMAT, Locale.ENGLISH);
         Date date = new Date(0);
-        sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
         String firstJan1970 = sdf.format(date);
-        assertNotSame(firstJan1970, mTimeSyncSntpClient.getCurrentTime());
     }
 
 
-    public void testgetServerTime() {
-        mTimeSyncSntpClient = new TimeSyncSntpClient();
+    public void testgetUTCTime() {
+        mTimeSyncSntpClient = new TimeSyncSntpClient(mAppInfra);
         assertNotNull(mTimeSyncSntpClient);
-        final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
-        Date date = mTimeSyncSntpClient.getServerTime();
+        final SimpleDateFormat sdf = new SimpleDateFormat(TimeSyncSntpClient.DATE_FORMAT, Locale.ENGLISH);
+        Date date = mTimeSyncSntpClient.getUTCTime();
         Date d  = new Date(0);
-        sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
         String str = sdf.format(date);
         String str1 = sdf.format(d);
         assertNotSame(str, str1);

@@ -11,8 +11,6 @@ import java.util.Date;
  * Created by 310238655 on 6/30/2016.
  */
 public interface TimeInterface {
-
-
     /**
      * Gets utc time from NTP server.
      *
@@ -25,7 +23,4 @@ public interface TimeInterface {
      * Calls UTCtime and update local Offset variable (Offset=UTCtime-Devicetime)
      */
     public void refreshTime();
-
-
-    public Date getServerTime();
 }
