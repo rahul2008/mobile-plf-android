@@ -5,7 +5,6 @@
 */
 package com.philips.platform.appframework.homescreen;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -50,7 +49,6 @@ import java.util.ArrayList;
 public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
-//    private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -177,22 +175,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     }
 
     private void setHamburgerAdaptor() {
-        addDrawerItems();
-    }
-
-    private void loadSlideMenuItems() {
-        hamburgerMenuTitles = null;
-//        hamburgerMenuIcons = null;
-        hamburgerItems = null;
-
-        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
-//        hamburgerMenuIcons = getResources()
-//                .obtainTypedArray(R.array.hamburger_drawer_icons);
-
-        hamburgerItems = new ArrayList<>();
-    }
-
-    private void addDrawerItems() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
             if (i == 2 && mCartItemCount > 0) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, mCartItemCount));
@@ -201,6 +183,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             }
         }
     }
+
+    private void loadSlideMenuItems() {
+        hamburgerMenuTitles = null;
+        hamburgerItems = null;
+        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
+        hamburgerItems = new ArrayList<>();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -329,7 +319,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
                 mIapSettings.setLaunchAsFragment(true);
                 mIapSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
                 IAPHandler mIapHandler = IAPHandler.init(this, mIapSettings);
-//                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                 mIapHandler.getProductCartCount(mProductCountListener);
             } catch (IllegalArgumentException e) {
             }
