@@ -82,13 +82,13 @@ public class AppFrameworkApplication extends Application {
 
 
         //Configure Flow
-        RegistrationDynamicConfiguration.getInstance().getFlow().setEmailVerificationRequired(true);
-        RegistrationDynamicConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(true);
-        HashMap<String, String> ageMap = new HashMap<>();
-        ageMap.put("NL", "16");
-        ageMap.put("GB", "16");
-        ageMap.put("DEFAULT", "16");
-        RegistrationDynamicConfiguration.getInstance().getFlow().setMinAgeLimit(ageMap);
+//        RegistrationDynamicConfiguration.getInstance().getFlow().setEmailVerificationRequired(true);
+//        RegistrationDynamicConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(true);
+//        HashMap<String, String> ageMap = new HashMap<>();
+//        ageMap.put("NL", "16");
+//        ageMap.put("GB", "16");
+//        ageMap.put("DEFAULT", "16");
+//        RegistrationDynamicConfiguration.getInstance().getFlow().setMinAgeLimit(ageMap);
 
         //Configure Signin Providers
         HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
