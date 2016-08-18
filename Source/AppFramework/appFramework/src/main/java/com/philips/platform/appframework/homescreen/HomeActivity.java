@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -34,9 +34,11 @@ import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+
 import java.util.ArrayList;
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener{
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -213,7 +215,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     }
 
 
-    @Override
+    /*@Override
     public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
         if (hamburgerIconAvailable) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
@@ -233,7 +235,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             });
         }
     }
-
+*/
     public void updateTitle(){
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
@@ -265,6 +267,49 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             }
         });
         actionBarTitle.setText(R.string.af_app_name);
+    }
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean hamburgerIconAvailable) {
+        if (hamburgerIconAvailable) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean hamburgerIconAvailable) {
+        if (hamburgerIconAvailable) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        }
+
     }
   /*  @Override
     public void updateActionbar(String s) {
