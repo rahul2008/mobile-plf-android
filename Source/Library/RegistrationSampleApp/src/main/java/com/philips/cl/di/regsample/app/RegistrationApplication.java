@@ -9,7 +9,7 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -45,20 +45,18 @@ public class RegistrationApplication extends Application {
 
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-<<<<<<< HEAD
         RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
         AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
-        RLog.init(this);
+       /* RLog.init(this);
         RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
         RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
-        RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());
-=======
+        RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());*/
 
 
        // RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
 
->>>>>>> AppFrameworkAPI
+
 
 
      //  RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
@@ -76,10 +74,7 @@ public class RegistrationApplication extends Application {
         } else {
             initRegistration(Configuration.STAGING);
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> AppFrameworkAPI
     }
 
 
@@ -203,20 +198,12 @@ public class RegistrationApplication extends Application {
             case EVALUATION:
                 hsdpInfo = new HSDPInfo();
                 hsdpInfo.setApplicationName("uGrow");
-<<<<<<< HEAD
                 hsdpInfo.setSharedId("e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
                 hsdpInfo.setSecreteId("e33a4d97-6ada-491f-84e4-a2f7006625e2");
                 hsdpInfo.setBaseURL("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com");
-                RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION, hsdpInfo);
-=======
-                hsdpInfo.setSharedId("41a47ab2-1234-11e5-8994-feff819cdc9f");
-                hsdpInfo.setSecreteId("41a47ec2-1234-7890-2314-feff129cdc9f");
-                hsdpInfo.setBaseURL("https://ugrow-ds-staging.eu-west.philips-healthsuite.com/");
                 mRegistrationBaseConfiguration.getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION,hsdpInfo);
+               // RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION, hsdpInfo);
 
-                //RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION, hsdpInfo);
-
->>>>>>> AppFrameworkAPI
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
                 break;
@@ -233,7 +220,7 @@ public class RegistrationApplication extends Application {
                 editor.commit();
                 break;
             case PRODUCTION:
-                RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
+                mRegistrationBaseConfiguration.setHsdpConfiguration(null);
                 SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                 prefs.edit().remove("reg_hsdp_environment").commit();
                 break;
@@ -243,23 +230,23 @@ public class RegistrationApplication extends Application {
                 hsdpInfo.setSharedId("e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
                 hsdpInfo.setSecreteId("e33a4d97-6ada-491f-84e4-a2f7006625e2");
                 hsdpInfo.setBaseURL("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com");
-                RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING, hsdpInfo);
+              //  RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING, hsdpInfo);
 
                 /*hsdpInfo.setApplicationName("uGrow");
                 hsdpInfo.setSharedId("41a47ab2-1234-11e5-8994-feff819cdc9f");
                 hsdpInfo.setSecreteId("41a47ec2-1234-7890-2314-feff129cdc9f");
                 hsdpInfo.setBaseURL("https://ugrow-ds-staging.eu-west.philips-healthsuite.com/");
-<<<<<<< HEAD
+
                 RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING, hsdpInfo);*/
-=======
+
                 mRegistrationBaseConfiguration.getHsdpConfiguration().setHSDPInfo(Configuration.STAGING,hsdpInfo);
                 // RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING, hsdpInfo);
->>>>>>> AppFrameworkAPI
+
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
                 break;
             case TESTING:
-                RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
+                mRegistrationBaseConfiguration.setHsdpConfiguration(null);
                 prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                 prefs.edit().remove("reg_hsdp_environment").commit();
                 break;

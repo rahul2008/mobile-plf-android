@@ -161,10 +161,10 @@ dependencies {
 
 
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.5')
-    androidTestCompile project(':dexmaker-mockito-1.4')
+   /* androidTestCompile project(':dexmaker-mockito-1.4')
     androidTestCompile project(':dexmaker-1.4')
     androidTestCompile project(':dexmaker-dx-1.4')
-    androidTestCompile project(':mockito-all-1.10.19')
+    androidTestCompile project(':mockito-all-1.10.19')*/
 
 }
 
