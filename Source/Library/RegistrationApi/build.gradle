@@ -16,7 +16,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
@@ -148,6 +148,7 @@ dependencies {
     compile project(':jump')
     compile project(':hsdp')
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
+
 //     androidTestCompile project(':dexmaker-mockito-1.2')
 //     androidTestCompile project(':dexmaker-1.4')
 //     androidTestCompile project(':dexmaker-dx-1.4')
@@ -157,6 +158,13 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 
+
+
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.5')
+    androidTestCompile project(':dexmaker-mockito-1.4')
+    androidTestCompile project(':dexmaker-1.4')
+    androidTestCompile project(':dexmaker-dx-1.4')
+    androidTestCompile project(':mockito-all-1.10.19')
 
 }
 

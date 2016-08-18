@@ -36,12 +36,15 @@ import com.philips.cdp.registration.configuration.RegistrationDynamicConfigurati
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -76,7 +79,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onCreate");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.activity_main);
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+
         mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
 
@@ -259,17 +262,41 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     public void onClick(View v) {
+        URLaunchInput urLaunchInput;
+        ActivityLauncher activityLauncher;
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
+
+                urLaunchInput = new URLaunchInput();
+                urLaunchInput.setAccountSettings(true);
+                urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+
+                 activityLauncher = new ActivityLauncher(ActivityLauncher.
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR,0);
+
+                URInterface.getInstance().launch(activityLauncher,urLaunchInput);
+
+
+                //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
+
+                 urLaunchInput = new URLaunchInput();
+                urLaunchInput.setAccountSettings(false);
+                urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
+                urLaunchInput.setUserRegistrationListener(this);
+
+                activityLauncher = new ActivityLauncher(ActivityLauncher.
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR,0);
+
+                URInterface.getInstance().launch(activityLauncher,urLaunchInput);
+
+               // RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_user:
@@ -406,4 +433,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onRefreshLoginSessionInProgress(String message) {
         showToast(message);
     }
+
+
 }

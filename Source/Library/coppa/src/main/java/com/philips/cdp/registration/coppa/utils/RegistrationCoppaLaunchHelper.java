@@ -11,12 +11,8 @@ package com.philips.cdp.registration.coppa.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
-import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -62,7 +58,7 @@ public class RegistrationCoppaLaunchHelper {
     }
 
 
-    public static boolean isBackEventConsumedByRegistration(FragmentActivity fragmentActivity) {
+/*    public static boolean isBackEventConsumedByRegistration(FragmentActivity fragmentActivity) {
 
         //true consimned
         //false not consumed
@@ -75,7 +71,7 @@ public class RegistrationCoppaLaunchHelper {
             }
         }
         return true;
-    }
+    }*/
 
     private static void launchDefaultRegistrationMode(Context context) {
         Intent registrationIntent = new Intent(context, RegistrationCoppaActivity.class);

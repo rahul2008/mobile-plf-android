@@ -11,6 +11,7 @@ package com.philips.cdp.registration.listener;
 
 import android.app.Activity;
 
+
 public interface UserRegistrationListener {
 
     void onUserRegistrationComplete(Activity activity);

@@ -138,11 +138,15 @@ public abstract class RegistrationBaseFragment extends Fragment {
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
             if (fragment.getFragmentCount() > 2) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                        mPrevTitleResourceId);
+                fragment.getUpdateTitleListener().updateActionBar(
+                        mPrevTitleResourceId,true);
+               /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                        mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             } else {
-                fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
+                fragment.getUpdateTitleListener().updateActionBar(
+                        mPrevTitleResourceId,false);
+             /*   fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
@@ -171,19 +175,27 @@ public abstract class RegistrationBaseFragment extends Fragment {
         if(null != fragment) {
             if (fragment.getFragmentCount() > 1) {
                 if (this instanceof WelcomeFragment && null!=fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().
-                            updateRegistrationTitleWithOutBack(getTitleResourceId());
+                    fragment.getUpdateTitleListener().updateActionBar(
+                            getTitleResourceId(),false);
+                  /*  fragment.getUpdateTitleListener().
+                            updateRegistrationTitleWithOutBack(getTitleResourceId());*/
                 } else if (this instanceof HomeFragment && null!=fragment.
                         getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                    fragment.getUpdateTitleListener().updateActionBar(
+                            getTitleResourceId(),false);
+                   /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
                     if(null!=fragment.getUpdateTitleListener())
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                            getTitleResourceId());
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(),true);
+               /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                            getTitleResourceId());*/
                 }
             } else {
                 if(null!=fragment.getUpdateTitleListener())
-                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                    fragment.getUpdateTitleListener().updateActionBar(
+                            getTitleResourceId(),false);
+                /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }
             fragment.setResourceID(getTitleResourceId());
             fragment.setCurrentTitleResource(getTitleResourceId());

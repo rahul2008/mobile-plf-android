@@ -28,7 +28,6 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -39,18 +38,21 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import org.json.JSONObject;
 
 
-public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
+public class RegistrationFragment extends Fragment implements NetworStateListener,
+        OnClickListener,BackEventListener {
 
 
     private FragmentManager mFragmentManager;
 
     private Activity mActivity;
 
-    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
+    private ActionBarListener mActionBarListener;
 
     private int titleResourceID = -99;
 
@@ -66,10 +68,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
-        Bundle bunble = getArguments();
-        if (bunble != null) {
-            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
-        }
+
         RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
         super.onCreate(savedInstanceState);
     }
@@ -86,6 +85,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         if(mFragmentManager.getBackStackEntryCount() < 1){
             loadFirstFragment();
         }
+
         return view;
     }
 
@@ -138,7 +138,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void setPrevTiltle() {
         if (mPreviousResourceId != -99)
-            mRegistrationUpdateTitleListener.updateRegistrationTitle(getPreviousResourceId());
+            mActionBarListener.updateActionBar(getPreviousResourceId(),true);
+            //mActionBarListener.updateRegistrationTitle(getPreviousResourceId());
     }
 
 
@@ -491,12 +492,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         return fragmentCount;
     }
 
-    public RegistrationTitleBarListener getUpdateTitleListener() {
-        return mRegistrationUpdateTitleListener;
+    public ActionBarListener getUpdateTitleListener() {
+        return mActionBarListener;
     }
 
-    public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
-        this.mRegistrationUpdateTitleListener = listener;
+    public void setOnUpdateTitleListener(ActionBarListener listener) {
+        this.mActionBarListener = listener;
     }
 
     public void setResourceID(int titleResourceId) {
@@ -527,4 +528,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         return currentTitleResource;
 
     }
+
+    @Override
+    public boolean handleBackEvent() {
+        return !(onBackPressed());
+    }
+
+
 }

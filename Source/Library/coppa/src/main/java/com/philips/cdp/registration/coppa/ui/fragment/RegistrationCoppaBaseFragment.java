@@ -152,17 +152,26 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                 final Fragment regFragment = fragment.getChildFragmentManager().
                         getFragments().get(count-1);
                 if (regFragment != null && regFragment instanceof RegistrationFragment) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(((
-                            RegistrationFragment) regFragment).getCurrentTitleResource());
+                    fragment.getUpdateTitleListener().updateActionBar(((
+                            RegistrationFragment) regFragment).getCurrentTitleResource(),true);
+
+                   /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(((
+                            RegistrationFragment) regFragment).getCurrentTitleResource());*/
                 }
             } else {
                 if (null != fragment) {
                     if (fragment.getFragmentBackStackCount() > 2) {
-                        fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                                mPrevTitleResourceId);
+
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                mPrevTitleResourceId,true);
+
+                        /*fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                                mPrevTitleResourceId);*/
                     } else {
-                        fragment.getUpdateTitleListener().updateRegistrationTitle(
-                                mPrevTitleResourceId);
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                mPrevTitleResourceId,false);
+                      /*  fragment.getUpdateTitleListener().updateRegistrationTitle(
+                                mPrevTitleResourceId);*/
                     }
 
                     trackBackActionPage();
@@ -180,8 +189,13 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
                     if (regFragment != null && regFragment instanceof RegistrationFragment) {
                         if (null != fragment.getUpdateTitleListener()) {
+
+                            fragment.getUpdateTitleListener().updateActionBar(((
+                                    RegistrationFragment) regFragment).
+                                    getCurrentTitleResource(),false);
+                       /*
                             fragment.getUpdateTitleListener().updateRegistrationTitle(((
-                                    RegistrationFragment) regFragment).getCurrentTitleResource());
+                                    RegistrationFragment) regFragment).getCurrentTitleResource());*/
                         }
                     }
                 }
@@ -210,13 +224,21 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
             try {
                 if (fragment.getFragmentBackStackCount() > 1) {
                     if (null != fragment.getUpdateTitleListener()) {
-                        fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                                getTitleResourceId());
+
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(),true);
+
+                       /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                                getTitleResourceId());*/
                     }
                 } else {
                     if (null != fragment.getUpdateTitleListener()) {
-                        fragment.getUpdateTitleListener().updateRegistrationTitle
-                                (getTitleResourceId());
+
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(),false);
+
+                      /*  fragment.getUpdateTitleListener().updateRegistrationTitle
+                                (getTitleResourceId());*/
                     }
                 }
                 fragment.setResourceId(getTitleResourceId());

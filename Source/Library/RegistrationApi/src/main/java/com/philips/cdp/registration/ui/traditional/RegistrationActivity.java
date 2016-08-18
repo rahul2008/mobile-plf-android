@@ -12,9 +12,9 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -22,13 +22,17 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
-        RegistrationTitleBarListener {
+        ActionBarListener {
 
     private boolean isAccountSettings = true;
     private TextView ivBack;
@@ -91,18 +95,18 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
         @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
-                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+                        Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-       super.onRestoreInstanceState(savedInstanceState);
+        super.onRestoreInstanceState(savedInstanceState);
         @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
-                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+                        Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
-      }
+    }
 
     @Override
     protected void onStart() {
@@ -142,10 +146,19 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     public void onBackPressed() {
-        if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-            // not consumed vertical code goes here // actual code
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(R.id.fl_reg_fragment_container);
+        if (fragment != null && fragment instanceof BackEventListener) {
+            boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
+            if (isConsumed)
+                return;
+
             super.onBackPressed();
         }
+
+
     }
 
     private void initUI() {
@@ -153,13 +166,28 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings) {
-        try {
+
+
+        URLaunchInput urLaunchInput = new URLaunchInput();
+        urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+
+
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this,R.id.fl_reg_fragment_container,this);
+
+        URInterface.getInstance().launch(fragmentLauncher, urLaunchInput);
+
+
+
+        /*try {
             FragmentManager mFragmentManager = getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+          *//*  bundle.putSerializable(RegConstants.USER_REGISTRATION_LISTENER,
+                    getIntent().getExtras().getSerializable(RegConstants.USER_REGISTRATION_LISTENER));*//*
             registrationFragment.setArguments(bundle);
-            registrationFragment.setOnUpdateTitleListener(this);
+           registrationFragment.setOnUpdateTitleListener(this);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
@@ -168,7 +196,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             RLog.e(RLog.EXCEPTION,
                     "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
-        }
+        }*/
     }
 
 
@@ -179,6 +207,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         }
     }
 
+/*
     @Override
     public void updateRegistrationTitle(int titleResourceID) {
         // Update title and show hamberger
@@ -203,5 +232,28 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }
+*/
+
+    @Override
+    public void updateActionBar(int titleResourceID, boolean isShowBack) {
+        if(isShowBack){
+            ivBack.setVisibility(View.VISIBLE);
+            TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+            tvTitle.setText(getString(titleResourceID));
+        }else{
+            ivBack.setVisibility(View.VISIBLE);
+            TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+            tvTitle.setText(getString(titleResourceID));
+        }
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
+
+
+
+
 
 }

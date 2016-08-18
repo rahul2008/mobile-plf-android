@@ -12,12 +12,8 @@ package com.philips.cdp.registration.ui.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 
 public class RegistrationLaunchHelper {
 
@@ -55,17 +51,17 @@ public class RegistrationLaunchHelper {
     }
 
 
-    public static boolean isBackEventConsumedByRegistration(FragmentActivity fragmentActivity) {
+/*    public static boolean isBackEventConsumedByRegistration(FragmentActivity fragmentActivity) {
         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
         Fragment fragment = fragmentManager
-                .findFragmentByTag(RegConstants.REGISTRATION_FRAGMENT_TAG);
+                .findFragmentById(R.id.fl_reg_fragment_container);
         if (fragment != null) {
             if (((RegistrationFragment) fragment).onBackPressed()) {
                 return false;
             }
         }
         return true;
-    }
+    }*/
 
     private static void launchDefaultRegistrationMode(Context context) {
         Intent registrationIntent = new Intent(context, RegistrationActivity.class);
