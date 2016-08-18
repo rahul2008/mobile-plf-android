@@ -86,9 +86,11 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
 
-
         PILLocaleManager localeManager = new PILLocaleManager(mFragmentActivity);
-        localeManager.setInputLocale("en", "GB");
+        String country = mFragmentActivity.getResources().getString(R.string.af_country);
+        String language = mFragmentActivity.getResources().getString(R.string.af_language);
+
+        localeManager.setInputLocale(language, country);
 
 //        DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
 
@@ -96,7 +98,6 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
                 mFragmentActivity);
 
-        // Set DigitalCareLibrary Listeners
         DigitalCareConfigManager.getInstance().registerMainMenuListener(this);
         DigitalCareConfigManager.getInstance()
                 .registerProductMenuListener(this);

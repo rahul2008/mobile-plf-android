@@ -20,8 +20,12 @@ public class AboutScreenState  extends UIState {
 
     @Override
     public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new AboutScreenFragment(), new AboutScreenFragment().getClass().getSimpleName());
+        ((AppFrameworkBaseActivity)context).showFragment( new AboutScreenFragment(), AboutScreenFragment.TAG);
     }
 
+    @Override
+    public void back(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
 }
 

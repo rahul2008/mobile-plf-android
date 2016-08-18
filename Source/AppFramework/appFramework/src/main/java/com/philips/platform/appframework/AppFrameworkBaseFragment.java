@@ -133,7 +133,7 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
         removeCurrentFragment();
     }
 
-    private void removeCurrentFragment() {
+    protected void removeCurrentFragment() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         Fragment currentFrag = fragmentManager

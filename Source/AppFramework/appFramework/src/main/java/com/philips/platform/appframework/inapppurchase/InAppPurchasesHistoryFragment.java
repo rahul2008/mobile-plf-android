@@ -20,37 +20,33 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.actionlayout.IAPActionLayout;
 import com.philips.cdp.di.iap.session.IAPHandler;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 
 import java.util.ArrayList;
 
-public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
-    public static final String TAG = InAppPurchasesFragment.class.getSimpleName();
+public class InAppPurchasesHistoryFragment extends AppFrameworkBaseFragment {
 
     private View mRootView;
-
     private int mInitFragmentBackStackCount = 0;
-
+    private IAPHandler mIapHandler;
     private IAPActionLayout mLayout;
+    private IAPSettings mIapSettings;
 
     private View mCustomView;
-
+    public static final String TAG = InAppPurchasesHistoryFragment.class.getSimpleName();
     private String mCtn = "HX8331/11";/*"HX6064/33" *//*"UK-HX6064/33"*/;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int position = 0;
-        fragmentPresenter = new InAppPurchaseFragmentPresenter();
+        fragmentPresenter = new InAppPurchaseHistoryFragmentPresenter();
         hideActionbar();
-        mRootView = inflater.inflate(R.layout.af_inapppurchase_fragment, container, false);
+        mRootView = inflater.inflate(R.layout.af_inapppurchase_history_fragment, container, false);
         Bundle bundle = this.getArguments();
         if (null != bundle) {
             position = bundle.getInt("catagoryNumber");
@@ -61,7 +57,7 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
         mLayout = new IAPActionLayout(getContext(), getActivity().getSupportFragmentManager());
         mCustomView = mLayout.getCustomView(getContext());
-        ((ViewGroup) mRootView.findViewById(R.id.ll_custom_action)).addView(mCustomView);
+        ((ViewGroup) mRootView.findViewById(R.id.ll_custom_action_history)).addView(mCustomView);
         ((TextView) mCustomView.findViewById(R.id.iap_header_title)).setText("Shopping List");
         mCustomView.findViewById(R.id.iap_header_back_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,34 +83,19 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             String languageCode = getResources().getString(R.string.af_language);
 
             try {
-                IAPSettings mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
+                mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
                 mIapSettings.setUseLocalData(false);
                 mIapSettings.setLaunchAsFragment(true);
-                mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container);
-                IAPHandler mIapHandler = IAPHandler.init(getContext(), mIapSettings);
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-            }catch(IllegalArgumentException e)  {
+                mIapSettings.setFragProperties(getFragmentManager(), R.id.vertical_Container_history);
+                mIapHandler = IAPHandler.init(getContext(), mIapSettings);
+                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
+            } catch (IllegalArgumentException e) {
 
             }
         } else {
             showIAPToast(IAPConstant.IAP_ERROR_NO_CONNECTION);
         }
     }
-
-    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
-        @Override
-        public void onSuccess(int count) {
-            if (count > 0) {
-            }
-            else {
-            }
-        }
-
-        @Override
-        public void onFailure(int i) {
-        }
-    };
-
 
     private void showIAPToast(int errorCode) {
         Context context = getContext();
@@ -141,8 +122,8 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
         hideKeyboard();
         boolean result = mLayout.onHWBackPressed();
 
-        if ((getActivity().getSupportFragmentManager().getBackStackEntryCount() - mInitFragmentBackStackCount) == 2) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate();
+        if ((getFragmentManager().getBackStackEntryCount() - mInitFragmentBackStackCount) == 2) {
+            getFragmentManager().popBackStackImmediate();
         }
         return result;
     }
