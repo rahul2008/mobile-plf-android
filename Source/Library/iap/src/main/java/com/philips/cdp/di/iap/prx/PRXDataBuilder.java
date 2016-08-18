@@ -22,7 +22,6 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class PRXDataBuilder {
 
@@ -67,7 +66,10 @@ public class PRXDataBuilder {
             public void onResponseSuccess(ResponseData responseData) {
                 mProudctUpdateCount++;
                 mProductPresentInPRX++;
-                CartModelContainer.getInstance().addProductDataToList(ctn, (SummaryModel) responseData);
+                SummaryModel summaryModel = (SummaryModel)responseData;
+                if(summaryModel.isSuccess()) {
+                    CartModelContainer.getInstance().addProductDataToList(ctn, summaryModel);
+                }
                 notifySucces((SummaryModel) responseData);
             }
 
