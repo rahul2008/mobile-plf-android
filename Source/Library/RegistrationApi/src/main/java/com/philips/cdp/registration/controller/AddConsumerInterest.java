@@ -15,7 +15,7 @@ import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 
 public class AddConsumerInterest implements CaptureApiRequestCallback {
 
-	private AddConsumerInterestHandler mAddConsumerInterest;
+	AddConsumerInterestHandler mAddConsumerInterest;
 
 	public AddConsumerInterest(AddConsumerInterestHandler addConsumerInterest) {
 		mAddConsumerInterest = addConsumerInterest;

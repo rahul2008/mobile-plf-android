@@ -34,7 +34,7 @@ import java.io.ObjectInputStream;
  */
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
 
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
+    public UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;
     private User user;
     private String password;
