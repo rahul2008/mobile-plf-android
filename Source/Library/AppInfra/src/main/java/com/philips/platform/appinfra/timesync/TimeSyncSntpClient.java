@@ -5,31 +5,28 @@
  */
 package com.philips.platform.appinfra.timesync;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.SntpClient;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by 310243577 on 6/27/2016.
  * * This provides API's to retrieve and refresh the server time .
  */
-public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterface {
+public class TimeSyncSntpClient implements TimeInterface {
     private static final String TAG = "TimeSyncSntpClient";
 
     private static final String OFFSET = "offset";
@@ -51,6 +48,8 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         mAppInfra = aAppInfra;
         init();
         refreshTime();
+        registerReciever();
+        syncWithDayandDateSettingChange();
     }
 
     public TimeSyncSntpClient() {
@@ -132,19 +131,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
     public Date getUTCTime() {
         try {
             refreshIfNeeded();
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
-//            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-
-
             Date date = new Date(getOffset() + System.currentTimeMillis());
-//            cal.setTime(date);
-//
-//            System.out.println("UTC---"+" "+formatter.format(cal.getTime()));
-            //formatter.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
-            //final String utcTime = formatter.format(date);
-            //Log.i("UTCTime", "" + utcTime);
-            //System.out.println("UTC" + " " + utcTime);
-
             return date;
         } catch (Exception e) {
             mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError", e.getMessage());
@@ -163,12 +150,54 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
             }).start();
         }
     }
+//
+//    @Override
+//    public void onReceive(Context context, Intent intent) {
+//        if (AppInfraSingleton.getInstance() != null) {
+//            refreshTime();
+//        }
+//    }
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (AppInfraSingleton.getInstance() != null) {
-            refreshTime();
+
+    private void registerReciever() {
+        DateTimeChangedReceiver receiver = new DateTimeChangedReceiver();
+        IntentFilter registeReceiver = new IntentFilter();
+        registeReceiver.addAction("android.intent.action.DATE_CHANGED");
+        registeReceiver.addAction("android.intent.action.TIME_SET");
+        mAppInfra.getAppInfraContext().registerReceiver(receiver, registeReceiver);
+    }
+
+    public class DateTimeChangedReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    refreshTime();
+                }
+            }).start();
         }
+    }
+
+    /**
+     * Method to synchronize time for every 24 hrs.
+     */
+    public void syncWithDayandDateSettingChange() {
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+
+        final Intent intent = new Intent(mAppInfra.getAppInfraContext(), DateTimeChangedReceiver.class);
+        final PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(mAppInfra.getAppInfraContext(),
+                        0, intent, 0);
+        final AlarmManager alarmManager =
+                (AlarmManager) mAppInfra.getAppInfraContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                cal.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
 }

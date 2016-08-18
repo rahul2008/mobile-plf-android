@@ -3,12 +3,12 @@
     package="com.philips.platform.appinfra">
 
     <application android:allowBackup="true">
-        <receiver android:name=".timesync.TimeSyncSntpClient">
-            <intent-filter android:priority="100">
-                <action android:name="android.intent.action.DATE_CHANGED" />
-                <action android:name="android.intent.action.TIME_SET" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name=".timesync.TimeSyncSntpClient">-->
+            <!--<intent-filter android:priority="100">-->
+                <!--<action android:name="android.intent.action.DATE_CHANGED" />-->
+                <!--<action android:name="android.intent.action.TIME_SET" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
     </application>
 
