@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -176,7 +175,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this,R.id.fl_reg_fragment_container,this);
 
-        URInterface.getInstance().launch(fragmentLauncher, urLaunchInput, RegistrationHelper.getInstance().getUserRegistrationEventListener());
+        URInterface.getInstance().launch(fragmentLauncher, urLaunchInput);
 
 
 

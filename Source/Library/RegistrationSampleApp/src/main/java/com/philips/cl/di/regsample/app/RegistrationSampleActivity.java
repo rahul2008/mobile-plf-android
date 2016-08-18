@@ -276,7 +276,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                  activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR,0);
 
-                URInterface.getInstance().launch(activityLauncher,urLaunchInput,RegistrationSampleActivity.this);
+                URInterface.getInstance().launch(activityLauncher,urLaunchInput);
 
 
                 //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
@@ -289,11 +289,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                  urLaunchInput = new URLaunchInput();
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
+                urLaunchInput.setUserRegistrationListener(this);
 
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR,0);
 
-                URInterface.getInstance().launch(activityLauncher,urLaunchInput,RegistrationSampleActivity.this);
+                URInterface.getInstance().launch(activityLauncher,urLaunchInput);
 
                // RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
@@ -432,4 +433,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onRefreshLoginSessionInProgress(String message) {
         showToast(message);
     }
+
+
 }

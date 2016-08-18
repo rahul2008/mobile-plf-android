@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -17,11 +16,9 @@ import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.UappListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
-
-import java.util.Locale;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class URInterface implements UappInterface {
 
@@ -38,31 +35,23 @@ public class URInterface implements UappInterface {
 
     private Context mContext;
 
-    @Override
-    public void init(Context context, UappDependencies uappDependencies) {
-        mContext = context;
 
-        RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
-        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-    }
 
     @Override
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
 
-        if (null != uappListener) {
-            RegistrationHelper.getInstance().registerUserRegistrationListener((UserRegistrationListener) uappListener);
-            RegistrationHelper.getInstance().registerUserRegistrationListener((UserRegistrationListener) uappListener);
+       if (null != uappLaunchInput && null!= ((URLaunchInput)uappLaunchInput).getUserRegistrationListener()) {
+            RegistrationHelper.getInstance().registerUserRegistrationListener(((URLaunchInput)uappLaunchInput).getUserRegistrationListener());
         }
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput, uappListener);
+            launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
         } else {
-            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput, uappListener);
+            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, UappLaunchInput uappLaunchInput) {
 
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
@@ -85,7 +74,7 @@ public class URInterface implements UappInterface {
 
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
+    private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
 
         if (null != uappLaunchInput) {
@@ -105,6 +94,15 @@ public class URInterface implements UappInterface {
             mContext.startActivity(registrationIntent);
         }
 
+
+    }
+
+
+    @Override
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        mContext = uappSettings.getContext();
+        RLog.init(mContext);
+        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
 
     }
 

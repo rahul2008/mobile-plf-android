@@ -574,6 +574,11 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                                 updateRegistrationTitleWithBack(titleResourceId);*/
                     }
                 }
+
+                @Override
+                public void updateActionBar(String s, boolean b) {
+
+                }
             });
             /*registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
                 @Override
@@ -633,6 +638,11 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                             mActionBarListener.updateActionBar(
                                     titleResourceID,isShowBack);
                         }
+                }
+
+                @Override
+                public void updateActionBar(String s, boolean b) {
+
                 }
             });
 

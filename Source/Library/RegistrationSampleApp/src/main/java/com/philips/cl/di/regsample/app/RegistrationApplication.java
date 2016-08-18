@@ -10,10 +10,10 @@ import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 
@@ -45,7 +45,7 @@ public class RegistrationApplication extends Application {
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
 
-        RLog.init(this);
+
        // RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
 
@@ -57,7 +57,6 @@ public class RegistrationApplication extends Application {
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
-            RLog.i("Last known environment", restoredText);
 
             String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
             if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
@@ -68,11 +67,30 @@ public class RegistrationApplication extends Application {
             initRegistration(Configuration.STAGING);
         }
 
-
     }
 
 
     public void initRegistration(Configuration configuration) {
+
+     /*   AppConfigurationInterface configInterface = RegistrationHelper.getInstance().getAppInfraInstance().getConfigInterface();
+
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        try {
+            configInterface.setPropertyForKey("JanRainConfiguration.RegistrationClientID.Development","UR","8kaxdrpvkwyr7pnp987amu4aqb4wmnte",configError);
+        } catch (AppConfigurationInterface.InvalidArgumentException e) {
+            e.printStackTrace();
+        }
+
+        //AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        try {
+            String  s = (String)configInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID.Development","UR",configError);
+
+            System.out.println("datafromConfiguartionJson :"+s );
+
+        } catch (AppConfigurationInterface.InvalidArgumentException e) {
+            e.printStackTrace();
+        }*/
+
 
 
 
@@ -155,11 +173,10 @@ public class RegistrationApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        URDependancies urDependancies = new URDependancies();
-        urDependancies.setAppInfraInterface(AppInfraSingleton.getInstance());
-        urDependancies.setRegistrationConfiguration(mRegistrationBaseConfiguration);
-
-        URInterface.getInstance().init(this,urDependancies);
+        URDependancies urDependancies = new URDependancies(AppInfraSingleton.getInstance());
+        URSettings urSettings = new URSettings(this);
+        urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
+        URInterface.getInstance().init(urDependancies,urSettings);
         // RegistrationHelper.getInstance().initializeUserRegistration(this);
       //  Tagging.init(this, "Philips Registration");
 

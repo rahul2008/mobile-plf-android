@@ -246,4 +246,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             }
         }
     }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
 }

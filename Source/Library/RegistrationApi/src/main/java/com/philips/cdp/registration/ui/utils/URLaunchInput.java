@@ -1,17 +1,18 @@
 package com.philips.cdp.registration.ui.utils;
 
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
-/**
- * Created by vinayak on 11/08/16.
- */
+
 public class URLaunchInput extends UappLaunchInput {
 
 
     private boolean isAccountSettings;
 
     private RegistrationFunction registrationFunction;
+
+    private UserRegistrationListener userRegistrationListener;
 
     public RegistrationFunction getRegistrationFunction() {
         return registrationFunction;
@@ -30,7 +31,11 @@ public class URLaunchInput extends UappLaunchInput {
     }
 
 
+    public void setUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+        this.userRegistrationListener = userRegistrationListener;
+    }
 
-
-
+    public UserRegistrationListener getUserRegistrationListener() {
+        return this.userRegistrationListener;
+    }
 }
