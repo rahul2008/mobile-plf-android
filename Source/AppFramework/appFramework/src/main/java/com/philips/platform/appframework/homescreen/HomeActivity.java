@@ -36,7 +36,7 @@ import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import java.util.ArrayList;
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener, com.philips.cdp.prodreg.listener.ActionbarUpdateListener{
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener{
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -266,9 +266,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         });
         actionBarTitle.setText(R.string.af_app_name);
     }
-    @Override
+  /*  @Override
     public void updateActionbar(String s) {
 
-    }
+    }*/
 
 }

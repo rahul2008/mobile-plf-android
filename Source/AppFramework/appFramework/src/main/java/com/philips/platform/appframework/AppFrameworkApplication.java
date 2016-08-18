@@ -10,6 +10,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.prodreg.launcher.PRInterface;
+import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -21,6 +23,7 @@ import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
@@ -55,10 +58,13 @@ public class AppFrameworkApplication extends Application {
         localeManager.setInputLocale(languageCode, countryCode);
     }
 
+    @SuppressWarnings("deprecation")
     private void initializeProductRegistrationLibrary() {
-        ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.init(this);
+        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
 
+        //TO-DO - have to take PRSettings on next release
+        UappSettings uappSettings = new UappSettings(getApplicationContext());
+        new PRInterface().init(prodRegDependencies, uappSettings);
     }
 
     public UIFlowManager getFlowManager() {

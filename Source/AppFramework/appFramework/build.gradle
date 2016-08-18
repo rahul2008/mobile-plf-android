@@ -234,7 +234,7 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.2.0-rc.1', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.2.0-rc.2', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
