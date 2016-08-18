@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -149,26 +148,22 @@ public class SettingsAdapter extends BaseAdapter {
                     mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
                         @Override
                         public void onUpdateReceiveMarketingEmailSuccess() {
-                            Toast.makeText(mActivity, "Successfully subscribed", Toast.LENGTH_SHORT).show();
                             sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                         }
 
                         @Override
                         public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
-                            Toast.makeText(mActivity, "failed to subscribe", Toast.LENGTH_SHORT).show();
                         }
                     }, true);
                 } else {
                     mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
                         @Override
                         public void onUpdateReceiveMarketingEmailSuccess() {
-                            Toast.makeText(mActivity, "Successfully unsubscribed", Toast.LENGTH_SHORT).show();
                             sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                         }
 
                         @Override
                         public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
-                            Toast.makeText(mActivity, "failed to unsubscribed", Toast.LENGTH_SHORT).show();
                         }
                     }, false);
                 }
