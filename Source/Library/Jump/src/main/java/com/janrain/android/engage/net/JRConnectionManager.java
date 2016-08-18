@@ -34,6 +34,7 @@ package com.janrain.android.engage.net;
 import android.os.Handler;
 import android.os.Looper;
 import com.janrain.android.utils.ApacheSetFromMap;
+import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
@@ -103,39 +104,43 @@ public class JRConnectionManager {
 
     private static void trackAndStartConnection(JRConnectionManagerDelegate delegate,
                                                 ManagedConnection managedConnection) {
-        HttpUriRequest request;
-        if (managedConnection.mPostData != null) {
-            request = new HttpPost(managedConnection.mRequestUrl);
-            ((HttpPost) request).setEntity(new ByteArrayEntity(managedConnection.mPostData));
-            request.addHeader("Content-Type", "application/x-www-form-urlencoded");
-            request.addHeader("Content-Language", "en-US");
-        } else {
-            request = new HttpGet(managedConnection.mRequestUrl);
-        }
-
-        managedConnection.mHttpRequest = request;
-
-        if (managedConnection.getFollowRedirects()) {
-            HttpClientParams.setRedirecting(request.getParams(), true);
-        }
-
-        synchronized (sDelegateConnections) {
-            Set<ManagedConnection> connections = sDelegateConnections.get(delegate);
-            if (connections == null) {
-                connections = new ApacheSetFromMap<ManagedConnection>(
-                        new WeakHashMap<ManagedConnection, Boolean>());
-                sDelegateConnections.put(delegate, connections);
+        try {
+            HttpUriRequest request;
+            if (managedConnection.mPostData != null) {
+                request = new HttpPost(managedConnection.mRequestUrl);
+                ((HttpPost) request).setEntity(new ByteArrayEntity(managedConnection.mPostData));
+                request.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                request.addHeader("Content-Language", "en-US");
+            } else {
+                request = new HttpGet(managedConnection.mRequestUrl);
             }
-            connections.add(managedConnection);
-        }
 
-        if (Looper.myLooper() != null) {
-            // if we're on a Looper thread then operate asynchronously, and post a message back to the Looper
-            // later
-            ThreadUtils.executeInBg(new AsyncHttpClient.HttpExecutor(new Handler(), managedConnection));
-        } else {
-            // no Looper -> operate synchronously
-            new AsyncHttpClient.HttpExecutor(null, managedConnection).run();
+            managedConnection.mHttpRequest = request;
+
+            if (managedConnection.getFollowRedirects()) {
+                HttpClientParams.setRedirecting(request.getParams(), true);
+            }
+
+            synchronized (sDelegateConnections) {
+                Set<ManagedConnection> connections = sDelegateConnections.get(delegate);
+                if (connections == null) {
+                    connections = new ApacheSetFromMap<ManagedConnection>(
+                            new WeakHashMap<ManagedConnection, Boolean>());
+                    sDelegateConnections.put(delegate, connections);
+                }
+                connections.add(managedConnection);
+            }
+
+            if (Looper.myLooper() != null) {
+                // if we're on a Looper thread then operate asynchronously, and post a message back to the Looper
+                // later
+                ThreadUtils.executeInBg(new AsyncHttpClient.HttpExecutor(new Handler(), managedConnection));
+            } else {
+                // no Looper -> operate synchronously
+                new AsyncHttpClient.HttpExecutor(null, managedConnection).run();
+            }
+        }catch (Exception e){
+             LogUtils.loge("failed", e);
         }
     }
 
