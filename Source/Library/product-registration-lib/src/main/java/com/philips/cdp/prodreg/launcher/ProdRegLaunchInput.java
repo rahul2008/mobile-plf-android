@@ -12,20 +12,20 @@ import java.util.ArrayList;
  */
 public class ProdRegLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
-    private boolean isAppLaunch;
+    private boolean isAppLaunchFlow;
     private ProdRegUiListener prodRegUiListener;
 
-    public ProdRegLaunchInput(final ArrayList<Product> products, final boolean isAppLaunch) {
+    public ProdRegLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
         this.products = products;
-        this.isAppLaunch = isAppLaunch;
+        this.isAppLaunchFlow = isAppLaunchFlow;
     }
 
     public ArrayList<Product> getProducts() {
         return products;
     }
 
-    public boolean isAppLaunch() {
-        return isAppLaunch;
+    public boolean isAppLaunchFlow() {
+        return isAppLaunchFlow;
     }
 
     public ProdRegUiListener getProdRegUiListener() {

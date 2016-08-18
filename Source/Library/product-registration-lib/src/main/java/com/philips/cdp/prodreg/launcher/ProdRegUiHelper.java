@@ -102,7 +102,7 @@ public class ProdRegUiHelper implements UappInterface {
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prodRegLaunchInput.getProducts());
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
-        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegLaunchInput.isAppLaunch());
+        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegLaunchInput.isAppLaunchFlow());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
         intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
         context.startActivity(intent);
@@ -124,7 +124,7 @@ public class ProdRegUiHelper implements UappInterface {
 
             ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
             final User user = new User(fragmentLauncher.getFragmentActivity());
-            if (prodRegLaunchInput.isAppLaunch()) {
+            if (prodRegLaunchInput.isAppLaunchFlow()) {
                 ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
                 prodRegFirstLaunchFragment.setArguments(arguments);
                 prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
