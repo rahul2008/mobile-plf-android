@@ -341,7 +341,8 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
           LogOut,
           UpButton,
           PhilipsAnnouncementLink,
-          BackButton
+          BackButton,
+          LogOutConfirm
       }
 
       private static MobilePageInstance _instance
@@ -361,10 +362,13 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
           if (btn == Button.UpButton)
               _instance.ClickById(ObjectRepository.LoginBackButton);
           else if (btn == Button.LogOut)
-              _instance.ClickById(ObjectRepository.LogOut);
+              _instance.GetElementByXpath("//android.widget.TextView[@text='Log out']/..").Click();
           else if (btn == Button.PhilipsAnnouncementLink)
               _instance.ClickById(ObjectRepository.PhilipsAnnouncementLink);
+          else if (btn == Button.LogOutConfirm)
+              _instance.GetElementByXpath("//android.widget.Button[@text='Log out']").Click();
       }
+
 
 
       /// <summary>
