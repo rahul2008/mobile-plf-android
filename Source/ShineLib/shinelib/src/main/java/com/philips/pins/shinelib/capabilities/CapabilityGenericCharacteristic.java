@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.capabilities;
 
+import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNDataRawResultListener;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -14,14 +15,14 @@ public interface CapabilityGenericCharacteristic extends SHNCapability {
 
     interface CharacteristicChangedListener {
 
-        void onCharacteristicChanged(final UUID aChar, byte[] data, int status);
+        void onCharacteristicChanged(@NonNull final UUID aChar, byte[] data, int status);
     }
 
-    void readCharacteristic(SHNDataRawResultListener listener, UUID uuid);
+    void readCharacteristic(@NonNull SHNDataRawResultListener listener, @NonNull UUID uuid);
 
-    void writeCharacteristic(SHNResultListener listener, UUID uuid, byte[] data);
+    void writeCharacteristic(@NonNull SHNResultListener listener, @NonNull UUID uuid, byte[] data);
 
-    void setNotify(SHNResultListener listener, boolean notify, UUID uuid);
+    void setNotify(@NonNull SHNResultListener listener, @NonNull UUID uuid, boolean notify);
 
     /**
      * Set callback to receive notifications about battery level changes.
@@ -30,5 +31,5 @@ public interface CapabilityGenericCharacteristic extends SHNCapability {
      *
      * @param listener to receive updates.
      */
-    void setCharacteristicChangedListener(CharacteristicChangedListener listener);
+    void setCharacteristicChangedListener(@NonNull CharacteristicChangedListener listener);
 }
