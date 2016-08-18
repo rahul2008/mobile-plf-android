@@ -17,9 +17,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPLauncher;
+import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -60,13 +60,14 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         // mIapHandler = IAPHandler.init(this, mIAPSettings);
         //AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
         //mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-        IAPLauncher iapLauncher = new IAPLauncher();
+        IAPInterface iapInterface = new IAPInterface();
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPSettings iapSettings = new IAPSettings(this);
         //IAPDependencies iapDependencies = new IAPDependencies();
-        iapLaunchInput.setUseLocalData(false);
-        //iapLauncher.init(this, iapDependencies);
+        iapSettings.setUseLocalData(false);
+        //iapInterface.init(this, iapDependencies);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, mProductCTNs);
-        iapLauncher.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
+        iapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
 
     }
 

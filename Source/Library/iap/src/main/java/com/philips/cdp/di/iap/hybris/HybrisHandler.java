@@ -9,20 +9,20 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
+import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPLauncher;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.session.IAPSettings;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.localematch.PILLocaleManager;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * We go via Hybris interface.
  * Initialize Hybris related queries, logic in this.
  */
-public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
+public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
 
     private int mThemeIndex;
     private Context mContext;
@@ -41,25 +41,23 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
     private final int CURRENT_PAGE = 0;
     //Hybris default page size is 20. We are using the same
     private final int PAGE_SIZE = 20;
-    PILLocaleManager localeManager;
 
     public HybrisHandler(Context context, IAPSettings settings) {
         mContext = context;
-        mThemeIndex = settings.getThemeIndex();
-        mLanguage = settings.getLanguage();
-        mCountry = settings.getCountry();
+        mLanguage = CartModelContainer.getInstance().getLanguage();
+        mCountry = CartModelContainer.getInstance().getCountry();
         mIAPSettings = settings;
     }
 
     public HybrisHandler(Context context, IAPLaunchInput pIapConfig) {
         mContext = context;
-        mLanguage = pIapConfig.getLanguage();
-        mCountry = pIapConfig.getCountry();
+        mLanguage = CartModelContainer.getInstance().getLanguage();
+        mCountry = CartModelContainer.getInstance().getCountry();
         mIapConfig = pIapConfig;
     }
 
 //    @Override
-//    public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
+//    public void launchIAP(final int landingView, final String ctnNumber, final IAPListener listener) {
 //        if (isStoreInitialized()) {
 //            checkLaunchOrBuy(landingView, ctnNumber, listener);
 //        } else {
@@ -75,7 +73,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 //            launchIAP(uiLauncher, uAppListener);
 //        } else {
 //           // initIAP(landingView, ctnNumber, listener);
-//            initIAP(uiLauncher, (IAPHandlerListener) uAppListener);
+//            initIAP(uiLauncher, (IAPListener) uAppListener);
 //        }
 //    }
 //
@@ -88,20 +86,20 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 //    }
 
     @Override
-    public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
+    public void getProductCartCount(final IAPListener iapListener) {
         if (isStoreInitialized()) {
-            getProductCount(iapHandlerListener);
+            getProductCount(iapListener);
         } else {
             HybrisDelegate.getInstance(mContext).getStore().
                     initStoreConfig(mLanguage, mCountry, new RequestListener() {
                         @Override
                         public void onSuccess(final Message msg) {
-                            getProductCount(iapHandlerListener);
+                            getProductCount(iapListener);
                         }
 
                         @Override
                         public void onError(final Message msg) {
-                            iapHandlerListener.onFailure(getIAPErrorCode(msg));
+                            iapListener.onFailure(getIAPErrorCode(msg));
                         }
                     });
         }
@@ -143,7 +141,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 //        final ProductCatalogAPI mPresenter = ControllerFactory.getInstance()
 //                .getProductCatalogPresenter(mContext, null, null);
 //
-//        final IAPHandlerListener listener = new IAPHandlerListener() {
+//        final IAPListener listener = new IAPListener() {
 //            @Override
 //            public void onSuccess(final int count) {
 //                mPresenter.getProductCatalog(0, count, null);
@@ -187,7 +185,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
         return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
     }
 
-//    void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
+//    void checkLaunchOrBuy(int screen, String ctnNumber, IAPListener listener) {
 //        if (screen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW) {
 //            launchIAPActivity(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, ctnNumber);
 //        } else if (screen == IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
@@ -203,7 +201,7 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 //        }
 //    }
 
-//    void initIAP(final UiLauncher uiLauncher,final IAPHandlerListener listener) {
+//    void initIAP(final UiLauncher uiLauncher,final IAPListener listener) {
 //        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
 //        delegate.getStore().initStoreConfig(mLanguage, mCountry, new RequestListener() {
 //            @Override
@@ -238,22 +236,22 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
 //        }
 //    }
 
-    private void getProductCount(final IAPHandlerListener iapHandlerListener) {
+    private void getProductCount(final IAPListener iapListener) {
         ShoppingCartAPI presenter = new ShoppingCartPresenter();
         presenter.getProductCartCount(mContext, new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
-                updateSuccessListener(count, iapHandlerListener);
+                updateSuccessListener(count, iapListener);
             }
 
             @Override
             public void onFailure(final Message msg) {
-                updateErrorListener(msg, iapHandlerListener);
+                updateErrorListener(msg, iapListener);
             }
         });
     }
 
-    private void buyProduct(final String ctnNumber, final IAPHandlerListener listener) {
+    private void buyProduct(final String ctnNumber, final IAPListener listener) {
         ShoppingCartAPI presenter = new ShoppingCartPresenter();
         presenter.buyProduct(mContext, ctnNumber, new IAPCartListener() {
             @Override
@@ -268,15 +266,15 @@ public class HybrisHandler extends IAPLauncher implements IAPExposedAPI {
         });
     }
 
-    private void updateErrorListener(final Message msg, final IAPHandlerListener iapHandlerListener) {
-        if (iapHandlerListener != null) {
-            iapHandlerListener.onFailure(getIAPErrorCode(msg));
+    private void updateErrorListener(final Message msg, final IAPListener iapListener) {
+        if (iapListener != null) {
+            iapListener.onFailure(getIAPErrorCode(msg));
         }
     }
 
-    private void updateSuccessListener(final int count, final IAPHandlerListener iapHandlerListener) {
-        if (iapHandlerListener != null) {
-            iapHandlerListener.onSuccess(count);
+    private void updateSuccessListener(final int count, final IAPListener iapListener) {
+        if (iapListener != null) {
+            iapListener.onSuccess(count);
         }
     }
 

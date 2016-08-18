@@ -41,32 +41,6 @@ public class VerticalAppConfig {
         if (configError.getErrorCode() != null) {
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
-//        InputStream fromAsset = null;
-//        Reader reader = null;
-//        try {
-//            fromAsset = readJsonInputStream(context);
-//            reader = new BufferedReader(new InputStreamReader(fromAsset));
-//            AppConfigResponse configuration = new Gson().fromJson(reader, AppConfigResponse.class);
-//            mHostPort = configuration.getHostport();
-//            mProposition = configuration.getPropositionid();
-//        } catch (IOException e) {
-//            IAPLog.e(IAPLog.LOG, e.getMessage());
-//        } finally {
-//            if (fromAsset != null) {
-//                try {
-//                    fromAsset.close();
-//                } catch (IOException e) {
-//                    IAPLog.e(IAPLog.LOG, e.getMessage());
-//                }
-//            }
-//            if (reader != null) {
-//                try {
-//                    reader.close();
-//                } catch (IOException e) {
-//                    IAPLog.e(IAPLog.LOG, e.getMessage());
-//                }
-//            }
-//        }
     }
 
     public InputStream readJsonInputStream(final Context context) throws IOException {

@@ -1,8 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
 
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
@@ -11,56 +10,24 @@ import java.util.ArrayList;
  * Created by Apple on 10/08/16.
  */
 public class IAPLaunchInput extends UappLaunchInput {
-    private boolean mUseLocalData;
     int mLandingViews;
     public ArrayList<String> mProductCTNs;
-    private String language;
-
-
-
-    private IAPHandlerListener iapHandlerListener;
-
-
-    public String setCountry(String country) {
-        this.country = country;
-        return country;
-    }
-
-    public String setLanguage(String language) {
-        return this.language = language;
-    }
-
-    private String country;
-
-    public boolean isUseLocalData() {
-        return mUseLocalData;
-    }
-
-    public void setUseLocalData(boolean mUseLocalData) {
-        this.mUseLocalData = mUseLocalData;
-    }
+    private IAPListener iapListener;
+    private String country, language;
 
     public void setIAPFlow(int pLandingViews, ArrayList<String> pProductCTNs) {
         mLandingViews = pLandingViews;
         mProductCTNs = pProductCTNs;
     }
 
-    public String getLanguage() {
-        return language;
+
+    public IAPListener getIapListener() {
+        return iapListener;
     }
 
-    public String getCountry() {
-        return country;
+    public void setIapListener(IAPListener iapListener) {
+        this.iapListener = iapListener;
     }
-
-    public IAPHandlerListener getIapHandlerListener() {
-        return iapHandlerListener;
-    }
-
-    public void setIapHandlerListener(IAPHandlerListener iapHandlerListener) {
-        this.iapHandlerListener = iapHandlerListener;
-    }
-
 
 
     public interface IAPFlows {

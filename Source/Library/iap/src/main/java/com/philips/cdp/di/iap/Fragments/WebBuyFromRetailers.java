@@ -28,8 +28,9 @@ public class WebBuyFromRetailers extends WebFragment {
     @Override
     public void onResume() {
         super.onResume();
+        String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE_NAME);
-        setTitleAndBackButtonVisibility(getArguments().getString(IAPConstant.IAP_STORE_NAME), true);
+        setTitleAndBackButtonVisibility(title, true);
         initializeWebView();
     }
 

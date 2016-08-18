@@ -27,10 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPLauncher;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -41,7 +42,6 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -78,7 +78,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private TextView mTitleTextView;
     private TextView mCountText;
 
-    private IAPLauncher mIapLauncher;
+    private IAPInterface mIapInterface;
     private IAPLaunchInput mIapLaunchInput;
     private ArrayList<String> mCTNs;
     DemoApplication applicationContext;
@@ -97,7 +97,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
         }
     };
-    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
+    private IAPListener mProductCountListener = new IAPListener() {
         @Override
         public void onSuccess(final int count) {
             if (count > 0) {
@@ -115,7 +115,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             showToast(errorCode);
         }
     };
-    private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
+    private IAPListener mBuyProductListener = new IAPListener() {
         @Override
         public void onSuccess(final int count) {
             dismissProgressDialog();
@@ -128,6 +128,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         }
     };
     private IAPDependencies mIapDependencies;
+    private IAPSettings mIAPSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,19 +171,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mShopNowCategorized.setOnClickListener(this);
 
         mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
-
-//        mCountText = (TextView) findViewById(R.id.count_txt);
-
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-
-//        mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
-//        mIapHandler = IAPHandler.init(this, mIAPSettings);
-
-        mIapLauncher = new IAPLauncher();
-        mIapLaunchInput = new IAPLaunchInput();
-         mIapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
-        mIapLaunchInput.setUseLocalData(false);
-         mIapLauncher.init( mIapDependencies,new UappSettings(getApplicationContext()));
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -193,22 +182,29 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         countries.add("US");
         countries.add("UK");
 
+        mIAPSettings = new IAPSettings(this);
+        mIapInterface = new IAPInterface();
+        mIapLaunchInput = new IAPLaunchInput();
+        mIapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        mIAPSettings.setUseLocalData(false);
+        mIapInterface.init(mIapDependencies, new IAPSettings(getApplicationContext()));
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(dataAdapter);
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
-
+        setLocale("en", "US");
         /*Pls uncommnet when vertical wants to get complete product list from hybris*/
 
-        mIapLaunchInput.setUseLocalData(false);
-        if (!mIapLaunchInput.isUseLocalData()) {
+        mIAPSettings.setUseLocalData(false);
+        if (!mIAPSettings.isUseLocalData()) {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //  mIapLauncher.getCompleteProductList(mGetCompleteProductListener);
+                      mIapInterface.getCompleteProductList(mGetCompleteProductListener);
                 }
             }, 1000);
         }
@@ -273,8 +269,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (mUser.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0) {
-//                showProgressDialog();
-//                mIapLauncher.getProductCartCount(mProductCountListener);
+                showProgressDialog();
+                mIapInterface.getProductCartCount(mProductCountListener);
             }
         }
     }
@@ -294,8 +290,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                     applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                     // mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, null, mBuyProductListener);
                     mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
-                    mIapLaunchInput.setIapHandlerListener(mBuyProductListener);
-                    mIapLauncher.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
+                    mIapLaunchInput.setIapListener(mBuyProductListener);
+                    mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
 
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
@@ -312,7 +308,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                     // mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                     applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                     mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null);
-                    mIapLauncher.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
+                    mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
@@ -323,7 +319,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                     //  mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
                     applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                     mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null);
-                    mIapLauncher.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
+                    mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
@@ -343,7 +339,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                             applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                             // mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctn, null);
                             mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, mCTNs);
-                            mIapLauncher.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
+                            mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
                         } else {
                             Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
                         }
@@ -361,7 +357,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                         //AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
                         applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                         mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, mCTNs);
-                        mIapLauncher.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
+                        mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
                         // mIapHandler.launchCategorizedCatalog(mCategorizedList);
                     } else {
                         Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
@@ -386,7 +382,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                         // mIapHandler.buyDirect(ctn);
                         applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                         mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, mCTNs);
-                        mIapLauncher.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
+                        mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
                     } catch (RuntimeException e) {
                         Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -474,16 +470,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mSelectedCountry = "GB";
         setLocale("en", mSelectedCountry);
 
-        //mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-        // setUseLocalData(); //Uncomment to support PlanB
-
-        // mIapHandler = IAPHandler.init(this, mIAPSettings);
-        mIapLaunchInput.setUseLocalData(false);
-        //mIapLauncher.init(this, mIapDependencies);
+        mIAPSettings.setUseLocalData(false);
+        mIapInterface.init(mIapDependencies, mIAPSettings);
         updateCartIcon();
-        if (!mIapLaunchInput.isUseLocalData()) {
-            // showProgressDialog();
-            //mIapLauncher.getProductCartCount(mProductCountListener);
+        if (!mIAPSettings.isUseLocalData()) {
+             showProgressDialog();
+            mIapInterface.getProductCartCount(mProductCountListener);
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
             mPurchaseHistory.setVisibility(View.GONE);
@@ -495,8 +487,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void updateCartIcon() {
-        //if (shouldUseLocalData()) {
-        if (mIapLaunchInput.isUseLocalData()) {
+        if (mIAPSettings.isUseLocalData()) {
             mShoppingCart.setVisibility(View.INVISIBLE);
         }
     }
@@ -505,14 +496,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-//    public void setUseLocalData() {
-//        mIAPSettings.setUseLocalData(true);
-//    }
-//
-//    public boolean shouldUseLocalData() {
-//        return mIAPSettings.isUseLocalData();
-//    }
 
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);

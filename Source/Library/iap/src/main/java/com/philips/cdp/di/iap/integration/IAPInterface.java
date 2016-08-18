@@ -15,18 +15,20 @@ import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.applocal.AppLocalHandler;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.hybris.HybrisHandler;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -36,21 +38,25 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Apple on 10/08/16.
  */
-public class IAPLauncher implements UappInterface, IAPExposedAPI {
+public class IAPInterface implements UappInterface, IAPExposedAPI {
     private IAPLaunchInput mLaunchInput;
     private IAPExposedAPI mImplementationHandler;
     private Context mContext;
     private IAPDependencies mIAPDependencies;
+    IAPSettings mIapSettings;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         mContext = uappSettings.getContext();
-        mIAPDependencies = (IAPDependencies)uappDependencies;
-        initTaggingLogging((IAPDependencies) uappDependencies);
+        mIAPDependencies = (IAPDependencies) uappDependencies;
+        mIapSettings = (IAPSettings) uappSettings;
+        initTaggingLogging(mIAPDependencies);
+        initIAP(mIapSettings);
     }
 
     private void initTaggingLogging(IAPDependencies iapDependencies) {
@@ -61,18 +67,18 @@ public class IAPLauncher implements UappInterface, IAPExposedAPI {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         mLaunchInput = (IAPLaunchInput) uappLaunchInput;
-        String lang = mLaunchInput.setLanguage("en");
-        String country = mLaunchInput.setCountry("US");
-
-        mImplementationHandler = getExposedAPIImplementor(mContext, mLaunchInput);
-        initHybrisDelegate(mContext, mLaunchInput, mIAPDependencies);
-        initControllerFactory(mLaunchInput);
-        setLangAndCountry(lang, country);
         if (isStoreInitialized()) {
             launchIAP(uiLauncher, mLaunchInput);
         } else {
-            initIAP(uiLauncher, mLaunchInput, ((IAPLaunchInput) uappLaunchInput).getIapHandlerListener());
+            initIAP(uiLauncher, mLaunchInput, ((IAPLaunchInput) uappLaunchInput).getIapListener());
         }
+    }
+
+    private void initIAP(IAPSettings iapSettings) {
+        mImplementationHandler = getExposedAPIImplementor(mContext, iapSettings);
+        initHybrisDelegate(mContext, iapSettings, mIAPDependencies);
+        initControllerFactory(iapSettings);
+        setLangAndCountry();
     }
 
     private void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
@@ -83,9 +89,9 @@ public class IAPLauncher implements UappInterface, IAPExposedAPI {
         }
     }
 
-    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput mLaunchInput, final IAPHandlerListener listener) {
+    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput mLaunchInput, final IAPListener listener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        delegate.getStore().initStoreConfig(mLaunchInput.getLanguage(), mLaunchInput.getCountry(), new RequestListener() {
+        delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 // checkLaunchOrBuy(screen, ctnNumber, listener);
@@ -170,20 +176,20 @@ public class IAPLauncher implements UappInterface, IAPExposedAPI {
                 + tag + ")");
     }
 
-    private IAPExposedAPI getExposedAPIImplementor(Context context, IAPLaunchInput iapLaunchInput) {
+    private IAPExposedAPI getExposedAPIImplementor(Context context, IAPSettings iapSettings) {
         IAPExposedAPI api = null;
-        if (iapLaunchInput.isUseLocalData()) {
-            api = new AppLocalHandler(context, iapLaunchInput);
+        if (iapSettings.isUseLocalData()) {
+            api = new AppLocalHandler(context, iapSettings);
         } else {
-            api = new HybrisHandler(context, iapLaunchInput);
+            api = new HybrisHandler(context, iapSettings);
         }
         return api;
     }
 
-    private void initHybrisDelegate(Context context, IAPLaunchInput iapConfig, IAPDependencies iapDependencies) {
-        int requestCode = getNetworkEssentialReqeustCode(iapConfig.isUseLocalData());
+    private void initHybrisDelegate(Context context, IAPSettings iapSettings, IAPDependencies iapDependencies) {
+        int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(requestCode);
-        HybrisDelegate.getDelegateWithNetworkEssentials(context, essentials,iapDependencies);
+        HybrisDelegate.getDelegateWithNetworkEssentials(context, essentials, iapDependencies);
     }
 
 
@@ -196,13 +202,22 @@ public class IAPLauncher implements UappInterface, IAPExposedAPI {
         return requestCode;
     }
 
-    private void initControllerFactory(IAPLaunchInput iapConfig) {
-        int requestCode = getNetworkEssentialReqeustCode(iapConfig.isUseLocalData());
+    private void initControllerFactory(IAPSettings iapSettings) {
+        int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
         ControllerFactory.getInstance().init(requestCode);
     }
 
-    private void setLangAndCountry(final String language, final String country) {
-        HybrisDelegate.getInstance().getStore().setLangAndCountry(language, country);
+    private void setLangAndCountry() {
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        String[] localeArray = new String[2];
+        String localeAsString = localeManager.getInputLocale();
+        localeArray = localeAsString.split("_");
+        Locale locale = new Locale(localeArray[0], localeArray[1]);
+        if (locale != null) {
+            CartModelContainer.getInstance().setLanguage(locale.getLanguage());
+            CartModelContainer.getInstance().setCountry(locale.getCountry());
+            HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
+        }
     }
 
     private boolean isStoreInitialized() {
@@ -217,8 +232,8 @@ public class IAPLauncher implements UappInterface, IAPExposedAPI {
     }
 
     @Override
-    public void getProductCartCount(IAPHandlerListener iapHandlerListener) {
-        mImplementationHandler.getProductCartCount(iapHandlerListener);
+    public void getProductCartCount(IAPListener iapListener) {
+        mImplementationHandler.getProductCartCount(iapListener);
     }
 
     @Override

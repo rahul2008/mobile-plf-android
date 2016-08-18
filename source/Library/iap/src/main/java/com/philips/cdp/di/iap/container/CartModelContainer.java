@@ -32,6 +32,8 @@ public class CartModelContainer {
 
     private boolean switchToBillingAddress;
     private boolean mIsCartCreated;
+    private String language;
+    private String country;
 
     private CartModelContainer() {
         mPRXDataObjects = new HashMap<>();
@@ -174,8 +176,8 @@ public class CartModelContainer {
         return mProductCatalogData.containsKey(ctn);
     }
 
-    public ProductCatalogData getProduct(String ctn){
-        if(mProductCatalogData.containsKey(ctn)){
+    public ProductCatalogData getProduct(String ctn) {
+        if (mProductCatalogData.containsKey(ctn)) {
             return mProductCatalogData.get(ctn);
         }
         return null;
@@ -196,4 +198,21 @@ public class CartModelContainer {
     public void setCartCreated(boolean mIsCartCreated) {
         this.mIsCartCreated = mIsCartCreated;
     }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
 }

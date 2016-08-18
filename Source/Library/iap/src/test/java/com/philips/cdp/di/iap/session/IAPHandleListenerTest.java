@@ -12,7 +12,7 @@ public class IAPHandleListenerTest {
 //Verify there are no api-break
     @Test
     public void validateInterfaceApis() throws NoSuchMethodException {
-        assertNotNull(IAPHandlerListener.class.getMethod("onSuccess", Integer.TYPE));
-        assertNotNull(IAPHandlerListener.class.getMethod("onFailure", Integer.TYPE));
+        assertNotNull(IAPListener.class.getMethod("onSuccess", Integer.TYPE));
+        assertNotNull(IAPListener.class.getMethod("onFailure", Integer.TYPE));
     }
 }

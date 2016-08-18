@@ -63,15 +63,6 @@ public class IAPConstant {
     public static final String ORDER_DETAIL = "ORDER_DETAIL";
     public static final String SET_DELIVERY_MODE = "DELIVERY_MODE";
     public static final String IAP_COUNTRY_KEY = "IAP_COUNTRY_KEY";
-
-//    public interface IAPLandingViews {
-//        int IAP_PRODUCT_CATALOG_VIEW = 0;
-//        int IAP_SHOPPING_CART_VIEW = 1;
-//        int IAP_PURCHASE_HISTORY_VIEW = 2;
-//        int IAP_PRODUCT_DETAIL_VIEW = 3;
-//        int IAP_BUY_DIRECT_VIEW = 4;
-//    }
-
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
     public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
     public static final String PRODUCT_CTNS = "PRODUCT_CTNS";

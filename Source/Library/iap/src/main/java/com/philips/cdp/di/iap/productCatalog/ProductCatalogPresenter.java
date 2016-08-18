@@ -20,7 +20,7 @@ import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -65,7 +65,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             }
         };
 
-        IAPHandlerListener countListner = new IAPHandlerListener() {
+        IAPListener countListner = new IAPListener() {
             @Override
             public void onSuccess(final int count) {
                 getProductCatalog(CURRENT_PAGE, count, listener);
@@ -97,7 +97,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     @Override
-    public void getCatalogCount(final IAPHandlerListener countListener) {
+    public void getCatalogCount(final IAPListener countListener) {
         final AbstractModel.DataLoadListener listener = this;
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CURRENT_PAGE, String.valueOf(CURRENT_PAGE));

@@ -102,7 +102,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
-       // setBackButtonVisibility(true);
         if (!isNetworkNotConnected()) {
             updateCartOnResume();
         }

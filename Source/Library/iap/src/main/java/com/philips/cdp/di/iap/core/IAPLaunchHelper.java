@@ -16,7 +16,7 @@
 //import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 //import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 //import com.philips.cdp.di.iap.activity.IAPActivity;
-//import com.philips.cdp.di.iap.session.IAPSettings;
+//import com.philips.cdp.di.iap.integration.IAPSettings;
 //import com.philips.cdp.di.iap.utils.IAPConstant;
 //import com.philips.cdp.di.iap.utils.IAPLog;
 //

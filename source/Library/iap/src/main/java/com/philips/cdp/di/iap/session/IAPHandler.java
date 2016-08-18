@@ -38,7 +38,7 @@
 //    }
 //
 ////    @Override
-////    public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
+////    public void launchIAP(int landingView, String ctnNumber, IAPListener listener) {
 ////        if(landingView == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW &&
 ////                (ctnNumber == null || ctnNumber.trim().equalsIgnoreCase("")) ){
 ////            throw new RuntimeException("Product Ctn passed is null");
@@ -47,7 +47,7 @@
 ////    }
 //
 //    @Override
-//    public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
+//    public void getProductCartCount(final IAPListener iapHandlerListener) {
 //        mImplementationHandler.getProductCartCount(iapHandlerListener);
 //    }
 //

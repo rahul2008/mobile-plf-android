@@ -8,12 +8,11 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPLauncher;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
-import com.philips.cdp.di.iap.session.IAPSettings;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 
-public class AppLocalHandler extends IAPLauncher implements IAPExposedAPI {
+public class AppLocalHandler implements IAPExposedAPI {
 
     private Context mContext;
     private int mThemeIndex;
@@ -22,14 +21,14 @@ public class AppLocalHandler extends IAPLauncher implements IAPExposedAPI {
 
     public AppLocalHandler(Context context, IAPSettings config) {
         mContext = context;
-        mThemeIndex = config.getThemeIndex();
         mIAPSettings = config;
     }
 
-    public AppLocalHandler(Context pContext, IAPLaunchInput pIapConfig) {
-        mContext = pContext;
-        mIAPConfig = pIapConfig;
-    }
+//    public AppLocalHandler(Context pContext, IAPLaunchInput pIapConfig) {
+//        mContext = pContext;
+//        mIAPConfig = pIapConfig;
+//    }
+
 
 //    @Override
 //    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput, UappListener uappListener) {
@@ -42,7 +41,7 @@ public class AppLocalHandler extends IAPLauncher implements IAPExposedAPI {
 //    }
 
 //      @Override
-//       public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
+//       public void launchIAP(final int landingView, final String ctnNumber, final IAPListener listener) {
 //        if (mIAPSettings.isLaunchAsFragment()) {
 //            //IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView, ctnNumber, null);
 //        } else {
@@ -54,12 +53,12 @@ public class AppLocalHandler extends IAPLauncher implements IAPExposedAPI {
     /**
      * App local store doesn't support cart feature. Always return success with 0 count.
      *
-     * @param iapHandlerListener
+     * @param iapListener
      */
     @Override
-    public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
-        if (iapHandlerListener != null) {
-            iapHandlerListener.onSuccess(0);
+    public void getProductCartCount(final IAPListener iapListener) {
+        if (iapListener != null) {
+            iapListener.onSuccess(0);
         }
     }
 

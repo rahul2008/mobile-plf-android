@@ -61,7 +61,6 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_retailer_title, true);
-        //setBackButtonVisibility(true);
         if (mStoreEntity != null) {
             mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
             mRecyclerView.setAdapter(mAdapter);

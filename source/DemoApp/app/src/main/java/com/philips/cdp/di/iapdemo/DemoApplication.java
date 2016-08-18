@@ -3,6 +3,7 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Application;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -12,7 +13,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
@@ -26,7 +26,7 @@ public class DemoApplication extends Application {
         initAppInfra();
         initializeUserRegistration();
         new IAPDependencies(AppInfraSingleton.getInstance());
-
+        new IAPSettings(this);
     }
 
     private void initializeUserRegistration() {

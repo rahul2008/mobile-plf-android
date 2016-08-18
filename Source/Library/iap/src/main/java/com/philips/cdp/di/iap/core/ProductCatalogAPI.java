@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.core;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 
 import java.util.ArrayList;
@@ -18,5 +18,5 @@ public interface ProductCatalogAPI {
 
     void getCompleteProductList(final Context mContext, final IAPHandlerProductListListener iapListener, final int currentPage, final int pageSize);
 
-    void getCatalogCount(IAPHandlerListener listener);
+    void getCatalogCount(IAPListener listener);
 }
