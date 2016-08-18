@@ -65,6 +65,10 @@
       <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\nunit.engine.api.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NUnit3.TestAdapter, Version=3.4.1.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\NUnit3.TestAdapter.dll</HintPath>
       <Private>True</Private>
@@ -93,6 +97,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BleApplianceSteps.cs" />
+    <Compile Include="F661.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>F661.feature</DependentUpon>
+    </Compile>
+    <Compile Include="F661ContinuousEndToEndTestSteps.cs" />
     <Compile Include="GlobalSteps.cs" />
     <Compile Include="IapReport.cs" />
     <Compile Include="MyPhilips.cs" />
@@ -167,6 +178,10 @@
     <None Include="Default.srprofile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </None>
+    <None Include="F661.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>F661.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -283,6 +298,10 @@
     <ProjectReference Include="..\..\02TestAuthoring API\IAP.iOS.TestPlugin\IAP.iOS.TestPlugin.csproj">
       <Project>{79380657-3624-4875-a074-0a780577d9f0}</Project>
       <Name>IAP.iOS.TestPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ST_Nucleo\ST_Nucleo.csproj">
+      <Project>{5afb3739-118d-482d-bc42-8c08c1004dd6}</Project>
+      <Name>ST_Nucleo</Name>
     </ProjectReference>
     <ProjectReference Include="..\IAP.iOS.TestPluginTests\IAP.iOS.TestPluginTests.csproj">
       <Project>{715edb4a-923f-47be-acb1-b7e6b9df8f09}</Project>

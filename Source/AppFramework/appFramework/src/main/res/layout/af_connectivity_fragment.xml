@@ -105,7 +105,8 @@
             android:text="Not Connected"
             android:id="@+id/connectionState"
             android:layout_above="@+id/get_momentumvalue_button"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:visibility="visible" />
 
     </RelativeLayout>
 </ScrollView>

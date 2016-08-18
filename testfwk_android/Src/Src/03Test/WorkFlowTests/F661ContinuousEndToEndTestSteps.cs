@@ -14,7 +14,7 @@ using System.Xml;
 using System.Reflection;
 using System.IO;
 using Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin;
-
+using NUnit.Framework;
 namespace Philips.CDP.Automation.IAP.Tests.Workflows
 {
 
@@ -36,11 +36,10 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 
         public void ThenIClickOnNucleousValue()
         {
-            //AppHomeScreen.Click(AppHomeScreen.Button.NucleousDevice);
-            //Thread.Sleep(5000);
-            Thread.Sleep(2000);
-            AppHomeScreen.EnterText(AppHomeScreen.EditText.Nucleus, "68");
-            Thread.Sleep(2000);
+            AppHomeScreen.Click(AppHomeScreen.Button.NucleousDevice);
+            Thread.Sleep(5000);
+            //AppHomeScreen.EnterText(AppHomeScreen.EditText.Nucleus, "68");
+            //Thread.Sleep(2000);
 
             string battery_nucleus = AppHomeScreen.GetText(AppHomeScreen.EditText.Nucleus).Trim();
             Logger.Info("Nucleous battery info: " + battery_nucleus);
@@ -74,7 +73,12 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 
         }
 
-
+        [Then(@"I verify the moment on screen shows '(.*)'")]
+        public void ThenIVerifyTheMomentOnScreenShows(int p0)
+        {
+            string battery_nucleus = AppHomeScreen.GetText(AppHomeScreen.EditText.Nucleus).Trim();
+            Assert.AreEqual(p0, Convert.ToInt32(battery_nucleus));
+        }
 
 
     }
