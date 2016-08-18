@@ -5,8 +5,6 @@
  */
 package com.philips.platform.appinfra.timesync;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +13,6 @@ import android.content.SharedPreferences;
 import android.net.SntpClient;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -49,7 +46,6 @@ public class TimeSyncSntpClient implements TimeInterface {
         init();
         refreshTime();
         registerReciever();
-        syncWithDayandDateSettingChange();
     }
 
     public TimeSyncSntpClient() {
@@ -150,14 +146,6 @@ public class TimeSyncSntpClient implements TimeInterface {
             }).start();
         }
     }
-//
-//    @Override
-//    public void onReceive(Context context, Intent intent) {
-//        if (AppInfraSingleton.getInstance() != null) {
-//            refreshTime();
-//        }
-//    }
-
 
     private void registerReciever() {
         DateTimeChangedReceiver receiver = new DateTimeChangedReceiver();
@@ -178,26 +166,6 @@ public class TimeSyncSntpClient implements TimeInterface {
                 }
             }).start();
         }
-    }
-
-    /**
-     * Method to synchronize time for every 24 hrs.
-     */
-    public void syncWithDayandDateSettingChange() {
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-
-        final Intent intent = new Intent(mAppInfra.getAppInfraContext(), DateTimeChangedReceiver.class);
-        final PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(mAppInfra.getAppInfraContext(),
-                        0, intent, 0);
-        final AlarmManager alarmManager =
-                (AlarmManager) mAppInfra.getAppInfraContext().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                cal.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
 }

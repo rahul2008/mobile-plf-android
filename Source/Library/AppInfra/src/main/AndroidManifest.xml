@@ -2,15 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.platform.appinfra">
 
-    <application android:allowBackup="true">
-        <!--<receiver android:name=".timesync.TimeSyncSntpClient">-->
-            <!--<intent-filter android:priority="100">-->
-                <!--<action android:name="android.intent.action.DATE_CHANGED" />-->
-                <!--<action android:name="android.intent.action.TIME_SET" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
-
-    </application>
+    <application android:allowBackup="true"></application>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
