@@ -35,7 +35,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         public void onLogoutSuccess() {
             uiBasePresenter = new SettingsFragmentPresenter();
             uiBasePresenter.onClick(logOutButton,getActivity());
-            ((HomeActivity)getContext()).initAdapter(0);
+            ((HomeActivity)getContext()).cartCountUpdate(0);
         }
 
         @Override

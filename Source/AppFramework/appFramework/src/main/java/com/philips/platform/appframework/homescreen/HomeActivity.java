@@ -79,11 +79,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
-        initAdapter(mCartItemCount);
+        renderHamburgerMenu();
     }
 
-    public void initAdapter(int  count) {
+    public void cartCountUpdate(int  count) {
         mCartItemCount = count;
+        hamburgerItems.get(2).setCount(mCartItemCount);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void renderHamburgerMenu() {
         hamburgerUtil = null;
         drawerListView = null;
         loadSlideMenuItems();
@@ -185,8 +190,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     }
 
     private void loadSlideMenuItems() {
-        hamburgerMenuTitles = null;
-        hamburgerItems = null;
         hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
         hamburgerItems = new ArrayList<>();
     }
@@ -355,7 +358,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             mHandler.removeMessages(0);
             for (int i = 0; i < hamburgerMenuTitles.length; i++) {
                 if (i == CART_POSITION_IN_MENU) {
-                    initAdapter(mCartItemCount);
+                    cartCountUpdate(mCartItemCount);
                 }
             }
         }
