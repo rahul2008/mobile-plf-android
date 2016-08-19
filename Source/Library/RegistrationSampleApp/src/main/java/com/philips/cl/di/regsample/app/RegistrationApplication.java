@@ -10,6 +10,7 @@ import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -42,23 +43,15 @@ public class RegistrationApplication extends Application {
         super.onCreate();
         mRegistrationHelper = this;
 
-
-
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
         RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-        AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
+
        /* RLog.init(this);
         RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
         RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
         RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());*/
 
-
        // RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-
-
-
-
-
      //  RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 
 
@@ -99,17 +92,11 @@ public class RegistrationApplication extends Application {
             e.printStackTrace();
         }*/
 
-
-
-
-
         //Store current environment
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
-
-
 
         //Configure JanRain
         RegistrationClientId registrationClientId = new RegistrationClientId();
@@ -129,7 +116,6 @@ public class RegistrationApplication extends Application {
         mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(configuration.getValue());
       /*  RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
         RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(configuration.getValue());*/
-
 
         //Configure Flow
         mRegistrationBaseConfiguration.getFlow().setEmailVerificationRequired(true);
@@ -169,9 +155,6 @@ public class RegistrationApplication extends Application {
 
         mRegistrationBaseConfiguration.getSignInProviders().setProviders(providers);
        // RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
-
-
-
         //Configure HSDP
         //initHSDP(configuration);
 

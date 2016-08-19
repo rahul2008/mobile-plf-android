@@ -7,6 +7,7 @@ import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
@@ -77,6 +78,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         AppInfraInterface appInfra = AppInfraSingleton.getInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
+        AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
+        RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
