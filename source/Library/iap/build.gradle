@@ -154,8 +154,8 @@ dependencies {
 
     //Coco
     compile 'com.philips.cdp:uikitLib:3.2.3'
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.3', ext: 'aar')
-    compile('com.philips.cdp:registrationApi:7.0.0-rc.3') {
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.5', ext: 'aar')
+    compile('com.philips.cdp:registrationApi:7.1.0-rc.2') {
         exclude group: 'com.android.support'
         transitive = true
     }

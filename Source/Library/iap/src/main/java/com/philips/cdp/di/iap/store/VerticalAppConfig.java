@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.platform.appinfra.config.ConfigInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 /**
  * This class will read the inapp configuration file to get hostport and propostion
@@ -21,10 +21,15 @@ public class VerticalAppConfig {
     }
 
     void loadConfigurationFromAsset(IAPDependencies iapDependencies) {
-        ConfigInterface mConfigInterface = iapDependencies.getAppInfra().getConfigInterface();
-        ConfigInterface.ConfigError configError = new ConfigInterface.ConfigError();
-        mHostPort = (String) mConfigInterface.getPropertyForKey("IAP", "hostport", configError);
-        mProposition = (String) mConfigInterface.getPropertyForKey("IAP", "propositionid", configError);
+        AppConfigurationInterface mConfigInterface = iapDependencies.getAppInfra().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        try {
+            mHostPort = (String) mConfigInterface.getPropertyForKey("IAP", "hostport", configError);
+            mProposition = (String) mConfigInterface.getPropertyForKey("IAP", "propositionid", configError);
+        } catch (AppConfigurationInterface.InvalidArgumentException e) {
+            e.printStackTrace();
+        }
+
         if (configError.getErrorCode() != null) {
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
