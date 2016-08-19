@@ -22,7 +22,7 @@ public class StoreConfiguration  {
 
     public StoreConfiguration(Context context, HybrisStore store, IAPDependencies iapDependencies) {
         mStore = store;
-        mVerticalAppConfig = getVerticalAppConfig(context, iapDependencies);
+        mVerticalAppConfig = getVerticalAppConfig(iapDependencies);
         mWebStoreConfig = getWebStoreConfig(context);
     }
 
@@ -42,8 +42,8 @@ public class StoreConfiguration  {
         return mVerticalAppConfig.getProposition();
     }
 
-    VerticalAppConfig getVerticalAppConfig(final Context context, final IAPDependencies iapDependencies) {
-        return new VerticalAppConfig(context,iapDependencies);
+    VerticalAppConfig getVerticalAppConfig(final IAPDependencies iapDependencies) {
+        return new VerticalAppConfig(iapDependencies);
     }
 
     WebStoreConfig getWebStoreConfig(final Context context) {

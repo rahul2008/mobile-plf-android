@@ -42,7 +42,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import java.util.ArrayList;
 
 public class OrderSummaryFragment extends BaseAnimationSupportFragment implements
-        View.OnClickListener, TwoButtonDailogFragment.TwoButtonDialogListener,
+        View.OnClickListener, TwoButtonDialogFragment.TwoButtonDialogListener,
         PaymentController.MakePaymentListener, AddressController.AddressListener {
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;
@@ -53,7 +53,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private String orderID;
     private Context mContext;
     public static final String TAG = OrderSummaryFragment.class.getName();
-    private TwoButtonDailogFragment mDailogFragment;
+    private TwoButtonDialogFragment mDailogFragment;
     Bundle bundle;
 
     @Override
@@ -62,14 +62,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_order_summary, true);
         if (isOrderPlaced()) {
-            //setBackButtonVisibility(false);
             setTitleAndBackButtonVisibility(R.string.iap_order_summary, false);
         }
-
-//        if (isOrderPlaced()) {
-//            IAPConstant.BACKBUTTON_VISIBILITY_GONE = true;
-//        }
-//        updateActionBar(R.string.iap_order_summary, IAPConstant.BACKBUTTON_VISIBILITY_GONE);
     }
 
     @Override
@@ -270,7 +264,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.cancelPaymentMsg));
         if (mDailogFragment == null) {
-            mDailogFragment = new TwoButtonDailogFragment();
+            mDailogFragment = new TwoButtonDialogFragment();
             mDailogFragment.setArguments(bundle);
             mDailogFragment.setOnDialogClickListener(this);
             mDailogFragment.setShowsDialog(false);
