@@ -63,7 +63,7 @@ public class SHNPersistentStorage {
                 editor.remove(oldKey);
             }
         }
-        editor.commit();
+        editor.apply();
     }
 
     @Deprecated

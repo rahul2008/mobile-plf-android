@@ -46,7 +46,7 @@ public class PersistentStorage implements SharedPreferences {
             edit.remove(key + ENUM_NAME);
             edit.remove(key + DOUBLE_VALUE);
             removeList(key, edit);
-            edit.commit();
+            edit.apply();
         } else {
             put(key, edit, value);
         }
@@ -101,10 +101,10 @@ public class PersistentStorage implements SharedPreferences {
      * with the key or the value stored is of a different type than {@link T}, then the provided
      * {@code defaultValue} will be returned.
      *
-     * @param key           used for storage
-     * @param defaultValue  returned in case the key is not found
-     * @param <T>           type of the return value
-     * @return              when the type matches and a value was stored the value previously stored else the {@code defaultValue}.
+     * @param key          used for storage
+     * @param defaultValue returned in case the key is not found
+     * @param <T>          type of the return value
+     * @return when the type matches and a value was stored the value previously stored else the {@code defaultValue}.
      */
     public <T> T get(@NonNull final String key, @Nullable T defaultValue) {
         T value = get(key);
@@ -115,9 +115,9 @@ public class PersistentStorage implements SharedPreferences {
      * Retrieves a value from SharedPreferences for the specified key. When there is no value associated
      * with the key or the value stored is of a different type than {@link T}, then {@code null} will be returned.
      *
-     * @param key   used for storage
-     * @param <T>   type of the return value
-     * @return      when the type matches and a value was stored the value previously stored else {@code null}.
+     * @param key used for storage
+     * @param <T> type of the return value
+     * @return when the type matches and a value was stored the value previously stored else {@code null}.
      */
     public <T> T get(@NonNull final String key) {
         Object value = getAll().get(key);
@@ -217,7 +217,7 @@ public class PersistentStorage implements SharedPreferences {
      * Clear this storage.
      */
     public void clear() {
-        sharedPreferences.edit().clear().commit();
+        sharedPreferences.edit().clear().apply();
     }
 
     /**
