@@ -1,9 +1,9 @@
 package com.philips.pins.shinelib.wrappers;
 
-import com.philips.pins.shinelib.SHNDataRawResultListener;
+import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
-import com.philips.pins.shinelib.capabilities.CapabilityGenericCharacteristic;
+import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 import java.util.UUID;
 import org.junit.Before;
@@ -18,33 +18,33 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CapabilityGenericCharacteristicWrapperTest extends SHNCapabilityWrapperTestBase {
+public class CapabilityBluetoothDirectWrapperTest extends SHNCapabilityWrapperTestBase {
 
     public static final SHNResult EXPECTED_RESULT = SHNResult.SHNOk;
     public static final byte[] READ_RAW = new byte[] { 0x42 };
     public static final SHNDataRaw READ_VALUE = new SHNDataRaw(READ_RAW);
 
-    @Mock private CapabilityGenericCharacteristic capabilityMock;
+    @Mock private CapabilityBluetoothDirect capabilityMock;
 
-    @Mock private SHNDataRawResultListener rawResultListener;
+    @Mock private ResultListener<SHNDataRaw> rawResultListener;
     @Mock private SHNResultListener resultListener;
 
-    @Mock private CapabilityGenericCharacteristic.CharacteristicChangedListener shnCharacteristicChangedListenerMock;
+    @Mock private CapabilityBluetoothDirect.CharacteristicChangedListener shnCharacteristicChangedListenerMock;
 
-    @Captor ArgumentCaptor<SHNDataRawResultListener> rawResultListenerArgumentCaptor;
+    @Captor ArgumentCaptor<ResultListener<SHNDataRaw>> rawResultListenerArgumentCaptor;
 
     @Captor ArgumentCaptor<SHNResultListener> resultListenerArgumentCaptor;
 
     @Captor ArgumentCaptor<Boolean> booleanArgumentCaptor;
 
-    @Captor ArgumentCaptor<CapabilityGenericCharacteristic.CharacteristicChangedListener> shnCapabilityGenericListenerArgumentCaptor;
+    @Captor ArgumentCaptor<CapabilityBluetoothDirect.CharacteristicChangedListener> shnCapabilityGenericListenerArgumentCaptor;
 
-    private CapabilityGenericCharacteristicWrapper capabilityWrapper;
+    private CapabilityBluetoothDirectWrapper capabilityWrapper;
 
     @Before
     public void setUp() {
         initMocks(this);
-        capabilityWrapper = new CapabilityGenericCharacteristicWrapper(capabilityMock, internalHandlerMock, userHandlerMock);
+        capabilityWrapper = new CapabilityBluetoothDirectWrapper(capabilityMock, internalHandlerMock, userHandlerMock);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class CapabilityGenericCharacteristicWrapperTest extends SHNCapabilityWra
     public void shouldReceiveCorrectResultOnUserThread_whenResultReturnOnInternalThread() {
         shouldReceiveCallReadCharacteristicOnInternalThread_whenReadCharacteristicIsCalledOnWrapper();
 
-        SHNDataRawResultListener internalResultListener = rawResultListenerArgumentCaptor.getValue();
+        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerArgumentCaptor.getValue();
 
         internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
@@ -92,10 +92,10 @@ public class CapabilityGenericCharacteristicWrapperTest extends SHNCapabilityWra
     @Test
     public void shouldReceiveCallSetNotifyOnInternalThread_whenSetNotifyIsCalledOnWrapper() {
         final UUID uuid = UUID.randomUUID();
-        capabilityWrapper.setNotify(resultListener, uuid, true);
+        capabilityWrapper.setNotifyOnCharacteristicChange(resultListener, uuid, true);
         captureInternalHandlerRunnable().run();
 
-        verify(capabilityMock).setNotify(resultListenerArgumentCaptor.capture(), eq(uuid), eq(true));
+        verify(capabilityMock).setNotifyOnCharacteristicChange(resultListenerArgumentCaptor.capture(), eq(uuid), eq(true));
     }
 
     @Test

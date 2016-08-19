@@ -5,7 +5,7 @@
 
 package com.philips.pins.shinelib;
 
-import com.philips.pins.shinelib.capabilities.CapabilityGenericCharacteristic;
+import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
 /**
@@ -190,11 +190,11 @@ public enum SHNCapabilityType {
     DATA_MODEL_DEBUG,
 
     /**
-     * Generic plugin for reading, writing data and notifications
+     * Plugin for direct reading, writing data and notifications of bluetooth characteristics
      *
-     * @see CapabilityGenericCharacteristic
+     * @see CapabilityBluetoothDirect
      */
-    GENERIC;
+    BLUETOOTH_DIRECT;
 
     /**
      * Provides support for backwards compatibility,
@@ -259,7 +259,7 @@ public enum SHNCapabilityType {
             case CONFIG_HEARTRATE_ZONES:
             case CONFIG_ENERGY_INTAKE:
             case CLEAR_USER_DATA:
-            case GENERIC:
+            case BLUETOOTH_DIRECT:
             default:
                 break;
         }

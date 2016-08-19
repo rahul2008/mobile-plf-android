@@ -8,37 +8,35 @@ package com.philips.pins.shinelib.wrappers;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.philips.pins.shinelib.SHNDataRawResultListener;
+import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
-import com.philips.pins.shinelib.capabilities.CapabilityGenericCharacteristic;
+import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 import java.util.UUID;
 
-public class CapabilityGenericCharacteristicWrapper
-        implements CapabilityGenericCharacteristic, CapabilityGenericCharacteristic.CharacteristicChangedListener {
+public class CapabilityBluetoothDirectWrapper
+        implements CapabilityBluetoothDirect, CapabilityBluetoothDirect.CharacteristicChangedListener {
 
-    private static final String TAG = CapabilityGenericCharacteristicWrapper.class.getSimpleName();
-
-    @NonNull private final CapabilityGenericCharacteristic wrappedShnCapability;
+    @NonNull private final CapabilityBluetoothDirect wrappedShnCapability;
     @NonNull private final Handler userHandler;
     @NonNull private final Handler internalHandler;
     @Nullable private CharacteristicChangedListener characteristicChangedListener;
 
-    public CapabilityGenericCharacteristicWrapper(@NonNull CapabilityGenericCharacteristic shnCapability,
+    public CapabilityBluetoothDirectWrapper(@NonNull CapabilityBluetoothDirect shnCapability,
             @NonNull Handler internalHandler, @NonNull Handler userHandler) {
-        wrappedShnCapability = shnCapability;
+        this.wrappedShnCapability = shnCapability;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;
-        wrappedShnCapability.setCharacteristicChangedListener(this);
+        this.wrappedShnCapability.setCharacteristicChangedListener(this);
     }
 
     @Override
-    public void readCharacteristic(@NonNull final SHNDataRawResultListener listener, @NonNull final UUID uuid) {
+    public void readCharacteristic(@NonNull final ResultListener<SHNDataRaw> listener, @NonNull final UUID uuid) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.readCharacteristic(new SHNDataRawResultListener() {
+                wrappedShnCapability.readCharacteristic(new ResultListener<SHNDataRaw>() {
 
                     @Override
                     public void onActionCompleted(final SHNDataRaw value, @NonNull final SHNResult result) {
@@ -81,12 +79,12 @@ public class CapabilityGenericCharacteristicWrapper
     }
 
     @Override
-    public void onCharacteristicChanged(@NonNull final UUID aChar, final byte[] data, final int status) {
+    public void onCharacteristicChanged(@NonNull final UUID characteristic, final byte[] data, final int status) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (characteristicChangedListener != null) {
-                    characteristicChangedListener.onCharacteristicChanged(aChar, data, status);
+                    characteristicChangedListener.onCharacteristicChanged(characteristic, data, status);
                 }
             }
         };
@@ -94,11 +92,11 @@ public class CapabilityGenericCharacteristicWrapper
     }
 
     @Override
-    public void setNotify(@NonNull final SHNResultListener listener, @NonNull final UUID uuid, final boolean notify) {
+    public void setNotifyOnCharacteristicChange(@NonNull final SHNResultListener listener, @NonNull final UUID uuid, final boolean notify) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setNotify(new SHNResultListener() {
+                wrappedShnCapability.setNotifyOnCharacteristicChange(new SHNResultListener() {
 
                     @Override
                     public void onActionCompleted(@NonNull final SHNResult result) {
