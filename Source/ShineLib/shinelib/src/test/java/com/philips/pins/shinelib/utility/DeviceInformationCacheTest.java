@@ -32,7 +32,6 @@ public class DeviceInformationCacheTest {
     public void setUp() throws ParseException {
         initMocks(this);
 
-
         deviceInformationCache = new DeviceInformationCache(persistentStorageMock);
     }
 
@@ -69,7 +68,7 @@ public class DeviceInformationCacheTest {
                 boolean res = false;
 
                 if (argument instanceof Long) {
-                    long millis = ((Long) argument).longValue();
+                    long millis = (Long) argument;
                     min = TEST_DATE.getTime();
                     max = new Date().getTime();
 
