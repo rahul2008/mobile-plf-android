@@ -24,8 +24,8 @@ public class VerticalAppConfig {
         AppConfigurationInterface mConfigInterface = iapDependencies.getAppInfra().getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         try {
-            mHostPort = (String) mConfigInterface.getPropertyForKey("IAP", "hostport", configError);
-            mProposition = (String) mConfigInterface.getPropertyForKey("IAP", "propositionid", configError);
+            mHostPort = (String) mConfigInterface.getPropertyForKey("hostport", "IAP", configError);
+            mProposition = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
         } catch (AppConfigurationInterface.InvalidArgumentException e) {
             e.printStackTrace();
         }
