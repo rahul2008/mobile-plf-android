@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,7 +45,7 @@ public class SHNServiceCurrentTimeTest {
 
     @Before
     public void setUp() {
-        simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss:SSS");
+        simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss:SSS", Locale.US);
         mockedSHNFactory = mock(SHNFactory.class);
         mockedSHNService = mock(SHNService.class);
         mockedSHNObjectResultListener = mock(SHNObjectResultListener.class);

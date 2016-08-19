@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,7 +30,7 @@ public class SHNTemperatureMeasurementTest {
 
     @Before
     public void setUp() {
-        simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss", Locale.US);
     }
 
     @Test

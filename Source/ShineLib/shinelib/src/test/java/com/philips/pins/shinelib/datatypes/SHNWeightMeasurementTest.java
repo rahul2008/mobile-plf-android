@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib.datatypes;
 
-
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
 import org.junit.Test;
@@ -11,6 +10,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -65,7 +65,7 @@ public class SHNWeightMeasurementTest {
     @Test
     public void whenTheScaleMeasurementHasTimeStampThanFlagIsTrue() {
         byte[] data = new byte[]{IMPERIAL_SUPPORTED | TIMESTAMP_SUPPORTED, 0, 0,
-                (byte)0xDF, (byte)0x07, // year 2015 = 0x07DF
+                (byte) 0xDF, (byte) 0x07, // year 2015 = 0x07DF
                 7,                      // month july
                 1,                      // day 1st
                 9,                      // hour 9
@@ -117,7 +117,7 @@ public class SHNWeightMeasurementTest {
     @Test
     public void whenTheScaleMeasurementHasAllPropertiesThanAllFlagsAreTrue() {
         byte[] data = new byte[]{IMPERIAL_SUPPORTED | TIMESTAMP_SUPPORTED | USER_ID_SUPPORTED | BMI_AND_HEIGHT_SUPPORTED, 0, 0,
-                (byte)0xDF, (byte)0x07, // year 2015 = 0x07DF
+                (byte) 0xDF, (byte) 0x07, // year 2015 = 0x07DF
                 7,
                 1,
                 9,
@@ -182,7 +182,7 @@ public class SHNWeightMeasurementTest {
 
     @Test
     public void whenTheScaleMeasurementHasSpecialValueThanMessageIsLogged() {
-        byte[] data = new byte[]{0, (byte)0xFF, (byte)0xFF};
+        byte[] data = new byte[]{0, (byte) 0xFF, (byte) 0xFF};
         getShnWeightMeasurement(data);
 
         PowerMockito.verifyStatic();
@@ -192,7 +192,7 @@ public class SHNWeightMeasurementTest {
     public void whenTheScaleMeasurementHasTimeStampThenItIsParsedProperly() {
         byte[] data = new byte[]{
                 IMPERIAL_SUPPORTED | TIMESTAMP_SUPPORTED, 0x04, 0x07,
-                (byte)0xDF, (byte)0x07, // year 2015 = 0x07DF
+                (byte) 0xDF, (byte) 0x07, // year 2015 = 0x07DF
                 7,                      // month july
                 1,                      // day 1st
                 9,                      // hour 9
@@ -205,7 +205,7 @@ public class SHNWeightMeasurementTest {
         SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
 
         assertTrue(shnWeightMeasurement.getFlags().hasTimestamp());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss", Locale.US);
         assertEquals("2015-07-01 09:30:11", simpleDateFormat.format(shnWeightMeasurement.getTimestamp()));
     }
 
@@ -227,7 +227,7 @@ public class SHNWeightMeasurementTest {
     @Test
     public void whenTheScaleMeasurementHasUserIdIs255ThenUserIsUnknown() {
         byte[] data = new byte[]{
-                IMPERIAL_SUPPORTED | USER_ID_SUPPORTED, 0x04, 0x07, (byte)255
+                IMPERIAL_SUPPORTED | USER_ID_SUPPORTED, 0x04, 0x07, (byte) 255
         };
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -240,7 +240,7 @@ public class SHNWeightMeasurementTest {
     @Test
     public void whenTheScaleMeasurementHasBMIThenItIsParsedProperly() {
         byte[] data = new byte[]{
-                IMPERIAL_SUPPORTED | BMI_AND_HEIGHT_SUPPORTED, 0x04, 0x07, 
+                IMPERIAL_SUPPORTED | BMI_AND_HEIGHT_SUPPORTED, 0x04, 0x07,
                 0x20, 0x06, //1568
                 0x19, 0x05,
         };
