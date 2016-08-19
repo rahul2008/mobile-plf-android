@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFlowDownloadStatusListener {
 
-	private ResendVerificationEmailHandler mResendVerificationEmail;
+	public ResendVerificationEmailHandler mResendVerificationEmail;
 	private Context mContext;
 	private String mEmailAddress;
 	public ResendVerificationEmail(final Context context, final ResendVerificationEmailHandler resendVerificationEmail) {

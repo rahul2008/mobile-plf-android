@@ -1,8 +1,7 @@
-package com.philips.cdp.registration.ui.utils.test;
+package com.philips.cdp.registration.events;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
-import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 
@@ -11,15 +10,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.junit.Assert.*;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
- * Created by 310243576 on 8/17/2016.
+ * Created by 310243576 on 8/18/2016.
  */
-public class FontLoaderTest extends InstrumentationTestCase {
-
+public class EventHelperTest extends InstrumentationTestCase{
     @Mock
-    FontLoader fontLoader;
+    EventHelper mEventHelper;
 
     @Mock
     Context context;
@@ -31,25 +28,15 @@ public class FontLoaderTest extends InstrumentationTestCase {
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
 
-        assertNotNull(fontLoader.getInstance());
+        assertNotNull(mEventHelper.getInstance());
 
-        fontLoader = fontLoader.getInstance();
+        mEventHelper = mEventHelper.getInstance();
         context = getInstrumentation().getTargetContext();
 
     }
-
     @Test
     public void testGetInstance() throws Exception {
-        assertNotNull(fontLoader);
-        fontLoader.getInstance();
-    }
-
-    @Test
-    public void testSetTypeface() throws Exception {
-
-        TextView tv = new TextView(context);
-        fontLoader.setTypeface(tv,"PUIIcon.ttf");
-        fontLoader.setTypeface(tv,null);
-
+        assertNotNull(mEventHelper);
+        mEventHelper.getInstance();
     }
 }

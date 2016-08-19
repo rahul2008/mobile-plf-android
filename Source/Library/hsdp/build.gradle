@@ -106,4 +106,7 @@ dependencies {
        androidTestCompile project(':mockito-all-1.10.19')*/
 
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 }
