@@ -18,6 +18,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -519,7 +520,7 @@ public class SHNDeviceAssociation {
     }
 
     private void internalInjectAssociatedDevice(@NonNull String deviceMACAddress, @NonNull String deviceTypeName, @NonNull SHNResultListener shnResultListener) {
-        deviceMACAddress = deviceMACAddress.toUpperCase();
+        deviceMACAddress = deviceMACAddress.toUpperCase(Locale.US);
         if (!isAValidMACAddress(deviceMACAddress)) {
             SHNLogger.e(TAG, "Failed injecting associated device (MAC address: " + deviceMACAddress + " deviceType: " + deviceTypeName + "); invalid MAC address");
             shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidParameter);
