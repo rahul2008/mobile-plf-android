@@ -80,7 +80,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            assert (internalState == InternalState.ConnectedWaitingUntilBonded);
+            if (BuildConfig.DEBUG && internalState == InternalState.ConnectedWaitingUntilBonded)
+                throw new AssertionError();
             setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedDiscoveringServices);
             btGatt.discoverServices();
         }
@@ -217,7 +218,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             case ConnectedReady:
                 return State.Connected;
             default:
-                assert (false);
+                if (BuildConfig.DEBUG) throw new AssertionError();
                 break;
         }
         return null;
@@ -291,7 +292,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void disconnect() {
-        switch(internalState) {
+        switch (internalState) {
             case Connecting:
                 SHNLogger.i(TAG, "postpone disconnect until connected");
                 setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
@@ -309,7 +310,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
                 break;
             default:
-                assert(false);
+                if (BuildConfig.DEBUG) throw new AssertionError();
         }
     }
 

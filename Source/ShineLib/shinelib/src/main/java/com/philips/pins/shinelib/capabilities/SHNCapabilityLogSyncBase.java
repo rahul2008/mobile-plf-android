@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.capabilities;
 
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -130,7 +131,8 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     private void finishLoggingResult(SHNResult result) {
-        assert (state == State.Synchronizing);
+        if (BuildConfig.DEBUG && state == State.Synchronizing) throw new AssertionError();
+
         teardownReceivingMeasurements();
         notifyListenerWithProgress(1.0f);
 
@@ -181,7 +183,6 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         if (shnCapabilityLogSynchronizationListener != null)
             shnCapabilityLogSynchronizationListener.onProgressUpdate(this, progress);
     }
-
 
     private void notifyListenerWithLogItem(final SHNLogItem logItem) {
         if (shnCapabilityLogSynchronizationListener != null) {

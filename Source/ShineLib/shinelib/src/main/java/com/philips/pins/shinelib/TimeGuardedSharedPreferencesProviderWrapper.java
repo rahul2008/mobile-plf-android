@@ -28,7 +28,7 @@ class TimeGuardedSharedPreferencesProviderWrapper implements SharedPreferencesPr
 
         if (dif > DELAY_MILLIS) {
             SHNLogger.wtf(TAG, "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms! Execution time is " + dif);
-            assert (false);
+            if (BuildConfig.DEBUG) throw new AssertionError();
         }
 
         return new TimeGuardedSharedPreferencesWrapper(sharedPreferences, internalThreadID);
