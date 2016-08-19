@@ -30,7 +30,7 @@ public class SHNDeviceWrapper implements SHNDevice {
     SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
-            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice == shnDevice)
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
                 throw new AssertionError();
             synchronized (shnDeviceListeners) {
                 for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
@@ -48,7 +48,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
         @Override
         public void onFailedToConnect(SHNDevice shnDevice, final SHNResult result) {
-            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice == shnDevice)
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
                 throw new AssertionError();
             synchronized (shnDeviceListeners) {
                 for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {

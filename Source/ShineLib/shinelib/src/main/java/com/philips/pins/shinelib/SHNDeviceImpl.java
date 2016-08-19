@@ -80,7 +80,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            if (BuildConfig.DEBUG && internalState == InternalState.ConnectedWaitingUntilBonded)
+            if (BuildConfig.DEBUG && internalState != InternalState.ConnectedWaitingUntilBonded)
                 throw new AssertionError();
             setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedDiscoveringServices);
             btGatt.discoverServices();
