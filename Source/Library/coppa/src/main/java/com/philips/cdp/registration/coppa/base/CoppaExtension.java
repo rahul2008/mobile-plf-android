@@ -31,6 +31,8 @@ public class CoppaExtension {
         mContext = context;
     }
 
+
+
     /**
      * {@code coppaStatus} get coppa email consent status
      *

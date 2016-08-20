@@ -6,7 +6,7 @@
  * /
  */
 
-package com.philips.cdp.registration.coppa.test;
+package com.philips.cdp.registration.coppa.base;
 
 import android.test.ActivityInstrumentationTestCase2;
 
