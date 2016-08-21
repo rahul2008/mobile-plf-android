@@ -171,14 +171,14 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
 //        }
 //    }
 
-    @Override
-    public void buyDirect(String ctn) {
-        if (isStoreInitialized()) {
-            // checkLaunchOrBuy(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
-        } else {
-            //initIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
-        }
-    }
+//    @Override
+//    public void buyDirect(String ctn) {
+//        if (isStoreInitialized()) {
+//            // checkLaunchOrBuy(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
+//        } else {
+//            //initIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, ctn, null);
+//        }
+//    }
 
 
     private boolean isStoreInitialized() {

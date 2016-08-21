@@ -41,22 +41,21 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-public class IAPActivity extends UiKitActivity implements ActionBarListener{
+public class IAPActivity extends UiKitActivity implements ActionBarListener {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private TextView mTitleTextView;
     private TextView mCountText;
     private ImageView mBackImage;
     private ImageView mCartIcon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
         addActionBar();
         setContentView(R.layout.iap_activity);
-
         addLandingViews(savedInstanceState);
     }
 
@@ -200,9 +199,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener{
         Utility.hideKeypad(this);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-//        boolean dispatchBackHandled = dispatchBackToFragments();
-//        if (!dispatchBackHandled)
-//            super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.fl_mainFragmentContainer);
         boolean backState = false;
@@ -220,20 +216,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener{
         CartModelContainer.getInstance().resetApplicationFields();
     }
 
-    public boolean dispatchBackToFragments() {
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called = " + fragments);
-        boolean isBackHandled = false;
-        for (Fragment fragment : fragments) {
-            if (fragment != null && fragment.isVisible() && (fragment instanceof IAPBackButtonListener)) {
-
-                isBackHandled = ((IAPBackButtonListener) fragment).onBackPressed();
-                IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called");
-            }
-        }
-        return isBackHandled;
-    }
-
     @Override
     protected void onPause() {
         IAPAnalytics.pauseCollectingLifecycleData();
@@ -248,11 +230,11 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener{
 
     @Override
     public void updateActionBar(int resourceId, boolean visibility) {
-        if(visibility){
+        if (visibility) {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.VISIBLE);
             mCartIcon.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.INVISIBLE);
             mCartIcon.setVisibility(View.INVISIBLE);
@@ -261,11 +243,11 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener{
 
     @Override
     public void updateActionBar(String resourceString, boolean visibility) {
-        if(visibility){
+        if (visibility) {
             mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.VISIBLE);
             mCartIcon.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.INVISIBLE);
             mCartIcon.setVisibility(View.INVISIBLE);

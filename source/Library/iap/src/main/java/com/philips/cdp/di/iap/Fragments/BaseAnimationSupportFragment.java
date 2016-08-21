@@ -143,6 +143,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
 //    }
 
 
+
     protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
         // mFragmentLayout.setHeaderTitle(resourceId);
         mTitle = getString(resourceId);
@@ -201,13 +202,13 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
     }
 
     public void setCartIconVisibility(final boolean visibility) {
-        if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
-            //  mFragmentLayout.setCartIconVisibility(View.GONE);
-            mActionbarUpdateListener.updateActionBar(mTitle, false);
-        } else {
-            //  mFragmentLayout.setCartIconVisibility(visibility);
-            mActionbarUpdateListener.updateActionBar(mTitle, visibility);
-        }
+//        if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
+//            //  mFragmentLayout.setCartIconVisibility(View.GONE);
+//            mActionbarUpdateListener.updateActionBar(mTitle, false);
+//        } else {
+//            //  mFragmentLayout.setCartIconVisibility(visibility);
+//            mActionbarUpdateListener.updateActionBar(mTitle, visibility);
+//        }
     }
 
     public void moveToDemoAppByClearingStack() {

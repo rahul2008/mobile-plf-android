@@ -81,8 +81,8 @@ public class AppLocalHandler implements IAPExposedAPI {
 //        //NOP
 //    }
 
-    @Override
-    public void buyDirect(String ctn) {
-        //NOP
-    }
+//    @Override
+//    public void buyDirect(String ctn) {
+//        //NOP
+//    }
 }

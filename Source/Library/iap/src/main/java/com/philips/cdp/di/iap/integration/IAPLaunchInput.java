@@ -6,14 +6,10 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
 
-/**
- * Created by Apple on 10/08/16.
- */
 public class IAPLaunchInput extends UappLaunchInput {
     int mLandingViews;
     public ArrayList<String> mProductCTNs;
     private IAPListener iapListener;
-    private String country, language;
 
     public void setIAPFlow(int pLandingViews, ArrayList<String> pProductCTNs) {
         mLandingViews = pLandingViews;

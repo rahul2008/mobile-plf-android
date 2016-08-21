@@ -45,10 +45,4 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
         mImplementationHandler.getCompleteProductList(iapHandlerListener);
     }
-
-    @Override
-    public void buyDirect(String ctn) {
-        mImplementationHandler.buyDirect(ctn);
-    }
-
 }

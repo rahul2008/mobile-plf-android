@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
+
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
@@ -40,11 +42,9 @@ import java.util.Locale;
 public class IAPHandler {
     private Context mContext;
     private IAPDependencies mIAPDependencies;
-    IAPSettings mIapSettings;
 
-    public IAPHandler(IAPDependencies mIAPDependencies, IAPSettings mIapSettings) {
+    IAPHandler(IAPDependencies mIAPDependencies, IAPSettings mIapSettings) {
         this.mIAPDependencies = mIAPDependencies;
-        this.mIapSettings = mIapSettings;
         mContext = mIapSettings.getContext();
     }
 
@@ -97,9 +97,9 @@ public class IAPHandler {
         });
     }
 
-    protected void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
+    private void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
         BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingViews, iapLaunchInput.mProductCTNs);
-       // addFragment(target, uiLauncher);
+        addFragment(target, uiLauncher);
     }
 
     private BaseAnimationSupportFragment getFragmentFromScreenID(final int screen, final ArrayList<String> ctnNumbers) {
@@ -115,7 +115,7 @@ public class IAPHandler {
             case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                 fragment = new ProductDetailFragment();
                 bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, ctnNumbers.get(0));
-                //fragment.setArguments(bundle);
+                fragment.setArguments(bundle);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                 fragment = new BuyDirectFragment();
@@ -125,18 +125,18 @@ public class IAPHandler {
                 //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                 fragment = new ProductCatalogFragment();
                 bundle.putString(IAPConstant.PRODUCT_CTNS, null);
-               // fragment.setArguments(bundle);
+                fragment.setArguments(bundle);
                 break;
         }
         return fragment;
     }
 
-    protected void launchActivity(Context pContext, IAPLaunchInput pLaunchConfig, ActivityLauncher activityLauncher) {
+    private void launchActivity(Context pContext, IAPLaunchInput pLaunchConfig, ActivityLauncher activityLauncher) {
         Intent intent = new Intent(pContext, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, pLaunchConfig.mLandingViews);
         if (pLaunchConfig.mProductCTNs != null) {
-            intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mProductCTNs);
+            intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mProductCTNs.get(0));
         }
         //TODO : Activity Theme has to get from ActivityLauncher
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
@@ -144,18 +144,18 @@ public class IAPHandler {
         pContext.startActivity(intent);
     }
 
-//    protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher) {
-//
-//        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
-//        String tag = newFragment.getClass().getSimpleName();
-//        FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);
-//        transaction.addToBackStack(tag);
-//        transaction.commitAllowingStateLoss();
-//
-//        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-//                + tag + ")");
-//    }
+    protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher) {
+
+        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
+        String tag = newFragment.getClass().getSimpleName();
+        FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);
+        transaction.addToBackStack(tag);
+        transaction.commitAllowingStateLoss();
+
+        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                + tag + ")");
+    }
 
     private IAPExposedAPI getExposedAPIImplementor(Context context, IAPSettings iapSettings) {
         IAPExposedAPI api;

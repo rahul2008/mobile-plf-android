@@ -21,7 +21,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
-public class BuyFromRetailersFragment extends BaseAnimationSupportFragment {
+public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements BuyFromRetailersAdapter.BuyFromRetailersListener {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
 
@@ -62,9 +62,16 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment {
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_retailer_title, true);
         if (mStoreEntity != null) {
-            mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
+            mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
 
+    @Override
+    public void onClickAtRetailer(String buyURL, String name) {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.IAP_BUY_URL, buyURL);
+        bundle.putString(IAPConstant.IAP_STORE_NAME, name);
+        addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null);
+    }
 }
