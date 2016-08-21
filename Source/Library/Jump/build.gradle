@@ -98,7 +98,10 @@ dependencies {
     compile 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
-
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.3')
     
     compile 'com.squareup.okio:okio:1.6.0'

@@ -32,6 +32,7 @@ public class ServerTimeTest extends InstrumentationTestCase {
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
 
+
     }
 
 
@@ -40,6 +41,7 @@ public class ServerTimeTest extends InstrumentationTestCase {
         ServerTime.getInstance().refreshOffset();
 
         assertNotNull(ServerTime.getInstance().getCurrentTime());
+        assertNotNull(ServerTime.getInstance().getCurrentUTCTimeWithFormat("dd-mm-yyyy"));
     }
 
 
