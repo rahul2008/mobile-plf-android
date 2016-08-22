@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -50,7 +51,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
-        PRXProductAssetBuilder.AssetListener, View.OnClickListener,EventListener,
+        PRXProductAssetBuilder.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener,
         ProductDetailController.ProductSearchListener, ShoppingCartPresenter.LoadListener<StoreEntity> {
 
@@ -354,6 +355,13 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            finishActivity();
+        }
+        return false;
+    }
 
     @Override
     public void onModelDataLoadFinished(Message msg) {
