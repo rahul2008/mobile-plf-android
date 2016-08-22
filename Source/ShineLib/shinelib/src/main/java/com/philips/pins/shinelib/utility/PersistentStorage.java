@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.utility;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,6 +44,7 @@ public class PersistentStorage implements SharedPreferences {
      * @param value to store
      * @param <T>   type of the value to store
      */
+    @SuppressLint("CommitPrefEdits")
     public <T> void put(@NonNull final String key, @Nullable final T value) {
         SharedPreferences.Editor edit = sharedPreferences.edit();
         if (value == null) {
@@ -51,7 +53,7 @@ public class PersistentStorage implements SharedPreferences {
             edit.remove(key + ENUM_NAME);
             edit.remove(key + DOUBLE_VALUE);
             removeList(key, edit);
-            edit.apply();
+            edit.commit(); // Explicitly store value synchronously so it is always stored after the method call.
         } else {
             put(key, edit, value);
         }

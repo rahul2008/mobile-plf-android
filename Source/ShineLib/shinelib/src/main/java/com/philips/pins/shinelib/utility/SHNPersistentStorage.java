@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.utility;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -41,6 +42,7 @@ public class SHNPersistentStorage {
         sharedPreferences = context.getSharedPreferences(SHINELIB_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
     }
 
+    @SuppressLint("CommitPrefEdits")
     @Deprecated
     public synchronized void storeAssociatedDeviceInfos(List<AssociatedDeviceInfo> associatedDeviceInfos) {
         // Get the current Associated devices
@@ -63,7 +65,7 @@ public class SHNPersistentStorage {
                 editor.remove(oldKey);
             }
         }
-        editor.apply();
+        editor.commit(); // Explicitly store value synchronously so it is always stored after the method call.
     }
 
     @Deprecated
