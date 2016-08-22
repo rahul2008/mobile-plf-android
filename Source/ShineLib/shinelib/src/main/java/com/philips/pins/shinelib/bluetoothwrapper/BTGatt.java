@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -17,9 +17,6 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by 310188215 on 04/05/15.
- */
 public class BTGatt extends BluetoothGattCallback {
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;

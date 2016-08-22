@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothGatt;
@@ -25,9 +30,6 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-/**
- * Created by 310188215 on 06/05/15.
- */
 public class SHNServiceTest {
     private SHNService shnService;
     private UUID mockedServiceUUID;

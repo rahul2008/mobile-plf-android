@@ -1,8 +1,10 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
-/**
- * Created by 310188215 on 26/11/15.
- */
 public class SHNDataRaw extends SHNData {
     private byte[] data;
 

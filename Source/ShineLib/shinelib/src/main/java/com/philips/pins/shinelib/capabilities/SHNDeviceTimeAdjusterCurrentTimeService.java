@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -11,9 +11,6 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.services.SHNServiceCurrentTime;
 import com.philips.pins.shinelib.utility.ExactTime256WithAdjustReason;
 
-/**
- * Created by 310188215 on 08/07/15.
- */
 public class SHNDeviceTimeAdjusterCurrentTimeService implements SHNDeviceTimeAdjuster {
     private long timeDelta;
     private final SHNServiceCurrentTime shnServiceCurrentTime;
