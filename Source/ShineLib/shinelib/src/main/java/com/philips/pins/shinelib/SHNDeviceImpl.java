@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -21,6 +21,7 @@ Disconnecting --> Disconnected : onConnectionStateChange(Disconnected) /\nclose,
 ConnectedReady --> Disconnected : onConnectionStateChange(Disconnected) /\nclose, onStateChange(Disconnected)
 @enduml
  */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothAdapter;

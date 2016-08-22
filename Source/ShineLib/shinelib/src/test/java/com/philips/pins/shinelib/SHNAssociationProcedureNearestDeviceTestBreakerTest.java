@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import com.philips.pins.shinelib.associationprocedures.SHNAssociationProcedureNearestDevice;
@@ -26,9 +31,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * Created by code1_310170470 on 28/05/15.
- */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Timer.class})
 public class SHNAssociationProcedureNearestDeviceTestBreakerTest {

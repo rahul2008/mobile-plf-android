@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
@@ -16,10 +21,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @RunWith(PowerMockRunner.class)
 public class SHNWeightMeasurementTest {
 

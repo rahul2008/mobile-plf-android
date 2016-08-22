@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -25,10 +25,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchronization { // rename it
 
     protected List<SHNResult> resultsThatDoNotCauseFailure;

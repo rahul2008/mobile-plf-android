@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
@@ -16,9 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by 310188215 on 04/06/15.
- */
 public class SHNTemperatureMeasurementTest {
     private static final byte CELSIUS = 0x00;
     private static final byte FAHRENHEIT = 0x01;

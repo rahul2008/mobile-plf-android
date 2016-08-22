@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -27,9 +32,6 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * Created by 310188215 on 07/07/15.
- */
 public class SHNServiceCurrentTimeTest {
     private SHNServiceCurrentTime shnServiceCurrentTime;
     private SHNService.SHNServiceListener shnServiceListener;
