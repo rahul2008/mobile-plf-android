@@ -45,8 +45,6 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
 
         void onGetUser(Message msg);
 
-        void onGetDeliveryAddress(Message msg);
-
         void onSetDeliveryAddress(Message msg);
 
         void onGetDeliveryMode(Message msg);
@@ -169,9 +167,6 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.GET_USER:
                 mBuyDirectListener.onGetUser(msg);
-                break;
-            case RequestCode.GET_ADDRESS:
-                mBuyDirectListener.onGetDeliveryAddress(msg);
                 break;
             case RequestCode.SET_DELIVERY_ADDRESS:
                 mBuyDirectListener.onSetDeliveryAddress(msg);

@@ -31,25 +31,12 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_contact_consumer_care"
-        style="?attr/uikit_outlinedButtonStyle"
+        android:id="@+id/btn_continue_shopping"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
-        android:enabled="true"
-        android:text="@string/iap_contact_consumer_care" />
-
-    <Button
-        android:id="@+id/btn_continue_shopping"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_above="@id/btn_contact_consumer_care"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/network_margin_left_right"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:enabled="true"
