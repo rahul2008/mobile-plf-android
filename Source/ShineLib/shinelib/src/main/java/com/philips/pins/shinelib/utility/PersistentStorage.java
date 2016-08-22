@@ -223,8 +223,9 @@ public class PersistentStorage implements SharedPreferences {
     /**
      * Clear this storage.
      */
+    @SuppressLint("CommitPrefEdits")
     public void clear() {
-        sharedPreferences.edit().clear().apply();
+        sharedPreferences.edit().clear().commit(); // Explicitly store value synchronously so it is always stored after the method call.
     }
 
     /**
