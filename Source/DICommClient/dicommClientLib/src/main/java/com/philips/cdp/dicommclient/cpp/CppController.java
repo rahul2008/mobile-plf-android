@@ -181,7 +181,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         String appVersion = null;
 
         // set Peripheral Information
-        Provision prv = new Provision(mICPCallbackHandler, mKpsConfiguration,
+        Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration,
                 null, mContext);
 
         // Set Application Info
@@ -196,9 +196,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
 
         DICommLog.i(DICommLog.KPS, relationshipId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
-        prv.setApplicationInfo(createIdentityInformation(appVersion, relationshipId));
+        provision.setApplicationInfo(createIdentityInformation(appVersion, relationshipId));
 
-        int commandResult = prv.executeCommand();
+        int commandResult = provision.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {
             DICommLog.i(DICommLog.KPS, "PROVISION-FAILED");
             try {
@@ -206,7 +206,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             } catch (InterruptedException e) {
                 throw new KeyProvisioningException(e);
             }
-            commandResult = prv.executeCommand();
+            commandResult = provision.executeCommand();
             if (commandResult != Errors.REQUEST_PENDING) {
                 mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED;
             }
