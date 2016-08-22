@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
@@ -245,8 +244,6 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             @Override
             public void onProdRegFailed(final ProdRegError prodRegError) {
                 ProdRegLogger.v(TAG, prodRegError.getDescription() + "");
-                if (getActivity() != null && !getActivity().isFinishing())
-                    Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
     }
