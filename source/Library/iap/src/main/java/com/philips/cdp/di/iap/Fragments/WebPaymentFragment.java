@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -14,7 +15,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-public class WebPaymentFragment extends WebFragment {
+public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFragment.TwoButtonDialogListener {
     public static final String TAG = WebPaymentFragment.class.getName();
     private static final String SUCCESS_KEY = "successURL";
     private static final String PENDING_KEY = "pendingURL";
@@ -56,7 +57,7 @@ public class WebPaymentFragment extends WebFragment {
         return builder.toString();
     }
 
-    private Bundle createSuccessBundle(String url) {
+    private Bundle createSuccessBundle() {
         String orderNum = CartModelContainer.getInstance().getOrderNumber();
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, orderNum);
@@ -82,7 +83,7 @@ public class WebPaymentFragment extends WebFragment {
     private boolean verifyResultCallBacks(String url) {
         boolean match = true;
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
-            launchConfirmationScreen(createSuccessBundle(url));
+            launchConfirmationScreen(createSuccessBundle());
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
@@ -96,5 +97,21 @@ public class WebPaymentFragment extends WebFragment {
             match = false;
         }
         return match;
+    }
+
+    @Override
+    public void onDialogOkClick() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToDemoAppByClearingStack();
+        } else {
+            launchProductCatalog();
+        }
+
+    }
+
+    @Override
+    public void onDialogCancelClick() {
+
     }
 }

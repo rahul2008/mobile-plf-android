@@ -5,21 +5,15 @@
 package com.philips.cdp.di.iap.session;
 
 
+import java.util.ArrayList;
 
 public interface IAPListener {
 
-    /**
-     * If called with addProductToCart, returns the cart items count
-     * Otherwise always returns 0
-     *
-     * @param count Items in cart
-     */
-    void onSuccess(int count);
+    void onGetCartCount(int count);
 
-    /**
-     * Error occurred during the request
-     *
-     * @param errorCode
-     */
+    void onFetchProductList(final ArrayList<String> productList);
+
+    void onSuccess();
+
     void onFailure(final int errorCode);
 }

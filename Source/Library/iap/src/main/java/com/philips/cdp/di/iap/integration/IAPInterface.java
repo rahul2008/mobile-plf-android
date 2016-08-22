@@ -13,7 +13,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-public class IAPInterface implements UappInterface, IAPExposedAPI {
+public class IAPInterface implements UappInterface, IAPExposedAPI{
     private IAPExposedAPI mImplementationHandler;
     private IAPHandler iapHandler;
 
@@ -28,7 +28,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     @Override
-    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+    public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
+        //Check for user signed in or not, in case not return exception
         IAPLaunchInput mLaunchInput = (IAPLaunchInput) uappLaunchInput;
         if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
         else
