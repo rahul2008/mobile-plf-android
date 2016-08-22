@@ -196,7 +196,7 @@ public class SHNDeviceImplTest {
         verify(mockedSHNCentral).registerBondStatusListenerForAddress(shnDevice, ADDRESS_STRING);
     }
 
-    // State Connecting
+    // State GattConnecting
     @Test
     public void whenInStateConnectingGATTCallbackIndicatedDisconnectedThenTheOnFailedToConnectGetsCalled() {
         shnDevice.connect();
@@ -337,7 +337,7 @@ public class SHNDeviceImplTest {
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
-    // State ConnectedDiscoveringServices
+    // State DiscoveringServices
     @Test
     public void whenInStateDiscoveringServicesTheGattCallbackIndicatesServicesDiscoveredThenTheSHNServiceIsConnectedToTheBleService() {
         connectTillGATTConnected();
@@ -405,7 +405,7 @@ public class SHNDeviceImplTest {
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
     }
 
-    // State ConnectedInitializingServices
+    // State InitializingServices
     @Test
     public void whenServicesAreDiscoveredServicesTheGattCallbackIndicatesServicesDiscoveredThenGetServicesIsCalled() {
         connectTillGATTServicesDiscovered();
@@ -509,7 +509,7 @@ public class SHNDeviceImplTest {
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
     }
 
-    // State ConnectedReady
+    // State Ready
     @Test
     public void whenInStateConnectedThenThereIsNoTimerRunning() {
         getDeviceInConnectedState();
