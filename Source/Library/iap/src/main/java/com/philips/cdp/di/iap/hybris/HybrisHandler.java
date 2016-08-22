@@ -49,12 +49,12 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
         mIAPSettings = settings;
     }
 
-    public HybrisHandler(Context context, IAPLaunchInput pIapConfig) {
-        mContext = context;
-        mLanguage = CartModelContainer.getInstance().getLanguage();
-        mCountry = CartModelContainer.getInstance().getCountry();
-        mIapConfig = pIapConfig;
-    }
+//    public HybrisHandler(Context context, IAPLaunchInput pIapConfig) {
+//        mContext = context;
+//        mLanguage = CartModelContainer.getInstance().getLanguage();
+//        mCountry = CartModelContainer.getInstance().getCountry();
+//        mIapConfig = pIapConfig;
+//    }
 
 //    @Override
 //    public void launchIAP(final int landingView, final String ctnNumber, final IAPListener listener) {

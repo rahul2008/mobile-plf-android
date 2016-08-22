@@ -19,7 +19,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        IAPDependencies  mIAPDependencies = (IAPDependencies) uappDependencies;
+        IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
         IAPSettings mIapSettings = (IAPSettings) uappSettings;
         iapHandler = new IAPHandler(mIAPDependencies, mIapSettings);
         iapHandler.initTaggingLogging(mIAPDependencies);
@@ -45,4 +45,5 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
         mImplementationHandler.getCompleteProductList(iapHandlerListener);
     }
+
 }

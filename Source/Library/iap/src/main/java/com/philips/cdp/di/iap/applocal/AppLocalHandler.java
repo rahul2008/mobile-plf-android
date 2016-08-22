@@ -7,27 +7,28 @@ package com.philips.cdp.di.iap.applocal;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
+import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.session.IAPListener;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 
-public class AppLocalHandler implements IAPExposedAPI {
+public class AppLocalHandler extends IAPInterface implements IAPExposedAPI {
 
     private Context mContext;
     private int mThemeIndex;
     private IAPSettings mIAPSettings;
     private IAPLaunchInput mIAPConfig;
 
-    public AppLocalHandler(Context context, IAPSettings config) {
+    public AppLocalHandler(Context context, IAPSettings iapSettings) {
         mContext = context;
-        mIAPSettings = config;
+        mIAPSettings = iapSettings;
     }
 
-//    public AppLocalHandler(Context pContext, IAPLaunchInput pIapConfig) {
-//        mContext = pContext;
-//        mIAPConfig = pIapConfig;
-//    }
+    public AppLocalHandler(Context pContext, IAPLaunchInput pIapConfig) {
+        mContext = pContext;
+        mIAPConfig = pIapConfig;
+    }
 
 
 //    @Override
@@ -39,7 +40,7 @@ public class AppLocalHandler implements IAPExposedAPI {
 //        }
 //        super.launch(uiLauncher, uappLaunchInput, uappListener);
 //    }
-
+//
 //      @Override
 //       public void launchIAP(final int landingView, final String ctnNumber, final IAPListener listener) {
 //        if (mIAPSettings.isLaunchAsFragment()) {

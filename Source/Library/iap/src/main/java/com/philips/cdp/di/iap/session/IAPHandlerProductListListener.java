@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.session;
 
 import java.util.ArrayList;
 
-public interface IAPHandlerProductListListener /*extends UappListener*/{
+public interface IAPHandlerProductListListener {
 
     /**
      * Product list from Hybris request
