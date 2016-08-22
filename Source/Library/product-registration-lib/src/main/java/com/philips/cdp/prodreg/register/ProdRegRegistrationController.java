@@ -59,12 +59,13 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
-            final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
+            final ProdRegSuccessFragment successFragment = getSuccessFragment();
             updateRegisteredProductsList(registeredProduct);
             Bundle bundle = new Bundle();
+            bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
             bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-            connectionFragment.setArguments(bundle);
-            registerControllerCallBacks.showFragment(connectionFragment);
+            successFragment.setArguments(bundle);
+            registerControllerCallBacks.showFragment(successFragment);
         }
     }
 
@@ -202,12 +203,13 @@ public class ProdRegRegistrationController {
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
+                        final ProdRegSuccessFragment successFragment = getSuccessFragment();
                         updateRegisteredProductsList(registeredProduct);
                         Bundle bundle = new Bundle();
+                        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
                         bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-                        connectionFragment.setArguments(bundle);
-                        registerControllerCallBacks.showFragment(connectionFragment);
+                        successFragment.setArguments(bundle);
+                        registerControllerCallBacks.showFragment(successFragment);
                     }
                 }
             }

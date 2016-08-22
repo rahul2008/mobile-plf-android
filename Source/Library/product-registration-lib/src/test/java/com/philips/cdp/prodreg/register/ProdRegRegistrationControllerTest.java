@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -112,7 +113,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
     public void testHandleState() {
         when(registeredProductMock.isProductAlreadyRegistered(localRegisteredProductsMock)).thenReturn(true);
         prodRegRegistrationController.handleState();
-        verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
+        verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
     }
 
     @Test
@@ -167,7 +168,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
          when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
          prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registration failed");
-         verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
+        verify(registerControllerCallBacksMock, atLeastOnce()).showFragment(prodRegSuccessFragmentMock);
 
          when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
          prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
