@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
@@ -72,8 +73,11 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         IAPFlowInput iapFlowInput = new IAPFlowInput(mProductCTNs);
         iapInterface.init(iapDependencies, iapSettings);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
-        iapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
-
+        try {
+            iapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
+        } catch (RuntimeException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
