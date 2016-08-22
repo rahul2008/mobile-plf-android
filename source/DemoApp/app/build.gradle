@@ -68,7 +68,7 @@ dependencies {
     compile project(':iap')
     compile 'com.android.support:support-v4:23.1.1'
     compile "net.hockeyapp.android:HockeySDK:3.6.2"
-    compile('com.philips.cdp:registrationApi:7.1.0-rc.2') {
+    compile('com.philips.cdp:registrationApi:7.0.0-rc.3') {
         exclude group: 'com.android.support'
         transitive = true
     }

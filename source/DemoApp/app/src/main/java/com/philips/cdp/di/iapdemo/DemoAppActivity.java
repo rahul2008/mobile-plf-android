@@ -263,13 +263,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void init() {
         User mUser = new User(this);
-        if (mUser.isUserSignIn()) {
-            displayViews();
-            if (mSelectedCountryIndex > 0) {
-                showProgressDialog();
-                mIapInterface.getProductCartCount(mProductCountListener);
-            }
+        // if (mUser.isUserSignIn()) {
+        displayViews();
+        if (mSelectedCountryIndex > 0) {
+            showProgressDialog();
+            mIapInterface.getProductCartCount(mProductCountListener);
         }
+        //}
     }
 
     @Override
@@ -324,16 +324,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             case R.id.btn_launch_product_detail:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
-                        if (!mCTNs.isEmpty()) {
-                            String ctn = mProductList.get(0);
-                            IAPLog.d(IAPLog.LOG, "Product CTN : " + ctn);
-                            applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
-                            IAPFlowInput iapFlowInput = new IAPFlowInput("HX8331/11");
-                            mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
-                            mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
-                        } else {
-                            Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
-                        }
+                        applicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+                        IAPFlowInput iapFlowInput = new IAPFlowInput("HX8331/11");
+                        mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
+                        mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
                     } catch (RuntimeException e) {
                         Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
