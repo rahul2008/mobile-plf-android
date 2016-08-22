@@ -140,7 +140,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIAPSettings = new IAPSettings(this);
         mIapInterface = new IAPInterface();
         mIapLaunchInput = new IAPLaunchInput();
-        mIapDependencies =  new IAPDependencies(new AppInfra.Builder().build(this));
+        mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIAPSettings.setUseLocalData(false);
         mIapInterface.init(mIapDependencies, mIAPSettings);
 
@@ -223,7 +223,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         displayViews();
         if (mSelectedCountryIndex > 0) {
             showProgressDialog();
-            mIapInterface.getProductCartCount(mProductCountListener);
+            mIapInterface.getProductCartCount(this);
         }
         //}
     }
@@ -342,7 +342,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         displayViews();
         activity.finish();
-        mIapLaunchInput.setIapListener(mProductCountListener);
+        mIapLaunchInput.setIapListener(this);
     }
 
     @Override
@@ -356,6 +356,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onUserLogoutSuccess() {
         hideViews();
+        mIapLaunchInput.setIapListener(null);
     }
 
     @Override
@@ -419,7 +420,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         updateCartIcon();
         if (!mIAPSettings.isUseLocalData()) {
             showProgressDialog();
-            mIapInterface.getProductCartCount(mProductCountListener);
+            mIapInterface.getProductCartCount(this);
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
             mPurchaseHistory.setVisibility(View.GONE);
