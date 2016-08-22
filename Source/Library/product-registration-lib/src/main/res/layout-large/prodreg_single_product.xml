@@ -8,16 +8,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/pr_e_value_sm">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/pr_e_value_sm"
+        android:paddingEnd="@dimen/pr_first_launch_padding_right"
+        android:paddingStart="@dimen/pr_first_launch_padding_left">
 
         <TextView
             android:id="@+id/friendly_name"
             style="@style/ProductRegistrationProductHeaderTitleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
-            android:layout_marginRight="@dimen/pr_first_launch_padding_right"
             android:visibility="gone"/>
 
         <TextView
@@ -26,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/friendly_name"
-            android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
             android:visibility="gone"/>
 
         <TextView
@@ -35,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_title"
-            android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
             android:layout_marginTop="@dimen/pr_a_value_tablet"
             android:visibility="gone"/>
 
@@ -44,8 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_ctn"
-            android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
-            android:layout_marginRight="@dimen/pr_first_launch_padding_right"
             android:layout_marginTop="@dimen/pr_c_value_tablet"
             android:minHeight="140dp"
             android:minWidth="140dp"
@@ -70,10 +66,7 @@
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
                     android:textColor="?attr/uikit_baseColor"
                     android:textSize="16sp"/>
@@ -83,11 +76,8 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="@dimen/pr_first_launch_padding_right"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:gravity="right"
                     android:hint="@string/PPR_Please_Enter_Date_Lbltxt"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -115,10 +105,7 @@
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:text="@string/PPR_SerialNum_Lbltxt"
                     android:textColor="?attr/uikit_baseColor"
                     android:textSize="16sp"/>
@@ -129,11 +116,8 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="@dimen/pr_first_launch_padding_right"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:gravity="right"
                     android:hint="@string/PPR_Please_Enter_SerialNum_Txtfldtxt"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -149,8 +133,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/InlineForms_serial_number"
-            android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
-            android:layout_marginRight="@dimen/pr_first_launch_padding_right"
             android:layout_marginTop="33dp"
             android:text="@string/PPR_Register_Btntxt"
             android:textAllCaps="false"/>
