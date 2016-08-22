@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -141,6 +143,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         countries.add("US");
         countries.add("UK");
 
+        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+
         mIAPSettings = new IAPSettings(this);
         mIapInterface = new IAPInterface();
         mIapLaunchInput = new IAPLaunchInput();
@@ -156,15 +160,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
         setLocale("en", "US");
         /*Pls uncommnet when vertical wants to get complete product list from hybris*/
-//        if (!mIAPSettings.isUseLocalData()) {
-//            Handler handler = new Handler(Looper.getMainLooper());
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mIapInterface.getCompleteProductList(mGetCompleteProductListener);
-//                }
-//            }, 1000);
-//        }
+        if (!mIAPSettings.isUseLocalData()) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mIapInterface.getCompleteProductList(DemoAppActivity.this);
+                }
+            }, 1000);
+        }
     }
 
     private void addActionBar() {
@@ -243,7 +247,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-                    mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+
                     mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
 
                     mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
@@ -254,12 +258,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
-                mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-                    mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                     IAPFlowInput iapFlowInput = new IAPFlowInput();
 
                     mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
@@ -270,7 +272,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 break;
             case R.id.btn_purchase_history:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-                    mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                     IAPFlowInput iapFlowInput = new IAPFlowInput();
                     mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, iapFlowInput);
                     mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
@@ -285,7 +286,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             case R.id.btn_launch_product_detail:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
-                        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                         IAPFlowInput iapFlowInput = new IAPFlowInput("HX8331/11");
                         mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
                         mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
@@ -301,7 +301,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                     // if (mCategorizedList != null && !mCategorizedList.isEmpty()) {
                     if (!mCTNs.isEmpty()) {
                         IAPLog.d(IAPLog.LOG, "Product List : " + mCategorizedList);
-                        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
 
                         IAPFlowInput iapFlowInput = new IAPFlowInput(mCTNs);
                         mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
@@ -326,7 +325,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
                         String ctn = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
-                        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
                         IAPFlowInput iapFlowInput = new IAPFlowInput(mCTNs.get(0));
                         mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput);
                         mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
