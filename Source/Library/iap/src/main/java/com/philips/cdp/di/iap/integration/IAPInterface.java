@@ -36,15 +36,14 @@ public class IAPInterface implements UappInterface, IAPExposedAPI{
             iapHandler.initIAP(uiLauncher, mLaunchInput, ((IAPLaunchInput) uappLaunchInput).getIapListener());
     }
 
-
     @Override
     public void getProductCartCount(IAPListener iapListener) {
         mImplementationHandler.getProductCartCount(iapListener);
     }
 
     @Override
-    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
-        mImplementationHandler.getCompleteProductList(iapHandlerListener);
+    public void getCompleteProductList(IAPListener iapListener) {
+        mImplementationHandler.getCompleteProductList(iapListener);
     }
 
 }

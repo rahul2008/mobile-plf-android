@@ -53,21 +53,21 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
 
-    //We require this to track for hiding the cart icon in demo app
-    //private IAPSettings mIAPSettings;
-    // private IAPHandler mIapHandler;
+    private LinearLayout mSelectCountryLl, mAddCTNLl;
     private CountryPreferences mCountryPreference;
 
-    private LinearLayout mSelectCountryLl, mAddCTNLl;
+
     private FrameLayout mShoppingCart;
     private Spinner mSpinner;
+    private EditText mEtCTN;
+
     private Button mShopNow;
     private Button mBuyDirect;
     private Button mPurchaseHistory;
     private Button mFragmentLaunch;
     private Button mLaunchProductDetail;
     private Button mShopNowCategorized;
-    private EditText mEtCTN;
+
     private ArrayList<String> mProductList = new ArrayList<>();
     private ArrayList<String> mCategorizedList = new ArrayList<>();
 
@@ -76,11 +76,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private TextView mTitleTextView;
     private TextView mCountText;
 
-    private IAPInterface mIapInterface;
-    private IAPLaunchInput mIapLaunchInput;
+
     private ArrayList<String> mCTNs;
     DemoApplication mApplicationContext;
 
+    private IAPInterface mIapInterface;
+    private IAPLaunchInput mIapLaunchInput;
     private IAPDependencies mIapDependencies;
     private IAPSettings mIAPSettings;
 
@@ -94,10 +95,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         addActionBar();
         setContentView(R.layout.demo_app_layout);
         showAppVersion();
+
         mCTNs = new ArrayList<>();
         mCTNs.add("HX8331/11");
+
         Button mRegister = (Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
+
         mFragmentLaunch = (Button) findViewById(R.id.btn_fragment_launch);
         mFragmentLaunch.setOnClickListener(this);
         mFragmentLaunch.setVisibility(View.GONE);
@@ -512,7 +516,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     @Override
-    public void onFetchProductList(ArrayList<String> productList) {
+    public void onGetCompleteProductList(ArrayList<String> productList) {
         dismissProgressDialog();
         mProductList = productList;
         IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());

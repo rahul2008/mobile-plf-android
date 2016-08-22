@@ -11,7 +11,7 @@ public interface IAPListener {
 
     void onGetCartCount(int count);
 
-    void onFetchProductList(final ArrayList<String> productList);
+    void onGetCompleteProductList(final ArrayList<String> productList);
 
     void onSuccess();
 
