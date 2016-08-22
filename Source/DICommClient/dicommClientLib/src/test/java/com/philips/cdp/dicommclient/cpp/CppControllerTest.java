@@ -49,9 +49,6 @@ public class CppControllerTest extends RobolectricTest {
     DcsEventListener dcsListener;
 
     @Mock
-    CppDiscoverEventListener discoveryListener;
-
-    @Mock
     EventSubscription eventSubscriptionMock;
 
     @Mock

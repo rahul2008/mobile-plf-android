@@ -34,6 +34,7 @@ import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.ComponentInfo;
 import com.philips.icpinterface.data.Errors;
+import com.philips.icpinterface.data.IdentityInformation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -168,6 +169,12 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    private class KeyProvisioningException extends RuntimeException {
+        public KeyProvisioningException(Throwable throwable) {
+            super(throwable);
+        }
+    }
+
     private void startKeyProvisioning() {
         DICommLog.i(DICommLog.KPS, "Start provision");
         mKeyProvisioningState = KEY_PROVISION.PROVISIONING;
@@ -181,28 +188,37 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         // TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
         PackageManager pm = mContext.getPackageManager();
         String relationshipId = mKpsConfigurationInfo.getRelationshipId();
+
         try {
-            appVersion = ""
-                    + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
-        } catch (Exception e) {
-            e.printStackTrace();
+            appVersion = "" + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
+        } catch (NameNotFoundException e) {
+            throw new KeyProvisioningException(e);
         }
+
         DICommLog.i(DICommLog.KPS, relationshipId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
-        prv.setApplicationInfo(relationshipId, mKpsConfigurationInfo.getAppType(), appVersion);
+        prv.setApplicationInfo(createIdentityInformation(appVersion, relationshipId));
 
         int commandResult = prv.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {
             DICommLog.i(DICommLog.KPS, "PROVISION-FAILED");
             try {
                 Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (InterruptedException e) {
+                throw new KeyProvisioningException(e);
             }
             commandResult = prv.executeCommand();
             if (commandResult != Errors.REQUEST_PENDING) {
                 mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED;
             }
         }
+    }
+
+    private IdentityInformation createIdentityInformation(String relationshipId, String appVersion) {
+        IdentityInformation identityInformation = new IdentityInformation();
+        identityInformation.idInfo = relationshipId;
+        identityInformation.typeInfo = mKpsConfigurationInfo.getAppType();
+        identityInformation.versionInfo = appVersion;
+        return identityInformation;
     }
 
     public boolean isSignOn() {
