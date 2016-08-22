@@ -189,7 +189,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }else {
                 getFragmentManager().popBackStackImmediate();
             }
-            moveToPreviousFragment();
         }
     }
 
@@ -251,6 +250,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
     @Override
     public boolean onBackPressed() {
+
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
             if(getFragmentManager().findFragmentByTag(ShippingAddressFragment.TAG) != null){
