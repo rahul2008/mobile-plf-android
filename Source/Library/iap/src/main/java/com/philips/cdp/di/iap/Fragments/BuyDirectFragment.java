@@ -34,7 +34,6 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
     private BuyDirectController mBuyDirectController;
     private Context mContext;
     private String mCTN;
-    private String mAddressId;
     private PaymentMethod mPaymentMethod;
     private ErrorDialogFragment mErrorDialogFragment;
 
@@ -112,11 +111,6 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
     }
 
     @Override
-    public void onGetDeliveryAddress(Message msg) {
-        mBuyDirectController.setDeliveryAddress(mAddressId);
-    }
-
-    @Override
     public void onSetDeliveryAddress(Message msg) {
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
@@ -185,7 +179,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
     }
 
     private void setAddressField(Addresses address) {
-        mAddressId = address.getId();
+        String mAddressId = address.getId();
         AddressFields addressFields = new AddressFields();
         addressFields.setFirstName(address.getFirstName());
         addressFields.setLastName(address.getLastName());
@@ -198,9 +192,11 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
         addressFields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault())
                 + titleCode.substring(1));
         addressFields.setTown(address.getTown());
-        addressFields.setRegionIsoCode(address.getRegion().getName());
+        if (address.getRegion() != null) {
+            addressFields.setRegionIsoCode(address.getRegion().getName());
+            CartModelContainer.getInstance().setRegionIsoCode(address.getRegion().getIsocode());
+        }
         addressFields.setCountryIsocode(address.getCountry().getIsocode());
-        CartModelContainer.getInstance().setRegionIsoCode(address.getRegion().getIsocode());
         CartModelContainer.getInstance().setShippingAddressFields(addressFields);
         CartModelContainer.getInstance().setAddressId(mAddressId);
         mBuyDirectController.setDeliveryAddress(mAddressId);
