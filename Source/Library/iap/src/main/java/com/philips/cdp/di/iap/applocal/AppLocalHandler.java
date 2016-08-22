@@ -10,7 +10,6 @@ import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPListener;
 
 public class AppLocalHandler extends IAPInterface implements IAPExposedAPI {
@@ -59,12 +58,12 @@ public class AppLocalHandler extends IAPInterface implements IAPExposedAPI {
     @Override
     public void getProductCartCount(final IAPListener iapListener) {
         if (iapListener != null) {
-            iapListener.onSuccess(0);
+            iapListener.onGetCartCount(0);
         }
     }
 
     @Override
-    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
+    public void getCompleteProductList(IAPListener iapListener) {
         //NOP
     }
 

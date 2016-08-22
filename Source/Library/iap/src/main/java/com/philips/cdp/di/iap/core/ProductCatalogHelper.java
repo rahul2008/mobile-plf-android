@@ -16,7 +16,7 @@ import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -39,7 +39,7 @@ public class ProductCatalogHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs, Products productData, IAPHandlerProductListListener listener) {
+    public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs, Products productData, IAPListener listener) {
         if (msg.obj instanceof HashMap) {
             HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
 
@@ -98,12 +98,12 @@ public class ProductCatalogHelper {
     }
 
 
-    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, IAPHandlerProductListListener listener) {
+    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, IAPListener listener) {
         if (mLoadListener != null) {
             mLoadListener.onLoadFinished(data, paginationEntity);
         }
         if (listener != null) {
-            listener.onSuccess(getProductCTNs(data));
+            listener.onGetCompleteProductList(getProductCTNs(data));
         }
         storeData(data);
     }

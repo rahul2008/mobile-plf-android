@@ -15,7 +15,6 @@ import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.IAPListener;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -38,7 +37,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public boolean getProductCatalog(int currentPage,int pageSize, IAPHandlerProductListListener listListener) {
+    public boolean getProductCatalog(int currentPage, int pageSize, IAPListener listListener) {
         return false;
     }
 
@@ -46,12 +45,12 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     public void getProductCategorizedProduct(final ArrayList<String> productList) {
         if (productList != null) {
             mProductList = productList;
-            mProductCatalogHelper.makePrxCall(productList,null);
+            mProductCatalogHelper.makePrxCall(productList, null);
         }
     }
 
     @Override
-    public void getCompleteProductList(final Context mContext, final IAPHandlerProductListListener iapListener, final int currentPage, final int pageSize) {
+    public void getCompleteProductList(final Context mContext, final IAPListener iapListener, final int currentPage, final int pageSize) {
         //To be written
     }
 
@@ -62,8 +61,8 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
-        if(msg.obj instanceof HashMap){
-            mProductCatalogHelper.processPRXResponse(msg, mProductList, null,null);
+        if (msg.obj instanceof HashMap) {
+            mProductCatalogHelper.processPRXResponse(msg, mProductList, null, null);
         }
 
         if (Utility.isProgressDialogShowing())

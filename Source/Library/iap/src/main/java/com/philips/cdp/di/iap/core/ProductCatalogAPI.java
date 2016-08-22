@@ -3,7 +3,6 @@ package com.philips.cdp.di.iap.core;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.session.IAPListener;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 
 import java.util.ArrayList;
 
@@ -12,11 +11,11 @@ import java.util.ArrayList;
  * All rights reserved.
  */
 public interface ProductCatalogAPI {
-    boolean getProductCatalog(int currentPage, int pageSize, IAPHandlerProductListListener listener);
+    boolean getProductCatalog(int currentPage, int pageSize, IAPListener listener);
 
     void getProductCategorizedProduct(ArrayList<String> productList);
 
-    void getCompleteProductList(final Context mContext, final IAPHandlerProductListListener iapListener, final int currentPage, final int pageSize);
+    void getCompleteProductList(final Context mContext, final IAPListener iapListener, final int currentPage, final int pageSize);
 
     void getCatalogCount(IAPListener listener);
 }

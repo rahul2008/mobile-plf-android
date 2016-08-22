@@ -16,11 +16,10 @@ import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPListener;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -106,7 +105,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
     }
 
     @Override
-    public void getCompleteProductList(final IAPHandlerProductListListener iapHandlerListener) {
+    public void getCompleteProductList(final IAPListener iapHandlerListener) {
         final ProductCatalogAPI presenter = ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null, null);
         if (isStoreInitialized()) {
             presenter.getCompleteProductList(mContext, iapHandlerListener, 0, 10);
@@ -274,13 +273,13 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
 
     private void updateSuccessListener(final int count, final IAPListener iapListener) {
         if (iapListener != null) {
-            iapListener.onSuccess(count);
+            iapListener.onGetCartCount(count);
         }
     }
 
-    private void updateSuccessListener(final ArrayList<String> list, final IAPHandlerProductListListener iapHandlerListener) {
+    private void updateSuccessListener(final ArrayList<String> list, final IAPListener iapHandlerListener) {
         if (iapHandlerListener != null) {
-            iapHandlerListener.onSuccess(list);
+            iapHandlerListener.onGetCompleteProductList(list);
         }
     }
 

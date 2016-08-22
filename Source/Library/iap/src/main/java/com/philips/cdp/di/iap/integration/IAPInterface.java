@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.integration;
 
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -13,7 +12,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-public class IAPInterface implements UappInterface, IAPExposedAPI{
+public class IAPInterface implements UappInterface, IAPExposedAPI {
     private IAPExposedAPI mImplementationHandler;
     private IAPHandler iapHandler;
 

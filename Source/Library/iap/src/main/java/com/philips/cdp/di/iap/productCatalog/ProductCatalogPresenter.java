@@ -21,7 +21,6 @@ import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPListener;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -42,19 +41,29 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     Products mProductData = null;
     ProductCatalogHelper mProductCatalogHelper;
     boolean isPlanA;
-    IAPHandlerProductListListener notifyCompleteListener;
+    IAPListener notifyCompleteListener;
     final int PAGE_SIZE = 20;
     final int CURRENT_PAGE = 0;
 
-    public void getCompleteProductList(final Context mContext, final IAPHandlerProductListListener iapListener, final int currentPage, final int pageSize) {
+    public void getCompleteProductList(final Context mContext, final IAPListener iapListener, final int currentPage, final int pageSize) {
 
-        final IAPHandlerProductListListener listener = new IAPHandlerProductListListener() {
+        final IAPListener listener = new IAPListener() {
 
             @Override
-            public void onSuccess(final ArrayList<String> productList) {
+            public void onGetCartCount(int count) {
+
+            }
+
+            @Override
+            public void onGetCompleteProductList(ArrayList<String> productList) {
                 if (iapListener != null) {
-                    iapListener.onSuccess(productList);
+                    iapListener.onGetCompleteProductList(productList);
                 }
+            }
+
+            @Override
+            public void onSuccess() {
+
             }
 
             @Override
@@ -66,9 +75,24 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         };
 
         IAPListener countListner = new IAPListener() {
+//            @Override
+//            public void onSuccess(final int count) {
+//                getProductCatalog(CURRENT_PAGE, count, listener);
+//            }
+
             @Override
-            public void onSuccess(final int count) {
+            public void onGetCartCount(int count) {
                 getProductCatalog(CURRENT_PAGE, count, listener);
+            }
+
+            @Override
+            public void onGetCompleteProductList(ArrayList<String> productList) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
             }
 
             @Override
@@ -78,7 +102,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         };
         if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
             if (iapListener != null) {
-                iapListener.onSuccess(getProductCatalogDataFromStoredData());
+                iapListener.onGetCompleteProductList(getProductCatalogDataFromStoredData());
             }
         } else {
             getCatalogCount(countListner);
@@ -111,7 +135,9 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             @Override
             public void onSuccess(final Message msg) {
                 Products products = (Products) msg.obj;
-                countListener.onSuccess(products.getPagination().getTotalResults());
+                int totalproduct = products.getPagination().getTotalResults();
+                IAPLog.i(IAPLog.LOG, "Total product in Hybris =" + totalproduct);
+                countListener.onSuccess();
             }
 
             @Override
@@ -159,7 +185,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     @Override
-    public boolean getProductCatalog(int currentPage, int pageSize, IAPHandlerProductListListener listener) {
+    public boolean getProductCatalog(int currentPage, int pageSize, IAPListener listener) {
         this.notifyCompleteListener = listener;
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CURRENT_PAGE, String.valueOf(currentPage));

@@ -86,7 +86,7 @@ public class IAPHandler {
                 }
 
                 if (listener != null) {
-                    listener.onSuccess(IAPConstant.IAP_SUCCESS);
+                    listener.onSuccess();
                 }
             }
 
