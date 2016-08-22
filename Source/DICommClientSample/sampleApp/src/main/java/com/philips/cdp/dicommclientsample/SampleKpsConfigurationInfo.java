@@ -42,7 +42,7 @@ class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
     }
 
     @Override
-    public String getAppId() {
+    public String getRelationshipId() {
         return "com.philips.cdp.dicommclientsample";
     }
 

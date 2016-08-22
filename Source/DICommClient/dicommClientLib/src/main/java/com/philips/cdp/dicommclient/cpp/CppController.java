@@ -136,7 +136,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return mInstance;
     }
 
-    private CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+    protected CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
 
         this.mContext = context;
         mKpsConfigurationInfo = kpsConfigurationInfo;
@@ -180,15 +180,15 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         // Set Application Info
         // TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
         PackageManager pm = mContext.getPackageManager();
-        String appID = mKpsConfigurationInfo.getAppId();
+        String relationshipId = mKpsConfigurationInfo.getRelationshipId();
         try {
             appVersion = ""
                     + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DICommLog.i(DICommLog.KPS, appID + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
-        prv.setApplicationInfo(appID, mKpsConfigurationInfo.getAppType(), appVersion);
+        DICommLog.i(DICommLog.KPS, relationshipId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
+        prv.setApplicationInfo(relationshipId, mKpsConfigurationInfo.getAppType(), appVersion);
 
         int commandResult = prv.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {

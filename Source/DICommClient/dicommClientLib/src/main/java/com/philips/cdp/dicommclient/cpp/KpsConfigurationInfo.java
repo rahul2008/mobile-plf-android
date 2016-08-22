@@ -45,7 +45,7 @@ public abstract class KpsConfigurationInfo {
 	
 	public abstract int getComponentCount();
 	
-	public abstract String getAppId();
+	public abstract String getRelationshipId();
 	
 	public abstract int getAppVersion();
 	

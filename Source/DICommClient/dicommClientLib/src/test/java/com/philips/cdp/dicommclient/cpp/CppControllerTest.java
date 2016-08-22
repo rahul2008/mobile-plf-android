@@ -6,6 +6,8 @@
 package com.philips.cdp.dicommclient.cpp;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
@@ -34,7 +36,6 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -64,6 +65,9 @@ public class CppControllerTest extends RobolectricTest {
 
     @Mock
     KpsConfigurationInfo kpsConfigurationInfoMock;
+
+    @Mock
+    PackageManager packageManagerMock;
 
     private final String cppId = "valid cppId";
     private CppController cppController;
@@ -268,5 +272,18 @@ public class CppControllerTest extends RobolectricTest {
         cppController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
 
         assertEquals(CppController.ICP_CLIENT_DCS_STATE.STOPPED, cppController.getState());
+    }
+
+    @Test
+    public void whenStartingKeyProvisioningThenRetriveRelationshipId() throws Exception {
+        when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
+        when(contextMock.getPackageName()).thenReturn("com.philips.cdp.dicommclient.cpp.testing");
+        PackageInfo packageInfo = new PackageInfo();
+        packageInfo.versionCode = 1;
+        when(packageManagerMock.getPackageInfo("com.philips.cdp.dicommclient.cpp.testing", 0)).thenReturn(packageInfo);
+
+        cppController = new CppController(contextMock, kpsConfigurationInfoMock);
+
+        verify(kpsConfigurationInfoMock).getRelationshipId();
     }
 }
