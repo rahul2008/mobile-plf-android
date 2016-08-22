@@ -42,8 +42,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import java.util.ArrayList;
 
 public class OrderSummaryFragment extends BaseAnimationSupportFragment implements
-        View.OnClickListener, TwoButtonDialogFragment.TwoButtonDialogListener,
-        PaymentController.MakePaymentListener, AddressController.AddressListener {
+        View.OnClickListener, PaymentController.MakePaymentListener, AddressController.AddressListener {
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
@@ -53,7 +52,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private String orderID;
     private Context mContext;
     public static final String TAG = OrderSummaryFragment.class.getName();
-    private TwoButtonDialogFragment mDailogFragment;
     Bundle bundle;
 
     @Override
@@ -127,21 +125,16 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public boolean handleBackEvent() {
-        if (isOrderPlaced()) {
-            ShowDialogOnBackPressed();
-            return true;
-        } else {
-            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
-            if (fragment != null) {
-                if(getFragmentManager().findFragmentByTag(BillingAddressFragment.TAG) != null ||
-                        getFragmentManager().findFragmentByTag(PaymentSelectionFragment.TAG) != null){
-                    return false;
-                }
-                moveToDemoAppByClearingStack();
-                return false;
-            } else {
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            if (getFragmentManager().findFragmentByTag(BillingAddressFragment.TAG) != null ||
+                    getFragmentManager().findFragmentByTag(PaymentSelectionFragment.TAG) != null) {
                 return false;
             }
+            moveToDemoAppByClearingStack();
+            return false;
+        } else {
+            return false;
         }
     }
 
@@ -182,11 +175,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     private void doOnCancelOrder() {
         setOrderPlaced();
-        Fragment fragment = getFragmentManager().findFragmentByTag(ShoppingCartFragment.TAG);
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
-            moveToFragment(ShoppingCartFragment.TAG);
-        } else {
             moveToDemoAppByClearingStack();
+        } else {
+            moveToFragment(ShoppingCartFragment.TAG);
         }
     }
 
@@ -258,36 +251,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
-    }
-
-    private void ShowDialogOnBackPressed() {
-        Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.cancelPaymentMsg));
-        if (mDailogFragment == null) {
-            mDailogFragment = new TwoButtonDialogFragment();
-            mDailogFragment.setArguments(bundle);
-            mDailogFragment.setOnDialogClickListener(this);
-            mDailogFragment.setShowsDialog(false);
-        }
-        try {
-            mDailogFragment.show(getFragmentManager(), "TwoButtonDialog");
-            mDailogFragment.setShowsDialog(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onDialogOkClick() {
-        //Track Payment cancelled action
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
-        doOnCancelOrder();
-    }
-
-    @Override
-    public void onDialogCancelClick() {
-        //NOP
     }
 
     @Override
