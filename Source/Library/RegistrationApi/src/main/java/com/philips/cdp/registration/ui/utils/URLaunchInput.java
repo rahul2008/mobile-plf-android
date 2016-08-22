@@ -1,6 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
-import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
@@ -12,7 +12,7 @@ public class URLaunchInput extends UappLaunchInput {
 
     private RegistrationFunction registrationFunction;
 
-    private UserRegistrationListener userRegistrationListener;
+    private UserRegistrationUIEventListener userRegistrationListener;
 
     public RegistrationFunction getRegistrationFunction() {
         return registrationFunction;
@@ -31,11 +31,12 @@ public class URLaunchInput extends UappLaunchInput {
     }
 
 
-    public void setUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
+                                                           userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
     }
 
-    public UserRegistrationListener getUserRegistrationListener() {
+    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return this.userRegistrationListener;
     }
 }

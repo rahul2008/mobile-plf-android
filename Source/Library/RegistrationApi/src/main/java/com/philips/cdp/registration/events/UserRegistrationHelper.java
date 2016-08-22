@@ -9,8 +9,6 @@
 
 package com.philips.cdp.registration.events;
 
-import android.app.Activity;
-
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -84,10 +82,13 @@ public class UserRegistrationHelper {
         }
     }
 
-    /**
+/*
+    */
+/**
      * {@code notifyonUserRegistrationCompleteEventOccurred} method to Notify on user registration complete event occurred
      * @param activity
-     */
+     *//*
+
     public synchronized void notifyonUserRegistrationCompleteEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -99,11 +100,15 @@ public class UserRegistrationHelper {
             }
         }
     }
+*/
 
-    /**
+/*
+    */
+/**
      * {@code notifyOnPrivacyPolicyClickEventOccurred} method to notify on privace policy click event occurred
      * @param activity
-     */
+     *//*
+
     public synchronized void notifyOnPrivacyPolicyClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -115,11 +120,12 @@ public class UserRegistrationHelper {
             }
         }
     }
-
-    /**
+*/
+/*
+    *//**
      * {@code notifyOnTermsAndConditionClickEventOccurred} method to notify on terms and condition click event occurred
      * @param activity
-     */
+     *//*
     public synchronized void notifyOnTermsAndConditionClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -130,7 +136,7 @@ public class UserRegistrationHelper {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * {@code notifyOnUserLogoutSuccess} method to notify on user logout success

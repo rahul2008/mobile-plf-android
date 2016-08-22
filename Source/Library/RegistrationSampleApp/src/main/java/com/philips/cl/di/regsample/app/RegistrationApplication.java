@@ -9,15 +9,12 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +41,6 @@ public class RegistrationApplication extends Application {
         mRegistrationHelper = this;
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
        /* RLog.init(this);
         RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
@@ -167,7 +163,8 @@ public class RegistrationApplication extends Application {
         URDependancies urDependancies = new URDependancies(AppInfraSingleton.getInstance());
         URSettings urSettings = new URSettings(this);
         urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
-        URInterface.getInstance().init(urDependancies,urSettings);
+        URInterface urInterface = new URInterface();
+        urInterface.init(urDependancies,urSettings);
         // RegistrationHelper.getInstance().initializeUserRegistration(this);
       //  Tagging.init(this, "Philips Registration");
 

@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -22,27 +21,13 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class URInterface implements UappInterface {
 
-
-    private static URInterface ourInstance = new URInterface();
-
-    public static URInterface getInstance() {
-        return ourInstance;
-    }
-
-    private URInterface() {
-    }
-
-
-    private Context mContext;
-
-
-
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-
-
-       if (null != uappLaunchInput && null!= ((URLaunchInput)uappLaunchInput).getUserRegistrationListener()) {
-            RegistrationHelper.getInstance().registerUserRegistrationListener(((URLaunchInput)uappLaunchInput).getUserRegistrationListener());
+        if (null != uappLaunchInput && null != ((URLaunchInput) uappLaunchInput).
+                getUserRegistrationUIEventListener()) {
+            RegistrationHelper.getInstance().setUserRegistrationUIEventListener
+                    (((URLaunchInput) uappLaunchInput).
+                    getUserRegistrationUIEventListener());
         }
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
@@ -51,19 +36,24 @@ public class URInterface implements UappInterface {
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, UappLaunchInput uappLaunchInput) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher,
+                                  UappLaunchInput uappLaunchInput) {
 
         try {
-            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
+            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
+                    getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput) uappLaunchInput).isAccountSettings());
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
+                    uappLaunchInput).isAccountSettings());
             registrationFragment.setArguments(bundle);
 
 
-            registrationFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
+            registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
+                    getActionbarListener());
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), registrationFragment,
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
+                    registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
@@ -78,36 +68,35 @@ public class URInterface implements UappInterface {
 
 
         if (null != uappLaunchInput) {
-            RegistrationFunction registrationFunction = ((URLaunchInput) uappLaunchInput).getRegistrationFunction();
+            RegistrationFunction registrationFunction = ((URLaunchInput) uappLaunchInput).
+                    getRegistrationFunction();
             if (null != registrationFunction) {
-                RegistrationConfiguration.getInstance().setPrioritisedFunction(registrationFunction);
+                RegistrationConfiguration.getInstance().setPrioritisedFunction
+                        (registrationFunction);
             }
 
-
-            Intent registrationIntent = new Intent(mContext, RegistrationActivity.class);
+            Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
+                    getUrSettings().getContext(), RegistrationActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput) uappLaunchInput).isAccountSettings());
-            bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().getOrientationValue());
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
+                    uappLaunchInput).isAccountSettings());
+            bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
+                    getOrientationValue());
             registrationIntent.putExtras(bundle);
             registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //  RegistrationHelper.getInstance().registerUserRegistrationListener((UserRegistrationListener) uappListener);
-            mContext.startActivity(registrationIntent);
+            RegistrationHelper.getInstance().
+                    getUrSettings().getContext().startActivity(registrationIntent);
         }
 
 
     }
 
 
-
-
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        mContext = uappSettings.getContext();
-
-        RLog.init(mContext);
-        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-
+        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
+        RegistrationHelper.getInstance().setUrSettings(((URSettings)uappSettings));
+        RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
     }
-
 
 }

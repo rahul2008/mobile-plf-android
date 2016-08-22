@@ -149,8 +149,8 @@ public class RegUtility {
     }
 
     public static void handleTermsCondition(Activity activity) {
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnTermsAndConditionClickEventOccurred(activity);
+        RegistrationHelper.getInstance().getUserRegistrationUIEventListener()
+                .onTermsAndConditionClick(activity);
     }
 
 

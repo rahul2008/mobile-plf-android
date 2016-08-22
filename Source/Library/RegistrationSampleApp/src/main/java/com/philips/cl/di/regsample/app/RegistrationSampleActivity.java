@@ -36,6 +36,7 @@ import com.philips.cdp.registration.configuration.RegistrationDynamicConfigurati
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -50,7 +51,7 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
-        UserRegistrationListener, RefreshLoginSessionHandler {
+        UserRegistrationUIEventListener,UserRegistrationListener, RefreshLoginSessionHandler {
 
     private Button mBtnRegistrationWithAccountSettings;
     private Button mBtnRegistrationWithOutAccountSettings;
@@ -153,7 +154,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 if (checkedId == R.id.Evalution) {
                     Toast.makeText(getApplicationContext(), "choice: Evalution",
                             Toast.LENGTH_SHORT).show();
-                   RegistrationApplication.getInstance().initRegistration(Configuration.EVALUATION);
+                    RegistrationApplication.getInstance().initRegistration(Configuration.EVALUATION);
                 } else if (checkedId == R.id.Testing) {
                     Toast.makeText(getApplicationContext(), "choice: Testing",
                             Toast.LENGTH_SHORT).show();
@@ -172,13 +173,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     RegistrationApplication.getInstance().initRegistration(Configuration.STAGING);
                 }
 
-                if(mCheckBox.isChecked()){
+                if (mCheckBox.isChecked()) {
                     if (restoredText != null) {
                         RegistrationApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
                     }
 
 
-                }else{
+                } else {
                     RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     prefs.edit().remove("reg_hsdp_environment").commit();
@@ -195,7 +196,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         });
 
 
-        mCheckBox = (CheckBox)findViewById(R.id.cd_hsdp);
+        mCheckBox = (CheckBox) findViewById(R.id.cd_hsdp);
         if (restoredHSDPText != null) {
             mCheckBox.setChecked(true);
         }
@@ -264,6 +265,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
+        URInterface urInterface;
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
@@ -272,11 +274,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setAccountSettings(true);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+                urLaunchInput.setUserRegistrationUIEventListener(this);
+                activityLauncher = new ActivityLauncher(ActivityLauncher.
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 
-                 activityLauncher = new ActivityLauncher(ActivityLauncher.
-                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR,0);
-
-                URInterface.getInstance().launch(activityLauncher,urLaunchInput);
+                urInterface = new URInterface();
+                urInterface.launch(activityLauncher, urLaunchInput);
 
 
                 //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
@@ -286,17 +289,17 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
-                 urLaunchInput = new URLaunchInput();
+                urLaunchInput = new URLaunchInput();
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
-                urLaunchInput.setUserRegistrationListener(this);
+                urLaunchInput.setUserRegistrationUIEventListener(this);
 
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
-                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR,0);
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+                urInterface = new URInterface();
+                urInterface.launch(activityLauncher, urLaunchInput);
 
-                URInterface.getInstance().launch(activityLauncher,urLaunchInput);
-
-               // RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
+                // RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_user:

@@ -573,13 +573,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 //    }
 
     private void handlePrivacyPolicy() {
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnPrivacyPolicyClickEventOccurred(getRegistrationFragment().getParentActivity());
+        RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
     }
 
     private void handleTermsCondition() {
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnTermsAndConditionClickEventOccurred(getRegistrationFragment().getParentActivity());
+        RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
     }
 
     @Override

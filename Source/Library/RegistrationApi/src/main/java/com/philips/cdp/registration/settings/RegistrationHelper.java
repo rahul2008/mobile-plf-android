@@ -19,13 +19,14 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
@@ -47,8 +48,28 @@ public class RegistrationHelper {
 
     private Locale mLocale;
 
+    public URSettings getUrSettings() {
+        return urSettings;
+    }
+
+    public void setUrSettings(URSettings urSettings) {
+        this.urSettings = urSettings;
+    }
+
+    private URSettings urSettings;
+
     private RegistrationHelper() {
     }
+
+    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationUIEventListener;
+    }
+
+    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener userRegistrationUIEventListener) {
+        this.userRegistrationUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private UserRegistrationUIEventListener userRegistrationUIEventListener;
 
 
     /**
@@ -66,9 +87,14 @@ public class RegistrationHelper {
         return mRegistrationHelper;
     }
 
-    @SuppressWarnings("deprecation")
+    private AppInfraInterface appInfra ;
+
+    public void setAppInfraInstance(AppInfraInterface appInfra) {
+        this.appInfra =appInfra;
+    }
+
     public AppInfraInterface getAppInfraInstance() {
-        return AppInfraSingleton.getInstance();
+        return appInfra;
     }
 
     private AppTaggingInterface mAppTaggingInterface;

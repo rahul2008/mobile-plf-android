@@ -166,37 +166,13 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings) {
-
-
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setAccountSettings(isAccountSettings);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-
-
-        FragmentLauncher fragmentLauncher = new FragmentLauncher(this,R.id.fl_reg_fragment_container,this);
-
-        URInterface.getInstance().launch(fragmentLauncher, urLaunchInput);
-
-
-
-        /*try {
-            FragmentManager mFragmentManager = getSupportFragmentManager();
-            RegistrationFragment registrationFragment = new RegistrationFragment();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
-          *//*  bundle.putSerializable(RegConstants.USER_REGISTRATION_LISTENER,
-                    getIntent().getExtras().getSerializable(RegConstants.USER_REGISTRATION_LISTENER));*//*
-            registrationFragment.setArguments(bundle);
-           registrationFragment.setOnUpdateTitleListener(this);
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
-                    RegConstants.REGISTRATION_FRAGMENT_TAG);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }*/
+        FragmentLauncher fragmentLauncher = new FragmentLauncher
+                (this,R.id.fl_reg_fragment_container,this);
+        URInterface urInterface = new URInterface();
+        urInterface.launch(fragmentLauncher, urLaunchInput);
     }
 
 
@@ -251,9 +227,5 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     public void updateActionBar(String s, boolean b) {
 
     }
-
-
-
-
 
 }

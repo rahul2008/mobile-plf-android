@@ -193,8 +193,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
             handleLogout();
         } else if (id == R.id.btn_reg_continue) {
             RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
-            RegistrationHelper.getInstance().getUserRegistrationListener()
-                    .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
+            RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                    onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+
         }
     }
 
