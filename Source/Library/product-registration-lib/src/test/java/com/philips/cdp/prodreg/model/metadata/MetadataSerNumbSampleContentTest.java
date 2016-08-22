@@ -20,30 +20,32 @@ public class MetadataSerNumbSampleContentTest extends TestCase {
 
     public void testSetTitle() throws Exception {
         serialNumberSampleContentTest.setTitle("Find the serial number");
+        assertEquals("Find the serial number", serialNumberSampleContentTest.getTitle());
     }
 
     public void testSetAsset() throws Exception {
-
         serialNumberSampleContentTest.setAsset("/consumerfiles/assets/img/registerproducts/HC.jpg");
+        assertEquals("/consumerfiles/assets/img/registerproducts/HC.jpg", serialNumberSampleContentTest.getAsset());
     }
 
     public void testSetSnExample() throws Exception {
         serialNumberSampleContentTest.setSnExample("Example: 1344");
+        assertEquals("Example: 1344", serialNumberSampleContentTest.getSnExample());
     }
 
     public void testSetSnFormat() throws Exception {
         serialNumberSampleContentTest.setSnFormat("cc");
+        assertEquals("cc", serialNumberSampleContentTest.getSnFormat());
     }
 
     @Test
-    public void ShouldGetTitle() throws Exception {
+    public void testGetTitle() throws Exception {
         serialNumberSampleContentTest.setTitle("Find the serial number");
         assertEquals("Find the serial number", serialNumberSampleContentTest.getTitle());
     }
 
     @Test
-    public void ShouldGetAsset() throws Exception {
-
+    public void testGetAsset() throws Exception {
         serialNumberSampleContentTest.setAsset("/consumerfiles/assets/img/registerproducts/HC.jpg");
         assertEquals("/consumerfiles/assets/img/registerproducts/HC.jpg", serialNumberSampleContentTest.getAsset());
     }
@@ -55,7 +57,7 @@ public class MetadataSerNumbSampleContentTest extends TestCase {
     }
 
     @Test
-    public void ShouldGetSnFormat() throws Exception {
+    public void testGetSnFormat() throws Exception {
         serialNumberSampleContentTest.setSnFormat("cc");
         assertEquals("cc", serialNumberSampleContentTest.getSnFormat());
     }

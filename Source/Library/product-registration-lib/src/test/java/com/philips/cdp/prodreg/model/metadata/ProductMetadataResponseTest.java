@@ -34,6 +34,7 @@ public class ProductMetadataResponseTest extends InstrumentationTestCase {
 
     public void testSetData() throws Exception {
         productMetadataResponse.setData(data);
+        assertEquals(data, productMetadataResponse.getData());
     }
 
     public void testGetData() throws Exception {

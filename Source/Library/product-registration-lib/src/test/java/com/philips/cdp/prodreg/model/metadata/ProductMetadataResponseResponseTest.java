@@ -20,38 +20,47 @@ public class ProductMetadataResponseResponseTest extends TestCase {
 
     public void testSetMessage() throws Exception {
         productDataTest.setMessage("If, after the purchase date");
+        assertEquals("If, after the purchase date", productDataTest.getMessage());
     }
 
     public void testSetGetCtn() throws Exception {
         productDataTest.setCtn("HC5410/83");
+        assertEquals("HC5410/83", productDataTest.getCtn());
     }
 
     public void testSetHasGiftPack() throws Exception {
         productDataTest.setHasGiftPack("true");
+        assertEquals("true", productDataTest.getHasGiftPack());
     }
 
     public void testSetSerialNumberFormat() throws Exception {
         productDataTest.setSerialNumberFormat("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$");
+        assertEquals("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$", productDataTest.getSerialNumberFormat());
     }
 
     public void testSetHasExtendedWarranty() throws Exception {
         productDataTest.setHasExtendedWarranty("true");
+        assertEquals("true", productDataTest.getHasExtendedWarranty());
     }
 
     public void testSetRequiresSerialNumber() throws Exception {
         productDataTest.setRequiresSerialNumber("true");
+        assertEquals("true", productDataTest.getRequiresSerialNumber());
     }
 
     public void testSetIsConnectedDevice() throws Exception {
         productDataTest.setIsConnectedDevice("true");
+        assertEquals("true", productDataTest.getIsConnectedDevice());
     }
 
     public void testSetExtendedWarrantyMonths() throws Exception {
         productDataTest.setExtendedWarrantyMonths("true");
+        assertEquals("true", productDataTest.getExtendedWarrantyMonths());
     }
 
     public void testSetRequiresDateOfPurchase() throws Exception {
         productDataTest.setRequiresDateOfPurchase("true");
+        assertEquals("true", productDataTest.getRequiresDateOfPurchase());
     }
 
     @Test
