@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -8,9 +8,6 @@ package com.philips.pins.shinelib.utility;
 import java.nio.ByteBuffer;
 import java.util.Date;
 
-/**
- * Created by 310188215 on 07/07/15.
- */
 public class ExactTime256 {
     public final DayDateTime dayDateTime;
     public final short fractions256;

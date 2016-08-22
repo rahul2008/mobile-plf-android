@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.os.Handler;
@@ -23,9 +28,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by 310188215 on 19/01/16.
- */
 public class SHNDeviceScannerTest {
 
     public static final long SCAN_TIMEOUT_MS = 30000;

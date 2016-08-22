@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.wrappers;
 
 import com.philips.pins.shinelib.ResultListener;
@@ -14,7 +19,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class SHNCapabilityConfigSedentaryWrapperTest extends SHNCapabilityWrapperTestBase {
 

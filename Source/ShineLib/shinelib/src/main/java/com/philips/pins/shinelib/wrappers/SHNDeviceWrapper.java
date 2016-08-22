@@ -1,12 +1,14 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -28,8 +30,9 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
         @Override
-        public void onStateUpdated(SHNDevice shnDevice) {
-            assert (SHNDeviceWrapper.this.shnDevice == shnDevice);
+        public void onStateUpdated(@NonNull SHNDevice shnDevice) {
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
+                throw new IllegalArgumentException();
             synchronized (shnDeviceListeners) {
                 for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                     if (shnDeviceListener != null) {
@@ -45,8 +48,9 @@ public class SHNDeviceWrapper implements SHNDevice {
         }
 
         @Override
-        public void onFailedToConnect(SHNDevice shnDevice, final SHNResult result) {
-            assert (SHNDeviceWrapper.this.shnDevice == shnDevice);
+        public void onFailedToConnect(@NonNull SHNDevice shnDevice, final SHNResult result) {
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
+                throw new IllegalArgumentException();
             synchronized (shnDeviceListeners) {
                 for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                     if (shnDeviceListener != null) {
@@ -76,9 +80,9 @@ public class SHNDeviceWrapper implements SHNDevice {
     }
 
     public boolean isBonded() {
-        return ((SHNDeviceImpl)shnDevice).isBonded();
+        return ((SHNDeviceImpl) shnDevice).isBonded();
     }
-    
+
     // implements SHNDevice
     @Override
     public State getState() {
@@ -115,7 +119,7 @@ public class SHNDeviceWrapper implements SHNDevice {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                ((SHNDeviceImpl)shnDevice).connect(withTimeout, timeoutInMS);
+                ((SHNDeviceImpl) shnDevice).connect(withTimeout, timeoutInMS);
             }
         };
         internalHandler.post(runnable);

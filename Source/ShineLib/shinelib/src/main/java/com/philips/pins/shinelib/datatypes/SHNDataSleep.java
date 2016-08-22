@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -8,9 +8,6 @@ package com.philips.pins.shinelib.datatypes;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by 310188215 on 07/05/15.
- */
 public class SHNDataSleep extends SHNData {
     private final List<SleepPhase> sleepPhases;
     private final long latency;         // minutes

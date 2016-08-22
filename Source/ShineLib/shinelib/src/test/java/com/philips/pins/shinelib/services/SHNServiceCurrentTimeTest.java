@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -13,6 +18,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,9 +32,6 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * Created by 310188215 on 07/07/15.
- */
 public class SHNServiceCurrentTimeTest {
     private SHNServiceCurrentTime shnServiceCurrentTime;
     private SHNService.SHNServiceListener shnServiceListener;
@@ -44,7 +47,7 @@ public class SHNServiceCurrentTimeTest {
 
     @Before
     public void setUp() {
-        simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss:SSS");
+        simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss:SSS", Locale.US);
         mockedSHNFactory = mock(SHNFactory.class);
         mockedSHNService = mock(SHNService.class);
         mockedSHNObjectResultListener = mock(SHNObjectResultListener.class);

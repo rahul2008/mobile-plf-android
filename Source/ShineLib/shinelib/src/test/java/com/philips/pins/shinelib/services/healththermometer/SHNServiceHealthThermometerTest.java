@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services.healththermometer;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -26,9 +31,6 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-/**
- * Created by 310188215 on 08/06/15.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SHNServiceHealthThermometerTest {
     private SHNServiceHealthThermometer shnServiceHealthThermometer;

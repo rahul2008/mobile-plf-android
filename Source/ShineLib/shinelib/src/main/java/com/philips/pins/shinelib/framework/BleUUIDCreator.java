@@ -1,13 +1,10 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.framework;
 
-/**
- * Created by 310188215 on 10/03/15.
- */
 public class BleUUIDCreator {
     private static final String BLUETOOTH_BASE_UUID_PREFIX = "00000000";
     private static final String BLUETOOTH_BASE_UUID_SUFFIX = "-0000-1000-8000-00805F9B34FB";

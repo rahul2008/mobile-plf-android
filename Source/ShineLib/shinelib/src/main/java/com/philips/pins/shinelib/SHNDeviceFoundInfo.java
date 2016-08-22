@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference;
 public class SHNDeviceFoundInfo {
 
     @NonNull
-    private static WeakReference<SHNCentral> weakSHNCentral = new WeakReference<SHNCentral>(null);
+    private static WeakReference<SHNCentral> weakSHNCentral = new WeakReference<>(null);
 
     /**
      * Static function that provides a way to inject SHNCentral.
@@ -28,7 +28,7 @@ public class SHNDeviceFoundInfo {
      * @param shnCentral to inject
      */
     public static void setSHNCentral(@NonNull SHNCentral shnCentral) {
-        weakSHNCentral = new WeakReference<SHNCentral>(shnCentral);
+        weakSHNCentral = new WeakReference<>(shnCentral);
     }
 
     @NonNull

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
@@ -31,7 +36,6 @@ public class DeviceInformationCacheTest {
     @Before
     public void setUp() throws ParseException {
         initMocks(this);
-
 
         deviceInformationCache = new DeviceInformationCache(persistentStorageMock);
     }
@@ -69,7 +73,7 @@ public class DeviceInformationCacheTest {
                 boolean res = false;
 
                 if (argument instanceof Long) {
-                    long millis = ((Long) argument).longValue();
+                    long millis = (Long) argument;
                     min = TEST_DATE.getTime();
                     max = new Date().getTime();
 

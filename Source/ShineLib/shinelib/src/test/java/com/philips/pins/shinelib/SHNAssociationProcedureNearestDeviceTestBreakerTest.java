@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import com.philips.pins.shinelib.associationprocedures.SHNAssociationProcedureNearestDevice;
@@ -26,9 +31,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * Created by code1_310170470 on 28/05/15.
- */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Timer.class})
 public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
@@ -49,7 +51,7 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
 
     private void discoverMockedDevices(Integer[] locations) {
         for (Integer location : locations) {
-            assert (location < mockedDevicesAndAssociatedRSSI.size());
+            assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
 
             AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
             SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
@@ -63,7 +65,7 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
     }
 
     private void verifyAssociationSuccess(int location) {
-        assert (location < mockedDevicesAndAssociatedRSSI.size());
+        assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
         AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
         verify(mockedSHNAssociationProcedureListener, times(1)).onAssociationSuccess(any(SHNDevice.class));
         verify(mockedSHNAssociationProcedureListener).onAssociationSuccess(entry.getKey());
