@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.wrappers;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
@@ -32,6 +33,9 @@ public class SHNCapabilityWrapperFactoryTest {
 
     @Mock
     private SHNCapabilityConfigEnergyIntake energyIntakeMock;
+
+    @Mock
+    private CapabilityBluetoothDirect bluetoothDirectMock;
 
     @Before
     public void setUp() {
@@ -60,5 +64,11 @@ public class SHNCapabilityWrapperFactoryTest {
     public void ShouldCreateASHNCapabilityConfigEnergyIntakeWrapper_WhenConfigEnergyIntakeIsProvided() {
         SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(energyIntakeMock, SHNCapabilityType.CONFIG_ENERGY_INTAKE, null, null);
         assertThat(capabilityWrapper).isInstanceOf(SHNCapabilityConfigEnergyIntakeWrapper.class);
+    }
+
+    @Test
+    public void ShouldCreateCapabilityBluetoothDirectWrapper_WhenBluetoothDirectIsProvided() {
+        SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(bluetoothDirectMock, SHNCapabilityType.BLUETOOTH_DIRECT, null, null);
+        assertThat(capabilityWrapper).isInstanceOf(CapabilityBluetoothDirect.class);
     }
 }
