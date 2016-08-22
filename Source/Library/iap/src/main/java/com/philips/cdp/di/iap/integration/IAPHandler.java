@@ -32,11 +32,11 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.User;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class IAPHandler {
@@ -73,6 +73,8 @@ public class IAPHandler {
     }
 
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput mLaunchInput, final IAPListener listener) {
+
+        //User logged off scenario
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
             @Override
@@ -98,11 +100,11 @@ public class IAPHandler {
     }
 
     private void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
-        BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingViews, iapLaunchInput.mProductCTNs);
+        BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingViews, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher);
     }
 
-    private BaseAnimationSupportFragment getFragmentFromScreenID(final int screen, final ArrayList<String> ctnNumbers) {
+    private BaseAnimationSupportFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
         BaseAnimationSupportFragment fragment;
         Bundle bundle = new Bundle();
         switch (screen) {
@@ -114,12 +116,12 @@ public class IAPHandler {
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                 fragment = new ProductDetailFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, ctnNumbers.get(0));
+                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, iapFlowInput.getProductCTN());
                 fragment.setArguments(bundle);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                 fragment = new BuyDirectFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, ctnNumbers.get(0));
+                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, iapFlowInput.getProductCTN());
                 break;
             default:
                 //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
@@ -135,12 +137,12 @@ public class IAPHandler {
         Intent intent = new Intent(pContext, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, pLaunchConfig.mLandingViews);
-        if (pLaunchConfig.mProductCTNs != null) {
-            intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mProductCTNs.get(0));
+        if (pLaunchConfig.mIAPFlowInput != null) {
+            intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mIAPFlowInput.getProductCTN());
         }
         //TODO : Activity Theme has to get from ActivityLauncher
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
-        intent.putStringArrayListExtra(IAPConstant.PRODUCT_CTNS, pLaunchConfig.mProductCTNs);
+        intent.putStringArrayListExtra(IAPConstant.PRODUCT_CTNS, pLaunchConfig.mIAPFlowInput.getProductCTNs());
         pContext.startActivity(intent);
     }
 

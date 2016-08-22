@@ -4,16 +4,31 @@ package com.philips.cdp.di.iap.integration;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
-import java.util.ArrayList;
-
 public class IAPLaunchInput extends UappLaunchInput {
     int mLandingViews;
-    public ArrayList<String> mProductCTNs;
+    public IAPFlowInput mIAPFlowInput;
     private IAPListener iapListener;
 
-    public void setIAPFlow(int pLandingViews, ArrayList<String> pProductCTNs) {
+    public void setIAPFlow(int pLandingViews, IAPFlowInput pIapFlowInput) {
         mLandingViews = pLandingViews;
-        mProductCTNs = pProductCTNs;
+        //  mIAPFlowInput = pIapFlowInput;
+        switch (mLandingViews) {
+            case IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
+                mIAPFlowInput = pIapFlowInput;
+                break;
+            case IAPFlows.IAP_SHOPPING_CART_VIEW:
+                mIAPFlowInput = pIapFlowInput;
+                break;
+            case IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
+                mIAPFlowInput = pIapFlowInput;
+                break;
+            case IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
+                mIAPFlowInput = pIapFlowInput;
+                break;
+            case IAPFlows.IAP_BUY_DIRECT_VIEW:
+                mIAPFlowInput = pIapFlowInput;
+                break;
+        }
     }
 
 

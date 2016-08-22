@@ -18,8 +18,9 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -67,10 +68,10 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         IAPSettings iapSettings = new IAPSettings(this);
         IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
         iapSettings.setUseLocalData(false);
-        iapInterface.init(iapDependencies, new IAPSettings(getApplicationContext()));
-
+        // iapInterface.init(iapDependencies, new IAPSettings(getApplicationContext()));
+        IAPFlowInput iapFlowInput = new IAPFlowInput(mProductCTNs);
         iapInterface.init(iapDependencies, iapSettings);
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, mProductCTNs);
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
         iapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
 
     }
