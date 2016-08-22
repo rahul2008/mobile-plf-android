@@ -76,16 +76,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             disconnect();
         }
     }, CONNECT_TIMEOUT);
+
     private Timer waitingUntilBondingStartedTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
             if (BuildConfig.DEBUG && internalState != InternalState.ConnectedWaitingUntilBonded)
-                throw new AssertionError();
+                throw new IllegalStateException("internalState should be InternalState.ConnectedWaitingUntilBonded");
             setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedDiscoveringServices);
             btGatt.discoverServices();
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
+
     private long lastDisconnectedTimeMillis;
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {

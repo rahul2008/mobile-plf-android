@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNCapability;
@@ -29,9 +30,9 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
         @Override
-        public void onStateUpdated(SHNDevice shnDevice) {
+        public void onStateUpdated(@NonNull SHNDevice shnDevice) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
-                throw new AssertionError();
+                throw new IllegalArgumentException();
             synchronized (shnDeviceListeners) {
                 for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                     if (shnDeviceListener != null) {
@@ -47,9 +48,9 @@ public class SHNDeviceWrapper implements SHNDevice {
         }
 
         @Override
-        public void onFailedToConnect(SHNDevice shnDevice, final SHNResult result) {
+        public void onFailedToConnect(@NonNull SHNDevice shnDevice, final SHNResult result) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
-                throw new AssertionError();
+                throw new IllegalArgumentException();
             synchronized (shnDeviceListeners) {
                 for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                     if (shnDeviceListener != null) {

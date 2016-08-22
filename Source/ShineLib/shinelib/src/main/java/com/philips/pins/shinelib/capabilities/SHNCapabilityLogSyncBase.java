@@ -131,7 +131,8 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     private void finishLoggingResult(SHNResult result) {
-        if (BuildConfig.DEBUG && state != State.Synchronizing) throw new AssertionError();
+        if (BuildConfig.DEBUG && state != State.Synchronizing)
+            throw new IllegalStateException("Can only finish logging when state is State.Synchronizing");
 
         teardownReceivingMeasurements();
         notifyListenerWithProgress(1.0f);
