@@ -98,5 +98,15 @@
         android:text="Get moment value from datacore"
         android:textColor="@color/uikit_philips_blue"
         android:textSize="14sp" />
-</RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not Connected"
+            android:id="@+id/connectionState"
+            android:layout_above="@+id/get_momentumvalue_button"
+            android:layout_alignParentEnd="true"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 </ScrollView>

@@ -35,7 +35,10 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         public enum Button
         {
             HamburgerIcon,
-            Settings
+            Settings,
+            Connectivity,
+            NucleousDevice,
+            MomentValueFromDatacore
 
         }
 
@@ -45,8 +48,19 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.HamburgerIcon);
             else if (btn == Button.Settings)
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Settings).Click();
-                
-         }
+            else if (btn == Button.Connectivity)
+                _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Connectivity).Click();
+            if (btn == Button.NucleousDevice)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.NucleousDevice);
+            if (btn == Button.MomentValueFromDatacore)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.MomentValueFromDatacore);
+        }
+
+        public enum EditText
+        {
+            Nucleus,
+            Moment
+        }
 
         /// <summary>
         /// Returns a string containing the title of the screen.
@@ -57,6 +71,23 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             return _instance.GetTextById(AppFrameWork.Android.HomeScreen.AppFrameworkHomeScreen);
 
         }
+
+
+        public static string GetText(EditText et)
+        {
+            switch (et)
+            {
+                case EditText.Nucleus:
+                    return _instance.GetElement(SearchBy.Id, ObjectRepository.NucleousValue).Text;
+                case EditText.Moment:
+                    return _instance.GetElement(SearchBy.Id, ObjectRepository.MomentValue).Text;
+                default:
+                    Logger.Info("Error: AppHomeScreen.GetText not implemented for " + et.ToString());
+                    break;
+            }
+            return String.Empty;
+        }
+
 
         public static bool IsVisible1()
         {
@@ -101,6 +132,19 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                 return false;
         }
 
+
+        public static void EnterText(EditText editText, string value)
+        {
+            switch (editText)
+            {
+                case EditText.Nucleus:
+                    _instance.GetElement(SearchBy.Id, ObjectRepository.NucleousValue).SetText(value);
+                    break;
+                default:
+                    Logger.Info("Error: AppHomeScreen.GetText not implemented for " + editText.ToString());
+                    break;
+            }
+        }
     }
 }
 

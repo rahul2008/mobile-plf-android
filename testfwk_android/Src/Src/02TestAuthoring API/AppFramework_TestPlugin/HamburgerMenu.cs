@@ -73,10 +73,18 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             EnterText(TextField.UserName, username);
             EnterText(TextField.PassWord, password);
             _instance.ClickById("com.philips.platform.appframework:id/btn_reg_sign_in");
+            try
+            {
+                IMobilePageControl terms = _instance.GetElement(SearchBy.Id, "com.philips.platform.appframework:id/rl_x_checkbox");
+                terms.Click();
+                Thread.Sleep(1000);
+                _instance.ClickById("com.philips.platform.appframework:id/reg_btn_continue");
+                Thread.Sleep(1000);
+            }
+            catch (Exception e) { }
             _instance.ClickById("com.philips.platform.appframework:id/btn_reg_continue");
-        
-            
         }
+
 
        
 

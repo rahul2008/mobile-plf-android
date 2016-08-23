@@ -1285,8 +1285,20 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
             doc.Save("Repository.xml");
         }
 
-
-
+        public static string NucleousValue
+        {
+            get
+            {
+                return GetData("NucleousValue");
+            }
+        }
+        public static string MomentValue
+        {
+            get
+            {
+                return GetData("MomentValue");
+            }
+        }
     }
 
     public class Repository
@@ -2048,6 +2060,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
 
                 }
 
+
                 public static string AppFrameworkHomeScreen
                 {
                     get
@@ -2150,6 +2163,38 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Settings");
                     }
                 }
+
+                public static string Connectivity
+                {
+                    get
+                    {
+                        return GetData("Connectivity");
+                    }
+                }
+
+
+                public static string NucleousDevice
+                {
+                    get
+                    {
+                        return GetData("NucleousDevice");
+                    }
+
+                }
+
+
+
+                public static string MomentValueFromDatacore
+                {
+                    get
+                    {
+                        return GetData("MomentValueFromDatacore");
+                    }
+
+                }
+
+
+
                 public static string Alogout
                 {
                     get
