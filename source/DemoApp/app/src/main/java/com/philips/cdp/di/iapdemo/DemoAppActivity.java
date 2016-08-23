@@ -240,6 +240,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                         mIapLaunchInput);
             } catch (RuntimeException exception) {
                 dismissProgressDialog();
+                Toast.makeText(DemoAppActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
