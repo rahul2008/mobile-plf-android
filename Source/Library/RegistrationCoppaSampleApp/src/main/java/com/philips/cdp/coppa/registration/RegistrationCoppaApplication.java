@@ -3,15 +3,17 @@ package com.philips.cdp.coppa.registration;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
+import com.philips.cdp.registration.coppa.utils.CoppaDependancies;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
+import com.philips.cdp.registration.coppa.utils.CoppaSettings;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
@@ -24,6 +26,8 @@ public class RegistrationCoppaApplication extends Application {
 
 
     private static volatile RegistrationCoppaApplication mRegistrationHelper = null;
+    private RegistrationBaseConfiguration mRegistrationBaseConfiguration =
+            new RegistrationBaseConfiguration();
 
 
     /**
@@ -40,20 +44,16 @@ public class RegistrationCoppaApplication extends Application {
         mRegistrationHelper = this;
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+       // RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
         RegistrationConfiguration.getInstance().
                 setPrioritisedFunction(RegistrationFunction.Registration);
-        RLog.init(this);
-        RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization " +
-                "with locale : " + Locale.getDefault());
 
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
-            RLog.i("Last known environment", restoredText);
+            Log.i("Last known environment", restoredText);
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
             initRegistration(Configuration.STAGING);
@@ -79,24 +79,20 @@ public class RegistrationCoppaApplication extends Application {
         registrationClientId.setEvaluationId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         registrationClientId.setStagingId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         registrationClientId.setProductionId("9z23k3q8bhqyfwx78aru6bz8zksga54u");
-        RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration().
-                setClientIds(registrationClientId);
+        mRegistrationBaseConfiguration.getJanRainConfiguration().setClientIds(registrationClientId);
 
         //Configure PIL
-        RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
-        RegistrationDynamicConfiguration.getInstance().getPilConfiguration().
-                setRegistrationEnvironment(configuration.getValue());
-
+        mRegistrationBaseConfiguration.getPilConfiguration().setMicrositeId("77000");
+        mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(configuration.getValue());
 
         //Configure Flow
-        RegistrationDynamicConfiguration.getInstance().getFlow().setEmailVerificationRequired(true);
-        RegistrationDynamicConfiguration.getInstance().getFlow().
-                setTermsAndConditionsAcceptanceRequired(true);
+        mRegistrationBaseConfiguration.getFlow().setEmailVerificationRequired(true);
+        mRegistrationBaseConfiguration.getFlow().setTermsAndConditionsAcceptanceRequired(true);
         HashMap<String, String> ageMap = new HashMap<>();
         ageMap.put("NL", "16");
         ageMap.put("GB", "16");
         ageMap.put("default", "16");
-        RegistrationDynamicConfiguration.getInstance().getFlow().setMinAgeLimit(ageMap);
+        mRegistrationBaseConfiguration.getFlow().setMinAgeLimit(ageMap);
 
         //Configure Signin Providers
         HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
@@ -115,7 +111,7 @@ public class RegistrationCoppaApplication extends Application {
         providers.put("NL", values1);
         providers.put("US", values2);
         providers.put("default", values3);
-        RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
+        mRegistrationBaseConfiguration.getSignInProviders().setProviders(providers);
 
         //Configure HSDP
         //initHSDP(configuration);
@@ -126,7 +122,13 @@ public class RegistrationCoppaApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        RegistrationHelper.getInstance().initializeUserRegistration(this);
+        CoppaDependancies urDependancies = new CoppaDependancies(AppInfraSingleton.getInstance());
+        CoppaSettings urSettings = new CoppaSettings(this);
+        urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
+        CoppaInterface urInterface = new CoppaInterface();
+        urInterface.init(urDependancies,urSettings);
+
+        //RegistrationHelper.getInstance().initializeUserRegistration(this);
         //Tagging.init(this, "Philips Registration");
 
     }

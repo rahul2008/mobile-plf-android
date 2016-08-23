@@ -34,6 +34,7 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
@@ -59,60 +60,64 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private static int lastKnownResourceId = -99;
     private static boolean isRegistrationLunched;
     private static ProgressDialog mProgressDialog;
-    private static UserRegistrationListener mUserRegistrationListener =
-            new UserRegistrationListener() {
+    private static UserRegistrationUIEventListener userRegistrationUIEventListener = new UserRegistrationUIEventListener() {
+        @Override
+        public void onUserRegistrationComplete(Activity activity) {
+            //Launch the Approval fragment
+            isRegistrationLunched = false;
+            isParentalFragmentLaunched = true;
+            showRefreshProgress(activity);
+
+            final User user = new User(activity.getApplicationContext());
+            user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
-                public void onUserRegistrationComplete(Activity activity) {
-                    //Launch the Approval fragment
-                    isRegistrationLunched = false;
-                    isParentalFragmentLaunched = true;
-                    showRefreshProgress(activity);
-
-                    final User user = new User(activity.getApplicationContext());
-                    user.refreshLoginSession(new RefreshLoginSessionHandler() {
+                public void onRefreshLoginSessionSuccess() {
+                    user.refreshUser(new RefreshUserHandler() {
                         @Override
-                        public void onRefreshLoginSessionSuccess() {
-                            user.refreshUser(new RefreshUserHandler() {
-                                @Override
-                                public void onRefreshUserSuccess() {
-                                    hideRefreshProgress();
-                                    handleConsentState();
-                                }
-
-                                @Override
-                                public void onRefreshUserFailed(int error) {
-                                    hideRefreshProgress();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionFailedWithError(int error) {
+                        public void onRefreshUserSuccess() {
                             hideRefreshProgress();
+                            handleConsentState();
                         }
 
                         @Override
-                        public void onRefreshLoginSessionInProgress(String message) {
+                        public void onRefreshUserFailed(int error) {
                             hideRefreshProgress();
                         }
                     });
                 }
 
                 @Override
-                public void onPrivacyPolicyClick(Activity activity) {
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnPrivacyPolicyClickEventOccurred(activity);
-                    }
+                public void onRefreshLoginSessionFailedWithError(int error) {
+                    hideRefreshProgress();
                 }
 
                 @Override
-                public void onTermsAndConditionClick(Activity activity) {
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnTermsAndConditionClickEventOccurred(activity);
-                    }
+                public void onRefreshLoginSessionInProgress(String message) {
+                    hideRefreshProgress();
                 }
+            });
+        }
+
+        @Override
+        public void onPrivacyPolicyClick(Activity activity) {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                        onPrivacyPolicyClick(activity);
+            }
+        }
+
+        @Override
+        public void onTermsAndConditionClick(Activity activity) {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                        onTermsAndConditionClick(activity);
+            }
+        }
+
+    };
+
+    private static UserRegistrationListener mUserRegistrationListener =
+            new UserRegistrationListener() {
 
                 @Override
                 public void onUserLogoutSuccess() {
@@ -272,9 +277,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                             CoppaStatus.kDICOPPAConsentNotGiven ||
                     mCoppaExtension.getCoppaEmailConsentStatus() ==
                             CoppaStatus.kDICOPPAConfirmationNotGiven) {
-                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                            notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
+                if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
+                   RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                           onUserRegistrationComplete(getParentActivity());
                 }
             } else {
                 addParentalApprovalFragmentonLaunch();
@@ -288,6 +293,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     public static UserRegistrationListener getUserRegistrationListener() {
         return mUserRegistrationListener;
     }
+
+
 
     private static void trackPage(String currPage) {
         AppTagging.trackPage(currPage);
@@ -564,8 +571,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
-
-
+            RegistrationHelper.getInstance().setUserRegistrationUIEventListener
+                    (userRegistrationUIEventListener);
 
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
                 @Override

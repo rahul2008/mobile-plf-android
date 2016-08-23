@@ -23,11 +23,11 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
@@ -48,15 +48,15 @@ public class RegistrationHelper {
 
     private Locale mLocale;
 
-    public URSettings getUrSettings() {
+    public UappSettings getUrSettings() {
         return urSettings;
     }
 
-    public void setUrSettings(URSettings urSettings) {
+    public void setUrSettings(UappSettings urSettings) {
         this.urSettings = urSettings;
     }
 
-    private URSettings urSettings;
+    private UappSettings urSettings;
 
     private RegistrationHelper() {
     }

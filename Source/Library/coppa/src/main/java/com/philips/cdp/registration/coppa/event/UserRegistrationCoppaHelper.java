@@ -9,8 +9,6 @@
 
 package com.philips.cdp.registration.coppa.event;
 
-import android.app.Activity;
-
 import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -78,11 +76,11 @@ public class UserRegistrationCoppaHelper {
         }
     }
 
-    /**
+/*    *//**
      * {@code notifyonUserRegistrationCompleteEventOccurred} method get activity
      *
      * @param activity notify onUserRegistration Complete EventOccurred
-     */
+     *//*
     public synchronized void notifyonUserRegistrationCompleteEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -95,11 +93,11 @@ public class UserRegistrationCoppaHelper {
         }
     }
 
-    /**
+    *//**
      * {@code notifyOnPrivacyPolicyClickEventOccurred} method get activity
      *
      * @param activity notify OnPrivacyPolicy Click EventOccurred
-     */
+     *//*
     public synchronized void notifyOnPrivacyPolicyClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -112,11 +110,11 @@ public class UserRegistrationCoppaHelper {
         }
     }
 
-    /**
+    *//**
      * {@code notifyOnTermsAndConditionClickEventOccurred} method get activity
      *
      * @param activity notify OnTermsAndCondition Click EventOccurred
-     */
+     *//*
     public synchronized void notifyOnTermsAndConditionClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -127,7 +125,7 @@ public class UserRegistrationCoppaHelper {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * {@code notifyOnUserLogoutSuccess} method notify OnUser Logout Success

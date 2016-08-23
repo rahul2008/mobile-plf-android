@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.ui.utils;
+package com.philips.cdp.registration.coppa.utils;
 
 
 import android.content.Intent;
@@ -7,10 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
+import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -19,15 +21,15 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-public class URInterface implements UappInterface {
+public class CoppaInterface implements UappInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        if (null != uappLaunchInput && null != ((URLaunchInput) uappLaunchInput).
+        if (null != uappLaunchInput && null != ((CoppaLaunchInput) uappLaunchInput).
                 getUserRegistrationUIEventListener()) {
-            RegistrationHelper.getInstance().setUserRegistrationUIEventListener
-                    (((URLaunchInput) uappLaunchInput).
-                    getUserRegistrationUIEventListener());
+            RegistrationCoppaHelper.getInstance().setUserRegistrationUIEventListener
+                    (((CoppaLaunchInput) uappLaunchInput).
+                            getUserRegistrationUIEventListener());
         }
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
@@ -42,36 +44,31 @@ public class URInterface implements UappInterface {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
-            RegistrationFragment registrationFragment = new RegistrationFragment();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
+            final RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
+            final Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
                     uappLaunchInput).isAccountSettings());
-            registrationFragment.setPreviousResourceId(((URLaunchInput)
-                    uappLaunchInput).getPreviousResourceId());
-
+            bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
+                    uappLaunchInput).isParentalFragment());
             registrationFragment.setArguments(bundle);
-
-
-            registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
-                    getActionbarListener());
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            registrationFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
+            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     registrationFragment,
-                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+                    RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
-                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+                    "RegistrationCoppaActivity :FragmentTransaction Exception occured in " +
+                            "addFragment  :"
                             + e.getMessage());
         }
-
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
-
         if (null != uappLaunchInput) {
-            RegistrationFunction registrationFunction = ((URLaunchInput) uappLaunchInput).
+            RegistrationFunction registrationFunction = ((CoppaLaunchInput) uappLaunchInput).
                     getRegistrationFunction();
             if (null != registrationFunction) {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction
@@ -79,18 +76,19 @@ public class URInterface implements UappInterface {
             }
 
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
-                    getUrSettings().getContext(), RegistrationActivity.class);
+                    getUrSettings().getContext(), RegistrationCoppaActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
                     uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
+            bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
+                    uappLaunchInput).isParentalFragment());
             registrationIntent.putExtras(bundle);
             registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             RegistrationHelper.getInstance().
                     getUrSettings().getContext().startActivity(registrationIntent);
         }
-
 
     }
 
@@ -98,7 +96,7 @@ public class URInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
-        RegistrationHelper.getInstance().setUrSettings(((URSettings)uappSettings));
+        RegistrationHelper.getInstance().setUrSettings(((CoppaSettings) uappSettings));
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
     }
 

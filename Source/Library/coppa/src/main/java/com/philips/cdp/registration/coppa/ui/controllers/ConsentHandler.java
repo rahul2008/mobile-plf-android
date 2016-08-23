@@ -107,12 +107,13 @@ public class ConsentHandler implements RefreshUserHandler {
                                 RegistrationCoppaFragment.
                                         hideRefreshProgress();
                                 mCoppaExtension.buildConfiguration();
+
                                 if (RegistrationCoppaHelper.getInstance().
-                                        getUserRegistrationListener() != null) {
+                                        getUserRegistrationUIEventListener() != null) {
                                     RegistrationCoppaHelper.getInstance().
-                                            getUserRegistrationListener().
-                                            notifyonUserRegistrationCompleteEventOccurred(
-                                                    mParentalApprovalFragment.getActivity());
+                                            getUserRegistrationUIEventListener().
+                                            onUserRegistrationComplete(mParentalApprovalFragment.
+                                                    getActivity());
                                 }
                             }
 
@@ -171,10 +172,9 @@ public class ConsentHandler implements RefreshUserHandler {
         } else if (coppaStatus == CoppaStatus.kDICOPPAConfirmationGiven) {
             completeConsentActions(coppaStatus);
         } else {
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                        notifyonUserRegistrationCompleteEventOccurred(
-                                mParentalApprovalFragment.getActivity());
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                        onUserRegistrationComplete(mParentalApprovalFragment.getActivity());
             }
         }
     }
@@ -184,10 +184,9 @@ public class ConsentHandler implements RefreshUserHandler {
             //show thank you and 24 hour screen
             addParentalConsentFragment(coppaStatus);
         } else {
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                        notifyonUserRegistrationCompleteEventOccurred(
-                                mParentalApprovalFragment.getActivity());
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                        onUserRegistrationComplete(mParentalApprovalFragment.getActivity());
             }
         }
     }

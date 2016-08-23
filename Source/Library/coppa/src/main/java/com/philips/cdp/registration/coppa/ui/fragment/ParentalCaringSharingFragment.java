@@ -42,7 +42,8 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnPrivacyPolicyClickEventOccurred(getActivity());
+            RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                    onPrivacyPolicyClick(getActivity());
         }
     };
 
@@ -161,8 +162,9 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         int id = v.getId();
         if (id == R.id.coppa_reg_btn_dashboard) {
             RLog.d("Dash Board ", "Clicked : *******");
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(getActivity());
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                        onUserRegistrationComplete(getActivity());
             }
         }
     }
@@ -171,7 +173,6 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Content_Txt) +
                 "\n\n" + String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
-
     private String getAlreadyUsText() {
         return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt);
     }

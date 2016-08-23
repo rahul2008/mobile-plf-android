@@ -50,8 +50,8 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegistrationHelper.getInstance().getUserRegistrationListener().
-                    notifyOnPrivacyPolicyClickEventOccurred(getActivity());
+            RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                    onPrivacyPolicyClick(getActivity());
         }
     };
 

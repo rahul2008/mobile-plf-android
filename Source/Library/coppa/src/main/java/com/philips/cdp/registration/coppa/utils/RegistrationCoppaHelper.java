@@ -14,6 +14,7 @@ import com.philips.cdp.registration.coppa.event.UserRegistrationCoppaHelper;
 import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 
 public class RegistrationCoppaHelper {
 
@@ -23,6 +24,18 @@ public class RegistrationCoppaHelper {
 
     private RegistrationCoppaHelper() {
     }
+
+
+    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationUIEventListener;
+    }
+
+    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener userRegistrationUIEventListener) {
+        this.userRegistrationUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private UserRegistrationUIEventListener userRegistrationUIEventListener;
+
 
 
     public synchronized static RegistrationCoppaHelper getInstance() {

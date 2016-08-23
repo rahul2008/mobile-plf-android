@@ -15,7 +15,6 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -23,10 +22,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
-import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
+import com.philips.cdp.registration.coppa.utils.CoppaLaunchInput;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -172,24 +174,15 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings, boolean isParentalConsent) {
-        try {
-            final FragmentManager fragmentManager = getSupportFragmentManager();
-            final RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
-            final Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
-            bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, isParentalConsent);
-            registrationFragment.setArguments(bundle);
-            registrationFragment.setOnUpdateTitleListener(this);
-            final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
-                    RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaActivity :FragmentTransaction Exception occured in " +
-                            "addFragment  :"
-                            + e.getMessage());
-        }
+        CoppaLaunchInput urLaunchInput;
+        urLaunchInput = new CoppaLaunchInput();
+        urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.setParentalFragment(isParentalConsent);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        FragmentLauncher fragmentLauncher = new FragmentLauncher
+                (this, R.id.fl_reg_fragment_container,this);
+        CoppaInterface urInterface = new CoppaInterface();
+        urInterface.launch(fragmentLauncher, urLaunchInput);
     }
 
     @Override

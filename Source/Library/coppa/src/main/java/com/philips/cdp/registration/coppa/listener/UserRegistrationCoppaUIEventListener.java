@@ -9,12 +9,13 @@
 
 package com.philips.cdp.registration.coppa.listener;
 
-public interface UserRegistrationCoppaListener {
+import android.app.Activity;
 
-    void onUserLogoutSuccess();
+public interface UserRegistrationCoppaUIEventListener {
 
-    void onUserLogoutFailure();
+    void onUserRegistrationComplete(Activity activity);
 
-    void onUserLogoutSuccessWithInvalidAccessToken();
+    void onPrivacyPolicyClick(Activity activity);
 
+    void onTermsAndConditionClick(Activity activity);
 }
