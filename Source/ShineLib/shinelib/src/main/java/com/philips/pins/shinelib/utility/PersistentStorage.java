@@ -1,5 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,6 +44,7 @@ public class PersistentStorage implements SharedPreferences {
      * @param value to store
      * @param <T>   type of the value to store
      */
+    @SuppressLint("CommitPrefEdits")
     public <T> void put(@NonNull final String key, @Nullable final T value) {
         SharedPreferences.Editor edit = sharedPreferences.edit();
         if (value == null) {
@@ -46,7 +53,7 @@ public class PersistentStorage implements SharedPreferences {
             edit.remove(key + ENUM_NAME);
             edit.remove(key + DOUBLE_VALUE);
             removeList(key, edit);
-            edit.commit();
+            edit.commit(); // Explicitly store value synchronously so it is always stored after the method call.
         } else {
             put(key, edit, value);
         }
@@ -101,10 +108,10 @@ public class PersistentStorage implements SharedPreferences {
      * with the key or the value stored is of a different type than {@link T}, then the provided
      * {@code defaultValue} will be returned.
      *
-     * @param key           used for storage
-     * @param defaultValue  returned in case the key is not found
-     * @param <T>           type of the return value
-     * @return              when the type matches and a value was stored the value previously stored else the {@code defaultValue}.
+     * @param key          used for storage
+     * @param defaultValue returned in case the key is not found
+     * @param <T>          type of the return value
+     * @return when the type matches and a value was stored the value previously stored else the {@code defaultValue}.
      */
     public <T> T get(@NonNull final String key, @Nullable T defaultValue) {
         T value = get(key);
@@ -115,9 +122,9 @@ public class PersistentStorage implements SharedPreferences {
      * Retrieves a value from SharedPreferences for the specified key. When there is no value associated
      * with the key or the value stored is of a different type than {@link T}, then {@code null} will be returned.
      *
-     * @param key   used for storage
-     * @param <T>   type of the return value
-     * @return      when the type matches and a value was stored the value previously stored else {@code null}.
+     * @param key used for storage
+     * @param <T> type of the return value
+     * @return when the type matches and a value was stored the value previously stored else {@code null}.
      */
     public <T> T get(@NonNull final String key) {
         Object value = getAll().get(key);
@@ -216,8 +223,9 @@ public class PersistentStorage implements SharedPreferences {
     /**
      * Clear this storage.
      */
+    @SuppressLint("CommitPrefEdits")
     public void clear() {
-        sharedPreferences.edit().clear().commit();
+        sharedPreferences.edit().clear().commit(); // Explicitly store value synchronously so it is always stored after the method call.
     }
 
     /**

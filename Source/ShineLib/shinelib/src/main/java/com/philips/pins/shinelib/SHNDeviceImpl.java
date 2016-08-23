@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -21,6 +21,7 @@ Disconnecting --> Disconnected : onConnectionStateChange(Disconnected) /\nclose,
 ConnectedReady --> Disconnected : onConnectionStateChange(Disconnected) /\nclose, onStateChange(Disconnected)
 @enduml
  */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothAdapter;
@@ -76,15 +77,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             disconnect();
         }
     }, CONNECT_TIMEOUT);
+
     private Timer waitingUntilBondingStartedTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            assert (internalState == InternalState.ConnectedWaitingUntilBonded);
+            if (BuildConfig.DEBUG && internalState != InternalState.ConnectedWaitingUntilBonded)
+                throw new IllegalStateException("internalState should be InternalState.ConnectedWaitingUntilBonded");
             setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedDiscoveringServices);
             btGatt.discoverServices();
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
+
     private long lastDisconnectedTimeMillis;
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
@@ -217,7 +221,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             case ConnectedReady:
                 return State.Connected;
             default:
-                assert (false);
+                if (BuildConfig.DEBUG) throw new AssertionError();
                 break;
         }
         return null;
@@ -291,7 +295,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void disconnect() {
-        switch(internalState) {
+        switch (internalState) {
             case Connecting:
                 SHNLogger.i(TAG, "postpone disconnect until connected");
                 setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
@@ -309,7 +313,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
                 break;
             default:
-                assert(false);
+                if (BuildConfig.DEBUG) throw new AssertionError();
         }
     }
 

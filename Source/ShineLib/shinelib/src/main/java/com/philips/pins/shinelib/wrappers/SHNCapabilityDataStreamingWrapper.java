@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -16,9 +16,6 @@ import com.philips.pins.shinelib.datatypes.SHNDataType;
 
 import java.util.Set;
 
-/**
- * Created by 310188215 on 17/05/15.
- */
 public class SHNCapabilityDataStreamingWrapper implements SHNCapabilityDataStreaming {
     private final SHNCapabilityDataStreaming wrappedSHNCapabilityDataStreaming;
     private final Handler internalHandler;
