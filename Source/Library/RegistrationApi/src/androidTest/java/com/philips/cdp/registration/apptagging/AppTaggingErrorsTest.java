@@ -2,11 +2,7 @@ package com.philips.cdp.registration.apptagging;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 /**
  * Created by 310243576 on 8/11/2016.
@@ -31,9 +27,9 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
 
     public void testAppTaggingErrors() {
 
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
+       // AppInfraSingleton.setInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
 
-        appTaggingErrors.trackActionRegisterError(111);
+    /*    appTaggingErrors.trackActionRegisterError(111);
         appTaggingErrors.trackActionRegisterError(390);
         appTaggingErrors.trackActionRegisterError(210);
         appTaggingErrors.trackActionRegisterError(112);
@@ -47,6 +43,6 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
         appTaggingErrors.trackActionForgotPasswordFailure(212);
 
         appTaggingErrors.trackActionResendNetworkFailure(111);
-        appTaggingErrors.trackActionResendNetworkFailure(112);
+        appTaggingErrors.trackActionResendNetworkFailure(112);*/
     }
 }
