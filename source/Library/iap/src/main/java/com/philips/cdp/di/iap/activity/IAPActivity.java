@@ -62,7 +62,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener {
     private void addLandingViews(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             setLocale();
-            int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
+            int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.PRODUCT_CTNS);
             Bundle bundle = new Bundle();
             switch (landingScreen) {

@@ -48,7 +48,7 @@ public class IAPConstantTest extends TestCase {
         assertEquals("Value is Same",  "SELECTED_PAYMENT", IAPConstant.SELECTED_PAYMENT );
         assertEquals("Value is Same",  "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL", IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL );
         assertEquals("Value is Same",  "InsufficientStockLevelError", IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR );
-        assertEquals("Value is Same",  "IAP_IS_SHOPPING_CART_VIEW_SELECTED", IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED );
+        assertEquals("Value is Same",  "IAP_LANDING_SCREEN", IAPConstant.IAP_LANDING_SCREEN);
         assertEquals("Value is Same",  "IAP_PRODUCT_CATALOG_NUMBER", IAPConstant.IAP_PRODUCT_CATALOG_NUMBER );
         assertEquals("Value is Same",  "IS_PRODUCT_CATALOG", IAPConstant.IS_PRODUCT_CATALOG );
         assertEquals("Value is Same",  "PRODUCT_DETAIL_FRAGMENT_CATALOG", IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG );

@@ -5,14 +5,14 @@ import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class IAPLaunchInput extends UappLaunchInput {
-    int mLandingViews;
+    int mLandingView;
     public IAPFlowInput mIAPFlowInput;
     private IAPListener iapListener;
 
-    public void setIAPFlow(int pLandingViews, IAPFlowInput pIapFlowInput) {
-        mLandingViews = pLandingViews;
+    public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput) {
+        mLandingView = pLandingView;
         //  mIAPFlowInput = pIapFlowInput;
-        switch (mLandingViews) {
+        switch (mLandingView) {
             case IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                 mIAPFlowInput = pIapFlowInput;
                 break;

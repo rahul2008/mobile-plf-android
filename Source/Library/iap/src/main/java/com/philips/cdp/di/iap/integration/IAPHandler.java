@@ -32,7 +32,6 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.User;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -100,7 +99,7 @@ public class IAPHandler {
     }
 
     private void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
-        BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingViews, iapLaunchInput.mIAPFlowInput);
+        BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher);
     }
 
@@ -136,13 +135,24 @@ public class IAPHandler {
     private void launchActivity(Context pContext, IAPLaunchInput pLaunchConfig, ActivityLauncher activityLauncher) {
         Intent intent = new Intent(pContext, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, pLaunchConfig.mLandingViews);
-        if (pLaunchConfig.mIAPFlowInput != null) {
-            intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mIAPFlowInput.getProductCTN());
+        intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, pLaunchConfig.mLandingView);
+
+        if (pLaunchConfig.mLandingView == IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW || pLaunchConfig.mLandingView
+                == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW) {
+            if (pLaunchConfig.mIAPFlowInput.getProductCTN() == null
+                    || pLaunchConfig.mIAPFlowInput.getProductCTN().equalsIgnoreCase("")) {
+                throw new RuntimeException("Please Pass CTN");
+            } else {
+                intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mIAPFlowInput.getProductCTN());
+            }
         }
-        //TODO : Activity Theme has to get from ActivityLauncher
+
+        if (pLaunchConfig.mIAPFlowInput != null) {
+            if (pLaunchConfig.mIAPFlowInput.getProductCTNs() != null)
+                intent.putStringArrayListExtra(IAPConstant.PRODUCT_CTNS, pLaunchConfig.mIAPFlowInput.getProductCTNs());
+        }
+
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
-        intent.putStringArrayListExtra(IAPConstant.PRODUCT_CTNS, pLaunchConfig.mIAPFlowInput.getProductCTNs());
         pContext.startActivity(intent);
     }
 
@@ -162,9 +172,9 @@ public class IAPHandler {
     private IAPExposedAPI getExposedAPIImplementor(Context context, IAPSettings iapSettings) {
         IAPExposedAPI api;
         if (iapSettings.isUseLocalData()) {
-            api = new AppLocalHandler(context, iapSettings);
+            api = new AppLocalHandler(context);
         } else {
-            api = new HybrisHandler(context, iapSettings);
+            api = new HybrisHandler(context);
         }
         return api;
     }

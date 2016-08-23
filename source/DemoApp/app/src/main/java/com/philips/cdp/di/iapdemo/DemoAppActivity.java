@@ -70,6 +70,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mPurchaseHistory;
     private Button mLaunchFragment;
     private Button mLaunchProductDetail;
+    private Button mAddCtn;
 
     private ArrayList<String> mCompleteProductList = new ArrayList<>();
     private ArrayList<String> mCategorizedProductList = new ArrayList<>();
@@ -122,7 +123,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mShopNowCategorized = (Button) findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
 
-        Button mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
+        mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
@@ -212,6 +213,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void init() {
         User user = new User(this);
+        mCategorizedProductList.clear();
         if (user.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0) {
@@ -259,8 +261,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             IAPFlowInput iapFlowInput = new IAPFlowInput(mEtCTN.getText().toString());
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
         } else if (view == mShopNowCategorized) {
-            IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
+            if(mCategorizedProductList.size() > 0) {
+                IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
+                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
+            }else{
+                Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+            }
         } else if (view == mBuyDirect) {
             IAPFlowInput iapFlowInput =
                     new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
@@ -270,11 +276,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (view == mLaunchFragment) {
             Intent intent = new Intent(this, LauncherFragmentActivity.class);
             this.startActivity(intent);
-        } else if (view == mAddCTNLl) {
+        } else if (view == mAddCtn) {
             String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
             if (!mCategorizedProductList.contains(str)) {
                 mCategorizedProductList.add(str);
             }
+            mEtCTN.setText("");
         }
     }
 
