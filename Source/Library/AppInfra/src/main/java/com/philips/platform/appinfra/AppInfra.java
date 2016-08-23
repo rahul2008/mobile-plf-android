@@ -34,7 +34,6 @@ public class AppInfra implements AppInfraInterface {
     private LoggingInterface logger;
     private AppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
-    private final static String APP_INFRA_VERSION = "1.1.0";
     private AppIdentityInterface appIdentity;
     private InternationalizationInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
@@ -62,7 +61,6 @@ public class AppInfra implements AppInfraInterface {
         private TimeInterface mTimeSyncInterfaceBuilder;
 
 
-
         private AppConfigurationInterface configInterface;
 
         /**
@@ -78,7 +76,7 @@ public class AppInfra implements AppInfraInterface {
             local = null;
             mServiceDiscoveryInterface = null;
             mTimeSyncInterfaceBuilder = null;
-            configInterface=null;
+            configInterface = null;
         }
 
 
@@ -153,6 +151,7 @@ public class AppInfra implements AppInfraInterface {
         /**
          * Actual AppInfra object is created here.
          * Once build is called AppInfra is created in memory and cannot be modified during runtime.
+         *
          * @param pContext Application Context
          * @return the app infra
          */
@@ -164,7 +163,7 @@ public class AppInfra implements AppInfraInterface {
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
-           // ai.setLogging(new AppInfraLogging(ai));
+            // ai.setLogging(new AppInfraLogging(ai));
 
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
@@ -172,6 +171,18 @@ public class AppInfra implements AppInfraInterface {
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             ai.setConfigInterface(configInterface == null ? new AppConfigurationManager(ai) : configInterface);
+            if (ai.getAppIdentity() != null) {
+                StringBuilder appInfraLogStatement = new StringBuilder();
+                appInfraLogStatement.append("AppInfra initialized for application \"");
+                appInfraLogStatement.append(ai.getAppIdentity().getAppName());
+                appInfraLogStatement.append("\" version \"");
+                appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
+                appInfraLogStatement.append("\" in state \"");
+                appInfraLogStatement.append(ai.getAppIdentity().getAppState());
+                appInfraLogStatement.append("\"");
+                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppInfra initialized", appInfraLogStatement.toString());
+            }
+
             return ai;
         }
     }
@@ -230,7 +241,8 @@ public class AppInfra implements AppInfraInterface {
 
     private void setLogging(LoggingInterface log) {
         logger = log;
-        appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), APP_INFRA_VERSION);
+        appInfraLogger = logger.createInstanceForComponent(this.getClass().getSimpleName(),
+                BuildConfig.VERSION_NAME);
     }
 
     private void setTagging(AppTaggingInterface tagg) {
@@ -262,7 +274,6 @@ public class AppInfra implements AppInfraInterface {
     public LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
         return appInfraLogger;
     }
-
 
 
     public void setConfigInterface(AppConfigurationInterface configInterface) {
