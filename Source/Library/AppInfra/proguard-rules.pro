@@ -44,6 +44,7 @@
 -keepclassmembers public class org.apache.http.** {*;}
 -keepattributes InnerClasses,Exceptions
 -dontwarn com.philips.platform.appinfra.**
+-dontwarn com.google.android.gms.**
 
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }

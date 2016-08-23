@@ -125,6 +125,7 @@ android {
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        consumerProguardFiles 'proguard-rules.pro'
     }
     testOptions {
 
@@ -148,15 +149,10 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
-            minifyEnabled false
-            debuggable true
             testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
         }
     }
     /*
