@@ -125,7 +125,7 @@ public class IAPHandler {
             default:
                 //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                 fragment = new ProductCatalogFragment();
-                bundle.putString(IAPConstant.PRODUCT_CTNS, null);
+                bundle.putString(IAPConstant.CAEGORIZED_PRODUCT_CTNS, null);
                 fragment.setArguments(bundle);
                 break;
         }
@@ -149,7 +149,7 @@ public class IAPHandler {
 
         if (pLaunchConfig.mIAPFlowInput != null) {
             if (pLaunchConfig.mIAPFlowInput.getProductCTNs() != null)
-                intent.putStringArrayListExtra(IAPConstant.PRODUCT_CTNS, pLaunchConfig.mIAPFlowInput.getProductCTNs());
+                intent.putStringArrayListExtra(IAPConstant.CAEGORIZED_PRODUCT_CTNS, pLaunchConfig.mIAPFlowInput.getProductCTNs());
         }
 
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());

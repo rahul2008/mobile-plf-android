@@ -258,7 +258,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (view == mPurchaseHistory) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null);
         } else if (view == mLaunchProductDetail) {
-            IAPFlowInput iapFlowInput = new IAPFlowInput(mEtCTN.getText().toString());
+            IAPFlowInput iapFlowInput = new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
         } else if (view == mShopNowCategorized) {
             if(mCategorizedProductList.size() > 0) {
@@ -432,7 +432,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else {
             mCountText.setVisibility(View.GONE);
         }
-        dismissProgressDialog();
+        mIapInterface.getCompleteProductList(this);
     }
 
     @Override

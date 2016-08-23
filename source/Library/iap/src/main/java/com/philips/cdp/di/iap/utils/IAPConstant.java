@@ -65,7 +65,7 @@ public class IAPConstant {
     public static final String IAP_COUNTRY_KEY = "IAP_COUNTRY_KEY";
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
     public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
-    public static final String PRODUCT_CTNS = "PRODUCT_CTNS";
+    public static final String CAEGORIZED_PRODUCT_CTNS = "CAEGORIZED_PRODUCT_CTNS";
     public static final String CVV_KEY_BUNDLE = "CVV_KEY_BUNDLE";
     public static final String CUSTOMER_CARE_NUMBER = "CUSTOMER_CARE_NUMBER";
     public static final String IAP_ORDER_ID = "IAP_ORDER_ID";
