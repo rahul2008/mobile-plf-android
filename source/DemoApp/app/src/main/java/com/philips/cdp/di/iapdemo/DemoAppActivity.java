@@ -98,7 +98,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         showAppVersion();
 
         mCTNs = new ArrayList<>();
-        mCTNs.add("HX8331/11");
+        // mCTNs.add("HX8331/11");
+        mCTNs.add("HX9023/64");
+        mCTNs.add("HX9033/64");
 
         Button mRegister = (Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
@@ -158,21 +160,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
         setLocale("en", "US");
-        /*Pls uncommnet when vertical wants to get complete product list from hybris*/
-        if (!mIAPSettings.isUseLocalData()) {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mIapInterface.getCompleteProductList(DemoAppActivity.this);
-                    } catch (RuntimeException e) {
-                        dismissProgressDialog();
-                        Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }, 1000);
-        }
+
     }
 
     private void addActionBar() {
@@ -314,17 +302,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             case R.id.btn_categorized_shop_now:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     // if (mCategorizedList != null && !mCategorizedList.isEmpty()) {
-                    if (!mCTNs.isEmpty()) {
-                        IAPLog.d(IAPLog.LOG, "Product List : " + mCategorizedList);
-                        IAPFlowInput iapFlowInput = new IAPFlowInput(mCTNs);
-                        mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
-                        try {
-                            mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
-                        } catch (RuntimeException e) {
-                            Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                    IAPLog.d(IAPLog.LOG, "Product List : " + mProductList);
+//                    mCategorizedList = mProductList;
+//                    mCategorizedList = (ArrayList<String>) mProductList.subList(0, 5);
+                    IAPFlowInput iapFlowInput = new IAPFlowInput(mCTNs);
+                    mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
+                    try {
+                        mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
+                    } catch (RuntimeException e) {
+                        Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
@@ -343,7 +329,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
                         String ctn = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
-                        IAPFlowInput iapFlowInput = new IAPFlowInput(mCTNs.get(0));
+                        IAPFlowInput iapFlowInput = new IAPFlowInput(mProductList.get(0));
                         mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput);
                         mIapInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), mIapLaunchInput);
                     } catch (RuntimeException e) {
@@ -450,6 +436,19 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
             mPurchaseHistory.setVisibility(View.GONE);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    showProgressDialog();
+                    mIapInterface.getCompleteProductList(DemoAppActivity.this);
+                } catch (RuntimeException e) {
+                    dismissProgressDialog();
+                    Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 1000);
     }
 
     private void setLocale(String languageCode, String countryCode) {
@@ -541,6 +540,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onGetCompleteProductList(ArrayList<String> productList) {
         mProductList = productList;
         IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
+        Toast.makeText(DemoAppActivity.this, mProductList.toString(), Toast.LENGTH_SHORT).show();
         dismissProgressDialog();
     }
 

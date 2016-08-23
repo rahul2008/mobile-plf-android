@@ -87,7 +87,9 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
             @Override
             public void onGetCompleteProductList(ArrayList<String> productList) {
-
+                if (iapListener != null) {
+                    iapListener.onGetCompleteProductList(productList);
+                }
             }
 
             @Override
@@ -137,7 +139,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
                 Products products = (Products) msg.obj;
                 int totalproduct = products.getPagination().getTotalResults();
                 IAPLog.i(IAPLog.LOG, "Total product in Hybris =" + totalproduct);
-                countListener.onSuccess();
+                // countListener.onGetCompleteProductList(null);
+                countListener.onGetCartCount(totalproduct);
             }
 
             @Override
@@ -200,6 +203,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     public void getProductCategorizedProduct(ArrayList<String> productList) {
         if (CartModelContainer.getInstance().getProductCatalogData() != null) {
             if (mLoadListener != null) {
+
                 mLoadListener.onLoadFinished(getCatalogItems(productList), null);
             }
         } else {
