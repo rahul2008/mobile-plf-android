@@ -19,7 +19,12 @@ import android.widget.TextView;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceImpl;
+import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSyncBase;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
+import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
@@ -44,6 +49,9 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
     private Button buttonConnect;
     private SHNDevice shnSelectedDevice;
     private boolean capabilitiesAreConfigured;
+
+    private int failureAttempts;
+    private int successAttempts;
 
     private View.OnClickListener handleConnectButtonClick = new View.OnClickListener() {
         @Override
@@ -171,8 +179,7 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
                 capabilitiesAreConfigured = false;
                 break;
             case Connected:
-                // disconnect from the device once the state switches to Connected
-                shnSelectedDevice.disconnect();
+                getCapabilities();
 
                 buttonConnect.setText(R.string.disconnect);
                 buttonConnect.setEnabled(true);
@@ -191,9 +198,69 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
         }
     }
 
+    private void getCapabilities() {
+        SHNCapabilityBattery capabilityBattery = (SHNCapabilityBattery) shnSelectedDevice.getCapabilityForType(SHNCapabilityType.BATTERY);
+        if (capabilityBattery != null) {
+            capabilityBattery.getBatteryLevel(new SHNIntegerResultListener() {
+                @Override
+                public void onActionCompleted(int value, SHNResult result) {
+                    SHNLogger.i(TAG, "Battery level " + value);
+                }
+            });
+        }
+
+        SHNCapabilityLogSynchronization logSyShnCapability = (SHNCapabilityLogSynchronization) shnSelectedDevice.getCapabilityForType(SHNCapabilityType.LOG_SYNCHRONIZATION);
+
+        if (logSyShnCapability != null) {
+            logSyShnCapability.setSHNCapabilityLogSynchronizationListener(new SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener() {
+                @Override
+                public void onStateUpdated(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization) {
+
+                }
+
+                @Override
+                public void onProgressUpdate(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, float progress) {
+
+                }
+
+                @Override
+                public void onLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog, SHNResult shnResult) {
+                    SHNLogger.i(TAG, "onLogSynchronized result " + shnResult + " total size: " + shnLog.getLogItems().size());
+                    shnSelectedDevice.disconnect();
+
+                    successAttempts++;
+                    updateCount();
+                }
+
+                @Override
+                public void onLogSynchronizationFailed(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNResult shnResult) {
+                    SHNLogger.i(TAG, "onLogSynchronizationFailed result " + shnResult);
+                    shnSelectedDevice.disconnect();
+
+                    successAttempts++;
+                    updateCount();
+                }
+
+                @Override
+                public void onIntermediateLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog) {
+                    SHNLogger.i(TAG, "onIntermediateLogSynchronized result " + " size: " + shnLog.getLogItems().size());
+                }
+            });
+            logSyShnCapability.startSynchronizationFromToken(logSyShnCapability.getLastSynchronizationToken());
+        }
+    }
+
+    private void updateCount() {
+        TextView textView = (TextView) findViewById(R.id.textViewCount);
+        String string = String.format(getString(R.string.count), failureAttempts, successAttempts);
+        assert textView != null;
+        textView.setText(string);
+    }
+
     @Override
     public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
-
+        failureAttempts++;
+        updateCount();
     }
 
     private void setupDeviceInformationCapability(SHNDevice shnDevice) {

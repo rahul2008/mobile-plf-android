@@ -40,4 +40,5 @@
     <string name="upload_state">Upload State:</string>
     <string name="firmware_state">Firmware State:</string>
     <string name="firmware_option">Firmware Version:</string>
+    <string name="count">"Failed for %1$d times.\nSucceeded for %2$d times"</string>
 </resources>
