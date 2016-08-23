@@ -46,12 +46,7 @@ public class URInterface implements UappInterface {
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
                     uappLaunchInput).isAccountSettings());
-            registrationFragment.setPreviousResourceId(((URLaunchInput)
-                    uappLaunchInput).getPreviousResourceId());
-
             registrationFragment.setArguments(bundle);
-
-
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
