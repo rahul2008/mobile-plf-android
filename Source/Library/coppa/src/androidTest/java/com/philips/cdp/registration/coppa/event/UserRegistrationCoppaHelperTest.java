@@ -1,16 +1,10 @@
 package com.philips.cdp.registration.coppa.event;
 
-import android.app.Activity;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
-import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/20/2016.
@@ -40,20 +34,6 @@ public class UserRegistrationCoppaHelperTest extends InstrumentationTestCase{
     @Test
     public void testRegisterEventNotification() throws Exception {
         UserRegistrationCoppaListener mUserRegistrationCoppaListener = new UserRegistrationCoppaListener() {
-            @Override
-            public void onUserRegistrationComplete(Activity activity) {
-
-            }
-
-            @Override
-            public void onPrivacyPolicyClick(Activity activity) {
-
-            }
-
-            @Override
-            public void onTermsAndConditionClick(Activity activity) {
-
-            }
 
             @Override
             public void onUserLogoutSuccess() {
@@ -76,20 +56,7 @@ public class UserRegistrationCoppaHelperTest extends InstrumentationTestCase{
     @Test
     public void testUnregisterEventNotification() throws Exception {
         UserRegistrationCoppaListener userRegistrationCoppaListener = new UserRegistrationCoppaListener() {
-            @Override
-            public void onUserRegistrationComplete(Activity activity) {
 
-            }
-
-            @Override
-            public void onPrivacyPolicyClick(Activity activity) {
-
-            }
-
-            @Override
-            public void onTermsAndConditionClick(Activity activity) {
-
-            }
 
             @Override
             public void onUserLogoutSuccess() {
@@ -116,19 +83,9 @@ public class UserRegistrationCoppaHelperTest extends InstrumentationTestCase{
 
     }
 
-    @Test
-    public void testNotifyOnPrivacyPolicyClickEventOccurred() throws Exception {
-        Activity activity = new Activity();
-        mUserRegistrationCoppaHelper.notifyOnPrivacyPolicyClickEventOccurred(activity);
 
-    }
 
-    @Test
-    public void testNotifyOnTermsAndConditionClickEventOccurred() throws Exception {
-        Activity activity = new Activity();
-        mUserRegistrationCoppaHelper.notifyOnTermsAndConditionClickEventOccurred(activity);
 
-    }
 
     @Test
     public void testNotifyOnUserLogoutSuccess() throws Exception {
