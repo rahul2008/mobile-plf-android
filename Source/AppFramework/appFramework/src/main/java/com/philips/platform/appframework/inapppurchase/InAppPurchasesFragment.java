@@ -2,7 +2,8 @@
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+*//*
+
 package com.philips.platform.appframework.inapppurchase;
 
 import android.content.Context;
@@ -43,7 +44,9 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
 
     private View mCustomView;
 
-    private String mCtn = "HX6064/33" /*"UK-HX6064/33"*/;
+    private String mCtn = "HX6064/33" */
+/*"UK-HX6064/33"*//*
+;
 
     @Nullable
     @Override
@@ -71,7 +74,9 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
             }
         });
 
-        launchInAppPurchases(/*position, ctn*/);
+        launchInAppPurchases(*/
+/*position, ctn*//*
+);
 
         return mRootView;
     }
@@ -81,7 +86,9 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
         return "Shopping";
     }
 
-    public void launchInAppPurchases(/*int position, String ctn*/) {
+    public void launchInAppPurchases(*/
+/*int position, String ctn*//*
+) {
         ArrayList<String> ctnList;
         if (NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
             String languageCode = "en";
@@ -154,4 +161,4 @@ public class InAppPurchasesFragment extends AppFrameworkBaseFragment {
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(mRootView.getWindowToken(), 0);
     }
-}
+}*/
