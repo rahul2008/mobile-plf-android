@@ -18,6 +18,7 @@ import com.philips.pins.shinelib.SHNResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public class SHNDeviceWrapper implements SHNDevice {
     private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
@@ -27,6 +28,7 @@ public class SHNDeviceWrapper implements SHNDevice {
     private final Handler internalHandler;
     private final Handler userHandler;
     private List<SHNDeviceListener> shnDeviceListeners;
+    private List<DiscoveryListener> discoveryListeners;
 
     SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
         @Override
@@ -66,6 +68,45 @@ public class SHNDeviceWrapper implements SHNDevice {
         }
     };
 
+    DiscoveryListener discoveryListener = new DiscoveryListener() {
+        @Override
+        public void onServiceDiscovered(final UUID serviceUuid, final SHNResult result) {
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
+                throw new IllegalArgumentException();
+            synchronized (discoveryListeners) {
+                for (final DiscoveryListener discoveryListener : discoveryListeners) {
+                    if (discoveryListener != null) {
+                        userHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                discoveryListener.onServiceDiscovered(serviceUuid, result);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onCharacteristicDiscovered(final UUID characteristicUuid, final byte[] data,
+                final SHNResult result) {
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
+                throw new IllegalArgumentException();
+            synchronized (discoveryListeners) {
+                for (final DiscoveryListener discoveryListener : discoveryListeners) {
+                    if (discoveryListener != null) {
+                        userHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, result);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    };
+
     public static void setHandlers(Handler internalHandler, Handler userHandler) {
         tempInternalHandler = internalHandler;
         tempUserHandler = userHandler;
@@ -76,7 +117,9 @@ public class SHNDeviceWrapper implements SHNDevice {
         this.internalHandler = tempInternalHandler;
         this.userHandler = tempUserHandler;
         shnDevice.registerSHNDeviceListener(shnDeviceListener);
+        shnDevice.registerDiscoveryListener(discoveryListener);
         shnDeviceListeners = new ArrayList<>();
+        discoveryListeners = new ArrayList<>();
     }
 
     public boolean isBonded() {
@@ -149,6 +192,22 @@ public class SHNDeviceWrapper implements SHNDevice {
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         synchronized (shnDeviceListeners) {
             shnDeviceListeners.remove(shnDeviceListener);
+        }
+    }
+
+    @Override
+    public void registerDiscoveryListener(final DiscoveryListener discoveryListener) {
+        synchronized (discoveryListeners){
+            if(!discoveryListeners.contains(discoveryListener)){
+                discoveryListeners.add(discoveryListener);
+            }
+        }
+    }
+
+    @Override
+    public void unregisterDiscoveryListener(final DiscoveryListener discoveryListener) {
+        synchronized (discoveryListeners){
+            discoveryListeners.remove(discoveryListener);
         }
     }
 

@@ -6,8 +6,8 @@
 package com.philips.pins.shinelib;
 
 import android.support.annotation.Nullable;
-
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * SHNDevice is a representation of a peripheral inside BlueLib.
@@ -27,7 +27,8 @@ public interface SHNDevice {
     /**
      * Returns the string representation of MAC address for the bluetooth peripheral.
      *
-     * @return string representation of the peripheral MAC address as returned by {@link android.bluetooth.BluetoothDevice#getAddress()}
+     * @return string representation of the peripheral MAC address as returned by {@link
+     * android.bluetooth.BluetoothDevice#getAddress()}
      */
     String getAddress();
 
@@ -72,6 +73,16 @@ public interface SHNDevice {
      * Unregister a {@code SHNDeviceListener}.
      */
     void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener);
+
+    /**
+     * Register a {@code DiscoveryListener} instance to receive updates about discovery of services & characteristics
+     */
+    void registerDiscoveryListener(DiscoveryListener discoveryListener);
+
+    /**
+     * Unregister a {@code DiscoveryListener}
+     */
+    void unregisterDiscoveryListener(DiscoveryListener discoveryListener);
 
     /**
      * Specifies a set of capabilities supported by the peripheral and exposed by BlueLib.
@@ -125,5 +136,23 @@ public interface SHNDevice {
          * @param result reason for the connection to fail
          */
         void onFailedToConnect(SHNDevice shnDevice, SHNResult result);
+    }
+
+    /**
+     * Interface that provides updates on Services and Characteristics discovered on the {@code SHNDevice}.
+     */
+    interface DiscoveryListener {
+
+        /**
+         * @param serviceUuid of the discovered service
+         * @param result wether or not the plugin uses this specific service
+         */
+        void onServiceDiscovered(UUID serviceUuid, SHNResult result);
+
+        /**
+         * @param characteristicUuid of the discovered characteristic
+         * @param data TODO: maybe the initial data?
+         */
+        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data, SHNResult result);
     }
 }

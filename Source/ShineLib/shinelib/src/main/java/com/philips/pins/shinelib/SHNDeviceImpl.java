@@ -64,6 +64,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private final SHNCentral shnCentral;
     private BTGatt btGatt;
     private SHNDeviceListener shnDeviceListener;
+    private DiscoveryListener discoveryListener;
     private InternalState internalState = InternalState.Disconnected;
     private String deviceTypeName;
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
@@ -163,6 +164,27 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
             SHNService shnService = getSHNService(bluetoothGattService.getUuid());
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
+
+
+            if(discoveryListener != null){
+                discoveryListener.onServiceDiscovered(bluetoothGattService.getUuid(), SHNResult.SHNOk);
+
+                /** TODO:
+                 * Review => We're looping over the bt.getCharacteristics() here
+                 * to be able to call the #discoveryListener.onCharacteristicDiscovered
+                 *
+                 * This is NOT efficient, since below, in the shnService.connectToBLELayer()
+                 * the same loop is done again...
+                 *
+                 * + this is easy, no need to pass the DiscoveryListener to a SHNService
+                 * - inefficien
+                 *
+                 * */
+                for(BluetoothGattCharacteristic characteristic : bluetoothGattService.getCharacteristics()){
+                    discoveryListener.onCharacteristicDiscovered(characteristic.getUuid(), characteristic.getValue(), SHNResult.SHNOk);
+                }
+            }
+
             if (shnService != null) {
                 shnService.connectToBLELayer(gatt, bluetoothGattService);
             }
@@ -325,6 +347,16 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     @Override
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         throw new UnsupportedOperationException("Intended for the external API");
+    }
+
+    @Override
+    public void registerDiscoveryListener(final DiscoveryListener discoveryListener) {
+        this.discoveryListener = discoveryListener;
+    }
+
+    @Override
+    public void unregisterDiscoveryListener(final DiscoveryListener discoveryListener) {
+        this.discoveryListener = null;
     }
 
     @Override

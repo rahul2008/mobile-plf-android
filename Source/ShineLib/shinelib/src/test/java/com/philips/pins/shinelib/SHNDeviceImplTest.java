@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
-
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
@@ -15,7 +14,9 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -23,9 +24,6 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -38,6 +36,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -48,45 +47,39 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 public class SHNDeviceImplTest {
     public static final String TEST_DEVICE_TYPE = "TEST_DEVICE_TYPE";
+    public static final byte[] MOCK_BYTES = new byte[] { 0x42 };
+    public static final UUID MOCK_UUID = UUID.randomUUID();
     private SHNDeviceImpl shnDevice;
 
-    @Mock
-    private BTDevice mockedBTDevice;
+    @Mock private BTDevice mockedBTDevice;
 
-    @Mock
-    private SHNCentral mockedSHNCentral;
+    @Mock private SHNCentral mockedSHNCentral;
 
-    @Mock
-    private Context mockedContext;
+    @Mock private Context mockedContext;
 
-    @Mock
-    private Timer timerMock;
+    @Mock private Timer timerMock;
 
-    @Mock
-    private BTGatt mockedBTGatt;
+    @Mock private BTGatt mockedBTGatt;
 
-    @Mock
-    private SHNService mockedSHNService;
+    @Mock private SHNService mockedSHNService;
 
-    @Mock
-    private BluetoothGattService mockedBluetoothGattService;
+    @Mock private BluetoothGattService mockedBluetoothGattService;
 
-    @Mock
-    private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;
+    @Mock private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;
 
-    @Mock
-    private BluetoothGattDescriptor mockedBluetoothGattDescriptor;
+    @Mock private BluetoothGattDescriptor mockedBluetoothGattDescriptor;
 
-    @Mock
-    private SHNDeviceImpl.SHNDeviceListener mockedSHNDeviceListener;
+    @Mock private SHNDeviceImpl.SHNDeviceListener mockedSHNDeviceListener;
 
-    @Mock
-    private BluetoothDevice mockedBluetoothDevice;
+    @Mock private SHNDevice.DiscoveryListener mockedDiscoveryListener;
+
+    @Mock private BluetoothDevice mockedBluetoothDevice;
 
     private MockedHandler mockedInternalHandler;
     private MockedHandler mockedUserHandler;
     private BTGatt.BTGattCallback btGattCallback;
     private List<BluetoothGattService> discoveredServices;
+    private List<BluetoothGattCharacteristic> discoveredCharacteristics;
     private SHNService.State mockedServiceState;
     public static final String ADDRESS_STRING = "DE:AD:CO:DE:12:34";
     private boolean useTimeoutConnect = true;
@@ -118,6 +111,10 @@ public class SHNDeviceImplTest {
         discoveredServices.add(mockedBluetoothGattService);
         doReturn(discoveredServices).when(mockedBTGatt).getServices();
 
+        discoveredCharacteristics = new ArrayList<>();
+        discoveredCharacteristics.add(mockedBluetoothGattCharacteristic);
+        doReturn(discoveredCharacteristics).when(mockedBluetoothGattService).getCharacteristics();
+
         mockedServiceState = SHNService.State.Ready;
         doAnswer(new Answer<SHNService.State>() {
             @Override
@@ -130,8 +127,13 @@ public class SHNDeviceImplTest {
         doReturn(mockedBluetoothGattService).when(mockedBluetoothGattCharacteristic).getService();
         doReturn(mockedBluetoothGattCharacteristic).when(mockedBluetoothGattDescriptor).getCharacteristic();
 
+        // Mock Characteristic for DiscoveryListener
+        doReturn(MOCK_UUID).when(mockedBluetoothGattCharacteristic).getUuid();
+        doReturn(MOCK_BYTES).when(mockedBluetoothGattCharacteristic).getValue();
+
         shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, false);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
+        shnDevice.registerDiscoveryListener(mockedDiscoveryListener);
         shnDevice.registerService(mockedSHNService);
 
         when(mockedBluetoothDevice.getAddress()).thenReturn(ADDRESS_STRING);
@@ -900,7 +902,36 @@ public class SHNDeviceImplTest {
         getDeviceInConnectedState();
         assertEquals(SHNDevice.State.Connected, shnDevice.getState());
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
+                BluetoothGatt.STATE_DISCONNECTED);
         verify(mockedBTGatt).close();
+    }
+
+    // DiscoveryListener Tests
+
+    @Test
+    public void whenDeviceHasDiscoveryListenerItIsNotifiedWhenServicesAreDiscovered() throws Exception {
+        connectTillGATTServicesDiscovered();
+        verify(mockedDiscoveryListener, times(discoveredServices.size())).onServiceDiscovered(mockedBluetoothGattService.getUuid(), SHNResult.SHNOk);
+    }
+
+    @Test
+    public void whenDeviceHasNoDiscoveryListenerItNeverCalls_onServiceDiscovered() throws Exception {
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, true);
+        connectTillGATTServicesDiscovered();
+        verify(mockedDiscoveryListener, never()).onServiceDiscovered(any(UUID.class), any(SHNResult.class));
+    }
+
+    @Test
+    public void whenDeviceHasDiscoveryListenerItIsNotifiedWhenCharacteristicsAreDiscovered() throws Exception {
+        connectTillGATTServicesDiscovered();
+        verify(mockedDiscoveryListener, times(discoveredCharacteristics.size())).onCharacteristicDiscovered(mockedBluetoothGattCharacteristic.getUuid(), mockedBluetoothGattCharacteristic.getValue(), SHNResult.SHNOk);
+    }
+
+    @Test
+    public void whenDeviceHasNoDiscoveryListenerItIsNotifiedWhenCharacteristicsAreDiscovered() throws Exception {
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, true);
+        connectTillGATTServicesDiscovered();
+        verify(mockedDiscoveryListener, never()).onCharacteristicDiscovered(mockedBluetoothGattCharacteristic.getUuid(), mockedBluetoothGattCharacteristic.getValue(), SHNResult.SHNOk);
     }
 }
