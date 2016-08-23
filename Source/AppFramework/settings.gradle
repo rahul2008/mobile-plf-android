@@ -1,1 +1,1 @@
-include ':appFramework'
+include ':appFramework', ':iap-release'

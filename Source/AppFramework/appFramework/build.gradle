@@ -148,8 +148,8 @@ android {
         }
 
         debug {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             debuggable true
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'
@@ -210,7 +210,7 @@ android {
 
 repositories {
     flatDir {
-        dirs 'lib'
+        dirs 'libs'
     }
 }
 
@@ -244,12 +244,9 @@ dependencies {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '4.2.0-rc.1', ext: 'aar'){
-        exclude group: 'com.android.support'
-        transitive=true
-    }
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.1', ext: 'aar')
+    compile project(':iap-release')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.3', ext: 'aar')
 
 }
 

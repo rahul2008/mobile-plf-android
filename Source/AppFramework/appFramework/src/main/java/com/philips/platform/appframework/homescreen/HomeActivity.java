@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -31,7 +30,6 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
@@ -40,7 +38,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener  {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -178,11 +176,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             finishAffinity();
         } else if (findIfHomeFragmentSentBack()) {
             finishAffinity();
-        } else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
+        } /*else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
             if (!inAppPurchaseBackPress()) {
                 super.popBackTillHomeFragment();
             }
-        } else if (findFragmentByTag("Registration_fragment_tag")) {
+        } */else if (findFragmentByTag("Registration_fragment_tag")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment fragment = fragmentManager
                     .findFragmentById(R.id.fl_reg_fragment_container);
@@ -191,7 +189,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 if (isConsumed)
                     super.popBack();
             }
-            } else {
+        } else {
             AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
             UIFlowManager flowManager = applicationContext.getFlowManager();
             UIState currentState = flowManager.getCurrentState();
@@ -209,10 +207,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     private boolean inAppPurchaseBackPress() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if(currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)){
+        /*if(currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)){
             boolean isBackPressed = ((InAppPurchasesFragment) currentFragment).onBackPressed();
             return isBackPressed;
-        }
+        }*/
         return false;
     }
 
