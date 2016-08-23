@@ -37,7 +37,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public boolean getProductCatalog(int currentPage, int pageSize, IAPListener listListener) {
+    public boolean getProductCatalog(int currentPage, int pageSize, IAPListener listener) {
         return false;
     }
 
@@ -50,8 +50,8 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public void getCompleteProductList(final Context mContext, final IAPListener iapListener, final int currentPage, final int pageSize) {
-        //To be written
+    public void getCompleteProductList(IAPListener iapListener) {
+
     }
 
     @Override
