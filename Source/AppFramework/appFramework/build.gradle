@@ -148,8 +148,8 @@ android {
         }
 
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             debuggable true
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'
@@ -226,7 +226,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
 
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.1', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.2', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }

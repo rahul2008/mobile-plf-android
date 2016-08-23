@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -35,10 +36,11 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener  {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -181,10 +183,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 super.popBackTillHomeFragment();
             }
         } else if (findFragmentByTag("Registration_fragment_tag")) {
-            if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-                super.popBack();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager
+                    .findFragmentById(R.id.fl_reg_fragment_container);
+            if (fragment != null && fragment instanceof BackEventListener) {
+                boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
+                if (isConsumed)
+                    super.popBack();
             }
-        } else {
+            } else {
             AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
             UIFlowManager flowManager = applicationContext.getFlowManager();
             UIState currentState = flowManager.getCurrentState();
