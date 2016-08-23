@@ -65,7 +65,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
             if (isConsumed)
                 presenter.onClick(backButtonClick, this);;
 
-         //   super.onBackPressed();
+            super.onBackPressed();
 
 
      //   if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
@@ -155,7 +155,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment =  (RegistrationFragment)fragmentManager
-                .findFragmentById(R.id.fragment_frame_container);
+                .findFragmentById(R.id.fl_reg_fragment_container);
 
         if (fragment != null && fragment instanceof BackEventListener)
             return false;
