@@ -30,7 +30,7 @@ public class SHNDeviceWrapperTest {
 
     private static final UUID SERVICE_UUID = UUID.randomUUID();
 
-    private static final byte[] SERVICE_DATA = new byte[]{0x42};
+    private static final byte[] CHARACTERISTIC_DATA = new byte[]{0x42};
 
     @Mock
     private SHNDeviceImpl shnDeviceMock;
@@ -286,13 +286,45 @@ public class SHNDeviceWrapperTest {
 
     // DiscoveryListener tests
     @Test
+    public void whenServiceIsDiscoveredThenCallIsPostedOnUserThread() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, SERVICE_DISCOVERED_RESULT);
+
+        verify(userHandlerMock).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenCharacteristicIsDiscoveredThenCallIsPostedOnUserThread() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        discoveryListenerArgumentCaptor.getValue().onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, SERVICE_DISCOVERED_RESULT);
+
+        verify(userHandlerMock).post(runnableCaptor.capture());
+    }
+
+    @Test
     public void whenDiscoveryListenerIsUnregisteredThenCharacteristicIsNotReceived() throws Exception {
         whenCreatedThenDisoveryListenerIsAttached();
 
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
         shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
 
-        discoveryListenerArgumentCaptor.getValue().onCharacteristicDiscovered(SERVICE_UUID, SERVICE_DATA, SERVICE_DISCOVERED_RESULT);
+        discoveryListenerArgumentCaptor.getValue().onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, SERVICE_DISCOVERED_RESULT);
+
+        verify(userHandlerMock, never()).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenDiscoveryListenerIsUnregisteredThenCharacteristicsIsNotReceived() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
+
+        discoveryListenerArgumentCaptor.getValue().onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, SERVICE_DISCOVERED_RESULT);
 
         verify(userHandlerMock, never()).post(runnableCaptor.capture());
     }
