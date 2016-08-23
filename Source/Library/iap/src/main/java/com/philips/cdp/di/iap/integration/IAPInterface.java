@@ -5,6 +5,8 @@
 package com.philips.cdp.di.iap.integration;
 
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
+import com.philips.cdp.di.iap.response.orders.User;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.registration.User;
 import com.philips.platform.uappframework.UappInterface;
