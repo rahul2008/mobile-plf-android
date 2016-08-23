@@ -59,7 +59,7 @@ public class ProdRegUtilTest extends TestCase {
         when(prodRegCacheMock.getIntData(key)).thenReturn(1);
         int count = 2;
         prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCacheMock, key, count);
-        verify(prodRegCacheMock).storeIntData(key, 3);
+        verify(prodRegCacheMock).storeStringData(key, String.valueOf(3));
     }
 
     @Test

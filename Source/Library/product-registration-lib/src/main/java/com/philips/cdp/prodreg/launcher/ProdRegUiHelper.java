@@ -32,6 +32,7 @@ import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -198,5 +199,9 @@ public class ProdRegUiHelper implements UappInterface {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeProductRegistrationAsFragment(fragmentLauncher, prodRegLaunchInput);
         }
+    }
+
+    public SecureStorageInterface getAppInfraSecureStorageInterface() {
+        return appInfra.getSecureStorage();
     }
 }

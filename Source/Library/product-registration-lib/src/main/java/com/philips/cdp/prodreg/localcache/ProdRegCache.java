@@ -6,48 +6,51 @@
 package com.philips.cdp.prodreg.localcache;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
+
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 public class ProdRegCache {
 
     private Context context;
+    private String TAG = ProdRegCache.class.getSimpleName();
 
     public ProdRegCache(Context context) {
         this.context = context;
     }
 
     public void storeStringData(String key, String value) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(key, value);
-            editor.commit();
-        }
-    }
-
-    public void storeIntData(String key, int value) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(key, value);
-            editor.commit();
+        SecureStorageInterface ssInterface = getAppInfraSecureStorageInterface();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        boolean result = ssInterface.storeValueForKey(key, value, ssError);
+        if (null == ssError.getErrorCode() && result) {
+            ProdRegLogger.v(TAG, "Data stored successfully");
+        } else {
+            ProdRegLogger.e(TAG, "Failed storing data due to" + ssError.getErrorCode().toString());
         }
     }
 
     public String getStringData(String key) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            return sharedPreferences.getString(key, null);
+        SecureStorageInterface ssInterface = getAppInfraSecureStorageInterface();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        String decryptedData = ssInterface.fetchValueForKey(key, ssError);
+        if (null == ssError.getErrorCode() && null != decryptedData) {
+            ProdRegLogger.v(TAG, "Data requested for key " + key + " is " + decryptedData);
+        } else {
+            ProdRegLogger.e(TAG, "Failed fetching data for key " + key + " is " + ssError.getErrorCode().toString());
         }
-        return null;
+        return decryptedData;
     }
 
     public int getIntData(String key) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            return sharedPreferences.getInt(key, 0);
-        }
-        return 0;
+        String decryptedData = getStringData(key);
+        if (decryptedData != null)
+            return Integer.parseInt(decryptedData);
+        else return 0;
+    }
+
+    private SecureStorageInterface getAppInfraSecureStorageInterface() {
+        return ProdRegUiHelper.getInstance().getAppInfraSecureStorageInterface();
     }
 }

@@ -26,9 +26,8 @@ public class ProductRegistrationApplication extends Application {
         initRegistration();
     }
 
-    @SuppressWarnings("deprecation")
     private void initProductRegistration() {
-        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
+        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(ProdRegAppInfraSingleton.getInstance());
         ProdRegSettings prodRegSettings = new ProdRegSettings(getApplicationContext());
         new PRInterface().init(prodRegDependencies, prodRegSettings);
     }
@@ -44,6 +43,8 @@ public class ProductRegistrationApplication extends Application {
 
     @SuppressWarnings("deprecation")
     private void initAppInfra() {
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
+        final AppInfra build = new AppInfra.Builder().build(getApplicationContext());
+        ProdRegAppInfraSingleton.setInstance(build);
+        AppInfraSingleton.setInstance(build);
     }
 }

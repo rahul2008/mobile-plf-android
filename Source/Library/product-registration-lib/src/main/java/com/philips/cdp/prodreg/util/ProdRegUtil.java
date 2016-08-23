@@ -71,7 +71,7 @@ public class ProdRegUtil {
 
     public void storeProdRegTaggingMeasuresCount(final ProdRegCache prodRegCache, final String key, final int count) {
         final int intData = prodRegCache.getIntData(key);
-        prodRegCache.storeIntData(key, (intData + count));
+        prodRegCache.storeStringData(key, String.valueOf(intData + count));
     }
 
     public String getValidatedString(final int value) {

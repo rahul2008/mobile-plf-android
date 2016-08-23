@@ -51,13 +51,6 @@ public class ProdRegCacheTest extends TestCase {
     }
 
     @Test
-    public void testStoreIntData() {
-        prodRegCache.storeIntData("", 5);
-        verify(editorMock).putInt("", 5);
-        verify(editorMock).commit();
-    }
-
-    @Test
     public void testGetStringData() {
         final String testData = "test";
         when(sharedPreferencesMock.getString("", null)).thenReturn(testData);

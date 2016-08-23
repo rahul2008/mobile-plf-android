@@ -166,14 +166,14 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.0.0-rc.3', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.2', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.3', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.4', ext: 'aar') {
         transitive = true
     }
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.5', ext: 'aar') {
