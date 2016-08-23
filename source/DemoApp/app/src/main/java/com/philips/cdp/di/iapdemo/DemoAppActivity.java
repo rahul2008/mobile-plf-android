@@ -31,7 +31,7 @@ import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.response.orders.User;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -71,9 +71,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mLaunchFragment;
     private Button mLaunchProductDetail;
 
-    private ArrayList<String> mProductList = new ArrayList<>();
+    private ArrayList<String> mCompleteProductList = new ArrayList<>();
     private ArrayList<String> mCategorizedProductList = new ArrayList<>();
-    private ArrayList<String> mProductCTNList;
 
     private int mSelectedCountryIndex;
     private ProgressDialog mProgressDialog = null;
@@ -147,10 +146,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
 
-        mProductCTNList = new ArrayList<>();
-        mProductCTNList.add("HX8331/11");
-
         mIapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput.setIapListener(this);
         mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
@@ -158,22 +155,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
-
-        /*Pls uncomment when vertical wants to get complete product list from hybris*/
-        if (!mIAPSettings.isUseLocalData()) {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mIapInterface.getCompleteProductList(DemoAppActivity.this);
-                    } catch (RuntimeException e) {
-                        dismissProgressDialog();
-                        Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }, 1000);
-        }
     }
 
     private void addActionBar() {
@@ -230,9 +211,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void init() {
-        mIapLaunchInput.setIapListener(this);
-        User mUser = new User(this);
-        if (mUser.isUserSignIn()) {
+        User user = new User(this);
+        if (user.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0) {
                 showProgressDialog();
@@ -278,7 +258,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             IAPFlowInput iapFlowInput = new IAPFlowInput(mEtCTN.getText().toString());
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
         } else if (view == mShopNowCategorized) {
-            IAPFlowInput input = new IAPFlowInput(mProductCTNList);
+            IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
         } else if (view == mBuyDirect) {
             IAPFlowInput iapFlowInput =
@@ -296,7 +276,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             }
         }
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -333,6 +312,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIAPSettings.setUseLocalData(false);
         mIapInterface.init(mIapDependencies, mIAPSettings);
         updateCartIcon();
+
         if (!mIAPSettings.isUseLocalData()) {
             showProgressDialog();
             try {
@@ -341,28 +321,14 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 dismissProgressDialog();
             }
-
             mPurchaseHistory.setVisibility(View.VISIBLE);
-        } else
+        } else {
             mPurchaseHistory.setVisibility(View.GONE);
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    showProgressDialog();
-                    mIapInterface.getCompleteProductList(DemoAppActivity.this);
-                } catch (RuntimeException e) {
-                    dismissProgressDialog();
-                    Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, 1000);
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     private void setLocale(String languageCode, String countryCode) {
@@ -398,7 +364,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void showAppVersion() {
-        String code;
+        String code = null;
         try {
             code = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -463,9 +429,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        mProductList = productList;
-        IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
-        Toast.makeText(DemoAppActivity.this, mProductList.toString(), Toast.LENGTH_SHORT).show();
+        mCompleteProductList = productList;
         dismissProgressDialog();
     }
 
