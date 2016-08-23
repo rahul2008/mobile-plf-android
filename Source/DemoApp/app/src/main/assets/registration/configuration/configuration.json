@@ -10,7 +10,8 @@
   },
   "PILConfiguration": {
     "MicrositeID": 77000,
-    "RegistrationEnvironment": "Staging"
+    // "RegistrationEnvironment": "Staging"
+    "RegistrationEnvironment": "Production"
   },
   "Flow": {
     "EmailVerificationRequired": "true",
@@ -21,7 +22,6 @@
       "default": 16
     }
   },
-
   "SigninProviders": {
     "NL": [
       "googleplus",

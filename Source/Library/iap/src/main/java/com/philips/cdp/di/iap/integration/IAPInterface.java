@@ -5,8 +5,6 @@
 package com.philips.cdp.di.iap.integration;
 
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
-import com.philips.cdp.di.iap.response.orders.User;
-import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.registration.User;
 import com.philips.platform.uappframework.UappInterface;
@@ -18,13 +16,12 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class IAPInterface implements UappInterface, IAPExposedAPI {
     private IAPExposedAPI mImplementationHandler;
     private IAPHandler iapHandler;
-    private IAPSettings mIapSettings;
     private User mUser;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
-        mIapSettings = (IAPSettings) uappSettings;
+        IAPSettings mIapSettings = (IAPSettings) uappSettings;
         iapHandler = new IAPHandler(mIAPDependencies, mIapSettings);
         iapHandler.initTaggingLogging(mIAPDependencies);
         iapHandler.initIAP(mIapSettings);
@@ -57,5 +54,4 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
             mImplementationHandler.getCompleteProductList(iapListener);
         else throw new RuntimeException("User is not logged in.");
     }
-
 }
