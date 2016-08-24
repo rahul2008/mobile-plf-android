@@ -73,8 +73,6 @@ public class SHNDeviceImplTest {
 
     @Mock private SHNDeviceImpl.SHNDeviceListener mockedSHNDeviceListener;
 
-    @Mock private BluetoothDevice mockedBluetoothDevice;
-
     @Mock private SHNDevice.DiscoveryListener mockedDiscoveryListener;
 
     @Mock private BluetoothDevice mockedBluetoothDevice;
