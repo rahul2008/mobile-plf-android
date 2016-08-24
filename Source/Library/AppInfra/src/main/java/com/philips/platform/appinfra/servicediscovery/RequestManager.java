@@ -22,6 +22,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.network.SSLCertificateManager;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.securestorage.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
 import com.philips.platform.appinfra.servicediscovery.model.Error;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
@@ -49,12 +52,14 @@ public class RequestManager {
     private RequestQueue mVolleyRequest;
     static ServiceDiscovery mServiceDiscovery;
     String mcountry = null;
+    AppInfra mAppInfra;
     public static final String COUNTRY_PRREFERENCE = "COUNTRY_PRREFERENCE";
     public static final String COUNTRY_NAME = "COUNTRY_NAME";
     public static final String COUNTRY_SOURCE = "COUNTRY_SOURCE";
 
-    public RequestManager(Context context) {
+    public RequestManager(Context context, AppInfra appInfra) {
         this.mContext = context;
+        mAppInfra = appInfra;
         Volleyrequester volleyQueue = Volleyrequester.getInstance();
         this.mVolleyRequest = volleyQueue.getRequestQueue(this.mContext);
     }
@@ -71,15 +76,16 @@ public class RequestManager {
                         try {
                             if (null == mServiceDiscovery) {
                                 mServiceDiscovery = new ServiceDiscovery();
-                                SharedPreferences pref = mContext.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
-                                mcountry = pref.getString(RequestManager.COUNTRY_NAME, null);
+                                SecureStorageInterface ssi = mAppInfra.getSecureStorage();
+                                SecureStorage.SecureStorageError mSecureStorage = new SecureStorage.SecureStorageError();
+                                mcountry = ssi.fetchValueForKey("Country", mSecureStorage);
                                 if (mcountry == null) {
                                     mcountry = response.getJSONObject("payload").getString("country");
                                     if (mcountry != null) {
-                                        SharedPreferences.Editor editor = mContext.getSharedPreferences(COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
-                                        editor.putString(COUNTRY_NAME, mcountry.toUpperCase());
-                                        editor.putString(RequestManager.COUNTRY_SOURCE, ServiceDiscoveryInterface.OnGetHomeCountryListener.SOURCE.GEOIP.toString());
-                                        editor.commit();
+
+
+                                        ssi.storeValueForKey("Country",mcountry, mSecureStorage);
+                                        ssi.storeValueForKey("COUNTRY_SOURCE","GEOIP", mSecureStorage);
                                         Log.i("Responce", "" + mcountry);
                                     }
                                 }

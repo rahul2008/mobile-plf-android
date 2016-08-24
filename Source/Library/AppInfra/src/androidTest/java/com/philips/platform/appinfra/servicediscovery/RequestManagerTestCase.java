@@ -26,7 +26,7 @@ public class RequestManagerTestCase extends MockitoTestCase {
         assertNotNull(mAppInfra);
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mRequestManager = new RequestManager(context);
+        mRequestManager = new RequestManager(context, mAppInfra);
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
         assertNotNull(mRequestManager);
@@ -34,7 +34,7 @@ public class RequestManagerTestCase extends MockitoTestCase {
 
     public void testRequestManager() {
 
-        RequestManager mRequestManagerTest = new RequestManager(context);
+        RequestManager mRequestManagerTest = new RequestManager(context, mAppInfra);
         assertNotSame(mRequestManager, mRequestManagerTest);
     }
 

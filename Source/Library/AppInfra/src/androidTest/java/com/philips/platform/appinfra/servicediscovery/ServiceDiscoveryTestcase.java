@@ -183,7 +183,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testBuildURL() {
-        assertNotNull(mServiceDiscoveryManager.buildUrl());
+        assertNotNull(mServiceDiscoveryManager.buildUrl("IN"));
     }
 
     public void testgetService() {

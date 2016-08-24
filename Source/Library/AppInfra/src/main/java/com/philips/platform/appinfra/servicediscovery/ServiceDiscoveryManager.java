@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -17,6 +19,8 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
 import junit.framework.AssertionFailedError;
@@ -41,7 +45,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private String countryCode;
     private String mUrl = null;
     String mCountry;
-    SharedPreferences pref = null;
 
     ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES mErrorValues = null;
     String errorMessage = null;
@@ -75,24 +78,41 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         });
     }
 
-    String getService(OnRefreshListener listener) {
-        String urlBuild;
+    String getService(final OnRefreshListener listener) {
+        final String urlBuild;
         final String country = getCountry();
+
         if (null != country) {
-            urlBuild = buildUrl();
+            urlBuild = buildUrl(country);
             if (urlBuild != null) {
-                new RequestManager(context).execute(urlBuild, listener);
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        //Do something here
+//                        new RequestManager(context,mAppInfra).execute(urlBuild, listener);
+//                    }
+//                }, 5000);
+                new RequestManager(context,mAppInfra).execute(urlBuild, listener);
+
             }
         } else {
-            urlBuild = buildUrl();
+            urlBuild = buildUrl(country);
             if (urlBuild != null) {
-                new RequestManager(context).execute(urlBuild = buildUrl(), listener);
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        //Do something here
+//                        new RequestManager(context,mAppInfra).execute( urlBuild, listener);
+//                    }
+//                }, 5000);
+                new RequestManager(context,mAppInfra).execute( urlBuild, listener);
+
             }
         }
         return urlBuild;
     }
 
-    String buildUrl() {
+    String buildUrl(String country) {
         final AppIdentityManager identityManager = new AppIdentityManager(mAppInfra);
         identityManager.loadJSONFromAsset();
         final InternationalizationManager localManager = new InternationalizationManager(mAppInfra);
@@ -133,13 +153,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
         if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
                 localManager.getUILocale() != null && tags != null && environment != null) {
-            if (getCountry() == null) {
+            if (country == null) {
                 mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev";
                 Log.i("URL", "" + mUrl);
             }
-            if (getCountry() != null) {
-                mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags + "&country=" + getCountry();
+            if (country != null) {
+                mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags + "&country=" + country;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev&country=US";
                 Log.i("URL", "" + mUrl);
             }
@@ -155,7 +175,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public void getHomeCountry(final OnGetHomeCountryListener listener) {
         String country = getCountry();
-        String countrySource = pref.getString(RequestManager.COUNTRY_SOURCE, null);
+        String countrySource = fetchFromSecureStorage(false);
 
         if (country != null) {
             setHomeCountry(country);
@@ -163,7 +183,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.SIMCARD);
             } else if (countrySource != null && countrySource.equalsIgnoreCase("GEOIP")) {
                 listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
-            } else {
+            } else if(countrySource != null && countrySource.equalsIgnoreCase("STOREDPREFERENCE")) {
                 listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE);
             }
 
@@ -509,6 +529,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (RequestManager.mServiceDiscovery != null) {
                 if (RequestManager.mServiceDiscovery.isSuccess()) {
                     isDataAvailable = true;
+                    saveToSecureStore(RequestManager.mServiceDiscovery.getCountry(), true);
                     isDownloadInProgress = false;
                     listener.onSuccess();
                 } else {
@@ -551,40 +572,33 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 //    }
 
     String getCountry() {
-        pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
 
         if (mCountry == null) {
-            mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
+            mCountry = fetchFromSecureStorage(true);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Country", mCountry);
             if (mCountry != null) {
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString(RequestManager.COUNTRY_NAME, mCountry.toUpperCase());
-                editor.putString(RequestManager.COUNTRY_SOURCE, OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE.toString());
-                editor.commit();
-
+                saveToSecureStore(mCountry, true);
+                saveToSecureStore("STOREDPREFERENCE", false);
                 return mCountry.toUpperCase(); // Return Country
             }
         }
         if (mCountry == null) {
 
             try {
-                SharedPreferences.Editor editor = pref.edit();
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
                 if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
                     mCountry = simCountry.toUpperCase(Locale.US);
-                    editor.putString(RequestManager.COUNTRY_NAME, mCountry.toUpperCase());
-                    editor.putString(RequestManager.COUNTRY_SOURCE, OnGetHomeCountryListener.SOURCE.SIMCARD.toString());
-                    editor.commit();
+                    saveToSecureStore(mCountry, true);
+                    saveToSecureStore("SIMCARD", false);
                     if (mCountry != null)
                         return mCountry.toUpperCase();
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
                     final String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
                         mCountry = networkCountry.toUpperCase(Locale.US);
-                        editor.putString(RequestManager.COUNTRY_NAME, mCountry.toUpperCase());
-                        editor.putString(RequestManager.COUNTRY_PRREFERENCE, OnGetHomeCountryListener.SOURCE.SIMCARD.toString());
-                        editor.commit();
+                        saveToSecureStore(mCountry, true);
+                        saveToSecureStore("SIMCARD", false);
                         if (mCountry != null) {
                             return mCountry.toUpperCase();
                         }
@@ -595,6 +609,30 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }
 
         return mCountry;
+    }
+
+    private void saveToSecureStore(String country, boolean isCountry) {
+        SecureStorageInterface ssi = mAppInfra.getSecureStorage();
+        SecureStorage.SecureStorageError mSecureStorage = new SecureStorage.SecureStorageError();
+        if(isCountry){
+            ssi.storeValueForKey("Country",country, mSecureStorage);
+        }else{
+            ssi.storeValueForKey("COUNTRY_SOURCE",country, mSecureStorage);
+        }
+
+    }
+
+
+    private String fetchFromSecureStorage(boolean isCountry) {
+        SecureStorageInterface ssi = mAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        String value = null;
+        if(isCountry){
+            value = ssi.fetchValueForKey("Country", sse);
+        }else{
+            value = ssi.fetchValueForKey("COUNTRY_SOURCE", sse);
+        }
+        return value;
     }
 
 }

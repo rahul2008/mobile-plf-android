@@ -33,7 +33,7 @@ public class AppInfraApplication extends Application {
 
 
 
-        AppInfraSingleton.setInstance(gAppInfra=new AppInfra.Builder().build(getApplicationContext()));
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra=AppInfraSingleton.getInstance();
 
 
