@@ -68,6 +68,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
+        Bundle bunble = getArguments();
+        if (bunble != null) {
+            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+        }
 
         RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
         super.onCreate(savedInstanceState);

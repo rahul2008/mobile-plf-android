@@ -641,6 +641,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
+            RegistrationHelper.getInstance().setUserRegistrationUIEventListener
+                    (userRegistrationUIEventListener);
+
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
 
