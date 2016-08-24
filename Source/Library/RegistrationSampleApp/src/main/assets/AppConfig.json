@@ -1,5 +1,5 @@
 {
-  "UR": {
+  /*"UR": {
 
     "JanRainConfiguration.RegistrationClientID.Development": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
     "JanRainConfiguration.RegistrationClientID.Testing": "g52bfma28yjbd24hyjcswudwedcmqy7c",
@@ -27,10 +27,10 @@
     "SigninProviders.default": ["googleplus", "facebook","sinaweibo","qq" ]
 
 
-  },
+  },*/
   "AI": {
     "MicrositeID": 66777,
-    "RegistrationEnvironment": "Staging",
+    "RegistrationEnvironment": "STAGING",
     "NL": ["googleplus", "facebook"  ],
     "US": ["facebook","googleplus" ],
     "EE": [123,234 ]

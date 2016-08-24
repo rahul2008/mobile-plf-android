@@ -50,7 +50,6 @@ public class RegistrationApplication extends Application {
        // RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
      //  RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 
-
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
@@ -63,6 +62,8 @@ public class RegistrationApplication extends Application {
         } else {
             initRegistration(Configuration.STAGING);
         }
+
+        initRegistration(Configuration.STAGING);
 
     }
 
@@ -109,7 +110,7 @@ public class RegistrationApplication extends Application {
         //Configure PIL
 
         mRegistrationBaseConfiguration.getPilConfiguration().setMicrositeId("77000");
-        mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(configuration.getValue());
+        mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(Configuration.STAGING);
       /*  RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
         RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(configuration.getValue());*/
 
