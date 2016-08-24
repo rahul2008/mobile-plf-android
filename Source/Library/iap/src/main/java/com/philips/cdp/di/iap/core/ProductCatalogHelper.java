@@ -18,8 +18,8 @@ import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -117,18 +117,22 @@ public class ProductCatalogHelper {
     }
 
     private void storeData(final ArrayList<ProductCatalogData> data) {
-        PILLocaleManager localeManager = new PILLocaleManager(mContext);
-        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, localeManager.getCountryCode());
-        String currentCountry = localeManager.getCountryCode();
         CartModelContainer container = CartModelContainer.getInstance();
+
+        String currentCountry = container.getCountry();
         String CTN;
         for (ProductCatalogData entry : data) {
             CTN = entry.getCtnNumber();
             if (!container.isProductCatalogDataPresent(CTN)) {
-                if (!currentCountry.equals(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY)))
+                if (Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY) == null) {
                     container.addProductCatalogDataDataToList(CTN, entry);
+                } else if (!currentCountry.equals(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY))) {
+                    container.addProductCatalogDataDataToList(CTN, entry);
+                } else
+                    IAPLog.i(IAPLog.LOG, "Already added all Product Catalog in List");
             }
         }
+        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());
     }
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanB(ArrayList<String> planBProductList, HashMap<String, SummaryModel> prxModel) {
