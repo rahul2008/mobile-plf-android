@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -39,6 +38,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
@@ -212,8 +212,13 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         }*/
         else if (findFragmentByTag("Registration_fragment_tag")) {
-            if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-                super.popBack();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager
+                    .findFragmentById(R.id.fl_reg_fragment_container);
+            if (fragment != null && fragment instanceof BackEventListener) {
+                boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
+                if (isConsumed)
+                    super.popBack();
             }
         } else {
             AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
