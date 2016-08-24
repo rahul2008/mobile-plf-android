@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import java.lang.ref.WeakReference;
@@ -104,6 +105,11 @@ public class SHNService {
                 shnServiceListener.onServiceStateChanged(this, state);
             }
         }
+    }
+
+    @VisibleForTesting
+    protected int numberOfRegisteredDiscoveryListeners(){
+        return characteristicDiscoveryListeners.size();
     }
 
     private void notifyDiscoveryListeners(BluetoothGattCharacteristic characteristic,
