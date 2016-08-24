@@ -31,6 +31,13 @@ public class DhpAuthenticationManagementClientTest extends InstrumentationTestCa
         mDhpAuthenticationManagementClient.validateToken("userId","accessToken");
 //        mDhpAuthenticationManagementClient.loginSocialProviders("email","socialaccesstoken");
         mDhpAuthenticationManagementClient.logout("sample","sample");
+        DhpAuthenticationManagementClient.AuthenticationRequestJson mAuthenticationRequestJson= new DhpAuthenticationManagementClient.AuthenticationRequestJson("loginId","password");
+
+
+        DhpAuthenticationManagementClient.RefreshTokenRequest mRefreshTokenRequest= new DhpAuthenticationManagementClient.RefreshTokenRequest("refreshToken");
+
+        DhpAuthenticationManagementClient.ResetPasswordRequest mResetPasswordRequest= new DhpAuthenticationManagementClient.ResetPasswordRequest("resetPasswordRequest");
+
      assertNotNull(mDhpAuthenticationManagementClient);
     }
 }

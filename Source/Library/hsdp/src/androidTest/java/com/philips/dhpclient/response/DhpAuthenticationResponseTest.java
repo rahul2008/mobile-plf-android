@@ -31,6 +31,9 @@ public class DhpAuthenticationResponseTest extends InstrumentationTestCase {
         assertNotNull(mDhpAuthenticationResponse);
         mDhpAuthenticationResponse = new DhpAuthenticationResponse("accessToken","refreshToken",1221,"userId",mRawResponse) ;
         assertNotNull(mDhpAuthenticationResponse);
+        assertFalse(mDhpAuthenticationResponse.equals(mRawResponse));
+        assertNotNull(mDhpAuthenticationResponse.hashCode());
+        assertNotNull(mDhpAuthenticationResponse.toString());
     }
 
 

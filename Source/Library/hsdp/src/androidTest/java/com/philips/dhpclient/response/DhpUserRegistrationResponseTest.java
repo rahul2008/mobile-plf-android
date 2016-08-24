@@ -30,5 +30,7 @@ public class DhpUserRegistrationResponseTest extends InstrumentationTestCase{
         assertNotNull(mDhpUserRegistrationResponse);
         mDhpUserRegistrationResponse = new DhpUserRegistrationResponse("sample","sample",mRawResponse);
         assertNotNull(mDhpUserRegistrationResponse);
+        assertFalse(mDhpUserRegistrationResponse.equals(mRawResponse));
+        assertNotNull(mDhpUserRegistrationResponse.hashCode());
     }
 }

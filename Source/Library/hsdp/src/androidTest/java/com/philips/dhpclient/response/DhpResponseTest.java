@@ -28,5 +28,8 @@ public class DhpResponseTest extends InstrumentationTestCase{
         assertNotNull(mDhpResponse);
         mDhpResponse = new DhpResponse("sample",mRawResponse);
         assertNotNull(mDhpResponse);
+        assertFalse(mDhpResponse.equals(mRawResponse));
+        assertNotNull(mDhpResponse.hashCode());
+        assertNotNull(mDhpResponse.toString());
     }
 }
