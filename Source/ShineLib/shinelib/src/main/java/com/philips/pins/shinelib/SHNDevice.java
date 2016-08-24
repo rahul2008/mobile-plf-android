@@ -145,14 +145,16 @@ public interface SHNDevice {
 
         /**
          * @param serviceUuid of the discovered service
-         * @param result wether or not the plugin uses this specific service
+         * @param service associated with the UUID, might be null
          */
-        void onServiceDiscovered(UUID serviceUuid, SHNResult result);
+        void onServiceDiscovered(UUID serviceUuid, SHNService service);
 
         /**
          * @param characteristicUuid of the discovered characteristic
-         * @param data TODO: maybe the initial data?
+         * @param data initial value
+         * @param associatedCharacteristic might be null
          */
-        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data, SHNResult result);
+        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data,
+                @Nullable SHNCharacteristic associatedCharacteristic);
     }
 }

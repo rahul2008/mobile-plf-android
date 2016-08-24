@@ -11,10 +11,12 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 
+import com.philips.pins.shinelib.SHNService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -70,7 +72,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     DiscoveryListener discoveryListener = new DiscoveryListener() {
         @Override
-        public void onServiceDiscovered(final UUID serviceUuid, final SHNResult result) {
+        public void onServiceDiscovered(final UUID serviceUuid, final SHNService service) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
                 throw new IllegalArgumentException();
             synchronized (discoveryListeners) {
@@ -79,7 +81,7 @@ public class SHNDeviceWrapper implements SHNDevice {
                         userHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                discoveryListener.onServiceDiscovered(serviceUuid, result);
+                                discoveryListener.onServiceDiscovered(serviceUuid, service);
                             }
                         });
                     }
@@ -89,7 +91,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
         @Override
         public void onCharacteristicDiscovered(final UUID characteristicUuid, final byte[] data,
-                final SHNResult result) {
+                final SHNCharacteristic characteristic) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
                 throw new IllegalArgumentException();
             synchronized (discoveryListeners) {
@@ -98,7 +100,7 @@ public class SHNDeviceWrapper implements SHNDevice {
                         userHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, result);
+                                discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic);
                             }
                         });
                     }

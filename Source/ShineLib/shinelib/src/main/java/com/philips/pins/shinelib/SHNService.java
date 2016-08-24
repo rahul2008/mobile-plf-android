@@ -9,10 +9,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.support.annotation.Nullable;
-
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.utility.SHNLogger;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +29,7 @@ public class SHNService {
     private List<SHNCharacteristic> requiredCharacteristics;
     private Map<UUID, SHNCharacteristic> characteristicMap;
     private Set<SHNServiceListener> shnServiceListeners;
+    private Set<CharacteristicDiscoveryListener> characteristicDiscoveryListeners;
 
     public enum State {Unavailable, Available, Ready, Error}
 
@@ -38,11 +37,16 @@ public class SHNService {
         void onServiceStateChanged(SHNService shnService, State state);
     }
 
+    public interface CharacteristicDiscoveryListener {
+        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic chracteristic);
+    }
+
     public SHNService(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
         this.uuid = serviceUuid;
         this.requiredCharacteristics = new ArrayList<>();
         this.characteristicMap = new HashMap<>();
         this.shnServiceListeners = new HashSet<>();
+        this.characteristicDiscoveryListeners = new HashSet<>();
 
         for (UUID characteristicUUID : requiredCharacteristics) {
             SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicUUID);
@@ -64,6 +68,14 @@ public class SHNService {
 
     public boolean unregisterSHNServiceListener(SHNServiceListener shnServiceListener) {
         return shnServiceListeners.remove(shnServiceListener);
+    }
+
+    public boolean registerCharacteristicDiscoveryListener(CharacteristicDiscoveryListener listener) {
+        return characteristicDiscoveryListeners.add(listener);
+    }
+
+    public boolean unregisterCharacteristicDiscoverListener(CharacteristicDiscoveryListener listener) {
+        return characteristicDiscoveryListeners.remove(listener);
     }
 
     public UUID getUuid() {
@@ -94,15 +106,26 @@ public class SHNService {
         }
     }
 
+    private void notifyDiscoveryListeners(BluetoothGattCharacteristic characteristic,
+            SHNCharacteristic shnCharacteristic) {
+        for (CharacteristicDiscoveryListener discoveryListener : characteristicDiscoveryListeners) {
+            discoveryListener.onCharacteristicDiscovered(characteristic.getUuid(), characteristic.getValue(),
+                    shnCharacteristic);
+        }
+    }
+
     /* package */ void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
         bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
         this.btGatt = gatt;
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic : bluetoothGattService.getCharacteristics()) {
             SHNCharacteristic shnCharacteristic = getSHNCharacteristic(bluetoothGattCharacteristic.getUuid());
-            SHNLogger.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
+            SHNLogger.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + (
+                    (shnCharacteristic == null) ? " not found" : " connecting"));
+            notifyDiscoveryListeners(bluetoothGattCharacteristic, shnCharacteristic);
             if (shnCharacteristic != null) {
                 shnCharacteristic.connectToBLELayer(btGatt, bluetoothGattCharacteristic);
             }
+
         }
 
         // Check if the state should be updated
@@ -135,7 +158,8 @@ public class SHNService {
         updateState(State.Error);
     }
 
-    public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
+    public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status,
+            byte[] data) {
         SHNCharacteristic shnCharacteristic = getSHNCharacteristic(characteristic.getUuid());
         shnCharacteristic.onReadWithData(gatt, status, data);
     }

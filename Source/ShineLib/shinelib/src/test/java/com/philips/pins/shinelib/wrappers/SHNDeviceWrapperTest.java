@@ -1,13 +1,13 @@
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
-
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.helper.MockedHandler;
-
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,29 +26,25 @@ public class SHNDeviceWrapperTest {
 
     private static final SHNResult RESULT = SHNResult.SHNErrorConnectionLost;
 
-    private static final SHNResult SERVICE_DISCOVERED_RESULT = SHNResult.SHNOk;
-
     private static final UUID SERVICE_UUID = UUID.randomUUID();
 
-    private static final byte[] CHARACTERISTIC_DATA = new byte[]{0x42};
+    private static final byte[] CHARACTERISTIC_DATA = new byte[] { 0x42 };
 
-    @Mock
-    private SHNDeviceImpl shnDeviceMock;
+    @Mock private SHNDeviceImpl shnDeviceMock;
 
-    @Mock
-    private SHNDevice.SHNDeviceListener shnDeviceListenerMock;
+    @Mock private SHNDevice.SHNDeviceListener shnDeviceListenerMock;
 
-    @Mock
-    private SHNDevice.DiscoveryListener mockDiscoveryListener;
+    @Mock private SHNDevice.DiscoveryListener mockDiscoveryListener;
 
-    @Captor
-    protected ArgumentCaptor<Runnable> runnableCaptor;
+    @Mock private SHNCharacteristic mockCharacteristic;
 
-    @Captor
-    protected ArgumentCaptor<SHNDevice.SHNDeviceListener> shnDeviceListenerArgumentCaptor;
+    @Mock private SHNService mockService;
 
-    @Captor
-    protected ArgumentCaptor<SHNDevice.DiscoveryListener> discoveryListenerArgumentCaptor;
+    @Captor protected ArgumentCaptor<Runnable> runnableCaptor;
+
+    @Captor protected ArgumentCaptor<SHNDevice.SHNDeviceListener> shnDeviceListenerArgumentCaptor;
+
+    @Captor protected ArgumentCaptor<SHNDevice.DiscoveryListener> discoveryListenerArgumentCaptor;
 
     private SHNDeviceWrapper shnDeviceWrapper;
 
@@ -74,7 +70,6 @@ public class SHNDeviceWrapperTest {
     @Test
     public void whenCreatedThenDeviceListenerIsAttached() throws Exception {
         verify(shnDeviceMock).registerSHNDeviceListener(shnDeviceListenerArgumentCaptor.capture());
-
     }
 
     @Test
@@ -146,7 +141,6 @@ public class SHNDeviceWrapperTest {
 
         verify(internalHandlerMock).post(runnableCaptor.capture());
     }
-
 
     @Test
     public void whenConnectWithParametersIsCalledThenCallIsPassedToSHNDevice() throws Exception {
@@ -221,7 +215,8 @@ public class SHNDeviceWrapperTest {
     }
 
     @Test
-    public void whenThereAreMultipleListenersThenFailedToConnectCallIsPostedOnUserThreadForEachListener() throws Exception {
+    public void whenThereAreMultipleListenersThenFailedToConnectCallIsPostedOnUserThreadForEachListener()
+            throws Exception {
         whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
@@ -283,14 +278,13 @@ public class SHNDeviceWrapperTest {
         verify(userHandlerMock, times(1)).post(runnableCaptor.capture());
     }
 
-
     // DiscoveryListener tests
     @Test
     public void whenServiceIsDiscoveredThenCallIsPostedOnUserThread() throws Exception {
         whenCreatedThenDisoveryListenerIsAttached();
 
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
-        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, SERVICE_DISCOVERED_RESULT);
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
 
         verify(userHandlerMock).post(runnableCaptor.capture());
     }
@@ -300,7 +294,8 @@ public class SHNDeviceWrapperTest {
         whenCreatedThenDisoveryListenerIsAttached();
 
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
-        discoveryListenerArgumentCaptor.getValue().onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, SERVICE_DISCOVERED_RESULT);
+        discoveryListenerArgumentCaptor.getValue()
+                .onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, mockCharacteristic);
 
         verify(userHandlerMock).post(runnableCaptor.capture());
     }
@@ -312,7 +307,8 @@ public class SHNDeviceWrapperTest {
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
         shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
 
-        discoveryListenerArgumentCaptor.getValue().onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, SERVICE_DISCOVERED_RESULT);
+        discoveryListenerArgumentCaptor.getValue()
+                .onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, mockCharacteristic);
 
         verify(userHandlerMock, never()).post(runnableCaptor.capture());
     }
@@ -324,7 +320,8 @@ public class SHNDeviceWrapperTest {
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
         shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
 
-        discoveryListenerArgumentCaptor.getValue().onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, SERVICE_DISCOVERED_RESULT);
+        discoveryListenerArgumentCaptor.getValue()
+                .onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, mockCharacteristic);
 
         verify(userHandlerMock, never()).post(runnableCaptor.capture());
     }
@@ -336,7 +333,7 @@ public class SHNDeviceWrapperTest {
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
         shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
 
-        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, SERVICE_DISCOVERED_RESULT);
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
 
         verify(userHandlerMock, never()).post(runnableCaptor.capture());
     }
@@ -350,7 +347,7 @@ public class SHNDeviceWrapperTest {
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListeer2);
         shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
 
-        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, SHNResult.SHNOk);
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
 
         verify(userHandlerMock, times(1)).post(runnableCaptor.capture());
     }

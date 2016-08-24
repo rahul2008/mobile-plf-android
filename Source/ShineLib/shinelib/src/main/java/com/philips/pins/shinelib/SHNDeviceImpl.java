@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener {
+public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener, SHNService.CharacteristicDiscoveryListener {
 
     public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
 
@@ -167,22 +167,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
 
             if(discoveryListener != null){
-                discoveryListener.onServiceDiscovered(bluetoothGattService.getUuid(), SHNResult.SHNOk);
-
-                /** TODO:
-                 * Review => We're looping over the bt.getCharacteristics() here
-                 * to be able to call the #discoveryListener.onCharacteristicDiscovered
-                 *
-                 * This is NOT efficient, since below, in the shnService.connectToBLELayer()
-                 * the same loop is done again...
-                 *
-                 * + this is easy, no need to pass the DiscoveryListener to a SHNService
-                 * - inefficien
-                 *
-                 * */
-                for(BluetoothGattCharacteristic characteristic : bluetoothGattService.getCharacteristics()){
-                    discoveryListener.onCharacteristicDiscovered(characteristic.getUuid(), characteristic.getValue(), SHNResult.SHNOk);
-                }
+                discoveryListener.onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
             }
 
             if (shnService != null) {
@@ -392,6 +377,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public void registerService(SHNService shnService) {
         registeredServices.put(shnService.getUuid(), shnService);
         shnService.registerSHNServiceListener(this);
+        shnService.registerCharacteristicDiscoveryListener(this);
     }
 
     private SHNService getSHNService(UUID serviceUUID) {
@@ -409,6 +395,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
         if (state == SHNService.State.Error) {
             disconnect();
+        }
+    }
+
+    @Override
+    public void onCharacteristicDiscovered(final UUID characteristicUuid, final byte[] data, final SHNCharacteristic characteristic) {
+        if(this.discoveryListener != null){
+            this.discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic);
         }
     }
 
