@@ -7,6 +7,7 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
@@ -28,7 +29,7 @@ public class LocalRegisteredProducts {
 
     public LocalRegisteredProducts(Context context, User user) {
         this.user = user;
-        prodRegCache = new ProdRegCache(context);
+        prodRegCache = new ProdRegCache();
         gson = new Gson();
         uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
     }

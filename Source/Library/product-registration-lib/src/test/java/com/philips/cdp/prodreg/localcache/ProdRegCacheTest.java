@@ -1,10 +1,9 @@
 package com.philips.cdp.prodreg.localcache;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import junit.framework.TestCase;
 
@@ -28,41 +27,47 @@ import static org.mockito.Mockito.when;
 public class ProdRegCacheTest extends TestCase {
 
     private ProdRegCache prodRegCache;
-    private Context contextMock;
-    private SharedPreferences sharedPreferencesMock;
-    private SharedPreferences.Editor editorMock;
+    private SecureStorageInterface ssInterface;
+    private SecureStorageInterface.SecureStorageError ssError;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        contextMock = mock(Context.class);
-        editorMock = mock(SharedPreferences.Editor.class);
-        sharedPreferencesMock = mock(SharedPreferences.class);
-        prodRegCache = new ProdRegCache(contextMock);
-        when(sharedPreferencesMock.edit()).thenReturn(editorMock);
-        when(contextMock.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE)).thenReturn(sharedPreferencesMock);
+        ssInterface = mock(SecureStorageInterface.class);
+        ssError = mock(SecureStorageInterface.SecureStorageError.class);
+        prodRegCache = new ProdRegCache() {
+            @Override
+            public SecureStorageInterface getAppInfraSecureStorageInterface() {
+                return ssInterface;
+            }
+
+            @NonNull
+            @Override
+            public SecureStorageInterface.SecureStorageError getSecureStorageError() {
+                return ssError;
+            }
+        };
     }
 
     @Test
     public void testStoreStringData() {
         prodRegCache.storeStringData("", "data");
-        verify(editorMock).putString("", "data");
-        verify(editorMock).commit();
+        verify(ssInterface).storeValueForKey("", "data", ssError);
     }
 
     @Test
     public void testGetStringData() {
         final String testData = "test";
-        when(sharedPreferencesMock.getString("", null)).thenReturn(testData);
+        when(ssInterface.fetchValueForKey("", ssError)).thenReturn(testData);
         final String data = prodRegCache.getStringData("");
         assertEquals(data, testData);
     }
 
     @Test
     public void testGetIntData() {
-        final int testData = 5;
-        when(sharedPreferencesMock.getInt("", 0)).thenReturn(testData);
+        final String testData = "5";
+        when(ssInterface.fetchValueForKey("", ssError)).thenReturn(testData);
         final int data = prodRegCache.getIntData("");
-        assertEquals(data, testData);
+        assertEquals(String.valueOf(data), testData);
     }
 }

@@ -33,6 +33,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -202,6 +203,15 @@ public class ProdRegUiHelper implements UappInterface {
     }
 
     public SecureStorageInterface getAppInfraSecureStorageInterface() {
-        return appInfra.getSecureStorage();
+        if (appInfra != null)
+            return appInfra.getSecureStorage();
+
+        return null;
     }
+
+    public TimeInterface getServerTime() {
+        return appInfra.getTime();
+    }
+
+
 }

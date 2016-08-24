@@ -68,23 +68,6 @@ public class ProdRegTagging {
      */
     public Map<String, String> getCommonGoalsMap() {
         Map<String, String> contextData = new HashMap<>();
-        /*contextData.put(AnalyticsConstants.KEY_APP_NAME,
-                AnalyticsConstants.ACTION_VALUE_APP_NAME);
-        contextData.put(AnalyticsConstants.KEY_VERSION, String.valueOf(getAppVersion()));
-        contextData
-                .put(AnalyticsConstants.KEY_OS,
-                        AnalyticsConstants.ACTION_VALUE_ANDROID
-                                + Build.VERSION.RELEASE);
-        contextData.put(AnalyticsConstants.KEY_COUNTRY,
-                Locale.getDefault().getCountry());
-        contextData.put(AnalyticsConstants.KEY_LANGUAGE,
-                Locale.getDefault().getLanguage());
-        contextData.put(AnalyticsConstants.KEY_CURRENCY, getCurrency());
-        contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
-        contextData.put(AnalyticsConstants.KEY_APP_ID,
-                Analytics.getTrackingIdentifier());
-        contextData.put(AnalyticsConstants.APP_SOURCE,
-                AnalyticsConstants.APP_SOURCE_VALUE);*/
         return contextData;
     }
 

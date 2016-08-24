@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.localematch.enums.Catalog;
@@ -24,6 +23,7 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import junit.framework.TestCase;
 
@@ -379,10 +379,17 @@ public class UserWithProductsTest extends TestCase {
     public void testGetPrxResponseListenerForRegisteringProducts() {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
-        ProdRegCache prodRegCache = mock(ProdRegCache.class);
-        when(localRegisteredProducts.getProdRegCache()).thenReturn(prodRegCache);
-        SharedPreferences sharedPreferencesMock = mock(SharedPreferences.class);
-        when(context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE)).thenReturn(sharedPreferencesMock);
+
+        ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
+        SecureStorageInterface ssInterface = mock(SecureStorageInterface.class);
+        SecureStorageInterface.SecureStorageError ssError = mock(SecureStorageInterface.SecureStorageError.class);
+        String key = ProdRegConstants.PRODUCT_REGISTRATION_KEY;
+        when(prodRegCacheMock.getStringData(key)).thenReturn("data");
+
+        when(prodRegCacheMock.getAppInfraSecureStorageInterface()).thenReturn(ssInterface);
+        when(prodRegCacheMock.getSecureStorageError()).thenReturn(ssError);
+        when(localRegisteredProducts.getProdRegCache()).thenReturn(prodRegCacheMock);
+
         UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull
             @Override

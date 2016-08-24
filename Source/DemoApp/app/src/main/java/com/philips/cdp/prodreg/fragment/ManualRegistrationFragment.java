@@ -176,8 +176,9 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         }
         DatePickerDialog datePickerDialog = new DatePickerDialog(fragmentActivity, myDateListener, mYear, mMonthInt, mDay);
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        datePickerDialog.getDatePicker().setMinDate(new ProdRegUtil().getMinDate());
+        final ProdRegUtil prodRegUtil = new ProdRegUtil();
+        datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
+        datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
         datePickerDialog.show();
     }
 

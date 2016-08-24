@@ -2,6 +2,7 @@ package com.philips.cdp.prodreg.util;
 
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import junit.framework.TestCase;
 
@@ -55,8 +56,14 @@ public class ProdRegUtilTest extends TestCase {
     @Test
     public void testStoreProdRegTaggingMeasuresCount() {
         ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
+        SecureStorageInterface ssInterface = mock(SecureStorageInterface.class);
+        SecureStorageInterface.SecureStorageError ssError = mock(SecureStorageInterface.SecureStorageError.class);
         String key = AnalyticsConstants.Product_REGISTRATION_START_COUNT;
+
+        when(prodRegCacheMock.getAppInfraSecureStorageInterface()).thenReturn(ssInterface);
+        when(prodRegCacheMock.getSecureStorageError()).thenReturn(ssError);
         when(prodRegCacheMock.getIntData(key)).thenReturn(1);
+
         int count = 2;
         prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCacheMock, key, count);
         verify(prodRegCacheMock).storeStringData(key, String.valueOf(3));

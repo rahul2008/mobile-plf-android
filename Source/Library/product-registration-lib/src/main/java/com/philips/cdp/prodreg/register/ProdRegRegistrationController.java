@@ -152,7 +152,7 @@ public class ProdRegRegistrationController {
 
     @NonNull
     protected ProdRegCache getProdRegCache() {
-        return new ProdRegCache(fragmentActivity);
+        return new ProdRegCache();
     }
 
     private boolean validateSerialNumber(final String serialNumber) {

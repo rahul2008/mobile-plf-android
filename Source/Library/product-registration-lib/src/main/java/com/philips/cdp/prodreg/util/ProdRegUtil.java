@@ -8,8 +8,10 @@ package com.philips.cdp.prodreg.util;
 import android.text.TextUtils;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,6 +69,18 @@ public class ProdRegUtil {
         cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
         return cal.getTimeInMillis();
+    }
+
+    /**
+     * Return max date for date picker
+     *
+     * @return - Return max date for date picker
+     */
+    public long getMaxDate() {
+        final TimeInterface serverTime = ProdRegUiHelper.getInstance().getServerTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(serverTime.getUTCTime());
+        return calendar.getTimeInMillis();
     }
 
     public void storeProdRegTaggingMeasuresCount(final ProdRegCache prodRegCache, final String key, final int count) {
