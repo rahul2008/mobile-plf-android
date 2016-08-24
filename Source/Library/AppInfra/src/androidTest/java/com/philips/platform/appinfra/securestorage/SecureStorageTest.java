@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -820,5 +822,32 @@ public class SecureStorageTest extends MockitoTestCase {
                         "}\n";
     }
 
+    public void testByteDataEncryptionAndDecryption()throws Exception {
 
+        SecureStorageInterface.SecureStorageError sse;
+
+        sse = new SecureStorageInterface.SecureStorageError();
+        assertNull(mSecureStorage.encryptData( null, sse ));
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.NullData, sse.getErrorCode());
+
+        sse = new SecureStorageInterface.SecureStorageError();
+        assertNull( mSecureStorage.decryptData( null, sse ));
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.NullData, sse.getErrorCode());
+
+        sse = new SecureStorageInterface.SecureStorageError();
+        byte[] plainByte  = "abcd".getBytes();
+        byte[] encBtyes = mSecureStorage.encryptData( plainByte, sse );
+        byte[] decBtyes = mSecureStorage.decryptData( encBtyes, sse );
+        assertTrue(Arrays.equals(plainByte,decBtyes));
+        assertNull(sse.getErrorCode());
+
+        sse = new SecureStorageInterface.SecureStorageError();
+        byte[] plainByte1  = getLargeString().getBytes();
+        byte[] encBtyes1 = mSecureStorage.encryptData( plainByte1, sse );
+        byte[] decBtyes1 = mSecureStorage.decryptData( encBtyes1, sse );
+        assertTrue(Arrays.equals(plainByte1,decBtyes1));
+        assertNull(sse.getErrorCode());
+
+
+    }
 }

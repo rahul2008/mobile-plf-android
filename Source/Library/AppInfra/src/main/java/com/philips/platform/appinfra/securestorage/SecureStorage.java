@@ -41,6 +41,7 @@ public class SecureStorage implements SecureStorageInterface{
     private static final String AES_ENCRYPTION_ALGORITHM =  "AES/CTR/NoPadding";
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
+    private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
     private final  Context mContext;
     private static KeyStore keyStore = null;
     private AppInfra mAppInfra;
@@ -267,5 +268,65 @@ public class SecureStorage implements SecureStorageInterface{
         keyGenerator.init(outputKeyLength, secureRandom);
         SecretKey key = keyGenerator.generateKey();
         return key;
+    }
+
+    @Override
+    public byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError){
+        if( null==dataToBeEncrypted ) {
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.NullData);
+            return null;
+        }
+        byte[] encryptedBytes= null;
+
+        try {
+            Cipher cipher = getCipher(Cipher.ENCRYPT_MODE);
+            encryptedBytes = cipher.doFinal(dataToBeEncrypted); // encrypt data using AES
+        } catch (Exception e) {
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,"EncryptionError",e.getMessage());
+        }
+        return encryptedBytes;
+    }
+
+    @Override
+    public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError){
+        if( null==dataToBeDecrypted ) {
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.NullData);
+            return null;
+        }
+        byte[] decryptedBytes= null;
+        try {
+            Cipher cipher = getCipher(Cipher.DECRYPT_MODE);
+            decryptedBytes = cipher.doFinal(dataToBeDecrypted); // decrypt data using AES
+        } catch (Exception e) {
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,"DecryptionError",e.getMessage());
+        }
+        return decryptedBytes;
+    }
+
+    private  Cipher getCipher (int CipherEncryptOrDecryptMode ){
+        byte[] secretKeyBytes= null;
+        Cipher cipher=null;
+        try{
+            cipher= Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+            SharedPreferences prefs = getSharedPreferences(KEY_FILE_NAME);
+            if(prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
+                String aesKeyForEcryptandDecrypt  = prefs.getString(SINGLE_AES_KEY_TAG,null);
+                secretKeyBytes =  Base64.decode(aesKeyForEcryptandDecrypt, Base64.DEFAULT);//  AES key bytes
+            }else{
+                SecretKey secretKey = generateAESKey(); // generate AES key
+                secretKeyBytes = secretKey.getEncoded();
+                String secretKeyString = Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT);
+                boolean returnResult = storeEncryptedData(SINGLE_AES_KEY_TAG, secretKeyString ,KEY_FILE_NAME); // save encrypted AES key in file
+            }
+            Key key = (Key) new SecretKeySpec(secretKeyBytes, "AES");
+            byte[] ivBlockSize = new byte[cipher.getBlockSize()];
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
+            cipher.init(CipherEncryptOrDecryptMode, key,ivParameterSpec);
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,"getCipher error",e.getMessage());
+        }
+        return cipher;
     }
 }

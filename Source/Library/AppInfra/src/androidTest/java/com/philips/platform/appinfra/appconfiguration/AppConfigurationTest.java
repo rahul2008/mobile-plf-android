@@ -252,6 +252,14 @@ public class AppConfigurationTest extends MockitoTestCase {
         configError.setErrorCode(null);// reset error code to null
         assertEquals(integerArrayList, mConfigInterface.getPropertyForKey(newlyAddedKey4, existingGroup,  configError));//  Existing Group and  Existing key
         assertEquals(null, configError.getErrorCode()); // success
+
+        // Add a new null value
+        configError.setErrorCode(null);// reset error code to null
+        assertTrue(mConfigInterface.setPropertyForKey( "NewKeyAdded5", existingGroup, null, configError));//  Existing Group  and Non Existing key
+        assertEquals(null, configError.getErrorCode());
+        configError.setErrorCode(null);// reset error code to null
+        assertEquals(null, mConfigInterface.getPropertyForKey("NewKeyAdded5", existingGroup,  configError));//  Existing Group and  Existing key
+        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.KeyNotExists, configError.getErrorCode()); // success
     }
 
 }

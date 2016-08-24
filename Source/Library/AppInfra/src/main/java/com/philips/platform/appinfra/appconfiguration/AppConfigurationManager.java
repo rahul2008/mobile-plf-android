@@ -114,7 +114,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         } else {
                             object = cocoJSONobject.opt(key); // Returns the value mapped by name, or null if no such mapping exists
                             if (null == object) {
-                                configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
+                                //configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
                             } else {
                                 //  KEY FOUND SUCCESS
                                 if (cocoJSONobject.opt(key) instanceof JSONArray) {
@@ -141,7 +141,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError) throws IllegalArgumentException {
         boolean setOperation = false;
         if (null == key || null == group || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") ||
-                !key.matches("[a-zA-Z0-9_.-]+") || object == null) {
+                !key.matches("[a-zA-Z0-9_.-]+") ) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
@@ -171,7 +171,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         } else {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         }
-                    } else if (object instanceof Integer || object instanceof String) {
+                    } else if (object instanceof Integer || object instanceof String ||null==object) {
 
                         cocoJSONobject.put(key, object);
                     } else {

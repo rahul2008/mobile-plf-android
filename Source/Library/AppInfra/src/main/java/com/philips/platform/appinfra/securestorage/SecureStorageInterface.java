@@ -38,8 +38,24 @@ public  interface SecureStorageInterface {
      */
     public boolean removeValueForKey(String userKey);
 
+    /**
+     * encrypt Data .
+     *
+     * @param  dataToBeEncrypted Plain Byte array
+     * @return  Encrypted Byte array
+     */
+    public byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError);
+
+    /**
+     * encrypt Data .
+     *
+     * @param  dataToBeDecrypted Encrypted Byte array
+     * @return  Plain Byte array
+     */
+    public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
+
     public class SecureStorageError {
-        public  enum  secureStorageError {AccessKeyFailure, UnknownKey , EncryptionError, DecryptionError, StoreError   , NoDataFoundForKey };
+        public  enum  secureStorageError {AccessKeyFailure, UnknownKey , EncryptionError, DecryptionError, StoreError   , NoDataFoundForKey, NullData };
         private secureStorageError errorCode = null;
         public secureStorageError getErrorCode() {
             return errorCode;
