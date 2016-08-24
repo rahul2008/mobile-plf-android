@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -41,7 +42,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InAppPurchaseFragmentState extends UIState {
+public class InAppPurchaseHistoryFragmentState extends UIState {
 
     Context mContext;
     private FragmentActivity fragmentActivity;
@@ -53,14 +54,12 @@ public class InAppPurchaseFragmentState extends UIState {
     private TextView mCountText;
     private ActionBarListener actionBarListener;
 
-    public InAppPurchaseFragmentState(@UIStateDef int stateID) {
+    public InAppPurchaseHistoryFragmentState(@UIStateDef int stateID) {
         super(stateID);
     }
 
     @Override
     public void navigate(Context context) {
-        /*InAppPurchasesFragment iap = new InAppPurchasesFragment();
-        ((AppFrameworkBaseActivity)context).showFragment( iap, InAppPurchasesFragment.TAG);*/
         mContext = context;
         if(context instanceof HomeActivity) {
             fragmentActivity = (HomeActivity) context;
@@ -121,7 +120,7 @@ public class InAppPurchaseFragmentState extends UIState {
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, iapFlowInput);
         FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID, new ActionBarListener() {
             @Override
             public void updateActionBar(@StringRes int i, boolean b) {
@@ -136,7 +135,22 @@ public class InAppPurchaseFragmentState extends UIState {
         try {
             iapInterface.launch(fragLauncher, iapLaunchInput);
         } catch (RuntimeException e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            showIAPToast(IAPConstant.IAP_ERROR_NO_CONNECTION);
+        }
+    }
+
+    private void showIAPToast(int errorCode) {
+        String errorText = mContext.getResources().getString(R.string.iap_unknown_error);
+        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+        }
+
+        if (null != mContext) {
+            Toast toast = Toast.makeText(mContext, errorText, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
     }
 
@@ -148,12 +162,12 @@ public class InAppPurchaseFragmentState extends UIState {
         transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
 
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "("
                 + newFragmentTag + ")");
     }
 
     @Override
     public void back(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+        ((AppFrameworkBaseActivity)context).popBack();
     }
 }

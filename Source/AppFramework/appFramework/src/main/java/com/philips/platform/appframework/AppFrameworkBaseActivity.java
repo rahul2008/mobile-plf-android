@@ -131,5 +131,4 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
 
         return (currentFrag != null);
     }
-
 }

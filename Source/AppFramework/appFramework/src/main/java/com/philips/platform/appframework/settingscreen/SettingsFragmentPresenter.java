@@ -13,6 +13,7 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseHistoryFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
 public class SettingsFragmentPresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
@@ -29,6 +30,11 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
         switch (componentID){
             case SettingsFragment.logOutButton:
                 uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
+                uiState.setPresenter(this);
+                appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
+                break;
+            case SettingsAdapter.iapHistoryLaunch:
+                uiState = new InAppPurchaseHistoryFragmentState(UIState.UI_IAP_SHOPPING_HISTORY_FRAGMENT_STATE);
                 uiState.setPresenter(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
                 break;

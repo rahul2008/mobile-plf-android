@@ -27,22 +27,31 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     UIBaseNavigator uiBaseNavigator;
     AppFrameworkApplication appFrameworkApplication;
     UIState uiState;
+    private final int MENU_OPTION_HOME = 0;
+    private final int MENU_OPTION_SETTINGS = 1;
+    private final int MENU_OPTION_SHOP = 2;
+    private final int MENU_OPTION_SUPPORT = 3;
+    private final int MENU_OPTION_ABOUT = 4;
+    private final int MENU_OPTION_DEBUG = 5;
+
     @Override
     public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         switch (componentID){
-            case 0: uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
+            case MENU_OPTION_HOME: uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
                 break;
-            case 1: uiState = new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE);
+            case MENU_OPTION_SETTINGS: uiState = new SettingsFragmentState(UIState.UI_SETTINGS_FRAGMENT_STATE);
+                break;
+            case MENU_OPTION_SHOP: uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                break;
+            case MENU_OPTION_SUPPORT: uiState = new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE);
                 // TODO: pass presenter interface as listener if required from respective state classes
                 break;
-            case 2: uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+            case MENU_OPTION_ABOUT:
+                uiState=new AboutScreenState(UIState.UI_ABOUT_SCREEN_STATE);
                 break;
-            case 3: uiState = new SettingsFragmentState(UIState.UI_SETTINGS_FRAGMENT_STATE);
-                break;
- 			case 4: uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
-                break;
-            case 5: uiState=new AboutScreenState(UIState.UI_ABOUT_SCREEN_STATE);
+ 			case MENU_OPTION_DEBUG:
+                uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
                 break;
             default:uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
         }
