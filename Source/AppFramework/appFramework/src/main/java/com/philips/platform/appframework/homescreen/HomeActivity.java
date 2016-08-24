@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.homescreen;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,8 +26,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -34,9 +39,8 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -60,6 +64,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private LinearLayout hamburgerClick = null;
     private static int mCartItemCount = 0;
     private final int CART_POSITION_IN_MENU = 2;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +85,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     public void cartCountUpdate(int  count) {
         mCartItemCount = count;
-        hamburgerItems.get(2).setCount(mCartItemCount);
+        hamburgerItems.get(2).setCount(count);
         adapter.notifyDataSetChanged();
     }
 
@@ -196,12 +201,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
         }
-
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.vertical_Container);
+        boolean backState = false;
+        if (currentFrag != null && currentFrag instanceof BackEventListener) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+        }
+        if (!backState) {
+            super.popBackTillHomeFragment();
+        }
+        /*if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finishAffinity();
         } else if (findIfHomeFragmentSentBack()) {
             finishAffinity();
-        } /*else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
+        } *//*else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
             if (!inAppPurchaseBackPress()) {
                 super.popBackTillHomeFragment();
             }
@@ -210,11 +223,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             if (!inAppPurchaseBackPress()) {
                 super.popBack();
             }
-        }*/
+        }*//*
         else if (findFragmentByTag("Registration_fragment_tag")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment fragment = fragmentManager
-                    .findFragmentById(R.id.fl_reg_fragment_container);
+                    .findFragmentById(R.id.frame_container);
             if (fragment != null && fragment instanceof BackEventListener) {
                 boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
                 if (isConsumed)
@@ -225,7 +238,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             UIFlowManager flowManager = applicationContext.getFlowManager();
             UIState currentState = flowManager.getCurrentState();
             currentState.back(this);
-        }
+        }*/
     }
 
     private boolean findIfHomeFragmentSentBack() {
@@ -291,25 +304,54 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         actionBarTitle.setText(R.string.af_app_name);
     }
 
-    private void addIapCartCount() {
-        if (NetworkUtility.getInstance().isNetworkAvailable(this)) {
-            String countryCode = getResources().getString(R.string.af_country);
-            String languageCode = getResources().getString(R.string.af_language);
-
-            try {
-                /*IAPSettings mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
-                mIapSettings.setUseLocalData(false);
-                mIapSettings.setLaunchAsFragment(true);
-                mIapSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
-                IAPHandler mIapHandler = IAPHandler.init(this, mIapSettings);
-                mIapHandler.getProductCartCount(mProductCountListener);*/
-            } catch (IllegalArgumentException e) {
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
             }
-        } else {
-            showIAPToast(IAPConstant.IAP_ERROR_NO_CONNECTION);
-        }
+        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
+            mProgressDialog.show();
+            }
     }
 
+    public void dismissProgressDialog() {
+        if(mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+            }
+    }
+
+    private void addIapCartCount() {
+        IAPInterface iapInterface = new IAPInterface();
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPSettings iapSettings = new IAPSettings(this);
+        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        iapSettings.setUseLocalData(false);
+        iapInterface.init(iapDependencies, iapSettings);
+        iapInterface.getProductCartCount(new IAPListener() {
+            @Override
+            public void onGetCartCount(int i) {
+                Toast.makeText(HomeActivity.this, "" + i, Toast.LENGTH_SHORT).show();
+                cartCountUpdate(i);
+            }
+
+            @Override
+            public void onGetCompleteProductList(ArrayList<String> arrayList) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(int i) {
+
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
