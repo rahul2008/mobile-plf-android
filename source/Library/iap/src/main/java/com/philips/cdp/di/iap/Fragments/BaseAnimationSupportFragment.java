@@ -13,7 +13,6 @@ import android.view.View;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -22,7 +21,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
 
-public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener{
+public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener {
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
     private String mTitle = "";
@@ -73,7 +72,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
     @Override
     public void onResume() {
         super.onResume();
-       // setBackButtonVisibility(true);
+        // setBackButtonVisibility(true);
         //setCartIconVisibility(false);
         //mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
     }
@@ -100,26 +99,10 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         }
     }
 
-//    public void removeFragment() {
-//        if (getActivity() != null && !getActivity().isFinishing()) {
-//            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//            Fragment currentFragment = getActivity().getSupportFragmentManager()
-//                    .findFragmentById(getId());
-//            if (currentFragment != null) {
-//                transaction.remove(currentFragment);
-//            }
-//            transaction.commit();
-//        }
-//    }
-
     private void clearStackAndLaunchProductCatalog() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentManager manager = getActivity().getSupportFragmentManager();
             clearFragmentStack();
-            manager.beginTransaction().replace(getId(),
-                    ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
-                    .commitAllowingStateLoss();
+            addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), ProductCatalogFragment.TAG);
         }
     }
 
@@ -132,37 +115,25 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         }
     }
 
-//    public void launchShoppingCart() {
-//        if (getActivity() != null && !getActivity().isFinishing()) {
-//            FragmentManager manager = getActivity().getSupportFragmentManager();
-//            FragmentTransaction transaction = manager.beginTransaction();
-//            transaction.replace(getId(), new ShoppingCartFragment());
-//            transaction.addToBackStack(ShoppingCartFragment.TAG);
-//            transaction.commitAllowingStateLoss();
-//        }
-//    }
-
-
-
     protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
-        // mFragmentLayout.setHeaderTitle(resourceId);
         mTitle = getString(resourceId);
-        mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
+        if (mActionbarUpdateListener == null) {
+            throw new RuntimeException("Please set the ActionBar Listener");
+        } else
+            mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
     }
+
 
     protected void setTitleAndBackButtonVisibility(String title, boolean isVisible) {
-        //  mFragmentLayout.setHeaderTitle(title);
         mTitle = title;
-        mActionbarUpdateListener.updateActionBar(title, isVisible);
+        if (mActionbarUpdateListener == null) {
+            throw new RuntimeException("Please set the ActionBar Listener");
+        } else {
+            mActionbarUpdateListener.updateActionBar(title, isVisible);
+        }
     }
 
-//    protected void setBackButtonVisibility(final boolean isVisible) {
-//        //  mFragmentLayout.setBackButtonVisibility(isVisible);
-//        mActionbarUpdateListener.updateActionBar(mTitle, isVisible);
-//    }
-
     protected void finishActivity() {
-//        IAPAnalytics.trackPage(Tagging.getLaunchingPageName());
         if (getActivity() != null && !getActivity().isFinishing()) {
             getActivity().finish();
         }
