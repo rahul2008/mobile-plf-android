@@ -65,7 +65,6 @@ public class SHNDeviceImplTest {
     @Mock private SHNService mockedSHNService;
 
     @Mock private SHNCharacteristic mockedSHNCharacteristic;
-
     @Mock private BluetoothGattService mockedBluetoothGattService;
 
     @Mock private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;
@@ -73,6 +72,8 @@ public class SHNDeviceImplTest {
     @Mock private BluetoothGattDescriptor mockedBluetoothGattDescriptor;
 
     @Mock private SHNDeviceImpl.SHNDeviceListener mockedSHNDeviceListener;
+
+    @Mock private BluetoothDevice mockedBluetoothDevice;
 
     @Mock private SHNDevice.DiscoveryListener mockedDiscoveryListener;
 
@@ -143,11 +144,8 @@ public class SHNDeviceImplTest {
     }
 
     private void connectTillGATTConnected() {
-        if (useTimeoutConnect) {
-            shnDevice.connect();
-        } else {
-            shnDevice.connect(false, -1L);
-        }
+        if (useTimeoutConnect) shnDevice.connect();
+        else shnDevice.connect(false, -1L);
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
     }
 
@@ -932,6 +930,23 @@ public class SHNDeviceImplTest {
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
                 BluetoothGatt.STATE_DISCONNECTED);
         verify(mockedBTGatt).close();
+    }
+
+    @Test
+    public void whenReadRSSIOnConnectedDeviceThenGattReadRSSIIsCalled() {
+        getDeviceInConnectedState();
+
+        shnDevice.readRSSI();
+
+        verify(mockedBTGatt).readRSSI();
+    }
+
+    @Test
+    public void whenOnReadRSSIIsCalledThenTheListsnerIsNotified() {
+        getDeviceInConnectedState();
+        btGattCallback.onReadRemoteRssi(mockedBTGatt, 10, BluetoothGatt.GATT_SUCCESS);
+
+        verify(mockedSHNDeviceListener).onReadRSSI(10);
     }
 
     // DiscoveryListener Tests

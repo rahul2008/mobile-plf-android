@@ -65,6 +65,11 @@ public interface SHNDevice {
     void disconnect();
 
     /**
+     * Reads the RSSI of a connected peripheral
+     */
+    void readRSSI();
+
+    /**
      * Register a {@code SHNDeviceListener} instance to receive updates about the peripheral state.
      */
     void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener);
@@ -133,9 +138,16 @@ public interface SHNDevice {
          * Indicates that the initiated connection was not successful.
          *
          * @param shnDevice instance that has changed state
-         * @param result reason for the connection to fail
+         * @param result    reason for the connection to fail
          */
         void onFailedToConnect(SHNDevice shnDevice, SHNResult result);
+
+        /**
+         * The rssi from the peripheral
+         *
+         * @param rssi value as read from the peripheal
+         */
+        void onReadRSSI(int rssi);
     }
 
     /**

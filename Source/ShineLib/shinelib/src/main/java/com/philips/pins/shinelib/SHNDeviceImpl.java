@@ -325,6 +325,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
+    public void readRSSI() {
+        btGatt.readRSSI();
+    }
+
+    @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         this.shnDeviceListener = shnDeviceListener;
     }
@@ -487,7 +492,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
-            throw new UnsupportedOperationException("onReadRemoteRssi");
+            SHNDeviceImpl.this.shnDeviceListener.onReadRSSI(rssi);
         }
 
         @Override

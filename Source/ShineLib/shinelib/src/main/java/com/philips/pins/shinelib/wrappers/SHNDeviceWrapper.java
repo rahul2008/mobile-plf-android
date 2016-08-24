@@ -68,6 +68,23 @@ public class SHNDeviceWrapper implements SHNDevice {
                 }
             }
         }
+
+        @Override
+        public void onReadRSSI(final int rssi) {
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice) throw new IllegalArgumentException();
+            synchronized (shnDeviceListeners) {
+                for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
+                    if (shnDeviceListener != null) {
+                        userHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shnDeviceListener.onReadRSSI(rssi);
+                            }
+                        });
+                    }
+                }
+            }
+        }
     };
 
     DiscoveryListener discoveryListener = new DiscoveryListener() {
@@ -176,6 +193,17 @@ public class SHNDeviceWrapper implements SHNDevice {
             @Override
             public void run() {
                 shnDevice.disconnect();
+            }
+        };
+        internalHandler.post(runnable);
+    }
+
+    @Override
+    public void readRSSI() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                shnDevice.readRSSI();
             }
         };
         internalHandler.post(runnable);
