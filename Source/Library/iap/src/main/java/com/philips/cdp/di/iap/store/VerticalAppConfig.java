@@ -35,11 +35,6 @@ public class VerticalAppConfig {
         }
     }
 
-//    public InputStream readJsonInputStream(final Context context) throws IOException {
-//        final AssetManager assetManager = context.getAssets();
-//        return assetManager.open("PhilipsInAppPurchaseConfiguration.json");
-//    }
-
     public String getHostPort() {
         return mHostPort;
     }

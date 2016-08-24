@@ -13,11 +13,13 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.prx.MockPRXDataBuilder;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -40,7 +42,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
-public class ProductCatalogPresenterTest implements ShoppingCartPresenter.ShoppingCartLauncher, ProductCatalogPresenter.LoadListener, IAPHandlerProductListListener {
+public class ProductCatalogPresenterTest implements ShoppingCartPresenter.ShoppingCartLauncher, ProductCatalogPresenter.LoadListener, IAPListener {
 
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
@@ -53,7 +55,7 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext);
+        mNetworkController = new MockNetworkController(mContext, new MockIAPDependencies());
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
 
@@ -105,7 +107,7 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 20);
+        mProductCatalogPresenter.getCompleteProductList(this);
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
                 .class, "product_catalog_get_request.txt"));
@@ -117,7 +119,7 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 1);
+        mProductCatalogPresenter.getCompleteProductList(this);
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
                 .class, "product_catalog_get_request_page_size_1.txt"));
@@ -127,7 +129,6 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
                 .class, "product_catalog_get_request.txt"));
         mNetworkController.sendSuccess(obj);
     }
-
 
 
     private void makePRXData() throws JSONException {
@@ -173,7 +174,7 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
         mProductCatalogPresenter = new ProductCatalogPresenter();
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 1);
+        mProductCatalogPresenter.getCompleteProductList(this);
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
                 .class, "product_catalog_error.txt"));
@@ -189,7 +190,7 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
         mProductCatalogPresenter = new ProductCatalogPresenter();
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 1);
+        mProductCatalogPresenter.getCompleteProductList(this);
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
                 .class, "product_catalog_get_request_page_size_1.txt"));
@@ -241,7 +242,17 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
     }
 
     @Override
-    public void onSuccess(final ArrayList<String> productList) {
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onGetCartCount(int count) {
+
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> productList) {
         assert (productList != null);
 
         if (productList.size() > 0) {

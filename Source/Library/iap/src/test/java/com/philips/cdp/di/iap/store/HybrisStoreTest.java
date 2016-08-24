@@ -3,6 +3,8 @@ package com.philips.cdp.di.iap.store;//package com.philips.cdp.di.iap.store;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,23 +25,30 @@ import static org.mockito.Mockito.when;
 public class HybrisStoreTest {
     @Mock
     Context mContext;
-    @Mock IAPUser mIAPMockedUser;
-    @Mock StoreConfiguration mStoreConfig;
+    @Mock
+    IAPUser mIAPMockedUser;
+    @Mock
+    StoreConfiguration mStoreConfig;
+    @Mock
+    AppInfra mAppInfra;
     private StoreSpec mStore;
+    private MockIAPDependencies mockIAPDependencies;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
-        mStore =  new MockStore(mContext,mIAPMockedUser).getStore();
-        mStore.initStoreConfig("en","US",null);
+        mockIAPDependencies = new MockIAPDependencies(mAppInfra);
+        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPDependencies);
+
+        mStore.initStoreConfig("en", "US", null);
     }
 
     @Test
     public void confirmOAuthURL() {
         if (mStore instanceof HybrisStore) {
-            ((HybrisStore)mStore).updateJanRainIDBasedUrls();
+            ((HybrisStore) mStore).updateJanRainIDBasedUrls();
             assertEquals(NetworkURLConstants.OAUTH_URL, mStore.getOauthUrl());
         }
     }
@@ -114,22 +123,22 @@ public class HybrisStoreTest {
 
     @Test
     public void confirmProductCatalogURL() {
-        assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, mStore.getProductCatalogUrl(0,1));
+        assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, mStore.getProductCatalogUrl(0, 1));
     }
 
     @Test
-    public void confirmJanRainEmail(){
+    public void confirmJanRainEmail() {
         assertEquals(NetworkURLConstants.JANRAIN_EMAIL, mStore.getJanRainEmail());
     }
 
     @Test
-    public void refreshLoginSession(){
+    public void refreshLoginSession() {
         mStore.refreshLoginSession();
         assertEquals(NetworkURLConstants.JANRAIN_EMAIL, mStore.getJanRainEmail());
     }
 
     @Test
-    public void confirmGetLocale(){
+    public void confirmGetLocale() {
         assertEquals(NetworkURLConstants.LOCALE, mStore.getLocale());
     }
 

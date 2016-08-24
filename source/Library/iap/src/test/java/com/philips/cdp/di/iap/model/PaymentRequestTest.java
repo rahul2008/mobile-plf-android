@@ -11,6 +11,8 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -34,12 +36,13 @@ public class PaymentRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
-
+    @Mock
+    IAPDependencies mIAPDependencies;
     private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "US", null);
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.ORDER_NUMBER, "H1212");
@@ -122,7 +125,7 @@ public class PaymentRequestTest {
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, "US");
         if (CartModelContainer.getInstance().getRegionIsoCode() != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
-        }else{
+        } else {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, "");
         }
         addressHashMap.put(ModelConstants.LINE_1, "dfs");

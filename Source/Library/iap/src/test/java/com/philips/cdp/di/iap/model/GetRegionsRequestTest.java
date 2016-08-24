@@ -9,6 +9,8 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -27,11 +29,13 @@ public class GetRegionsRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
+    @Mock
+    IAPDependencies mIAPDependencies;
     private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "US", null);
         mModel = new GetRegionsRequest(mStore, null, null);
     }

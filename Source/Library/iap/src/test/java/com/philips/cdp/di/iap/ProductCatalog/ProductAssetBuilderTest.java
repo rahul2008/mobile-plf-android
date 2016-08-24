@@ -4,15 +4,12 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.prx.MockPRXDataBuilder;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
-import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
@@ -34,18 +31,18 @@ import static junit.framework.Assert.assertTrue;
  */
 @RunWith(RobolectricTestRunner.class)
 public class ProductAssetBuilderTest implements
-        PRXProductAssetBuilder.AssetListener{
+        PRXProductAssetBuilder.AssetListener {
 
     @Mock
     Context mContext;
     MockProductAssetBuilder builder;
-     MockNetworkController mNetworkController;
+    MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext);
+        mNetworkController = new MockNetworkController(mContext, new MockIAPDependencies());
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
     }

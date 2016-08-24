@@ -11,7 +11,7 @@
   "PILConfiguration": {
     "MicrositeID": 77000,
     // "RegistrationEnvironment": "Staging"
-    "RegistrationEnvironment": "Production"
+    "RegistrationEnvironment": "Evaluation"
   },
   "Flow": {
     "EmailVerificationRequired": "true",

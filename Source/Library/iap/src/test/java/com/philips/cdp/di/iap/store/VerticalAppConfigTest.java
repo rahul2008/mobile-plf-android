@@ -2,6 +2,10 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.platform.appinfra.AppInfra;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;
@@ -12,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -20,35 +23,41 @@ import java.io.InputStream;
  */
 @RunWith(RobolectricTestRunner.class)
 public class VerticalAppConfigTest extends TestCase {
+    MockIAPDependencies mIAPDependencies;
     @Mock
     Context mContext;
+    @Mock
+    AppInfra mAppInfra;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
+        mIAPDependencies = new MockIAPDependencies(mAppInfra);
     }
 
     @Test
     public void testPropositionIDIsTuscany2016() {
-        MockVerticalAppConfig mockConfig = new MockVerticalAppConfig(mContext);
+        MockVerticalAppConfig mockConfig = new MockVerticalAppConfig(mIAPDependencies);
         assertEquals("Tuscany2016", mockConfig.getProposition());
+        assertEquals("acc.occ.shop.philips.com", mockConfig.getHostPort());
     }
 
     @Test
     public void testIOExceptionForWrongFileInput() {
-        VerticalAppConfig mockConfig = new VerticalAppConfig(mContext) {
+        VerticalAppConfig mockConfig = new VerticalAppConfig(mIAPDependencies) {
             @Override
-            public InputStream readJsonInputStream(final Context context) throws IOException {
-                throw new IOException();
+            void loadConfigurationFromAsset(IAPDependencies iapDependencies) {
+                // super.loadConfigurationFromAsset(iapDependencies);
             }
         };
 
         assertNull(mockConfig.getProposition());
+        assertNull(mockConfig.getHostPort());
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullPointerExceptionWhenMockedReadJSONInputStream() throws IOException {
-        VerticalAppConfig config = new VerticalAppConfig(mContext);
-        config.readJsonInputStream(mContext);
+        VerticalAppConfig config = new VerticalAppConfig(mIAPDependencies);
+        config.loadConfigurationFromAsset(mIAPDependencies);
     }
 }
