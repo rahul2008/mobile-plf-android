@@ -12,11 +12,11 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.PILConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
+//import com.philips.cdp.registration.configuration.Configuration;
+//import com.philips.cdp.registration.configuration.PILConfiguration;
+//import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+//import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
+//import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
@@ -514,11 +514,11 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
                 context = getInstrumentation().getTargetContext();
                 System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());
                 //Configure PIL
-                PILConfiguration pilConfiguration = new PILConfiguration();
-
-                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setCampaignID("CL20150501_PC_TB_COPPA");
-                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
-                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.EVALUATION);
+//                PILConfiguration pilConfiguration = new PILConfiguration();
+//
+//                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setCampaignID("CL20150501_PC_TB_COPPA");
+//                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
+//                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.EVALUATION);
                 UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);
                 UserRegistrationInitializer.getInstance().setJanrainIntialized(true);
 
@@ -599,17 +599,17 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
                 assertNotNull(user.getJanrainUUID()); //capture files exists, so hjanrainid must be set
         }
 
-        public void test_isUserSignIn(){
-                Jump.signOutCaptureUser(context);
-                User user = new User(context);
-                assertFalse(user.isUserSignIn());
-                saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
-                RegistrationConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(true);
-                RegPreferenceUtility.storePreference(context,user.getEmail(),true);
-                Jump.loadUserFromDiskInternal(context);
-                assertTrue(user.isUserSignIn());
-
-        }
+//        public void test_isUserSignIn(){
+//                Jump.signOutCaptureUser(context);
+//                User user = new User(context);
+//                assertFalse(user.isUserSignIn());
+//                saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
+//               // RegistrationConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(true);
+//                RegPreferenceUtility.storePreference(context,user.getEmail(),true);
+//                Jump.loadUserFromDiskInternal(context);
+//                assertTrue(user.isUserSignIn());
+//
+//        }
 
         public void test_getEmailVerificationStatus(){
                 Jump.signOutCaptureUser(context);
