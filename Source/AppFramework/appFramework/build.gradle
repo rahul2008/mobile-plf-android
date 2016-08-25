@@ -226,7 +226,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
 
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.2', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.3', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }

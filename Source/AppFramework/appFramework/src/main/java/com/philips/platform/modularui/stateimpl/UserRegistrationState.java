@@ -8,12 +8,17 @@ package com.philips.platform.modularui.stateimpl;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -28,7 +33,10 @@ import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-public class UserRegistrationState extends UIState implements UserRegistrationListener {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
     Context mContext;
     User userObject;
     int containerID;
@@ -36,6 +44,35 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     URSettings urSettings;
     URLaunchInput urLaunchInput;
     private ActionBarListener actionBarListener;
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
+
+    @Override
+    public void onUserRegistrationComplete(Activity activity) {
+        if (null != activity) {
+            setStateCallBack.setNextState(mContext);
+        }
+
+    }
+
+    @Override
+    public void onPrivacyPolicyClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onTermsAndConditionClick(Activity activity) {
+
+    }
+
     /**
      * Interface to have callbacks for updating the title from UserRegistration CoCo callbacks.
      */
@@ -115,13 +152,46 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
             com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
                     new com.philips.platform.uappframework.launcher.FragmentLauncher
                             (fragmentActivity, containerID, actionBarListener);
-             urSettings=new URSettings(mContext);
+         //    urSettings=new URSettings(mContext);
             urLaunchInput= new URLaunchInput();
-            urLaunchInput.setUserRegistrationListener(this);
+            urLaunchInput.setUserRegistrationUIEventListener(this);
+            //    URDependancies urDependancies= new URDependancies(AppInfraSingleton.getInstance());
+          //  URInterface.init(urDependancies,urSettings);
+           // URInterface.launch(launcher,urLaunchInput);
 
-            URDependancies urDependancies= new URDependancies(AppInfraSingleton.getInstance());
-            URInterface.getInstance().init(urDependancies,urSettings);
-            URInterface.getInstance().launch(launcher,urLaunchInput);
+            URDependancies urDependancies = new URDependancies(AppInfraSingleton.getInstance());
+            URSettings urSettings = new URSettings(mContext);
+
+            RegistrationBaseConfiguration mRegistrationBaseConfiguration=new RegistrationBaseConfiguration();
+            mRegistrationBaseConfiguration.getPilConfiguration().setMicrositeId("77000");
+            RegistrationClientId registrationClientId = new RegistrationClientId();
+            registrationClientId.setStagingId("4r36zdbeycca933nufcknn2hnpsz6gxu");
+            mRegistrationBaseConfiguration.getJanRainConfiguration().setClientIds(registrationClientId);
+            mRegistrationBaseConfiguration.getFlow().setEmailVerificationRequired(true);
+            mRegistrationBaseConfiguration.getFlow().setTermsAndConditionsAcceptanceRequired(true);
+
+            //Configure Signin Providers
+            HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
+            ArrayList<String> values1 = new ArrayList<String>();
+            ArrayList<String> values2 = new ArrayList<String>();
+            ArrayList<String> values3 = new ArrayList<String>();
+            values1.add("facebook");
+            values1.add("googleplus");
+            values2.add("facebook");
+            values2.add("googleplus");
+            values3.add("facebook");
+            values3.add("googleplus");
+            providers.put("NL", values1);
+            providers.put("US", values2);
+            providers.put("DEFAULT", values3);
+            mRegistrationBaseConfiguration.getSignInProviders().setProviders(providers);
+
+            mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(Configuration.EVALUATION);
+            urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
+            URInterface urInterface = new URInterface();
+            urInterface.init(urDependancies,urSettings);
+            urInterface.launch(launcher,urLaunchInput);
+
 
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -148,28 +218,11 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         setStateCallBack.updateTitleWIthoutBack(titleResourceID,mContext);
     }
 
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        if (null != activity) {
-            setStateCallBack.setNextState(mContext);
-        }
+*/
 
-    }*/
 
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
 
-    }
 
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-
-    }
 
     @Override
     public void onUserLogoutSuccess() {

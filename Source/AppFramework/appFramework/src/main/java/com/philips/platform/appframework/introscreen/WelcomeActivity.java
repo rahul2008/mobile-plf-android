@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -33,7 +33,7 @@ import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener ,BackEventListener{
+public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     ImageView arrowImage;
     TextView textView;
     FragmentManager mFragmentManager;
@@ -57,20 +57,19 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
     @Override
     public void onBackPressed() {
-       /* FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment =  (RegistrationFragment)fragmentManager
-                .findFragmentById(R.id.fl_reg_fragment_container);
-        if (fragment != null && fragment instanceof BackEventListener) {*/
-            boolean isConsumed = (this).handleBackEvent();
-            if (isConsumed)
-                presenter.onClick(backButtonClick, this);;
+        boolean isConsumed = false;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(R.id.fragment_frame_container);
+        if (fragment != null && fragment instanceof BackEventListener) {
+            isConsumed = ((BackEventListener) fragment).handleBackEvent();
+        }
+        if (!isConsumed) {
 
-            super.onBackPressed();
+            presenter.onClick(backButtonClick, this);
+        }
 
 
-     //   if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-
-     //   }
     }
 
     void changeActionBarState(boolean isVisible) {
@@ -150,15 +149,4 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
     }
 
-    @Override
-    public boolean handleBackEvent() {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment =  (RegistrationFragment)fragmentManager
-                .findFragmentById(R.id.fl_reg_fragment_container);
-
-        if (fragment != null && fragment instanceof BackEventListener)
-            return false;
-        else return true;
-    }
 }
