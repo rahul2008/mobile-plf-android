@@ -164,8 +164,7 @@ public class SHNService {
         updateState(State.Error);
     }
 
-    public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status,
-            byte[] data) {
+    public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
         SHNCharacteristic shnCharacteristic = getSHNCharacteristic(characteristic.getUuid());
         shnCharacteristic.onReadWithData(gatt, status, data);
     }

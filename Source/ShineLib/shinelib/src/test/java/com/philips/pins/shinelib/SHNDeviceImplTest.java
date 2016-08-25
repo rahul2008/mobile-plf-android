@@ -70,6 +70,7 @@ public class SHNDeviceImplTest {
     @Mock private SHNService mockedSHNService;
 
     @Mock private SHNCharacteristic mockedSHNCharacteristic;
+
     @Mock private BluetoothGattService mockedBluetoothGattService;
 
     @Mock private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;

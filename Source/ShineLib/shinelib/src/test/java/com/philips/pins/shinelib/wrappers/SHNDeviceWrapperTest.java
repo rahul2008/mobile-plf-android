@@ -314,14 +314,13 @@ public class SHNDeviceWrapperTest {
     }
 
     @Test
-    public void whenDiscoveryListenerIsUnregisteredThenCharacteristicsIsNotReceived() throws Exception {
+    public void whenDiscoveryListenerIsUnregisteredThenServiceIsNotReceived() throws Exception {
         whenCreatedThenDisoveryListenerIsAttached();
 
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
         shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
 
-        discoveryListenerArgumentCaptor.getValue()
-                .onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, mockCharacteristic);
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
 
         verify(userHandlerMock, never()).post(runnableCaptor.capture());
     }
@@ -342,13 +341,23 @@ public class SHNDeviceWrapperTest {
     public void whenDiscoveryListenerIsRemovedThenRemainingListenersAreNotified() throws Exception {
         whenCreatedThenDisoveryListenerIsAttached();
 
-        SHNDevice.DiscoveryListener mockDiscoveryListeer2 = mock(SHNDevice.DiscoveryListener.class);
+        SHNDevice.DiscoveryListener mockDiscoveryListener2 = mock(SHNDevice.DiscoveryListener.class);
         shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
-        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListeer2);
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener2);
         shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
 
         discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
 
         verify(userHandlerMock, times(1)).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenReadRssiIsCalledInternalHandlerIsPosted() throws Exception {
+        whenCreatedThenDeviceListenerIsAttached();
+        whenCreatedThenDisoveryListenerIsAttached();
+        shnDeviceWrapper.readRSSI();
+        verify(internalHandlerMock).post(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+        verify(shnDeviceMock).readRSSI();
     }
 }

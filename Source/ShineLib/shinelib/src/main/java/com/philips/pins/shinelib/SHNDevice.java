@@ -138,7 +138,7 @@ public interface SHNDevice {
          * Indicates that the initiated connection was not successful.
          *
          * @param shnDevice instance that has changed state
-         * @param result    reason for the connection to fail
+         * @param result reason for the connection to fail
          */
         void onFailedToConnect(SHNDevice shnDevice, SHNResult result);
 
