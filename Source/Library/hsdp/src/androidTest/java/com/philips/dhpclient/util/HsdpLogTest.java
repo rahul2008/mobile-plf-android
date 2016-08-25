@@ -23,8 +23,13 @@ public class HsdpLogTest extends InstrumentationTestCase {
 
     public void testHsdpLog() {
         mHsdpLog.enableLogging();
+       assertTrue(mHsdpLog.isLoggingEnabled());
+        mHsdpLog.d("tag", "message");
+        mHsdpLog.e("tag", "message");
+        mHsdpLog.i("tag", "message");
+        mHsdpLog.v("tag", "message");
         mHsdpLog.disableLogging();
-        mHsdpLog.isLoggingEnabled();
+        assertFalse(mHsdpLog.isLoggingEnabled());
         mHsdpLog.d("tag", "message");
         mHsdpLog.e("tag", "message");
         mHsdpLog.i("tag", "message");
