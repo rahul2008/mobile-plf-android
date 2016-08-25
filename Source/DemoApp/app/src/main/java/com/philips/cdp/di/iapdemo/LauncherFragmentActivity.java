@@ -2,7 +2,6 @@ package com.philips.cdp.di.iapdemo;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -154,7 +153,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     }
 
     @Override
-    public void updateActionBar(@IdRes int resourceId, boolean visibility) {
+    public void updateActionBar(int resourceId, boolean visibility) {
         if (visibility) {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.VISIBLE);

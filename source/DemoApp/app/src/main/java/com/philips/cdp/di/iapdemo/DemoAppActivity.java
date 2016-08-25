@@ -34,11 +34,18 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.ui.utils.URDependancies;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import net.hockeyapp.android.CrashManager;
@@ -46,10 +53,11 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationListener, AdapterView.OnItemSelectedListener {
+        UserRegistrationUIEventListener, UserRegistrationListener, AdapterView.OnItemSelectedListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
     private DemoApplication mApplicationContext;
@@ -70,7 +78,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mLaunchProductDetail;
     private Button mAddCtn;
 
-    private ArrayList<String> mCompleteProductList = new ArrayList<>();
     private ArrayList<String> mCategorizedProductList = new ArrayList<>();
 
     private int mSelectedCountryIndex;
@@ -82,6 +89,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private IAPLaunchInput mIapLaunchInput;
     private IAPDependencies mIapDependencies;
     private IAPSettings mIAPSettings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +151,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         setLocale("en", "US");
 
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
 
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
@@ -270,7 +277,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                     new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
             launchIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput);
         } else if (view == mRegister) {
-            RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
+            RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+            URLaunchInput urLaunchInput = new URLaunchInput();
+            urLaunchInput.setAccountSettings(true);
+            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+            urLaunchInput.setUserRegistrationUIEventListener(this);
+            URInterface urInterface = new URInterface();
+            urInterface.launch(new ActivityLauncher
+                    (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), urLaunchInput);
+
         } else if (view == mLaunchFragment) {
             Intent intent = new Intent(this, LauncherFragmentActivity.class);
             this.startActivity(intent);
@@ -436,7 +451,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        mCompleteProductList = productList;
         dismissProgressDialog();
     }
 
@@ -475,10 +489,11 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onUserLogoutFailure() {
+
     }
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-    }
 
+    }
 }
