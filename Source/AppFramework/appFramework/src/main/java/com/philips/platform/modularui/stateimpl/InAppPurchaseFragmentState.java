@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -41,7 +42,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InAppPurchaseFragmentState extends UIState {
+public class InAppPurchaseFragmentState extends UIState implements IAPListener,ActionBarListener{
 
     Context mContext;
     private FragmentActivity fragmentActivity;
@@ -122,22 +123,20 @@ public class InAppPurchaseFragmentState extends UIState {
         iapInterface.init(iapDependencies, iapSettings);
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
-        FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID, new ActionBarListener() {
-            @Override
-            public void updateActionBar(@StringRes int i, boolean b) {
-
-            }
-
-            @Override
-            public void updateActionBar(String s, boolean b) {
-
-            }
-        });
+        FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID,this);
         try {
+
             iapInterface.launch(fragLauncher, iapLaunchInput);
+
         } catch (RuntimeException e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+        /*try{
+            ((HomeActivity)mContext).showProgressDialog();
+            iapInterface.getProductCartCount(this);
+        }catch (RuntimeException e){
+
+        }*/
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
@@ -155,5 +154,37 @@ public class InAppPurchaseFragmentState extends UIState {
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
+
+    @Override
+    public void onGetCartCount(int i) {
+        Toast.makeText(mContext,""+i,Toast.LENGTH_SHORT).show();
+        mCountText.setText(""+i);
+        ((HomeActivity)mContext).dismissProgressDialog();
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> arrayList) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onFailure(int i) {
+
+    }
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
     }
 }
