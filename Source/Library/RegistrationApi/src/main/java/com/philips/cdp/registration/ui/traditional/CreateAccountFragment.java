@@ -269,7 +269,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         if (v.getId() == R.id.btn_reg_register) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
-            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
@@ -363,7 +363,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if(mCbAcceptTerms.isChecked()){
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             }else{
@@ -395,7 +395,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleUiAcceptTerms() {
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
             mViewLine.setVisibility(View.VISIBLE);
         } else {
@@ -416,14 +416,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
         }
         hideSpinner();
         trackCheckMarketing();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             launchAccountActivateFragment();
         } else {
             launchWelcomeFragment();

@@ -80,11 +80,9 @@ class CoppaConsentUpdater {
     private void buildConsentStatus(boolean coppaConsentStatus,
                                     JSONObject consentsObject) throws JSONException {
         consentsObject.put(CoppaConfiguration.CAMPAIGN_ID,
-                RegistrationConfiguration.getInstance().
-                        getPilConfiguration().getCampaignID());
+                RegistrationConfiguration.getInstance().getCampaignId());
         consentsObject.put(CoppaConfiguration.MICRO_SITE_ID,
-                RegistrationConfiguration.getInstance().
-                        getPilConfiguration().getMicrositeId());
+                RegistrationConfiguration.getInstance().getMicrositeId());
         consentsObject.put(CoppaConfiguration.GIVEN, Boolean.toString(coppaConsentStatus));
         consentsObject.put(CoppaConfiguration.LOCALE,
                 RegistrationHelper.getInstance().getLocale(mContext).toString());
@@ -96,10 +94,9 @@ class CoppaConsentUpdater {
     private void buildConsentConfirmation(boolean coppaConsentConfirmationStatus,
                                           JSONObject consentsObject) throws JSONException {
         consentsObject.put(CoppaConfiguration.CAMPAIGN_ID,
-                RegistrationConfiguration.getInstance().
-                        getPilConfiguration().getCampaignID());
+                RegistrationConfiguration.getInstance().getCampaignId());
         consentsObject.put(CoppaConfiguration.MICRO_SITE_ID,
-                RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+                RegistrationConfiguration.getInstance().getMicrositeId());
         consentsObject.put(CoppaConfiguration.CONFIRMATION_GIVEN,
                 Boolean.toString(coppaConsentConfirmationStatus));
         consentsObject.put(CoppaConfiguration.CONFIRMATION_STORED_AT,

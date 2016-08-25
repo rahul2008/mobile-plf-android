@@ -51,6 +51,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONArray;
@@ -394,21 +395,22 @@ public class User {
         }
 
         boolean signedIn = true;
-        if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
         }
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-            if (!RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
+            if (!RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
                 throw new RuntimeException("Please set emailVerificationRequired field as true");
             }
             HsdpUser hsdpUser = new HsdpUser(mContext);
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
         }
-        if (RegistrationConfiguration.getInstance().getJanRainConfiguration() != null) {
+        if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.getConfiguration(
+                RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
         }
 
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
             if (!isTermAccepted) {
                 signedIn = false;
@@ -541,7 +543,7 @@ public class User {
      */
     public void logout(LogoutHandler logoutHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
             clearData();
@@ -576,7 +578,7 @@ public class User {
             @Override
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
-                if (!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     return;
                 }

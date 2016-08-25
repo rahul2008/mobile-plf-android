@@ -274,7 +274,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 break;
 
             case R.id.btn_refresh_token:
-                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+                if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
                     User user = new User(mContext);
                     if (!user.isUserSignIn()) {
                         Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();

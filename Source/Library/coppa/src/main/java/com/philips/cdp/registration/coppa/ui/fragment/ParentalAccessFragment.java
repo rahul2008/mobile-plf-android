@@ -124,7 +124,7 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
         mLlRootContainer = (LinearLayout) view.findViewById(R.id.ll_reg_parent_access_container);
 
         String underAge = getActivity().getString(R.string.reg_Coppa_Age_Verification_UnderAge_Txt);
-        int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
+        int minAge = RegistrationConfiguration.getInstance().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         underAge = String.format(underAge, minAge);
         mBtnUnderAge.setText(underAge);
 
@@ -147,7 +147,7 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
     private void showParentalAccessDailog() {
         mBtnUnderAge.setEnabled(false);
         String minAgeLimitTest = getActivity().getString(R.string.reg_Coppa_Age_Verification_UnderAge_Alert_Txt);
-        int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
+        int minAge = RegistrationConfiguration.getInstance().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         minAgeLimitTest = String.format(minAgeLimitTest, minAge);
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppCoppaTaggingConstants.MIN_AGE_LIMIT_WARNING);

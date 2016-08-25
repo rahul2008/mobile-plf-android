@@ -11,9 +11,6 @@ package com.philips.cdp.registration.coppa.test;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.PILConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -518,11 +515,6 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 
                 System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());
                 //Configure PIL
-                PILConfiguration pilConfiguration = new PILConfiguration();
-
-                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setCampaignID("CL20150501_PC_TB_COPPA");
-                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
-                RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.EVALUATION);
 
 
         }

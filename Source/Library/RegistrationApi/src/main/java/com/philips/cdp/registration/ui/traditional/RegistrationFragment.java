@@ -245,7 +245,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 return;
             }
 
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().
+            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().
                     isEmailVerificationRequired()) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
@@ -264,8 +264,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 replaceWithWelcomeFragment();
                 return;
             }
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().
-                    getFlow().isEmailVerificationRequired()) {
+            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;

@@ -221,8 +221,8 @@ public class HsdpUser {
      */
     private DhpApiClientConfiguration getDhpApiClientConfiguration() {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
-        String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
-        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHsdpConfiguration().getHSDPInfo(RegUtility.getConfiguration(environment));
+        String environment = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
+        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHSDPInfo(RegUtility.getConfiguration(environment));
         if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 

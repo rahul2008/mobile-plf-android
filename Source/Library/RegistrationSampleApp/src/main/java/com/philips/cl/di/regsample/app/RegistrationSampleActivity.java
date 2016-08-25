@@ -32,7 +32,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -91,7 +90,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(RegistrationSampleActivity.this);
         mProgressDialog.setCancelable(false);
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
             mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
         } else {
             mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
@@ -180,7 +179,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
 
                 } else {
-                    RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     prefs.edit().remove("reg_hsdp_environment").commit();
                 }
@@ -308,7 +306,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 break;
 
             case R.id.btn_refresh_token:
-                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+                if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
                     User user = new User(mContext);
                     if (!user.isUserSignIn()) {
                         Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();

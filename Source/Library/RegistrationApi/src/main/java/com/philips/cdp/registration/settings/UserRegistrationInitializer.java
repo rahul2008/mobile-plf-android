@@ -156,7 +156,7 @@ public class UserRegistrationInitializer {
 
     public void initializeConfiguredEnvironment(Context context, Configuration registrationType, String initLocale) {
         mRegistrationSettings = new RegistrationSettingsURL();
-        mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getJanRainConfiguration().getClientId(registrationType), initLocale);
+        mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
     }
 
 
@@ -181,10 +181,10 @@ public class UserRegistrationInitializer {
         registerJumpInitializationListener(context);
 
 
-        RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getMicrositeId());
 
         String mRegistrationType = RegistrationConfiguration.getInstance()
-                .getPilConfiguration().getRegistrationEnvironment();
+                .getRegistrationEnvironment();
         RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
 
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);

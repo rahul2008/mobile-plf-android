@@ -127,8 +127,8 @@ class CoppaConfiguration {
                     if (!consentObj.isNull(CAMPAIGN_ID)
                             && !consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(NULL)
                             && consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(
-                            RegistrationConfiguration.getInstance().getPilConfiguration().
-                                    getCampaignID())) {
+                            RegistrationConfiguration.getInstance().getCampaignId()
+                                    )) {
                         consentIndex = i;
                         isCampaignIdPresent = true;
                         if (!consentObj.optString(CONFIRMATION_GIVEN).equalsIgnoreCase(NULL)) {

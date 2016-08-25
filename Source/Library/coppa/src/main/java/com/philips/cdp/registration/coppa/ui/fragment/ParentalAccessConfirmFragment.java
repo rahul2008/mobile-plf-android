@@ -210,7 +210,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         int caluculateAge = currentYear - selectedYear;
         int howMuchOld = Integer.parseInt(mTvSelectedAge.getText().toString().trim());
 
-        int minAge = RegistrationConfiguration.getInstance().getFlow().
+        int minAge = RegistrationConfiguration.getInstance().
                 getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
 
         if (howMuchOld < minAge) {

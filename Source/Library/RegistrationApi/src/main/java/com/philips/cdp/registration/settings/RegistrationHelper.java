@@ -12,9 +12,7 @@ import android.content.Context;
 
 import com.philips.cdp.localematch.BuildConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
-import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
@@ -22,7 +20,6 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -137,11 +134,6 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-                if (!isJsonRead) {
-                    isJsonRead = RegistrationStaticConfiguration.getInstance().
-                            parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
-                }
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
                     refreshNTPOffset();

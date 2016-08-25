@@ -374,7 +374,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     };
 
     private void handleUiAcceptTerms(View view) {
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (isEmailExist && RegPreferenceUtility.getStoredState(mContext, mEmail)) {
                 View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
                 acceptTermsLine.setVisibility(View.GONE);
@@ -455,7 +455,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
             if (mBundle == null) {
-                if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
                         storeEmailInPreference();
                         launchWelcomeFragment();
@@ -467,7 +467,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 }
                 return;
             }
-            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && mLlAcceptTermsContainer.getVisibility() == View.VISIBLE) {
+            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && mLlAcceptTermsContainer.getVisibility() == View.VISIBLE) {
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
@@ -515,7 +515,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (mCbAcceptTerms.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             } else {
@@ -681,7 +681,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     //called on click of back
     public void clearUserData() {
-        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() &&
+                RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             User user = new User(mContext);
             user.logout(null);
         }

@@ -187,15 +187,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleSocialProviders(final String countryCode) {
         RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
-        if (null != RegistrationConfiguration.getInstance().getSignInProviders()) {
+        if (null != RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode)) {
             mLlSocialProviderBtnContainer.post(new Runnable() {
 
                 @Override
                 public void run() {
                     mLlSocialProviderBtnContainer.removeAllViews();
                     ArrayList<String> providers = new ArrayList<String>();
-                    providers = RegistrationConfiguration.getInstance().getSignInProviders()
-                            .getProvidersForCountry(countryCode);
+                    providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
+
                     if (null != providers) {
                         for (int i = 0; i < providers.size(); i++) {
                             inflateEachProviderBtn(providers.get(i));
@@ -270,7 +270,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mTvTermsAndConditionDesc = (TextView) view.findViewById(R.id.tv_reg_legal_notice);
-        int minAgeLimit = RegistrationConfiguration.getInstance().getFlow().
+        int minAgeLimit = RegistrationConfiguration.getInstance().
                 getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         String termsAndCondition = getString(R.string.reg_AgeLimitText);
         termsAndCondition = String.format(termsAndCondition, minAgeLimit);
@@ -418,7 +418,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void handleSocialProvider() {
-        RegistrationConfiguration.getInstance().getSignInProviders();
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
     }
 
@@ -459,7 +458,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
-        if (!RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (!RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             linifyPrivercyPolicyOnly(pTvPrivacyPolicy);
         } else {
             linifyPrivacyPolicyAndTerms(pTvPrivacyPolicy);
@@ -614,7 +613,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void launchWelcomeFragment() {
         String emailId = mUser.getEmail();
-        if (emailId != null && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailId)) {
+        if (emailId != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailId)) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

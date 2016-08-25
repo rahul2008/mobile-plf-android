@@ -74,7 +74,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             @Override
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
-                if (!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     return;
                 }

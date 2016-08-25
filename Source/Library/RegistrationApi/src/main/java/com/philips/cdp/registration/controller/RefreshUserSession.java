@@ -109,7 +109,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
     @Override
     public void onRefreshLoginSessionSuccess() {
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
             refreshHsdpAccessToken();
             return;
         }
