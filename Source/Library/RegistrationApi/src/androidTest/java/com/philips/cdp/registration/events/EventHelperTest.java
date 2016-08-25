@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -38,5 +41,17 @@ public class EventHelperTest extends InstrumentationTestCase{
     public void testGetInstance() throws Exception {
         assertNotNull(mEventHelper);
         mEventHelper.getInstance();
+        List<String> list = new ArrayList<String>();
+        EventListener observer = new EventListener() {
+            @Override
+            public void onEventReceived(String event) {
+
+            }
+        };
+        mEventHelper.registerEventNotification(list,observer);
+        mEventHelper.registerEventNotification("list",observer);
+        mEventHelper.unregisterEventNotification("list",observer);
+        mEventHelper.notifyEventOccurred("pEventName");
+
     }
 }

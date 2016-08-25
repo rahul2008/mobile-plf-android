@@ -36,5 +36,18 @@ public class NetworkStateHelperTest extends InstrumentationTestCase{
     public void testGetInstance() throws Exception {
         assertNotNull(mNetworkStateHelper);
         mNetworkStateHelper.getInstance();
+        NetworStateListener observer = new NetworStateListener() {
+            @Override
+            public void onNetWorkStateReceived(boolean isOnline) {
+
+            }
+        };
+
+        mNetworkStateHelper.registerEventNotification(observer);
+
+            mNetworkStateHelper.unregisterEventNotification(observer);
+
+                mNetworkStateHelper.notifyEventOccurred(true);
+                mNetworkStateHelper.notifyEventOccurred(false);
     }
 }
