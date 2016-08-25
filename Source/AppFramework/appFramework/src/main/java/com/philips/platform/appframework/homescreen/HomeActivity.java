@@ -138,6 +138,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         });
     }
+    private ImageView mBackImage;
+    private ImageView mCartIcon;
+    private TextView mCountText;
+    private TextView mTitleTextView;
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -214,7 +218,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             finishAffinity();
         } else if (findIfHomeFragmentSentBack()) {
             finishAffinity();
-        } *//*else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
+        } else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
             if (!inAppPurchaseBackPress()) {
                 super.popBackTillHomeFragment();
             }
@@ -223,7 +227,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             if (!inAppPurchaseBackPress()) {
                 super.popBack();
             }
-        }*//*
+        }
         else if (findFragmentByTag("Registration_fragment_tag")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment fragment = fragmentManager
@@ -332,8 +336,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         iapInterface.getProductCartCount(new IAPListener() {
             @Override
             public void onGetCartCount(int i) {
-                Toast.makeText(HomeActivity.this, "" + i, Toast.LENGTH_SHORT).show();
                 cartCountUpdate(i);
+                mCountText.setText(String.valueOf(i));
             }
 
             @Override
@@ -425,6 +429,22 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(String s, boolean b) {
-
+        if (b) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        }
     }
 }

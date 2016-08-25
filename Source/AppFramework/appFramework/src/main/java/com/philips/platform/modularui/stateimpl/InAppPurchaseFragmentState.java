@@ -71,7 +71,7 @@ public class InAppPurchaseFragmentState extends UIState implements IAPListener,A
         if (mCtnList == null) {
             mCtnList = new ArrayList<String>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
         }
-        addActionBar();
+        //addActionBar();
         launchIAP();
     }
 
@@ -116,12 +116,12 @@ public class InAppPurchaseFragmentState extends UIState implements IAPListener,A
 
     private void launchIAP() {
         IAPInterface iapInterface = new IAPInterface();
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPSettings iapSettings = new IAPSettings(fragmentActivity);
         IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
         FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID,this);
         try {
@@ -131,12 +131,6 @@ public class InAppPurchaseFragmentState extends UIState implements IAPListener,A
         } catch (RuntimeException e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        /*try{
-            ((HomeActivity)mContext).showProgressDialog();
-            iapInterface.getProductCartCount(this);
-        }catch (RuntimeException e){
-
-        }*/
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
@@ -146,9 +140,6 @@ public class InAppPurchaseFragmentState extends UIState implements IAPListener,A
         transaction.replace(containerID, newFragment, newFragmentTag);
         transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
-
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                + newFragmentTag + ")");
     }
 
     @Override
@@ -158,7 +149,6 @@ public class InAppPurchaseFragmentState extends UIState implements IAPListener,A
 
     @Override
     public void onGetCartCount(int i) {
-        Toast.makeText(mContext,""+i,Toast.LENGTH_SHORT).show();
         mCountText.setText(""+i);
         ((HomeActivity)mContext).dismissProgressDialog();
     }

@@ -222,7 +222,8 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:+'
-    compile('com.philips.cdp:registrationApi:7.1.0-rc.2@aar') {
+
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "7.1.0-rc.2") {
         exclude group: 'com.android.support'
         transitive = true
     }

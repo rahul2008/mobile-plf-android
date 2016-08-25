@@ -21,15 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.HomeActivityState;
-import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 

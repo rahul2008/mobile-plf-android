@@ -14,16 +14,12 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -70,7 +66,7 @@ public class SupportFragmentState extends UIState implements CcListener {
         productsSelection.setSector(Sector.B2C);
         com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
                 new com.philips.platform.uappframework.launcher.FragmentLauncher
-                        (mFragmentActivity, containerID, actionBarListener);
+                        (mFragmentActivity, containerID,actionBarListener);
        // launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         CcInterface ccInterface = new CcInterface();
 

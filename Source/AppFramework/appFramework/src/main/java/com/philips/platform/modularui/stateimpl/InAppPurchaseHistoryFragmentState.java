@@ -69,7 +69,7 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
         if (mCtnList == null) {
             mCtnList = new ArrayList<String>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
         }
-        addActionBar();
+        //addActionBar();
         launchIAP();
     }
 
@@ -162,8 +162,6 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
         transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
 
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "("
-                + newFragmentTag + ")");
     }
 
     @Override
