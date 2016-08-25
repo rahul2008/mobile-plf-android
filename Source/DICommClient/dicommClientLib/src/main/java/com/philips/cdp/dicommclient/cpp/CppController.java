@@ -34,6 +34,7 @@ import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.ComponentInfo;
 import com.philips.icpinterface.data.Errors;
+import com.philips.icpinterface.data.IdentityInformation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -136,7 +137,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return mInstance;
     }
 
-    private CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+    protected CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
 
         this.mContext = context;
         mKpsConfigurationInfo = kpsConfigurationInfo;
@@ -168,41 +169,56 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    private class KeyProvisioningException extends RuntimeException {
+        public KeyProvisioningException(Throwable throwable) {
+            super(throwable);
+        }
+    }
+
     private void startKeyProvisioning() {
         DICommLog.i(DICommLog.KPS, "Start provision");
         mKeyProvisioningState = KEY_PROVISION.PROVISIONING;
         String appVersion = null;
 
         // set Peripheral Information
-        Provision prv = new Provision(mICPCallbackHandler, mKpsConfiguration,
+        Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration,
                 null, mContext);
 
         // Set Application Info
         // TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
         PackageManager pm = mContext.getPackageManager();
-        String appID = mKpsConfigurationInfo.getAppId();
-        try {
-            appVersion = ""
-                    + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        DICommLog.i(DICommLog.KPS, appID + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
-        prv.setApplicationInfo(appID, mKpsConfigurationInfo.getAppType(), appVersion);
+        String relationshipId = mKpsConfigurationInfo.getRelationshipId();
 
-        int commandResult = prv.executeCommand();
+        try {
+            appVersion = "" + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
+        } catch (NameNotFoundException e) {
+            throw new KeyProvisioningException(e);
+        }
+
+        DICommLog.i(DICommLog.KPS, relationshipId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
+        provision.setApplicationInfo(createIdentityInformation(appVersion, relationshipId));
+
+        int commandResult = provision.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {
             DICommLog.i(DICommLog.KPS, "PROVISION-FAILED");
             try {
                 Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (InterruptedException e) {
+                throw new KeyProvisioningException(e);
             }
-            commandResult = prv.executeCommand();
+            commandResult = provision.executeCommand();
             if (commandResult != Errors.REQUEST_PENDING) {
                 mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED;
             }
         }
+    }
+
+    private IdentityInformation createIdentityInformation(String relationshipId, String appVersion) {
+        IdentityInformation identityInformation = new IdentityInformation();
+        identityInformation.idInfo = relationshipId;
+        identityInformation.typeInfo = mKpsConfigurationInfo.getAppType();
+        identityInformation.versionInfo = appVersion;
+        return identityInformation;
     }
 
     public boolean isSignOn() {

@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -44,8 +44,12 @@ public abstract class KpsConfigurationInfo {
 	public abstract String getComponentId();
 	
 	public abstract int getComponentCount();
-	
-	public abstract String getAppId();
+
+	/**
+	 * Method that should return a RelationshipId. It replaced the getAppId() method.
+	 * @return A string with the RelationshipId. Can be the AppId, but can also be an user token combined with an AppId.
+     */
+	public abstract String getRelationshipId();
 	
 	public abstract int getAppVersion();
 	
