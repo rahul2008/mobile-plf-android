@@ -42,7 +42,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
      * @param locale used to add the requested locale to the configuration
      */
     @Override
-    public void initialiseConfigParameters(String locale) {
+    public void initialiseConfigParameters(final String locale) {
 
         Log.i(LOG_TAG, "initialiseCofig, locale = " + locale);
 
@@ -94,25 +94,25 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             @Override
             public void run() {
                 initServiceDiscovery();
+                jumpConfig.captureLocale = locale;
+                mPreferredCountryCode = countryCode;
+                mPreferredLangCode = langCode;
+
+                try {
+                    Jump.reinitialize(mContext, jumpConfig);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (e instanceof RuntimeException) {
+                        mContext.deleteFile("jr_capture_flow");
+                        Jump.reinitialize(mContext, jumpConfig);
+                    }
+                    // e.printStackTrace();
+
+                }
             }
         }, 2000);
 
-        jumpConfig.captureLocale = locale;
-        mPreferredCountryCode = countryCode;
-        mPreferredLangCode = langCode;
-
-        try {
-            Jump.reinitialize(mContext, jumpConfig);
-
-        } catch (Exception e) {
-            if (e instanceof RuntimeException) {
-                Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
-                mContext.deleteFile("jr_capture_flow");
-                Jump.reinitialize(mContext, jumpConfig);
-            }
-            // e.printStackTrace();
-
-        }
     }
 
     private void initServiceDiscovery() {
