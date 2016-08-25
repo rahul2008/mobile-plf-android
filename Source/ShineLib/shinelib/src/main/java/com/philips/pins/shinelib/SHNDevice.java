@@ -27,8 +27,8 @@ public interface SHNDevice {
     /**
      * Returns the string representation of MAC address for the bluetooth peripheral.
      *
-     * @return string representation of the peripheral MAC address as returned by {@link
-     * android.bluetooth.BluetoothDevice#getAddress()}
+     * @return string representation of the peripheral MAC address as returned
+     * by {@link android.bluetooth.BluetoothDevice#getAddress()}
      */
     String getAddress();
 
@@ -166,7 +166,6 @@ public interface SHNDevice {
          * @param data initial value
          * @param associatedCharacteristic might be null
          */
-        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data,
-                @Nullable SHNCharacteristic associatedCharacteristic);
+        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic associatedCharacteristic);
     }
 }

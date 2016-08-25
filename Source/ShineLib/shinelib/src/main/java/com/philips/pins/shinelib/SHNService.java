@@ -125,13 +125,12 @@ public class SHNService {
         this.btGatt = gatt;
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic : bluetoothGattService.getCharacteristics()) {
             SHNCharacteristic shnCharacteristic = getSHNCharacteristic(bluetoothGattCharacteristic.getUuid());
-            SHNLogger.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + (
-                    (shnCharacteristic == null) ? " not found" : " connecting"));
+            SHNLogger.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
+
             notifyDiscoveryListeners(bluetoothGattCharacteristic, shnCharacteristic);
             if (shnCharacteristic != null) {
                 shnCharacteristic.connectToBLELayer(btGatt, bluetoothGattCharacteristic);
             }
-
         }
 
         // Check if the state should be updated
