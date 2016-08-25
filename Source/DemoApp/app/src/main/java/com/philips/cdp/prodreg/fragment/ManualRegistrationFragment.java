@@ -151,6 +151,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 break;
             case R.id.edt_purchase_date:
                 onClickPurchaseDate();
+                break;
             default:
                 break;
         }
