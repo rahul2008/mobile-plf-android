@@ -90,21 +90,6 @@ public class IAPUser implements UserRegistrationListener {
     }
 
     @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        //NOP
-    }
-
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-        //NOP
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-        //NOP
-    }
-
-    @Override
     public void onUserLogoutSuccess() {
         IAPLog.e(IAPLog.LOG, "IAPUser ====onUserLogoutSuccess");
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
