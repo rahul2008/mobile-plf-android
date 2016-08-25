@@ -11,6 +11,7 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 
 import java.util.Locale;
 
@@ -27,7 +28,10 @@ public class DemoApplication extends Application {
         new IAPSettings(this);
     }
 
+
     public void initAppInfra() {
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
+
         appInfra = new AppInfra.Builder().build(this);
     }
 
