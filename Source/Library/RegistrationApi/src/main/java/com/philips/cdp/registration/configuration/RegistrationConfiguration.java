@@ -15,6 +15,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import java.util.ArrayList;
@@ -454,7 +455,7 @@ public class RegistrationConfiguration {
      * @param hsdpInfo      HSDP Information
      */
     public void setHSDPInfo(Configuration configuration, HSDPInfo hsdpInfo) {
-
+        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
         if (hsdpInfo != null) {
             AppConfigurationInterface.AppConfigurationError configError = new
                     AppConfigurationInterface.AppConfigurationError();
