@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -7,7 +7,6 @@ package com.philips.cdp.dicommclient.cpp;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -174,7 +173,6 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
         // Set Application Info
         // TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
-        PackageManager pm = mContext.getPackageManager();
         String appID = mKpsConfigurationInfo.getAppId();
 
         DICommLog.i(DICommLog.KPS, appID + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
@@ -202,7 +200,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     public boolean isSignOn() {
         if (mSignon == null) {
-            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration, mContext,  new byte[0]);
+            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
         }
         DICommLog.i(DICommLog.CPPCONTROLLER, "isSign " + mSignon.getSignOnStatus());
         return mSignon.getSignOnStatus();
@@ -212,13 +210,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return mKeyProvisioningState;
     }
 
-    /**
-     * Method to inialize
-     */
     private void init() {
-
         if (mSignon == null) {
-            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration, mContext, new byte[0]);
+            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
         }
 
         mSignon.setInterfaceAndContextObject(this, mContext);
@@ -733,17 +727,16 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     @Override
     public boolean loadCertificates() {
-        GlobalStore gs = GlobalStore.getInstance();
+        GlobalStore globalStore = GlobalStore.getInstance();
 
         // Read certificates
         byte[] buffer = new byte[1024];
         try {
             String assetFiles[] = mContext.getAssets().list("");
-            InputStream in;
 
             for (String asset : assetFiles) {
                 if (asset.contains(CERTIFICATE_EXTENSION)) {
-                    in = mContext.getAssets().open(asset);
+                    InputStream in = mContext.getAssets().open(asset);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     int read;
                     while ((read = in.read(buffer, 0, buffer.length)) != -1) {
@@ -751,14 +744,14 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
                     }
                     baos.flush();
                     in.close();
-                    gs.setCertificateByteArray(baos.toByteArray());
+                    globalStore.setCertificateByteArray(baos.toByteArray());
                     baos.close();
                 }
             }
         } catch (IOException e) {
             DICommLog.e(DICommLog.CPPCONTROLLER, "Error: " + e.getMessage());
         }
-        return gs.getNumberOfCertificates() > 0;
+        return globalStore.getNumberOfCertificates() > 0;
     }
 
     /*
@@ -782,7 +775,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
      */
     public String getICPClientVersion() {
         if (mSignon == null) {
-            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration, mContext, new byte[0]);
+            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
         }
         return mSignon.clientVersion();
     }
