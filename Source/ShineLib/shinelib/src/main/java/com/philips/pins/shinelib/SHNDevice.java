@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import java.util.Set;
 import java.util.UUID;
@@ -159,13 +160,13 @@ public interface SHNDevice {
          * @param serviceUuid of the discovered service
          * @param service associated with the UUID, might be null
          */
-        void onServiceDiscovered(UUID serviceUuid, SHNService service);
+        void onServiceDiscovered(@NonNull UUID serviceUuid, @Nullable SHNService service);
 
         /**
          * @param characteristicUuid of the discovered characteristic
          * @param data initial value
          * @param associatedCharacteristic might be null
          */
-        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic associatedCharacteristic);
+        void onCharacteristicDiscovered(@NonNull UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic associatedCharacteristic);
     }
 }

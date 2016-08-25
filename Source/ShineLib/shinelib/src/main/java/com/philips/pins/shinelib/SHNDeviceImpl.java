@@ -33,6 +33,7 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 
+import android.support.annotation.Nullable;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
@@ -404,7 +405,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
-    public void onCharacteristicDiscovered(final UUID characteristicUuid, final byte[] data, final SHNCharacteristic characteristic) {
+    public void onCharacteristicDiscovered(@NonNull final UUID characteristicUuid, final byte[] data, @Nullable final SHNCharacteristic characteristic) {
         if(this.discoveryListener != null){
             this.discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -148,8 +148,11 @@ public class SHNDeviceImplTest {
     }
 
     private void connectTillGATTConnected() {
-        if (useTimeoutConnect) shnDevice.connect();
-        else shnDevice.connect(false, -1L);
+        if (useTimeoutConnect){
+            shnDevice.connect();
+        } else { 
+            shnDevice.connect(false, -1L);
+        }
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
     }
 
@@ -330,8 +333,7 @@ public class SHNDeviceImplTest {
     public void whenInStateConnectingDisconnectIsCalledAndThenDisconnectOnBTGattIsCalled() {
         whenInStateConnectingAndDisconnectIsCalledThenTheStateBecomesDisconnecting();
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
         verify(mockedSHNDeviceListener, never()).onFailedToConnect(any(SHNDevice.class), any(SHNResult.class));
     }
 

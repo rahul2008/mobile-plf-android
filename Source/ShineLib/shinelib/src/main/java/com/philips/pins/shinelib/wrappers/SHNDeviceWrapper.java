@@ -8,6 +8,7 @@ package com.philips.pins.shinelib.wrappers;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import android.support.annotation.Nullable;
 import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -29,8 +30,8 @@ public class SHNDeviceWrapper implements SHNDevice {
     private static Handler tempUserHandler;
     private final Handler internalHandler;
     private final Handler userHandler;
-    private List<SHNDeviceListener> shnDeviceListeners;
-    private List<DiscoveryListener> discoveryListeners;
+    private final List<SHNDeviceListener> shnDeviceListeners;
+    private final List<DiscoveryListener> discoveryListeners;
 
     SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
         @Override
@@ -52,7 +53,7 @@ public class SHNDeviceWrapper implements SHNDevice {
         }
 
         @Override
-        public void onFailedToConnect(@NonNull SHNDevice shnDevice, final SHNResult result) {
+        public void onFailedToConnect(@NonNull SHNDevice shnDevice, @NonNull final SHNResult result) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
                 throw new IllegalArgumentException();
             synchronized (shnDeviceListeners) {
@@ -71,7 +72,8 @@ public class SHNDeviceWrapper implements SHNDevice {
 
         @Override
         public void onReadRSSI(final int rssi) {
-            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice) throw new IllegalArgumentException();
+            if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
+                throw new IllegalArgumentException();
             synchronized (shnDeviceListeners) {
                 for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                     if (shnDeviceListener != null) {
@@ -89,7 +91,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     DiscoveryListener discoveryListener = new DiscoveryListener() {
         @Override
-        public void onServiceDiscovered(final UUID serviceUuid, final SHNService service) {
+        public void onServiceDiscovered(@NonNull final UUID serviceUuid, @Nullable final SHNService service) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
                 throw new IllegalArgumentException();
             synchronized (discoveryListeners) {
@@ -107,8 +109,7 @@ public class SHNDeviceWrapper implements SHNDevice {
         }
 
         @Override
-        public void onCharacteristicDiscovered(final UUID characteristicUuid, final byte[] data,
-                final SHNCharacteristic characteristic) {
+        public void onCharacteristicDiscovered(@NonNull final UUID characteristicUuid, final byte[] data, @Nullable final SHNCharacteristic characteristic) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice)
                 throw new IllegalArgumentException();
             synchronized (discoveryListeners) {

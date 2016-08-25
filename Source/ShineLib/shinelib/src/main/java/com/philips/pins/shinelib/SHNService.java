@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
@@ -39,7 +40,7 @@ public class SHNService {
     }
 
     public interface CharacteristicDiscoveryListener {
-        void onCharacteristicDiscovered(UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic chracteristic);
+        void onCharacteristicDiscovered(@NonNull UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic characteristic);
     }
 
     public SHNService(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
@@ -115,8 +116,7 @@ public class SHNService {
     private void notifyDiscoveryListeners(BluetoothGattCharacteristic characteristic,
             SHNCharacteristic shnCharacteristic) {
         for (CharacteristicDiscoveryListener discoveryListener : characteristicDiscoveryListeners) {
-            discoveryListener.onCharacteristicDiscovered(characteristic.getUuid(), characteristic.getValue(),
-                    shnCharacteristic);
+            discoveryListener.onCharacteristicDiscovered(characteristic.getUuid(), characteristic.getValue(), shnCharacteristic);
         }
     }
 
