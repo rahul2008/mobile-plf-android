@@ -138,10 +138,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         });
     }
-    private ImageView mBackImage;
-    private ImageView mCartIcon;
-    private TextView mCountText;
-    private TextView mTitleTextView;
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -340,7 +336,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             @Override
             public void onGetCartCount(int i) {
                 cartCountUpdate(i);
-                mCountText.setText(String.valueOf(i));
             }
 
             @Override
