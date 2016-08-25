@@ -107,8 +107,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         mContext.deleteFile("jr_capture_flow");
                         Jump.reinitialize(mContext, jumpConfig);
                     }
-                    // e.printStackTrace();
-
                 }
             }
         }, 2000);
