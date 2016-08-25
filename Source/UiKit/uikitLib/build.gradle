@@ -28,9 +28,8 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName libVersionNumber
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
         generatedDensities = []
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -55,28 +54,17 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'LICENSE.txt'
-        exclude 'lib/arm64-v8a/librsjni.so'
-        exclude 'lib/arm64-v8a/libRSSupport.so'
-        exclude 'lib/armeabi-v7a/libblasV8.so'
-        exclude 'lib/armeabi-v7a/librsjni.so'
-        exclude 'lib/armeabi-v7a/libRSSupport.so'
-        exclude 'lib/mips/libblasV8.so'
-        exclude 'lib/mips/librsjni.so'
-        exclude 'lib/mips/libRSSupport.so'
-        exclude 'lib/x86/libblasV8.so'
-        exclude 'lib/x86/librsjni.so'
-        exclude 'lib/x86/libRSSupport.so'
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:23.2.1'
     compile 'com.shamanland:fonticon:0.1.8'
-    compile 'com.android.support:cardview-v7:+'
-    compile 'com.android.support:recyclerview-v7:+'
+    compile 'com.android.support:cardview-v7:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
 }
 
 //maven configuration stuff required for artifactory plugin

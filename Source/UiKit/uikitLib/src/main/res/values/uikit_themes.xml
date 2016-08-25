@@ -62,4 +62,11 @@
         <item name="background">?attr/uikit_actionBarBackground</item>
     </style>
 
+    <style name="UikitModalAlertTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/uikit_modal_alert_black_alpha_30</item>
+        <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_out</item>
+    </style>
 </resources>

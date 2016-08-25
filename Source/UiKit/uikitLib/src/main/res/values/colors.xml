@@ -265,6 +265,6 @@
     <color name="uikit_very_light_pink_with_opacity_40">#66e9c5cb</color>
     <color name="uikit_very_light_pink_with_opacity_20">#33e9c5cb</color>
 
-
+    <color name="uikit_modal_alert_black_alpha_30">#b3000000</color>
 
 </resources>
