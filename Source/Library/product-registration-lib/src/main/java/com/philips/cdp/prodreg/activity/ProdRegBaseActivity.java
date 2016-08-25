@@ -193,8 +193,10 @@ public class ProdRegBaseActivity extends UiKitActivity {
     }
 
     @Override
-    public void setTitle(final CharSequence title) {
-        super.setTitle(title);
-        mTitleTextView.setText(title);
+    public void setTitle(int titleId) {
+        if (mTitleTextView != null)
+            mTitleTextView.setText(titleId);
+        else
+            super.setTitle(titleId);
     }
 }
