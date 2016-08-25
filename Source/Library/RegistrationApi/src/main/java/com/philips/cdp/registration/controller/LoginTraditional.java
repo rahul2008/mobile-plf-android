@@ -24,6 +24,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
@@ -115,12 +116,16 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     @Override
     public void onFailure(SignInError error) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setError(error.captureApiError);
-        handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
-        handleInvalidCredentials(error.captureApiError, userRegistrationFailureInfo);
-        userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-        mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+        try{
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setError(error.captureApiError);
+            handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
+            handleInvalidCredentials(error.captureApiError, userRegistrationFailureInfo);
+            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+        }catch (Exception e){
+            RLog.e("Login failed :","exception :"+e.getMessage());
+        }
     }
 
     private void handleInvalidInputs(CaptureApiError error,

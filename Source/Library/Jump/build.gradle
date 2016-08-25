@@ -28,10 +28,11 @@ objcdp.setProjectDir(projectDir)
 repositories {
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
 }
 
 group = 'com.philips.cdp'
-version = "6.0.5"
+version = "6.0.5-rc.1"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
