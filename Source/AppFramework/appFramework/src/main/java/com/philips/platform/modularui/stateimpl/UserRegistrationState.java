@@ -19,6 +19,7 @@ import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -31,6 +32,7 @@ import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
@@ -130,7 +132,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
             containerID = R.id.frame_container;
             fragmentActivity = (HomeActivity)mContext;
         }
-        launchRegistrationFragment(containerID,fragmentActivity, true);
+        launchRegistrationFragment(false);
+    //    launchRegistrationFragment(containerID,fragmentActivity, true);
     }
     /**
      * Launch registration fragment
@@ -162,7 +165,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
             URDependancies urDependancies = new URDependancies(AppInfraSingleton.getInstance());
             URSettings urSettings = new URSettings(mContext);
 
-            RegistrationBaseConfiguration mRegistrationBaseConfiguration=new RegistrationBaseConfiguration();
+           /* RegistrationBaseConfiguration mRegistrationBaseConfiguration=new RegistrationBaseConfiguration();
             mRegistrationBaseConfiguration.getPilConfiguration().setMicrositeId("77000");
             RegistrationClientId registrationClientId = new RegistrationClientId();
             registrationClientId.setStagingId("4r36zdbeycca933nufcknn2hnpsz6gxu");
@@ -186,10 +189,10 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
             providers.put("DEFAULT", values3);
             mRegistrationBaseConfiguration.getSignInProviders().setProviders(providers);
 
-            mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(Configuration.EVALUATION);
-            urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
+            mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(Configuration.EVALUATION);*/
+       //     urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
             URInterface urInterface = new URInterface();
-            urInterface.init(urDependancies,urSettings);
+           // urInterface.init(urDependancies,urSettings);
             urInterface.launch(launcher,urLaunchInput);
 
 
@@ -199,6 +202,17 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                             + e.getMessage());
         }
     }
+    private void launchRegistrationFragment(boolean isAccountSettings) {
+        URLaunchInput urLaunchInput = new URLaunchInput();
+        urLaunchInput.setUserRegistrationUIEventListener(this);
+        urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        FragmentLauncher fragmentLauncher = new FragmentLauncher
+                (fragmentActivity,containerID,actionBarListener);
+        URInterface urInterface = new URInterface();
+        urInterface.launch(fragmentLauncher, urLaunchInput);
+    }
+
 
     /*
     Callbacks from interface implemented
