@@ -79,7 +79,14 @@ public class ConsentTest extends ActivityInstrumentationTestCase2<RegistrationCo
         assertEquals("22222222",mConsent.getId());
     }
 
-
+    public void testStoredAt(){
+        mConsent.setStoredAt("22222222");
+        assertEquals("22222222",mConsent.getStoredAt());
+    }
+    public void testConfirmationCommunicationToSendAt(){
+        mConsent.setConfirmationCommunicationToSendAt("22222222");
+        assertEquals("22222222",mConsent.getConfirmationCommunicationToSendAt());
+    }
 
 
 
