@@ -41,6 +41,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
     private TextView mTitleTextView;
     private Handler mSiteCatListHandler = new Handler();
+    private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
 
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -73,8 +74,10 @@ public class ProdRegBaseActivity extends UiKitActivity {
     private void setUiKitThemeIfRequired() {
         final Bundle extras = getIntent().getExtras();
         int theme = extras.getInt(ProdRegConstants.UI_KIT_THEME);
-        if (theme != 0)
-            setTheme(theme);
+        if (theme <= 0)
+            theme = DEFAULT_THEME;
+
+        setTheme(theme);
     }
 
     @Override
