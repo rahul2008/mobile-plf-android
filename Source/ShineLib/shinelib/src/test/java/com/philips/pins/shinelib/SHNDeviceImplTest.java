@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
@@ -942,12 +947,13 @@ public class SHNDeviceImplTest {
     @Test
     public void whenOnReadRSSIIsCalledThenTheListsnerIsNotified() {
         getDeviceInConnectedState();
+
         btGattCallback.onReadRemoteRssi(mockedBTGatt, 10, BluetoothGatt.GATT_SUCCESS);
 
         verify(mockedSHNDeviceListener).onReadRSSI(10);
     }
 
-    // DiscoveryListener Tests
+    /** DiscoveryListener Tests */
 
     @Test
     public void whenDeviceHasDiscoveryListenerItCalls_onServiceDiscovered() throws Exception {
