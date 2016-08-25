@@ -1,6 +1,6 @@
 {
   "micrositeId": "77000",
   "sector": "B2C",
-  "AppState": "DEVELOPMENT",
+  "AppState": "STAGING",
   "ServiceDiscoveryEnvironment": "PRODUCTION"
 }

@@ -7,9 +7,11 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
 import com.philips.cdp.prodreg.launcher.ProdRegSettings;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
+import com.philips.cdp.registration.ui.utils.URDependancies;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
 
@@ -33,12 +35,20 @@ public class ProductRegistrationApplication extends Application {
     }
 
     private void initRegistration() {
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
-        RegistrationHelper.getInstance().initializeUserRegistration(this);
+
+        RegistrationBaseConfiguration mRegistrationBaseConfiguration =
+                new RegistrationBaseConfiguration();
+        mRegistrationBaseConfiguration.getPilConfiguration().setMicrositeId("77000");
+        mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(Configuration.STAGING);
+        URDependancies urDependancies = new URDependancies(ProdRegAppInfraSingleton.getInstance());
+        URSettings urSettings = new URSettings(this);
+        urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
+        URInterface urInterface = new URInterface();
+        urInterface.init(urDependancies, urSettings);
     }
 
     @SuppressWarnings("deprecation")

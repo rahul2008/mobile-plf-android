@@ -1,5 +1,6 @@
 package com.philips.cdp.prodreg.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,9 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
-import com.philips.cdp.prodreg.Util;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -61,9 +65,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_user_registration:
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(context);
-                Util.navigateFromUserRegistration();
+                launchUserRegistration();
                 break;
             case R.id.btn_product_registration:
                 showFragment(new ManualRegistrationFragment(), ManualRegistrationFragment.TAG);
@@ -74,6 +76,37 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    private void launchUserRegistration() {
+        URLaunchInput urLaunchInput;
+        ActivityLauncher activityLauncher;
+        URInterface urInterface;
+        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+        urLaunchInput = new URLaunchInput();
+        urLaunchInput.setAccountSettings(true);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setUserRegistrationUIEventListener(new UserRegistrationUIEventListener() {
+            @Override
+            public void onUserRegistrationComplete(final Activity activity) {
+                activity.finish();
+            }
+
+            @Override
+            public void onPrivacyPolicyClick(final Activity activity) {
+
+            }
+
+            @Override
+            public void onTermsAndConditionClick(final Activity activity) {
+
+            }
+        });
+        activityLauncher = new ActivityLauncher(ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+
+        urInterface = new URInterface();
+        urInterface.launch(activityLauncher, urLaunchInput);
     }
 
     private void showFragment(final Fragment fragment, final String TAG) {
