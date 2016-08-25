@@ -7,8 +7,8 @@
     "Production": "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3"
   },
   "AI": {
-    "MicrositeID": 66777,
-    "RegistrationEnvironment": "Production",
+    "MicrositeID": 77000,
+    "RegistrationEnvironment": "Staging",
     "NL": [
       "googleplus",
       "facebook"
@@ -23,7 +23,7 @@
     ]
   },
   "IAP": {
-    "hostport": "www.occ.shop.philips.com",
+    "hostport": "acc.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   }
 }

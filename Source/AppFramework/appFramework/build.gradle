@@ -8,7 +8,7 @@ buildscript {
                 username = "readonly"
                 password = "readonly"
             }
-        }       
+        }
     }
 
     dependencies {
@@ -30,7 +30,7 @@ objcdp.setProjectDir(projectDir)
 
 
 allprojects {
-	repositories {
+    repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -58,21 +58,21 @@ allprojects {
     }
 }
 
-    
-    group = 'com.philips.cdp'
-	version = objcdp.getVersion()
-	
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
-			username = objcdp.getArtifactoryUploadUser()
+            username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
-			publishArtifacts = true			
+            publishArtifacts = true
         }
     }
     resolve {
@@ -87,7 +87,7 @@ def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" +
 def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz' )
 artifacts {
     archives zipDoc
-	archives zipSrc
+    archives zipSrc
 }
 
 task zipDocuments(type: Zip) {
@@ -101,11 +101,11 @@ task zipDocuments(type: Zip) {
 
 task tgzTask(type: Tar) {
     classifier = 'src'
-    from projectDir    
-	include '**/*'
-	exclude ('build')
-	extension = 'tgz'
-	compression = Compression.GZIP
+    from projectDir
+    include '**/*'
+    exclude ('build')
+    extension = 'tgz'
+    compression = Compression.GZIP
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
 
@@ -215,31 +215,39 @@ repositories {
 }
 
 dependencies {
-    testCompile 'org.mockito:mockito-core:1.10.19'
+
+    testCompile('org.mockito:mockito-core:1.10.19')
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'junit:junit:4.12'
+
     compile 'com.android.support:support-annotations:23.2.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:+'
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "7.1.0-rc.2") {
+
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.3', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile('com.philips.cdp:uikitLib:3.2.3@aar') {
+
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
         transitive = true
     }
-    compile('com.philips.cdp:product-registration-lib:1.2.0-rc.2@aar') {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.2.0-rc.2', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile('com.philips.cdp:digitalCare:7.0.0-rc.1@aar') {
+
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.0.0-rc.1', ext: 'aar'){
         exclude group: 'com.android.support'
-        transitive = true
+        transitive=true
     }
-    compile 'com.philips.cdp:AppInfra:1.2.0-rc.3@aar'
+
+
     compile project(':iap-release')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.3', ext: 'aar')
+
 }
 
 task copyToLib(type: Copy) {

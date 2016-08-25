@@ -46,7 +46,8 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        initializeUserRegistrationLibrary();
+
+//        initializeUserRegistrationLibrary();
         initializeProductRegistrationLibrary();
     }
 
@@ -75,16 +76,16 @@ public class AppFrameworkApplication extends Application {
         return mContext;
     }
 
-    private void initializeUserRegistrationLibrary() {
+    /*private void initializeUserRegistrationLibrary() {
         AppTaggingInterface aiAppTaggingInterface = gAppInfra.getTagging();
         aiAppTaggingInterface.createInstanceForComponent("User Registration",
                 RegistrationHelper.getRegistrationApiVersion());
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
 
-        RegistrationConfiguration.getInstance().
-                setPrioritisedFunction(RegistrationFunction.Registration);
-        RLog.init(this);
+        *//*RegistrationConfiguration.getInstance().
+                setPrioritisedFunction(RegistrationFunction.Registration);*//*
+      //RLog.init(this);
         RegistrationHelper.getInstance().initializeUserRegistration(this);
-    }
+    }*/
 }

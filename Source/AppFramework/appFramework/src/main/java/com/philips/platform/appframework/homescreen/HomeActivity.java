@@ -229,13 +229,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         }
         else if (findFragmentByTag("Registration_fragment_tag")) {
+            boolean isConsumed = false;
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment fragment = fragmentManager
                     .findFragmentById(R.id.frame_container);
             if (fragment != null && fragment instanceof BackEventListener) {
-                boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
-                if (isConsumed)
-                    super.popBack();
+                isConsumed = ((BackEventListener) fragment).handleBackEvent();
+            }
+            if (!isConsumed) {
+                super.popBack();
+               // super.onBackPressed();
             }
         } else {
             AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
