@@ -27,10 +27,6 @@ import com.philips.cdp.ui.catalog.R;
  *                  View v = inflater.inflate(com.philips.cdp.uikit.R.layout.uikit_modal_alert, container, false);
  *                  return v;
  *                }
- *          4. Include below scripts under default config of build.gradle.
- *                  <pre>renderscriptTargetApi 23
-                    renderscriptSupportModeEnabled true</pre>
- *
  *     </pre>
  */
 public class ModalAlertDemo extends CatalogActivity {

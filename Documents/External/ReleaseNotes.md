@@ -1,5 +1,12 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+
+Version -3.3.0								Date: 26-08-2016
+-------------------------------------------------------------
+1.	Renderscript blurring removed to blur the background of Modal alert.
+2.	VectorDrawableCompat used as wrapper and replaced the custom VectorDrawable port.
+-------------------------------------------------------------
+
 Version -3.2.3								Date: 01-08-2016
 -------------------------------------------------------------
 Fixed below issues.(Issues reported in rally under common components support)
