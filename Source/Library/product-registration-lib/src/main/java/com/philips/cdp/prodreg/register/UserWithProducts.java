@@ -274,7 +274,7 @@ public class UserWithProducts {
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         final String MICRO_SITE_ID = "MS";
-        registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getMicrositeId());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));

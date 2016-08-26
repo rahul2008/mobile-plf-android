@@ -1,0 +1,56 @@
+{
+  /*
+    "UR": {
+
+      "JanRainConfiguration.RegistrationClientID.Development": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
+      "JanRainConfiguration.RegistrationClientID.Testing": "g52bfma28yjbd24hyjcswudwedcmqy7c",
+      "JanRainConfiguration.RegistrationClientID.Evaluation": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+      "JanRainConfiguration.RegistrationClientID.Staging": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+      "JanRainConfiguration.RegistrationClientID.Production": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
+
+
+
+
+      "PILConfiguration.MicrositeID": 77000,
+      "PILConfiguration.RegistrationEnvironment": "Staging",
+
+
+      "Flow.EmailVerificationRequired": "true",
+      "Flow.TermsAndConditionsAcceptanceRequired": "true",
+
+      "Flow.MinimumAgeLimit.NL": 16,
+      "Flow.MinimumAgeLimit.GB": 16,
+      "Flow.MinimumAgeLimit.default": 16,
+
+
+      "SigninProviders.NL": ["googleplus", "facebook","sinaweibo","qq" ],
+      "SigninProviders.US": ["googleplus", "facebook","sinaweibo","qq" ],
+      "SigninProviders.default": ["googleplus", "facebook","sinaweibo","qq" ],
+
+      "HsdpConfiguration.Development.AppName" : "uGrow",
+      "HsdpConfiguration.Development.SharedId" : "c62362a0-f02c-11e5-9ce9-5e5517507c66",
+      "HsdpConfiguration.Development.SecreteId" : "c623685e-f02c-11e5-9ce9-5e5517507c66",
+      "HsdpConfiguration.Development.BaseURL" : "https://user-registration-assembly-testing.us-east.philips-healthsuite.com",
+
+
+
+
+    },*/
+  "AI": {
+    "MicrositeID": 66777,
+    "RegistrationEnvironment": "STAGING",
+    "NL": [
+      "googleplus",
+      "facebook"
+    ],
+    "US": [
+      "facebook",
+      "googleplus"
+    ],
+    "EE": [
+      123,
+      234
+    ]
+  }
+}
+
