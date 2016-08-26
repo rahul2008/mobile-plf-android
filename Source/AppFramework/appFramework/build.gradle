@@ -244,8 +244,10 @@ dependencies {
         transitive=true
     }
 
-
-    compile project(':iap-release')
+    compile(group: 'com.philips.cdp', name: 'iap', version: '4.2.0-rc.2', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive=true
+    }
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.3', ext: 'aar')
 
 }

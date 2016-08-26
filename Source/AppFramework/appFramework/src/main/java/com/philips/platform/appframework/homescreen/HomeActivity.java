@@ -41,6 +41,8 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -65,6 +67,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private static int mCartItemCount = 0;
     private final int CART_POSITION_IN_MENU = 2;
     private ProgressDialog mProgressDialog;
+    private UserRegistrationState userRegistrationState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +205,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             return;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFrag = fragmentManager.findFragmentById(R.id.vertical_Container);
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
         boolean backState = false;
         if (currentFrag != null && currentFrag instanceof BackEventListener) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
@@ -357,7 +360,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     protected void onResume() {
         super.onResume();
-        addIapCartCount();
+        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        if(userRegistrationState.getUserObject(this).isUserSignIn()){
+            addIapCartCount();
+        }
+
     }
 
     private void showIAPToast(int errorCode) {
