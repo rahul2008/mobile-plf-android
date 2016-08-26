@@ -17,8 +17,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-
 public class AppInfraMainActivity extends AppCompatActivity {
 
 
@@ -47,7 +45,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 0 :
                /* Toast toast = Toast.makeText(getContext(), "Launch your activity here", Toast.LENGTH_SHORT);
                 toast.show();*/
-                Intent intent = new Intent(AppInfraMainActivity.this,SecureStorageActivity.class);
+                Intent intent = new Intent(AppInfraMainActivity.this,SecureStorageMenuActivity.class);
                 startActivity(intent);
                 break;
             case 1 :

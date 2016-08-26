@@ -46,7 +46,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
                 boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
                 if(null!=sseStore.getErrorCode())
                 {
-                    Toast.makeText(SecureStorageActivity.this,sseStore.getErrorCode().toString(),Toast.LENGTH_SHORT).show();;
+                    Toast.makeText(SecureStorageActivity.this,sseStore.getErrorCode().toString(),Toast.LENGTH_SHORT).show();
                 }else{
 
                 }
