@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,9 @@ public class ConsumerArrayTest extends InstrumentationTestCase {
 
         assertNotNull(consumerArray);
         consumerArray.getInstance();
+        List<ConsumerInterest> listConsumerInterest = new ArrayList<>();
+        consumerArray.setConsumerArraylist(listConsumerInterest);
+        assertNotNull(consumerArray.getConsumerArraylist());
 
     }
 

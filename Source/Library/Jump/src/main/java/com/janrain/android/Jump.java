@@ -1095,7 +1095,8 @@ public class Jump {
             public final FailureReason reason;
             public final CaptureApiError captureApiError;
 
-            /*package*/ ForgetPasswordError(FailureReason reason, CaptureApiError captureApiError) {
+            /*package*/
+             ForgetPasswordError(FailureReason reason, CaptureApiError captureApiError) {
                 this.reason = reason;
                 this.captureApiError = captureApiError;
             }
