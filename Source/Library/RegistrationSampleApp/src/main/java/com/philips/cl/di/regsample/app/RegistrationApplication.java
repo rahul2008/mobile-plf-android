@@ -40,7 +40,7 @@ public class RegistrationApplication extends Application {
         mRegistrationHelper = this;
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-
+        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
@@ -59,8 +59,6 @@ public class RegistrationApplication extends Application {
 
 
     public void initRegistration(Configuration configuration) {
-
-        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
 
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT,"8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING,"g52bfma28yjbd24hyjcswudwedcmqy7c");

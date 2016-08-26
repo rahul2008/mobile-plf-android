@@ -455,7 +455,7 @@ public class RegistrationConfiguration {
      * @param hsdpInfo      HSDP Information
      */
     public void setHSDPInfo(Configuration configuration, HSDPInfo hsdpInfo) {
-        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+
         if (hsdpInfo != null) {
             AppConfigurationInterface.AppConfigurationError configError = new
                     AppConfigurationInterface.AppConfigurationError();
