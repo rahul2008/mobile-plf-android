@@ -5,6 +5,7 @@
     <application android:allowBackup="true">
         <activity
             android:name=".ui.activity.RegistrationCoppaActivity"
+            android:launchMode="singleInstance"
             android:configChanges="orientation|screenSize"/>
     </application>
 

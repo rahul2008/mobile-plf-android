@@ -42,6 +42,7 @@ public class RegistrationCoppaApplication extends Application {
         mRegistrationHelper = this;
 
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
+        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
 
         RegistrationConfiguration.getInstance().
                 setPrioritisedFunction(RegistrationFunction.Registration);
@@ -69,7 +70,7 @@ public class RegistrationCoppaApplication extends Application {
         editor.commit();
 
 
-        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+
 
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT,"8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING,"g52bfma28yjbd24hyjcswudwedcmqy7c");
@@ -93,6 +94,7 @@ public class RegistrationCoppaApplication extends Application {
 
         RegistrationConfiguration.getInstance().setEmailVerificationRequired(true);
         RegistrationConfiguration.getInstance().setTermsAndConditionsAcceptanceRequired(true);
+        RegistrationConfiguration.getInstance().setCampainId("CL20150501_PC_TB_COPPA");
 
         System.out.println("Email verification : "+RegistrationConfiguration.getInstance().isEmailVerificationRequired());
         System.out.println("Terms : "+RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
