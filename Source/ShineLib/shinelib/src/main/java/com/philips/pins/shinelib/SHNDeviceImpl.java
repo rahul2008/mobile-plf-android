@@ -39,6 +39,7 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +48,9 @@ import java.util.UUID;
 public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener {
 
     public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
+    public static final int GATT_ERROR = 0x0085;
+    private long timeOut;
+    private long startTimerTime;
 
     private enum InternalState {
         Disconnected, Disconnecting, GattConnecting, WaitingUntilBonded, DiscoveringServices, InitializingServices, Ready
@@ -170,6 +174,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     private void handleGattConnectEvent(int status) {
+        SHNLogger.d(TAG, "Handle connect event in state " + internalState);
         if (internalState == InternalState.Disconnecting) {
             btGatt.disconnect();
         } else {
@@ -191,15 +196,24 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private void handleGattDisconnectEvent() {
         btGatt.close();
         btGatt = null;
-        for (SHNService shnService : registeredServices.values()) {
-            shnService.disconnectFromBLELayer();
+
+        long delta = System.currentTimeMillis() - startTimerTime;
+        SHNLogger.d(TAG, "delta: " + delta);
+
+        if (internalState == InternalState.GattConnecting && delta < timeOut) {
+            SHNLogger.d(TAG, "Retrying to connect GAT in state " + internalState);
+            btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
+        } else {
+            for (SHNService shnService : registeredServices.values()) {
+                shnService.disconnectFromBLELayer();
+            }
+            if (getState() == State.Connecting) {
+                failedToConnectResult = SHNResult.SHNErrorInvalidState;
+            }
+            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnected);
+            shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
+            shnCentral.unregisterSHNCentralStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
         }
-        if (getState() == State.Connecting) {
-            failedToConnectResult = SHNResult.SHNErrorInvalidState;
-        }
-        setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnected);
-        shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
-        shnCentral.unregisterSHNCentralStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
     }
 
     private boolean shouldWaitUntilBonded() {
@@ -254,21 +268,30 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void connect() {
+        SHNLogger.d(TAG, "Connect call");
+
         connect(true, -1L);
+    }
+
+    @Override
+    public void connect(long connectTimeOut) {
+        if (connectTimeOut < 0) {
+            throw new InvalidParameterException("Time out can not be negative");
+        } else {
+            SHNLogger.d(TAG, "Connect call with timeOut: " + connectTimeOut);
+            this.startTimerTime = System.currentTimeMillis();
+            this.timeOut = connectTimeOut;
+            connect(true, -1L);
+        }
     }
 
     public void connect(final boolean withTimeout, final long timeoutInMS) {
         final long timeDiff = System.currentTimeMillis() - lastDisconnectedTimeMillis;
         if (lastDisconnectedTimeMillis != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME) {
-            SHNLogger.w(TAG, "Postponing connect with " + (MINIMUM_CONNECTION_IDLE_TIME - timeDiff) + "ms to allow the stack to properly disconnect");
-            shnCentral.getInternalHandler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    connect(withTimeout, timeoutInMS);
-                }
-            }, MINIMUM_CONNECTION_IDLE_TIME - timeDiff);
+            postponeConnectCall(withTimeout, timeoutInMS, timeDiff);
             return;
         }
+
         if (shnCentral.isBluetoothAdapterEnabled()) {
             if (internalState == InternalState.Disconnected) {
                 SHNLogger.i(TAG, "connect");
@@ -291,6 +314,16 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 shnDeviceListener.onStateUpdated(this);
             }
         }
+    }
+
+    private void postponeConnectCall(final boolean withTimeout, final long timeoutInMS, long timeDiff) {
+        SHNLogger.w(TAG, "Postponing connect with " + (MINIMUM_CONNECTION_IDLE_TIME - timeDiff) + "ms to allow the stack to properly disconnect");
+        shnCentral.getInternalHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                connect(withTimeout, timeoutInMS);
+            }
+        }, MINIMUM_CONNECTION_IDLE_TIME - timeDiff);
     }
 
     @Override

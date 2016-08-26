@@ -115,6 +115,20 @@ public class SHNDeviceWrapper implements SHNDevice {
         internalHandler.post(runnable);
     }
 
+    @Override
+    public void connect(final long connectTimeOut) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                shnDevice.connect(connectTimeOut);
+            }
+        };
+        internalHandler.post(runnable);
+    }
+
+    /**
+     * @deprecated
+     */
     public void connect(final boolean withTimeout, final long timeoutInMS) {
         Runnable runnable = new Runnable() {
             @Override
