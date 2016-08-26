@@ -5,9 +5,11 @@
 */
 package com.philips.platform.appframework.homescreen;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,13 +26,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.session.IAPHandler;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
-import com.philips.cdp.di.iap.session.IAPSettings;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -38,15 +39,16 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
-import com.philips.platform.appframework.inapppurchase.InAppPurchasesHistoryFragment;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -64,6 +66,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private LinearLayout hamburgerClick = null;
     private static int mCartItemCount = 0;
     private final int CART_POSITION_IN_MENU = 2;
+    private ProgressDialog mProgressDialog;
+    private UserRegistrationState userRegistrationState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +83,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
-        initAdapter(mCartItemCount);
+        renderHamburgerMenu();
     }
 
-    public void initAdapter(int  count) {
+    public void cartCountUpdate(int  count) {
         mCartItemCount = count;
+        hamburgerItems.get(2).setCount(count);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void renderHamburgerMenu() {
         hamburgerUtil = null;
         drawerListView = null;
         loadSlideMenuItems();
@@ -93,7 +102,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
         showNavigationDrawerItem(0);
-
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -185,8 +193,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     }
 
     private void loadSlideMenuItems() {
-        hamburgerMenuTitles = null;
-        hamburgerItems = null;
         hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
         hamburgerItems = new ArrayList<>();
     }
@@ -198,8 +204,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
         }
-
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+        boolean backState = false;
+        if (currentFrag != null && currentFrag instanceof BackEventListener) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+        }
+        if (!backState) {
+            super.popBackTillHomeFragment();
+        }
+        /*if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finishAffinity();
         } else if (findIfHomeFragmentSentBack()) {
             finishAffinity();
@@ -214,15 +228,23 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             }
         }
         else if (findFragmentByTag("Registration_fragment_tag")) {
-            if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+            boolean isConsumed = false;
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager
+                    .findFragmentById(R.id.frame_container);
+            if (fragment != null && fragment instanceof BackEventListener) {
+                isConsumed = ((BackEventListener) fragment).handleBackEvent();
+            }
+            if (!isConsumed) {
                 super.popBack();
+               // super.onBackPressed();
             }
         } else {
             AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
             UIFlowManager flowManager = applicationContext.getFlowManager();
             UIState currentState = flowManager.getCurrentState();
             currentState.back(this);
-        }
+        }*/
     }
 
     private boolean findIfHomeFragmentSentBack() {
@@ -236,13 +258,13 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private boolean inAppPurchaseBackPress() {
         addIapCartCount();
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if (currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)) {
+        /*if (currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)) {
             boolean isBackPressed = ((InAppPurchasesFragment) currentFragment).onBackPressed();
             return isBackPressed;
         } else if (currentFragment != null && (currentFragment instanceof InAppPurchasesHistoryFragment)) {
             boolean isBackPressed = ((InAppPurchasesHistoryFragment) currentFragment).onBackPressed();
             return isBackPressed;
-        }
+        }*/
         return false;
     }
 
@@ -254,28 +276,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         }
     }
 
-    @Override
-    public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-        if (hamburgerIconAvailable) {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    philipsDrawerLayout.openDrawer(navigationView);
-                }
-            });
-        } else {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    backstackFragment();
-                }
-            });
-        }
-    }
 
-    public void updateTitle() {
+    public void updateTitle(){
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,29 +310,61 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         actionBarTitle.setText(R.string.af_app_name);
     }
 
-    private void addIapCartCount() {
-        if (NetworkUtility.getInstance().isNetworkAvailable(this)) {
-            String countryCode = getResources().getString(R.string.af_country);
-            String languageCode = getResources().getString(R.string.af_language);
-
-            try {
-                IAPSettings mIapSettings = new IAPSettings(countryCode, languageCode, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground);
-                mIapSettings.setUseLocalData(false);
-                mIapSettings.setLaunchAsFragment(true);
-                mIapSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
-                IAPHandler mIapHandler = IAPHandler.init(this, mIapSettings);
-                mIapHandler.getProductCartCount(mProductCountListener);
-            } catch (IllegalArgumentException e) {
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
             }
-        } else {
-            showIAPToast(IAPConstant.IAP_ERROR_NO_CONNECTION);
-        }
+        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
+            mProgressDialog.show();
+            }
     }
 
+    public void dismissProgressDialog() {
+        if(mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+            }
+    }
+
+    private void addIapCartCount() {
+        IAPInterface iapInterface = new IAPInterface();
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPSettings iapSettings = new IAPSettings(this);
+        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        iapSettings.setUseLocalData(false);
+        iapInterface.init(iapDependencies, iapSettings);
+        iapInterface.getProductCartCount(new IAPListener() {
+            @Override
+            public void onGetCartCount(int i) {
+                cartCountUpdate(i);
+            }
+
+            @Override
+            public void onGetCompleteProductList(ArrayList<String> arrayList) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(int i) {
+
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
-        addIapCartCount();
+        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        if(userRegistrationState.getUserObject(this).isUserSignIn()){
+            addIapCartCount();
+        }
+
     }
 
     private void showIAPToast(int errorCode) {
@@ -355,14 +389,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
             mHandler.removeMessages(0);
             for (int i = 0; i < hamburgerMenuTitles.length; i++) {
                 if (i == CART_POSITION_IN_MENU) {
-                    initAdapter(mCartItemCount);
+                    cartCountUpdate(mCartItemCount);
                 }
             }
         }
     };
 
 
-    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
+   /* private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(int count) {
             mCartItemCount = count;
@@ -375,5 +409,47 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         @Override
         public void onFailure(int i) {
         }
-    };
+    };*/
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+        if (b) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+        if (b) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        }
+    }
 }

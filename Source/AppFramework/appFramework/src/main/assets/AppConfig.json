@@ -1,0 +1,22 @@
+{"AI": {
+    "MicrositeID": 77000,
+    "RegistrationEnvironment": "Staging",
+    "NL": [
+      "googleplus",
+      "facebook"
+    ],
+    "US": [
+      "facebook",
+      "googleplus"
+    ],
+    "EE": [
+      123,
+      234
+    ]
+  },
+  "IAP": {
+    "hostport": "acc.occ.shop.philips.com",
+    "propositionid": "Tuscany2016"
+  }
+}
+
