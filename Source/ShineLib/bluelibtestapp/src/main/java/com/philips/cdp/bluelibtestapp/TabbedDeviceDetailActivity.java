@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -22,7 +23,6 @@ import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSyncBase;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -46,6 +46,7 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
 
     private ViewPager mViewPager;
     private TextView textViewStateValue;
+    private EditText editTextTimeOut;
     private Button buttonConnect;
     private SHNDevice shnSelectedDevice;
     private boolean capabilitiesAreConfigured;
@@ -60,7 +61,7 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
                 buttonConnect.setEnabled(false);
                 SHNLogger.d(TAG, "onClick: " + shnSelectedDevice.getState());
 
-                shnSelectedDevice.connect();
+                connect();
                 mSectionsPagerAdapter.clear();
                 setupOfflineTabs(shnSelectedDevice);
             } else if (shnSelectedDevice.getState() == SHNDeviceImpl.State.Connected) {
@@ -69,6 +70,16 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
             }
         }
     };
+
+    private void connect() {
+        String string = editTextTimeOut.getText().toString();
+        if(string.length() > 0) {
+            int timeOut = Integer.parseInt(string);
+            shnSelectedDevice.connect(timeOut * 1000);
+        }else {
+            shnSelectedDevice.connect();
+        }
+    }
 
 
     private ActionBar getActionBarHelper() {
@@ -105,6 +116,7 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
         TextView textViewNameValue = (TextView) findViewById(R.id.textViewNameValue);
         TextView textViewAddressValue = (TextView) findViewById(R.id.textViewAddressValue);
         textViewStateValue = (TextView) findViewById(R.id.textViewStateValue);
+        editTextTimeOut = (EditText) findViewById(R.id.timeOut);
         buttonConnect = (Button) findViewById(R.id.connect);
         if (buttonConnect != null) {
             buttonConnect.setOnClickListener(handleConnectButtonClick);
@@ -171,7 +183,7 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
         switch (currentDeviceState) {
             case Disconnected:
                 // connect to the device once the state switches to Disconnected
-                shnSelectedDevice.connect();
+                connect();
                 buttonConnect.setText(R.string.connect);
                 buttonConnect.setEnabled(true);
 
