@@ -7,6 +7,8 @@
 package com.philips.platform.appframework.introscreen;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -18,7 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -27,8 +30,10 @@ import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class WelcomeActivity extends AppFrameworkBaseActivity {
+public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     ImageView arrowImage;
     TextView textView;
     FragmentManager mFragmentManager;
@@ -52,9 +57,19 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+        boolean isConsumed = false;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(R.id.fragment_frame_container);
+        if (fragment != null && fragment instanceof BackEventListener) {
+            isConsumed = ((BackEventListener) fragment).handleBackEvent();
+        }
+        if (!isConsumed) {
+
             presenter.onClick(backButtonClick, this);
         }
+
+
     }
 
     void changeActionBarState(boolean isVisible) {
@@ -123,4 +138,15 @@ public class WelcomeActivity extends AppFrameworkBaseActivity {
     protected void onRestart() {
         super.onRestart();
     }
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
+
 }

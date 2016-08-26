@@ -10,11 +10,9 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
-import com.philips.platform.modularui.cocointerface.UICoCoInterface;
 import com.philips.platform.modularui.statecontroller.UIState;
 
 public class SettingsFragmentState extends UIState {
-    UICoCoInterface uiCoCoUserReg;
 
     public SettingsFragmentState(@UIStateDef int stateID) {
         super(stateID);
