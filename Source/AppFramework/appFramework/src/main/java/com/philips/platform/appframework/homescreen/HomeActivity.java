@@ -32,6 +32,7 @@ import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -41,6 +42,7 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -207,11 +209,24 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
         boolean backState = false;
-        if (currentFrag != null && currentFrag instanceof BackEventListener) {
+        if(fragmentManager.getBackStackEntryCount() == 1 ) {
+            finishAffinity();
+        }else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof RegistrationFragment) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if(!backState){
+                fragmentManager.popBackStack();
+            }
+        }else if(currentFrag != null && currentFrag instanceof BackEventListener){
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if (!backState) {
+                super.popBackTillHomeFragment();
+            }
         }
-        if (!backState) {
-            super.popBackTillHomeFragment();
+        else {
+            AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
+            UIFlowManager flowManager = applicationContext.getFlowManager();
+            UIState currentState = flowManager.getCurrentState();
+            currentState.back(this);
         }
         /*if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finishAffinity();
@@ -274,40 +289,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         if (mHandler != null) {
             mHandler = null;
         }
-    }
-
-
-    public void updateTitle(){
-        hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-        hamburgerClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        actionBarTitle.setText(R.string.af_app_name);
-    }
-
-    public void updateTitleWithBack() {
-        hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-        hamburgerClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        actionBarTitle.setText(R.string.af_app_name);
-    }
-
-    public void updateTitleWithoutBack() {
-        hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-        hamburgerClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                philipsDrawerLayout.openDrawer(navigationView);
-            }
-        });
-        actionBarTitle.setText(R.string.af_app_name);
     }
 
     public void showProgressDialog() {
@@ -413,6 +394,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
+        Toast.makeText(this,"Value 1 "+b,Toast.LENGTH_SHORT).show();
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
@@ -434,6 +416,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(String s, boolean b) {
+        Toast.makeText(this,"Value 2"+b,Toast.LENGTH_SHORT).show();
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {

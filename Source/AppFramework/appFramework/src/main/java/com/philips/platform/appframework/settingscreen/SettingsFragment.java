@@ -66,7 +66,6 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity)getContext()).updateTitleWithoutBack();
     }
 
     @Override

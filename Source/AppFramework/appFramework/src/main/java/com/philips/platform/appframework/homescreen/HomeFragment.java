@@ -23,7 +23,6 @@ public class HomeFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity)getContext()).updateTitleWithoutBack();
     }
 
     @Override

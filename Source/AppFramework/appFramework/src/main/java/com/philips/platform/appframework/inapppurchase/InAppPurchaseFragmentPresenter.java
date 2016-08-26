@@ -28,19 +28,4 @@ public class InAppPurchaseFragmentPresenter extends UIBasePresenter implements U
     public void setNextState(Context context) {
 
     }
-
-    @Override
-    public void updateTitle(int titleResourceID, Context context) {
-
-    }
-
-    @Override
-    public void updateTitleWithBack(int titleResourceID, Context context) {
-
-    }
-
-    @Override
-    public void updateTitleWIthoutBack(int titleResourceID, Context context) {
-
-    }
 }

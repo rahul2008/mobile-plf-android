@@ -62,19 +62,4 @@ public class SplashPresenter extends UIBasePresenter implements UserRegistration
         uiState.setPresenter(this);
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
     }
-
-    @Override
-    public void updateTitle(int titleResourceID,Context context) {
-
-    }
-
-    @Override
-    public void updateTitleWithBack(int titleResourceID,Context context) {
-
-    }
-
-    @Override
-    public void updateTitleWIthoutBack(int titleResourceID,Context context) {
-
-    }
 }

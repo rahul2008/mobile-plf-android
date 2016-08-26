@@ -24,20 +24,12 @@ import android.widget.TextView;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.Flow;
-import com.philips.cdp.registration.configuration.JanRainConfiguration;
-import com.philips.cdp.registration.configuration.PILConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationClientId;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-import com.philips.cdp.registration.configuration.SigninProviders;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -148,7 +140,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("reg_env", development);
         editor.commit();
-        final JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
+
+       /* final JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
         final RegistrationClientId registrationClientId = new RegistrationClientId();
         registrationClientId.setDevelopmentId("ad7nn99y2mv5berw5jxewzagazafbyhu");
         registrationClientId.setEvaluationId("4r36zdbeycca933nufcknn2hnpsz6gxu");
@@ -180,7 +173,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
         signinProviders.setProviders(providers);
         RegistrationDynamicConfiguration.getInstance().setSignInProviders(signinProviders);
-
+*/
         initRegistration();
 
     }
