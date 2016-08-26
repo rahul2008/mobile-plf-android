@@ -13,8 +13,8 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationClientId;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -34,8 +34,7 @@ public class AppFrameworkApplication extends Application {
     private static Context mContext;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
-    public RegistrationBaseConfiguration mRegistrationBaseConfiguration =
-            new RegistrationBaseConfiguration();
+
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
@@ -50,7 +49,7 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableFileLog(true);
         setLocale();
 
-         initializeUserRegistrationLibrary(Configuration.STAGING);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
         initializeProductRegistrationLibrary();
     }
 
@@ -79,98 +78,59 @@ public class AppFrameworkApplication extends Application {
         return mContext;
     }
 
-    /*private void initializeUserRegistrationLibrary() {
-        AppTaggingInterface aiAppTaggingInterface = gAppInfra.getTagging();
-        aiAppTaggingInterface.createInstanceForComponent("User Registration",
-                RegistrationHelper.getRegistrationApiVersion());
-        aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
 
-        *//*RegistrationConfiguration.getInstance().
-                setPrioritisedFunction(RegistrationFunction.Registration);*//*
-      //RLog.init(this);
-        RegistrationHelper.getInstance().initializeUserRegistration(this);
-    }*/
     public void initializeUserRegistrationLibrary(Configuration configuration) {
 
+        RegistrationHelper.getInstance().setAppInfraInstance(gAppInfra);
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT, "8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING, "g52bfma28yjbd24hyjcswudwedcmqy7c");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.EVALUATION, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION, "9z23k3q8bhqyfwx78aru6bz8zksga54u");
 
 
-        //Store current environment
+        RegistrationConfiguration.getInstance().setMicrositeId("77000");
+        RegistrationConfiguration.getInstance().setRegistrationEnvironment(configuration);
 
 
-        //Configure JanRain
-        RegistrationClientId registrationClientId = new RegistrationClientId();
-        registrationClientId.setDevelopmentId("8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
-        registrationClientId.setTestingId("g52bfma28yjbd24hyjcswudwedcmqy7c");
-        registrationClientId.setEvaluationId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        registrationClientId.setStagingId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        registrationClientId.setProductionId("9z23k3q8bhqyfwx78aru6bz8zksga54u");
+        RegistrationConfiguration.getInstance().setEmailVerificationRequired(true);
+        RegistrationConfiguration.getInstance().setTermsAndConditionsAcceptanceRequired(true);
 
-        mRegistrationBaseConfiguration.getJanRainConfiguration().setClientIds(registrationClientId);
-
-        // RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration().setClientIds(registrationClientId);
-
-        //Configure PIL
-
-        mRegistrationBaseConfiguration.getPilConfiguration().setMicrositeId("77000");
-        mRegistrationBaseConfiguration.getPilConfiguration().setRegistrationEnvironment(configuration);
-      /*  RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
-        RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(configuration.getValue());*/
-
-        //Configure Flow
-        mRegistrationBaseConfiguration.getFlow().setEmailVerificationRequired(true);
-        mRegistrationBaseConfiguration.getFlow().setTermsAndConditionsAcceptanceRequired(true);
         HashMap<String, String> ageMap = new HashMap<>();
         ageMap.put("NL", "16");
         ageMap.put("GB", "16");
         ageMap.put("default", "16");
+        RegistrationConfiguration.getInstance().setMinAgeLimit(ageMap);
 
-        mRegistrationBaseConfiguration.getFlow().setMinAgeLimit(ageMap);
 
-        // RegistrationDynamicConfiguration.getInstance().getFlow().setMinAgeLimit(ageMap);
-
-        //Configure Signin Providers
         HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
         ArrayList<String> values1 = new ArrayList<String>();
         ArrayList<String> values2 = new ArrayList<String>();
         ArrayList<String> values3 = new ArrayList<String>();
         values1.add("facebook");
         values1.add("googleplus");
-        /*values1.add("sinaweibo");
-        values1.add("qq");*/
+        values1.add("sinaweibo");
+        values1.add("qq");
 
         values2.add("facebook");
         values2.add("googleplus");
-        /*values2.add("sinaweibo");
-        values2.add("qq");*/
+        values2.add("sinaweibo");
+        values2.add("qq");
 
         values3.add("facebook");
         values3.add("googleplus");
-        /*values3.add("sinaweibo");
-        values3.add("qq");*/
+        values3.add("sinaweibo");
+        values3.add("qq");
 
         providers.put("NL", values1);
         providers.put("US", values2);
         providers.put("default", values3);
-
-        mRegistrationBaseConfiguration.getSignInProviders().setProviders(providers);
-        // RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
-        //Configure HSDP
-        //initHSDP(configuration);
-
-       /* String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);*/
-
+        RegistrationConfiguration.getInstance().setProviders(providers);
         URDependancies urDependancies = new URDependancies(gAppInfra);
         URSettings urSettings = new URSettings(this);
-        urSettings.setRegistrationConfiguration(mRegistrationBaseConfiguration);
         URInterface urInterface = new URInterface();
-        urInterface.init(urDependancies,urSettings);
-        // RegistrationHelper.getInstance().initializeUserRegistration(this);
-        //  Tagging.init(this, "Philips Registration");
+        urInterface.init(urDependancies, urSettings);
+
 
     }
 

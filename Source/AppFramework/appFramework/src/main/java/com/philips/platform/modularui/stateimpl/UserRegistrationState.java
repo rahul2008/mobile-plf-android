@@ -15,8 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationClientId;
+
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -203,6 +202,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         }
     }
     private void launchRegistrationFragment(boolean isAccountSettings) {
+
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.setAccountSettings(isAccountSettings);
@@ -211,8 +211,17 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 (fragmentActivity,containerID,actionBarListener);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
-    }
 
+
+       /* URLaunchInput urLaunchInput = new URLaunchInput();
+        urLaunchInput.setUserRegistrationUIEventListener(this);
+        urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        FragmentLauncher fragmentLauncher = new FragmentLauncher
+                (fragmentActivity,containerID,actionBarListener);
+        URInterface urInterface = new URInterface();
+        urInterface.launch(fragmentLauncher, urLaunchInput);*/
+    }
 
     /*
     Callbacks from interface implemented
