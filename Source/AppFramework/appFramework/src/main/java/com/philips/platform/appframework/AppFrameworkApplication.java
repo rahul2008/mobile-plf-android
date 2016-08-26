@@ -14,6 +14,7 @@ import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -48,7 +49,7 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableFileLog(true);
         setLocale();
 
-         initializeUserRegistrationLibrary(Configuration.STAGING);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
         initializeProductRegistrationLibrary();
     }
 
@@ -77,18 +78,21 @@ public class AppFrameworkApplication extends Application {
         return mContext;
     }
 
+
     public void initializeUserRegistrationLibrary(Configuration configuration) {
 
-        //Store current environment
-        //Configure JanRain
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT,"8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING,"g52bfma28yjbd24hyjcswudwedcmqy7c");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.EVALUATION,"f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING,"f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION,"9z23k3q8bhqyfwx78aru6bz8zksga54u");
+        RegistrationHelper.getInstance().setAppInfraInstance(gAppInfra);
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT, "8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING, "g52bfma28yjbd24hyjcswudwedcmqy7c");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.EVALUATION, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION, "9z23k3q8bhqyfwx78aru6bz8zksga54u");
+
 
         RegistrationConfiguration.getInstance().setMicrositeId("77000");
         RegistrationConfiguration.getInstance().setRegistrationEnvironment(configuration);
+
+
         RegistrationConfiguration.getInstance().setEmailVerificationRequired(true);
         RegistrationConfiguration.getInstance().setTermsAndConditionsAcceptanceRequired(true);
 
@@ -97,6 +101,7 @@ public class AppFrameworkApplication extends Application {
         ageMap.put("GB", "16");
         ageMap.put("default", "16");
         RegistrationConfiguration.getInstance().setMinAgeLimit(ageMap);
+
 
         HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
         ArrayList<String> values1 = new ArrayList<String>();
@@ -121,11 +126,10 @@ public class AppFrameworkApplication extends Application {
         providers.put("US", values2);
         providers.put("default", values3);
         RegistrationConfiguration.getInstance().setProviders(providers);
-
         URDependancies urDependancies = new URDependancies(gAppInfra);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
-        urInterface.init(urDependancies,urSettings);
+        urInterface.init(urDependancies, urSettings);
 
 
     }
