@@ -80,6 +80,19 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     protected LinearLayout mLlPhoneNumber;
 
     protected TextView mTvTitle;
+
+    protected TextView mTvSalutation;
+    protected TextView mTvFirstName;
+    protected TextView mTvLastName;
+    protected TextView mTvAddressLineOne;
+    protected TextView mTvAddressLineTwo;
+    protected TextView mTvTown;
+    protected TextView mTvPostalCode;
+    protected TextView mTvCountry;
+    protected TextView mTvState;
+    protected TextView mTvEmail;
+    protected TextView mTvPhoneNumber;
+
     protected EditText mEtFirstName;
     protected EditText mEtLastName;
     protected EditText mEtSalutation;
@@ -139,6 +152,18 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
         mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
         mLlPhoneNumber = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone_number);
+
+        mTvSalutation = (TextView) mInlineFormsParent.findViewById(R.id.tv_salutation);
+        mTvFirstName = (TextView) mInlineFormsParent.findViewById(R.id.tv_first_name);
+        mTvLastName = (TextView) mInlineFormsParent.findViewById(R.id.tv_last_name);
+        mTvAddressLineOne = (TextView) mInlineFormsParent.findViewById(R.id.tv_address_line_one);
+        mTvAddressLineTwo = (TextView) mInlineFormsParent.findViewById(R.id.tv_address_line_two);
+        mTvTown = (TextView) mInlineFormsParent.findViewById(R.id.tv_town);
+        mTvPostalCode = (TextView) mInlineFormsParent.findViewById(R.id.tv_postal_code);
+        mTvCountry = (TextView) mInlineFormsParent.findViewById(R.id.tv_country);
+        mTvState = (TextView) mInlineFormsParent.findViewById(R.id.tv_state);
+        mTvEmail = (TextView) mInlineFormsParent.findViewById(R.id.tv_email);
+        mTvPhoneNumber = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone_number);
 
         mEtFirstName = (EditText) mInlineFormsParent.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) mInlineFormsParent.findViewById(R.id.et_last_name);

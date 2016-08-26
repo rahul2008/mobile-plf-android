@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
@@ -31,6 +31,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     private PuiSwitch mSwitchBillingAddress;
 
     private AddressFields mBillingAddressFields;
+    private int mDisabledColor;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         View divider = rootView.findViewById(R.id.address_divider);
         divider.setVisibility(View.VISIBLE);
 
+        mDisabledColor = ContextCompat.getColor(mContext, R.color.uikit_enricher4);
+
         if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
             mBillingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
             CartModelContainer.getInstance().setSwitchToBillingAddress(false);
@@ -58,7 +61,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 CartModelContainer.getInstance().setSwitchToBillingAddress(!isChecked);
-                IAPLog.i(IAPLog.LOG, "isSwitch = " + isChecked);
                 if (isChecked) {
                     disableAllFields();
                     prePopulateShippingAddress();
@@ -85,6 +87,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
     private void prePopulateShippingAddress() {
         mIgnoreTextChangeListener = true;
+
         if (mBillingAddressFields != null) {
             mEtFirstName.setText(mBillingAddressFields.getFirstName());
             mEtLastName.setText(mBillingAddressFields.getLastName());
@@ -106,6 +109,43 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mIgnoreTextChangeListener = false;
             mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
         }
+        setTextColor();
+    }
+
+    private void setTextColor() {
+
+        mInlineFormsParent.post(new Runnable() {
+            @Override
+            public void run() {
+                mTvSalutation.setTextColor(mDisabledColor);
+                mTvFirstName.setTextColor(mDisabledColor);
+                mTvLastName.setTextColor(mDisabledColor);
+                mTvAddressLineOne.setTextColor(mDisabledColor);
+                mTvAddressLineTwo.setTextColor(mDisabledColor);
+                mTvTown.setTextColor(mDisabledColor);
+                mTvPostalCode.setTextColor(mDisabledColor);
+                if (mlLState.getVisibility() == View.VISIBLE) {
+                    mTvState.setTextColor(mDisabledColor);
+                }
+                mTvCountry.setTextColor(mDisabledColor);
+                mTvEmail.setTextColor(mDisabledColor);
+                mTvPhoneNumber.setTextColor(mDisabledColor);
+
+                mEtSalutation.setTextColor(mDisabledColor);
+                mEtFirstName.setTextColor(mDisabledColor);
+                mEtLastName.setTextColor(mDisabledColor);
+                mEtAddressLineOne.setTextColor(mDisabledColor);
+                mEtAddressLineTwo.setTextColor(mDisabledColor);
+                mEtTown.setTextColor(mDisabledColor);
+                mEtPostalCode.setTextColor(mDisabledColor);
+                if (mlLState.getVisibility() == View.VISIBLE) {
+                    mEtState.setTextColor(mDisabledColor);
+                }
+                mEtCountry.setTextColor(mDisabledColor);
+                mEtEmail.setTextColor(mDisabledColor);
+                mEtPhoneNumber.setTextColor(mDisabledColor);
+            }
+        });
     }
 
     private void clearAllFields() {
@@ -184,9 +224,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
-            if(fragment != null){
+            if (fragment != null) {
                 moveToDemoAppByClearingStack();
-            }else {
+            } else {
                 getFragmentManager().popBackStackImmediate();
             }
             moveToPreviousFragment();
@@ -253,7 +293,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
-            if(getFragmentManager().findFragmentByTag(ShippingAddressFragment.TAG) != null){
+            if (getFragmentManager().findFragmentByTag(ShippingAddressFragment.TAG) != null) {
                 return false;
             }
             moveToDemoAppByClearingStack();
