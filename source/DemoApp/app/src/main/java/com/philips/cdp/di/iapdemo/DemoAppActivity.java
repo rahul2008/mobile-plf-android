@@ -34,18 +34,14 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationBaseConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import net.hockeyapp.android.CrashManager;
@@ -53,7 +49,6 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
@@ -141,7 +136,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         countries.add("US");
         countries.add("UK");
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_item, countries);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(dataAdapter);
