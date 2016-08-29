@@ -14,6 +14,8 @@ Version 0.8.0
 * Deprecated SHNDeviceWrapper connect call with parameters. 
 * Added a connect call that allows to provide a timeout for establishing BLE connection. 
 --------------------------------------------------------------------------------
+### Known issues:
+* [BG-234] Google backup might restore previously associated devices
 ================================================================================
 
 Version 0.7.3
@@ -25,6 +27,8 @@ Version 0.7.3
 --------------------------------------------------------------------------------
 ### Bugs fixed:
 --------------------------------------------------------------------------------
+### Known issues:
+* [BG-234] Google backup might restore previously associated devices
 ================================================================================
 
 Version v0.7.2
@@ -36,6 +40,8 @@ Version v0.7.2
 ### Bugs fixed:
 * [BG-262] Multiple scanStopped callbacks when scanning is restarted
 --------------------------------------------------------------------------------
+### Known issues:
+* [BG-234] Google backup might restore previously associated devices
 ================================================================================
 
 
