@@ -2,12 +2,12 @@
  * Copyright (c) Koninklijke Philips N.V., 2016
  * All rights reserved.
  */
+import com.philips.cdp.cdpSCM
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory-upload'
+/* apply plugin: 'com.jfrog.artifactory-upload' */
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'cdpSCM'
-
-import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-
     provided 'com.android.support:support-annotations:23.1.1'
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'

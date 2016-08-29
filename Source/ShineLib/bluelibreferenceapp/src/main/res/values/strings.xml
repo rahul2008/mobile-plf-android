@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BlueLib Reference App</string>
+    <string name="app_version">"App version: "</string>
+    <string name="bluelib_version">"BlueLib version: "</string>
+    <string name="title_peripheral_list">Peripherals</string>
+    <string name="title_peripheral_detail">Peripheral Detail</string>
+</resources>
