@@ -42,4 +42,5 @@
     <string name="firmware_option">Firmware Version:</string>
     <string name="count">"Failed for %1$d times.\nSucceeded for %2$d times"</string>
     <string name="time_out">time out in seconds</string>
+    <string name="digit">%d</string>
 </resources>

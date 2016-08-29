@@ -116,8 +116,8 @@ public class BatteryFragment extends Fragment implements SHNDevice.SHNDeviceList
     }
 
     private void updateBatteryLevelTextView(int batteryLevel) {
-        TextView tv = (TextView) getView().findViewById(R.id.textViewBatteryValue);
-        tv.setText(String.format("%d", batteryLevel));
+        TextView tv = (TextView) fragmentView.findViewById(R.id.textViewBatteryValue);
+        tv.setText(String.format(getResources().getString(R.string.digit), batteryLevel));
     }
 
     private Handler handler = new Handler();
