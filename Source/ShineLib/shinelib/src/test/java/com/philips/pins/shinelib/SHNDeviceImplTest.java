@@ -916,7 +916,7 @@ public class SHNDeviceImplTest {
 
     //
     @Test
-    public void whenConnectWithTimeOutCalledThenConnectedGattIsCalled() throws Exception {
+    public void whenConnectWithTimeOutCalledThenConnectGattIsCalled() throws Exception {
         shnDevice.connect(1L);
 
         verify(mockedBTDevice).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));

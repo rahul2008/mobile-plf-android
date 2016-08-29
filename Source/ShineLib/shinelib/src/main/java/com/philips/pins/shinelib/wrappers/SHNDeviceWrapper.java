@@ -130,6 +130,7 @@ public class SHNDeviceWrapper implements SHNDevice {
      * @deprecated
      */
     public void connect(final boolean withTimeout, final long timeoutInMS) {
+        // when removing this method, also remove the method with same signature from SHNDeviceImpl.java
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

@@ -59,7 +59,7 @@ public interface SHNDevice {
      * Callbacks about state changes are provided via a registered SHNDeviceListener instance. The time out does not guaranty the callback after the
      * time has elapsed. It has impact only on establishing the GATT connection. As soon as the connection is established the onStateUpdate is called.
      * Increasing the time out time improves the chances to get a successful connection. On certain phones the time out of 120 seconds increases the connection
-     * reliability (up to 95% successful connection rate).
+     * reliability.
      *
      * @param connectTimeOut the time out for bluetooth GATT connection time in MS.
      */

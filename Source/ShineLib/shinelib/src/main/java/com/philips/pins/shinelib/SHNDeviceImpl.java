@@ -5,19 +5,27 @@
 
 /*
 @startuml
+Disconnected: Disconnected
 [*] --> Disconnected
 Disconnected --> GattConnecting : connect /\nconnectGatt, restartConnectTimer, onStateChange(GattConnecting)
-GattConnecting --> Disconnected : onConnectionStateChange(Disconnected) /\nclose, stopConnectTimer, onFailedToConnect, onStateChange(Disconnected)
+GattConnecting: Connecting
+GattConnecting --> Disconnected : onConnectionStateChange(Disconnected) no timer or timer expired/\nclose, stopConnectTimer, onFailedToConnect, onStateChange(Disconnected)
+GattConnecting --> GattConnecting : onConnectionStateChange(Disconnected) timer not expired/\nclose, connectGatt
 GattConnecting --> Disconnecting : connectTimeout /\ndisconnect, onFailedToConnect, onStateChange(Disconnecting)
 GattConnecting --> WaitingUntilBonded : onConnectionStateChange(Connected) & waitForBond /\nstopConnectTimer, startBondCreationTimer
+WaitingUntilBonded: Connecting
 WaitingUntilBonded --> DiscoveringServices : bondCreated | bondCreationTimeout /\ndiscoverServices, stopBondCreationTimer, restartConnectionTimer
 GattConnecting --> DiscoveringServices : onConnectionStateChange(Connected) & !waitForBond /\ndiscoverServices, restartConnectionTimer
+DiscoveringServices: Connecting
 DiscoveringServices --> InitializingServices : onServicesDiscovered /\nconnectToBle, restartConnectionTimer
+InitializingServices: Connecting
 InitializingServices --> Ready : all services ready /\nstopConnectionTimer, onStateChange(Connected)
 DiscoveringServices --> Disconnecting : connectTimeout /\ndisconnect, onFailedToConnect, onStateChange(Disconnecting)
 InitializingServices --> Disconnecting : connectTimeout /\ndisconnect, disconnectFromBle, onFailedToConnect, onStateChange(Disconnecting)
+Ready: Connected
 Ready --> Disconnecting : disconnect /\ndisconnect, disconnectFromBle, onStateChange(Disconnecting)
 Disconnecting --> Disconnected : onConnectionStateChange(Disconnected) /\nclose, onStateChange(Disconnected)
+Disconnecting: Disconnecting
 Ready --> Disconnected : onConnectionStateChange(Disconnected) /\nclose, onStateChange(Disconnected)
 @enduml
  */
@@ -268,17 +276,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void connect() {
-        SHNLogger.d(TAG, "Connect call");
+        SHNLogger.d(TAG, "Connect call in state " + internalState);
 
         connect(true, -1L);
     }
 
     @Override
     public void connect(long connectTimeOut) {
+        SHNLogger.d(TAG, "Connect call in state " + internalState + " with timeOut: " + connectTimeOut);
+
         if (connectTimeOut < 0) {
             throw new InvalidParameterException("Time out can not be negative");
         } else {
-            SHNLogger.d(TAG, "Connect call with timeOut: " + connectTimeOut);
             this.startTimerTime = System.currentTimeMillis();
             this.timeOut = connectTimeOut;
             connect(true, -1L);
@@ -286,8 +295,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public void connect(final boolean withTimeout, final long timeoutInMS) {
+        SHNLogger.d(TAG, "Connect call in state " + internalState + " withTimeout: " + withTimeout + " timeoutInMS:" + timeoutInMS);
+
         final long timeDiff = System.currentTimeMillis() - lastDisconnectedTimeMillis;
-        if (lastDisconnectedTimeMillis != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME) {
+        if (stackNeedsTimeToPrepareForConnect(timeDiff)) {
             postponeConnectCall(withTimeout, timeoutInMS, timeDiff);
             return;
         }
@@ -316,6 +327,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
     }
 
+    private boolean stackNeedsTimeToPrepareForConnect(long timeDiff) {
+        return lastDisconnectedTimeMillis != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME;
+    }
+
     private void postponeConnectCall(final boolean withTimeout, final long timeoutInMS, long timeDiff) {
         SHNLogger.w(TAG, "Postponing connect with " + (MINIMUM_CONNECTION_IDLE_TIME - timeDiff) + "ms to allow the stack to properly disconnect");
         shnCentral.getInternalHandler().postDelayed(new Runnable() {
@@ -328,6 +343,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void disconnect() {
+        SHNLogger.d(TAG, "Disconnect call in state " + internalState);
+
         switch (internalState) {
             case GattConnecting:
                 SHNLogger.i(TAG, "postpone disconnect until connected");
