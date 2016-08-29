@@ -33,6 +33,7 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 
+import android.support.annotation.Nullable;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
@@ -44,7 +45,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener {
+public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener, SHNService.CharacteristicDiscoveryListener {
 
     public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
 
@@ -64,6 +65,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private final SHNCentral shnCentral;
     private BTGatt btGatt;
     private SHNDeviceListener shnDeviceListener;
+    private DiscoveryListener discoveryListener;
     private InternalState internalState = InternalState.Disconnected;
     private String deviceTypeName;
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
@@ -163,6 +165,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
             SHNService shnService = getSHNService(bluetoothGattService.getUuid());
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
+
+
+            if(discoveryListener != null){
+                discoveryListener.onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
+            }
+
             if (shnService != null) {
                 shnService.connectToBLELayer(gatt, bluetoothGattService);
             }
@@ -318,6 +326,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
+    public void readRSSI() {
+        btGatt.readRSSI();
+    }
+
+    @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         this.shnDeviceListener = shnDeviceListener;
     }
@@ -325,6 +338,16 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     @Override
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         throw new UnsupportedOperationException("Intended for the external API");
+    }
+
+    @Override
+    public void registerDiscoveryListener(final DiscoveryListener discoveryListener) {
+        this.discoveryListener = discoveryListener;
+    }
+
+    @Override
+    public void unregisterDiscoveryListener(final DiscoveryListener discoveryListener) {
+        this.discoveryListener = null;
     }
 
     @Override
@@ -360,6 +383,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public void registerService(SHNService shnService) {
         registeredServices.put(shnService.getUuid(), shnService);
         shnService.registerSHNServiceListener(this);
+        shnService.registerCharacteristicDiscoveryListener(this);
     }
 
     private SHNService getSHNService(UUID serviceUUID) {
@@ -377,6 +401,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
         if (state == SHNService.State.Error) {
             disconnect();
+        }
+    }
+
+    @Override
+    public void onCharacteristicDiscovered(@NonNull final UUID characteristicUuid, final byte[] data, @Nullable final SHNCharacteristic characteristic) {
+        if(this.discoveryListener != null){
+            this.discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic);
         }
     }
 
@@ -462,7 +493,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
-            throw new UnsupportedOperationException("onReadRemoteRssi");
+            SHNDeviceImpl.this.shnDeviceListener.onReadRSSI(rssi);
         }
 
         @Override

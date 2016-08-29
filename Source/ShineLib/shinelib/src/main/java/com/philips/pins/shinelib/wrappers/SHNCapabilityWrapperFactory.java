@@ -1,14 +1,14 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
-
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityClearUserData;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
@@ -131,6 +131,13 @@ public class SHNCapabilityWrapperFactory {
                         (SHNCapabilityDataModelDebugging) shnCapability,
                         internalHandler,
                         userHandler
+                );
+                break;
+            case BLUETOOTH_DIRECT:
+                shnCapabilityWrapper = new CapabilityBluetoothDirectWrapper(
+                    (CapabilityBluetoothDirect) shnCapability,
+                    internalHandler,
+                    userHandler
                 );
                 break;
             default:
