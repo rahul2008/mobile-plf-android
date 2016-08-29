@@ -64,7 +64,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         NONE, START, STOP
     }
 
-    private enum KEY_PROVISION {
+    private enum KeyProvision {
         NOT_PROVISIONED,
         PROVISIONING,
         PROVISIONED
@@ -74,7 +74,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     public static final String NOTIFICATION_PROTOCOL = "push";
     private static final String CERTIFICATE_EXTENSION = ".cer";
 
-    private static CppController mInstance;
+    private static CppController sInstance;
     private static KpsConfigurationInfo mKpsConfigurationInfo;
 
     private final List<SignonListener> mSignOnListeners;
@@ -97,7 +97,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     private ICP_CLIENT_DCS_STATE mDcsState = ICP_CLIENT_DCS_STATE.STOPPED;
     private APP_REQUESTED_STATE mAppDcsRequestState = APP_REQUESTED_STATE.NONE;
-    private KEY_PROVISION mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED;
+    private KeyProvision mKeyProvisioningState = KeyProvision.NOT_PROVISIONED;
     private SignonState mSignonState = SignonState.NOT_SIGON;
 
     private ICPDownloadListener mDownloadDataListener;
@@ -113,21 +113,21 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private int mByteOffset = 0;
 
     public static synchronized CppController createSharedInstance(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
-        if (mInstance != null) {
+        if (sInstance != null) {
             throw new RuntimeException("CPPController can only be initialized once");
         }
         if (kpsConfigurationInfo == null || context == null) {
             throw new RuntimeException("CPPController cannot be initialized without context and kpsConfigurationInfo");
         }
-        mInstance = new CppController(context, kpsConfigurationInfo);
-        return mInstance;
+        sInstance = new CppController(context, kpsConfigurationInfo);
+        return sInstance;
     }
 
     public static synchronized CppController getInstance() {
-        DICommLog.i(DICommLog.ICPCLIENT, "GetInstance: " + mInstance);
+        DICommLog.i(DICommLog.ICPCLIENT, "GetInstance: " + sInstance);
         // TODO:DICOMM Refactor, need generic mechanism to update this locale information whenever the language changes.
         setLocale();
-        return mInstance;
+        return sInstance;
     }
 
     protected CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
@@ -155,10 +155,10 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     }
 
     public void signOnWithProvisioning() {
-        if (getKeyProvisioningState() == KEY_PROVISION.NOT_PROVISIONED) {
+        if (getKeyProvisioningState() == KeyProvision.NOT_PROVISIONED) {
             DICommLog.i(DICommLog.ICPCLIENT, "startprovisioning on network change if not provisioned");
             startKeyProvisioning();
-        } else if (getKeyProvisioningState() == KEY_PROVISION.PROVISIONED && !isSignOn()) {
+        } else if (getKeyProvisioningState() == KeyProvision.PROVISIONED && !isSignOn()) {
             DICommLog.i(DICommLog.ICPCLIENT, "start signon on network change if not signed on");
             signOn();
         }
@@ -172,7 +172,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     private void startKeyProvisioning() {
         DICommLog.i(DICommLog.KPS, "Start provision");
-        mKeyProvisioningState = KEY_PROVISION.PROVISIONING;
+        mKeyProvisioningState = KeyProvision.PROVISIONING;
         String appVersion = null;
 
         // set Peripheral Information
@@ -203,7 +203,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             }
             commandResult = provision.executeCommand();
             if (commandResult != Errors.REQUEST_PENDING) {
-                mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED;
+                mKeyProvisioningState = KeyProvision.NOT_PROVISIONED;
             }
         }
     }
@@ -224,7 +224,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return mSignon.getSignOnStatus();
     }
 
-    private KEY_PROVISION getKeyProvisioningState() {
+    private KeyProvision getKeyProvisioningState() {
         return mKeyProvisioningState;
     }
 
@@ -242,6 +242,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         int commandResult = mSignon.init();
         if (commandResult == Errors.SUCCESS) {
             startKeyProvisioning();
+        } else {
+            DICommLog.e(DICommLog.CPPCONTROLLER, "init failed " + commandResult);
         }
     }
 
@@ -591,14 +593,14 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private void keyProvisionEvent(int status, ICPClient icpClient) {
         if (status == Errors.SUCCESS) {
             DICommLog.i(DICommLog.KPS, "PROVISION-SUCCESS");
-            mKeyProvisioningState = KEY_PROVISION.PROVISIONED;
+            mKeyProvisioningState = KeyProvision.PROVISIONED;
             Provision provision = (Provision) icpClient;
             DICommLog.i(DICommLog.KPS, "EUI64(APP-KEY): " + provision.getEUI64());
             mAppCppId = provision.getEUI64();
             signOn();
         } else {
             DICommLog.e(DICommLog.KPS, "PROVISION-FAILED");
-            mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED;
+            mKeyProvisioningState = KeyProvision.NOT_PROVISIONED;
         }
     }
 
