@@ -1,11 +1,10 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.communication;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
@@ -51,7 +50,7 @@ public class NullStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableSubscription(
+    public void enableCommunication(
             SubscriptionEventListener subscriptionEventListener) {
     }
 

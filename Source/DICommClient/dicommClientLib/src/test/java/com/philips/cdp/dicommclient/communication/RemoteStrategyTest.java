@@ -181,7 +181,7 @@ public class RemoteStrategyTest {
     public void whenEnableSubscriptionIsCalledThenDSCIsStarted() throws Exception {
         when(cppControllerMock.getState()).thenReturn(CppController.ICP_CLIENT_DCS_STATE.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
-        remoteStrategy.enableSubscription(subscriptionEventListener);
+        remoteStrategy.enableCommunication(subscriptionEventListener);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -190,7 +190,7 @@ public class RemoteStrategyTest {
     public void whenEnableSubscriptionIsCalledThenEnableSubscriptionIsCalled() throws Exception {
         when(cppControllerMock.getState()).thenReturn(CppController.ICP_CLIENT_DCS_STATE.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
-        remoteStrategy.enableSubscription(subscriptionEventListener);
+        remoteStrategy.enableCommunication(subscriptionEventListener);
 
         verify(remoteSubscriptionHandlerMock).enableSubscription(networkNodeMock, subscriptionEventListener);
     }

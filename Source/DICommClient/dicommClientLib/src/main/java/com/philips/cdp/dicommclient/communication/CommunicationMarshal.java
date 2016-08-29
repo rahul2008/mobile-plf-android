@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -72,9 +72,9 @@ public class CommunicationMarshal extends CommunicationStrategy {
     }
 
     @Override
-    public void enableSubscription(
+    public void enableCommunication(
             SubscriptionEventListener subscriptionEventListener) {
-        findAvailableStrategy().enableSubscription(subscriptionEventListener);
+        findAvailableStrategy().enableCommunication(subscriptionEventListener);
     }
 
     @Override

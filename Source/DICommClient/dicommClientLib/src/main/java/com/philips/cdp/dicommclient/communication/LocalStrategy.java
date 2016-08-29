@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -128,7 +128,7 @@ public class LocalStrategy extends CommunicationStrategy {
     };
 
     @Override
-    public void enableSubscription(SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         mLocalSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
     }
 

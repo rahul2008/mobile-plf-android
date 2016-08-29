@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
@@ -32,7 +31,7 @@ public abstract class CommunicationStrategy {
 
     public abstract boolean isAvailable();
 
-    public abstract void enableSubscription(SubscriptionEventListener subscriptionEventListener);
+    public abstract void enableCommunication(SubscriptionEventListener subscriptionEventListener);
 
     public abstract void disableCommunication();
 
@@ -43,7 +42,7 @@ public abstract class CommunicationStrategy {
     }
 
     protected Map<String, Object> getUnsubscriptionData() {
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<>();
         dataMap.put(SUBSCRIBER_KEY, DICommClientWrapper.getAppId());
         return dataMap;
     }

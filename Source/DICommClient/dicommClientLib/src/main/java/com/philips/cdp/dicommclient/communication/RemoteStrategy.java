@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -97,7 +97,7 @@ public class RemoteStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableSubscription(final SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication(final SubscriptionEventListener subscriptionEventListener) {
         startDcsIfNecessary();
 
         mRemoteSubscriptionHandler.enableSubscription(mNetworkNode, subscriptionEventListener);

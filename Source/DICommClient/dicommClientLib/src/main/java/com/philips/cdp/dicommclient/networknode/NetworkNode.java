@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -80,7 +80,7 @@ public class NetworkNode extends Observable implements Parcelable {
      * Different products can have the same modelname, but their modeltype
      * will be different.
      *
-     * @return
+     * @return model name
      */
     public synchronized String getModelName() {
         return mModelName;
@@ -95,7 +95,7 @@ public class NetworkNode extends Observable implements Parcelable {
      * Different products will have a different modeltype, but their
      * modelname can be the same.
      *
-     * @return
+     * @return model type
      */
     public synchronized String getModelType() {
         return mModelType;

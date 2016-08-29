@@ -33,7 +33,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
-//maven configuration stuff required for artifactory plugin
+// maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 

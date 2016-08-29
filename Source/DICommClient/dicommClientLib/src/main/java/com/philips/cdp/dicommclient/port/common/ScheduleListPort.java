@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -196,7 +196,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     private Map<String, Object> createDataMap(String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<>();
         dataMap.put(KEY_SCHEDULENAME, name);
         dataMap.put(KEY_SCHEDULEENABLED, enabled);
         dataMap.put(KEY_SCHEDULETIME, time);

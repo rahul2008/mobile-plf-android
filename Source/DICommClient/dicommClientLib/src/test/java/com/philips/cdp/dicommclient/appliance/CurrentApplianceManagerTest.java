@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 public class CurrentApplianceManagerTest extends RobolectricTest {
 
     private CurrentApplianceManager mCurrentApplianceMan;
-    private DICommApplianceListener mApplianceListener;
 
     private static final String APPLIANCE_IP = "198.168.1.145";
     private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
@@ -33,7 +32,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
 
-        mApplianceListener = mock(DICommApplianceListener.class);
+        DICommApplianceListener mApplianceListener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(mApplianceListener);
     }
 
@@ -50,7 +49,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1 = Mockito.spy(appliance1);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
-        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).enableCommunication();
         verify(appliance1, never()).subscribe();
 
         verify(appliance1, never()).disableCommunication();
@@ -422,7 +421,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 
         verify(appliance1).disableCommunication();
-        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).enableCommunication();
 
         verify(appliance1, never()).subscribe();
         verify(appliance1).stopResubscribe();
@@ -446,7 +445,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 
         verify(appliance1).disableCommunication();
-        verify(appliance1).enableSubscription();
+        verify(appliance1).enableCommunication();
 
         verify(appliance1).subscribe();
         verify(appliance1).stopResubscribe();
@@ -472,7 +471,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
-        verify(appliance1).enableSubscription();
+        verify(appliance1).enableCommunication();
         verify(appliance1).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
@@ -497,7 +496,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
-        verify(appliance1).enableSubscription();
+        verify(appliance1).enableCommunication();
         verify(appliance1).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
@@ -521,7 +520,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
-        verify(appliance1).enableSubscription();
+        verify(appliance1).enableCommunication();
         verify(appliance1).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
@@ -546,7 +545,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance1).disableCommunication();
         verify(appliance1).stopResubscribe();
 
-        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).enableCommunication();
         verify(appliance1, never()).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
@@ -572,7 +571,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.addApplianceListener(listener);
 
         verify(appliance1, never()).disableCommunication();
-        verify(appliance1).enableSubscription();
+        verify(appliance1).enableCommunication();
 
         verify(appliance1).subscribe();
         verify(appliance1, never()).stopResubscribe();
@@ -595,7 +594,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.addApplianceListener(listener2);
 
         verify(appliance1, never()).disableCommunication();
-        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).enableCommunication();
 
         verify(appliance1, never()).subscribe();
         verify(appliance1, never()).stopResubscribe();
@@ -616,7 +615,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.removeApplianceListener(listener);
 
         verify(appliance1).disableCommunication();
-        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).enableCommunication();
 
         verify(appliance1, never()).subscribe();
         verify(appliance1).stopResubscribe();
@@ -639,7 +638,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.removeApplianceListener(listener);
 
         verify(appliance1, never()).disableCommunication();
-        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).enableCommunication();
 
         verify(appliance1, never()).subscribe();
         verify(appliance1, never()).stopResubscribe();
@@ -663,7 +662,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.removeApplianceListener(listener2);
 
         verify(appliance1).disableCommunication();
-        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).enableCommunication();
 
         verify(appliance1, never()).subscribe();
         verify(appliance1).stopResubscribe();
@@ -690,7 +689,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.removeApplianceListener(listener3);
 
         verify(appliance1).disableCommunication();
-        verify(appliance1).enableSubscription();
+        verify(appliance1).enableCommunication();
 
         verify(appliance1).subscribe();
         verify(appliance1).stopResubscribe();
@@ -712,7 +711,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     // -----------
 
     private void verifyAddedPurifier(DICommAppliance appliance) {
-        verify(appliance).enableSubscription();
+        verify(appliance).enableCommunication();
         verify(appliance).subscribe();
 
         verify(appliance, never()).disableCommunication();
@@ -723,7 +722,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance).disableCommunication();
         verify(appliance).stopResubscribe();
 
-        verify(appliance, never()).enableSubscription();
+        verify(appliance, never()).enableCommunication();
         verify(appliance, never()).subscribe();
     }
 
