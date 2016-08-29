@@ -57,8 +57,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
     public static final int GATT_ERROR = 0x0085;
-    private long timeOut;
-    private long startTimerTime;
 
     private enum InternalState {
         Disconnected, Disconnecting, GattConnecting, WaitingUntilBonded, DiscoveringServices, InitializingServices, Ready
@@ -71,13 +69,17 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3000;
 
-    private final Boolean deviceBondsDuringConnect;
+    private final boolean deviceBondsDuringConnect;
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
     private BTGatt btGatt;
     private SHNDeviceListener shnDeviceListener;
     private InternalState internalState = InternalState.Disconnected;
     private String deviceTypeName;
+    private long timeOut;
+    private long startTimerTime;
+    private long lastDisconnectedTimeMillis;
+
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
     private SHNResult failedToConnectResult = SHNResult.SHNOk;
@@ -94,14 +96,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
-            if (BuildConfig.DEBUG && internalState != InternalState.WaitingUntilBonded)
+            if (BuildConfig.DEBUG && internalState != InternalState.WaitingUntilBonded) {
                 throw new IllegalStateException("internalState should be InternalState.WaitingUntilBonded");
+            }
             setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
             btGatt.discoverServices();
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
-
-    private long lastDisconnectedTimeMillis;
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
         this(btDevice, shnCentral, deviceTypeName, false);
@@ -209,7 +210,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         SHNLogger.d(TAG, "delta: " + delta);
 
         if (internalState == InternalState.GattConnecting && delta < timeOut) {
-            SHNLogger.d(TAG, "Retrying to connect GAT in state " + internalState);
+            SHNLogger.d(TAG, "Retrying to connect GATT in state " + internalState);
             btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
         } else {
             for (SHNService shnService : registeredServices.values()) {
