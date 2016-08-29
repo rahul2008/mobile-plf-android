@@ -69,6 +69,7 @@ public class AssociateActivity extends AppCompatActivity implements SHNDeviceAss
         shnCentral = application.getShnCentral();
 
         shnDeviceAssociation = shnCentral.getShnDeviceAssociation();
+        shnDeviceAssociation.setShnDeviceAssociationListener(this);
 
         setupAssociationListView();
         setupAssociationButton();
@@ -78,14 +79,13 @@ public class AssociateActivity extends AppCompatActivity implements SHNDeviceAss
         btnStartAssociation = (Button) findViewById(R.id.btnStartAssociation);
 
         if (btnStartAssociation != null) {
-            btnStartAssociation.setEnabled(false);
             btnStartAssociation.setOnClickListener(startAssociationListener);
         }
     }
 
     private void setupAssociationListView() {
         List<SHNDeviceDefinitionInfo> shnDeviceDefinitionInfos = shnCentral.getSHNDeviceDefinitions().getRegisteredDeviceDefinitions();
-        CustomAdapter<SHNDeviceDefinitionInfo> adapter = new CustomAdapter<>(shnDeviceDefinitionInfos, android.R.layout.simple_list_item_1, new CustomAdapter.Callbacks<SHNDeviceDefinitionInfo>() {
+        CustomAdapter<SHNDeviceDefinitionInfo> adapter = new CustomAdapter<>(shnDeviceDefinitionInfos, android.R.layout.simple_list_item_1, new CustomAdapter.ViewLoader<SHNDeviceDefinitionInfo>() {
             private int[] viewIds = new int[]{android.R.id.text1};
 
             @Override
@@ -115,22 +115,11 @@ public class AssociateActivity extends AppCompatActivity implements SHNDeviceAss
         super.onResume();
 
         updateAssociationState();
-        shnDeviceAssociation.setShnDeviceAssociationListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
         shnDeviceAssociation.stopAssociation();
         if (associatedSHNDevice != null) {

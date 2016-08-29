@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         try {
-            Handler mainHandler = new Handler(this.getMainLooper());
+            Handler mainHandler = new Handler();
             shnCentral = new SHNCentral.Builder(getApplicationContext()).setHandler(mainHandler).create();
 
             showVersions();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             associatedDevices = shnCentral.getShnDeviceAssociation().getAssociatedDevices();
 
-            arrayAdapter = new CustomAdapter<>(associatedDevices, android.R.layout.simple_list_item_1, new CustomAdapter.Callbacks<SHNDevice>() {
+            arrayAdapter = new CustomAdapter<>(associatedDevices, android.R.layout.simple_list_item_1, new CustomAdapter.ViewLoader<SHNDevice>() {
                 private int[] viewIds = new int[]{android.R.id.text1};
 
                 @Override

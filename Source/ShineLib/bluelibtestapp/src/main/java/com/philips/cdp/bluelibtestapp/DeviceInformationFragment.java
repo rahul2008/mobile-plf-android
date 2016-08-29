@@ -14,14 +14,11 @@ import android.widget.TextView;
 
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceDiagnostics;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Date;
-import java.util.Map;
 
 public class DeviceInformationFragment extends Fragment {
 
@@ -99,22 +96,6 @@ public class DeviceInformationFragment extends Fragment {
     };
 
     private void setupDeviceInformationCapability(SHNDevice shnDevice) {
-
-        SHNCapabilityDeviceDiagnostics dia = new SHNCapabilityDeviceDiagnostics() {
-
-            @Override
-            public void readDeviceDiagnostics(@NonNull final SHNMapResultListener<String, String> listener) {
-
-            }
-        };
-
-        dia.readDeviceDiagnostics(new SHNMapResultListener<String, String>() {
-            @Override
-            public void onActionCompleted(@NonNull final Map<String, String> value, @NonNull final SHNResult result) {
-
-            }
-        });
-
         SHNLogger.d(TAG, "setupDeviceInformationCapability() called with: " + "shnDevice = [" + shnDevice + "]");
         shnCapabilityDeviceInformation = (SHNCapabilityDeviceInformation) shnDevice.getCapabilityForType(SHNCapabilityType.DeviceInformation);
         if (shnCapabilityDeviceInformation != null) {

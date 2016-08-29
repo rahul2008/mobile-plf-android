@@ -31,6 +31,8 @@ public class BatteryFragment extends Fragment implements SHNDevice.SHNDeviceList
 
     private SHNDevice shnSelectedDevice;
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener;
+    private TextView batteryTextView;
+    private Handler handler;
 
     public static BatteryFragment newInstance() {
         return new BatteryFragment();
@@ -45,11 +47,16 @@ public class BatteryFragment extends Fragment implements SHNDevice.SHNDeviceList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         SHNLogger.e(TAG, "onCreateView: " + fragmentView);
+
         if (fragmentView == null) {
+            handler = new Handler();
+
             TestApplication application = (TestApplication) getActivity().getApplication();
 
             shnSelectedDevice = application.getSelectedDevice();
             fragmentView = inflater.inflate(R.layout.fragment_battery, container, false);
+
+            batteryTextView = (TextView) fragmentView.findViewById(R.id.textViewBatteryValue);
 
             Button getBatteryLevelButton = (Button) fragmentView.findViewById(R.id.buttonGetBatteryLevel);
             getBatteryLevelButton.setOnClickListener(new View.OnClickListener() {
@@ -116,11 +123,8 @@ public class BatteryFragment extends Fragment implements SHNDevice.SHNDeviceList
     }
 
     private void updateBatteryLevelTextView(int batteryLevel) {
-        TextView tv = (TextView) fragmentView.findViewById(R.id.textViewBatteryValue);
-        tv.setText(String.format(getResources().getString(R.string.digit), batteryLevel));
+        batteryTextView.setText(String.format(getResources().getString(R.string.digit), batteryLevel));
     }
-
-    private Handler handler = new Handler();
 
     private void setupBatteryNotification(SHNDevice shnDevice, final boolean enabled) {
         SHNCapabilityBattery shnCapabilityBattery = (SHNCapabilityBattery) shnDevice.getCapabilityForType(SHNCapabilityType.Battery);
