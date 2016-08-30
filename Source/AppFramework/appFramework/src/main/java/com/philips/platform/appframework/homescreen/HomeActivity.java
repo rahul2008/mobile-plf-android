@@ -5,7 +5,6 @@
 */
 package com.philips.platform.appframework.homescreen;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -68,7 +67,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private LinearLayout hamburgerClick = null;
     private static int mCartItemCount = 0;
     private final int CART_POSITION_IN_MENU = 2;
-    private ProgressDialog mProgressDialog;
     private UserRegistrationState userRegistrationState;
 
     @Override
@@ -291,23 +289,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
-            }
-        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
-            mProgressDialog.show();
-            }
-    }
-
-    public void dismissProgressDialog() {
-        if(mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-            }
-    }
 
     private void addIapCartCount() {
         IAPInterface iapInterface = new IAPInterface();
@@ -376,21 +357,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     };
 
-
-   /* private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
-        @Override
-        public void onSuccess(int count) {
-            mCartItemCount = count;
-            if (count > 0 && mHandler != null) {
-                mHandler.sendEmptyMessageDelayed(0, 200);
-            } else {
-            }
-        }
-
-        @Override
-        public void onFailure(int i) {
-        }
-    };*/
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
