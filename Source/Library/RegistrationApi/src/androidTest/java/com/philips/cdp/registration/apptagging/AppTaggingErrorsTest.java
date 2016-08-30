@@ -1,15 +1,21 @@
 package com.philips.cdp.registration.apptagging;
 
+import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 
 /**
  * Created by 310243576 on 8/11/2016.
  */
 public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
-    AppTaggingErrors appTaggingErrors = new AppTaggingErrors();
+    AppTaggingErrors appTaggingErrors;
+    Context mContext;
+
 
 
 
@@ -22,27 +28,42 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
+        mContext = getInstrumentation().getTargetContext();
+        appTaggingErrors = new AppTaggingErrors();
+
 
     }
 
     public void testAppTaggingErrors() {
 
-       // AppInfraSingleton.setInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
+        synchronized(this){//synchronized block
 
-    /*    appTaggingErrors.trackActionRegisterError(111);
-        appTaggingErrors.trackActionRegisterError(390);
-        appTaggingErrors.trackActionRegisterError(210);
-        appTaggingErrors.trackActionRegisterError(112);
+            try {
+                AppInfraSingleton.setInstance( new AppInfra.Builder().build(mContext));
+                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
 
-        appTaggingErrors.trackActionLoginError(111);
-        appTaggingErrors.trackActionLoginError(112);
-        appTaggingErrors.trackActionLoginError(210);
-        appTaggingErrors.trackActionLoginError(211);
+                appTaggingErrors.trackActionRegisterError(111);
+                appTaggingErrors.trackActionRegisterError(390);
+                appTaggingErrors.trackActionRegisterError(210);
+                appTaggingErrors.trackActionRegisterError(112);
 
-        appTaggingErrors.trackActionForgotPasswordFailure(111);
-        appTaggingErrors.trackActionForgotPasswordFailure(212);
+                appTaggingErrors.trackActionLoginError(111);
+                appTaggingErrors.trackActionLoginError(112);
+                appTaggingErrors.trackActionLoginError(210);
+                appTaggingErrors.trackActionLoginError(211);
 
-        appTaggingErrors.trackActionResendNetworkFailure(111);
-        appTaggingErrors.trackActionResendNetworkFailure(112);*/
+                appTaggingErrors.trackActionForgotPasswordFailure(111);
+                appTaggingErrors.trackActionForgotPasswordFailure(212);
+                appTaggingErrors.trackActionForgotPasswordFailure(211);
+
+
+                appTaggingErrors.trackActionResendNetworkFailure(111);
+                appTaggingErrors.trackActionResendNetworkFailure(112);
+
+                assertNotNull(appTaggingErrors);
+
+
+        }catch(Exception e){System.out.println(e);}
+    }
     }
 }
