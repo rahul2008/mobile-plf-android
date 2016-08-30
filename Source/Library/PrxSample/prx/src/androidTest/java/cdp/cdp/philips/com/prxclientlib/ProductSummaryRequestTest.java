@@ -33,7 +33,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
         mProductAssetBuilder = new ProductSummaryRequest("125", null);
       //  mProductAssetBuilder.setmCatalogCode("COnsumer");
-        //  mProductAssetBuilder.setLocale("nl_NL");
+          mProductAssetBuilder.setLocaleMatchResult("nl_NL");
       //  mProductAssetBuilder.setSectorCode("HAIR");
     }
 
@@ -44,7 +44,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
     }
 
     public void testBuilderLocale() {
-        String locale = mProductAssetBuilder.getLocale();
+        String locale = mProductAssetBuilder.getLocaleMatchResult();
         assertEquals("nl_NL", locale);
     }
 
