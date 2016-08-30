@@ -19,7 +19,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 {
 
     [Binding]
-    class F661ContinuousEndToEndTestSteps
+    public class F661ContinuousEndToEndTestSteps
     {
 
 
