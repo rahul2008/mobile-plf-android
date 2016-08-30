@@ -1,24 +1,7 @@
 ================================================================================
 Release notes for BlueLib
 ================================================================================
-Version 0.8.0
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
-### New features:
---------------------------------------------------------------------------------
-### Bugs fixed:
-* [BL-241] Implemented retry mechanism for perhiral connection.
---------------------------------------------------------------------------------
-### API changes:
-* Deprecated SHNDeviceWrapper connect call with parameters. 
-* Added a connect call that allows to provide a timeout for establishing BLE connection. 
---------------------------------------------------------------------------------
-### Known issues:
-* [BG-234] Google backup might restore previously associated devices
-================================================================================
-
-Version 0.7.4-SNAPSHOT
+Version 0.8.0-SNAPSHOT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -28,9 +11,18 @@ Version 0.7.4-SNAPSHOT
 * [COD-74] Callbacks for service and characteristic discovery
 --------------------------------------------------------------------------------
 ### Bugs fixed:
+* [BL-241] Implemented retry mechanism for perhiral connection
 --------------------------------------------------------------------------------
+### API changes:
+* Deprecated SHNDeviceWrapper connect call with parameters
+* Added a connect call on SHNDevice that allows to provide a timeout for establishing BLE connection
+* Added a readRSSI call on SHNDevice
+* Added registerDiscoveryListener and unregisterDiscoveryListener on SHNDevice
+* Added new capability type: CapabilityBluetoothDirect
+--------------------------------------------------------------------------------
+### Known issues:
+* [BG-234] Google backup might restore previously associated devices
 ================================================================================
-
 
 Version 0.7.3
 --------------------------------------------------------------------------------
