@@ -39,6 +39,14 @@ public class SettingsAdapter extends BaseAdapter {
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
     public static final int iapHistoryLaunch = 5454;
+    TextView name;
+    PuiSwitch value;
+    TextView number;
+    TextView on_off;
+    FontIconTextView arrow;
+    TextView description;
+    SettingListItemType type;
+    View vi;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
@@ -73,7 +81,7 @@ public class SettingsAdapter extends BaseAdapter {
 
     @NonNull
     private View getView(int position, View convertView) {
-        View vi = convertView;
+        vi = convertView;
         if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
                 ||mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
 
@@ -102,23 +110,23 @@ public class SettingsAdapter extends BaseAdapter {
             if (convertView == null) {
             vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
             }
-            TextView name = (TextView) vi.findViewById(R.id.ifo);
-            PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-            TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
-            TextView on_off = (TextView) vi.findViewById(R.id.medium);
-            FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
-            TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
-            SettingListItemType type = mSettingsItemList.get(position).type;
+            name = (TextView) vi.findViewById(R.id.ifo);
+            value = (PuiSwitch) vi.findViewById(R.id.switch_button);
+            number = (TextView) vi.findViewById(R.id.numberwithouticon);
+            on_off = (TextView) vi.findViewById(R.id.medium);
+            arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
+            description = (TextView) vi.findViewById(R.id.text_description_without_icons);
+            type = mSettingsItemList.get(position).type;
 
             switch (type) {
                 case HEADER:
-                    headerSection(position, name, value, number, on_off, arrow, description);
+                    headerSection(position);
                     break;
                 case CONTENT:
-                    subSection(position, name, value, on_off, arrow, description);
+                    subSection(position);
                     break;
                 case NOTIFICATION:
-                    notificationSection(position, name, value, arrow, description);
+                    notificationSection(position);
                     break;
             }
         }
@@ -126,77 +134,82 @@ public class SettingsAdapter extends BaseAdapter {
         return vi;
     }
 
-    private void notificationSection(int position, TextView name, PuiSwitch value, FontIconTextView arrow, TextView description) {
-        name.setVisibility(View.VISIBLE);
-        name.setText(mSettingsItemList.get(position).title);
-        value.setVisibility(View.VISIBLE);
+    private void notificationSection(int position) {
+        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
+            name.setVisibility(View.VISIBLE);
+            name.setText(mSettingsItemList.get(position).title);
+            value.setVisibility(View.VISIBLE);
 
-        if (mUser.getReceiveMarketingEmail()) {
-            value.setChecked(true);
-        } else {
-            value.setChecked(false);
-        }
-        if (sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)) {
-            value.setChecked(true);
-        } else {
-            value.setChecked(false);
-        }
-        value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
-                        @Override
-                        public void onUpdateReceiveMarketingEmailSuccess() {
-                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
-                        }
-
-                        @Override
-                        public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
-                        }
-                    }, true);
-                } else {
-                    mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
-                        @Override
-                        public void onUpdateReceiveMarketingEmailSuccess() {
-                            sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
-                        }
-
-                        @Override
-                        public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
-                        }
-                    }, false);
-                }
+            if (mUser.getReceiveMarketingEmail()) {
+                value.setChecked(true);
+            } else {
+                value.setChecked(false);
             }
-        });
+            if (sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)) {
+                value.setChecked(true);
+            } else {
+                value.setChecked(false);
+            }
+            value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                            @Override
+                            public void onUpdateReceiveMarketingEmailSuccess() {
+                                sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
+                            }
 
-        String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
-                getString(R.string.settings_list_item_four_term_cond);
+                            @Override
+                            public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            }
+                        }, true);
+                    } else {
+                        mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                            @Override
+                            public void onUpdateReceiveMarketingEmailSuccess() {
+                                sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
+                            }
 
-        description.setVisibility(View.VISIBLE);
-        description.setText(descText);
-        arrow.setVisibility(View.GONE);
+                            @Override
+                            public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            }
+                        }, false);
+                    }
+                }
+            });
+
+            String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
+                    getString(R.string.settings_list_item_four_term_cond);
+
+            description.setVisibility(View.VISIBLE);
+            description.setText(descText);
+            arrow.setVisibility(View.GONE);
+        }
     }
 
-    private void subSection(int position, TextView name, PuiSwitch value, TextView on_off, FontIconTextView arrow, TextView description) {
-        name.setText(mSettingsItemList.get(position).title);
-
-        value.setVisibility(View.GONE);
-        description.setVisibility(View.GONE);
-        on_off.setVisibility(View.GONE);
-        arrow.setVisibility(View.VISIBLE);
+    private void subSection(int position) {
+        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
+            name.setText(mSettingsItemList.get(position).title);
+            value.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+            on_off.setVisibility(View.GONE);
+            arrow.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void headerSection(int position, TextView name, PuiSwitch value, TextView number, TextView on_off, FontIconTextView arrow, TextView description) {
+    private void headerSection(int position) {
         CharSequence titleText = null;
         titleText = mSettingsItemList.get(position).title;
-        name.setText(titleText);
+        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
+            name.setText(titleText);
+            value.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+            number.setVisibility(View.GONE);
+            on_off.setVisibility(View.GONE);
+            arrow.setVisibility(View.INVISIBLE);
+        }
 
-        value.setVisibility(View.GONE);
-        description.setVisibility(View.GONE);
-        number.setVisibility(View.GONE);
-        on_off.setVisibility(View.GONE);
-        arrow.setVisibility(View.INVISIBLE);
     }
 
     private void logoutAlert() {
@@ -228,12 +241,6 @@ public class SettingsAdapter extends BaseAdapter {
             return super.isEnabled(position);
         }
     }
-
-//    private void setSwitchState(CompoundButton toggleSwitch, String code) {
-//        if (saveBundle.containsKey(code)) {
-//            toggleSwitch.setChecked(saveBundle.getBoolean(code));
-//        }
-//    }
 
     private String getString(int id) {
         return mActivity.getResources().getString(id);

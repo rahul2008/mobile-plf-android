@@ -58,19 +58,4 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
         ((HomeActivity)context).finishAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
     }
-
-    @Override
-    public void updateTitle(int titleResourceID,Context context) {
-        ((HomeActivity)context).updateTitle();
-    }
-
-    @Override
-    public void updateTitleWithBack(int titleResourceID,Context context) {
-        ((HomeActivity)context).updateTitleWithBack();
-    }
-
-    @Override
-    public void updateTitleWIthoutBack(int titleResourceID,Context context) {
-        ((HomeActivity)context).updateTitleWithoutBack();
-    }
 }

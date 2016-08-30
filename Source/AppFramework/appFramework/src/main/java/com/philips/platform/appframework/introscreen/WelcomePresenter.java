@@ -88,18 +88,4 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
         appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
     }
 
-    @Override
-    public void updateTitle(int titleResourceID,Context context) {
-        ((WelcomeActivity) context).updateTitle();
-    }
-
-    @Override
-    public void updateTitleWithBack(int titleResourceID,Context context) {
-        ((WelcomeActivity) context).updateTitleWithBack();
-    }
-
-    @Override
-    public void updateTitleWIthoutBack(int titleResourceID,Context context) {
-        ((WelcomeActivity) context).updateTitleWithoutBack();
-    }
 }
