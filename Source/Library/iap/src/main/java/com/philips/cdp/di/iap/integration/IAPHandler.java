@@ -132,24 +132,28 @@ public class IAPHandler {
         return fragment;
     }
 
-    private void launchActivity(Context pContext, IAPLaunchInput pLaunchConfig, ActivityLauncher activityLauncher) {
+    private void launchActivity(Context pContext, IAPLaunchInput pLaunchConfig,
+                                ActivityLauncher activityLauncher) {
         Intent intent = new Intent(pContext, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, pLaunchConfig.mLandingView);
 
-        if (pLaunchConfig.mLandingView == IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW || pLaunchConfig.mLandingView
+        if (pLaunchConfig.mLandingView == IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW
+                || pLaunchConfig.mLandingView
                 == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW) {
             if (pLaunchConfig.mIAPFlowInput.getProductCTN() == null
                     || pLaunchConfig.mIAPFlowInput.getProductCTN().equalsIgnoreCase("")) {
                 throw new RuntimeException("Please Pass CTN");
             } else {
-                intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, pLaunchConfig.mIAPFlowInput.getProductCTN());
+                intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
+                        pLaunchConfig.mIAPFlowInput.getProductCTN());
             }
         }
 
         if (pLaunchConfig.mIAPFlowInput != null) {
             if (pLaunchConfig.mIAPFlowInput.getProductCTNs() != null)
-                intent.putStringArrayListExtra(IAPConstant.CAEGORIZED_PRODUCT_CTNS, pLaunchConfig.mIAPFlowInput.getProductCTNs());
+                intent.putStringArrayListExtra(IAPConstant.CAEGORIZED_PRODUCT_CTNS,
+                        pLaunchConfig.mIAPFlowInput.getProductCTNs());
         }
 
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());

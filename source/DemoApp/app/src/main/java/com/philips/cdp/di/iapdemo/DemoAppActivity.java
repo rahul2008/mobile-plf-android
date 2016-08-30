@@ -54,7 +54,7 @@ import java.util.List;
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener, AdapterView.OnItemSelectedListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_BrightBlue;
     private DemoApplication mApplicationContext;
 
     private LinearLayout mSelectCountryLl, mAddCTNLl;
@@ -258,7 +258,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (view == mPurchaseHistory) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null);
         } else if (view == mLaunchProductDetail) {
-            IAPFlowInput iapFlowInput = new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
+            IAPFlowInput iapFlowInput =
+                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
