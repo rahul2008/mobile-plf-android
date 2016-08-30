@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.context_menu, menu);
+        inflater.inflate(R.menu.associated_devices_list_context_menu, menu);
     }
 
     @Override
