@@ -17,14 +17,21 @@
         android:background="@android:color/darker_gray"
         android:layout_height="1dp"/>
 
+    <ScrollView
+        android:id="@+id/SCROLLER_ID3"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:scrollbars="vertical"
 
-    <EditText
-        android:layout_marginTop="20dp"
-        android:hint="Plain text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/plainText"
-        android:layout_gravity="center_horizontal" />
+        android:fillViewport="true">
+        <EditText
+
+            android:hint="Plain text"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/plainText"
+            android:layout_gravity="center_horizontal" />
+    </ScrollView>
 
     <Button
         android:layout_width="wrap_content"
@@ -33,19 +40,23 @@
         android:id="@+id/buttonEncrypt"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Encrypted Text:"
-        android:layout_gravity="center_horizontal" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
 
-        android:id="@+id/textViewEncrypted"
-        android:layout_gravity="center_horizontal" />
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID2"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:scrollbars="vertical"
+
+        android:fillViewport="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+
+            android:id="@+id/textViewEncrypted"
+            android:layout_gravity="center_horizontal" />
+    </ScrollView>
 
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
@@ -54,26 +65,29 @@
 
 
     <Button
-        android:layout_marginTop="20dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Decrypt Data"
         android:id="@+id/buttonDecrypt"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Decrypted Text"
-        android:layout_gravity="center_horizontal" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textViewDecrpted"
-        android:layout_gravity="center_horizontal" />
 
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID1"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:scrollbars="vertical"
+
+        android:fillViewport="true">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textViewDecrpted"
+            android:layout_gravity="center_horizontal" />
+    </ScrollView>
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
         android:background="@android:color/darker_gray"
