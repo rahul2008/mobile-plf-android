@@ -6,8 +6,6 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -233,67 +231,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             UIState currentState = flowManager.getCurrentState();
             currentState.back(this);
         }
-        /*if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finishAffinity();
-        } else if (findIfHomeFragmentSentBack()) {
-            finishAffinity();
-        } else if (findFragmentByTag(InAppPurchasesFragment.TAG)) {
-            if (!inAppPurchaseBackPress()) {
-                super.popBackTillHomeFragment();
-            }
-        }
-        else if (findFragmentByTag(InAppPurchasesHistoryFragment.TAG)) {
-            if (!inAppPurchaseBackPress()) {
-                super.popBack();
-            }
-        }
-        else if (findFragmentByTag("Registration_fragment_tag")) {
-            boolean isConsumed = false;
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment fragment = fragmentManager
-                    .findFragmentById(R.id.frame_container);
-            if (fragment != null && fragment instanceof BackEventListener) {
-                isConsumed = ((BackEventListener) fragment).handleBackEvent();
-            }
-            if (!isConsumed) {
-                super.popBack();
-               // super.onBackPressed();
-            }
-        } else {
-            AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
-            UIFlowManager flowManager = applicationContext.getFlowManager();
-            UIState currentState = flowManager.getCurrentState();
-            currentState.back(this);
-        }*/
-    }
-
-    private boolean findIfHomeFragmentSentBack() {
-        FragmentManager.BackStackEntry backStackEntryAt = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
-        String name = backStackEntryAt.getName();
-        if (name != null && name.equalsIgnoreCase(HomeFragment.TAG))
-            return true;
-        return false;
-    }
-
-    private boolean inAppPurchaseBackPress() {
-        addIapCartCount();
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        /*if (currentFragment != null && (currentFragment instanceof InAppPurchasesFragment)) {
-            boolean isBackPressed = ((InAppPurchasesFragment) currentFragment).onBackPressed();
-            return isBackPressed;
-        } else if (currentFragment != null && (currentFragment instanceof InAppPurchasesHistoryFragment)) {
-            boolean isBackPressed = ((InAppPurchasesHistoryFragment) currentFragment).onBackPressed();
-            return isBackPressed;
-        }*/
-        return false;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mHandler != null) {
-            mHandler = null;
-        }
     }
 
 
@@ -322,7 +264,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
             @Override
             public void onFailure(int i) {
-
+                showIAPToast(i);
             }
         });
     }
@@ -350,20 +292,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             toast.show();
         }
     }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            mHandler.removeMessages(0);
-            for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-                if (i == CART_POSITION_IN_MENU) {
-                    cartCountUpdate(mCartItemCount);
-                }
-            }
-        }
-    };
-
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {

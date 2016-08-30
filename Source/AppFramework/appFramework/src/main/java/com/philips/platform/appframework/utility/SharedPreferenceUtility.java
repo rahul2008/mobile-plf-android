@@ -14,7 +14,6 @@ import com.philips.platform.modularui.statecontroller.UIState;
 public class SharedPreferenceUtility {
     private static SharedPreferenceUtility mInstance;
     private Context mContext;
-    //
     private SharedPreferences mMyPreferences;
 
     public SharedPreferenceUtility(Context ctxt){

@@ -7,8 +7,6 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
@@ -33,12 +31,7 @@ public class InAppPurchaseFragmentState extends UIState{
     private FragmentActivity fragmentActivity;
     private int containerID;
     private ArrayList<String> mCtnList = null;
-    private TextView mTitleTextView;
-    private ImageView mBackImage;
-    private ImageView mCartIcon;
-    private TextView mCountText;
     private ActionBarListener actionBarListener;
-
     public InAppPurchaseFragmentState(@UIStateDef int stateID) {
         super(stateID);
     }

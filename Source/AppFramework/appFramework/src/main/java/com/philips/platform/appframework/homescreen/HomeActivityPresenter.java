@@ -8,7 +8,6 @@ package com.philips.platform.appframework.homescreen;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
@@ -24,7 +23,6 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     HomeActivityPresenter(){
         setState(UIState.UI_HOME_STATE);
     }
-    UIBaseNavigator uiBaseNavigator;
     AppFrameworkApplication appFrameworkApplication;
     UIState uiState;
     private final int MENU_OPTION_HOME = 0;

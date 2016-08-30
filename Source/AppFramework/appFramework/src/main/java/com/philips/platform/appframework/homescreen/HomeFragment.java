@@ -35,10 +35,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.af_home_fragment, container, false);
-
         setDateToView();
-
-
         return rootView;
     }
 

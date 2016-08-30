@@ -23,6 +23,5 @@ public class HomeActivityState extends UIState {
 
     @Override
     public void back(final Context context) {
-        //NOP
     }
 }
