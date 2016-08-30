@@ -55,7 +55,7 @@ public class SupportFragmentState extends UIState implements CcListener {
     void runCC()
     {
         if (mCtnList == null) {
-            mCtnList = new ArrayList<String>(Arrays.asList(mFragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
+            mCtnList = new ArrayList<>(Arrays.asList(mFragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
         }
         String[] ctnList = new String[mCtnList.size()];
         for (int i = 0; i < mCtnList.size(); i++) {
@@ -68,7 +68,6 @@ public class SupportFragmentState extends UIState implements CcListener {
                 new com.philips.platform.uappframework.launcher.FragmentLauncher
                         (mFragmentActivity, containerID,actionBarListener
                         );
-       // launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         CcInterface ccInterface = new CcInterface();
 
         if (ccSettings == null) ccSettings = new CcSettings(mContext);
@@ -94,51 +93,6 @@ public class SupportFragmentState extends UIState implements CcListener {
     public void registerForNextState(SetStateCallBack setStateCallBack) {
         this.setStateCallBack = (SetStateCallBack) getPresenter();
     }
-
-
-
-    /*public void loadPlugIn() {
-        if (mCtnList == null) {
-            mCtnList = new ArrayList<String>(Arrays.asList(mFragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
-        }
-        String[] ctnList = new String[mCtnList.size()];
-        for (int i = 0; i < mCtnList.size(); i++) {
-            ctnList[i] = mCtnList.get(i);
-        }
-        *//*ProductModelSelectionType productsSelection = new com.philips.cdp.productselection
-                .productselectiontype.HardcodedProductList(ctnList);
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
-       AppInfraInterface gAppInfra = AppInfraSingleton.getInstance();
-        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(mContext, gAppInfra);
-        DigitalCareConfigManager.getInstance().registerCcListener(this);*//*
-        *//*DigitalCareConfigManager.getInstance()
-                .registerProductMenuListener(this);
-        DigitalCareConfigManager.getInstance().registerSocialProviderListener(this);*//*
-        //DigiCareLogger.();
-        //TODO
-    }
-
-
-    public void runCoCo() {
-        if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(mContext.getResources().getStringArray(R.array.productselection_ctnlist)));
-        }
-        if (mCtnList != null) {
-            String[] ctnList = new String[mCtnList.size()];
-            for (int i = 0; i < mCtnList.size(); i++) {
-                ctnList[i] = mCtnList.get(i);
-            }
-            ProductModelSelectionType productsSelection = new com.philips.cdp.productselection
-                    .productselectiontype.HardcodedProductList(ctnList);
-            productsSelection.setCatalog(Catalog.CARE);
-            productsSelection.setSector(Sector.B2C);
-
-            FragmentLauncher fragLauncher = new FragmentLauncher(mFragmentActivity, containerID, actionBarClickListenerCC);
-            fragLauncher.setAnimation(0, 0);
-            DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
-        }
-    }*/
 
     public void unloadCoCo() {
         DigitalCareConfigManager.getInstance().unRegisterCcListener(this);
