@@ -20,16 +20,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.HomeActivityState;
-import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -109,21 +102,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
             mActionBar.setCustomView(mCustomView, params);
             textView.setText(R.string.af_app_name);
         }
-    }
-
-    void updateTitle() {
-        arrowImage.setVisibility(View.VISIBLE);
-        textView.setText(R.string.af_app_name);
-    }
-
-    void updateTitleWithBack() {
-        arrowImage.setVisibility(View.VISIBLE);
-        textView.setText(R.string.af_app_name);
-    }
-
-    void updateTitleWithoutBack() {
-        arrowImage.setVisibility(View.INVISIBLE);
-        textView.setText(R.string.af_app_name);
     }
 
     void loadWelcomeFragment() {

@@ -7,13 +7,11 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homescreen.HomeFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 
 public class HomeFragmentState extends UIState {
-    AppFrameworkApplication appFrameworkApplication;
 
     public HomeFragmentState(@UIStateDef int stateID) {
         super(stateID);

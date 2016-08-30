@@ -65,7 +65,6 @@ public class AppFrameworkApplication extends Application {
     private void initializeProductRegistrationLibrary() {
         ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
 
-        //TO-DO - have to take PRSettings on next release
         UappSettings uappSettings = new UappSettings(getApplicationContext());
         new PRInterface().init(prodRegDependencies, uappSettings);
     }

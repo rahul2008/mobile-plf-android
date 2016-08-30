@@ -23,6 +23,5 @@ public class WelcomeState extends UIState {
 
     @Override
     public void back(final Context context) {
-        //NOP
     }
 }

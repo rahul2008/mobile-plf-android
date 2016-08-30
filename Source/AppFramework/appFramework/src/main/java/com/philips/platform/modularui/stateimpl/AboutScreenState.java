@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
@@ -7,9 +12,6 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 
-/**
- * Created by 310213373 on 8/10/2016.
- */
 public class AboutScreenState  extends UIState {
     AppFrameworkApplication appFrameworkApplication;
 
