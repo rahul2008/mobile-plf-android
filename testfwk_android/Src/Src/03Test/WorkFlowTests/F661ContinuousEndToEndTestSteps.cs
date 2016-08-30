@@ -37,7 +37,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         public void ThenIClickOnNucleousValue()
         {
             AppHomeScreen.Click(AppHomeScreen.Button.NucleousDevice);
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
             //AppHomeScreen.EnterText(AppHomeScreen.EditText.Nucleus, "68");
             //Thread.Sleep(2000);
 
