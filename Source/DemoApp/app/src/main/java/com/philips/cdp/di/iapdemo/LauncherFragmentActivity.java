@@ -80,6 +80,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.vertical_Container);
+        if (fragmentManager.getBackStackEntryCount() == 1) finish();
         boolean backState = false;
         if (currentFrag != null && currentFrag instanceof BackEventListener) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
