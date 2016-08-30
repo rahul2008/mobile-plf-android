@@ -93,6 +93,11 @@ public class DeviceInformationFragment extends Fragment {
         public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
             SHNLogger.d(TAG, "onFailedToConnect() called with: " + "shnDevice = [" + shnDevice + "], result = [" + result + "]");
         }
+
+        @Override
+        public void onReadRSSI(int rssi) {
+
+        }
     };
 
     private void setupDeviceInformationCapability(SHNDevice shnDevice) {

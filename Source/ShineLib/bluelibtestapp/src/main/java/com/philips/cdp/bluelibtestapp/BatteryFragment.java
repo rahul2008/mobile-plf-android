@@ -105,6 +105,11 @@ public class BatteryFragment extends Fragment implements SHNDevice.SHNDeviceList
 
     }
 
+    @Override
+    public void onReadRSSI(int rssi) {
+
+    }
+
     private void setupBatteryCapability(SHNDevice shnDevice) {
         SHNCapabilityBattery shnCapabilityBattery = (SHNCapabilityBattery) shnDevice.getCapabilityForType(SHNCapabilityType.Battery);
         if (shnCapabilityBattery != null) {

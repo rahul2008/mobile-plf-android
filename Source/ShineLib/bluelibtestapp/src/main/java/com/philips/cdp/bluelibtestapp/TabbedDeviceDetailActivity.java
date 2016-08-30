@@ -275,6 +275,11 @@ public class TabbedDeviceDetailActivity extends AppCompatActivity implements Act
         updateCount();
     }
 
+    @Override
+    public void onReadRSSI(int rssi) {
+
+    }
+
     private void setupDeviceInformationCapability(SHNDevice shnDevice) {
         if (shnDevice.getCapabilityForType(SHNCapabilityType.DeviceInformation) != null) {
             DeviceInformationFragment deviceInformationFragment = DeviceInformationFragment.newInstance();
