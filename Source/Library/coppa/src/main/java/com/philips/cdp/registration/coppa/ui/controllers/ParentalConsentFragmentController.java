@@ -22,8 +22,11 @@ public class ParentalConsentFragmentController {
     {
         this.mParentalApprovalFragment = parentalConsentFragment;
         mParentalApprovalFragment.getRegistrationFragment();
-        mCoppaExtension = new CoppaExtension(RegistrationCoppaFragment.getParentActivity().
-                getApplicationContext());
+        if (RegistrationCoppaFragment.getParentActivity() != null) {
+
+            mCoppaExtension = new CoppaExtension(RegistrationCoppaFragment.getParentActivity().
+                    getApplicationContext());
+        }
     }
 
     public void addagreeConfirmation() {
