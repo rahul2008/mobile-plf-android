@@ -250,15 +250,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     mBuyFromRetailors.setVisibility(View.VISIBLE);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     setTitleAndBackButtonVisibility(mProductTitle, true);
-                    //  updateActionBar(R.string.iap_product_catalog, true);
                 } else {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(false);
                     setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_item, true);
-                    // updateActionBar(R.string.iap_shopping_cart_item, true);
                 }
             } else {
-                //updateActionBar(R.string.iap_product_catalog, true);
                 setTitleAndBackButtonVisibility(mProductTitle, true);
                 setButtonState();
                 mBuyFromRetailors.setVisibility(View.VISIBLE);
@@ -355,13 +352,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
     }
 
-    @Override
-    public boolean handleBackEvent() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
-            finishActivity();
-        }
-        return false;
-    }
 
     @Override
     public void onModelDataLoadFinished(Message msg) {
@@ -408,7 +398,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
-                setTitleAndBackButtonVisibility(mProductTitle, true);
+                setTitleAndBackButtonVisibility(mProductTitle, false);
 
                 mProductDescription.setText(mProductTitle);
                 mCTN.setText(mCTNValue);

@@ -63,7 +63,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_order_history, true);
+        setTitleAndBackButtonVisibility(R.string.iap_order_history, false);
     }
 
     @Override
