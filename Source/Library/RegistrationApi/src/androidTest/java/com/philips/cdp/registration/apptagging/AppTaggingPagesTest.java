@@ -4,7 +4,9 @@ import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
 import org.junit.Test;
-
+/**
+ * Created by 310230979  on 8/30/2016.
+ */
 
 public class AppTaggingPagesTest extends InstrumentationTestCase {
 

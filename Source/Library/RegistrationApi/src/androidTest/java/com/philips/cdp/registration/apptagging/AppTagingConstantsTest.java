@@ -5,8 +5,7 @@ import android.test.InstrumentationTestCase;
 import org.junit.Before;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Created by 310230979  on 8/30/2016.
  */
 public class AppTagingConstantsTest extends InstrumentationTestCase {
 

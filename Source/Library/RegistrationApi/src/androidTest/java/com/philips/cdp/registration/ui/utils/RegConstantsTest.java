@@ -3,8 +3,7 @@ package com.philips.cdp.registration.ui.utils;
 import android.test.InstrumentationTestCase;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Created by 310230979  on 8/30/2016.
  */
 public class RegConstantsTest extends InstrumentationTestCase {
 

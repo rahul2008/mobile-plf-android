@@ -10,8 +10,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Created by 310230979  on 8/30/2016.
  */
 public class ParentalConsentFragmentControllerTest extends InstrumentationTestCase {
 
