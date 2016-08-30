@@ -42,7 +42,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     ArrayList<String> mProductCTNs;
     private TextView mTitleTextView;
     private TextView mCountText;
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_BrightBlue;
     private ImageView mBackImage;
     private ImageView mCartIcon;
 
