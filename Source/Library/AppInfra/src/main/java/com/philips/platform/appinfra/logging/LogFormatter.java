@@ -6,10 +6,12 @@
 package com.philips.platform.appinfra.logging;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -42,13 +44,14 @@ public class LogFormatter extends Formatter {
     }
 
     // Create a DateFormat to format the logger ;.
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ENGLISH);
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
         builder.append("[");
         if (mappInfra != null && mappInfra.getTime() != null) {
-            builder.append(mappInfra.getTime().getUTCTime()).append("]");
+            dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+            builder.append(dateFormat.format(mappInfra.getTime().getUTCTime())).append("]");
         }
 
         builder.append("[").append(componentNameAndVersion).append("]");
