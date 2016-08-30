@@ -207,12 +207,19 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
         boolean backState = false;
-        if(fragmentManager.getBackStackEntryCount() == 1 ) {
+        if(fragmentManager.getBackStackEntryCount() == 1 && currentFrag instanceof HomeFragment) {
             finishAffinity();
+        }else  if(fragmentManager.getBackStackEntryCount() == 1){
+            showNavigationDrawerItem(0);
         }else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof RegistrationFragment) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if(!backState){
                 fragmentManager.popBackStack();
+            }
+        }else if (currentFrag !=null && currentFrag.getTag().equalsIgnoreCase("digitalcare")){
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if (!backState) {
+                backstackFragment();
             }
         }else if(currentFrag != null && currentFrag instanceof BackEventListener){
             backState = ((BackEventListener) currentFrag).handleBackEvent();

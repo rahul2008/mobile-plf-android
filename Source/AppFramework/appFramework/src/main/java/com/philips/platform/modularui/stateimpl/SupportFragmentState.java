@@ -66,7 +66,8 @@ public class SupportFragmentState extends UIState implements CcListener {
         productsSelection.setSector(Sector.B2C);
         com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
                 new com.philips.platform.uappframework.launcher.FragmentLauncher
-                        (mFragmentActivity, containerID,actionBarListener);
+                        (mFragmentActivity, containerID,actionBarListener
+                        );
        // launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         CcInterface ccInterface = new CcInterface();
 
