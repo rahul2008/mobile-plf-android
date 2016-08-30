@@ -182,7 +182,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
 //        }
     }
 
-    public void moveToDemoAppByClearingStack() {
+    public void moveToVerticalAppByClearingStack() {
         if (getActivity() != null && getActivity() instanceof IAPActivity) {
             int count = getFragmentManager().getBackStackEntryCount();
             for (int i = 0; i < count; i++) {

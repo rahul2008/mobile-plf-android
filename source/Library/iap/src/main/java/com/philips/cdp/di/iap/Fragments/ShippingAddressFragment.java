@@ -323,7 +323,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
-                moveToDemoAppByClearingStack();
+                moveToVerticalAppByClearingStack();
             } else {
                 getFragmentManager().popBackStackImmediate();
             }
@@ -753,7 +753,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
-            moveToDemoAppByClearingStack();
+            moveToVerticalAppByClearingStack();
         }
         return super.handleBackEvent();
     }

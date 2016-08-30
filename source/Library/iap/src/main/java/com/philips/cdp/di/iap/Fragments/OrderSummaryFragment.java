@@ -131,7 +131,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
                     getFragmentManager().findFragmentByTag(PaymentSelectionFragment.TAG) != null) {
                 return false;
             }
-            moveToDemoAppByClearingStack();
+            moveToVerticalAppByClearingStack();
             return false;
         } else {
             return false;
@@ -177,7 +177,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         setOrderPlaced();
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
-            moveToDemoAppByClearingStack();
+            moveToVerticalAppByClearingStack();
         } else {
             moveToFragment(ShoppingCartFragment.TAG);
         }

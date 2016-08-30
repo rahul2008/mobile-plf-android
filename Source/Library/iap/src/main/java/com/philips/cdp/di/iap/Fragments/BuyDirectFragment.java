@@ -231,6 +231,6 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
 
     @Override
     public void onDialogOkClick() {
-        moveToDemoAppByClearingStack();
+        moveToVerticalAppByClearingStack();
     }
 }

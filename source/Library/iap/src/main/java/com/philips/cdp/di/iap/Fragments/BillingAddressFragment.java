@@ -225,7 +225,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
-                moveToDemoAppByClearingStack();
+                moveToVerticalAppByClearingStack();
             } else {
                 getFragmentManager().popBackStackImmediate();
             }
@@ -296,7 +296,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             if (getFragmentManager().findFragmentByTag(ShippingAddressFragment.TAG) != null) {
                 return false;
             }
-            moveToDemoAppByClearingStack();
+            moveToVerticalAppByClearingStack();
         }
         return super.handleBackEvent();
     }
