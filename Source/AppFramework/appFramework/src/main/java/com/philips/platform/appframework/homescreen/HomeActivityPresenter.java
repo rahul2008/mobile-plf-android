@@ -17,8 +17,9 @@ import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
-public class HomeActivityPresenter extends UIBasePresenter implements SupportFragmentState.SetStateCallBack {
+public class HomeActivityPresenter extends UIBasePresenter implements SupportFragmentState.SetStateCallBack,UserRegistrationState.SetStateCallBack {
 
     HomeActivityPresenter(){
         setState(UIState.UI_HOME_STATE);
@@ -31,6 +32,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
+    UserRegistrationState userRegistrationState;
 
     @Override
     public void onClick(int componentID, Context context) {
@@ -67,10 +69,20 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
 
     @Override
     public void setNextState(Context context) {
-        ((SupportFragmentState)uiState).unloadCoCo();
+
+        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
-        uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
+        if(userRegistrationState.getUserObject(context).isUserSignIn()) {
+            uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
+            uiState.setPresenter(this);
+
+        }
+        else {
+
+            uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+            uiState.setPresenter(this);
+            ((UserRegistrationState)uiState).registerForNextState(HomeActivityPresenter.this);
+        }
+        appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
     }
 }

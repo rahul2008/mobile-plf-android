@@ -34,7 +34,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     public static final String TAG = DebugTestFragment.class.getSimpleName();
     private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
     private List<String> list = Arrays.asList(configurationType);
-    private TextView txt_title, configurationTextView;
+    private TextView configurationTextView;
     private Spinner spinner;
     private SharedPreferences sharedPreferences;
     private Context context;
@@ -123,11 +123,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     private void initViews(final View view) {
         version = (TextView) view.findViewById(R.id.version);
-
         version.setText(" App Version " + BuildConfig.VERSION_NAME);
-
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        txt_title = (TextView) view.findViewById(R.id.txt_title);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
 
