@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.sample;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,11 +9,15 @@ import android.widget.Button;
 
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
-public class RegistrationSampleActivity extends Activity implements OnClickListener, UserRegistrationListener {
+public class RegistrationSampleActivity extends Activity implements OnClickListener, UserRegistrationUIEventListener,UserRegistrationListener {
 
     private Button mBtnRegistration;
 
@@ -70,7 +73,16 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         switch (v.getId()) {
             case R.id.btn_registration:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                startActivity(new Intent(this, RegistrationActivity.class));
+                URLaunchInput urLaunchInput = new URLaunchInput();
+                urLaunchInput.setAccountSettings(true);
+                urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+                urLaunchInput.setUserRegistrationUIEventListener(this);
+                ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+
+                URInterface urInterface = new URInterface();
+                urInterface.launch(activityLauncher, urLaunchInput);
+
                 break;
 
             default:
