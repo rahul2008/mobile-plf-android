@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
@@ -30,6 +31,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -43,7 +45,9 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class IAPActivity extends UiKitActivity implements ActionBarListener {
+import static com.philips.cdp.di.iap.utils.Utility.dismissProgressDialog;
+
+public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private TextView mTitleTextView;
     private TextView mCountText;
@@ -129,7 +133,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener {
 
     @Override
     protected void onDestroy() {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         NetworkUtility.getInstance().dismissErrorDialog();
         super.onDestroy();
     }
@@ -252,5 +256,48 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener {
             mBackImage.setVisibility(View.INVISIBLE);
             mCartIcon.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onGetCartCount(int count) {
+        if (count > 0) {
+            mCountText.setText(String.valueOf(count));
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCountText.setVisibility(View.GONE);
+        }
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> productList) {
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onSuccess() {
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onFailure(int errorCode) {
+        dismissProgressDialog();
+        showToast(errorCode);
+    }
+
+    private void showToast(int errorCode) {
+        String errorText = "Server error";
+        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+            errorText = "No connection";
+        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+            errorText = "Connection time out";
+        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+            errorText = "Authentication failure";
+        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+            errorText = "Product out of stock";
+        }
+        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

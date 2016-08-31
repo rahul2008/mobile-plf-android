@@ -44,6 +44,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     @Override
     public void getProductCartCount(IAPListener iapListener) {
+        mUser = new User(mIapSettings.getContext());
         if (mUser.isUserSignIn())
             mImplementationHandler.getProductCartCount(iapListener);
         else throw new RuntimeException("User is not logged in.");
@@ -51,6 +52,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
+        mUser = new User(mIapSettings.getContext());
         if (mUser.isUserSignIn())
             mImplementationHandler.getCompleteProductList(iapListener);
         else throw new RuntimeException("User is not logged in.");
