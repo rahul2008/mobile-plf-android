@@ -291,7 +291,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-        Toast.makeText(this,"Value : "+b,Toast.LENGTH_SHORT).show();
         setTitle(getResources().getString(i));
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
@@ -315,7 +314,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(String s, boolean b) {
-        Toast.makeText(this,"Value 2: "+b,Toast.LENGTH_SHORT).show();
         setTitle(s);
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
