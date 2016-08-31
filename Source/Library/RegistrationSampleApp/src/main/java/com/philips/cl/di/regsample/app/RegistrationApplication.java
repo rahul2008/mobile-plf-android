@@ -54,7 +54,6 @@ public class RegistrationApplication extends Application {
         } else {
             initRegistration(Configuration.STAGING);
         }
-
     }
 
 
@@ -125,7 +124,7 @@ public class RegistrationApplication extends Application {
         providers.put("default", values3);
         RegistrationConfiguration.getInstance().setProviders(providers);
 
-         System.out.println("sss NL providers: "+RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
+        System.out.println("sss NL providers: "+RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
         System.out.println("GB providers: "+RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
         System.out.println("default providers: "+RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
         System.out.println("unknown providers: "+RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));

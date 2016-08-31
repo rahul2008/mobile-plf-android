@@ -74,6 +74,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
         AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
         RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());
+        RLog.d(RLog.SERVICE_DISCOVERY, "Locale : " + locale);
 
         if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.STAGING)) ||
                 appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.EVALUATION))) {
@@ -121,8 +122,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
 
             @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                Log.i("Log", s);
+            public void onError(ERRORVALUES errorvalues, String error) {
+                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : refresh fail :" + error);
             }
 
             @Override
@@ -152,6 +153,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     public void onSuccess(URL url) {
                         jumpConfig.captureRedirectUri = url.toString() + "?loc=" + langCode + "_" + countryCode;
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :" + url.toString());
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :" + jumpConfig.captureRedirectUri);
                     }
                 });
 
@@ -166,6 +168,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     public void onSuccess(URL url) {
                         jumpConfig.captureRecoverUri = url.toString() + "&loc=" + langCode + "_" + countryCode;
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + url.toString());
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
                     }
                 });
 
