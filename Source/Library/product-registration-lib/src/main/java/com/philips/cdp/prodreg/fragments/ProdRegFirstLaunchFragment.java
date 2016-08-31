@@ -43,7 +43,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 
     @Override
     public boolean getBackButtonState() {
-        return true;
+        return false;
     }
 
     @Override

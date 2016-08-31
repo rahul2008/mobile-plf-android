@@ -33,6 +33,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     private ProdRegProcessController prodRegProcessController;
     private boolean isFailedOnError = false;
     private int responseCode;
+    private boolean isFirstLaunch;
 
     @Override
     public int getActionbarTitleResId() {
@@ -46,7 +47,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public boolean getBackButtonState() {
-        return true;
+        return isFirstLaunch;
     }
 
     @Override
@@ -57,6 +58,10 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            isFirstLaunch = arguments.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
+        }
         setRetainInstance(true);
         final FragmentActivity activity = getActivity();
         prodRegProcessController = new ProdRegProcessController(this, activity);
