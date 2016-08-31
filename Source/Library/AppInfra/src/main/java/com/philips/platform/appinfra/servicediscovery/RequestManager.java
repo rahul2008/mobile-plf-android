@@ -67,7 +67,6 @@ public class RequestManager {
     public void execute(final String url, final ServiceDiscoveryInterface.OnRefreshListener listener) {
 
 
-
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -84,8 +83,8 @@ public class RequestManager {
                                     if (mcountry != null) {
 
 
-                                        ssi.storeValueForKey("Country",mcountry, mSecureStorage);
-                                        ssi.storeValueForKey("COUNTRY_SOURCE","GEOIP", mSecureStorage);
+                                        ssi.storeValueForKey("Country", mcountry, mSecureStorage);
+                                        ssi.storeValueForKey("COUNTRY_SOURCE", "GEOIP", mSecureStorage);
                                         Log.i("Responce", "" + mcountry);
                                     }
                                 }
@@ -124,6 +123,11 @@ public class RequestManager {
                                 } else {
                                     matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                                     configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+                                    if (null == configCountryJSONArray) {
+                                        configCountryJSONArray = new JSONArray();
+                                        configCountryJSONArray.put(resultsJSONArray.getJSONObject(0).optJSONObject("configs"));
+                                    }
+
                                 }
                                 // Multi, single Locale verification with locale response object
                                 for (int i = 0; i < localeList.size(); i++) {
@@ -131,38 +135,45 @@ public class RequestManager {
                                         if (multiLocale[j].equals(localeList.get(i))) {
                                             matchByCountry.setLocale(localeList.get(i));
                                             configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
+                                            if (null == configCountryJSONArray) {
+                                                configCountryJSONArray = new JSONArray();
+                                                configCountryJSONArray.put(resultsJSONArray.getJSONObject(0).optJSONObject("configs"));
+                                            }
+
                                             break;
                                         }
                                     }
 
                                 }
 
+                                if (configCountryJSONArray != null) {
 
-                                for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
-                                    Config config = new Config();
+                                    for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
+                                        Config config = new Config();
 
-                                    config.setMicrositeId(configCountryJSONArray.optJSONObject(configCount).optString("micrositeId"));
-                                    HashMap<String, String> urlHashMap = new HashMap<String, String>();
-                                    JSONObject urlJSONObject = configCountryJSONArray.optJSONObject(configCount).optJSONObject("urls");
-                                    Iterator<String> iter = urlJSONObject.keys();
-                                    while (iter.hasNext()) {
-                                        String key = iter.next();
-                                        String value = urlJSONObject.getString(key);
-                                        urlHashMap.put(key, value);
+                                        config.setMicrositeId(configCountryJSONArray.optJSONObject(configCount).optString("micrositeId"));
+                                        HashMap<String, String> urlHashMap = new HashMap<String, String>();
+                                        JSONObject urlJSONObject = configCountryJSONArray.optJSONObject(configCount).optJSONObject("urls");
+                                        Iterator<String> iter = urlJSONObject.keys();
+                                        while (iter.hasNext()) {
+                                            String key = iter.next();
+                                            String value = urlJSONObject.getString(key);
+                                            urlHashMap.put(key, value);
+                                        }
+                                        config.setUrls(urlHashMap);
+
+                                        ArrayList<Tag> tagArrayList = new ArrayList<Tag>();
+                                        JSONArray tagJSONArray = configCountryJSONArray.optJSONObject(configCount).optJSONArray("tags");
+                                        for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
+                                            Tag tag = new Tag();
+                                            tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
+                                            tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
+                                            tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
+                                            tagArrayList.add(tag);
+                                        }
+                                        config.setTags(tagArrayList);
+                                        matchByCountryConfigs.add(config);
                                     }
-                                    config.setUrls(urlHashMap);
-
-                                    ArrayList<Tag> tagArrayList = new ArrayList<Tag>();
-                                    JSONArray tagJSONArray = configCountryJSONArray.optJSONObject(configCount).optJSONArray("tags");
-                                    for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
-                                        Tag tag = new Tag();
-                                        tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
-                                        tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
-                                        tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
-                                        tagArrayList.add(tag);
-                                    }
-                                    config.setTags(tagArrayList);
-                                    matchByCountryConfigs.add(config);
                                 }
 
                                 matchByCountry.setConfigs(matchByCountryConfigs);
