@@ -9,10 +9,6 @@ public class IAPFlowInput {
     private String productCTN;
     private ArrayList<String> productCTNs;
 
-    public IAPFlowInput() {
-
-    }
-
     public IAPFlowInput(String productCTN) {
         this.productCTN = productCTN;
     }
