@@ -19,3 +19,9 @@ D:\TESTFW\testfwk_android\Bin\Philips.H2H.Foundation.BuildAgent.pdb
 D:\TESTFW\testfwk_android\Src\01Foundation\Deployment\obj\Debug\BuildAgent.csprojResolveAssemblyReference.cache
 D:\TESTFW\testfwk_android\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.exe
 D:\TESTFW\testfwk_android\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.pdb
+D:\testfwk\reference_app_android\testfwk_android\Bin\Scripts\ExecuteAutomation.xml
+D:\testfwk\reference_app_android\testfwk_android\Bin\Scripts\AntTask.properties
+D:\testfwk\reference_app_android\testfwk_android\Bin\Philips.H2H.Foundation.BuildAgent.exe
+D:\testfwk\reference_app_android\testfwk_android\Bin\Philips.H2H.Foundation.BuildAgent.pdb
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.exe
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\Deployment\obj\Debug\Philips.H2H.Foundation.BuildAgent.pdb

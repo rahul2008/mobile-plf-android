@@ -31,3 +31,14 @@ D:\TESTFW\testfwk_android\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.pdb
 D:\TESTFW\testfwk_android\Src\03Test\WorkFlowTests\obj\Debug\WorkflowTest.csprojResolveAssemblyReference.cache
 D:\TESTFW\testfwk_android\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.dll
 D:\TESTFW\testfwk_android\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.pdb
+D:\testfwk\reference_app_android\testfwk_android\Bin\AppConfig.xml
+D:\testfwk\reference_app_android\testfwk_android\Bin\MapNetworkDrive.vbs
+D:\testfwk\reference_app_android\testfwk_android\Bin\Scripts\ExecuteAutomation.xml
+D:\testfwk\reference_app_android\testfwk_android\Bin\Scripts\AntTask.properties
+D:\testfwk\reference_app_android\testfwk_android\Bin\Default.srprofile
+D:\testfwk\reference_app_android\testfwk_android\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll.config
+D:\testfwk\reference_app_android\testfwk_android\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.dll
+D:\testfwk\reference_app_android\testfwk_android\Bin\Philips.CDP.Automation.IAP.Tests.Workflows.pdb
+D:\testfwk\reference_app_android\testfwk_android\Src\03Test\WorkFlowTests\obj\Debug\WorkflowTest.csprojResolveAssemblyReference.cache
+D:\testfwk\reference_app_android\testfwk_android\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.dll
+D:\testfwk\reference_app_android\testfwk_android\Src\03Test\WorkFlowTests\obj\Debug\Philips.CDP.Automation.IAP.Tests.Workflows.pdb

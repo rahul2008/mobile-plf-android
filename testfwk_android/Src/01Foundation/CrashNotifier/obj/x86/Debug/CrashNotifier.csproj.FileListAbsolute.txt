@@ -28,3 +28,13 @@ D:\TESTFW\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\Philips.M
 D:\TESTFW\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\CrashNotifier.csproj.GenerateResource.Cache
 D:\TESTFW\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\Philips.MRAutomation.Foundation.CrashNotifier.dll
 D:\TESTFW\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\Philips.MRAutomation.Foundation.CrashNotifier.pdb
+D:\testfwk\reference_app_android\testfwk_android\bin\AppConfig.xml
+D:\testfwk\reference_app_android\testfwk_android\bin\MapNetworkDrive.vbs
+D:\testfwk\reference_app_android\testfwk_android\bin\Philips.MRAutomation.Foundation.CrashNotifier.dll
+D:\testfwk\reference_app_android\testfwk_android\bin\Philips.MRAutomation.Foundation.CrashNotifier.pdb
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\CrashNotifier.csprojResolveAssemblyReference.cache
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\Philips.MRAutomation.Foundation.CrashNotifier.NativeMethods.resources
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\Philips.MRAutomation.Foundation.CrashNotifier.Properties.Resources.resources
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\CrashNotifier.csproj.GenerateResource.Cache
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\Philips.MRAutomation.Foundation.CrashNotifier.dll
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\CrashNotifier\obj\x86\Debug\Philips.MRAutomation.Foundation.CrashNotifier.pdb

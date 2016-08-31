@@ -24,3 +24,16 @@ C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Found
 C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\StatusIndicator.csproj.GenerateResource.Cache
 C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\Philips.MRAutomation.Foundation.StatusIndicator.dll
 C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\Philips.MRAutomation.Foundation.StatusIndicator.pdb
+D:\testfwk\reference_app_android\testfwk_android\bin\AppConfig.xml
+D:\testfwk\reference_app_android\testfwk_android\bin\MapNetworkDrive.vbs
+D:\testfwk\reference_app_android\testfwk_android\bin\Philips.MRAutomation.Foundation.StatusIndicator.dll
+D:\testfwk\reference_app_android\testfwk_android\bin\Philips.MRAutomation.Foundation.StatusIndicator.pdb
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\StatusIndicator.csprojResolveAssemblyReference.cache
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\StatusIndicator.baml
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\StatusIndicator.g.cs
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\Philips.MRAutomation.Foundation.StatusIndicator_MarkupCompile.cache
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\Philips.MRAutomation.Foundation.StatusIndicator.g.resources
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\Philips.MRAutomation.Foundation.StatusIndicator.Properties.Resources.resources
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\StatusIndicator.csproj.GenerateResource.Cache
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\Philips.MRAutomation.Foundation.StatusIndicator.dll
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\StatusIndicator\obj\x86\Debug\Philips.MRAutomation.Foundation.StatusIndicator.pdb

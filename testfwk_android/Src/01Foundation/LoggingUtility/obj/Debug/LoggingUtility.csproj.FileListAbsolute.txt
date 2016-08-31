@@ -22,3 +22,11 @@ D:\TESTFW\testfwk_android\bin\Philips.MRAutomation.Foundation.LoggingUtility.pdb
 D:\TESTFW\testfwk_android\Src\01Foundation\LoggingUtility\obj\Debug\LoggingUtility.csprojResolveAssemblyReference.cache
 D:\TESTFW\testfwk_android\Src\01Foundation\LoggingUtility\obj\Debug\Philips.MRAutomation.Foundation.LoggingUtility.dll
 D:\TESTFW\testfwk_android\Src\01Foundation\LoggingUtility\obj\Debug\Philips.MRAutomation.Foundation.LoggingUtility.pdb
+D:\testfwk\reference_app_android\testfwk_android\bin\AppConfig.xml
+D:\testfwk\reference_app_android\testfwk_android\bin\MapNetworkDrive.vbs
+D:\testfwk\reference_app_android\testfwk_android\bin\Philips.MRAutomation.Foundation.LoggingUtility.xml
+D:\testfwk\reference_app_android\testfwk_android\bin\Philips.MRAutomation.Foundation.LoggingUtility.dll
+D:\testfwk\reference_app_android\testfwk_android\bin\Philips.MRAutomation.Foundation.LoggingUtility.pdb
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\LoggingUtility\obj\Debug\LoggingUtility.csprojResolveAssemblyReference.cache
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\LoggingUtility\obj\Debug\Philips.MRAutomation.Foundation.LoggingUtility.dll
+D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\LoggingUtility\obj\Debug\Philips.MRAutomation.Foundation.LoggingUtility.pdb
