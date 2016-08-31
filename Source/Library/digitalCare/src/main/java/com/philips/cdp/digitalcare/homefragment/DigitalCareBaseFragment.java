@@ -520,9 +520,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private void updateActionbar() {
         if (this.getClass().getSimpleName()
                 .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
-        } else {
             mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
+        } else {
+            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
         }
     }
 
