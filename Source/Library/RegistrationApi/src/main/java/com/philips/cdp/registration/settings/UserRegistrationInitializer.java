@@ -16,8 +16,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -25,6 +27,8 @@ import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.Locale;
 
@@ -191,6 +195,36 @@ public class UserRegistrationInitializer {
         UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);
 
         UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, RegUtility.getConfiguration(mRegistrationType), locale.toString());
+
+        //Initialize App Identity
+        AppIdentityInterface mAppIdentityInterface;
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        mAppIdentityInterface = appInfra.getAppIdentity();
+
+        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
+        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
+        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
+        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
+        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
+        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppLocalizedNAme : "+appIdentityInfo.getAppLocalizedNAme());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity Sector : "+ appIdentityInfo.getSector());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity MicrositeId : "+appIdentityInfo.getMicrositeId());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppName : "+ appIdentityInfo.getAppName());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState : "+appIdentityInfo.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppVersion : "+ appIdentityInfo.getAppVersion());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity ServiceDiscoveryEnvironment : "+ appIdentityInfo.getServiceDiscoveryEnvironment());
+
+        /*RLog.i(RLog.SERVICE_DISCOVERY," AppLocalizedNAme : "+mAppIdentityInterface.getLocalizedAppName());
+        RLog.i(RLog.SERVICE_DISCOVERY," Sector : "+ mAppIdentityInterface.getSector());
+        RLog.i(RLog.SERVICE_DISCOVERY," MicrositeId : "+mAppIdentityInterface.getMicrositeId());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppName : "+ mAppIdentityInterface.getAppName());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppState : "+appIdentityInfo.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppVersion : "+ mAppIdentityInterface.getAppVersion());
+        RLog.i(RLog.SERVICE_DISCOVERY," ServiceDiscoveryEnvironment : "+ mAppIdentityInterface.getServiceDiscoveryEnvironment());*/
     }
 
 
