@@ -254,3 +254,5 @@ tasks.withType(Test) {
         jvmArgs '-noverify'
     }
 }
+
+apply from: "resolution.gradle"

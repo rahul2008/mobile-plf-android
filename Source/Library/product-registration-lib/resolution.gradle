@@ -1,0 +1,95 @@
+allprojects {
+    repositories {
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        //add dependency substitution rules
+ 
+        force 'com.philips.cdp:uikitLib:3.3.0-SNAPSHOT'
+        force 'com.philips.cdp:registrationApi:7.1.0-SNAPSHOT'
+
+/*
+        //force 'com.philips.cdp:hsdp:+'
+        //force 'com.philips.cdp:jump:+'
+        force 'com.philips.cdp:localeMatch:1.1.2-SNAPSHOT'
+        force 'com.philips.cdp:prx:1.0.1-SNAPSHOT'
+        force 'com.philips.cdp:servertime:+'
+        force 'com.philips.cdp:Tagging:3.1.0-SNAPSHOT'
+*/
+        cacheChangingModulesFor 15, 'seconds'
+
+    }
+
+}
+
+task printResolvedDependencies << {
+    project.getConfigurations().each { config ->
+        config.getResolvedConfiguration().getResolvedArtifacts().each { res ->
+
+            if (res.getName().contains("Infra")) {
+                println "getId: " + res.getId()
+                println "getModuleVersion: " + res.getModuleVersion()
+                println "getModuleVersiongetId: " + res.getModuleVersion().getId()
+                println "getFile: " + res.getFile()
+                println "getCanonicalFile: " + res.getFile().getCanonicalFile()
+                println "getCanonicalPath: " + res.getFile().getCanonicalPath()
+                println "getAbsolutePath: " + res.getFile().getAbsolutePath()
+                println "getAbsoluteFile: " + res.getFile().getAbsoluteFile()
+                println "getName: " + res.getName()
+                println "getClassifier: " + res.getClassifier()
+                println "getType: " + res.getType()
+                println "getProperties: " + res.getProperties().getClass().getName()
+                println "getMetaPropertyValues: " + res.getMetaPropertyValues().toString()
+
+            }
+        }
+    }
+}
+
+task printForcedModules << {
+    project.getConfigurations().each { config ->
+
+        config.getResolutionStrategy().getForcedModules().each { forceMod ->
+            println "Forced modules: " + forceMod.getGroup() + ":" + forceMod.getName() + ":" + forceMod.getVersion()
+
+        }
+    }
+}
+
+task printSnapshotDependencies << {
+    def dependencies = project.configurations.compile.getDependencies()
+    dependencies.matching{dependency -> dependency.version.toLowerCase().contains("snapshot")}.each { snapshot ->
+        println snapshot.properties.toString()
+        if(snapshotsPerProject.containsKey(project)) {
+            snapshotsPerProject.get(project).add(snapshot)
+            "Test1"
+        }
+        else {
+            def listOfSnapshots = new ArrayList();
+            listOfSnapshots.add(snapshot);
+            snapshotsPerProject.put(project, listOfSnapshots)
+            println "Test2"
+        }
+    }
+    snapshotsPerProject.keySet().each {
+        project -> println "\n" + project.getPath()
+            snapshotsPerProject.get(project).each { snapshot ->
+                println "\t" + snapshot.getGroup() + ":" + snapshot.getName() + ":" + snapshot.getVersion() ;
+            }
+    }
+}
+
+task copyDependencies(type: Copy) {
+    from configurations.compile
+    into 'dependencies'
+}
+task showMeCache << {
+    configurations.compile.each {
+        println it
+    }
+}
