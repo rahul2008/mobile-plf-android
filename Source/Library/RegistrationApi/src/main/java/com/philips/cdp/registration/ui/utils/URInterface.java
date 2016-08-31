@@ -53,6 +53,10 @@ public class URInterface implements UappInterface {
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
+            if(((URLaunchInput)
+                    uappLaunchInput).isAddtoBackStack()) {
+                fragmentTransaction.addToBackStack(RegConstants.REGISTRATION_FRAGMENT_TAG);
+            }
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

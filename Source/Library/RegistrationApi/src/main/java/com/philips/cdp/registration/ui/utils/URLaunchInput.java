@@ -10,6 +10,16 @@ public class URLaunchInput extends UappLaunchInput {
 
     private boolean isAccountSettings;
 
+    public boolean isAddtoBackStack() {
+        return isAddToBackStack;
+    }
+
+    public void enableAddtoBackStack(boolean isAddToBackStack) {
+        this.isAddToBackStack = isAddToBackStack;
+    }
+
+    private boolean isAddToBackStack;
+
     private RegistrationFunction registrationFunction;
 
     private UserRegistrationUIEventListener userRegistrationListener;
