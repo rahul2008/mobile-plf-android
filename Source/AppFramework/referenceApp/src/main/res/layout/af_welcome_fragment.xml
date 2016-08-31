@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_introduction_fragment_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/af_welcome_center_page_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/large_text"
+            fontPath="fonts/centralesansxbold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/small_text"
+            android:layout_marginLeft="@dimen/intro_margin_left"
+            android:text="@string/introduction_screen_top_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/intro_large_textfont" />
+
+        <TextView
+            android:id="@+id/small_text"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/intro_small_text_margin_bottom"
+            android:layout_marginLeft="@dimen/intro_margin_left"
+            android:layout_marginTop="@dimen/intro_small_text_margin_top"
+            android:text="@string/introduction_screen_one_bottom_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/intro_small_text_font" />
+    </RelativeLayout>
+
+</LinearLayout>

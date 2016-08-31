@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ratingtheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <ListView
+        android:id="@+id/listwithouticon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:divider="?attr/uikit_listDividerColor"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="false"
+        android:listSelector="?attr/uikit_listSelectorBackground"
+        android:overScrollFooter="@android:color/transparent"
+        android:scrollbars="none"></ListView>
+
+</RelativeLayout>
