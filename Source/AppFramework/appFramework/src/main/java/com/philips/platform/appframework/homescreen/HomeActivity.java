@@ -37,6 +37,7 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
@@ -66,6 +67,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private static int mCartItemCount = 0;
     private final int CART_POSITION_IN_MENU = 2;
     private UserRegistrationState userRegistrationState;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         super.onCreate(savedInstanceState);
         presenter = new HomeActivityPresenter();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " HomeScreen Activity Created ");
-
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());
@@ -106,6 +109,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
                     adapter.notifyDataSetChanged();
+                    sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
                 }
             }
@@ -271,6 +275,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     protected void onResume() {
         super.onResume();
+        showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
@@ -295,6 +300,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
+        setTitle(getResources().getString(i));
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
@@ -316,6 +322,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(String s, boolean b) {
+        setTitle(s);
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {

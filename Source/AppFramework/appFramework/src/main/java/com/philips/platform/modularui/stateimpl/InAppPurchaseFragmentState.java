@@ -52,7 +52,7 @@ public class InAppPurchaseFragmentState extends UIState{
 
     private void launchIAP() {
         IAPInterface iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(fragmentActivity);
+        IAPSettings iapSettings = new IAPSettings(mContext);
         IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
