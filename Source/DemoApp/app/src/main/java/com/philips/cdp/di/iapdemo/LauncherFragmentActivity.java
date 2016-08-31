@@ -60,15 +60,11 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     }
 
     private void LaunchIAPFragment() {
-        // mIapHandler = IAPHandler.init(this, mIAPSettings);
-        //AppInfraHelper.getInstance().getIapTaggingInterface().setPreviousPage("demoapp:home");
-        //mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
         IAPInterface iapInterface = new IAPInterface();
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPSettings iapSettings = new IAPSettings(this);
         IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
         iapSettings.setUseLocalData(false);
-        // iapInterface.init(iapDependencies, new IAPSettings(getApplicationContext()));
         IAPFlowInput iapFlowInput = new IAPFlowInput(mProductCTNs);
         iapInterface.init(iapDependencies, iapSettings);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
@@ -82,9 +78,9 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.vertical_Container);
+        if (fragmentManager.getBackStackEntryCount() == 1) finish();
         boolean backState = false;
         if (currentFrag != null && currentFrag instanceof BackEventListener) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();

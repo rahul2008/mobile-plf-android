@@ -163,13 +163,13 @@ public class IAPHandler {
     protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher) {
 
         newFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
-        String tag = newFragment.getClass().getSimpleName();
+        String tag = newFragment.getClass().getName();
         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);
         transaction.addToBackStack(tag);
         transaction.commitAllowingStateLoss();
 
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getName() + "   ("
                 + tag + ")");
     }
 

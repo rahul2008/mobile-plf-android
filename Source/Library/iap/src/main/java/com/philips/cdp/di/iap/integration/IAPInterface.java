@@ -17,20 +17,21 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     private IAPExposedAPI mImplementationHandler;
     private IAPHandler iapHandler;
     private User mUser;
+    private IAPSettings mIapSettings;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
-        IAPSettings mIapSettings = (IAPSettings) uappSettings;
+        mIapSettings = (IAPSettings) uappSettings;
         iapHandler = new IAPHandler(mIAPDependencies, mIapSettings);
         iapHandler.initTaggingLogging(mIAPDependencies);
         iapHandler.initIAP(mIapSettings);
         mImplementationHandler = iapHandler.getExposedAPIImplementor(mIapSettings);
-        mUser = new User(mIapSettings.getContext());
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
+        mUser = new User(mIapSettings.getContext());
         if (mUser.isUserSignIn()) {
             IAPLaunchInput mLaunchInput = (IAPLaunchInput) uappLaunchInput;
             if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
@@ -43,6 +44,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     @Override
     public void getProductCartCount(IAPListener iapListener) {
+        mUser = new User(mIapSettings.getContext());
         if (mUser.isUserSignIn())
             mImplementationHandler.getProductCartCount(iapListener);
         else throw new RuntimeException("User is not logged in.");
@@ -50,6 +52,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
 
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
+        mUser = new User(mIapSettings.getContext());
         if (mUser.isUserSignIn())
             mImplementationHandler.getCompleteProductList(iapListener);
         else throw new RuntimeException("User is not logged in.");

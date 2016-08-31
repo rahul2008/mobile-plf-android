@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.response.oauth;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class OAuthResponse {
 
@@ -22,6 +23,7 @@ public class OAuthResponse {
     private String scope;
 
     public String getAccessToken() {
+        IAPLog.d(IAPLog.LOG, "OAauth Access Token = "+accessToken);
         return accessToken;
     }
 
@@ -30,6 +32,7 @@ public class OAuthResponse {
     }
 
     public String getRefreshToken() {
+        IAPLog.d(IAPLog.LOG, "OAauth Refresh Access Token = "+refreshToken);
         return refreshToken;
     }
 

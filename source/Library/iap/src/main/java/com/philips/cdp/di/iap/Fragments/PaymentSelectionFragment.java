@@ -102,7 +102,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
-                moveToDemoAppByClearingStack();
+                moveToVerticalAppByClearingStack();
             } else {
                 moveToFragment(ShoppingCartFragment.TAG);
             }

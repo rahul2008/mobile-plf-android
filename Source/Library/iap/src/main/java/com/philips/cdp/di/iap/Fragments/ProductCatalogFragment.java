@@ -154,7 +154,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(true);
-        setTitleAndBackButtonVisibility(R.string.iap_product_catalog, true);
+        setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
         // setBackButtonVisibility(true);
         // updateActionBar(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().loadLocalData()) {

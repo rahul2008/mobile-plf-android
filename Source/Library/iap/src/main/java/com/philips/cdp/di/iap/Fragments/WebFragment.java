@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,12 @@ public class WebFragment extends BaseAnimationSupportFragment {
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
 
             return WebFragment.this.shouldOverrideUrlLoading(url);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            mProgress.setVisibility(View.VISIBLE);
+            super.onPageStarted(view, url, favicon);
         }
 
         @SuppressWarnings("deprecation")

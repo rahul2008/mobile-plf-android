@@ -148,7 +148,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     private void handleExit() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
-            moveToDemoAppByClearingStack();
+            moveToVerticalAppByClearingStack();
         }else{
             if(mPaymentSuccessful){
                 moveToProductCatalog();
@@ -181,7 +181,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     public void onDialogOkClick() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
-            moveToDemoAppByClearingStack();
+            moveToVerticalAppByClearingStack();
         } else {
             moveToProductCatalog();
         }
