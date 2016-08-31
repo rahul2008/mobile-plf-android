@@ -100,10 +100,6 @@
       <Project>{715edb4a-923f-47be-acb1-b7e6b9df8f09}</Project>
       <Name>IAP.iOS.TestPluginTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\03Test\WorkFlowTests\WorkflowTest.csproj">
-      <Project>{7d27c379-2a23-43a0-87d9-59cd204444ae}</Project>
-      <Name>WorkflowTest</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CDP_ObjectRepository\ObjectRepository.csproj">
       <Project>{298a63ca-64db-44a2-bcf3-9cb7ff65ff21}</Project>
       <Name>ObjectRepository</Name>

@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AppFramework_TestPlugin">
-      <HintPath>..\..\02TestAuthoring API\AppFramework_TestPlugin\bin\Debug\AppFramework_TestPlugin.dll</HintPath>
-    </Reference>
     <Reference Include="appium-dotnet-driver, Version=1.2.0.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\automation1\Src_old\Src\Reference\appium-dotnet-driver.dll</HintPath>
@@ -284,6 +281,10 @@
     <ProjectReference Include="..\..\01Foundation\WinEventHook\WinEventHook.csproj">
       <Project>{b6a94a2a-ebed-4434-8843-c233edbdd2df}</Project>
       <Name>WinEventHook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\02TestAuthoring API\AppFramework_TestPlugin\AppFramework_TestPlugin.csproj">
+      <Project>{61879128-714e-4b66-a3e3-f3a3218b8254}</Project>
+      <Name>AppFramework_TestPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\02TestAuthoring API\CDP_ObjectRepository\ObjectRepository.csproj">
       <Project>{298a63ca-64db-44a2-bcf3-9cb7ff65ff21}</Project>
