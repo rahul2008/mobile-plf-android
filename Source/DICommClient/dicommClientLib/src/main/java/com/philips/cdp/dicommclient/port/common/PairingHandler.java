@@ -136,7 +136,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         int iMaxRelations = 5;
         int iRelOffset = 0;
         int retValue = 0;
-        PairingService getRelations = new PairingService(callbackHandler);
+        PairingService getRelations = createPairingService();
 
         getRelations.setPairingServiceCommand(Commands.PAIRING_GET_RELATIONSHIPS);
         retValue = getRelations.getRelationshipRequest(null,
@@ -194,7 +194,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
 
         if (!cppController.isSignOn()) return;
         int status;
-        PairingService addPSRelation = new PairingService(callbackHandler);
+        PairingService addPSRelation = createPairingService();
 
         if (secretKey != null
                 && relationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)) {
@@ -214,6 +214,10 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         }
     }
 
+    protected PairingService createPairingService() {
+        return new PairingService(callbackHandler);
+    }
+
     public void initializeRelationshipRemoval() {
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         entity_state = ENTITY.PURIFIER;
@@ -229,7 +233,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                                     PairingEntitiyReference trustee, String relationType) {
         if (!cppController.isSignOn())
             return;
-        PairingService removeRelationship = new PairingService(callbackHandler);
+        PairingService removeRelationship = createPairingService();
         int retStatus;
 
         retStatus = removeRelationship.removeRelationshipRequest(trustor, trustee, relationType);
@@ -542,7 +546,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public void addPermission(String relationType, String[] permission) {
         if (!cppController.isSignOn())
             return;
-        PairingService addPermission = new PairingService(callbackHandler);
+        PairingService addPermission = createPairingService();
         int retStatus = addPermission.addPermissionsRequest(null, getDICommApplianceEntity(),
                 relationType, permission);
         if (Errors.SUCCESS != retStatus) {
@@ -568,7 +572,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         } else {
             int iMaxPermissons = 5;
             int iPermIndex = 0;
-            PairingService getPermission = new PairingService(callbackHandler);
+            PairingService getPermission = createPairingService();
             int retStatus;
 
             retStatus = getPermission.getPermissionsRequest(null,
@@ -596,7 +600,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public void removePermission(String relationType, String[] permission) {
         if (!cppController.isSignOn())
             return;
-        PairingService removePermissions = new PairingService(callbackHandler);
+        PairingService removePermissions = createPairingService();
         int retStatus = removePermissions.removePermissionsRequest(null, getDICommApplianceEntity(),
                 relationType, permission);
         if (Errors.SUCCESS != retStatus) {
