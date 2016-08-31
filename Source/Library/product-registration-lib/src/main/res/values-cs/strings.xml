@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Zadejte prosím datum mezi rokem 2000 a dnešním datem</string>
 <string name="PPR_Already_Registered_title">Produkt zaregistrován.</string>
 <string name="PPR_Already_Registered_ErrMsg">Produkt již byl registrován</string>
+    <string name="PPR_Continue">Pokračovat </string>
+    <string name="PPR_Missing_Ctn_Title">Chybí kód CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Zadejte kód CTN. </string>
+    <string name="PPR_Register_Next">Zaregistrovat další </string>
+    <string name="PPR_Back_To_List">Zpět na seznam </string>
+    <string name="PPR_OK">OK </string>
 </resources>

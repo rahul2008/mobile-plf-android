@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">הזן תאריך בין שנת 2000 לתאריך הנוכחי</string>
 <string name="PPR_Already_Registered_title">המוצר נרשם</string>
 <string name="PPR_Already_Registered_ErrMsg">המוצר כבר רשום</string>
+    <string name="PPR_Continue">המשך </string>
+    <string name="PPR_Missing_Ctn_Title">CTN חסר </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">הזן CTN </string>
+    <string name="PPR_Register_Next">רשום את הבא </string>
+    <string name="PPR_Back_To_List">חזרה לרשימה </string>
+    <string name="PPR_OK">אישור </string>
 </resources>

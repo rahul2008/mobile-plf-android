@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Zadajte dátum v rozmedzí od roku 2000 do dnes</string>
 <string name="PPR_Already_Registered_title">Výrobok bol zaregistrovaný</string>
 <string name="PPR_Already_Registered_ErrMsg">Výrobok už je zaregistrovaný</string>
+    <string name="PPR_Continue">Pokračovať </string>
+    <string name="PPR_Missing_Ctn_Title">Kód CTN chýba </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Zadajte kód CTN </string>
+    <string name="PPR_Register_Next">Zaregistrovať ďalší </string>
+    <string name="PPR_Back_To_List">Späť na zoznam </string>
+    <string name="PPR_OK">OK </string>
 </resources>

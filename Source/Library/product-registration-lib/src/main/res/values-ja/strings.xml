@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">2000 年から本日までの期間中の日付を入力してください</string>
 <string name="PPR_Already_Registered_title">登録済み製品</string>
 <string name="PPR_Already_Registered_ErrMsg">製品は登録済みです</string>
+    <string name="PPR_Continue">続行 </string>
+    <string name="PPR_Missing_Ctn_Title">CTN がありません </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">CTN を入力してください </string>
+    <string name="PPR_Register_Next">次を登録 </string>
+    <string name="PPR_Back_To_List">リストに戻る </string>
+    <string name="PPR_OK">OK </string>
 </resources>

@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Vui lòng nhập ngày từ năm 2000 đến ngày hôm nay</string>
 <string name="PPR_Already_Registered_title">Sản phẩm đã được đăng ký</string>
 <string name="PPR_Already_Registered_ErrMsg">Sản phẩm vừa được đăng ký</string>
+    <string name="PPR_Continue">Tiếp tục </string>
+    <string name="PPR_Missing_Ctn_Title">CTN bị thiếu </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Vui lòng nhập CTN </string>
+    <string name="PPR_Register_Next">Đăng ký tiếp </string>
+    <string name="PPR_Back_To_List">Quay lại phần danh sách </string>
+    <string name="PPR_OK">OK </string>
 </resources>

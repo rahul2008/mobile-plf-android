@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Cuir isteach dáta idir an bhliain 2000 agus dáta an lae inniu</string>
 <string name="PPR_Already_Registered_title">Táirge cláraithe</string>
 <string name="PPR_Already_Registered_ErrMsg">Táirge cláraithe cheana féin</string>
+    <string name="PPR_Continue">Ar aghaidh </string>
+    <string name="PPR_Missing_Ctn_Title">CTN ar iarraidh </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Cuir isteach an CTN </string>
+    <string name="PPR_Register_Next">Cláraigh an chéad táirge eile </string>
+    <string name="PPR_Back_To_List">Siar ag an liosta </string>
+    <string name="PPR_OK">OK </string>
 </resources>

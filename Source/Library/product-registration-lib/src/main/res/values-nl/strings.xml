@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Voer een datum tussen het jaar 2000 en vandaag in</string>
 <string name="PPR_Already_Registered_title">Product geregistreerd</string>
 <string name="PPR_Already_Registered_ErrMsg">Product al geregistreerd</string>
+    <string name="PPR_Continue">Doorgaan </string>
+    <string name="PPR_Missing_Ctn_Title">CTN ontbreekt </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Geef een CTN op </string>
+    <string name="PPR_Register_Next">Volgende registreren </string>
+    <string name="PPR_Back_To_List">Terug naar lijst </string>
+    <string name="PPR_OK">OK </string>
 </resources>

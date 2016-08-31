@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Jep një datë midis vitit 2000 dhe datës së sotme</string>
 <string name="PPR_Already_Registered_title">Produkti u regjistrua</string>
 <string name="PPR_Already_Registered_ErrMsg">Produkti është regjistruar më parë</string>
+    <string name="PPR_Continue">Vazhdo </string>
+    <string name="PPR_Missing_Ctn_Title">Mungon CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Jep CTN </string>
+    <string name="PPR_Register_Next">Regjistro tjetrin </string>
+    <string name="PPR_Back_To_List">Kthehu te lista </string>
+    <string name="PPR_OK">OK </string>
 </resources>

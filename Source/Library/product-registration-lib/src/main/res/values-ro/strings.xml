@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Introdu o dată între anul 2000 şi data curentă</string>
 <string name="PPR_Already_Registered_title">Produs înregistrat</string>
 <string name="PPR_Already_Registered_ErrMsg">Produs înregistrat deja</string>
+    <string name="PPR_Continue">Continuă </string>
+    <string name="PPR_Missing_Ctn_Title">CTN lipsă </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Introdu CTN </string>
+    <string name="PPR_Register_Next">Înregistrează următorul </string>
+    <string name="PPR_Back_To_List">Înapoi la listă </string>
+    <string name="PPR_OK">OK </string>
 </resources>

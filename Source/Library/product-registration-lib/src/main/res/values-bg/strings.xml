@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Въведете дата между 2000 година и днес</string>
 <string name="PPR_Already_Registered_title">Продуктът е регистриран</string>
 <string name="PPR_Already_Registered_ErrMsg">Продуктът вече е регистриран</string>
+    <string name="PPR_Continue">Продължи </string>
+    <string name="PPR_Missing_Ctn_Title">Липсва CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Въведете CTN </string>
+    <string name="PPR_Register_Next">Регистриране на следващ </string>
+    <string name="PPR_Back_To_List">Обратно в списъка </string>
+    <string name="PPR_OK">OK </string>
 </resources>

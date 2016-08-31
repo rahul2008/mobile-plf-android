@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Please enter a date between 01/01/2000 and today</string>
 <string name="PPR_Already_Registered_title">Product registered</string>
 <string name="PPR_Already_Registered_ErrMsg">Product already registered</string>
+    <string name="PPR_Continue">Continue </string>
+    <string name="PPR_Missing_Ctn_Title">Missing CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Please enter CTN </string>
+    <string name="PPR_Register_Next">Register next </string>
+    <string name="PPR_Back_To_List">Back to list </string>
+    <string name="PPR_OK">OK </string>
 </resources>

@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Vnesite datum med letom 2000 in današnjim datumom</string>
 <string name="PPR_Already_Registered_title">Izdelek je registriran</string>
 <string name="PPR_Already_Registered_ErrMsg">Izdelek je že registriran</string>
+    <string name="PPR_Continue">Naprej </string>
+    <string name="PPR_Missing_Ctn_Title">Manjka CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Vnesite CTN </string>
+    <string name="PPR_Register_Next">Druga registracija </string>
+    <string name="PPR_Back_To_List">Nazaj na seznam </string>
+    <string name="PPR_OK">V redu </string>
 </resources>

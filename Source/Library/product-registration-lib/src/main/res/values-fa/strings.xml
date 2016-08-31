@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">لطفا تاریخی از سال 2000 تا تاریخ امروز وارد کنید</string>
 <string name="PPR_Already_Registered_title">محصول ثبت نام شد</string>
 <string name="PPR_Already_Registered_ErrMsg">محصول قبلا ثبت نام شده است</string>
+    <string name="PPR_Continue">ادامه </string>
+    <string name="PPR_Missing_Ctn_Title">CTN وجود ندارد </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">لطفاً CTN را وارد کنید </string>
+    <string name="PPR_Register_Next">ثبت بعدی </string>
+    <string name="PPR_Back_To_List">برگشت به لیست </string>
+    <string name="PPR_OK">تایید </string>
 </resources>

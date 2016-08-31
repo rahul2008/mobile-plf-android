@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Unesite datum u rasponu od 2000. godine do današnjeg datuma</string>
 <string name="PPR_Already_Registered_title">Registrirani proizvod</string>
 <string name="PPR_Already_Registered_ErrMsg">Proizvod je već registriran</string>
+    <string name="PPR_Continue">Nastavi </string>
+    <string name="PPR_Missing_Ctn_Title">Nedostaje CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Unesite CTN </string>
+    <string name="PPR_Register_Next">Registrujte sljedeći </string>
+    <string name="PPR_Back_To_List">Povratak na popis </string>
+    <string name="PPR_OK">U redu </string>
 </resources>

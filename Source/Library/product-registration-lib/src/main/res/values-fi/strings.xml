@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Aikaisin mahdollinen päivämäärä on 1.1.2000 ja myöhäisin nykyinen päivämäärä</string>
 <string name="PPR_Already_Registered_title">Tuote rekisteröity</string>
 <string name="PPR_Already_Registered_ErrMsg">Tuote on jo rekisteröity</string>
+    <string name="PPR_Continue">Jatka </string>
+    <string name="PPR_Missing_Ctn_Title">CTN puuttuu </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Anna CTN </string>
+    <string name="PPR_Register_Next">Rekisteröi seuraava tuote </string>
+    <string name="PPR_Back_To_List">Takaisin luetteloon </string>
+    <string name="PPR_OK">OK </string>
 </resources>

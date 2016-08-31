@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Palun sisestage kuupäev vahemikus aastast 2000 kuni tänase päevani.</string>
 <string name="PPR_Already_Registered_title">Toode on registreeritud.</string>
 <string name="PPR_Already_Registered_ErrMsg">Toode on juba registreeritud.</string>
+    <string name="PPR_Continue">Jätka </string>
+    <string name="PPR_Missing_Ctn_Title">CTN puudub </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Palun sisestage CTN </string>
+    <string name="PPR_Register_Next">Registreerige järgmine </string>
+    <string name="PPR_Back_To_List">Tagasi loendisse </string>
+    <string name="PPR_OK">OK </string>
 </resources>
