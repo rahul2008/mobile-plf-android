@@ -256,3 +256,5 @@ task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
 }
+
+apply from: "resolution.gradle"
