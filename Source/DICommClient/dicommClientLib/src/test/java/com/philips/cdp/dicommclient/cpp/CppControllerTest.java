@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
-import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.CallbackHandler;
@@ -272,7 +271,7 @@ public class CppControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void whenStartingKeyProvisioningThenRetriveRelationshipId() throws Exception {
+    public void whenStartingKeyProvisioningThenRetrieveAppId() throws Exception {
         when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
         when(contextMock.getPackageName()).thenReturn("com.philips.cdp.dicommclient.cpp.testing");
         PackageInfo packageInfo = new PackageInfo();
@@ -281,6 +280,6 @@ public class CppControllerTest extends RobolectricTest {
 
         cppController = new CppController(contextMock, kpsConfigurationInfoMock);
 
-        verify(kpsConfigurationInfoMock).getRelationshipId();
+        verify(kpsConfigurationInfoMock).getAppId();
     }
 }
