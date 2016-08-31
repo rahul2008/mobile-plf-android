@@ -3,6 +3,7 @@ package com.philips.cdp.registration.coppa.base;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
+import org.mockito.Mock;
 
 /**
  * Created by 310230979  on 8/30/2016.
@@ -10,6 +11,9 @@ import org.junit.Before;
 public class CoppaConfigurationTest extends InstrumentationTestCase {
 
     CoppaConfiguration mCoppaConfiguration;
+
+    @Mock
+    Consent consent;
 
     @Before
     public void setUp() throws Exception {
@@ -73,5 +77,13 @@ public class CoppaConfigurationTest extends InstrumentationTestCase {
         boolean result = mCoppaConfiguration.isCampaignIdPresent();
         assertFalse(result);
     }
+
+    public void testConsent() {
+        assertEquals(consent,mCoppaConfiguration.getConsent());
+    }
+    public void testConsentIndex(){
+        assertEquals(0,mCoppaConfiguration.consentIndex());
+    }
+
 
 }
