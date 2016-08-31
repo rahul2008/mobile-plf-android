@@ -31,7 +31,31 @@
     <PhilipsAnnouncementLink>com.philips.cdp.di.iapdemo:id/tv_reg_philips_news</PhilipsAnnouncementLink>
     <BackButton>com.philips.cdp.di.iapdemo:id/reg_btn_back</BackButton>
   </AccountSettings>
- 
+
+  <AppFramework>
+    <AppFrameworkHomeScreen>com.philips.platform.appframework:id/hamburger_title</AppFrameworkHomeScreen>
+    <HamburgerIcon>com.philips.platform.appframework:id/hamburger_icon</HamburgerIcon>
+    <Settings>//android.widget.TextView[@text='Settings']</Settings>
+    <Connectivity>//android.widget.TextView[@text='Connectivity']</Connectivity>
+    <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
+    
+    <LoginSettings>com.philips.platform.appframework:id/ifo</LoginSettings>
+    <VerticalSettings>com.philips.platform.appframework:id/ifo</VerticalSettings>
+    <WelcomeScreen>com.philips.platform.appframework:id/decor_content_parent</WelcomeScreen>
+    <NucleousValue>com.philips.platform.appframework:id/nucleous_value_editbox</NucleousValue>
+    <MomentValue>com.philips.platform.appframework:id/moment_value_editbox</MomentValue>
+    <NucleousDevice>com.philips.platform.appframework:id/start_connectivity_button</NucleousDevice>
+      <MomentValueFromDatacore>com.philips.platform.appframework:id/get_momentumvalue_button</MomentValueFromDatacore>
+    <RightArrow>com.philips.platform.appframework:id/appframework_rightarrow</RightArrow>
+    <LeftArrow>com.philips.platform.appframework:id/appframework_leftarrow</LeftArrow>
+    <Skip>com.philips.platform.appframework:id/appframework_skip_button</Skip>
+    <Done>com.philips.platform.appframework:id/start_registration_button</Done>
+    <AppPhilipsAccountReg>com.philips.platform.appframework:id/tv_reg_provider_name</AppPhilipsAccountReg>
+    <AUsername>com.philips.platform.appframework:id/et_reg_email</AUsername>
+    <APassWord>com.philips.platform.appframework:id/et_reg_password</APassWord>
+    <Alogout>com.philips.platform.appframework:id/ifo</Alogout>
+    </AppFramework>
+  
   <homeScreen>
     <DemoTitle>com.philips.cdp.di.iapdemo:id/demo_title</DemoTitle>
     <ProductList>com.philips.cdp.di.iapdemo:id/product_list</ProductList>

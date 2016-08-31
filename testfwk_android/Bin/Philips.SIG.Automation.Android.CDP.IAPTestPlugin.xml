@@ -506,12 +506,6 @@
             <param name="productname">productname must contain a string containing the name of the product</param>
             <param name="btn">btn represents the name of the button to be clicked</param>
         </member>
-        <member name="M:Philips.SIG.Automation.Android.CDP.IAPTestPlugin.ProductScreen.GetScreenTitle">
-            <summary>
-            Returns a string containing the Screen Title
-            </summary>
-            <returns>a string value</returns>
-        </member>
         <member name="M:Philips.SIG.Automation.Android.CDP.IAPTestPlugin.ProductScreen.GetProductListItems">
             <summary>
             Returns a list of all the products present in the Product screen.
@@ -966,12 +960,6 @@
             Checks if the Screen Title is "Demo App"
             </summary>
             <returns>a boolean value</returns>
-        </member>
-        <member name="M:Philips.SIG.Automation.Android.CDP.IAPTestPlugin.HomeScreen.GetScreenTitle">
-            <summary>
-            Returns a string containing the Screen Title
-            </summary>
-            <returns>a string value</returns>
         </member>
         <member name="M:Philips.SIG.Automation.Android.CDP.IAPTestPlugin.HomeScreen.GetButtons(Philips.SIG.Automation.Android.CDP.IAPTestPlugin.HomeScreen.Button)">
             <summary>

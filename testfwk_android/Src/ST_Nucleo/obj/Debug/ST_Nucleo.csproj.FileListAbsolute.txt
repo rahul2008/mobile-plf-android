@@ -1,0 +1,4 @@
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\ST_Nucleo\bin\Debug\ST_Nucleo.dll
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\ST_Nucleo\bin\Debug\ST_Nucleo.pdb
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\ST_Nucleo\obj\Debug\ST_Nucleo.dll
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\ST_Nucleo\obj\Debug\ST_Nucleo.pdb

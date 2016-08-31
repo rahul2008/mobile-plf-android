@@ -1,0 +1,6 @@
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.WinEventHook.dll
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\bin\Philips.MRAutomation.Foundation.WinEventHook.pdb
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\WinEventHook.csprojResolveAssemblyReference.cache
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\WinEventHook.csproj.ResolveComReference.cache
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\Philips.MRAutomation.Foundation.WinEventHook.dll
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\Src\01Foundation\WinEventHook\obj\x86\Debug\Philips.MRAutomation.Foundation.WinEventHook.pdb

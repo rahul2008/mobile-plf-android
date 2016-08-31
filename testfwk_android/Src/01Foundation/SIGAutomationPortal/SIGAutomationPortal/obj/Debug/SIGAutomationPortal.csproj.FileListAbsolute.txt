@@ -1,0 +1,17 @@
+C:\code\CDP_TestAutomation\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.dll
+C:\code\CDP_TestAutomation\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.pdb
+C:\code\CDP_TestAutomation\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.dll.CodeAnalysisLog.xml
+C:\code\CDP_TestAutomation\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.dll.lastcodeanalysissucceeded
+C:\code\CDP_TestAutomation\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.csprojResolveAssemblyReference.cache
+C:\code\CDP_TestAutomation\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.dll
+C:\code\CDP_TestAutomation\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.pdb
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.dll
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.pdb
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.csprojResolveAssemblyReference.cache
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.dll
+D:\MM\Latest\CDP_TestAutomation\CDP_TestAutomation\CDP_TestAutomation\Src\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.pdb
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.dll
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.pdb
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.csprojResolveAssemblyReference.cache
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.dll
+C:\PHILIPS\Automation\PLATFORM\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.pdb
