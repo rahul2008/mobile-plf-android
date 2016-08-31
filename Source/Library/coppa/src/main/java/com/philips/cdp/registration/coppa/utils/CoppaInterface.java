@@ -13,6 +13,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -56,6 +57,10 @@ public class CoppaInterface implements UappInterface {
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     registrationFragment,
                     RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
+            if(((URLaunchInput)
+                    uappLaunchInput).isAddtoBackStack()) {
+                fragmentTransaction.addToBackStack(RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
+            }
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
