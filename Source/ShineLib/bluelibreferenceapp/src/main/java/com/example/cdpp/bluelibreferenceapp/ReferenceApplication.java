@@ -3,12 +3,15 @@ package com.example.cdpp.bluelibreferenceapp;
 import android.app.Application;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.pins.shinelib.SHNCentral;
+import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinepluginmoonshinelib.SHNMoonshineDeviceDefinitionInfo;
 
 public class ReferenceApplication extends Application {
 
@@ -19,6 +22,8 @@ public class ReferenceApplication extends Application {
     private HandlerThread mHandlerThread;
     private Handler mHandler;
     private SHNCentral mShnCentral;
+
+    private SHNDevice mSelectedDevice;
 
     @Override
     public void onCreate() {
@@ -47,6 +52,8 @@ public class ReferenceApplication extends Application {
             mHandlerThread.quitSafely();
             mHandler = null;
         }
+
+        setupDeviceDefinitions();
     }
 
     public static final ReferenceApplication get() {
@@ -56,9 +63,23 @@ public class ReferenceApplication extends Application {
         return sApplication;
     }
 
-    public final
-    @NonNull
-    SHNCentral getShnCentral() {
+    public final SHNCentral getShnCentral() {
         return mShnCentral;
+    }
+
+    private final void setupDeviceDefinitions() {
+        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
+        mShnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
+
+        SHNMoonshineDeviceDefinitionInfo shnMoonshineDeviceDefinitionInfo = new SHNMoonshineDeviceDefinitionInfo();
+        mShnCentral.registerDeviceDefinition(shnMoonshineDeviceDefinitionInfo);
+    }
+
+    public void setSelectedDevice(SHNDevice device) {
+        mSelectedDevice = device;
+    }
+
+    public SHNDevice getSelectedDevice() {
+        return mSelectedDevice;
     }
 }

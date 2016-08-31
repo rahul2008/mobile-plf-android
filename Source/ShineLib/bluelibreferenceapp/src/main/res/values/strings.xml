@@ -4,4 +4,9 @@
     <string name="bluelib_version">"BlueLib version: "</string>
     <string name="title_peripheral_list">Peripherals</string>
     <string name="title_peripheral_detail">Peripheral Detail</string>
+
+    <string name="peripheral_detail_device_name">"Name: "</string>
+    <string name="peripheral_detail_device_type_name">"Type name: "</string>
+    <string name="peripheral_detail_device_address">"Address: "</string>
+    <string name="peripheral_detail_device_state">"State: "</string>
 </resources>

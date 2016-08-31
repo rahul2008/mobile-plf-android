@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,13 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.cdpp.bluelibreferenceapp.dummy.DummyContent;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.SHNDeviceAssociation;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,16 +39,25 @@ public class PeripheralListActivity extends AppCompatActivity {
 
     private static final String TAG = "PeripheralListActivity";
 
-    public static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 1;
+    private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 1;
     private static final long SCAN_TIMEOUT_MS = 10000L;
 
     private SHNCentral mShnCentral;
     private SHNDeviceScanner mShnDeviceScanner;
 
+    private List<SHNDevice> mAssociatedDevices;
+    private List<SHNDevice> mFoundDevices = new ArrayList<SHNDevice>();
+    private PeripheralListViewAdapter mPeripheralListViewAdapter;
+
+    private Handler mHandler = new Handler(Looper.myLooper());
+
     private final SHNDeviceScanner.SHNDeviceScannerListener mDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
             Log.i(TAG, String.format("Device found: %s", shnDeviceFoundInfo.getDeviceName()));
+
+            mFoundDevices.add(shnDeviceFoundInfo.getShnDevice());
+            updateList();
         }
 
         @Override
@@ -56,36 +66,21 @@ public class PeripheralListActivity extends AppCompatActivity {
         }
     };
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peripheral_list);
 
-        // Obtain SHNCentral instance
-        mShnCentral = ReferenceApplication.get().getShnCentral();
-        mShnDeviceScanner = mShnCentral.getShnDeviceScanner();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        View recyclerView = findViewById(R.id.peripheral_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.peripheral_list);
+        setupRecyclerView(recyclerView);
 
-        if (findViewById(R.id.peripheral_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
+        // Obtain SHNCentral instance
+        mShnCentral = ReferenceApplication.get().getShnCentral();
+        mShnDeviceScanner = mShnCentral.getShnDeviceScanner();
 
         Log.d(TAG, "Acquiring permission");
         acquirePermission();
@@ -95,41 +90,46 @@ public class PeripheralListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Log.d(TAG, ">>> Start scanning.");
+        // Initialize peripheral list
+        mFoundDevices.clear();
+        updateList();
 
         // Start scanning for Bluetooth peripherals
-        mShnDeviceScanner.startScanning(mDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_TIMEOUT_MS);
-
-        SHNDeviceAssociation association = mShnCentral.getShnDeviceAssociation();
-        List<SHNDevice> devices = association.getAssociatedDevices();
-
-        Log.w(TAG, String.format("%d devices associated.", devices.size()));
-
-        for (SHNDevice device : devices) {
-            Log.i(TAG, String.format("Device [%s]", device.getName()));
-        }
+        mShnDeviceScanner.startScanning(mDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, SCAN_TIMEOUT_MS);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        Log.d(TAG, "<<< Stop scanning.");
-
         mShnDeviceScanner.stopScanning();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        mPeripheralListViewAdapter = new PeripheralListViewAdapter(mFoundDevices);
+        recyclerView.setAdapter(mPeripheralListViewAdapter);
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    private void updateList() {
+        if (mPeripheralListViewAdapter == null) {
+            return;
+        }
 
-        private final List<DummyContent.DummyItem> mValues;
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mPeripheralListViewAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
-            mValues = items;
+    public class PeripheralListViewAdapter
+            extends RecyclerView.Adapter<PeripheralListViewAdapter.ViewHolder> {
+
+        private final List<SHNDevice> mItems;
+
+        public PeripheralListViewAdapter(List<SHNDevice> items) {
+            mItems = items;
         }
 
         @Override
@@ -140,55 +140,48 @@ public class PeripheralListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            Log.d(TAG, "onBindViewHolder, position: " + position);
+
+            final SHNDevice device = mItems.get(position);
+
+            holder.mItem = device;
+            holder.mNameView.setText(mItems.get(position).getName());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(PeripheralDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        PeripheralDetailFragment fragment = new PeripheralDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.peripheral_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, PeripheralDetailActivity.class);
-                        intent.putExtra(PeripheralDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    ReferenceApplication.get().setSelectedDevice(holder.mItem);
 
-                        context.startActivity(intent);
-                    }
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, PeripheralDetailActivity.class);
+                    intent.putExtra(PeripheralDetailActivity.ARG_ITEM_ID, position);
+
+                    context.startActivity(intent);
                 }
             });
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return mItems.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public final TextView mNameView;
+            public SHNDevice mItem;
 
             public ViewHolder(View view) {
                 super(view);
 
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mNameView = (TextView) view.findViewById(R.id.name);
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + " '" + mNameView.getText() + "'";
             }
         }
     }

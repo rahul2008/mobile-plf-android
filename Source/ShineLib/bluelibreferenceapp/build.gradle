@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
+
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.example.cdpp.bluelibreferenceapp"
@@ -28,4 +29,12 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
     compile project(':shinelib')
+
+    // Needed for decoding device definitions
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
+
+    // Device definitions
+    compile project(':pluginreferenceboard')
+    compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
 }
