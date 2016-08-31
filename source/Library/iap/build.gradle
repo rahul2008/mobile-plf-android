@@ -261,3 +261,5 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     }
 
 }
+
+apply from: "resolution.gradle"
