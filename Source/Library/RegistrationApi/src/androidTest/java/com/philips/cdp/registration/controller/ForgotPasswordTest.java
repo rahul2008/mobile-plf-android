@@ -61,6 +61,7 @@ public class ForgotPasswordTest extends InstrumentationTestCase{
 //        mForgotPassword.performForgotPassword("sample@emailAddress.com");
 //        mForgotPassword.onFlowDownloadSuccess() ;
         mForgotPassword.onFlowDownloadFailure() ;
+
                     }
 
 

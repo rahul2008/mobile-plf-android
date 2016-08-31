@@ -45,4 +45,9 @@ public class ConsumerInterestTest extends ActivityInstrumentationTestCase2<Regis
         consumerInterest.setTopicValue("TopicValue");
         assertEquals("TopicValue", consumerInterest.getTopicValue());
     }
+    public void testConsumerInterest(){
+        consumerInterest = new ConsumerInterest("campaignName","subjectArea","topicCommunicationKey",
+                "topicValue");
+        assertNotNull(consumerInterest);
+    }
 }

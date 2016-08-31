@@ -2,6 +2,8 @@ package com.philips.cdp.registration.dao;
 
 import android.test.InstrumentationTestCase;
 
+import com.janrain.android.Jump;
+
 import org.junit.Test;
 
 /*
@@ -34,15 +36,4 @@ public class SignInSocialFailureInfoTest extends InstrumentationTestCase {
         assertEquals(0, signInSocialFailureInfo.getErrorCode());
     }
 
-    @Test
-    public void TestError(SignInSocialFailureInfo signInError, SignInSocialFailureInfo inError) {
-        assertEquals(signInError.getError(), inError.getError());
-    }
-
-    @Test
-    public SignInSocialFailureInfo testSetMetadataObject(final SignInSocialFailureInfo signInSocialFailureInfo) {
-        SignInSocialFailureInfo signInSocialFailureInfo1 = new SignInSocialFailureInfo();
-        signInSocialFailureInfo1.setError(signInSocialFailureInfo.getError());
-        return signInSocialFailureInfo1;
-    }
 }

@@ -1,9 +1,11 @@
 package com.philips.cdp.registration.controller;
 
+
+
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.dao.SignInSocialFailureInfo;
+
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
@@ -14,22 +16,20 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by 310243576 on 8/26/2016.
- */
-public class LoginSocialProviderTest extends InstrumentationTestCase{
 
-    LoginSocialProvider mLoginSocialProvider;
+/**
+ * Created by 310243576 on 8/30/2016.
+ */
+public class RegisterSocialTest extends InstrumentationTestCase {
+    Context mContext;
+    RegisterSocial mRegisterSocial;
 
     @Before
     public void setUp() throws Exception {
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
-        Context context =  getInstrumentation()
-                .getTargetContext();;
-
-        SocialProviderLoginHandler mSocialProviderLoginHandler= new SocialProviderLoginHandler() {
+        mContext = getInstrumentation().getTargetContext();
+        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -60,8 +60,7 @@ public class LoginSocialProviderTest extends InstrumentationTestCase{
 
             }
         };
-
-        UpdateUserRecordHandler mUpdateUserRecordHandler = new UpdateUserRecordHandler() {
+        UpdateUserRecordHandler updateUserRecordHandler = new UpdateUserRecordHandler() {
             @Override
             public void updateUserRecordLogin() {
 
@@ -72,15 +71,14 @@ public class LoginSocialProviderTest extends InstrumentationTestCase{
 
             }
         };
-        mLoginSocialProvider = new LoginSocialProvider(mSocialProviderLoginHandler,context,mUpdateUserRecordHandler);
+        mRegisterSocial = new RegisterSocial(socialProviderLoginHandler,mContext,updateUserRecordHandler);
     }
 
     @Test
-    public void testLoginSocialProvider() {
+    public  void testRegisterSocial(){
+        assertNotNull(mRegisterSocial);
 
-        assertNotNull(mLoginSocialProvider);
-//        mLoginSocialProvider.onSuccess();
-        mLoginSocialProvider.onCode("sample");
-        mLoginSocialProvider.onFlowDownloadFailure();
+        //mRegisterSocial.onSuccess();
+      mRegisterSocial.onFlowDownloadFailure();
     }
 }
