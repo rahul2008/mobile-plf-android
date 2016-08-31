@@ -131,7 +131,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
     public void testIsValidSerialNumber() {
         prodRegRegistrationController.init(bundle);
         assertFalse(prodRegRegistrationController.isValidSerialNumber("1234"));
-        verify(registerControllerCallBacksMock).isValidSerialNumber(false, "[0-9]-[0-9]-[0-9]");
+        verify(registerControllerCallBacksMock).isValidSerialNumber(false, "[0-9]-[0-9]-[0-9]", null);
     }
 
     @Test

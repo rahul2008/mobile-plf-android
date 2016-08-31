@@ -273,12 +273,17 @@ public class UserWithProducts {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
-        final String MICRO_SITE_ID = "MS";
-        registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getMicrositeId());
+        registrationRequest.setRegistrationChannel(getUserProduct().getRegistrationChannel());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
         return registrationRequest;
+    }
+
+    @NonNull
+    protected String getRegistrationChannel() {
+        final String MICRO_SITE_ID = "MS";
+        return MICRO_SITE_ID + RegistrationConfiguration.getInstance().getMicrositeId();
     }
 
     /**

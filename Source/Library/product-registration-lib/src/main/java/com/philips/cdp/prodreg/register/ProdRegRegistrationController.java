@@ -15,6 +15,7 @@ import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prodreg.model.metadata.MetadataSerNumbSampleContent;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
@@ -31,7 +32,7 @@ public class ProdRegRegistrationController {
     public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
         void isValidDate(boolean validDate);
 
-        void isValidSerialNumber(boolean validSerialNumber, String format);
+        void isValidSerialNumber(boolean validSerialNumber, String format, String example);
 
         void setSummaryView(Data summaryData);
 
@@ -117,7 +118,11 @@ public class ProdRegRegistrationController {
         final String serialNumberFormat = productMetadataResponseData.getSerialNumberFormat();
         final boolean requiredSerialNumber = productMetadataResponseData != null && productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
         final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), serialNumber);
-        registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat);
+        final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
+        if (serialNumberSampleContent != null)
+            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat, serialNumberSampleContent.getSnExample());
+        else
+            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat, null);
         return isValidSerialNumber;
     }
 

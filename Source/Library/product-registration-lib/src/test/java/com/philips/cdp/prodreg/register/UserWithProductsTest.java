@@ -321,6 +321,7 @@ public class UserWithProductsTest extends TestCase {
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
         when(productMock.getPurchaseDate()).thenReturn(purchaseDate);
         when(productMock.getLocale()).thenReturn("en_GB");
+        when(userWithProductsMock.getRegistrationChannel()).thenReturn("");
         RegistrationRequest registrationRequest = userWithProducts.getRegistrationRequest(context, productMock);
         assertEquals(registrationRequest.getCatalog(), Catalog.CONSUMER);
         assertEquals(registrationRequest.getSector(), Sector.B2C);

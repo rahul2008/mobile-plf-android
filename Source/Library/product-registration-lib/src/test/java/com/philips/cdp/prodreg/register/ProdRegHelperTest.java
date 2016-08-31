@@ -1,6 +1,5 @@
 package com.philips.cdp.prodreg.register;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp.prodreg.listener.ProdRegListener;
@@ -32,37 +31,6 @@ public class ProdRegHelperTest extends TestCase {
         super.setUp();
         context = mock(Context.class);
         prodRegHelper = new ProdRegHelper();
-        userRegistrationListener = new UserRegistrationListener() {
-            @Override
-            public void onUserRegistrationComplete(final Activity activity) {
-
-            }
-
-            @Override
-            public void onPrivacyPolicyClick(final Activity activity) {
-
-            }
-
-            @Override
-            public void onTermsAndConditionClick(final Activity activity) {
-
-            }
-
-            @Override
-            public void onUserLogoutSuccess() {
-
-            }
-
-            @Override
-            public void onUserLogoutFailure() {
-
-            }
-
-            @Override
-            public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-            }
-        };
         prodRegListener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {

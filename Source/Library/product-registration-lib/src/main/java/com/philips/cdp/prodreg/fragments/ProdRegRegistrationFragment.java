@@ -176,10 +176,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         });
     }
 
-    private void showErrorMessageSerialNumber(final EditText editTextView, final String format) {
+    private void showErrorMessageSerialNumber(final EditText editTextView, final String format, final String example) {
         if (TextUtils.isEmpty(format)) {
             serialLayout.setErrorMessage(getActivity().getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
-        } else
+        } else if (example != null)
+            serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format + ", " + example);
+        else
             serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
         serialLayout.showError(editTextView);
     }
@@ -286,11 +288,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     @Override
-    public void isValidSerialNumber(boolean validSerialNumber, String format) {
+    public void isValidSerialNumber(boolean validSerialNumber, String format, String example) {
         if (validSerialNumber) {
             serialLayout.removeError(serial_number_editText);
         } else
-            showErrorMessageSerialNumber(serial_number_editText, format);
+            showErrorMessageSerialNumber(serial_number_editText, format, example);
     }
 
     @Override

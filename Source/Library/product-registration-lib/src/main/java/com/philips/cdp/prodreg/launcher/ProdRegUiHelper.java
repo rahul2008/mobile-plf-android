@@ -192,7 +192,7 @@ public class ProdRegUiHelper implements UappInterface {
 
         final ProdRegLaunchInput prodRegLaunchInput = (ProdRegLaunchInput) uappLaunchInput;
         this.prodRegUiListener = prodRegLaunchInput.getProdRegUiListener();
-        //TO-DO - to discuss about handling class cast exception
+        //TODO - to discuss about handling class cast exception
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeProductRegistrationAsActivity(activityLauncher, prodRegLaunchInput);
@@ -210,7 +210,10 @@ public class ProdRegUiHelper implements UappInterface {
     }
 
     public TimeInterface getServerTime() {
-        return appInfra.getTime();
+        if (appInfra != null)
+            return appInfra.getTime();
+
+        return null;
     }
 
 
