@@ -19,16 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.appframework.utility.Logger;
-import com.philips.platform.appframework.utility.NetworkReceiver;
-import com.philips.platform.appframework.utility.NetworkStateListener;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
  */
-public abstract class AppFrameworkBaseFragment extends Fragment implements
-        NetworkStateListener {
+public abstract class AppFrameworkBaseFragment extends Fragment{
 
     private static String TAG = AppFrameworkBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
@@ -44,16 +40,15 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
     protected SharedPreferences prefs = null;
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
-    private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
+    protected UIBasePresenter fragmentPresenter;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
     }
 
-//    public abstract void setViewParams(Configuration config);
 
     public abstract String getActionbarTitle();
 
@@ -61,7 +56,6 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
-        Logger.i(Constants.FRAGMENT, TAG + " : onCreate ");
         mFragmentActivityContext = getActivity();
         fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
     }
@@ -70,58 +64,42 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Logger.i(Constants.FRAGMENT, " : onActivityCreated ");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Logger.i(Constants.FRAGMENT, "OnCreateView on "
-                + this.getClass().getSimpleName());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onStart() {
-        Logger.i(Constants.FRAGMENT, "OnStart on "
-                + this.getClass().getSimpleName());
         super.onStart();
     }
 
     @Override
     public void onResume() {
-        Logger.i(Constants.FRAGMENT, "OnResume on "
-                + this.getClass().getSimpleName());
         super.onResume();
         setActionbarTitle();
     }
 
     @Override
     public void onPause() {
-        Logger.i(Constants.FRAGMENT, "OnPause on "
-                + this.getClass().getSimpleName());
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        Logger.i(Constants.FRAGMENT, "OnStop on "
-                + this.getClass().getSimpleName());
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        Logger.i(Constants.FRAGMENT, "onDestroy on "
-                + this.getClass().getSimpleName());
-//        getActivity().unregisterReceiver(mNetworkutility);
         super.onDestroy();
     }
 
     @Override
     public void onDestroyView() {
-        Logger.i(Constants.FRAGMENT, "OnDestroyView on "
-                + this.getClass().getSimpleName());
         super.onDestroyView();
     }
 
@@ -133,21 +111,14 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Logger.i(Constants.FRAGMENT, " : onConfigurationChanged ");
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Logger.d(Constants.FRAGMENT, "onHiddenChanged : " + hidden
-                + " ---class " + this.getClass().getSimpleName());
     }
 
 
-    @Override
-    public void onNetworkStateChanged(boolean connection) {
-        setStatus(connection);
-    }
 
     protected final void updateUI(Runnable runnable) {
         if (Thread.currentThread() != mUiThread) {
@@ -162,7 +133,7 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
         removeCurrentFragment();
     }
 
-    private void removeCurrentFragment() {
+    protected void removeCurrentFragment() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         Fragment currentFrag = fragmentManager

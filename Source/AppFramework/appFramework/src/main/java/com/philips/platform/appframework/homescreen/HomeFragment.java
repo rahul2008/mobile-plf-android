@@ -10,18 +10,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 
 
 public class HomeFragment extends AppFrameworkBaseFragment {
-    private TextView textView;
-    private ImageView imageView;
-
+    public static final String TAG =  HomeFragment.class.getSimpleName();
     public HomeFragment() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -34,10 +35,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.af_home_fragment, container, false);
-
         setDateToView();
-
-
         return rootView;
     }
 

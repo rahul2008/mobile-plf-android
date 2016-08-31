@@ -6,125 +6,151 @@
 package com.philips.platform.appframework;
 
 import android.app.Application;
+import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.prodreg.launcher.PRInterface;
+import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
-import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.URDependancies;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-//import com.philips.cdp.tagging.Tagging;
-
-
 public class AppFrameworkApplication extends Application {
+    public UIFlowManager flowManager;
+    private static Context mContext;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
+
+
+
+    private IAPInterface iapInterface;
 
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        AppInfraSingleton.setInstance( new AppInfra.Builder().build(getApplicationContext()));
+        mContext = getApplicationContext();
+        flowManager = new UIFlowManager();
+        AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
+        setLocale();
 
-        initializeUserRegistrationLibrary();
+        initializeUserRegistrationLibrary(Configuration.STAGING);
+        initializeProductRegistrationLibrary();
+        initializeIAP();
     }
 
-    private void initializeUserRegistrationLibrary() {
-//        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-//        AppInfraInterface mAppInfraInterface = AppInfraSingleton.getInstance();
-        AppTaggingInterface aiAppTaggingInterface = gAppInfra.getTagging();
-        aiAppTaggingInterface.createInstanceForComponent("User Registration",
-                RegistrationHelper.getRegistrationApiVersion());
-        aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+    private void initializeIAP() {
+        iapInterface = new IAPInterface();
+        IAPSettings iapSettings = new IAPSettings(getApplicationContext());
+        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        iapSettings.setUseLocalData(false);
+        iapInterface.init(iapDependencies, iapSettings);
+    }
 
-        RegistrationConfiguration.getInstance().
-                setPrioritisedFunction(RegistrationFunction.Registration);
-        RLog.init(this);
+    public IAPInterface getIapInterface() {
+        return iapInterface;
+    }
 
-        //Configure JanRain
-        RegistrationClientId registrationClientId = new RegistrationClientId();
-        registrationClientId.setDevelopmentId("ad7nn99y2mv5berw5jxewzagazafbyhu");
-        registrationClientId.setTestingId("xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7");
-        registrationClientId.setEvaluationId("4r36zdbeycca933nufcknn2hnpsz6gxu");
-        registrationClientId.setStagingId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        registrationClientId.setProductionId("mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3");
-        RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration().setClientIds(registrationClientId);
+    private void setLocale() {
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
 
-        //Configure PIL
-        RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
-        HSDPInfo hsdpInfo = new HSDPInfo();
-        hsdpInfo.setApplicationName("Datacore");
-        hsdpInfo.setSharedId("ba404af2-ee41-4e7c-9157-fd20663f2a6c");
-        hsdpInfo.setSecreteId("ad3d0618-be4d-4958-adc9-f6bcd01fde16");
-        hsdpInfo.setBaseURL("https://referenceplatform-ds-platforminfradev.cloud.pcftest.com/");
-        RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT, hsdpInfo);
-        RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.DEVELOPMENT);
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode, countryCode);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void initializeProductRegistrationLibrary() {
+        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
+
+        UappSettings uappSettings = new UappSettings(getApplicationContext());
+        new PRInterface().init(prodRegDependencies, uappSettings);
+    }
+
+    public UIFlowManager getFlowManager() {
+        return flowManager;
+    }
+
+    public static Context getContext() {
+        return mContext;
+    }
 
 
-        //Configure Flow
-//        RegistrationDynamicConfiguration.getInstance().getFlow().setEmailVerificationRequired(true);
-//        RegistrationDynamicConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(true);
-//        HashMap<String, String> ageMap = new HashMap<>();
-//        ageMap.put("NL", "16");
-//        ageMap.put("GB", "16");
-//        ageMap.put("DEFAULT", "16");
-//        RegistrationDynamicConfiguration.getInstance().getFlow().setMinAgeLimit(ageMap);
+    public void initializeUserRegistrationLibrary(Configuration configuration) {
 
-        //Configure Signin Providers
+        RegistrationHelper.getInstance().setAppInfraInstance(gAppInfra);
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT, "8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING, "g52bfma28yjbd24hyjcswudwedcmqy7c");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.EVALUATION, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION, "9z23k3q8bhqyfwx78aru6bz8zksga54u");
+
+
+        RegistrationConfiguration.getInstance().setMicrositeId("77000");
+        RegistrationConfiguration.getInstance().setRegistrationEnvironment(configuration);
+
+
+        RegistrationConfiguration.getInstance().setEmailVerificationRequired(true);
+        RegistrationConfiguration.getInstance().setTermsAndConditionsAcceptanceRequired(true);
+
+        HashMap<String, String> ageMap = new HashMap<>();
+        ageMap.put("NL", "16");
+        ageMap.put("GB", "16");
+        ageMap.put("default", "16");
+        RegistrationConfiguration.getInstance().setMinAgeLimit(ageMap);
+
+
         HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
         ArrayList<String> values1 = new ArrayList<String>();
         ArrayList<String> values2 = new ArrayList<String>();
         ArrayList<String> values3 = new ArrayList<String>();
         values1.add("facebook");
         values1.add("googleplus");
-    /*values1.add("sinaweibo");
-    values1.add("qq");*/
+        values1.add("sinaweibo");
+        values1.add("qq");
 
         values2.add("facebook");
         values2.add("googleplus");
-    /*values2.add("sinaweibo");
-    values2.add("qq");*/
+        values2.add("sinaweibo");
+        values2.add("qq");
 
         values3.add("facebook");
         values3.add("googleplus");
-    /*values3.add("sinaweibo");
-    values3.add("qq");*/
+        values3.add("sinaweibo");
+        values3.add("qq");
 
         providers.put("NL", values1);
         providers.put("US", values2);
-        providers.put("DEFAULT", values3);
-        RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
+        providers.put("default", values3);
+        RegistrationConfiguration.getInstance().setProviders(providers);
+        URDependancies urDependancies = new URDependancies(gAppInfra);
+        URSettings urSettings = new URSettings(this);
+        URInterface urInterface = new URInterface();
+        urInterface.init(urDependancies, urSettings);
 
-        //Configure HSDP
-        //initHSDP(configuration);
-
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-
-        RegistrationHelper.getInstance().initializeUserRegistration(this);
 
     }
+
 }

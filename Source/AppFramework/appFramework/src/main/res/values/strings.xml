@@ -1,7 +1,6 @@
 <resources>
     <string name="af_app_name">AppFramework</string>
     <string name="app_home_title">Mobile App Home</string>
-    <string name="app_connectivity_title">Connectivity</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
 
@@ -32,23 +31,28 @@
     <string name="settings_list_item_my_acc">&lt;b>My Account&lt;/b></string>
     <string name="settings_list_item_login">Login</string>
     <string name="settings_list_item_log_out">Log out</string>
-    <string name="iap_unknown_error">Unknow Error</string>
+    <string name="product_registration">Register Your Product</string>
+    <string name="about_screen_description">The details for this Page is to be provided by Philips Design</string>
 
     <!--Settings Screen ends-->
 
     <string-array name="hamburger_drawer_items">
-            
         <item>@string/app_home_title </item>
-            
-        <item>Support</item>
-        <item>Connectivity</item>
-        <item>Shop</item>
         <item>Settings</item>
+        <item>Philips Shop</item>
+        <item>Support</item>
+        <item>About</item>
         <item>Debug and Testing</item>
-        <!--
-                <item>Log Out</item>-->
-
     </string-array>
+
+    <!--<array name="hamburger_drawer_icons">-->
+        <!--<item>@drawable/uikit_cart</item>-->
+        <!--<item>@drawable/uikit_cart</item>-->
+        <!--<item>@drawable/uikit_cart</item>-->
+        <!--<item>@drawable/uikit_cart</item>-->
+        <!--<item>@drawable/uikit_radio</item>-->
+        <!--<item>@drawable/uikit_factory</item>-->
+    <!--</array>-->
 
     <!-- Consumer Care related-->
 
@@ -56,5 +60,14 @@
         <item>HD9240/90</item>
     </string-array>
     <!--ConsumerCare related end here.-->
+
+    <!--InAppPurchase related starts-->
+    <string name="iap_unknown_error">Unknow Error</string>
+    <!--InAppPurchase related ends-->
+
+
+    <string name="af_country">US</string>
+    <string name="af_language">en</string>
+
 
 </resources>

@@ -7,8 +7,6 @@ package com.philips.platform.appframework.settingscreen;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -21,28 +19,44 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
 public class SettingsAdapter extends BaseAdapter {
     private Context mActivity;
-    private Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
     private User mUser = null;
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
+    private UIBasePresenter fragmentPresenter;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    public static final int iapHistoryLaunch = 5454;
+    TextView name;
+    PuiSwitch value;
+    TextView number;
+    TextView on_off;
+    FontIconTextView arrow;
+    TextView description;
+    SettingListItemType type;
+    View vi;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                           LogoutHandler logoutHandler) {
+                           LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mUser = new User(context);
         mSettingsItemList = settingsItemList;
         mLogoutHandler = logoutHandler;
+        this.fragmentPresenter = fragmentPresenter;
+        sharedPreferenceUtility = new SharedPreferenceUtility(context);
     }
 
     @Override
@@ -67,96 +81,135 @@ public class SettingsAdapter extends BaseAdapter {
 
     @NonNull
     private View getView(int position, View convertView) {
-        View vi = convertView;
+        vi = convertView;
+        if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
+                ||mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
 
-        if (convertView == null) {
-            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
-        }
+           if (convertView == null) {
+            vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
+            UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
+            if (mUser.isUserSignIn()) {
+                btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
+            } else {
+                btn_settings_logout.setText(getString(R.string.settings_list_item_login));
+            }
 
-        TextView name = (TextView) vi.findViewById(R.id.ifo);
-        PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
-        TextView on_off = (TextView) vi.findViewById(R.id.medium);
-        FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
-        TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
-
-        SettingListItemType type = mSettingsItemList.get(position).type;
-
-        switch (type) {
-            case HEADER:
-                headerSection(position, name, value, number, on_off, arrow, description);
-                vi.setClickable(false);
-                vi.setEnabled(false);
-                vi.setActivated(false);
-                break;
-            case CONTENT:
-                subSection(position, name, value, on_off, arrow, description);
-
-                if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
-                        || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
+            btn_settings_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     if (mUser.isUserSignIn()) {
-                        name.setText(getString(R.string.settings_list_item_log_out));
+                        logoutAlert();
                     } else {
-                        name.setText(getString(R.string.settings_list_item_login));
+                        fragmentPresenter.onLoad(mActivity);
                     }
-
-                    vi.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mUser.isUserSignIn()) {
-                                logoutAlert();
-                            } else {
-                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
-                            }
-                        }
-                    });
                 }
+            });
+            }
 
-                break;
-            case NOTIFICATION:
-                notificationSection(position, name, value, arrow, description);
-                break;
+        } else {
+            if (convertView == null) {
+            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
+            }
+            name = (TextView) vi.findViewById(R.id.ifo);
+            value = (PuiSwitch) vi.findViewById(R.id.switch_button);
+            number = (TextView) vi.findViewById(R.id.numberwithouticon);
+            on_off = (TextView) vi.findViewById(R.id.medium);
+            arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
+            description = (TextView) vi.findViewById(R.id.text_description_without_icons);
+            type = mSettingsItemList.get(position).type;
+
+            switch (type) {
+                case HEADER:
+                    headerSection(position);
+                    break;
+                case CONTENT:
+                    subSection(position);
+                    break;
+                case NOTIFICATION:
+                    notificationSection(position);
+                    break;
+            }
         }
+
         return vi;
     }
 
-    private void notificationSection(int position, TextView name, PuiSwitch value, FontIconTextView arrow, TextView description) {
-        name.setVisibility(View.VISIBLE);
-        name.setText(mSettingsItemList.get(position).title);
-        value.setVisibility(View.VISIBLE);
-        setSwitchState(value, "s1");
+    private void notificationSection(int position) {
+        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
+            name.setVisibility(View.VISIBLE);
+            name.setText(mSettingsItemList.get(position).title);
+            value.setVisibility(View.VISIBLE);
 
-        value.setChecked(mUser.getReceiveMarketingEmail());
-        value.setClickable(false);
+            if (mUser.getReceiveMarketingEmail()) {
+                value.setChecked(true);
+            } else {
+                value.setChecked(false);
+            }
+            if (sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)) {
+                value.setChecked(true);
+            } else {
+                value.setChecked(false);
+            }
+            value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                            @Override
+                            public void onUpdateReceiveMarketingEmailSuccess() {
+                                sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
+                            }
 
-        String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
-                getString(R.string.settings_list_item_four_term_cond);
+                            @Override
+                            public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            }
+                        }, true);
+                    } else {
+                        mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                            @Override
+                            public void onUpdateReceiveMarketingEmailSuccess() {
+                                sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
+                            }
 
-        description.setVisibility(View.VISIBLE);
-        description.setText(descText);
-        arrow.setVisibility(View.GONE);
+                            @Override
+                            public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            }
+                        }, false);
+                    }
+                }
+            });
+
+            String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
+                    getString(R.string.settings_list_item_four_term_cond);
+
+            description.setVisibility(View.VISIBLE);
+            description.setText(descText);
+            arrow.setVisibility(View.GONE);
+        }
     }
 
-    private void subSection(int position, TextView name, PuiSwitch value, TextView on_off, FontIconTextView arrow, TextView description) {
-        name.setText(mSettingsItemList.get(position).title);
-
-        value.setVisibility(View.GONE);
-        description.setVisibility(View.GONE);
-        on_off.setVisibility(View.GONE);
-        arrow.setVisibility(View.VISIBLE);
+    private void subSection(int position) {
+        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
+            name.setText(mSettingsItemList.get(position).title);
+            value.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+            on_off.setVisibility(View.GONE);
+            arrow.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void headerSection(int position, TextView name, PuiSwitch value, TextView number, TextView on_off, FontIconTextView arrow, TextView description) {
-        CharSequence titleText = null;//name.setVisibility(View.VISIBLE);
+    private void headerSection(int position) {
+        CharSequence titleText = null;
         titleText = mSettingsItemList.get(position).title;
-        name.setText(titleText);
+        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
+            name.setText(titleText);
+            value.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+            number.setVisibility(View.GONE);
+            on_off.setVisibility(View.GONE);
+            arrow.setVisibility(View.INVISIBLE);
+        }
 
-        value.setVisibility(View.GONE);
-        description.setVisibility(View.GONE);
-        //  arrow.setVisibility(View.GONE);
-        number.setVisibility(View.GONE);
-        on_off.setVisibility(View.GONE);
-        arrow.setVisibility(View.INVISIBLE);
     }
 
     private void logoutAlert() {
@@ -178,17 +231,14 @@ public class SettingsAdapter extends BaseAdapter {
                 .show();
     }
 
-    public Bundle getSavedBundle() {
-        return saveBundle;
-    }
-
-    public void setSavedBundle(Bundle bundle) {
-        saveBundle = bundle;
-    }
-
-    private void setSwitchState(CompoundButton toggleSwitch, String code) {
-        if (saveBundle.containsKey(code)) {
-            toggleSwitch.setChecked(saveBundle.getBoolean(code));
+    @Override
+    public boolean isEnabled(int position) {
+        if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_main)).toString())
+                || mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_purchases)).toString())
+                || mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_my_acc)).toString())) {
+            return false;
+        } else {
+            return super.isEnabled(position);
         }
     }
 

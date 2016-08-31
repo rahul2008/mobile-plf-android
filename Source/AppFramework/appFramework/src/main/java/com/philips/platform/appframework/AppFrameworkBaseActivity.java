@@ -5,8 +5,6 @@
 */
 package com.philips.platform.appframework;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,18 +14,19 @@ import android.view.Window;
 
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
+import com.philips.platform.appframework.debugtest.DebugTestFragment;
+import com.philips.platform.appframework.homescreen.HomeFragment;
+import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.appframework.utility.Logger;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity {
-    public static final String SHARED_PREFERENCES = "SharedPref";
-    public static final String DONE_PRESSED = "donePressed";
-    private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
-    private static SharedPreferences mSharedPreference = null;
+public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     private FragmentManager fragmentManager = null;
+    public UIBasePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,41 +36,61 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         fragmentManager = getSupportFragmentManager();
     }
 
-    protected void showFragment(Fragment fragment, String fragmentTag) {
+    public void showFragment(Fragment fragment, String fragmentTag) {
         int containerId = R.id.frame_container;
 
             try {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                fragmentTransaction.addToBackStack(fragmentTag);
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
-                Logger.e(TAG, "IllegalStateException" + e.getMessage());
                 e.printStackTrace();
             }
+    }
+
+    public void popBackTillHomeFragment() {
+        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
+    }
+
+    /*
+     * Add all the drawer fragments here
+     */
+    boolean isLaunchedFromHamburgerMenu(String tag){
+        if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(AboutScreenFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
+            return true;
+        }
+        return false;
+    }
+
+    public void popBack(){
+        FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
+        String str=backEntry.getName();
+        if(str!=null && isLaunchedFromHamburgerMenu(str)){
+            popBackTillHomeFragment();
+        }else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Logger.i(Constants.ACTIVITY, " onConfigurationChanged ");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.i(Constants.ACTIVITY, " onResume ");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.i(Constants.ACTIVITY, " onPause ");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Logger.i(Constants.ACTIVITY, "onDestroy ");
     }
 
     protected boolean backstackFragment() {
@@ -91,7 +110,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         transaction.commit();
     }
 
-    private void removeFragmentByTag(String tag) {
+    public void removeFragmentByTag(String tag) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         Fragment currentFrag = fragmentManager
@@ -103,25 +122,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         transaction.commit();
     }
 
+    public void finishActivity() {
+        this.finishAffinity();
+    }
+
     protected boolean findFragmentByTag(String tag) {
         Fragment currentFrag = getSupportFragmentManager().findFragmentByTag(tag);
 
         return (currentFrag != null);
-    }
-
-    protected void setIntroScreenDonePressed() {
-        if (mSharedPreference == null) {
-            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        }
-        SharedPreferences.Editor editor = mSharedPreference.edit();
-        editor.putBoolean(DONE_PRESSED, true);
-        editor.commit();
-    }
-
-    protected Boolean getIntroScreenDonePressed() {
-        if (mSharedPreference == null) {
-            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        }
-        return mSharedPreference.getBoolean(DONE_PRESSED, false);
     }
 }

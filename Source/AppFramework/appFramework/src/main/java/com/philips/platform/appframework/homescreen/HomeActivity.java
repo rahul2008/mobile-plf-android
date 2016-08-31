@@ -5,11 +5,11 @@
 */
 package com.philips.platform.appframework.homescreen;
 
-
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,8 +21,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -30,65 +34,37 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.ConnectivityFragment;
-import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
-import com.philips.platform.appframework.debugtest.DebugTestFragment;
-import com.philips.platform.appframework.inapppurchase.InAppPurchasesFragment;
-import com.philips.platform.appframework.settingscreen.SettingsFragment;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
-
-public class HomeActivity extends AppFrameworkBaseActivity {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     private static String TAG = HomeActivity.class.getSimpleName();
-    protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
-    // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ListView drawerListView;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    protected TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
     private TextView actionBarCount;
-    private HamburgerUtil hamburgerUtil;
+    private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private LinearLayout hamburgerClick = null;
-    private ConsumerCareLauncher mConsumerCareFragment = null;
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            if (hamburgerIconAvailable) {
-                hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-                hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        philipsDrawerLayout.openDrawer(navigationView);
-                    }
-                });
-            } else {
-//                hamburgerIcon.setImageDrawable(R.drawable.consumercare_actionbar_back_arrow_white);
-                hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
-                        R.drawable.consumercare_actionbar_back_arrow_white));
-                hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        backstackFragment();
-                    }
-                });
-            }
-            setTitle(titleActionbar);
-        }
-    };
-    private HomeFragment mHomeFragment = null;
-    private InAppPurchasesFragment shoppingFragment = null;
-    private DebugTestFragment debugTestFragment = null;
-    private SettingsFragment settingsFragment = null;
-    private ConnectivityFragment connectivityFragment = null;
+    private static int mCartItemCount = 0;
+    private final int CART_POSITION_IN_MENU = 2;
+    private UserRegistrationState userRegistrationState;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,28 +73,49 @@ public class HomeActivity extends AppFrameworkBaseActivity {
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
+        presenter = new HomeActivityPresenter();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " HomeScreen Activity Created ");
-
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
+        renderHamburgerMenu();
+    }
+
+    public void cartCountUpdate(int  count) {
+        mCartItemCount = count;
+        hamburgerItems.get(2).setCount(count);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void renderHamburgerMenu() {
+        hamburgerUtil = null;
+        drawerListView = null;
         loadSlideMenuItems();
         setHamburgerAdaptor();
+        drawerListView = (ListView) findViewById(R.id.hamburger_list);
         hamburgerUtil = new HamburgerUtil(this, drawerListView);
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
-        displayView(0);
-
+        showNavigationDrawerItem(0);
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
-                    displayView(position);
+                    adapter.notifyDataSetChanged();
+                    sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,position);
+                    showNavigationDrawerItem(position);
                 }
             }
         });
+    }
+
+    private void showNavigationDrawerItem(int position) {
+
+        philipsDrawerLayout.closeDrawer(navigationView);
+        presenter.onClick(position, HomeActivity.this);
     }
 
     private void initActionBar(ActionBar actionBar) {
@@ -155,10 +152,12 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void setDrawerAdaptor() {
+        adapter = null;
+        TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
         adapter = new HamburgerAdapter(this,
-                hamburgerItems);
+                hamburgerItems, totalCountView, false);
+        adapter.notifyDataSetChanged();
         drawerListView.setAdapter(adapter);
-        //  actionBarCount.setText(String.valueOf(adapter.getCounterValue()));
     }
 
     @Override
@@ -182,7 +181,13 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void setHamburgerAdaptor() {
-        addDrawerItems();
+        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
+            if (i == 2 && mCartItemCount > 0) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, mCartItemCount));
+            } else {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i],null));
+            }
+        }
     }
 
     private void loadSlideMenuItems() {
@@ -190,70 +195,6 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         hamburgerItems = new ArrayList<>();
     }
 
-    private void addDrawerItems() {
-        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null));
-
-        }
-    }
-
-    private void displayView(int position) {
-
-        if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
-            showSettingsFragment();
-        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Support")) {
-            showSupportFragment();
-        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Shop")) {
-            showSupportFragment();
-        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Connectivity")) {
-            showConnectivityFragment();
-        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
-            showDebugTestFragment();
-        } else {
-            if(mHomeFragment == null) {
-                mHomeFragment = new HomeFragment();
-            }
-            showFragment(mHomeFragment, mHomeFragment.getClass().getSimpleName());
-        }
-        philipsDrawerLayout.closeDrawer(navigationView);
-    }
-
-    private void showShoppingFragment() {
-        if(shoppingFragment == null) {
-            shoppingFragment = new InAppPurchasesFragment();
-        }
-        showFragment(shoppingFragment, shoppingFragment.getClass().getSimpleName());
-    }
-
-
-    private void showSettingsFragment() {
-        if(settingsFragment == null) {
-            settingsFragment = new SettingsFragment();
-        }
-
-        showFragment(settingsFragment, settingsFragment.getClass().getSimpleName());
-    }
-
-    private void showConnectivityFragment() {
-        if (connectivityFragment == null) {
-            connectivityFragment = new ConnectivityFragment();
-        }
-
-        showFragment(connectivityFragment, connectivityFragment.getClass().getSimpleName());
-    }
-
-    private void showSupportFragment() {
-            if (mConsumerCareFragment == null) {
-                mConsumerCareFragment = new ConsumerCareLauncher();
-            }
-            mConsumerCareFragment.initCC(this, actionBarClickListener);
-    }
-
-    private void showDebugTestFragment() {
-        DebugTestFragment debugTestFragment = new DebugTestFragment();
-
-        showFragment(debugTestFragment, debugTestFragment.getClass().getSimpleName());
-    }
 
     @Override
     public void onBackPressed() {
@@ -261,36 +202,136 @@ public class HomeActivity extends AppFrameworkBaseActivity {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
             return;
         }
-        else if (findFragmentByTag(InAppPurchasesFragment.class.getSimpleName())){
-            inAppPurchaseBackPress();
-        }
-
-        if(getSupportFragmentManager().getBackStackEntryCount()==1){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+        boolean backState = false;
+        if(currentFrag instanceof HomeFragment) {
             finishAffinity();
-        }
-        else{
-            super.onBackPressed();
-        }
-    }
-
-    private void inAppPurchaseBackPress() {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if(currentFragment != null && (currentFragment instanceof  InAppPurchasesFragment)){
-            if(((InAppPurchasesFragment) currentFragment).onBackPressed()) {
-                return;
+        }else  if(fragmentManager.getBackStackEntryCount() == 1){
+            showNavigationDrawerItem(0);
+        }else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof RegistrationFragment) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if(!backState){
+                fragmentManager.popBackStack();
             }
+        }else if (currentFrag !=null && currentFrag.getTag().equalsIgnoreCase("digitalcare")){
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if (!backState) {
+                backstackFragment();
+            }
+        }else if(currentFrag != null && currentFrag instanceof BackEventListener){
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if (!backState) {
+                fragmentManager.popBackStack();
+            }
+        }
+        else {
+            AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
+            UIFlowManager flowManager = applicationContext.getFlowManager();
+            UIState currentState = flowManager.getCurrentState();
+            currentState.back(this);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        releaseConsumerCare();
     }
 
-    private void releaseConsumerCare() {
-        if (mConsumerCareFragment != null) {
-            mConsumerCareFragment.releaseConsumerCare();
+
+    private void addIapCartCount() {
+        IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIapInterface();
+        iapInterface.getProductCartCount(new IAPListener() {
+            @Override
+            public void onGetCartCount(int i) {
+                cartCountUpdate(i);
+            }
+
+            @Override
+            public void onGetCompleteProductList(ArrayList<String> arrayList) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(int i) {
+                showIAPToast(i);
+            }
+        });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
+        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        if(userRegistrationState.getUserObject(this).isUserSignIn()){
+            addIapCartCount();
+        }
+
+    }
+
+    private void showIAPToast(int errorCode) {
+        String errorText = getResources().getString(R.string.iap_unknown_error);
+        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+        }
+
+        if (null != this) {
+            Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+        setTitle(getResources().getString(i));
+        if (b) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+
+        }
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+        setTitle(s);
+        if (b) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+
         }
     }
 }

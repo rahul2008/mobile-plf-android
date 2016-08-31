@@ -11,7 +11,7 @@ buildscript {
                 username = "readonly"
                 password = "readonly"
             }
-        }       
+        }
     }
 
     dependencies {
@@ -31,7 +31,7 @@ objcdp.setProjectDir(projectDir)
 
 
 allprojects {
-	repositories {
+    repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -61,12 +61,12 @@ artifactory {
     publish {
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
-			username = objcdp.getArtifactoryUploadUser()
+            username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
-			publishArtifacts = true			
+            publishArtifacts = true
         }
         defaults {
             publications ('apk')
@@ -231,11 +231,18 @@ android {
 }
 
 dependencies {
+
+    testCompile('org.mockito:mockito-core:1.10.19')
+    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'junit:junit:4.12'
+
     compile 'com.android.support:support-annotations:23.2.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:+'
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.0.1', ext: 'aar') {
+
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.5', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
@@ -243,22 +250,21 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.1.1', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.2.0-rc.3', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '6.1.0', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.0.0-rc.1', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '4.1.0', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '4.2.0-rc.2', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }
-
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.5', ext: 'aar')
 
     compile(group: 'com.philips.cdp.shine', name: 'shinelib', version: '+', ext: 'aar')
     compile(group: 'com.philips.cdp.shine', name: 'shineplugincopper', version: '+', ext: 'aar')
@@ -271,4 +277,4 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-//apply from: "resolution.gradle"
+apply from: "resolution.gradle"

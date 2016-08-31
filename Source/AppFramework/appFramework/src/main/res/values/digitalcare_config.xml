@@ -55,7 +55,7 @@
         <item>@string/contact_us</item>
         <item>@string/find_philips_near_you</item>
         <item>@string/feedback</item>
-        <!-- <item>@string/myphilips_CC</item>-->
+        <item>@string/product_registration</item>
         <item>@string/Change_Selected_Product</item>
     </array>
 
@@ -68,7 +68,7 @@
         <item>@drawable/consumercare_contact_us</item>
         <item>@drawable/consumercare_find_philips_near_you</item>
         <item>@drawable/consumercare_feedback</item>
-        <!--<item>@drawable/consumercare_philips_logo</item>-->
+        <item>@drawable/consumercare_philips_logo</item>
         <item>@drawable/consumercare_product_selection</item>
     </array>
 

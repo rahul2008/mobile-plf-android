@@ -7,9 +7,9 @@
 
 package com.philips.platform.appframework.splash;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Html;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -17,20 +17,15 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.User;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.introscreen.WelcomeActivity;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
  * <H1>Dev Guide</H1>
  * <p>
- * UIKit provides 3 basic templates that can be filled via target mActivity.<br>
+ * UIKit provides 3 basic templates that can be filled via target activity.<br>
  * By default themed gradient background is applied.<br>
  * To change default background following code can be used
  * <pre>
@@ -58,6 +53,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
+    private int SplashID = 90001;
     private static String TAG = SplashActivity.class.getSimpleName();
     private boolean isVisible = false;
 
@@ -68,30 +64,11 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        presenter = new SplashPresenter();
         initView();
         startTimer();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Splash Activity Created ");
 
-    }
-
-    /*
-     * Initialize the views.
-     */
-    private void initView() {
-        //Hide the Action bar
-        getSupportActionBar().hide();
-        setContentView(R.layout.uikit_splash_screen_logo_center_tb);
-
-        ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
-        ImageView logo = (ImageView) findViewById(R.id.splash_logo);
-        logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
-
-
-        String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
-        CharSequence titleText = Html.fromHtml(splashScreenTitle);
-
-        TextView title = (TextView) findViewById(R.id.splash_title);
-        title.setText(titleText);
     }
 
     @Override
@@ -107,8 +84,28 @@ public class SplashActivity extends AppFrameworkBaseActivity {
     }
 
     /*
-             * Splash screen has to go off after specified timeframe.
-             */
+    * Initialize the views.
+    */
+    private void initView() {
+        //Hide the Action bar
+        getSupportActionBar().hide();
+        setContentView(R.layout.uikit_splash_screen_logo_center_tb);
+
+        ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
+        ImageView logo = (ImageView) findViewById(R.id.splash_logo);
+        logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getTheme()) );
+
+
+        String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
+        CharSequence titleText = Html.fromHtml(splashScreenTitle);
+
+        TextView title = (TextView) findViewById(R.id.splash_title);
+        title.setText(titleText);
+    }
+
+    /*
+     * Splash screen has to go off after specified timeframe.
+     */
     private void startTimer() {
         new Handler().postDelayed(new Runnable() {
 
@@ -119,25 +116,10 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
             @Override
             public void run() {
-                if (isVisible) {
+                if(isVisible) {
                     // This method will be executed once the timer is over
-                    // Start your app main mActivity
-                    User user = new User(SplashActivity.this);
-                    if (getIntroScreenDonePressed()) {
-                        if (user.isUserSignIn()) {
-                            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Launching HomeActivity ");
-
-                        } else {
-                            startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
-                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " User Registration invoked ");
-
-                        }
-                    } else {
-                        Intent i = new Intent(SplashActivity.this, WelcomeActivity.class);
-                        startActivity(i);
-                    }
-
+                    // Start your app main activity
+                    presenter.onLoad(SplashActivity.this);
                     finish();
                 }
             }

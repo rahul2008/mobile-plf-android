@@ -22,7 +22,7 @@ configurations.all {
         force 'com.philips.cdp:product-registration-lib:1.2.0-SNAPSHOT'
         force 'com.philips.cdp:productselection:1.6.0-SNAPSHOT'
         force 'com.philips.cdp:digitalCare:6.2.0-SNAPSHOT'
-        force 'com.philips.cdp:iap:3.1.0-SNAPSHOT'
+        force 'com.philips.cdp:iap:4.2.0-SNAPSHOT'
         force 'com.philips.cdp:AppInfra:1.2.0-SNAPSHOT'
         force 'com.philips.cdp:uikitLib:3.3.0-SNAPSHOT'
         force 'com.philips.cdp:registrationApi:7.1.0-SNAPSHOT'
