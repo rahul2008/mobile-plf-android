@@ -15,16 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -63,12 +61,8 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
     }
 
     private void launchIAP() {
-        IAPInterface iapInterface = new IAPInterface();
+        IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIapInterface();;
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        IAPSettings iapSettings = new IAPSettings(fragmentActivity);
-        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
-        iapSettings.setUseLocalData(false);
-        iapInterface.init(iapDependencies, iapSettings);
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, iapFlowInput);
         FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID, new ActionBarListener() {

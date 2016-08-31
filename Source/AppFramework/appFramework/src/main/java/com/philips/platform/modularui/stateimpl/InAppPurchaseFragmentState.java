@@ -9,15 +9,13 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -51,11 +49,7 @@ public class InAppPurchaseFragmentState extends UIState{
     }
 
     private void launchIAP() {
-        IAPInterface iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(mContext);
-        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
-        iapSettings.setUseLocalData(false);
-        iapInterface.init(iapDependencies, iapSettings);
+        IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);

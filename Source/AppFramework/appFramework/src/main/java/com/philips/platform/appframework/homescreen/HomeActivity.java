@@ -23,10 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPInterface;
-import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
@@ -38,7 +35,6 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
@@ -209,7 +205,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
         boolean backState = false;
-        if(fragmentManager.getBackStackEntryCount() == 1 && currentFrag instanceof HomeFragment) {
+        if(currentFrag instanceof HomeFragment) {
             finishAffinity();
         }else  if(fragmentManager.getBackStackEntryCount() == 1){
             showNavigationDrawerItem(0);
@@ -226,7 +222,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }else if(currentFrag != null && currentFrag instanceof BackEventListener){
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if (!backState) {
-                super.popBackTillHomeFragment();
+                fragmentManager.popBackStack();
             }
         }
         else {
@@ -244,12 +240,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
 
     private void addIapCartCount() {
-        IAPInterface iapInterface = new IAPInterface();
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        IAPSettings iapSettings = new IAPSettings(this);
-        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
-        iapSettings.setUseLocalData(false);
-        iapInterface.init(iapDependencies, iapSettings);
+        IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIapInterface();
         iapInterface.getProductCartCount(new IAPListener() {
             @Override
             public void onGetCartCount(int i) {
@@ -300,16 +291,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
+        Toast.makeText(this,"Value : "+b,Toast.LENGTH_SHORT).show();
         setTitle(getResources().getString(i));
         if (b) {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    philipsDrawerLayout.openDrawer(navigationView);
-                }
-            });
-        } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -317,21 +301,23 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     backstackFragment();
                 }
             });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+
         }
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
+        Toast.makeText(this,"Value 2: "+b,Toast.LENGTH_SHORT).show();
         setTitle(s);
         if (b) {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    philipsDrawerLayout.openDrawer(navigationView);
-                }
-            });
-        } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -339,6 +325,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     backstackFragment();
                 }
             });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+
         }
     }
 }
