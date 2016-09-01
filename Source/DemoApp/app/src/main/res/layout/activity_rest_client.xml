@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Rest Client"
+        android:id="@+id/textView6" />
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:hint="Enter URL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextURL"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Spinner
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerRequestType"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allow HTTP"
+        android:id="@+id/checkBox"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Headers"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/buttonSetHeaders" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Params"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/buttonSetParams" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Invoke"
+        android:id="@+id/buttonInvoke" />
+
+</LinearLayout>

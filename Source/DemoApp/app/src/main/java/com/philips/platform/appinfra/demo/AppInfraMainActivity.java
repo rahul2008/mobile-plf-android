@@ -21,7 +21,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config"};
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config","Rest Client"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +102,13 @@ public class AppInfraMainActivity extends AppCompatActivity {
             Intent configActivity = new Intent(AppInfraMainActivity.this,
                     AppConfigurationActivity.class);
             startActivity(configActivity);
+                break;
+
+            case 10:
+
+                Intent restClientActivity = new Intent(AppInfraMainActivity.this,
+                        RestClientActivity.class);
+                startActivity(restClientActivity);
                 break;
         }
     }
