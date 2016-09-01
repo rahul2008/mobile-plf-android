@@ -90,7 +90,7 @@ public class CoppaInterface implements UappInterface {
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
                     uappLaunchInput).isParentalFragment());
             registrationIntent.putExtras(bundle);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             RegistrationHelper.getInstance().
                     getUrSettings().getContext().startActivity(registrationIntent);
         }

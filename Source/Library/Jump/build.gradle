@@ -108,3 +108,10 @@ dependencies {
     compile 'com.squareup.okio:okio:1.6.0'
     compile project(':servertime')
 }
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.compile
+}
+
+apply from: "resolution.gradle"

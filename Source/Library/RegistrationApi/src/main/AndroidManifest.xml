@@ -15,7 +15,6 @@
         <!-- Regitration Api start -->
         <activity
             android:name="com.philips.cdp.registration.ui.traditional.RegistrationActivity"
-            android:launchMode="singleInstance"
             android:configChanges="orientation|screenSize"/>
 
         <!-- Janrain specific  start -->
