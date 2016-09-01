@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.cdp.dicommclientsample"
     android:versionCode="1"
-    android:versionName="1.0.0" >
+    android:versionName="1.0.0">
+
+    <uses-sdk tools:overrideLibrary="com.philips.cdp.registration, com.philips.dhpclient, com.philips.cl.di.servertime, com.janrain.android, com.philips.platform.appinfra, com.philips.cdp.prxclient, com.philips.cdp.localematch"/>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -11,7 +14,8 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
+        tools:replace="android:allowBackup"
+        android:icon="@drawable/ic_dicomm_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name=".App" >

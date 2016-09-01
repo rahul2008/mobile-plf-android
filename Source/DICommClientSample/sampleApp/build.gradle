@@ -19,6 +19,15 @@ android {
         exclude 'LICENSE'
         exclude 'NOTICE'
         exclude 'asm-license.txt'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+
     }
 
     buildTypes {
@@ -26,6 +35,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -36,5 +49,9 @@ dependencies {
         compile project(':dicommClientLib')
     } else {
         compile 'com.philips.cdp:dicommClientLib:1.2.1'
+    }
+
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "7.0.1") {
+        exclude group: 'com.android.support'
     }
 }
