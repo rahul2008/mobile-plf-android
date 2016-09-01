@@ -4,7 +4,7 @@ import android.test.InstrumentationTestCase;
 
 import com.janrain.android.Jump;
 
-import org.junit.Test;
+import org.mockito.Mock;
 
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
@@ -15,6 +15,8 @@ import org.junit.Test;
  */
 public class SignInSocialFailureInfoTest extends InstrumentationTestCase {
     SignInSocialFailureInfo signInSocialFailureInfo;
+    @Mock
+    Jump.SignInResultHandler.SignInError error;
 
     @Override
     protected void setUp() throws Exception {
@@ -34,6 +36,10 @@ public class SignInSocialFailureInfoTest extends InstrumentationTestCase {
     public void testErrorCode() {
         signInSocialFailureInfo.setErrorCode(0);
         assertEquals(0, signInSocialFailureInfo.getErrorCode());
+    }
+    public void testSetError(){
+        signInSocialFailureInfo.setError(error);
+        assertEquals(error,signInSocialFailureInfo.getError());
     }
 
 }
