@@ -197,6 +197,11 @@ public class UserRegistrationInitializer {
         UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, RegUtility.getConfiguration(mRegistrationType), locale.toString());
 
         //Initialize App Identity
+        initAppIdentity();
+    }
+
+    private void initAppIdentity() {
+
         AppIdentityInterface mAppIdentityInterface;
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         mAppIdentityInterface = appInfra.getAppIdentity();
