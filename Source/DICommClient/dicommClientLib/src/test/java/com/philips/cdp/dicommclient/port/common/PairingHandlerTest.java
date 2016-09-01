@@ -7,12 +7,14 @@ package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
+import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
 import com.philips.icpinterface.data.PairingRelationship;
@@ -31,8 +33,10 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -42,7 +46,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CppController.class})
+@PrepareForTest({CppController.class, DiscoveryManager.class})
 public class PairingHandlerTest {
 
     @Mock
@@ -53,6 +57,9 @@ public class PairingHandlerTest {
 
     @Mock
     private CppController cppControllerMock;
+
+    @Mock
+    private DiscoveryManager discoveryManagerMock;
 
     @Mock
     private PairingPort pairingPortMock;
@@ -75,6 +82,9 @@ public class PairingHandlerTest {
     @Captor
     private ArgumentCaptor<PairingEntitiyReference> pairingEntitiyReferenceCaptor;
 
+    @Captor
+    private ArgumentCaptor<PairingRelationship> pairingRelationshipCaptor;
+
     private String APP_CPP_ID = "UUID";
     private String APP_TYPE = "DEV";
     private String DEVICE_TYPE = "Air";
@@ -86,6 +96,8 @@ public class PairingHandlerTest {
         initMocks(this);
 
         DICommLog.disableLogging();
+        PairingHandler.clear();
+
         when(diCommApplianceMock.getNetworkNode()).thenReturn(networkNodeMock);
         when(diCommApplianceMock.getPairingPort()).thenReturn(pairingPortMock);
         when(diCommApplianceMock.getDeviceType()).thenReturn(DEVICE_TYPE);
@@ -98,6 +110,10 @@ public class PairingHandlerTest {
 
         mockStatic(CppController.class);
         when(CppController.getInstance()).thenReturn(cppControllerMock);
+
+        when(discoveryManagerMock.getApplianceByCppId(anyString())).thenReturn(diCommApplianceMock);
+        mockStatic(DiscoveryManager.class);
+        when(DiscoveryManager.getInstance()).thenReturn(discoveryManagerMock);
 
         pairingHandler = new PairingHandlerForTest(diCommApplianceMock, pairingListenerMock);
     }
@@ -163,6 +179,16 @@ public class PairingHandlerTest {
     }
 
     @Test
+    public void whenPairingPortReportsSuccessThenPairingDiCommRelationshipsIsSend() throws Exception {
+        whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
+
+        pairingListenerCaptor.getValue().onPortUpdate(pairingPortMock);
+
+        verify(pairingServiceMock).addRelationshipRequest((PairingEntitiyReference) isNull(), pairingEntitiyReferenceCaptor.capture(), (PairingEntitiyReference) isNull(), pairingRelationshipCaptor.capture(), any(PairingInfo.class));
+        assertEquals(PairingHandler.PAIRING_DI_COMM_RELATIONSHIP, pairingRelationshipCaptor.getValue().pairingRelationshipRelationType);
+    }
+
+    @Test
     public void whenPairingPortReportsSuccessThenPairingServiceCommandIsExecuted() throws Exception {
         whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
 
@@ -172,7 +198,7 @@ public class PairingHandlerTest {
     }
 
     @Test
-    public void whenPairingPortReportsErrorThenRetryIsIssued() throws Exception {
+    public void whenPairingPortReportsErrorThenRetryIsIssuedSilently() throws Exception {
         whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
         reset(pairingPortMock);
 
@@ -190,6 +216,118 @@ public class PairingHandlerTest {
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
+
+        verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenPairingIsCompletedThenAddNotifyRelationshipsIsSend() throws Exception {
+        whenPairingPortReportsSuccessThenPairingServiceCommandIsExecuted();
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("completed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.SUCCESS, pairingService);
+
+        verify(pairingServiceMock).addRelationshipRequest((PairingEntitiyReference) isNull(), pairingEntitiyReferenceCaptor.capture(), (PairingEntitiyReference) isNull(), pairingRelationshipCaptor.capture(), (PairingInfo) isNull());
+        assertEquals(PairingHandler.PAIRING_NOTIFY_RELATIONSHIP, pairingRelationshipCaptor.getValue().pairingRelationshipRelationType);
+    }
+
+    @Test
+    public void whenPairingHasFailedThenRetryIsIssuedSilently() throws Exception {
+        whenPairingPortReportsSuccessThenPairingServiceCommandIsExecuted();
+        reset(pairingPortMock);
+
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenPairingAddRelationshipErrorLimitIsReachedThenErrorIsReported() throws Exception {
+        whenPairingPortReportsSuccessThenPairingServiceCommandIsExecuted();
+        reset(pairingPortMock);
+
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+
+        verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenPairingHasStatusIsNotCompletedThenRetryIsIssuedSilently() throws Exception {
+        whenPairingPortReportsSuccessThenPairingServiceCommandIsExecuted();
+        reset(pairingPortMock);
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("failed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.SUCCESS, pairingService);
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenPairingAddRelationshipErrorLimitIsReachedThenErrorIsReported2() throws Exception {
+        whenPairingPortReportsSuccessThenPairingServiceCommandIsExecuted();
+        reset(pairingPortMock);
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("failed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+
+        verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenNotifyIsCompletedThenPairingSuccessIsReported() throws Exception {
+        whenPairingIsCompletedThenAddNotifyRelationshipsIsSend();
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("completed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.SUCCESS, pairingService);
+
+        verify(pairingListenerMock).onPairingSuccess(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenNotifyIsFailedThenRetryIsIssuedSilently() throws Exception {
+        whenPairingIsCompletedThenAddNotifyRelationshipsIsSend();
+        reset(pairingPortMock);
+
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.FORBIDDEN_ERROR, null);
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenNotifyStatusIsNotCompleteThenRetryIsIssuedSilently() throws Exception {
+        whenPairingIsCompletedThenAddNotifyRelationshipsIsSend();
+        reset(pairingPortMock);
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("failed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.SUCCESS, pairingService);
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
+        verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenNotifyAddRelationshipErrorLimitIsReachedThenErrorIsReported2() throws Exception {
+        whenPairingIsCompletedThenAddNotifyRelationshipsIsSend();
+
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
 
         verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
     }
