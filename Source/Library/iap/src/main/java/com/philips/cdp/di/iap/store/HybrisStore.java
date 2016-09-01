@@ -36,6 +36,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String SUFFIX_CURRENT = "/current";
     private static final String SUFFIX_ENTRIES = "/entries";
 
+    /*ToDO : using lang=en instead of locale as backend not support*/
     private static final String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign"
             + "&lang=en" + "&currentPage=%s&pageSize=%s";
     private static final String SUFFIX_PRODUCTS = "products";
