@@ -11,6 +11,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
+import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
@@ -32,6 +33,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
+    private final int MENU_OPTION_CONNECTIVITY = 6;
 
     @Override
     public void onClick(int componentID, Context context) {
@@ -50,6 +52,9 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
                 break;
  			case MENU_OPTION_DEBUG:
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
+                break;
+            case MENU_OPTION_CONNECTIVITY:
+                uiState = new ConnectivityFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
                 break;
             default:uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
         }

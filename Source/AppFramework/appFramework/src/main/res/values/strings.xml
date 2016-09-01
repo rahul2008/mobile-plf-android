@@ -43,6 +43,7 @@
         <item>Support</item>
         <item>About</item>
         <item>Debug and Testing</item>
+        <item>Connectivity</item>
     </string-array>
 
     <!--<array name="hamburger_drawer_icons">-->
