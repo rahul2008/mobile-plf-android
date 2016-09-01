@@ -32,7 +32,6 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
-    UserRegistrationState userRegistrationState;
 
     @Override
     public void onClick(int componentID, Context context) {
@@ -45,7 +44,6 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
             case MENU_OPTION_SHOP: uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
                 break;
             case MENU_OPTION_SUPPORT: uiState = new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE);
-                // TODO: pass presenter interface as listener if required from respective state classes
                 break;
             case MENU_OPTION_ABOUT:
                 uiState=new AboutScreenState(UIState.UI_ABOUT_SCREEN_STATE);
@@ -69,20 +67,9 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
 
     @Override
     public void setNextState(Context context) {
-
-        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        if(userRegistrationState.getUserObject(context).isUserSignIn()) {
-            uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
-            uiState.setPresenter(this);
-
-        }
-        else {
-
-            uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-            uiState.setPresenter(this);
-            ((UserRegistrationState)uiState).registerForNextState(HomeActivityPresenter.this);
-        }
+        uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
+        uiState.setPresenter(this);
         appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
     }
 }

@@ -23,10 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPInterface;
-import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
@@ -37,7 +34,7 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
@@ -66,6 +63,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private static int mCartItemCount = 0;
     private final int CART_POSITION_IN_MENU = 2;
     private UserRegistrationState userRegistrationState;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         super.onCreate(savedInstanceState);
         presenter = new HomeActivityPresenter();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " HomeScreen Activity Created ");
-
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());
@@ -106,6 +105,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
                     adapter.notifyDataSetChanged();
+                    sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
                 }
             }
@@ -205,7 +205,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
         boolean backState = false;
-        if(fragmentManager.getBackStackEntryCount() == 1 && currentFrag instanceof HomeFragment) {
+        if(currentFrag instanceof HomeFragment) {
             finishAffinity();
         }else  if(fragmentManager.getBackStackEntryCount() == 1){
             showNavigationDrawerItem(0);
@@ -222,7 +222,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }else if(currentFrag != null && currentFrag instanceof BackEventListener){
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if (!backState) {
-                super.popBackTillHomeFragment();
+                fragmentManager.popBackStack();
             }
         }
         else {
@@ -240,12 +240,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
 
     private void addIapCartCount() {
-        IAPInterface iapInterface = new IAPInterface();
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        IAPSettings iapSettings = new IAPSettings(this);
-        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
-        iapSettings.setUseLocalData(false);
-        iapInterface.init(iapDependencies, iapSettings);
+        IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIapInterface();
         iapInterface.getProductCartCount(new IAPListener() {
             @Override
             public void onGetCartCount(int i) {
@@ -271,6 +266,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     protected void onResume() {
         super.onResume();
+        showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
@@ -295,15 +291,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
+        setTitle(getResources().getString(i));
         if (b) {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    philipsDrawerLayout.openDrawer(navigationView);
-                }
-            });
-        } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -311,20 +300,22 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     backstackFragment();
                 }
             });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+
         }
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
+        setTitle(s);
         if (b) {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    philipsDrawerLayout.openDrawer(navigationView);
-                }
-            });
-        } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -332,6 +323,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     backstackFragment();
                 }
             });
+        } else {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+
         }
     }
 }

@@ -124,12 +124,14 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (fragmentActivity,containerID,actionBarListener);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
+
 
 
     @Override

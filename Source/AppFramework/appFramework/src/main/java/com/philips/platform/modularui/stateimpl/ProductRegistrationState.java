@@ -7,6 +7,7 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -81,6 +82,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
     @Override
     public void onProdRegFailed(ProdRegError prodRegError) {
+        Toast.makeText(mContext,""+ProdRegError.USER_NOT_SIGNED_IN,Toast.LENGTH_SHORT).show();
 
     }
 

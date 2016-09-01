@@ -9,6 +9,9 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
@@ -35,6 +38,10 @@ public class AppFrameworkApplication extends Application {
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
 
+
+
+    private IAPInterface iapInterface;
+
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
@@ -51,6 +58,19 @@ public class AppFrameworkApplication extends Application {
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
         initializeProductRegistrationLibrary();
+        initializeIAP();
+    }
+
+    private void initializeIAP() {
+        iapInterface = new IAPInterface();
+        IAPSettings iapSettings = new IAPSettings(getApplicationContext());
+        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        iapSettings.setUseLocalData(false);
+        iapInterface.init(iapDependencies, iapSettings);
+    }
+
+    public IAPInterface getIapInterface() {
+        return iapInterface;
     }
 
     private void setLocale() {
