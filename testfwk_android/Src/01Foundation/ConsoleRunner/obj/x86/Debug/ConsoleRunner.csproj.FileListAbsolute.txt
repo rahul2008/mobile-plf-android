@@ -30,3 +30,11 @@ D:\testfwk\reference_app_android\testfwk_android\bin\ConsoleRunner.pdb
 D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.csprojResolveAssemblyReference.cache
 D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.exe
 D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.pdb
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\bin\AppConfig.xml
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\bin\MapNetworkDrive.vbs
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\bin\ConsoleRunner.exe.config
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\bin\ConsoleRunner.exe
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\bin\ConsoleRunner.pdb
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.csprojResolveAssemblyReference.cache
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.exe
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\ConsoleRunner\obj\x86\Debug\ConsoleRunner.pdb

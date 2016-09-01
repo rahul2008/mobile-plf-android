@@ -19,3 +19,8 @@ D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationP
 D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.pdb
 D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.dll
 D:\testfwk\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.pdb
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.dll
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\bin\SIGAutomationPortal.pdb
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.csprojResolveAssemblyReference.cache
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.dll
+D:\TestFwkNewRepo\reference_app_android\testfwk_android\Src\01Foundation\SIGAutomationPortal\SIGAutomationPortal\obj\Debug\SIGAutomationPortal.pdb

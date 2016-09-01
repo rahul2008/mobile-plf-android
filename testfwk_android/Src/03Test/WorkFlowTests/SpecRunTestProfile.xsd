@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="SpecRunTestProfile"
-    targetNamespace="http://www.specrun.com/schemas/2011/09/TestProfile"
+    targetNamespace="http://www.specflow.org/schemas/plus/TestProfile/1.5"
     elementFormDefault="qualified"
-    xmlns="http://www.specrun.com/schemas/2011/09/TestProfile"
+    xmlns="http://www.specflow.org/schemas/plus/TestProfile/1.5"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:element name="TestProfile" type="TestProfile" />
@@ -59,8 +59,19 @@
     </xs:sequence>
   </xs:complexType>
 
+  <!-- Report settings -->
+  <xs:complexType name="Template">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="outputName" type="xs:string" use="optional" />
+  </xs:complexType>
+
   <xs:complexType name="ReportSettings">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Template" type="Template" />
+    </xs:sequence>
+
     <xs:attribute name="copyAlsoToBaseFolder" type="xs:boolean" use="optional" default="false" />
+    <xs:attribute name="disable" type="xs:boolean" use="optional" default="false" />
   </xs:complexType>
   
   <!-- test targets -->
@@ -198,7 +209,7 @@
   
   <xs:simpleType name="TestThreadIsolation">
     <xs:restriction base="xs:string">
-      <!--<xs:enumeration value="None" /> not supported yet -->
+      <xs:enumeration value="SharedAppDomain" />
       <xs:enumeration value="AppDomain" />
       <xs:enumeration value="Process" />
     </xs:restriction>

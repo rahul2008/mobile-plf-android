@@ -1,13 +1,15 @@
+@pushd %~dp0
 
+%windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe "WorkflowTest.csproj"
+
+@if ERRORLEVEL 1 goto end
 
 @cd ..\packages\SpecRun.Runner.*\tools
-@pwd
-@dir
 
 @set profile=%1
 @if "%profile%" == "" set profile=Default
 
-SpecRun.exe run %profile%.srprofile "/baseFolder:D:\Jenkins_Slave\workspace\Reference_Test\testfwk_android\Src\Bin" /log:specrun.log %2 %3 %4 %5
+SpecRun.exe run %profile%.srprofile "/baseFolder:%~dp0\bin\Debug" /log:specrun.log %2 %3 %4 %5
 
 :end
 
