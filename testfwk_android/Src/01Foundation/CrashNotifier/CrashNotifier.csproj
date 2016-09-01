@@ -49,9 +49,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrashNotifier.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="CrashNotifier.cs" />
     <Compile Include="CrashNotifier.Designer.cs">
       <DependentUpon>CrashNotifier.cs</DependentUpon>
     </Compile>
