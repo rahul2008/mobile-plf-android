@@ -227,9 +227,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             if (fragment != null) {
                 moveToVerticalAppByClearingStack();
             } else {
-                getFragmentManager().popBackStackImmediate();
+                moveToPreviousFragment();
             }
-            moveToPreviousFragment();
         }
     }
 
