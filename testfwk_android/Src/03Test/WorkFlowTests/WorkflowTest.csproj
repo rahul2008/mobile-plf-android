@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AppFramework_TestPlugin">
-      <HintPath>..\..\02TestAuthoring API\AppFramework_TestPlugin\bin\Debug\AppFramework_TestPlugin.dll</HintPath>
-    </Reference>
     <Reference Include="appium-dotnet-driver, Version=1.2.0.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\automation1\Src_old\Src\Reference\appium-dotnet-driver.dll</HintPath>
@@ -41,41 +38,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\automation1\Src_old\Src\Reference\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\Mono.Cecil.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\Mono.Cecil.Mdb.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\Mono.Cecil.Pdb.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\Mono.Cecil.Rocks.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.engine, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\nunit.engine.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.engine.api, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\nunit.engine.api.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\nunit.framework.2.63.0\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="NUnit3.TestAdapter, Version=3.4.1.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit3TestAdapter.3.4.1\lib\NUnit3.TestAdapter.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SpecRun.SpecFlowPlugin, Version=1.3.0.76, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SpecRun.SpecFlow.1-9-0.1.3.0\lib\net35\SpecRun.SpecFlowPlugin.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SpecRun.SpecFlowPlugin, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SpecRun.SpecFlow.1.5.2\lib\net45\SpecRun.SpecFlowPlugin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -86,13 +55,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TechTalk.SpecFlow, Version=1.9.0.77, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+    <Reference Include="TechTalk.SpecFlow, Version=2.1.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SpecFlow.1.9.0\lib\net35\TechTalk.SpecFlow.dll</HintPath>
+      <HintPath>..\..\packages\SpecFlow.2.1.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
     </Reference>
-    <Reference Include="TechTalk.SpecRun, Version=1.3.0.76, Culture=neutral, PublicKeyToken=d0fc5cc18b3b389b, processorArchitecture=MSIL">
+    <Reference Include="TechTalk.SpecRun, Version=1.5.2.0, Culture=neutral, PublicKeyToken=d0fc5cc18b3b389b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SpecRun.SpecFlow.1-9-0.1.3.0\lib\net35\TechTalk.SpecRun.dll</HintPath>
+      <HintPath>..\..\packages\SpecRun.SpecFlow.1.5.2\lib\net45\TechTalk.SpecRun.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -124,22 +93,22 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Default.srprofile">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="F661.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>F661.feature.cs</LastGenOutput>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="MyPhilips.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MyPhilips.feature.cs</LastGenOutput>
     </None>
+    <None Include="packages.config" />
     <None Include="runtests.cmd" />
     <None Include="SpecRunTestProfile.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SpecRunTestProfile_2011_09.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -152,46 +121,18 @@
       <Name>AutomationCore</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\ConsoleRunner\ConsoleRunner.csproj">
-      <Project>{3986adcf-595a-4f76-a977-f1160890292d}</Project>
-      <Name>ConsoleRunner</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\CrashNotifier\CrashNotifier.csproj">
-      <Project>{42bf093b-a001-4f53-981f-e25675b9aeda}</Project>
-      <Name>CrashNotifier</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\Deployment\BuildAgent.csproj">
-      <Project>{1b91ed0d-2976-4b48-83b7-ae7658b9a142}</Project>
-      <Name>BuildAgent</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\FrameworkCore\Philips.MRAutomation.Foundation.FrameworkCore.csproj">
-      <Project>{5a2bce35-0c43-488c-bba5-844a5d2cba37}</Project>
-      <Name>Philips.MRAutomation.Foundation.FrameworkCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\LoggingUtility\LoggingUtility.csproj">
-      <Project>{d2b97a31-b62a-43b1-8097-728014b96bd5}</Project>
-      <Name>LoggingUtility</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\01Foundation\MobileTestCore\MobileTestCore.csproj">
       <Project>{747b8419-a237-4ab6-a2b8-4a17027bcaf9}</Project>
       <Name>MobileTestCore</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\StatusIndicator\StatusIndicator.csproj">
-      <Project>{19fa3957-f1fd-4d24-9deb-63d1cde04adb}</Project>
-      <Name>StatusIndicator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\01Foundation\TestCaseDefinition\Philips.CDPAutomation.Foundation.TestCaseDefinition.csproj">
       <Project>{304ac731-72b6-49f8-8101-9b5b1c0c3065}</Project>
       <Name>Philips.CDPAutomation.Foundation.TestCaseDefinition</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\TimerNotifier\TimerNotifier.csproj">
-      <Project>{01888178-34dc-4527-846b-9ce8b71d21e6}</Project>
-      <Name>TimerNotifier</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\01Foundation\WinEventHook\WinEventHook.csproj">
-      <Project>{b6a94a2a-ebed-4434-8843-c233edbdd2df}</Project>
-      <Name>WinEventHook</Name>
+    <ProjectReference Include="..\..\02TestAuthoring API\AppFramework_TestPlugin\AppFramework_TestPlugin.csproj">
+      <Project>{61879128-714e-4b66-a3e3-f3a3218b8254}</Project>
+      <Name>AppFramework_TestPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\02TestAuthoring API\CDP_ObjectRepository\ObjectRepository.csproj">
       <Project>{298a63ca-64db-44a2-bcf3-9cb7ff65ff21}</Project>
