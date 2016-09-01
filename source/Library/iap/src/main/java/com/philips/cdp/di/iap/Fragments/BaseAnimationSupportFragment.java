@@ -87,6 +87,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
+        if(mActionbarUpdateListener == null) return;
         newFragment.setActionBarListener(mActionbarUpdateListener);
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
