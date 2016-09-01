@@ -31,6 +31,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -85,10 +86,12 @@ public class PairingHandlerTest {
     @Captor
     private ArgumentCaptor<PairingRelationship> pairingRelationshipCaptor;
 
-    private String APP_CPP_ID = "UUID";
-    private String APP_TYPE = "DEV";
-    private String DEVICE_TYPE = "Air";
-    private String NETWORK_CPP_ID = "NETWORK_CPP_ID";
+    private final String APP_CPP_ID = "UUID";
+    private final String APP_TYPE = "DEV";
+    private final String DEVICE_TYPE = "Air";
+    private final String NETWORK_CPP_ID = "NETWORK_CPP_ID";
+    private final String USER_ID = "test-user";
+    private final String ACCESS_TOKEN = "abc";
     private PairingHandler pairingHandler;
 
     @Before
@@ -330,6 +333,30 @@ public class PairingHandlerTest {
         pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
 
         verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenStartingUserParingThenUserIdIsSendToAppliance() throws Exception {
+        pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN);
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(USER_ID), anyString());
+    }
+
+    @Test
+    public void whenPairingPortReportSuccessThenUserRelationshipIsAdded() throws Exception {
+        pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN);
+
+        verify(pairingPortMock).addPortListener(pairingListenerCaptor.capture());
+        pairingListenerCaptor.getValue().onPortUpdate(pairingPortMock);
+
+        verify(pairingServiceMock).addRelationshipRequest(pairingEntitiyReferenceCaptor.capture(), pairingEntitiyReferenceCaptor.capture(), (PairingEntitiyReference) isNull(), any(PairingRelationship.class), any(PairingInfo.class));
+        PairingEntitiyReference trustor = pairingEntitiyReferenceCaptor.getAllValues().get(0);
+        PairingEntitiyReference trustee = pairingEntitiyReferenceCaptor.getAllValues().get(1);
+
+        assertEquals(USER_ID, trustor.entityRefId);
+        assertEquals(ACCESS_TOKEN, trustor.entityRefCredentials);
+        assertEquals(NETWORK_CPP_ID, trustee.entityRefId);
+        assertNull(trustee.entityRefCredentials);
     }
 
     class PairingHandlerForTest extends PairingHandler<DICommAppliance> {
