@@ -34,7 +34,7 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_payment, false);
+        setTitleAndBackButtonVisibility(R.string.iap_payment, true);
         //setBackButtonVisibility(false);
     }
 
