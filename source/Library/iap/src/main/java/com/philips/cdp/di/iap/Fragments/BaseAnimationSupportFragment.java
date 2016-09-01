@@ -24,7 +24,7 @@ import java.util.List;
 public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener {
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
-    private String mTitle = "";
+    String mTitle = "";
 
     public void setActionBarListener(ActionBarListener actionBarListener) {
         mActionbarUpdateListener = actionBarListener;

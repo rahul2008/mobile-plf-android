@@ -182,8 +182,9 @@
     <string name="iap_txt_cvv_cvc">Enter CVV/CVC</string>
     <string name="iap_proceed">Proceed</string>
     <string name="iap_cvv_astric">***</string>
-    <string name="iap_contact_consumer_number">Please contact the below number to cancel your order</string>
+    <string name="iap_contact_consumer_number">Please keep your order number at hand:</string>
     <string name="iap_cancel_order_title">Cancel Order</string>
     <string name="iap_processing">Processing</string>
+    <string name="iap_opening_hours">Call center opening hours:\nMonday - Friday: 7:30 AM - 8:00 PM \nSaturday: 9:00 AM - 6:00 PM</string>
 
 </resources>

@@ -153,6 +153,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
+        if(mActionBar == null) return;
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);

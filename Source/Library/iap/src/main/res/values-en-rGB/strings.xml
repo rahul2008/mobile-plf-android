@@ -163,6 +163,7 @@
     <!-- Model Error -->
     <string name="iap_ok">OK</string>
     <string name="iap_no_product_available">No product found in your Store.</string>
+    <string name="iap_opening_hours">Call center opening hours:\nMonday - Friday: 7:30 AM - 8:00 PM \nSaturday: 9:00 AM - 6:00 PM</string>
 
 
 </resources>

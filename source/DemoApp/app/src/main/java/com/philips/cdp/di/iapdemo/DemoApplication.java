@@ -25,12 +25,12 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initAppInfra();
-        AppInfraSingleton.setInstance(getAppInfra());
-        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
-        initUserRegistration(Configuration.STAGING);
 
         new IAPDependencies(appInfra);
         new IAPSettings(this);
+        AppInfraSingleton.setInstance(getAppInfra());
+        RegistrationHelper.getInstance().setAppInfraInstance(getAppInfra());
+        initUserRegistration(Configuration.STAGING);
     }
 
     public void initUserRegistration(Configuration configuration) {
