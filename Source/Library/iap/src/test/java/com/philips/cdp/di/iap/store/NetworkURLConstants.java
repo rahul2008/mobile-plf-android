@@ -41,7 +41,7 @@ public class NetworkURLConstants {
     public static final String PRODUCT_CATALOG_BASE_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE;
     public static final String CART_MODIFY_PRODUCT_URL = BASE_URL + "/carts/current/entries/" + DUMMY_PRODUCT_NUMBER + "?fields=FULL&lang=en_US";
     public static final String PRODUCT_DETAIL_URL = PRODUCT_CATALOG_BASE_URL + "/products/" + DUMMY_PRODUCT_ID;
-    public static final String GET_RETAILERS_URL = "https://www.philips.com/api/wtb/v1/B2C/en_US/online-retailers?product=code&lang=en_US";
+    public static final String GET_RETAILERS_URL = "https://www.philips.com/api/wtb/v1/B2C/en_US/online-retailers?product=code&lang=en";
 
     //Address
     public static final String GET_REGIONS_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/metainfo/regions/US?fields=FULL&lang=en_US";
