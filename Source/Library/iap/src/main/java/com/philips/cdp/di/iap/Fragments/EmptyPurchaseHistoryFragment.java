@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener {
     public static final String TAG = EmptyPurchaseHistoryFragment.class.getName();
-    private Context mContext;
     private Button mContinueShoppingBtn;
 
     public static EmptyPurchaseHistoryFragment createInstance
@@ -35,12 +34,6 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
         mContinueShoppingBtn = (Button) rootView.findViewById(R.id.btn_continue_shopping);
         mContinueShoppingBtn.setOnClickListener(this);
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class CancelOrderFragment extends BaseAnimationSupportFragment {
 
-    public static final String TAG = EmptyPurchaseHistoryFragment.class.getName();
+    public static final String TAG = CancelOrderFragment.class.getName();
 
     public static CancelOrderFragment createInstance
             (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
