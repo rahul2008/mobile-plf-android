@@ -122,7 +122,7 @@ public class AppTagging implements AppTaggingInterface {
 
         String mLocalTimestamp = null;
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS XXX", Locale.ENGLISH);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSz", Locale.ENGLISH);
         String formattedDate = df.format(c.getTime());
         mLocalTimestamp = formattedDate;
         return mLocalTimestamp;
