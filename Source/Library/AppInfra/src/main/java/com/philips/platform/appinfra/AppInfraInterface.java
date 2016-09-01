@@ -4,6 +4,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -68,4 +69,13 @@ public interface AppInfraInterface {
      * @return the config
      */
     public AppConfigurationInterface getConfigInterface();
+
+    /**
+     * Gets REST API Manager.
+     *
+     * @return the config
+     */
+    public RestInterface getRestInterface();
+
+
 }
