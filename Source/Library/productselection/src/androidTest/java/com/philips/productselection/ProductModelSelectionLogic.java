@@ -567,7 +567,7 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             }
         });
         //ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
-        ProductSelectionLogger.enableLogging();
+       // ProductSelectionLogger.enableLogging();
        assertNotNull(ProductModelSelectionHelper.getInstance().getContext());
       /*  assertNotNull(ProductModelSelectionHelper.getInstance().getLauncherType());
         assertNotNull(ProductModelSelectionHelper.getInstance().getLocale());
