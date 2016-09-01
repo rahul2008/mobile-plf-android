@@ -44,7 +44,7 @@ public class LogFormatter extends Formatter {
     }
 
     // Create a DateFormat to format the logger ;.
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS XXX", Locale.ENGLISH);
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
