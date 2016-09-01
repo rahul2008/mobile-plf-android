@@ -15,6 +15,8 @@ import com.philips.platform.appinfra.internationalization.InternationalizationIn
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -39,6 +41,7 @@ public class AppInfra implements AppInfraInterface {
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
     private TimeInterface mTimeSyncInterface;
     private AppConfigurationInterface configInterface;
+    private RestInterface mRestInterface;
 
 
     /**
@@ -62,6 +65,7 @@ public class AppInfra implements AppInfraInterface {
 
 
         private AppConfigurationInterface configInterface;
+        private RestInterface mRestInterface;
 
         /**
          * Instantiates a new Builder.
@@ -77,6 +81,7 @@ public class AppInfra implements AppInfraInterface {
             mServiceDiscoveryInterface = null;
             mTimeSyncInterfaceBuilder = null;
             configInterface = null;
+            mRestInterface = null;
         }
 
 
@@ -88,6 +93,17 @@ public class AppInfra implements AppInfraInterface {
          */
         public Builder setConfig(AppConfigurationInterface config) {
             configInterface = config;
+            return this;
+        }
+
+        /**
+         * Sets REST.
+         *
+         * @param rest the config
+         * @return the config
+         */
+        public Builder setRestInterface(RestInterface rest) {
+            mRestInterface = rest;
             return this;
         }
 
@@ -183,6 +199,8 @@ public class AppInfra implements AppInfraInterface {
                 ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppInfra initialized", appInfraLogStatement.toString());
             }
 
+            ai.setRestInterface(mRestInterface == null ? new RestManager(pContext,ai) : mRestInterface);
+
             return ai;
         }
     }
@@ -227,6 +245,11 @@ public class AppInfra implements AppInfraInterface {
         return configInterface;
     }
 
+    @Override
+    public RestInterface getRestInterface() {
+        return mRestInterface;
+    }
+
     public AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
@@ -247,6 +270,11 @@ public class AppInfra implements AppInfraInterface {
 
     private void setTagging(AppTaggingInterface tagg) {
         tagging = tagg;
+
+    }
+
+    private void setRestInterface(RestInterface restInterface) {
+        mRestInterface = restInterface;
 
     }
 

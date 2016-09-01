@@ -49,30 +49,37 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".AppIndentityDemoPage"
-            android:label="AppIdentity Test"
+            android:label="AppIndentityDemoPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".InternationalizationDemoPage"
-            android:label="LocalMainDemo"
+            android:label="InternationalizationDemoPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ServiceDiscoveryDemo"
-            android:label="LocalMainDemo"
+            android:label="ServiceDiscoveryDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TimeSyncDemo"
-            android:label="LocalMainDemo"
+            android:label="TimeSyncDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".AppConfigurationActivity"
-            android:label="LocalMainDemo"
+            android:label="AppConfigurationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".RestDemo"
+            android:label="RestDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
     </application>
 
