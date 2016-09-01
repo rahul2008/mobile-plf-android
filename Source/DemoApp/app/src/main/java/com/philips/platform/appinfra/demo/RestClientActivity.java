@@ -54,10 +54,23 @@ public class RestClientActivity extends AppCompatActivity {
         invoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 for(String  key: params.keySet() ){
 
                 }
+                for(String  key: headers.keySet() ){
+
+                }
+
+                if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("GET")){
+
+                }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("POST")){
+
+                }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")){
+
+                }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("DELETE")){
+
+                }
+
             }
 
         });
