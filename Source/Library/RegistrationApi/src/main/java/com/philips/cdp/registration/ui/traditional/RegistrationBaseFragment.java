@@ -78,8 +78,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
         Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
         Configuration config = new Configuration();
         config.locale = RegistrationHelper.getInstance().getLocale(getContext());
-        getActivity().getResources().updateConfiguration(config,
-                getActivity().getResources().getDisplayMetrics());
+        if(isAdded()) {
+            getActivity().getResources().updateConfiguration(config,
+                    getActivity().getResources().getDisplayMetrics());
+        }
     }
 
     @Override
@@ -301,29 +303,33 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 @SuppressWarnings("deprecation")
                 @Override
                 public void onGlobalLayout() {
-                    Configuration config = getResources().getConfiguration();
-                    if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        mWidth = view.getWidth();
-                        mHeight = view.getHeight();
-                    } else {
-                        mWidth = view.getHeight();
-                        mHeight = view.getWidth();
-                    }
+                    if(isAdded()) {
+                        Configuration config = getResources().getConfiguration();
+                        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            mWidth = view.getWidth();
+                            mHeight = view.getHeight();
+                        } else {
+                            mWidth = view.getHeight();
+                            mHeight = view.getWidth();
+                        }
 
-                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    } else {
-                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                        setViewParams(getResources().getConfiguration(), view.getWidth());
                     }
-                    setViewParams(getResources().getConfiguration(), view.getWidth());
                 }
             });
         } else {
-            Configuration config = getResources().getConfiguration();
-            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                setViewParams(getResources().getConfiguration(), mWidth);
-            } else {
-                setViewParams(getResources().getConfiguration(), mHeight);
+            if(isAdded()) {
+                Configuration config = getResources().getConfiguration();
+                if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setViewParams(getResources().getConfiguration(), mWidth);
+                } else {
+                    setViewParams(getResources().getConfiguration(), mHeight);
+                }
             }
 
         }
