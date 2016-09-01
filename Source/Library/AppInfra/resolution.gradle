@@ -84,4 +84,3 @@ task showMeCache << {
     }
 }
 
-apply from: "resolution.gradle"
