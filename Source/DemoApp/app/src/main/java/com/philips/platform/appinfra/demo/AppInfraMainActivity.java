@@ -17,13 +17,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-
 public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "REST API"};
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config","Rest Client"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 0 :
                /* Toast toast = Toast.makeText(getContext(), "Launch your activity here", Toast.LENGTH_SHORT);
                 toast.show();*/
-                Intent intent = new Intent(AppInfraMainActivity.this,SecureStorageActivity.class);
+                Intent intent = new Intent(AppInfraMainActivity.this,SecureStorageMenuActivity.class);
                 startActivity(intent);
                 break;
             case 1 :
@@ -108,9 +106,9 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
             case 10:
 
-                Intent restIntent = new Intent(AppInfraMainActivity.this,
-                        RestDemo.class);
-                startActivity(restIntent);
+                Intent restClientActivity = new Intent(AppInfraMainActivity.this,
+                        RestClientActivity.class);
+                startActivity(restClientActivity);
                 break;
         }
     }

@@ -13,6 +13,7 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class AppTagging implements AppTaggingInterface {
 //    private String newFieldKey;
@@ -106,6 +108,7 @@ public class AppTagging implements AppTaggingInterface {
 
         if (mAppInfra.getTime() != null) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+            df.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
 
             UTCtime = df.format(mAppInfra.getTime().getUTCTime());
             mUTCTimestamp = UTCtime;
@@ -119,7 +122,7 @@ public class AppTagging implements AppTaggingInterface {
 
         String mLocalTimestamp = null;
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.ENGLISH);
         String formattedDate = df.format(c.getTime());
         mLocalTimestamp = formattedDate;
         return mLocalTimestamp;

@@ -10,14 +10,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.SntpClient;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by 310243577 on 6/27/2016.
@@ -34,7 +41,7 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     private AppInfra mAppInfra;
     private SharedPreferences mSharedPreferences;
-    private Boolean mIsRefreshInProgress = false;
+    private final ReentrantLock mRefreshInProgressLock;
     private long mOffset;
     private Calendar mNextRefreshTime;
 
@@ -43,18 +50,15 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     public TimeSyncSntpClient(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
+        mRefreshInProgressLock = new ReentrantLock(); // primer: http://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/
         init();
         refreshTime();
         registerReciever();
     }
 
-    public TimeSyncSntpClient() {
-    }
-
-
     private void refreshIfNeeded() {
         Calendar now = Calendar.getInstance();
-        if (!mIsRefreshInProgress && now.after(mNextRefreshTime)) {
+        if (!mRefreshInProgressLock.isLocked() && now.after(mNextRefreshTime)) {
             refreshTime();
         }
     }
@@ -76,9 +80,8 @@ public class TimeSyncSntpClient implements TimeInterface {
     }
 
     private void refreshOffset() {
-        synchronized (mIsRefreshInProgress) { // only lock this object to prevent locking the complete class
-            mIsRefreshInProgress = true;
-
+        boolean lockAcquired = mRefreshInProgressLock.tryLock();
+        if (lockAcquired) {
             boolean offsetUpdated = false;
             long offsetOfLowestRoundTrip = 0;
             long lowestRoundTripDelay = Long.MAX_VALUE;
@@ -119,15 +122,18 @@ public class TimeSyncSntpClient implements TimeInterface {
             } else {
                 mNextRefreshTime.add(Calendar.MINUTE, FAILED_REFRESH_DELAY_IN_MINUTES);
             }
-            mIsRefreshInProgress = false;
+            mRefreshInProgressLock.unlock();
+        } else {
+            // another refresh is already in progress
         }
     }
 
     @Override
     public Date getUTCTime() {
+        Date date;
         try {
             refreshIfNeeded();
-            Date date = new Date(getOffset() + System.currentTimeMillis());
+            date = new Date(getOffset() + System.currentTimeMillis());
             return date;
         } catch (Exception e) {
             mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError", e.getMessage());
@@ -137,11 +143,18 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     @Override
     public void refreshTime() {
-        if (!mIsRefreshInProgress) {
+        if (!mRefreshInProgressLock.isLocked()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    refreshOffset();
+                    if (isOnline()) {
+                        refreshOffset();
+                    } else {
+//                        mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+//                                "Network connectivity not found");
+
+                        Log.e("TimeSyncError" , "Network connectivity not found");
+                    }
                 }
             }).start();
         }
@@ -167,5 +180,13 @@ public class TimeSyncSntpClient implements TimeInterface {
             }).start();
         }
     }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
 
 }
