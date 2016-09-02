@@ -22,8 +22,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.List;
 
-public class DeliveryModeDialog
-{
+public class DeliveryModeDialog {
     private Context mContext;
     private DialogListener mListener;
     private AddressListener mAddressListener;
@@ -45,6 +44,7 @@ public class DeliveryModeDialog
         alertDialog.setView(convertView);
         ListView deliveryList = (ListView) convertView.findViewById(R.id.lv);
         mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+        if (mDeliveryModes == null) return;
         DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
         deliveryList.setClickable(true);
         deliveryList.setAdapter(mDeliveryModeAdapter);
@@ -64,7 +64,6 @@ public class DeliveryModeDialog
             }
         });
     }
-
 
 
 }

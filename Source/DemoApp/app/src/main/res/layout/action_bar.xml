@@ -10,6 +10,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:clickable="true"
+        android:visibility="gone"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
 
@@ -42,7 +43,7 @@
         android:clickable="true"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/cart_iv"

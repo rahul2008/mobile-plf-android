@@ -255,11 +255,11 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         if (detail.getDeliveryOrderGroups() != null) {
             if (mController == null)
                 mController = new OrderController(mContext, this);
-        }
-        ArrayList<OrderDetail> detailList = new ArrayList<>();
-        detailList.add(detail);
-        mController.requestPrxData(detailList, this);
 
+            ArrayList<OrderDetail> detailList = new ArrayList<>();
+            detailList.add(detail);
+            mController.requestPrxData(detailList, this);
+        }
         if (detail.getTotalPriceWithTax() != null) {
             mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
         }

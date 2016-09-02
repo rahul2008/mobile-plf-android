@@ -37,8 +37,6 @@ import java.util.ArrayList;
  * Created by 310164421 on 6/8/2016.
  */
 public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener {
-    //IAPHandler mIapHandler;
-    // UappListener uAppListener;
     ArrayList<String> mProductCTNs;
     private TextView mTitleTextView;
     private TextView mCountText;
