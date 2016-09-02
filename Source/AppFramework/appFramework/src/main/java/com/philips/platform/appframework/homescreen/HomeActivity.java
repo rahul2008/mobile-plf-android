@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -214,10 +215,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             if(!backState){
                 fragmentManager.popBackStack();
             }
-        }else if(currentFrag != null && currentFrag instanceof BackEventListener){
+        }else if(currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof BaseAnimationSupportFragment){
             backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
-                popBackTillHomeFragment();
+            if(!backState){
+                fragmentManager.popBackStack();
+            }
+        }else if(currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase("digitalcare")){
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if(!backState){
+                fragmentManager.popBackStack();
             }
         }
         else {
