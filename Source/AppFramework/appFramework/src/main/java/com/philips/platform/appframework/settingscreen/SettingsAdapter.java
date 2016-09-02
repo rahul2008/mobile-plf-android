@@ -149,11 +149,6 @@ public class SettingsAdapter extends BaseAdapter{
             } else {
                 value.setChecked(false);
             }
-           /* if (sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)) {
-                value.setChecked(true);
-            } else {
-                value.setChecked(false);
-            }*/
             value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -185,15 +180,13 @@ public class SettingsAdapter extends BaseAdapter{
                             public void onUpdateReceiveMarketingEmailSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
-                                Toast.makeText(mActivity,"Update suceess",Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(mActivity,"Update success",Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
                                 progress.cancel();
                                 Toast.makeText(mActivity,"Update FAIL",Toast.LENGTH_LONG).show();
-
                             }
                         }, false);
                     }
