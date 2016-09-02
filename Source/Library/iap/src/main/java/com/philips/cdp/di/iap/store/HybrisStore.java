@@ -168,8 +168,7 @@ public class HybrisStore extends AbstractStoreSpec {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANG);//Check whether to pass "UK" / "GB"
-        builder.append(mStoreConfig.getLocale());
+        builder.append(getCountry()).append(LANG + "en");//Check whether to pass "UK" / "GB"
         return builder.toString();
     }
 
