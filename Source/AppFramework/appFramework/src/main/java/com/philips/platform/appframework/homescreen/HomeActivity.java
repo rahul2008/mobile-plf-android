@@ -214,15 +214,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             if(!backState){
                 fragmentManager.popBackStack();
             }
-        }else if (currentFrag !=null && currentFrag.getTag().equalsIgnoreCase("digitalcare")){
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
-                backstackFragment();
-            }
         }else if(currentFrag != null && currentFrag instanceof BackEventListener){
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if (!backState) {
-                fragmentManager.popBackStack();
+                popBackTillHomeFragment();
             }
         }
         else {
@@ -236,6 +231,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,UIState.UI_HOME_FRAGMENT_STATE);
     }
 
 
