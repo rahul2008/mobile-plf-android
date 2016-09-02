@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -59,6 +60,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         pr_button = (Button) view.findViewById(R.id.btn_product_registration);
         reg_list_button = (Button) view.findViewById(R.id.btn_register_list);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
+        configurationTextView.setText(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
     }
 
     @Override

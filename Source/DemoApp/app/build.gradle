@@ -11,7 +11,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 3
-        versionName "1.2.2"
+        versionName "1.2.3"
         testApplicationId "com.philips.cdp.demo.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 23
@@ -55,12 +55,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.2.2"
+            versionName "1.2.3"
         }
         device {
             applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.2.2"
+            versionName "1.2.3"
         }
     }
 

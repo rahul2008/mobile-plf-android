@@ -36,7 +36,7 @@ public class ProdRegProcessController {
         void showAlertOnError(int responseCode);
     }
 
-    int resId = 0;
+    private int resId = 0;
     private RegisteredProduct currentProduct;
     private ProcessControllerCallBacks processControllerCallBacks;
     private Bundle dependencyBundle;
