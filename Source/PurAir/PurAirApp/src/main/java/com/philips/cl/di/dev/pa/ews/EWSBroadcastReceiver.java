@@ -66,9 +66,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	/**
 	 *
 	 * @param listener
-	 * @param context
 	 * @param homeSSID
-	 * @param password
 	 */
 	public EWSBroadcastReceiver(EWSListener listener, String homeSSID) {
 		this.listener = listener ;
@@ -291,14 +289,16 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	private void generateTempEWSDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
 
-		DISecurity diSecurity = new DISecurity();
-        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(-1);
         networkNode.setCppId(tempEui64);
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setName(null);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+
+
+		DISecurity diSecurity = new DISecurity(networkNode);
+		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity, networkNode);
 
         tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy);
 	}
@@ -307,14 +307,15 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		String encryptionKey = tempEWSPurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = tempEWSPurifier.getNetworkNode().getName();
 
-        DISecurity diSecurity = new DISecurity();
-        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(-1);
         networkNode.setCppId(eui64);
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setName(purifierName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+
+		DISecurity diSecurity = new DISecurity(networkNode);
+		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity, networkNode);
 
         tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy);
         // TODO DIComm Refactor - remove this line

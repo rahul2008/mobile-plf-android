@@ -17,8 +17,8 @@ public class AirPurifierFactory extends DICommApplianceFactory<AirPurifier> {
 
 	@Override
 	public AirPurifier createApplianceForNode(NetworkNode networkNode) {
-		DISecurity diSecurity = new DISecurity();
-		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+		DISecurity diSecurity = new DISecurity(networkNode);
+		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity, networkNode);
 		return new AirPurifier(networkNode, communicationStrategy);
 	}
 
