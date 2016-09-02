@@ -1,6 +1,6 @@
 {"AI": {
     "MicrositeID": 77000,
-    "RegistrationEnvironment": "Staging",
+    "RegistrationEnvironment": "PRODUCTION",
     "NL": [
       "googleplus",
       "facebook"
@@ -15,7 +15,7 @@
     ]
   },
   "IAP": {
-    "hostport": "acc.occ.shop.philips.com",
+    "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   }
 }
