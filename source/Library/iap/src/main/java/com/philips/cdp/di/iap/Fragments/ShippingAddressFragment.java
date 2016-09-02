@@ -683,7 +683,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
         }
 
-        setRequestFocus();
+        //setRequestFocus();
     }
 
     private void setRequestFocus() {
