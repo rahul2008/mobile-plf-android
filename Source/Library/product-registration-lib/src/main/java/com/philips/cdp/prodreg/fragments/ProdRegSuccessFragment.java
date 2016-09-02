@@ -25,6 +25,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegSuccessFragment.class.getName();
     private ArrayList<RegisteredProduct> regProdList;
+    private int resId;
 
     @Override
     public int getActionbarTitleResId() {
@@ -44,6 +45,13 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public List<RegisteredProduct> getRegisteredProducts() {
         return regProdList;
+    }
+
+    @Override
+    public void setImageBackground() {
+        if (getView() != null) {
+            //TODO getView().setBackgroundResource(resId);
+        }
     }
 
     @Override
@@ -69,6 +77,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         if (arguments != null) {
             RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             if (registeredProduct != null) {
                 ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
             }

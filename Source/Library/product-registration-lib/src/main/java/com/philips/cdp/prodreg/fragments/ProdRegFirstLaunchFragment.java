@@ -31,6 +31,9 @@ import java.util.List;
 public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     public static final String TAG = ProdRegFirstLaunchFragment.class.getName();
     private List<RegisteredProduct> registeredProducts;
+    private int resId;
+    private Bundle dependencies;
+
     @Override
     public int getActionbarTitleResId() {
         return R.string.PPR_NavBar_Title;
@@ -52,6 +55,13 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     }
 
     @Override
+    public void setImageBackground() {
+        if (getView() != null) {
+            //TODO        getView().setBackgroundResource(resId);
+        }
+    }
+
+    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
         final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
@@ -65,9 +75,10 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            registeredProducts = (List<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+        dependencies = getArguments();
+        if (dependencies != null) {
+            registeredProducts = (List<RegisteredProduct>) dependencies.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            resId = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
         }
     }
 
@@ -91,7 +102,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 final User user = new User(activity);
                 if (user.isUserSignIn()) {
                     final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
-                    processFragment.setArguments(getArguments());
+                    processFragment.setArguments(dependencies);
                     ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegFirstLaunchScreen", "specialEvents", "productregistrationOptin");
                     final ProdRegCache prodRegCache = new ProdRegCache();
                     new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);

@@ -36,6 +36,7 @@ public class ProdRegProcessController {
         void showAlertOnError(int responseCode);
     }
 
+    int resId = 0;
     private RegisteredProduct currentProduct;
     private ProcessControllerCallBacks processControllerCallBacks;
     private Bundle dependencyBundle;
@@ -43,18 +44,17 @@ public class ProdRegProcessController {
     private boolean isApiCallingProgress = false;
     private FragmentActivity fragmentActivity;
     private ArrayList<RegisteredProduct> registeredProducts;
-
     public ProdRegProcessController(final ProcessControllerCallBacks processControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.processControllerCallBacks = processControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
-        dependencyBundle = new Bundle();
     }
 
     @SuppressWarnings("noinspection unchecked")
     public void process(final Bundle arguments) {
         if (arguments != null) {
             registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            dependencyBundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            dependencyBundle = arguments;
+            resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             if (registeredProducts != null) {
                 currentProduct = registeredProducts.get(0);
                 if (!isApiCallingProgress) {
@@ -98,6 +98,7 @@ public class ProdRegProcessController {
                     final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
+                    bundle.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, resId);
                     connectionFragment.setArguments(bundle);
                     processControllerCallBacks.showFragment(connectionFragment);
                 }

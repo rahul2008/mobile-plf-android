@@ -218,6 +218,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 prodRegLaunchInput = new ProdRegLaunchInput(products, false);
             }
             prodRegLaunchInput.setProdRegUiListener(getProdRegUiListener());
+            prodRegLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
             new PRInterface().launch(fragLauncher, prodRegLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
@@ -227,6 +228,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 prodRegLaunchInput = new ProdRegLaunchInput(products, false);
             }
             prodRegLaunchInput.setProdRegUiListener(getProdRegUiListener());
+            prodRegLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
             new PRInterface().launch(activityLauncher, prodRegLaunchInput);
         }
     }

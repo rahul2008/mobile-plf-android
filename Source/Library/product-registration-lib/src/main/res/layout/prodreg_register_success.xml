@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/parent_id"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@+id/reg_more_btn_layout"
-    android:layout_marginBottom="@dimen/scroll_view_bottom_padding">
+    android:layout_above="@+id/reg_more_btn_layout">
 
     <LinearLayout
         style="@style/Prod_Reg_Generic_Style"

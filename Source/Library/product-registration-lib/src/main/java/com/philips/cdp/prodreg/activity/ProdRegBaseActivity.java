@@ -96,11 +96,13 @@ public class ProdRegBaseActivity extends UiKitActivity {
     protected void showFragment() {
         try {
             boolean isFirstLaunch = false;
+            int imageResID = 0;
             ArrayList<Product> regProdList = null;
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
                 regProdList = (ArrayList<Product>) extras.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+                imageResID = extras.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             }
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     this, R.id.mainContainer, new ActionBarListener() {
@@ -118,6 +120,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
             final ProdRegLaunchInput prodRegLaunchInput = new ProdRegLaunchInput(regProdList, isFirstLaunch);
             prodRegLaunchInput.setProdRegUiListener(prodRegUiHelper.getProdRegUiListener());
+            prodRegLaunchInput.setFirstScreenImageResourceId(imageResID);
             new PRInterface().launch(fragLauncher, prodRegLaunchInput);
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());

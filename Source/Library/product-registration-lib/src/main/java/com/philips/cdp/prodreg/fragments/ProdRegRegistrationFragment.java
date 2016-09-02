@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
@@ -58,6 +59,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private boolean loadingFlag = false;
+    private int resId;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -105,6 +107,13 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     @Override
+    public void setImageBackground() {
+        if (getView() != null) {
+            //TODO getView().setBackgroundResource(resId);
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
@@ -144,6 +153,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         Bundle bundle = getArguments();
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.handleState();
+        if (bundle != null)
+            resId = bundle.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
     }
 
     @NonNull

@@ -107,6 +107,7 @@ public class ProdRegUiHelper implements UappInterface {
         intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegLaunchInput.isAppLaunchFlow());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
         intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
+        intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prodRegLaunchInput.getFirstScreenImageResourceId());
         context.startActivity(intent);
     }
 
@@ -123,6 +124,7 @@ public class ProdRegUiHelper implements UappInterface {
             final Bundle arguments = new Bundle();
             final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(prodRegLaunchInput.getProducts());
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            arguments.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prodRegLaunchInput.getFirstScreenImageResourceId());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegLaunchInput.isAppLaunchFlow());
             ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
             final User user = new User(fragmentLauncher.getFragmentActivity());

@@ -32,6 +32,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegConnectionFragment.class.getName();
     private List<RegisteredProduct> registeredProducts;
+    private int resId;
 
     @Override
     public int getActionbarTitleResId() {
@@ -51,6 +52,13 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
     @Override
     public List<RegisteredProduct> getRegisteredProducts() {
         return registeredProducts;
+    }
+
+    @Override
+    public void setImageBackground() {
+        if (getView() != null) {
+//TODO            getView().setBackgroundResource(resId);
+        }
     }
 
     @Override
@@ -97,6 +105,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             registeredProducts = (List<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            resId = bundle.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
         }
     }
 

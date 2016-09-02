@@ -11,6 +11,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
@@ -34,6 +37,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     private boolean isFailedOnError = false;
     private int responseCode;
     private boolean isFirstLaunch;
+    private int resId;
 
     @Override
     public int getActionbarTitleResId() {
@@ -56,11 +60,19 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     }
 
     @Override
+    public void setImageBackground() {
+        if (getView() != null) {
+            //TODO getView().setBackgroundResource(resId);
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
             isFirstLaunch = arguments.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
+            resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
         }
         setRetainInstance(true);
         final FragmentActivity activity = getActivity();
@@ -73,6 +85,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         } else {
             prodRegProcessController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));
         }
+    }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.prodreg_activity, container, false);
+        return view;
     }
 
     @Override

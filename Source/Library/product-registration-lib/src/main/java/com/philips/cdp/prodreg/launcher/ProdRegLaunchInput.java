@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.launcher;
 
+import android.support.annotation.IdRes;
+
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -14,6 +16,12 @@ public class ProdRegLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
     private boolean isAppLaunchFlow;
     private ProdRegUiListener prodRegUiListener;
+    private
+    @IdRes
+    int firstScreenImageResourceId;
+    private
+    @IdRes
+    int otherScreenImageResourceId;
 
     public ProdRegLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
         this.products = products;
@@ -34,5 +42,21 @@ public class ProdRegLaunchInput extends UappLaunchInput {
 
     public void setProdRegUiListener(final ProdRegUiListener prodRegUiListener) {
         this.prodRegUiListener = prodRegUiListener;
+    }
+
+    public int getFirstScreenImageResourceId() {
+        return firstScreenImageResourceId;
+    }
+
+    public void setFirstScreenImageResourceId(final int firstScreenImageResourceId) {
+        this.firstScreenImageResourceId = firstScreenImageResourceId;
+    }
+
+    public int getOtherScreenImageResourceId() {
+        return otherScreenImageResourceId;
+    }
+
+    public void setOtherScreenImageResourceId(final int otherScreenImageResourceId) {
+        this.otherScreenImageResourceId = otherScreenImageResourceId;
     }
 }

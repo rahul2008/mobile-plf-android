@@ -16,6 +16,8 @@ public class ProdRegConstants {
     public static final String SCREEN_ORIENTATION = "orientation";
     public static final String UI_KIT_THEME = "ui_kit_theme";
     public static final String PROD_REG_IS_FIRST_LAUNCH = "prod_reg_first_launch";
+    public static final String PROD_REG_FIRST_IMAGE_ID = "prod_reg_first_image_id";
+    public static final String PROD_REG_OTHER_IMAGE_ID = "prod_reg_other_image_id";
     public static final String PROD_REG_PRODUCT = "product";
     public static final String PROD_REG_PRODUCT_SUMMARY = "product_summary";
     public static final String PROD_REG_PRODUCT_METADATA = "product_metadata";

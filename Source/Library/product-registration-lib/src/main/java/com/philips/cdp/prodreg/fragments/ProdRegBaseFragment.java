@@ -48,6 +48,8 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
 
     public abstract List<RegisteredProduct> getRegisteredProducts();
 
+    public abstract void setImageBackground();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     public void onStart() {
         super.onStart();
         getActivity().setTitle(getActionbarTitleResId());
+        setImageBackground();
     }
 
     @Override

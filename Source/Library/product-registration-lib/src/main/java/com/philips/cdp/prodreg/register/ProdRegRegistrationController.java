@@ -51,6 +51,7 @@ public class ProdRegRegistrationController {
     private User user;
     private ArrayList<RegisteredProduct> registeredProducts;
     private ProdRegUtil prodRegUtil = new ProdRegUtil();
+    private Bundle dependencyBundle;
 
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
@@ -62,10 +63,7 @@ public class ProdRegRegistrationController {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
             final ProdRegSuccessFragment successFragment = getSuccessFragment();
             updateRegisteredProductsList(registeredProduct);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
-            bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-            successFragment.setArguments(bundle);
+            successFragment.setArguments(dependencyBundle);
             registerControllerCallBacks.showFragment(successFragment);
         }
     }
@@ -83,6 +81,7 @@ public class ProdRegRegistrationController {
     @SuppressWarnings("noinspection unchecked")
     public void init(final Bundle bundle) {
         if (bundle != null) {
+            this.dependencyBundle = bundle;
             registeredProducts = (ArrayList<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             registeredProduct = (RegisteredProduct) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
@@ -191,10 +190,7 @@ public class ProdRegRegistrationController {
                     registerControllerCallBacks.tagEvents("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
                     updateRegisteredProductsList(registeredProduct);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
-                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-                    fragment.setArguments(bundle);
+                    fragment.setArguments(dependencyBundle);
                     registerControllerCallBacks.showFragment(fragment);
                 }
             }
@@ -210,10 +206,7 @@ public class ProdRegRegistrationController {
                     } else {
                         final ProdRegSuccessFragment successFragment = getSuccessFragment();
                         updateRegisteredProductsList(registeredProduct);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
-                        bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-                        successFragment.setArguments(bundle);
+                        successFragment.setArguments(dependencyBundle);
                         registerControllerCallBacks.showFragment(successFragment);
                     }
                 }

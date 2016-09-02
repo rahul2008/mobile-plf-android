@@ -48,6 +48,11 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
     }
 
     @Override
+    public void setImageBackground() {
+
+    }
+
+    @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         setRetainInstance(true);
         super.onCreate(savedInstanceState);
