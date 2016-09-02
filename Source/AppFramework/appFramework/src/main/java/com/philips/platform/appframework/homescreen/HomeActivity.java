@@ -99,6 +99,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
         showNavigationDrawerItem(0);
+        sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,0);
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -228,14 +229,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,UIState.UI_HOME_FRAGMENT_STATE);
-    }
-
-
-    private void addIapCartCount() {
+        private void addIapCartCount() {
         IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIapInterface();
         iapInterface.getProductCartCount(new IAPListener() {
             @Override
@@ -263,7 +257,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     protected void onResume() {
         super.onResume();
         showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
+
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
         }

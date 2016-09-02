@@ -37,7 +37,7 @@ public class SharedPreferenceUtility {
         e.commit();
     }
 
-    public void writePreferenceInt(String key,@UIState.UIStateDef int value){
+    public void writePreferenceInt(String key,int value){
         SharedPreferences.Editor e = mMyPreferences.edit();
         e.putInt(key, value);
         e.commit();
@@ -52,7 +52,7 @@ public class SharedPreferenceUtility {
         return mMyPreferences.getBoolean(key, false);
     }
 
-    @UIState.UIStateDef public int getPreferenceInt(String key) {
+ public int getPreferenceInt(String key) {
         return mMyPreferences.getInt(key, UIState.UI_SPLASH_UNREGISTERED_STATE);
     }
     public boolean contains(String key){
