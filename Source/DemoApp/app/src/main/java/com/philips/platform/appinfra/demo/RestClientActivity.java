@@ -1,8 +1,11 @@
 package com.philips.platform.appinfra.demo;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,17 +15,27 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.rest.request.StringRequest;
+
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 310238114 on 9/1/2016.
  */
 public class RestClientActivity extends AppCompatActivity {
     String[] requestTypeOption  ={"GET","POST","PUT","DELETE"};
+   // String url = "https://www.oldchaphome.nl/RCT/test.php?action=data&id=as";
+    String url = "https://www.oldchaphome.nl/RCT/test.php?action=data&id=aa";
+
+
     private Spinner requestTypeSpinner;
      HashMap<String,String> params;
      HashMap<String,String> headers;
-
+    EditText urlInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +43,8 @@ public class RestClientActivity extends AppCompatActivity {
         params= new HashMap<String,String>();
         headers= new HashMap<String,String>();
 
-        EditText urlInput = (EditText)findViewById(R.id.editTextURL);
+        urlInput= (EditText)findViewById(R.id.editTextURL);
+        urlInput.setText(url);
         Button setHeaders = (Button)findViewById(R.id.buttonSetHeaders);
         setHeaders.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,22 +68,82 @@ public class RestClientActivity extends AppCompatActivity {
         invoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(String  key: params.keySet() ){
+                int methodType = Request.Method.GET;
 
-                }
+
                 for(String  key: headers.keySet() ){
 
                 }
 
                 if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("GET")){
+                    methodType = Request.Method.GET;
 
                 }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("POST")){
-
+                    methodType = Request.Method.POST;
                 }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")){
-
+                    methodType = Request.Method.PUT;
                 }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("DELETE")){
-
+                    methodType = Request.Method.DELETE;
                 }
+
+                if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")) {
+                    StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
+                            new Response.Listener<String>()
+                            {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.i("LOG", "" + response);
+                                    //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                    showAlertDialog("Success Response",response);
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.i("LOG", "" + error);
+                                    //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                    showAlertDialog("Error Response",error.toString());
+                                }
+                            }
+                    ) {
+
+                        @Override
+                        protected Map<String, String> getParams()
+                        {
+                            Map<String, String> paramList = new HashMap<String, String> ();
+                            for(String  key: params.keySet() ){
+                                paramList.put(key, params.get(key));
+                            }
+                           // paramList.put("name", "Alif");
+                            return paramList;
+                        }
+
+                    };
+                    AppInfraApplication.gAppInfra.getRestInterface().getRequestQueue().add(putRequest);
+                }else{
+                    StringRequest mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim(), new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("LOG", "" + response);
+                            //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                            showAlertDialog("Success Response",response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.i("LOG", "" + error);
+                            //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                            showAlertDialog("Error Response",error.toString());
+                        }
+                    });
+                    AppInfraApplication.gAppInfra.getRestInterface().getRequestQueue().add(mStringRequest);
+
+                    }
+
+
+
+
 
             }
 
@@ -116,5 +190,25 @@ public class RestClientActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    void showAlertDialog(String title, String msg){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(RestClientActivity.this);
+        builder1.setTitle(title);
+        builder1.setMessage(msg);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        //builder1.setNegativeButton(null);
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 }
