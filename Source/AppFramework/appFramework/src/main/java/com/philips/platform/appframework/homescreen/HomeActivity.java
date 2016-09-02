@@ -249,7 +249,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,UIState.UI_HOME_FRAGMENT_STATE);
     }
 
 
