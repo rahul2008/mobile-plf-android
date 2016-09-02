@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -99,6 +100,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
         showNavigationDrawerItem(0);
+        sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,0);
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -130,6 +132,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         actionBarCount.setVisibility(View.GONE);
         hamburgerIcon = (ImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
+        hamburgerIcon.setTag("HamburgerIcon");
         hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
 
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
@@ -198,38 +201,48 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void onBackPressed() {
-        if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            philipsDrawerLayout.closeDrawer(Gravity.LEFT);
-            return;
-        }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
-        boolean backState = false;
-        if(currentFrag instanceof HomeFragment) {
-            finishAffinity();
-        }else  if(fragmentManager.getBackStackEntryCount() == 1){
-            showNavigationDrawerItem(0);
-        }else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof RegistrationFragment) {
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if(!backState){
-                fragmentManager.popBackStack();
+        if(null != hamburgerIcon) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+            boolean backState = false;
+            if (hamburgerIcon.getTag().equals("HamburgerIcon")) {
+                if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    philipsDrawerLayout.closeDrawer(Gravity.LEFT);
+                    return;
+                }
+                if (currentFrag instanceof HomeFragment) {
+                    finishAffinity();
+                } else if (fragmentManager.getBackStackEntryCount() == 1) {
+                    showNavigationDrawerItem(0);
+                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof RegistrationFragment) {
+                    backState = ((BackEventListener) currentFrag).handleBackEvent();
+                    if (!backState) {
+                        fragmentManager.popBackStack();
+                    }
+                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof BaseAnimationSupportFragment) {
+                    backState = ((BackEventListener) currentFrag).handleBackEvent();
+                    if (!backState) {
+                        popBackTillHomeFragment();
+                    }
+                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase("digitalcare")) {
+                    backState = ((BackEventListener) currentFrag).handleBackEvent();
+                    if (!backState) {
+                        popBackTillHomeFragment();
+                    }
+                } else {
+                    AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
+                    UIFlowManager flowManager = applicationContext.getFlowManager();
+                    UIState currentState = flowManager.getCurrentState();
+                    currentState.back(this);
+                }
+            } else if (hamburgerIcon.getTag().equals("BackButton")) {
+                if (currentFrag != null && currentFrag instanceof BackEventListener){
+                    backState = ((BackEventListener) currentFrag).handleBackEvent();
+                    if (!backState) {
+                       super.onBackPressed();
+                    }
+                }
             }
-        }else if (currentFrag !=null && currentFrag.getTag().equalsIgnoreCase("digitalcare")){
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
-                backstackFragment();
-            }
-        }else if(currentFrag != null && currentFrag instanceof BackEventListener){
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
-                fragmentManager.popBackStack();
-            }
-        }
-        else {
-            AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
-            UIFlowManager flowManager = applicationContext.getFlowManager();
-            UIState currentState = flowManager.getCurrentState();
-            currentState.back(this);
         }
     }
 
@@ -291,17 +304,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
+
         setTitle(getResources().getString(i));
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerIcon.setTag("BackButton");
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    backstackFragment();
+                   onBackPressed();
                 }
             });
         } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerIcon.setTag("HamburgerIcon");
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -314,17 +330,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateActionBar(String s, boolean b) {
+
         setTitle(s);
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerIcon.setTag("BackButton");
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    backstackFragment();
+                    onBackPressed();
                 }
             });
         } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerIcon.setTag("HamburgerIcon");
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

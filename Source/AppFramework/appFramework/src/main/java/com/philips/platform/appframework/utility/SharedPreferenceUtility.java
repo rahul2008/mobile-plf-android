@@ -37,7 +37,7 @@ public class SharedPreferenceUtility {
         e.commit();
     }
 
-    public void writePreferenceInt(String key,@UIState.UIStateDef int value){
+    public void writePreferenceInt(String key,int value){
         SharedPreferences.Editor e = mMyPreferences.edit();
         e.putInt(key, value);
         e.commit();
