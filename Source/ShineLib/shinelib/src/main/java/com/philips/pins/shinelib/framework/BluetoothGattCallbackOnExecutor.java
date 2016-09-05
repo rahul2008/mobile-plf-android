@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -16,9 +16,6 @@ import com.philips.pins.shinelib.utility.Utilities;
 
 import java.util.concurrent.Executor;
 
-/**
- * Created by 310188215 on 24/03/15.
- */
 public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
     private static final String TAG = BluetoothGattCallbackOnExecutor.class.getSimpleName();
     private ISHNBluetoothGattCallback iShnBluetoothGattCallback;

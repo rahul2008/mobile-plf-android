@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -23,9 +23,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 22/06/15.
- */
 public class SHNServiceCurrentTime {
     public static final UUID SERVICE_UUID =                             UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1805));
     public static final UUID CURRENT_TIME_CHARACTERISTIC_UUID =         UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A2B));

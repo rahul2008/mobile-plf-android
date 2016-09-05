@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -13,9 +13,6 @@ import android.os.Handler;
 
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 04/05/15.
- */
 public class BTAdapter {
     public interface LeScanCallback {
         void onLeScan(BTDevice btDevice, int rssi, byte[] scanRecord);

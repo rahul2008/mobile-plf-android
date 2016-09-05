@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -12,9 +12,6 @@ import com.philips.pins.shinelib.SHNService;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 08/06/15.
- */
 public class SHNFactory {
     private SHNDeviceImpl shnDeviceImpl;
 

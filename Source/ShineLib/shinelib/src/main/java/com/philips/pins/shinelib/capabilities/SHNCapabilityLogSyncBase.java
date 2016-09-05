@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.capabilities;
 
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -24,10 +25,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchronization { // rename it
 
     protected List<SHNResult> resultsThatDoNotCauseFailure;
@@ -130,7 +127,9 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     private void finishLoggingResult(SHNResult result) {
-        assert (state == State.Synchronizing);
+        if (BuildConfig.DEBUG && state != State.Synchronizing)
+            throw new IllegalStateException("Can only finish logging when state is State.Synchronizing");
+
         teardownReceivingMeasurements();
         notifyListenerWithProgress(1.0f);
 
@@ -181,7 +180,6 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         if (shnCapabilityLogSynchronizationListener != null)
             shnCapabilityLogSynchronizationListener.onProgressUpdate(this, progress);
     }
-
 
     private void notifyListenerWithLogItem(final SHNLogItem logItem) {
         if (shnCapabilityLogSynchronizationListener != null) {

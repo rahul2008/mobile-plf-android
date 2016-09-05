@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
 
@@ -10,9 +10,6 @@ import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.os.Handler;
 
-/**
- * Created by 310188215 on 04/05/15.
- */
 public class BTDevice {
     private BluetoothDevice device;
     private Handler handler;

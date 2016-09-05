@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.capabilities;
 
 import com.philips.pins.shinelib.SHNObjectResultListener;
@@ -20,9 +25,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
-/**
- * Created by 310188215 on 08/07/15.
- */
 public class SHNDeviceTimeAdjusterCurrentTimeServiceTest {
     private SHNDeviceTimeAdjusterCurrentTimeService shnDeviceTimeAdjusterCurrentTimeService;
     private SHNServiceCurrentTime mockedSHNServiceCurrentTime;

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothGatt;
@@ -21,13 +26,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-/**
- * Created by 310188215 on 06/05/15.
- */
 public class SHNServiceTest {
     private SHNService shnService;
     private UUID mockedServiceUUID;
@@ -35,7 +40,9 @@ public class SHNServiceTest {
     private Set<UUID> optionalCharacteristics;
     private UUID mockedRequiredCharacteristicUUID;
     private UUID mockedOptionalCharacteristicUUID;
+    private byte[] mockedCharacteristicValue;
     private SHNService.SHNServiceListener mockedSHNServiceListener;
+    private SHNService.CharacteristicDiscoveryListener mockedCharacteristicDiscoveryListener;
     private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;
     private BTGatt mockedBTGatt;
 
@@ -51,8 +58,12 @@ public class SHNServiceTest {
         optionalCharacteristics.add(mockedOptionalCharacteristicUUID);
         mockedSHNServiceListener = (SHNService.SHNServiceListener) Utility.makeThrowingMock(SHNService.SHNServiceListener.class);
 
+        mockedCharacteristicValue = new byte[]{0x12};
+        mockedCharacteristicDiscoveryListener = mock(SHNService.CharacteristicDiscoveryListener.class);
+
         shnService = new SHNService(mockedServiceUUID, requiredCharacteristics, optionalCharacteristics);
         shnService.registerSHNServiceListener(mockedSHNServiceListener);
+        shnService.registerCharacteristicDiscoveryListener(mockedCharacteristicDiscoveryListener);
     }
 
     @Test
@@ -96,6 +107,7 @@ public class SHNServiceTest {
         mockedBluetoothCharacteristics.add(mockedBluetoothGattCharacteristic);
         doReturn(mockedBluetoothCharacteristics).when(mockedBluetoothGattService).getCharacteristics();
         doReturn(mockedRequiredCharacteristicUUID).when(mockedBluetoothGattCharacteristic).getUuid();
+        doReturn(mockedCharacteristicValue).when(mockedBluetoothGattCharacteristic).getValue();
         doNothing().when(mockedSHNServiceListener).onServiceStateChanged(any(SHNService.class), any(SHNService.State.class));
 
         mockedBTGatt = (BTGatt) Utility.makeThrowingMock(BTGatt.class);
@@ -115,6 +127,7 @@ public class SHNServiceTest {
         BluetoothGattCharacteristic mockedBluetoothGattCharacteristic = (BluetoothGattCharacteristic) Utility.makeThrowingMock(BluetoothGattCharacteristic.class);
         mockedBluetoothCharacteristics.add(mockedBluetoothGattCharacteristic);
         doReturn(mockedBluetoothCharacteristics).when(mockedBluetoothGattService).getCharacteristics();
+        doReturn(mockedCharacteristicValue).when(mockedBluetoothGattCharacteristic).getValue();
         doReturn(characteristicUUID).when(mockedBluetoothGattCharacteristic).getUuid();
 
         BTGatt mockedBTGatt = (BTGatt) Utility.makeThrowingMock(BTGatt.class);
@@ -253,5 +266,28 @@ public class SHNServiceTest {
     @Test
     public void testOnDescriptorWrite() {
         // No test for the descriptor since there is no SHNDescriptor concept
+    }
+
+    @Test
+    public void testRegisteringCharacteristicDiscoveryListener() throws Exception {
+        SHNService.CharacteristicDiscoveryListener mock2 = mock(SHNService.CharacteristicDiscoveryListener.class);
+        assertEquals(1, shnService.numberOfRegisteredDiscoveryListeners());
+        shnService.registerCharacteristicDiscoveryListener(mock2);
+        assertEquals(2, shnService.numberOfRegisteredDiscoveryListeners());
+        shnService.unregisterCharacteristicDiscoverListener(mock2);
+        assertEquals(1, shnService.numberOfRegisteredDiscoveryListeners());
+    }
+
+    @Test
+    public void testConectingToBleShouldCallOnCharacteristicsDiscovered() throws Exception {
+        getServiceToAvailableStateThroughConnectToBLELayer();
+        verify(mockedCharacteristicDiscoveryListener).onCharacteristicDiscovered(eq(mockedRequiredCharacteristicUUID), eq(mockedCharacteristicValue), any(SHNCharacteristic.class));
+    }
+
+    @Test
+    public void testConectingToBleShouldNotCallOnCharacteristicsDiscovered_whenDiscoveryListenerIsUnregistered() throws Exception {
+        shnService.unregisterCharacteristicDiscoverListener(mockedCharacteristicDiscoveryListener);
+        getServiceToAvailableStateThroughConnectToBLELayer();
+        verify(mockedCharacteristicDiscoveryListener, never()).onCharacteristicDiscovered(any(UUID.class), any(byte[].class), any(SHNCharacteristic.class));
     }
 }
