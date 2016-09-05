@@ -42,6 +42,7 @@ import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 
 import android.support.annotation.Nullable;
+
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
@@ -180,7 +181,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
 
 
-            if(discoveryListener != null){
+            if (discoveryListener != null) {
                 discoveryListener.onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
             }
 
@@ -457,7 +458,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void onCharacteristicDiscovered(@NonNull final UUID characteristicUuid, final byte[] data, @Nullable final SHNCharacteristic characteristic) {
-        if(this.discoveryListener != null){
+        if (this.discoveryListener != null) {
             this.discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic);
         }
     }
@@ -586,6 +587,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             SHNLogger.i(TAG, "BluetoothAdapter disabled");
             if (internalState != InternalState.Disconnected) {
                 SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+                startTimerTime = 0; // make sure the retry is not issued
                 handleGattDisconnectEvent();
             }
         }

@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -1087,6 +1088,19 @@ public class SHNDeviceImplTest {
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
         assertEquals(SHNDevice.State.Disconnected, shnDevice.getState());
         verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));
+    }
+
+    @Test
+    public void whenBluetoothIsSwitchedOffDuringReconnectCycleThenFailedToConnectIsReported() {
+        shnDevice.connect(100L);
+        reset(mockedSHNDeviceListener);
+
+        when(mockedSHNCentral.getBluetoothAdapterState()).thenReturn(BluetoothAdapter.STATE_OFF);
+        shnDevice.onStateUpdated(mockedSHNCentral);
+
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
+        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
+        assertEquals(SHNDevice.State.Disconnected, shnDevice.getState());
     }
 
     @Test
