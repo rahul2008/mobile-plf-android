@@ -56,8 +56,8 @@ public class NotificationRegisteringManager implements SignonListener,
 //				gcm = null;
 //			}
 //			JPushInterface.setDebugMode(false);
-			JPushInterface.init(PurAirApplication.getAppContext());
-			JPushInterface.resumePush(PurAirApplication.getAppContext());
+//			JPushInterface.init(PurAirApplication.getAppContext());
+//			JPushInterface.resumePush(PurAirApplication.getAppContext());
 //		} else {
 //			ALog.i(ALog.NOTIFICATION,"GOOGLE SERVICE");
 //			setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_GOOGLE);
