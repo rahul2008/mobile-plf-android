@@ -246,7 +246,13 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
-        private void addIapCartCount() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
+    private void addIapCartCount() {
         IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIapInterface();
         iapInterface.getProductCartCount(new IAPListener() {
             @Override
@@ -274,9 +280,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     protected void onResume() {
         super.onResume();
         showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
-
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
         }
