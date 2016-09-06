@@ -56,10 +56,16 @@ public class RegisterTraditionalTest extends InstrumentationTestCase {
 
     @Test
     public  void testRegisterSocial(){
-        assertNotNull(mRegisterTraditional);
+        mRegisterTraditional.onRegisterFailedWithFailure(null);
+
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        mRegisterTraditional.onRegisterFailedWithFailure(userRegistrationFailureInfo);
 
         //mRegisterSocial.onSuccess();
         //mRegisterTraditional.onFlowDownloadFailure();
+
+        assertNotNull(mRegisterTraditional);
+
     }
 
 }
