@@ -85,6 +85,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         public void onSuccess(final int count) {
             //Added to cart tracking
             tagItemAddedToCart();
+            if (mIapListener != null) {
+                mIapListener.didUpdateCartCount();
+            }
         }
 
         @Override

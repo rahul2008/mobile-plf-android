@@ -100,7 +100,7 @@ public class IAPHandler {
 
     private void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
         BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
-        addFragment(target, uiLauncher);
+        addFragment(target, uiLauncher, iapLaunchInput);
     }
 
     private BaseAnimationSupportFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
@@ -160,9 +160,8 @@ public class IAPHandler {
         pContext.startActivity(intent);
     }
 
-    protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher) {
-
-        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
+    protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher, IAPLaunchInput iapLaunchInput) {
+        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), iapLaunchInput.getIapListener());
         String tag = newFragment.getClass().getName();
         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);

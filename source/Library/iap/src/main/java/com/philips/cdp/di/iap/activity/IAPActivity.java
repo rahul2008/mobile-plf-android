@@ -52,7 +52,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     private TextView mTitleTextView;
     private TextView mCountText;
     private ImageView mBackImage;
-    private ImageView mCartIcon;
+    private FrameLayout mCartContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +140,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
-        newFragment.setActionBarListener(this);
+        newFragment.setActionBarListener(this, this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
         transaction.addToBackStack(newFragmentTag);
@@ -153,7 +153,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
-        if(mActionBar == null) return;
+        if (mActionBar == null) return;
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
@@ -175,7 +175,8 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.app_name));
-        mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
+        mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
+        ImageView mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
         Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
         mCartIcon.setBackground(mCartIconDrawable);
         mCartIcon.setOnClickListener(new View.OnClickListener() {
@@ -238,11 +239,9 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (visibility) {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.VISIBLE);
-            mCartIcon.setVisibility(View.VISIBLE);
         } else {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.INVISIBLE);
-            mCartIcon.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -251,11 +250,9 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (visibility) {
             mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.VISIBLE);
-            mCartIcon.setVisibility(View.VISIBLE);
         } else {
             mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.INVISIBLE);
-            mCartIcon.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -268,6 +265,22 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             mCountText.setVisibility(View.GONE);
         }
         dismissProgressDialog();
+    }
+
+    @Override
+    public void didUpdateCartCount() {
+        Toast.makeText(this, "didUpdateCartCount", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+        if (shouldShow) {
+            mCartContainer.setVisibility(View.VISIBLE);
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCartContainer.setVisibility(View.GONE);
+            mCountText.setVisibility(View.GONE);
+        }
     }
 
     @Override
