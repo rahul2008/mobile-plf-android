@@ -7,8 +7,12 @@ package com.philips.platform.appframework.settingscreen;
 
 import android.text.Spanned;
 
+/**
+ * Used for setting individual items in Settings list
+ */
+
 public class SettingListItem {
-    Spanned title = null;
-    SettingListItemType type = null;
-    boolean userRegistrationRequired = false;
+    public Spanned title = null;
+    public SettingListItemType type = null;
+    public boolean userRegistrationRequired = false;
 }

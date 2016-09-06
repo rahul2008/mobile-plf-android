@@ -2,6 +2,7 @@ package com.philips.platform.appframework.aboutscreen;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,9 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
         View view = inflater.inflate(R.layout.uikit_about_screen, container, false);
         TextView  version =(TextView)view.findViewById(R.id.about_version);
         version.setText("App Version" +BuildConfig.VERSION_NAME);
-       view.setBackgroundColor(getResources().getColor(R.color.uikit_philips_dark_blue));
+
+        view.setBackgroundColor(ContextCompat.getColor(this.getActivity(), R.color.uikit_philips_dark_blue));
+
         TextView  content =(TextView)view.findViewById(R.id.about_content);
         content.setText(R.string.about_screen_description);
         return view;

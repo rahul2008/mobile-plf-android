@@ -306,32 +306,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     public void updateActionBar(@StringRes int i, boolean b) {
 
         setTitle(getResources().getString(i));
-        if (b) {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-            hamburgerIcon.setTag("BackButton");
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   onBackPressed();
-                }
-            });
-        } else {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerIcon.setTag("HamburgerIcon");
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    philipsDrawerLayout.openDrawer(navigationView);
-                }
-            });
-
-        }
+        updateActionBarIcon(b);
     }
+
 
     @Override
     public void updateActionBar(String s, boolean b) {
 
         setTitle(s);
+        updateActionBarIcon(b);
+
+    }
+
+    public void updateActionBarIcon(boolean b)
+    {
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
             hamburgerIcon.setTag("BackButton");
