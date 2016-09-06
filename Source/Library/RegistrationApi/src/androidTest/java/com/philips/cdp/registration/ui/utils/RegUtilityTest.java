@@ -104,7 +104,10 @@ public class RegUtilityTest extends InstrumentationTestCase {
     public void testGetCreateAccountStartTime() throws Exception {
         regUtility.setCreateAccountStartTime(1234567890);
         assertEquals(1234567890, regUtility.getCreateAccountStartTime());
+      }
+    @Test
+    public void testCheckIsValidSignInProviders() throws Exception {
+        regUtility.checkIsValidSignInProviders(null);
     }
 
-
-}
+    }
