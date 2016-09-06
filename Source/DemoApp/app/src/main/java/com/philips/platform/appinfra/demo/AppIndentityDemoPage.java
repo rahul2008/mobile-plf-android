@@ -29,6 +29,7 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         AppInfraInterface appInfra = AppInfraApplication.gAppInfra;
         mAppIdentityInterface = appInfra.getAppIdentity();
 
+
         ((TextView) findViewById(R.id.appNameValue)).setText(mAppIdentityInterface.getAppName());
         ((TextView) findViewById(R.id.localizedAppValue)).setText(mAppIdentityInterface.getLocalizedAppName());
         ((TextView) findViewById(R.id.appVersionValue)).setText(mAppIdentityInterface.getAppVersion());

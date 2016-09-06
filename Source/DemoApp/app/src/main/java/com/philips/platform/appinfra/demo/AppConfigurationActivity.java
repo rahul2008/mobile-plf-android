@@ -89,6 +89,46 @@ public class AppConfigurationActivity extends AppCompatActivity {
         });
 
 
+        final EditText getGroupKeyETDef = (EditText) findViewById(R.id.getCocoKeyIDDef);
+        final EditText getKeyETDef = (EditText) findViewById(R.id.getKeyIDDef);
+        final TextView showValueDef = (TextView) findViewById(R.id.getValueDef);
+        Button btnGetValueFromDeviceDef = (Button) findViewById(R.id.btn_getValueFromDEviceDef);
+
+        assert btnGetValueFromDeviceDef != null;
+        btnGetValueFromDeviceDef.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showValueDef.setText(null);
+                String cocokey = getGroupKeyETDef.getText().toString();
+                String key = getKeyETDef.getText().toString();
+                if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty()) {
+                    Toast.makeText(AppConfigurationActivity.this, "Please enter Coco name and key", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+                    Object object = null;
+                    try {
+                        object = mConfigInterface.getDefaultPropertyForKey(getKeyETDef.getText().toString(), getGroupKeyETDef.getText().toString(),  configError);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != configError.getErrorCode()) {
+                        Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (object != null) {
+                            showValueDef.setText(object.toString());
+
+                        } else {
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+
         final EditText setGroupKeyET = (EditText) findViewById(R.id.setGroupKeyID);
         final EditText setKeyET = (EditText) findViewById(R.id.setKeyID);
         final EditText setValueET = (EditText) findViewById(R.id.setValueID);

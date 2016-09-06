@@ -38,6 +38,9 @@ public interface AppConfigurationInterface {
     boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError)
             throws IllegalArgumentException;
 
+
+    Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException;
+
     /**
      * The type Config error.
      */

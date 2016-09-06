@@ -61,9 +61,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         return result;
     }
 
-    private JSONObject getjSONFromCache(){
-        if(null==configJsonCache){
-            configJsonCache= getjSONFromDevice();
+    private JSONObject getjSONFromCache() {
+        if (null == configJsonCache) {
+            configJsonCache = getjSONFromDevice();
         }
         return configJsonCache;
 
@@ -100,35 +100,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
             //configJsonCache is initialized//
             try {
-                boolean isCocoPresent = configJsonCache.has(group);
-                if (!isCocoPresent) { // if request coco does not exist
-                    configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.GroupNotExists);
-                } else {
-                    JSONObject cocoJSONobject = configJsonCache.optJSONObject(group);
-                    if (null == cocoJSONobject) { // invalid Coco JSON
-                        configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
-                    } else {
-                        boolean isKeyPresent = cocoJSONobject.has(key);
-                        if (!isKeyPresent) { // if key is not found inside coco
-                            configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.KeyNotExists);
-                        } else {
-                            object = cocoJSONobject.opt(key); // Returns the value mapped by name, or null if no such mapping exists
-                            if (null == object) {
-                                //configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
-                            } else {
-                                //  KEY FOUND SUCCESS
-                                if (cocoJSONobject.opt(key) instanceof JSONArray) {
-                                    JSONArray jsonArray = cocoJSONobject.optJSONArray(key);
-                                    List<Object> list = new ArrayList<Object>();
-                                    for (int iCount = 0; iCount < jsonArray.length(); iCount++) {
-                                        list.add(jsonArray.opt(iCount));
-                                    }
-                                    object = list;
-                                }
-                            }
-                        }
-                    }
-                }
+                object = getKey(key, group, configError, configJsonCache);
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
                         Log.getStackTraceString(e));
@@ -141,7 +113,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError) throws IllegalArgumentException {
         boolean setOperation = false;
         if (null == key || null == group || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") ||
-                !key.matches("[a-zA-Z0-9_.-]+") ) {
+                !key.matches("[a-zA-Z0-9_.-]+")) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
@@ -171,7 +143,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         } else {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         }
-                    } else if (object instanceof Integer || object instanceof String ||null==object) {
+                    } else if (object instanceof Integer || object instanceof String || null == object) {
 
                         cocoJSONobject.put(key, object);
                     } else {
@@ -192,5 +164,60 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             }
         }
         return setOperation;
+    }
+
+
+    @Override
+    public Object getDefaultPropertyForKey(String key, String group ,AppConfigurationError configError) throws IllegalArgumentException {
+
+        Object object = null;
+        if (null == group || null == group || group.isEmpty() || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") || !group.matches("[a-zA-Z0-9_.-]+")) {
+            configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
+            throw new IllegalArgumentException("Invalid Argument Exception");
+        } else {
+            //configJsonCache is initialized//
+            try {
+                object = getKey(key, group, configError, getMasterConfigFromApp());
+            } catch (Exception e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                        Log.getStackTraceString(e));
+            }
+        }
+        return object;
+    }
+
+    private Object getKey(String key, String group, AppConfigurationError configError, JSONObject jsonObject) {
+        System.out.println(key +" "+ group +" "+ jsonObject);
+        Object object = null;
+        boolean isCocoPresent = jsonObject.has(group);
+        if (!isCocoPresent) { // if request coco does not exist
+            configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.GroupNotExists);
+        } else {
+            JSONObject cocoJSONobject = jsonObject.optJSONObject(group);
+            if (null == cocoJSONobject) { // invalid Coco JSON
+                configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
+            } else {
+                boolean isKeyPresent = cocoJSONobject.has(key);
+                if (!isKeyPresent) { // if key is not found inside coco
+                    configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.KeyNotExists);
+                } else {
+                    object = cocoJSONobject.opt(key); // Returns the value mapped by name, or null if no such mapping exists
+                    if (null == object) {
+                        //configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
+                    } else {
+                        //  KEY FOUND SUCCESS
+                        if (cocoJSONobject.opt(key) instanceof JSONArray) {
+                            JSONArray jsonArray = cocoJSONobject.optJSONArray(key);
+                            List<Object> list = new ArrayList<Object>();
+                            for (int iCount = 0; iCount < jsonArray.length(); iCount++) {
+                                list.add(jsonArray.opt(iCount));
+                            }
+                            object = list;
+                        }
+                    }
+                }
+            }
+        }
+        return object;
     }
 }

@@ -114,7 +114,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     String buildUrl(String country) {
         final AppIdentityManager identityManager = new AppIdentityManager(mAppInfra);
-        identityManager.loadJSONFromAsset();
         final InternationalizationManager localManager = new InternationalizationManager(mAppInfra);
         localManager.getUILocale();
         final AppIdentityInterface.AppState state = identityManager.getAppState();

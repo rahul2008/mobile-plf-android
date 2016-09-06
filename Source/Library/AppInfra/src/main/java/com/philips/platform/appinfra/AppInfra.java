@@ -174,6 +174,7 @@ public class AppInfra implements AppInfraInterface {
         public AppInfra build(Context pContext) {
 
             AppInfra ai = new AppInfra(pContext);
+            ai.setConfigInterface(configInterface == null ? new AppConfigurationManager(ai) : configInterface);
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
@@ -186,7 +187,6 @@ public class AppInfra implements AppInfraInterface {
             ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
-            ai.setConfigInterface(configInterface == null ? new AppConfigurationManager(ai) : configInterface);
             if (ai.getAppIdentity() != null) {
                 StringBuilder appInfraLogStatement = new StringBuilder();
                 appInfraLogStatement.append("AppInfra initialized for application \"");

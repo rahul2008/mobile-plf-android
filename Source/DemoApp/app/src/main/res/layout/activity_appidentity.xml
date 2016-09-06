@@ -21,7 +21,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:padding="10dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_below="@+id/appName"
         android:layout_marginRight="10dp"
         android:padding="10dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
@@ -64,7 +64,7 @@
         android:layout_below="@id/localizedAppName"
         android:layout_marginRight="10dp"
         android:padding="10dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
@@ -86,7 +86,7 @@
         android:layout_below="@id/appVersion"
         android:layout_marginRight="10dp"
         android:padding="10dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -107,7 +107,7 @@
         android:layout_below="@+id/appState"
         android:layout_marginRight="10dp"
         android:padding="10dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
@@ -130,7 +130,7 @@
         android:layout_below="@id/micrositeId"
         android:layout_marginRight="10dp"
         android:padding="10dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
@@ -153,6 +153,6 @@
         android:layout_below="@id/sector"
         android:layout_marginRight="10dp"
         android:padding="10dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 </RelativeLayout>
