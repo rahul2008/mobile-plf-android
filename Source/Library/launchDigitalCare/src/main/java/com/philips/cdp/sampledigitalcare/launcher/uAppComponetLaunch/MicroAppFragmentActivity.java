@@ -52,14 +52,14 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
         }
 
         @Override
-        public void updateActionBar(String title, boolean hamburgerMenu) {
+        public void updateActionBar(String title, boolean actionBarLeftArrow) {
 
             // Toast.makeText(MicroAppFragmentActivity.this, title, Toast.LENGTH_SHORT).show();
             mActionBarTitle.setText(title);
-            if (hamburgerMenu) {
-                enableActionBarHome();
-            } else {
+            if (actionBarLeftArrow) {
                 enableActionBarLeftArrow();
+            } else {
+                enableActionBarHome();
             }
 
         }
