@@ -64,7 +64,7 @@ public class AppFrameworkApplication extends Application {
     private void initializeIAP() {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(getApplicationContext());
-        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        IAPDependencies iapDependencies = new IAPDependencies(gAppInfra);
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
     }
@@ -83,7 +83,7 @@ public class AppFrameworkApplication extends Application {
 
     @SuppressWarnings("deprecation")
     private void initializeProductRegistrationLibrary() {
-        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
+        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(gAppInfra);
 
         UappSettings uappSettings = new UappSettings(getApplicationContext());
         new PRInterface().init(prodRegDependencies, uappSettings);
