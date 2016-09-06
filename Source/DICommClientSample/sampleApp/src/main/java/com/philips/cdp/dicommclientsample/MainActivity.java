@@ -4,14 +4,10 @@
  */
 package com.philips.cdp.dicommclientsample;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,8 +26,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -66,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         discoveryManager = DiscoveryManager.getInstance();
 
-        //RegistrationHelper.getInstance().registerUserRegistrationListener(this.registrationListener);
-
-        ((TextView) findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
+        ((TextView)findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
     }
 
     @Override
@@ -88,29 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         discoveryManager.removeDiscoverEventListener(discoveryEventListener);
         discoveryManager.stop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        //RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this.registrationListener);
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        new MenuInflater(this).inflate(R.menu.main_activity_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.login:
-                startActivity(new Intent(this, RegistrationActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
@@ -146,38 +115,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onPortError(final DICommPort<?> port, final Error error, final String errorData) {
             Log.d(TAG, "onPortError() called with: " + "port = [" + port + "], error = [" + error + "], errorData = [" + errorData + "]");
-        }
-    };
-
-    private UserRegistrationListener registrationListener = new UserRegistrationListener() {
-        @Override
-        public void onUserRegistrationComplete(final Activity activity) {
-
-        }
-
-        @Override
-        public void onPrivacyPolicyClick(final Activity activity) {
-
-        }
-
-        @Override
-        public void onTermsAndConditionClick(final Activity activity) {
-
-        }
-
-        @Override
-        public void onUserLogoutSuccess() {
-
-        }
-
-        @Override
-        public void onUserLogoutFailure() {
-
-        }
-
-        @Override
-        public void onUserLogoutSuccessWithInvalidAccessToken() {
-
         }
     };
 }
