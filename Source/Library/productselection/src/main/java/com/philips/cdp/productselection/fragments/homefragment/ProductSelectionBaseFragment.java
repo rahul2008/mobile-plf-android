@@ -586,8 +586,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     private void updateActionbar() {
         if (mActionbarUpdateListener != null)
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
-
+            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
     }
 
     protected void setListViewRequiredInTablet(Boolean listViewRequired) {
