@@ -103,10 +103,10 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 if (user.isUserSignIn()) {
                     final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
                     processFragment.setArguments(dependencies);
-                    ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegFirstLaunchScreen", "specialEvents", "productregistrationOptin");
+                    ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegFirstLaunchScreen", "specialEvents", "productregistrationOptin");
                     final ProdRegCache prodRegCache = new ProdRegCache();
                     new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
-                    ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegFirstLaunchScreen", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
+                    ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegFirstLaunchScreen", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
                     showFragment(processFragment);
                 } else {
                     clearFragmentStack();

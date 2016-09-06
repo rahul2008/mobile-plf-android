@@ -1,5 +1,14 @@
 Product Registration for Android Release Notes
 ===============================================
+	Version - 1.2.3	                   		   Date: 02-09-2016
+----------------------------------------------------------------
+
+	Following issues are Fixed 
+	
+	1. DE12851 - Localization: Common UI issues for all languages
+	2. DE12860 - improper error message is displayed , when user entering invalid serial number
+
+	
 	Version - 1.2.0.rc.1	                   Date: 17-08-2016
 ----------------------------------------------------------------
 

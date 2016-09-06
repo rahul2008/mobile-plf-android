@@ -98,7 +98,7 @@ public class ProdRegUiHelper implements UappInterface {
      * @param prodRegLaunchInput   product registration configuration.
      */
     private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final ProdRegLaunchInput prodRegLaunchInput) {
-        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
+        ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prodRegLaunchInput.getProducts());
@@ -126,7 +126,7 @@ public class ProdRegUiHelper implements UappInterface {
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             arguments.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prodRegLaunchInput.getFirstScreenImageResourceId());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prodRegLaunchInput.isAppLaunchFlow());
-            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
+            ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
             final User user = new User(fragmentLauncher.getFragmentActivity());
             if (prodRegLaunchInput.isAppLaunchFlow()) {
                 ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
