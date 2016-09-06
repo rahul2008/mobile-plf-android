@@ -1,5 +1,17 @@
 BlueLib(/ShineLib) for Android - Release Notes
 
+Version 1.0.1
+-------------
+### Bugs fixed:
+* [BL-241] Implemented retry mechanism for perhiral connection
+
+### API changes:
+* Deprecated SHNDeviceWrapper connect call with parameters
+* Added a connect call on SHNDevice that allows to provide a timeout for establishing BLE connection
+
+### Known issues:
+* [BG-234] Google backup might restore previously associated devices
+
 Version 1.0.0
 -------------
 ### New features:
