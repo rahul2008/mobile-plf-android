@@ -159,7 +159,6 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     }
 
     private void moveToProductCatalog() {
-        CartModelContainer.getInstance().setOrderPlaced(false);
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null) {
             getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);

@@ -59,9 +59,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_order_summary, true);
-        if (isOrderPlaced()) {
-            setTitleAndBackButtonVisibility(R.string.iap_order_summary, false);
-        }
     }
 
     @Override
@@ -86,13 +83,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         RecyclerView mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
-        if (isOrderPlaced()) {
-            ArrayList<ShoppingCartData> shoppingCartDataArrayList = CartModelContainer.getInstance().getShoppingCartData();
-            mAdapter = new OrderProductAdapter(getContext(), this, shoppingCartDataArrayList, mBillingAddress, mPaymentMethod);
-        } else {
-            mAdapter = new OrderProductAdapter(getContext(), this, new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
-            updateCartOnResume();
-        }
+        mAdapter = new OrderProductAdapter(getContext(), this, new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
+        updateCartOnResume();
         mOrderListView.setAdapter(mAdapter);
         return rootView;
     }
@@ -138,14 +130,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         }
     }
 
-    private void setOrderPlaced() {
-        CartModelContainer.getInstance().setOrderPlaced(false);
-    }
-
-    private boolean isOrderPlaced() {
-        return CartModelContainer.getInstance().isOrderPlaced();
-    }
-
     @Override
     public void onClick(final View v) {
         if (isNetworkNotConnected()) return;
@@ -165,16 +149,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
                 IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-            if (!isOrderPlaced() || paymentMethodAvailable()) {
-                mPaymentController.placeOrder(pSecurityCode);
-            } else {
-                mPaymentController.makPayment(orderID);
-            }
+            mPaymentController.placeOrder(pSecurityCode);
         }
     }
 
     private void doOnCancelOrder() {
-        setOrderPlaced();
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
             moveToVerticalAppByClearingStack();
@@ -221,7 +200,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             PlaceOrder order = (PlaceOrder) msg.obj;
             orderID = order.getCode();
             updateCount(0);
-            CartModelContainer.getInstance().setOrderPlaced(true);
             CartModelContainer.getInstance().setOrderNumber(orderID);
 
             if (paymentMethodAvailable()) {
