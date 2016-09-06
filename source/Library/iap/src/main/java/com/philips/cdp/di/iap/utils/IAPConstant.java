@@ -70,4 +70,6 @@ public class IAPConstant {
     public static final String CUSTOMER_CARE_NUMBER = "CUSTOMER_CARE_NUMBER";
     public static final String IAP_ORDER_ID = "IAP_ORDER_ID";
     public static final String IAP_LAUNCH_SHOPPING_CART = "IAP_LAUNCH_SHOPPING_CART";
+    public static final String CUSTOMER_CARE_SATURDAY_TIMING = "CUSTOMER_CARE_SATURDAY_TIMING";
+    public static final String CUSTOMER_CARE_WEEKDAYS_TIMING = "CUSTOMER_CARE_WEEKDAYS_TIMING";
 }

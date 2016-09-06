@@ -43,6 +43,7 @@
     <dimen name="iap_selection_address_cancel_margin_bottom">11dp</dimen>
 
     <dimen name="title">16sp</dimen>
+    <dimen name="header_title">19dp</dimen>
     <dimen name="quantity">14sp</dimen>
     <dimen name="header">20sp</dimen>
     <dimen name="network_image_width">85dp</dimen>

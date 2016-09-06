@@ -66,6 +66,8 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private LinearLayout mTrackOrderLayout;
 
     private String mPhoneContact;
+    private String mOpeningHoursWeekdays;
+    private String mOpeningHoursSaturday;
 
 
     @Override
@@ -194,6 +196,8 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
             mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
+            mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
+            mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
         }
     }
 
@@ -233,11 +237,13 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         } else if (v.getId() == R.id.btn_cancel) {
             Bundle bundle = new Bundle();
             if (mOrderDetail != null) {
-                if (mPhoneContact == null) {
+                if (mPhoneContact == null && mOpeningHoursSaturday == null && mOpeningHoursWeekdays == null) {
                     NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
                 } else {
                     bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
                     bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
                     addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
                 }
