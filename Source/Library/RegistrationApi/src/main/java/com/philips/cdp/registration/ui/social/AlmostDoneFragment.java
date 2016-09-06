@@ -191,20 +191,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onSaveInstanceState(Bundle outState) {
         mSavedBundle = outState;
         super.onSaveInstanceState(mSavedBundle);
-        if(mCbTerms.isChecked()){
-            isSavedCBTermsChecked = true;
-            mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
-            mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        if(mCbAcceptTerms!=null){
+            if(mCbTerms.isChecked()){
+                isSavedCBTermsChecked = true;
+                mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
+                mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
         }
-        if(mCbAcceptTerms.isChecked()){
-            isSavedCbAcceptTermsChecked = true;
-            mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
-            mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        if(mCbAcceptTerms!=null){
+            if(mCbAcceptTerms.isChecked()){
+                isSavedCbAcceptTermsChecked = true;
+                mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
+                mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
         }
-        if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
-            isTermsAndConditionVisible = true;
-            mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
-            mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        if(mRegAccptTermsError!=null){
+            if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+                isTermsAndConditionVisible = true;
+                mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
+                mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
         }
     }
 
