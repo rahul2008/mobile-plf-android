@@ -1,0 +1,32 @@
+<resources>
+    <string name="unknown">UNKNOWN</string>
+
+    <string name="app_name">BlueLib Reference App</string>
+    <string name="app_version">"App version: "</string>
+
+    <string name="action_versions">Versions</string>
+    <string name="dialog_title_versions">Versions</string>
+
+    <string name="section_title_associated_devices">Associated devices</string>
+    <string name="section_title_available_devices">Available devices</string>
+
+    <string name="bluelib_version">"BlueLib version: "</string>
+
+    <string name="title_device_list">Devices</string>
+    <string name="title_device_detail">Device detail</string>
+
+    <string name="device_detail_device_name">"Name: "</string>
+    <string name="device_detail_device_type_name">"Type name: "</string>
+    <string name="device_detail_device_rssi">"RSSI: %d dBm"</string>
+    <string name="device_detail_device_address">"Address: "</string>
+    <string name="device_detail_device_state">"State: "</string>
+
+    <!-- Device Information values -->
+    <string name="firmware_version">Firmware revision</string>
+    <string name="hardware_version">Hardware revision</string>
+    <string name="manufacturer_name">Manufacturer name</string>
+    <string name="model_number">Model number</string>
+    <string name="serial_number">Serial number</string>
+    <string name="software_version">Software revision</string>
+    <string name="system_id">System ID</string>
+</resources>

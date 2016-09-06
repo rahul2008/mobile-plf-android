@@ -3,4 +3,4 @@
  * All rights reserved.
  */
 
-include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp', ':bluelibreferenceapp', ':myapplication'
+include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp', ':bluelibexampleapp'
