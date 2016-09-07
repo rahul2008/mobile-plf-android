@@ -4,11 +4,9 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryModelTest;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 import com.philips.platform.appinfra.servicediscovery.model.Tag;
 
@@ -182,6 +180,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
+   /* commented by Anurag
     public void testBuildURL() {
         assertNotNull(mServiceDiscoveryManager.buildUrl("IN"));
     }
@@ -199,7 +198,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(message);
             }
         }));
-    }
+    }*/
 
     public void testgetCountry() {
         if (mServiceDiscoveryManager.getCountry() == null) {
