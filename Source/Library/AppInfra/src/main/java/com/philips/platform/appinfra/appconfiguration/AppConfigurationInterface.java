@@ -39,6 +39,18 @@ public interface AppConfigurationInterface {
             throws IllegalArgumentException;
 
 
+    /**
+     * Gets property for key from static json file.
+     *
+     * @param key         the group name
+     * @param group       the key
+     * @param configError the config configError as OUT parameter
+     * @return the value for key mapped by name, or null if no such mapping exists
+     * if value in literal then 'String' Object is returned
+     * if value in number then 'Integer' Object is returned
+     * if value is array of literal then 'array of String' Object is returned
+     * if value is array of number then 'array of Integer' Object is returned
+     */
     Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException;
 
     /**
