@@ -567,81 +567,81 @@ public class User {
         return captureRecord.getAccessToken();
     }
 
-    private void refreshandUpdateUser(final RefreshUserHandler handler) {
-
-        if (Jump.getSignedInUser() == null) {
-            handler.onRefreshUserFailed(0);
-            return;
-        }
-        Jump.performFetchCaptureData(new CaptureApiResultHandler() {
-
-            @Override
-            public void onSuccess(JSONObject response) {
-                Jump.saveToDisk(mContext);
-                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
-                    handler.onRefreshUserSuccess();
-                    return;
-                }
-
-                if (getEmailVerificationStatus()) {
-                    DIUserProfile userProfile = getDIUserProfileFromDisk();
-                    HsdpUser hsdpUser = new HsdpUser(mContext);
-                    HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-                    if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
-                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
-                            @Override
-                            public void onLoginSuccess() {
-                                ABCD.getInstance().setmP(null);
-                                handler.onRefreshUserSuccess();
-                            }
-
-                            @Override
-                            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
-                            }
-                        }, mContext, mUpdateUserRecordHandler, userProfile.getEmail(), ABCD.getInstance().getmP());
-                        loginTraditional.loginIntoHsdp();
-                    } else {
-                        handler.onRefreshUserSuccess();
-                    }
-                } else {
-                    handler.onRefreshUserSuccess();
-                }
-            }
-
-            @Override
-            public void onFailure(CaptureAPIError failureParam) {
-
-                System.out.println("Error " + failureParam.captureApiError);
-                System.out.println("Error code" + failureParam.captureApiError.code);
-                System.out.println("Error error " + failureParam.captureApiError.error);
-
-                if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
-                    //refresh login session
-
-                    refreshLoginSession(new RefreshLoginSessionHandler() {
-                        @Override
-                        public void onRefreshLoginSessionSuccess() {
-                            handler.onRefreshUserSuccess();
-                            return;
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionFailedWithError(int error) {
-                            handler.onRefreshUserFailed(error);
-                            return;
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionInProgress(String message) {
-
-                        }
-                    });
-                }
-                handler.onRefreshUserFailed(0);
-            }
-        });
-    }
+//    private void refreshandUpdateUser(final RefreshUserHandler handler) {
+//
+//        if (Jump.getSignedInUser() == null) {
+//            handler.onRefreshUserFailed(0);
+//            return;
+//        }
+//        Jump.performFetchCaptureData(new CaptureApiResultHandler() {
+//
+//            @Override
+//            public void onSuccess(JSONObject response) {
+//                Jump.saveToDisk(mContext);
+//                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
+//                    handler.onRefreshUserSuccess();
+//                    return;
+//                }
+//
+//                if (getEmailVerificationStatus()) {
+//                    DIUserProfile userProfile = getDIUserProfileFromDisk();
+//                    HsdpUser hsdpUser = new HsdpUser(mContext);
+//                    HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+//                    if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
+//                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
+//                            @Override
+//                            public void onLoginSuccess() {
+//                                ABCD.getInstance().setmP(null);
+//                                handler.onRefreshUserSuccess();
+//                            }
+//
+//                            @Override
+//                            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
+//                            }
+//                        }, mContext, mUpdateUserRecordHandler, userProfile.getEmail(), ABCD.getInstance().getmP());
+//                        loginTraditional.loginIntoHsdp();
+//                    } else {
+//                        handler.onRefreshUserSuccess();
+//                    }
+//                } else {
+//                    handler.onRefreshUserSuccess();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(CaptureAPIError failureParam) {
+//
+//                System.out.println("Error " + failureParam.captureApiError);
+//                System.out.println("Error code" + failureParam.captureApiError.code);
+//                System.out.println("Error error " + failureParam.captureApiError.error);
+//
+//                if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
+//                    //refresh login session
+//
+//                    refreshLoginSession(new RefreshLoginSessionHandler() {
+//                        @Override
+//                        public void onRefreshLoginSessionSuccess() {
+//                            handler.onRefreshUserSuccess();
+//                            return;
+//                        }
+//
+//                        @Override
+//                        public void onRefreshLoginSessionFailedWithError(int error) {
+//                            handler.onRefreshUserFailed(error);
+//                            return;
+//                        }
+//
+//                        @Override
+//                        public void onRefreshLoginSessionInProgress(String message) {
+//
+//                        }
+//                    });
+//                }
+//                handler.onRefreshUserFailed(0);
+//            }
+//        });
+//    }
 
     /**
      * Refresh User object and align with Server
@@ -860,21 +860,21 @@ public class User {
     }
 
 
-    private DIUserProfile getDIUserProfileFromDisk() {
-        DIUserProfile diUserProfile = null;
-        try {
-            FileInputStream fis = mContext.openFileInput(RegConstants.DI_PROFILE_FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureStorage.decrypt(enctText);
-            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return diUserProfile;
-    }
+//    private DIUserProfile getDIUserProfileFromDisk() {
+//        DIUserProfile diUserProfile = null;
+//        try {
+//            FileInputStream fis = mContext.openFileInput(RegConstants.DI_PROFILE_FILE);
+//            ObjectInputStream ois = new ObjectInputStream(fis);
+//            byte[] enctText = (byte[]) ois.readObject();
+//            byte[] decrtext = SecureStorage.decrypt(enctText);
+//            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
+//            fis.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return diUserProfile;
+//    }
 
 
     private void clearData() {

@@ -228,20 +228,20 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
     }
 
-    private static String generateRefreshSecret() {
-        final int SECRET_LENGTH = 40;
-        SecureRandom random = new SecureRandom();
-        StringBuilder buffer = new StringBuilder();
-
-        while (buffer.length() < SECRET_LENGTH) {
-            buffer.append(Integer.toHexString(random.nextInt()));
-        }
-        String refreshSecret = buffer.toString().substring(0, SECRET_LENGTH);
-        return refreshSecret;
-    }
-
-    private static void printRefreshSecretUsage() {
-        System.out.println("Invalid refreshSecret command,Please provide valid command");
-        System.out.println("Example : java -jar RequestAuthenticator.jar getrefreshsecret");
-    }
+//    private static String generateRefreshSecret() {
+//        final int SECRET_LENGTH = 40;
+//        SecureRandom random = new SecureRandom();
+//        StringBuilder buffer = new StringBuilder();
+//
+//        while (buffer.length() < SECRET_LENGTH) {
+//            buffer.append(Integer.toHexString(random.nextInt()));
+//        }
+//        String refreshSecret = buffer.toString().substring(0, SECRET_LENGTH);
+//        return refreshSecret;
+//    }
+//
+//    private static void printRefreshSecretUsage() {
+//        System.out.println("Invalid refreshSecret command,Please provide valid command");
+//        System.out.println("Example : java -jar RequestAuthenticator.jar getrefreshsecret");
+//    }
 }

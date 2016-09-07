@@ -315,17 +315,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         handleUiState();
     }
 
-    private void handleJanrainInitPb() {
-        if (NetworkUtility.isNetworkAvailable(mContext)
-                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            mPbJanrainInit.setVisibility(View.GONE);
-        } else if (NetworkUtility.isNetworkAvailable(mContext)
-                && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            mPbJanrainInit.setVisibility(View.VISIBLE);
-        } else {
-            mPbJanrainInit.setVisibility(View.GONE);
-        }
-    }
+//    private void handleJanrainInitPb() {
+//        if (NetworkUtility.isNetworkAvailable(mContext)
+//                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+//            mPbJanrainInit.setVisibility(View.GONE);
+//        } else if (NetworkUtility.isNetworkAvailable(mContext)
+//                && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+//            mPbJanrainInit.setVisibility(View.VISIBLE);
+//        } else {
+//            mPbJanrainInit.setVisibility(View.GONE);
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
@@ -417,9 +417,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void handleSocialProvider() {
-        handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-    }
+//    private void handleSocialProvider() {
+//        handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+//    }
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -642,13 +642,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             providerButton.hideProgressBar();
         }
     }
-
-    private void showProviderProgress() {
-        if (null != getView().findViewWithTag(mProvider)) {
-            XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
-            providerButton.showProgressBar();
-        }
-    }
+//
+//    private void showProviderProgress() {
+//        if (null != getView().findViewWithTag(mProvider)) {
+//            XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
+//            providerButton.showProgressBar();
+//        }
+//    }
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {

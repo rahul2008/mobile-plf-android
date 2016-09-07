@@ -60,31 +60,31 @@ public class HsdpUser {
 
 
 
-    /**
-     * handle server connection failed
-     * @param loginHandler login handler
-     * @param errorCode error code
-     * @param message message
-     */
-    private void handleServerConnectionFailed(TraditionalLoginHandler loginHandler, int errorCode, String message) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setErrorCode(errorCode);
-        userRegistrationFailureInfo.setErrorDescription(message);
-        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-    }
-
-    /**
-     * Handle hsdp failure
-     * @param loginHandler login handler
-     * @param errorCode error code
-     * @param message message
-     */
-    private void handleHsdpFailure(TraditionalLoginHandler loginHandler, int errorCode, String message) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setErrorCode(errorCode);
-        userRegistrationFailureInfo.setErrorDescription(message);
-        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-    }
+//    /**
+//     * handle server connection failed
+//     * @param loginHandler login handler
+//     * @param errorCode error code
+//     * @param message message
+//     */
+//    private void handleServerConnectionFailed(TraditionalLoginHandler loginHandler, int errorCode, String message) {
+//        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+//        userRegistrationFailureInfo.setErrorCode(errorCode);
+//        userRegistrationFailureInfo.setErrorDescription(message);
+//        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+//    }
+//
+//    /**
+//     * Handle hsdp failure
+//     * @param loginHandler login handler
+//     * @param errorCode error code
+//     * @param message message
+//     */
+//    private void handleHsdpFailure(TraditionalLoginHandler loginHandler, int errorCode, String message) {
+//        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+//        userRegistrationFailureInfo.setErrorCode(errorCode);
+//        userRegistrationFailureInfo.setErrorDescription(message);
+//        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+//    }
 
     /**
      * Logout
