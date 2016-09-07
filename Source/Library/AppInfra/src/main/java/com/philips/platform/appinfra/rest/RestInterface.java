@@ -1,14 +1,6 @@
 package com.philips.platform.appinfra.rest;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.RequestQueue;
-import com.android.volley.ResponseDelivery;
-
-import java.util.List;
-
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.X509TrustManager;
 
 
 /**
@@ -18,6 +10,6 @@ public interface RestInterface {
 
 
     public RequestQueue getRequestQueue();
-
+    public void setCacheLimit(int cacheLimit);
 
 }

@@ -15,9 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import java.util.HashMap;
@@ -36,13 +38,15 @@ public class RestClientActivity extends AppCompatActivity {
      HashMap<String,String> params;
      HashMap<String,String> headers;
     EditText urlInput;
+    RestInterface mRestInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_client);
         params= new HashMap<String,String>();
         headers= new HashMap<String,String>();
-
+        mRestInterface = AppInfraApplication.gAppInfra.getRestInterface();
+        mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         urlInput= (EditText)findViewById(R.id.editTextURL);
         urlInput.setText(url);
         Button setHeaders = (Button)findViewById(R.id.buttonSetHeaders);
@@ -119,8 +123,15 @@ public class RestClientActivity extends AppCompatActivity {
                             return paramList;
                         }
 
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            int mStatusCode = response.statusCode;
+                            return super.parseNetworkResponse(response);
+                        }
+
                     };
-                    AppInfraApplication.gAppInfra.getRestInterface().getRequestQueue().add(putRequest);
+
+                    mRestInterface.getRequestQueue().add(putRequest); // 1 MB cache
                 }else{
                     StringRequest mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim(), new Response.Listener<String>() {
                         @Override
@@ -137,7 +148,8 @@ public class RestClientActivity extends AppCompatActivity {
                             showAlertDialog("Error Response",error.toString());
                         }
                     });
-                    AppInfraApplication.gAppInfra.getRestInterface().getRequestQueue().add(mStringRequest);
+                   // mStringRequest.setShouldCache(false); // set false to disable cache
+                    mRestInterface.getRequestQueue().add(mStringRequest);
 
                     }
 

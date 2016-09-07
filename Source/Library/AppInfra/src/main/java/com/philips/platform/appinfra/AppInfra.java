@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
@@ -172,21 +173,29 @@ public class AppInfra implements AppInfraInterface {
          * @return the app infra
          */
         public AppInfra build(Context pContext) {
-
+            Log.v("APPINFRA INT","AI Intitialization Starts");
             AppInfra ai = new AppInfra(pContext);
             ai.setConfigInterface(configInterface == null ? new AppConfigurationManager(ai) : configInterface);
+            Log.v("APPINFRA INT","AppConfig Intitialization Done");
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
+            Log.v("APPINFRA INT","TimeSync Intitialization Done");
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
+            Log.v("APPINFRA INT","Tagging Intitialization Done");
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
+            Log.v("APPINFRA INT","SecureStorage Intitialization Done");
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
+            Log.v("APPINFRA INT","Logging Intitialization Done");
             // ai.setLogging(new AppInfraLogging(ai));
 
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
+            Log.v("APPINFRA INT","AppIdentity Intitialization Done");
             ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
+            Log.v("APPINFRA INT","Local Intitialization Done");
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
+            Log.v("APPINFRA INT","ServiceDiscovery Intitialization Done");
             if (ai.getAppIdentity() != null) {
                 StringBuilder appInfraLogStatement = new StringBuilder();
                 appInfraLogStatement.append("AppInfra initialized for application \"");
@@ -200,7 +209,8 @@ public class AppInfra implements AppInfraInterface {
             }
 
             ai.setRestInterface(mRestInterface == null ? new RestManager(pContext,ai) : mRestInterface);
-
+            Log.v("APPINFRA INT","Rest Intitialization Done");
+            Log.v("APPINFRA INT","AI Intitialization Done");
             return ai;
         }
     }

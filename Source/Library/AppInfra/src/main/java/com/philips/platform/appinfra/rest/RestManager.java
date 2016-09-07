@@ -1,26 +1,17 @@
 package com.philips.platform.appinfra.rest;
 
 import android.content.Context;
-import android.net.SSLCertificateSocketFactory;
-import android.net.SSLSessionCache;
 
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.HttpStack;
+import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.Volley;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.rest.request.DiskBasedCache;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import java.io.File;
 
 /**
  * Created by 310238655 on 8/26/2016.
@@ -30,6 +21,9 @@ public class RestManager implements RestInterface{
     private RequestQueue mRequestQueue ;
     private static Context mCtx;
     AppInfra mAppInfra;
+
+
+     int cacheLimit= 1024 * 1024; // 1 mb default
 
     public RestManager(Context context, AppInfra appInfra) {
         mCtx = context;
@@ -46,14 +40,33 @@ public class RestManager implements RestInterface{
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
-            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+            // Activity or BroadcastReceiver if someone ,passes one in.
+            // Instantiate the cache
+            Cache cache = new DiskBasedCache(getCacheDir(), getCacheLimit(),mAppInfra); // 1MB cap
+
+// Set up the network to use HttpURLConnection as the HTTP client.
+            Network network = new BasicNetwork(new HurlStack());
+            mRequestQueue = new RequestQueue(cache,network);
+            mRequestQueue.start();
+           // mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
     }
 
+    private File getCacheDir(){
+        return  mCtx.getApplicationContext().getDir("CacheDir", Context.MODE_PRIVATE);
+    }
+
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
+    }
+
+    private int getCacheLimit() {
+        return cacheLimit;
+    }
+
+    public void setCacheLimit(int cacheLimit) {
+        this.cacheLimit = cacheLimit;
     }
 
 }
