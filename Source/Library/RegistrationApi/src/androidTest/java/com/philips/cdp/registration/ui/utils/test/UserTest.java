@@ -9,22 +9,39 @@
 package com.philips.cdp.registration.ui.utils.test;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.test.InstrumentationTestCase;
+
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.controller.RegisterSocial;
+import com.philips.cdp.registration.controller.RegisterTraditional;
+import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
+import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
+import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
+
+import org.json.JSONObject;
+import org.mockito.Mockito;
 
 public class UserTest extends InstrumentationTestCase {
 
-	UserTest mUserTest = null;
+	User mUser = null;
 
 //	public UserTest() {
 	//	super(RegistrationActivity.class);
 	//}
-
-	/*@Override
+Context context;
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation()
-				.getTargetContext().getCacheDir().getPath());
-		mUserTest = mock(UserTest.class);
+		context = getInstrumentation().getTargetContext();
+		System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());
+		mUser = new User(context);
 		//getInstrumentation().get
 	}
 	
@@ -34,66 +51,171 @@ public class UserTest extends InstrumentationTestCase {
 		assertNotNull(result);
 	}
 
-	*//*public void testRegisterUserInfoForTraditionalIsOnSuccess() {
+	public void testRegisterUserInfoForTraditionalIsOnSuccess() throws  RuntimeException{
 
-		User mockUser = Mockito.mock(User.class);
-		TraditionalRegistrationHandler regHandler = Mockito
-				.mock(TraditionalRegistrationHandler.class);
 
-		UpdateUserRecordHandler updateHandler = Mockito
-				.mock(UpdateUserRecordHandler.class);
+		TraditionalRegistrationHandler regHandler = new TraditionalRegistrationHandler() {
+            @Override
+            public void onRegisterSuccess() {
 
-		DIUserProfile diUserProfile = Mockito.mock(DIUserProfile.class);
-		mockUser.registerUserInfoForTraditional("a","b","c",true,false,regHandler);
-		mockUser.registerUserInfoForSocial("a","b","c","a@a.com",true,false,regHandler);
-		//mockUser.registerNewUserUsingTraditional(diUserProfile,regHandler);
-		//mockUser.registerNewUserUsingTraditional(setValuesForTraditionalLogin("Sampath", "sampath.kumar@yahoo.com", "Sams@1234", true, false), regHandler);
+            }
 
-		Jump.SignInResultHandler mockJump = Mockito
-				.mock(Jump.SignInResultHandler.class);
+            @Override
+            public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+            }
+        };
+
+		UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
+            @Override
+            public void updateUserRecordLogin() {
+
+            }
+
+            @Override
+            public void updateUserRecordRegister() {
+
+            }
+        };
+        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
+            @Override
+            public void onLoginSuccess() {
+
+            }
+
+            @Override
+            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+            }
+
+            @Override
+            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+
+            }
+
+            @Override
+            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginSuccess() {
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+            }
+        };
+
+        mUser.loginUserUsingSocialProvider(null,null,
+                socialProviderLoginHandler, "mergeToken");
+
+		Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(SignInError error) {
+
+            }
+        };
 		mockJump.onSuccess();
 		RegisterTraditional handler = new RegisterTraditional(regHandler,
 				getInstrumentation().getTargetContext(), updateHandler);
 
 		handler.onSuccess();
-		Mockito.verify(regHandler, Mockito.atLeast(1)).onRegisterSuccess();
-		Mockito.verify(mockUser, Mockito.atLeast(1)).registerNewUserUsingTraditional(diUserProfile,regHandler);
+
+        TraditionalLoginHandler traditionalLoginHandler = new TraditionalLoginHandler() {
+            @Override
+            public void onLoginSuccess() {
+
+            }
+
+            @Override
+            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+            }
+        };
+        try {
+            mUser.loginUsingTraditional("sample","sample", null);
+        }catch(Exception e){
+
+        }
+        try {
+            mUser.loginUsingTraditional(null, null, null);
+        }catch(Exception e){
+
+        }
 	}
 
 	public void testRegisterUserInfoForSocialIsOnSuccess() {
 
 		String SOCIAL_REG_TOKEN = "socialRegistrationToken";
-		User mockUser = Mockito.mock(User.class);
-		SocialProviderLoginHandler socialRegHandler = Mockito
-				.mock(SocialProviderLoginHandler.class);
+		SocialProviderLoginHandler socialRegHandler = new SocialProviderLoginHandler() {
+            @Override
+            public void onLoginSuccess() {
 
-		UpdateUserRecordHandler updateHandler = Mockito
-				.mock(UpdateUserRecordHandler.class);
+            }
 
-		mockUser.completeSocialProviderLogin(setValuesForSocialLogin("SamPath", "Sam", "kumar",
-						"sampath1421@gmail.com", true, false, socialRegHandler,
-						SOCIAL_REG_TOKEN), socialRegHandler, SOCIAL_REG_TOKEN);
+            @Override
+            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-		Jump.SignInResultHandler mockJump = Mockito
-				.mock(Jump.SignInResultHandler.class);
-		mockJump.onSuccess();
-		RegisterSocial handler = new RegisterSocial(
-				socialRegHandler, getInstrumentation().getTargetContext(),
-				updateHandler);
+            }
 
-		handler.onSuccess();
-		Mockito.verify(socialRegHandler, Mockito.atLeast(1))
-				.onContinueSocialProviderLoginSuccess();
+            @Override
+            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
 
-	}*//*
-	
-*//*	public void testForgotPasswordForEmailNull() throws Exception {
+            }
 
-		User user = new User(getInstrumentation().getTargetContext());
-		user.mEmail = "sampath1421@gmail.com";
-		user.mPassword = "Sams1234";
-		user.mGivenName = "sampatnkumar";
-		user.mDisplayName = "sam";
+            @Override
+            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginSuccess() {
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+            }
+        };
+
+		UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
+            @Override
+            public void updateUserRecordLogin() {
+
+            }
+
+            @Override
+            public void updateUserRecordRegister() {
+
+            }
+        };
+
+
+		Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(SignInError error) {
+
+            }
+        };
+        mockJump.onSuccess();
+
+	}
+    public void testForgotPasswordForEmailNull() throws Exception {
+
 		String emailAddress = null;
 
 		ForgotPasswordHandler forgotpasswordhandler = new ForgotPasswordHandler() {
@@ -103,40 +225,12 @@ public class UserTest extends InstrumentationTestCase {
 
 			}
 
-			@Override
-			public void onSendForgotPasswordFailedWithError(int error) {
+            @Override
+            public void onSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-			}
-		};
-		user.forgotPassword(emailAddress, forgotpasswordhandler);
-	}*//*
-	
-	private DIUserProfile setValuesForTraditionalLogin(String mGivenName, String mUserEmail, String password, boolean olderThanAgeLimit, 
-			boolean isReceiveMarketingEmail){
-		
-		DIUserProfile profile = new DIUserProfile();
-		profile.setGivenName(mGivenName);
-		profile.setEmail(mUserEmail);
-		profile.setPassword(password);
-		profile.setOlderThanAgeLimit(olderThanAgeLimit);
-		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-		
-		return profile;
-		
+            }
+        };
+		mUser.forgotPassword(emailAddress, forgotpasswordhandler);
 	}
-
-	private DIUserProfile setValuesForSocialLogin (String mGivenName, String mDisplayName, String mFamilyName, String mUserEmail, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
-			SocialProviderLoginHandler socialProviderLoginHandler,
-			String socialRegistrationToken){
-		
-		DIUserProfile profile = new DIUserProfile();
-		profile.setGivenName(mGivenName);
-		profile.setDisplayName(mDisplayName);
-		profile.setFamilyName(mFamilyName);
-		profile.setEmail(mUserEmail);
-		profile.setOlderThanAgeLimit(olderThanAgeLimit);
-		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-		
-		return profile;
-	}*/
+	
 }
