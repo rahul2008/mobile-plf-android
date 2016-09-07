@@ -141,7 +141,7 @@
     <string name="iap_download_invoice">Download your invoice</string>
     <string name="iap_invoice_msg">This invoice belongs to order number</string>
     <string name="iap_cancel_your_order">Cancel your order</string>
-    <string name="iap_cancel_order_msg">You can cancel your order any time before it is handed over to the courier.</string>
+    <string name="iap_cancel_order_msg">You can cancel your order any time before it is handed over to the carrier.</string>
     <string name="iap_customer_help">Our customer care team is pleased to help you.</string>
     <string name="iap_keep_order_number">Please keep your order number at hand:</string>
     <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked. Please try again. If the problem persists, contact Philips Consumer Care</string>
@@ -163,7 +163,7 @@
     <!-- Model Error -->
     <string name="iap_ok">OK</string>
     <string name="iap_no_product_available">No product found in your Store.</string>
-    <string name="iap_opening_hours">Call center opening hours:\nMonday - Friday: 7:30 AM - 8:00 PM \nSaturday: 9:00 AM - 6:00 PM</string>
+    <string name="iap_opening_hours">Call center opening hours:\n</string>
 
 
 </resources>

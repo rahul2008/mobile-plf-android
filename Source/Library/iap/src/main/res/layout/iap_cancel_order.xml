@@ -15,7 +15,8 @@
         <TextView
             android:id="@+id/tv_cancel_order_history_title"
             style="@style/tvOrderHeaderTitle"
-            android:text="@string/iap_cancel_your_order" />
+            android:text="@string/iap_cancel_your_order"
+            android:textSize="@dimen/header_title" />
 
         <TextView
             android:id="@+id/tv_cancel_order"
@@ -40,13 +41,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_from_other_channel"
             android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_bottom"
-            android:autoLink="phone"
             android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/tv_opening_timings"
             style="@style/tvTitle"
-            android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_bottom"
             android:layout_below="@+id/bt_phone_number"
+            android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_bottom"
             android:text="@string/iap_opening_hours" />
     </LinearLayout>
 

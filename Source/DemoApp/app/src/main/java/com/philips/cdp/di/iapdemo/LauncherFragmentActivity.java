@@ -22,6 +22,7 @@ import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -33,16 +34,19 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
+import static com.philips.cdp.di.iap.utils.Utility.dismissProgressDialog;
+
 /**
  * Created by 310164421 on 6/8/2016.
  */
-public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener {
+public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener, IAPListener {
     ArrayList<String> mProductCTNs;
     private TextView mTitleTextView;
     private TextView mCountText;
     private final int DEFAULT_THEME = R.style.Theme_Philips_BrightBlue;
     private ImageView mBackImage;
-    private ImageView mCartIcon;
+    private FrameLayout mCartContainer;
+    IAPInterface mIapInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +62,17 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     }
 
     private void LaunchIAPFragment() {
-        IAPInterface iapInterface = new IAPInterface();
+        mIapInterface = new IAPInterface();
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPSettings iapSettings = new IAPSettings(this);
         IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
         iapSettings.setUseLocalData(false);
         IAPFlowInput iapFlowInput = new IAPFlowInput(mProductCTNs);
-        iapInterface.init(iapDependencies, iapSettings);
+        mIapInterface.init(iapDependencies, iapSettings);
+        iapLaunchInput.setIapListener(this);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
         try {
-            iapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
+            mIapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
         } catch (RuntimeException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -112,7 +117,8 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_title);
         setTitle(getString(com.philips.cdp.di.iap.R.string.app_name));
-        mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);
+        mCartContainer = (FrameLayout) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_container);
+        ImageView mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);
         Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), com.philips.cdp.di.iap.R.drawable.iap_shopping_cart);
         mCartIcon.setBackground(mCartIconDrawable);
         mCartIcon.setOnClickListener(new View.OnClickListener() {
@@ -130,9 +136,9 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
-        newFragment.setActionBarListener(this);
+        newFragment.setActionBarListener(this, this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(com.philips.cdp.di.iap.R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.replace(R.id.vertical_Container, newFragment, newFragmentTag);
         transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
 
@@ -151,11 +157,9 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         if (visibility) {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.VISIBLE);
-            mCartIcon.setVisibility(View.VISIBLE);
         } else {
             mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.INVISIBLE);
-            mCartIcon.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -164,11 +168,49 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         if (visibility) {
             mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.VISIBLE);
-            mCartIcon.setVisibility(View.VISIBLE);
         } else {
             mTitleTextView.setText(resourceString);
-            mBackImage.setVisibility(View.INVISIBLE);
-            mCartIcon.setVisibility(View.INVISIBLE);
+            mBackImage.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onGetCartCount(int count) {
+        if (count > 0) {
+            mCountText.setText(String.valueOf(count));
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCountText.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void didUpdateCartCount() {
+        mIapInterface.getProductCartCount(this);
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+        if (shouldShow) {
+            mCartContainer.setVisibility(View.VISIBLE);
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCartContainer.setVisibility(View.INVISIBLE);
+            mCountText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> productList) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+    }
+
+    @Override
+    public void onFailure(int errorCode) {
+
     }
 }

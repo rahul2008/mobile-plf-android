@@ -211,8 +211,8 @@ public class HybrisStore extends AbstractStoreSpec {
         //Orders
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG) + "en";
-        mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/en_" +
-                getCountry() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
+        mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/" +
+                mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }
 
     @Override

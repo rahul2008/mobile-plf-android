@@ -100,7 +100,6 @@ public class WebBuyFromRetailers extends BaseAnimationSupportFragment {
 
     @Override
     public boolean handleBackEvent() {
-        // hideKeyboard();
         if (mWebView.canGoBack()) {
             mWebView.goBack();
             return true;

@@ -11,6 +11,10 @@ public interface IAPListener {
 
     void onGetCartCount(int count);
 
+    void didUpdateCartCount();
+
+    void updateCartIconVisibility(boolean shouldShow);
+
     void onGetCompleteProductList(final ArrayList<String> productList);
 
     void onSuccess();

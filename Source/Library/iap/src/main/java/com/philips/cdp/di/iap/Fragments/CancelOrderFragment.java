@@ -5,6 +5,8 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 public class CancelOrderFragment extends BaseAnimationSupportFragment {
 
     public static final String TAG = CancelOrderFragment.class.getName();
+    private String phoneNumber;
 
     public static CancelOrderFragment createInstance
             (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
@@ -37,19 +40,29 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
         Button phoneNumberText = (Button) rootView.findViewById(R.id.bt_phone_number);
         TextView cancelOrderId = (TextView) rootView.findViewById(R.id.tv_cancel_order_history_title);
         TextView keepOrderText = (TextView) rootView.findViewById(R.id.tv_from_other_channel);
+        TextView openingTimingText = (TextView) rootView.findViewById(R.id.tv_opening_timings);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-            if (bundle.containsKey(IAPConstant.CUSTOMER_CARE_NUMBER)) {
-                String phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
-                phoneNumberText.setText("Call "+PhoneNumberUtils.formatNumber(phoneNumber,
+                phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
+                phoneNumberText.setText("Call " + PhoneNumberUtils.formatNumber(phoneNumber,
                         HybrisDelegate.getInstance().getStore().getCountry()));
-            }
-            if(bundle.containsKey(IAPConstant.IAP_ORDER_ID)) {
+                String weekdaysTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
+                String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
+                openingTimingText.setText(getString(R.string.iap_opening_hours) + weekdaysTiming + "\n" + saturdayTiming);
                 cancelOrderId.setText(getString(R.string.iap_cancel_your_order) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
                 keepOrderText.setText(getString(R.string.iap_contact_consumer_number) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
-            }
         }
+        phoneNumberText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_DIAL);
+                String p = "tel:" + PhoneNumberUtils.formatNumber(phoneNumber,
+                        HybrisDelegate.getInstance().getStore().getCountry());
+                i.setData(Uri.parse(p));
+                startActivity(i);
+            }
+        });
         return rootView;
     }
 
@@ -61,7 +74,7 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_cancel_order_title,true);
+        setTitleAndBackButtonVisibility(R.string.iap_track_order_title, true);
     }
 
     @Override

@@ -18,8 +18,6 @@ import java.util.List;
 public class CartModelContainer {
     private static CartModelContainer container;
     private AddressFields mBillingAddress;
-    private boolean isOrderPlaced;
-    private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
     private String regionIsoCode;
     private String mAddressId;
@@ -67,14 +65,6 @@ public class CartModelContainer {
         this.regionIsoCode = regionIsoCode;
     }
 
-    public ArrayList<ShoppingCartData> getShoppingCartData() {
-        return mShoppingCartData;
-    }
-
-    public void setShoppingCartData(final ArrayList<ShoppingCartData> mShoppingCartData) {
-        this.mShoppingCartData = mShoppingCartData;
-    }
-
     public List<DeliveryModes> getDeliveryModes() {
         return mDeliveryModes;
     }
@@ -99,10 +89,6 @@ public class CartModelContainer {
         return mBillingAddress;
     }
 
-    public void setOrderPlaced(final boolean pIsOrderPlaced) {
-        this.isOrderPlaced = pIsOrderPlaced;
-    }
-
     public void setOrderNumber(String orderNumber) {
         mOrderNumber = orderNumber;
     }
@@ -111,15 +97,8 @@ public class CartModelContainer {
         return mOrderNumber;
     }
 
-
-    public boolean isOrderPlaced() {
-        return isOrderPlaced;
-    }
-
     public void resetApplicationFields() {
-        setOrderPlaced(false);
         mBillingAddress = null;
-        mShoppingCartData = null;
         mShippingAddressFields = null;
         mOrderNumber = null;
     }

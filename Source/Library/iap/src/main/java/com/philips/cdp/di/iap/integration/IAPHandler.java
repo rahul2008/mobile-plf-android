@@ -38,9 +38,10 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.Locale;
 
-public class IAPHandler {
+class IAPHandler {
     private Context mContext;
     private IAPDependencies mIAPDependencies;
+    private IAPListener iapListener;
 
     IAPHandler(IAPDependencies mIAPDependencies, IAPSettings mIapSettings) {
         this.mIAPDependencies = mIAPDependencies;
@@ -71,28 +72,28 @@ public class IAPHandler {
         }
     }
 
-    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput mLaunchInput, final IAPListener listener) {
-
+    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
+        iapListener = pLaunchInput.getIapListener();
         //User logged off scenario
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 if (uiLauncher instanceof ActivityLauncher) {
-                    launchActivity(mContext, mLaunchInput, (ActivityLauncher) uiLauncher);
+                    launchActivity(mContext, pLaunchInput, (ActivityLauncher) uiLauncher);
                 } else {
-                    launchFragment(mLaunchInput, (FragmentLauncher) uiLauncher);
+                    launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
                 }
 
-                if (listener != null) {
-                    listener.onSuccess();
+                if (iapListener != null) {
+                    iapListener.onSuccess();
                 }
             }
 
             @Override
             public void onError(final Message msg) {
-                if (listener != null) {
-                    listener.onFailure(getIAPErrorCode(msg));
+                if (iapListener != null) {
+                    iapListener.onFailure(getIAPErrorCode(msg));
                 }
             }
         });
@@ -161,8 +162,7 @@ public class IAPHandler {
     }
 
     protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher) {
-
-        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
+        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), iapListener);
         String tag = newFragment.getClass().getName();
         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);

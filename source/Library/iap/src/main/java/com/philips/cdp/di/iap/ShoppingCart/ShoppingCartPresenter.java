@@ -48,7 +48,7 @@ import java.util.Map;
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         implements AbstractModel.DataLoadListener {
 
-    CartsEntity mCurrentCartData = null;
+    private CartsEntity mCurrentCartData = null;
 
     public interface ShoppingCartLauncher {
         void launchShoppingCart();
@@ -380,7 +380,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     private void notifyListChanged() {
         ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
         refreshList(products);
-        CartModelContainer.getInstance().setShoppingCartData(products);
         dismissProgressDialog();
     }
 

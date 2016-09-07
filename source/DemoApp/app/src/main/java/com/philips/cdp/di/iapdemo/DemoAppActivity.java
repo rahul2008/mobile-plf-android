@@ -446,6 +446,22 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     @Override
+    public void didUpdateCartCount() {
+        mIapInterface.getProductCartCount(this);
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+        if (shouldShow) {
+            mShoppingCart.setVisibility(View.VISIBLE);
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mShoppingCart.setVisibility(View.INVISIBLE);
+            mCountText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
         dismissProgressDialog();
     }
