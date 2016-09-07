@@ -20,41 +20,50 @@ import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
+import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 
 import org.json.JSONObject;
 import org.mockito.Mockito;
 
 public class UserTest extends InstrumentationTestCase {
 
-	User mUser = null;
+    User mUser = null;
 
-//	public UserTest() {
-	//	super(RegistrationActivity.class);
-	//}
-Context context;
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		context = getInstrumentation().getTargetContext();
-		System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());
-		mUser = new User(context);
-		//getInstrumentation().get
-	}
-	
-	public void testUser() throws Exception {
-
-		User result = new User(getInstrumentation().getTargetContext());
-		assertNotNull(result);
-	}
-
-	public void testRegisterUserInfoForTraditionalIsOnSuccess() throws  RuntimeException{
+    //	public UserTest() {
+    //	super(RegistrationActivity.class);
+    //}
+    Context context;
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        context = getInstrumentation().getTargetContext();
+        System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());
+        mUser = new User(context);
 
 
-		TraditionalRegistrationHandler regHandler = new TraditionalRegistrationHandler() {
+        //getInstrumentation().get
+    }
+
+    public void testUser() throws Exception {
+
+        User result = new User(getInstrumentation().getTargetContext());
+        assertNotNull(result);
+    }
+
+    public void testRegisterUserInfoForTraditionalIsOnSuccess() throws  RuntimeException{
+
+
+        TraditionalRegistrationHandler regHandler = new TraditionalRegistrationHandler() {
             @Override
             public void onRegisterSuccess() {
 
@@ -66,7 +75,7 @@ Context context;
             }
         };
 
-		UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
+        UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
             @Override
             public void updateUserRecordLogin() {
 
@@ -112,7 +121,7 @@ Context context;
         mUser.loginUserUsingSocialProvider(null,null,
                 socialProviderLoginHandler, "mergeToken");
 
-		Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
+        Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
             @Override
             public void onSuccess() {
 
@@ -123,11 +132,11 @@ Context context;
 
             }
         };
-		mockJump.onSuccess();
-		RegisterTraditional handler = new RegisterTraditional(regHandler,
-				getInstrumentation().getTargetContext(), updateHandler);
+        mockJump.onSuccess();
+        RegisterTraditional handler = new RegisterTraditional(regHandler,
+                getInstrumentation().getTargetContext(), updateHandler);
 
-		handler.onSuccess();
+        handler.onSuccess();
 
         TraditionalLoginHandler traditionalLoginHandler = new TraditionalLoginHandler() {
             @Override
@@ -150,12 +159,12 @@ Context context;
         }catch(Exception e){
 
         }
-	}
+    }
 
-	public void testRegisterUserInfoForSocialIsOnSuccess() {
+    public void testRegisterUserInfoForSocialIsOnSuccess() {
 
-		String SOCIAL_REG_TOKEN = "socialRegistrationToken";
-		SocialProviderLoginHandler socialRegHandler = new SocialProviderLoginHandler() {
+        String SOCIAL_REG_TOKEN = "socialRegistrationToken";
+        SocialProviderLoginHandler socialRegHandler = new SocialProviderLoginHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -187,7 +196,7 @@ Context context;
             }
         };
 
-		UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
+        UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
             @Override
             public void updateUserRecordLogin() {
 
@@ -200,7 +209,7 @@ Context context;
         };
 
 
-		Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
+        Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
             @Override
             public void onSuccess() {
 
@@ -213,24 +222,165 @@ Context context;
         };
         mockJump.onSuccess();
 
-	}
+    }
     public void testForgotPasswordForEmailNull() throws Exception {
 
-		String emailAddress = null;
+        String emailAddress = null;
 
-		ForgotPasswordHandler forgotpasswordhandler = new ForgotPasswordHandler() {
+        ForgotPasswordHandler forgotpasswordhandler = new ForgotPasswordHandler() {
 
-			@Override
-			public void onSendForgotPasswordSuccess() {
+            @Override
+            public void onSendForgotPasswordSuccess() {
 
-			}
+            }
 
             @Override
             public void onSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
             }
         };
-		mUser.forgotPassword(emailAddress, forgotpasswordhandler);
-	}
-	
+        mUser.forgotPassword(emailAddress, forgotpasswordhandler);
+
+
+    }
+
+    public void testResendVerificationMail(){
+        synchronized (context) {
+            try {
+                AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+            }catch(Exception e){
+
+            }
+            try {
+
+                final ResendVerificationEmailHandler resendVerificationEmail = new ResendVerificationEmailHandler() {
+                    @Override
+                    public void onResendVerificationEmailSuccess() {
+
+                    }
+
+                    @Override
+                    public void onResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+                    }
+                };
+
+
+                mUser.resendVerificationMail("emailAddress", resendVerificationEmail);
+            } catch (Exception e) {
+
+            }
+
+            try{
+
+                TraditionalLoginHandler traditionalLoginHandler = new TraditionalLoginHandler() {
+                    @Override
+                    public void onLoginSuccess() {
+
+                    }
+
+                    @Override
+                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+                    }
+                };
+                mUser.mergeToTraditionalAccount("emailAddress", "password", "mergeToken",
+                        traditionalLoginHandler);
+
+            } catch (Exception e) {
+
+
+            }
+
+
+            try{
+
+                AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+
+                SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
+                    @Override
+                    public void onLoginSuccess() {
+
+                    }
+
+                    @Override
+                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+                    }
+
+                    @Override
+                    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+
+                    }
+
+                    @Override
+                    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+
+                    }
+
+                    @Override
+                    public void onContinueSocialProviderLoginSuccess() {
+
+                    }
+
+                    @Override
+                    public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+                    }
+                };
+
+                mUser.registerUserInfoForSocial("givenName", "displayName", "familyName",
+                        "userEmail", true, false,
+                        socialProviderLoginHandler, "socialRegistrationToken");
+            }
+            catch(Exception e){}
+
+//            UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail = new UpdateReceiveMarketingEmailHandler() {
+//                @Override
+//                public void onUpdateReceiveMarketingEmailSuccess() {
+//
+//                }
+//
+//                @Override
+//                public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
+//
+//                }
+//            };
+//            mUser.updateReceiveMarketingEmail(updateReceiveMarketingEmail,true);
+            LogoutHandler logoutHandle = new LogoutHandler() {
+                @Override
+                public void onLogoutSuccess() {
+
+                }
+
+                @Override
+                public void onLogoutFailure(int responseCode, String message) {
+
+                }
+            };
+            mUser.logout(logoutHandle);
+        }
+    }
+
+    public void testUserr(){
+        mUser.getAccessToken();
+        mUser.getEmail();
+        mUser.getPassword();
+        mUser.getGivenName();
+        mUser.getDisplayName();
+        mUser.getFamilyName();
+        mUser.getJanrainUUID();
+        mUser.getHsdpUUID();
+        mUser.getHsdpAccessToken();
+        mUser.getLanguageCode();
+        mUser.getCountryCode();
+        mUser.getEmailVerificationStatus();
+        mUser.getOlderThanAgeLimit();
+        mUser.getReceiveMarketingEmail();
+        mUser.isUserSignIn();
+        mUser.handleMergeFlowError("sample");
+        assertNotNull(mUser);
+    }
 }
