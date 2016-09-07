@@ -44,12 +44,10 @@ import java.util.ArrayList;
 public class OrderSummaryFragment extends BaseAnimationSupportFragment implements
         View.OnClickListener, PaymentController.MakePaymentListener, AddressController.AddressListener {
     private OrderProductAdapter mAdapter;
-    private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
     private Button mBtnPayNow;
     private Button mBtnCancel;
     private PaymentController mPaymentController;
-    private String orderID;
     private Context mContext;
     public static final String TAG = OrderSummaryFragment.class.getName();
     Bundle bundle;
@@ -73,9 +71,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         mBtnCancel.setOnClickListener(this);
 
         bundle = getArguments();
-        if (bundle.containsKey(IAPConstant.BILLING_ADDRESS_FIELDS)) {
-            mBillingAddress = (AddressFields) bundle.getSerializable(IAPConstant.BILLING_ADDRESS_FIELDS);
-        }
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
         }
@@ -83,6 +78,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         RecyclerView mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
+        AddressFields mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
         mAdapter = new OrderProductAdapter(getContext(), this, new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
         updateCartOnResume();
         mOrderListView.setAdapter(mAdapter);
@@ -198,7 +194,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onPlaceOrder(final Message msg) {
         if (msg.obj instanceof PlaceOrder) {
             PlaceOrder order = (PlaceOrder) msg.obj;
-            orderID = order.getCode();
+            String orderID = order.getCode();
             updateCount(0);
             CartModelContainer.getInstance().setOrderNumber(orderID);
 

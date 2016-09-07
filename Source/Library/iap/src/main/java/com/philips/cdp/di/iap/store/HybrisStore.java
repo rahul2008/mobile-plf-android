@@ -2,7 +2,6 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
@@ -11,7 +10,6 @@ import com.philips.cdp.di.iap.core.AbstractStoreSpec;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.localematch.PILLocaleManager;
 
 public class HybrisStore extends AbstractStoreSpec {
 
@@ -168,7 +166,7 @@ public class HybrisStore extends AbstractStoreSpec {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANG + "en");//Check whether to pass "UK" / "GB"
+        builder.append(getCountry()).append(LANG + "en");
         return builder.toString();
     }
 

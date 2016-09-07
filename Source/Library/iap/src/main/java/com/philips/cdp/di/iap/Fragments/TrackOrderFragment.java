@@ -20,12 +20,6 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener {
 
     public static final String TAG = TrackOrderFragment.class.getName();
-    private Context mContext;
-    private TextView mOrderId;
-    private TextView mTrackingId;
-    private TextView mBillingName;
-    private TextView mBillingAddress;
-    private Button mTrackOrderBtn;
     private String mOrderTrackUrl;
 
     public static TrackOrderFragment createInstance
@@ -39,18 +33,19 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_track_my_order, container, false);
-        mTrackOrderBtn = (Button) rootView.findViewById(R.id.btn_track);
-        mOrderId = (TextView) rootView.findViewById(R.id.tv_track_order_number);
-        mTrackingId = (TextView) rootView.findViewById(R.id.tv_track_order_text);
-        mBillingName = (TextView) rootView.findViewById(R.id.tv_shipping_first_name);
-        mBillingAddress = (TextView) rootView.findViewById(R.id.tv_shipping_address);
+        Button mTrackOrderBtn = (Button) rootView.findViewById(R.id.btn_track);
+        TextView mOrderId = (TextView) rootView.findViewById(R.id.tv_track_order_number);
+        TextView mTrackingId = (TextView) rootView.findViewById(R.id.tv_track_order_text);
+        TextView mBillingName = (TextView) rootView.findViewById(R.id.tv_shipping_first_name);
+        TextView mBillingAddress = (TextView) rootView.findViewById(R.id.tv_shipping_address);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
             if (bundle.containsKey(IAPConstant.PURCHASE_ID))
                 mOrderId.setText("#" + bundle.getString(IAPConstant.PURCHASE_ID));
             if (bundle.containsKey(IAPConstant.TRACKING_ID))
-                mTrackingId.setText("You can track your package anytime with tracking number " + bundle.getString(IAPConstant.TRACKING_ID));
+                mTrackingId.setText("You can track your package anytime with tracking number "
+                        + bundle.getString(IAPConstant.TRACKING_ID));
             if (bundle.containsKey(IAPConstant.DELIVERY_NAME))
                 mBillingName.setText(bundle.getString(IAPConstant.DELIVERY_NAME));
             if (bundle.containsKey(IAPConstant.ADD_DELIVERY_ADDRESS))
@@ -66,7 +61,6 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
     }
 
     @Override
