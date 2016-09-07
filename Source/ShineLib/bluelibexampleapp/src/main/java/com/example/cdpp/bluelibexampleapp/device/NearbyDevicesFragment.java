@@ -1,4 +1,4 @@
-package com.example.cdpp.bluelibexampleapp.fragments;
+package com.example.cdpp.bluelibexampleapp.device;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,9 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cdpp.bluelibexampleapp.DeviceFoundInfoListAdapter;
 import com.example.cdpp.bluelibexampleapp.R;
-import com.example.cdpp.bluelibexampleapp.ReferenceApplication;
+import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -22,18 +21,18 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NearbyDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "AvailableFragment";
+    private static final String TAG = "NearbyDevicesFragment";
 
     private static final long SCAN_TIMEOUT_MS = 10000L;
 
     private SHNCentral mShnCentral;
     private SHNDeviceScanner mDeviceScanner;
 
-    private List<SHNDeviceFoundInfo> mDeviceFoundInfoList = new ArrayList<>();
+    private List<SHNDeviceFoundInfo> mNearbyDevices = new ArrayList<>();
 
-    private DeviceFoundInfoListAdapter mDeviceFoundInfoListAdapter;
+    private DeviceFoundInfoAdapter mNearbyDevicesAdapter;
     private Handler mHandler = new Handler(Looper.myLooper());
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,7 +44,7 @@ public class AvailableFragment extends Fragment implements SwipeRefreshLayout.On
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
             SHNLogger.i(TAG, String.format("Device found: %s", shnDeviceFoundInfo.getDeviceName()));
 
-            mDeviceFoundInfoList.add(shnDeviceFoundInfo);
+            mNearbyDevices.add(shnDeviceFoundInfo);
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -65,28 +64,28 @@ public class AvailableFragment extends Fragment implements SwipeRefreshLayout.On
         }
     };
 
-    public AvailableFragment() {
+    public NearbyDevicesFragment() {
     }
 
-    public static AvailableFragment newInstance() {
-        return new AvailableFragment();
+    public static NearbyDevicesFragment newInstance() {
+        return new NearbyDevicesFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_available, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_nearby, container, false);
 
         // Setup swipe layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        // Setup device list
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.available_devices_list);
+        // Setup nearby devices list
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.nearbyDevices);
         setupRecyclerView(recyclerView);
 
         // Obtain reference to BlueLib instance
-        mShnCentral = ReferenceApplication.get().getShnCentral();
+        mShnCentral = BlueLibExampleApplication.get().getShnCentral();
         mDeviceScanner = mShnCentral.getShnDeviceScanner();
 
         return rootView;
@@ -115,15 +114,15 @@ public class AvailableFragment extends Fragment implements SwipeRefreshLayout.On
         if (recyclerView == null) {
             throw new IllegalStateException("RecyclerView not initialized.");
         }
-        mDeviceFoundInfoListAdapter = new DeviceFoundInfoListAdapter(mDeviceFoundInfoList);
-        recyclerView.setAdapter(mDeviceFoundInfoListAdapter);
+        mNearbyDevicesAdapter = new DeviceFoundInfoAdapter(mNearbyDevices);
+        recyclerView.setAdapter(mNearbyDevicesAdapter);
     }
 
     private void updateList() {
-        if (mDeviceFoundInfoListAdapter == null) {
+        if (mNearbyDevicesAdapter == null) {
             return;
         }
-        mDeviceFoundInfoListAdapter.notifyDataSetChanged();
+        mNearbyDevicesAdapter.notifyDataSetChanged();
     }
 
     private void scanForDevices() {
@@ -132,7 +131,7 @@ public class AvailableFragment extends Fragment implements SwipeRefreshLayout.On
         }
 
         // Initialize device list
-        mDeviceFoundInfoList.clear();
+        mNearbyDevices.clear();
         updateList();
 
         // Scan for devices

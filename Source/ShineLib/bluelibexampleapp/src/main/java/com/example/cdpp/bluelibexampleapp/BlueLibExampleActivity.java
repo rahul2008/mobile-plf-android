@@ -18,24 +18,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.cdpp.bluelibexampleapp.fragments.AboutFragment;
-import com.example.cdpp.bluelibexampleapp.fragments.AssociatedFragment;
-import com.example.cdpp.bluelibexampleapp.fragments.AvailableFragment;
+import com.example.cdpp.bluelibexampleapp.about.AboutFragment;
+import com.example.cdpp.bluelibexampleapp.device.AssociatedDevicesFragment;
+import com.example.cdpp.bluelibexampleapp.device.NearbyDevicesFragment;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class ReferenceActivity extends AppCompatActivity {
+public class BlueLibExampleActivity extends AppCompatActivity {
 
-    private static final String TAG = "ReferenceActivity";
+    private static final String TAG = "BlueLibExampleActivity";
 
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 1;
     private int mCurrentPage = 0;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private FloatingActionButton mFab;
 
     private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            // Nothing to do.
         }
 
         @Override
@@ -54,27 +56,18 @@ public class ReferenceActivity extends AppCompatActivity {
 
         @Override
         public void onPageScrollStateChanged(int state) {
+            // Nothing to do.
         }
     };
 
     private View.OnClickListener mFabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            switch (mCurrentPage) {
-                case 0:
-                    SHNLogger.d(TAG, "Associate device.");
-                    // TODO
+            SHNLogger.d(TAG, "Associate device.");
 
-                    break;
-                case 1:
-                    SHNLogger.d(TAG, "Connect device.");
-                    // TODO
-
-                    break;
-            }
+            // TODO
         }
     };
-    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +123,7 @@ public class ReferenceActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_about:
-                AboutFragment.newInstance().show(getSupportFragmentManager(), "AboutDialogFragment");
+                AboutFragment.newInstance().show(getSupportFragmentManager(), "AboutFragment");
 
                 return true;
         }
@@ -154,9 +147,9 @@ public class ReferenceActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return AssociatedFragment.newInstance();
+                    return AssociatedDevicesFragment.newInstance();
                 case 1:
-                    return AvailableFragment.newInstance();
+                    return NearbyDevicesFragment.newInstance();
             }
             throw new IllegalStateException("No fragment defined for position: " + position);
         }

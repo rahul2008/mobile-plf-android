@@ -12,11 +12,11 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinepluginmoonshinelib.SHNMoonshineDeviceDefinitionInfo;
 
-public class ReferenceApplication extends Application {
+public class BlueLibExampleApplication extends Application {
 
-    private static final String TAG = "ReferenceApplication";
+    private static final String TAG = "BlueLibExampleApplication";
 
-    private static ReferenceApplication sApplication;
+    private static BlueLibExampleApplication sApplication;
 
     private HandlerThread mHandlerThread;
     private Handler mHandler;
@@ -55,7 +55,7 @@ public class ReferenceApplication extends Application {
         setupDeviceDefinitions();
     }
 
-    public static final ReferenceApplication get() {
+    public static final BlueLibExampleApplication get() {
         if (sApplication == null) {
             throw new RuntimeException("Application not initialized yet.");
         }

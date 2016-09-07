@@ -1,4 +1,4 @@
-package com.example.cdpp.bluelibexampleapp.fragments;
+package com.example.cdpp.bluelibexampleapp.about;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.BuildConfig;
 import com.example.cdpp.bluelibexampleapp.R;
-import com.example.cdpp.bluelibexampleapp.ReferenceApplication;
 import com.philips.pins.shinelib.SHNCentral;
 
 public class AboutFragment extends DialogFragment {
@@ -31,7 +31,7 @@ public class AboutFragment extends DialogFragment {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AboutDialog);
 
         // Obtain reference to BlueLib instance
-        mShnCentral = ReferenceApplication.get().getShnCentral();
+        mShnCentral = BlueLibExampleApplication.get().getShnCentral();
 
         // Set dialog title
         getDialog().setTitle(R.string.dialog_title_versions);
