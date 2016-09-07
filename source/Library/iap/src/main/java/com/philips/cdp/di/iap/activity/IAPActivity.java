@@ -289,7 +289,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     @Override
     public void onUpdateCartCount() {
-        Toast.makeText(this, "onUpdateCartCount", Toast.LENGTH_SHORT).show();
         ShoppingCartPresenter shoppingCartAPI = new ShoppingCartPresenter();
         shoppingCartAPI.getProductCartCount(getApplicationContext(), mProductCountListener);
     }
