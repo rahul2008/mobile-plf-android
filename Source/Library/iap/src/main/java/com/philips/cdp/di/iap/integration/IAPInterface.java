@@ -36,7 +36,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
             IAPLaunchInput mLaunchInput = (IAPLaunchInput) uappLaunchInput;
             if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
             else
-                iapHandler.initIAP(uiLauncher, mLaunchInput, ((IAPLaunchInput) uappLaunchInput).getIapListener());
+                iapHandler.initIAP(uiLauncher, mLaunchInput);
         } else {
             throw new RuntimeException("User is not logged in.");
         }

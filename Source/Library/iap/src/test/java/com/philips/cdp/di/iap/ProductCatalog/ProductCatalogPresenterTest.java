@@ -252,6 +252,16 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
     }
 
     @Override
+    public void didUpdateCartCount() {
+
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+
+    }
+
+    @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
         assert (productList != null);
 
