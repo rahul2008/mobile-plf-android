@@ -42,7 +42,7 @@ public class RegistrationApplication extends Application {
         AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
         RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
 
-        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+       /* SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
 
@@ -51,9 +51,9 @@ public class RegistrationApplication extends Application {
                 initHSDP(RegUtility.getConfiguration(restoredHSDPText));
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
-        } else {
-            initRegistration(Configuration.STAGING);
-        }
+        } else {*/
+            initRegistration(Configuration.PRODUCTION);
+        //}
     }
 
 
@@ -63,14 +63,14 @@ public class RegistrationApplication extends Application {
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING,"g52bfma28yjbd24hyjcswudwedcmqy7c");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.EVALUATION,"f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING,"f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION,"9z23k3q8bhqyfwx78aru6bz8zksga54u");
+        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION,"9z23k3q8bhqyfwx78aru6bz8zksga54u");//9z23k3q8bhqyfwx78aru6bz8zksga54u
 
-        System.out.println("Dev : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
+        System.out.println("******************* ENVIR ID : "+RegistrationConfiguration.getInstance().getRegistrationClientId(configuration));
+        /*System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
         System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
         System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
         System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
-
+*/
 
         RegistrationConfiguration.getInstance().setMicrositeId("77000");
         RegistrationConfiguration.getInstance().setRegistrationEnvironment(configuration);

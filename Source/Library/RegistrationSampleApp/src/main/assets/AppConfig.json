@@ -37,7 +37,7 @@
   },*/
   "AI": {
     "MicrositeID": 66777,
-    "RegistrationEnvironment": "STAGING",
+    "RegistrationEnvironment": "PRODUCTION",
     "NL": ["googleplus", "facebook"  ],
     "US": ["facebook","googleplus" ],
     "EE": [123,234 ]
