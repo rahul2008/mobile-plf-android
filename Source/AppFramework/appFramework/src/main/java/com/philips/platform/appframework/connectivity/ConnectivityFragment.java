@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,23 +20,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.pins.shinelib.SHNCapability;
+import com.philips.cdp.registration.User;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
-import com.philips.pins.shinelib.SHNDeviceFoundInfo;
-import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
-import com.philips.pins.shineplugincopperlib.SHNDeviceDefinitionInfoCopper;
 import com.philips.pins.shineplugincopperlib.ShinePluginCopper;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
-import com.philips.cdp.registration.User;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -49,17 +43,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
-
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment {
+    public static final String TAG = ConnectivityFragment.class.getSimpleName();
     private TextView textView;
     private ImageView imageView;
     private EditText editText = null;
     private EditText momentValueEditText = null;
     private String editTextValue, momentId, nucleousValue;
     private static String accessTokenValue;
-
 
     private TextView connectionState;
     private SHNCentral shnCentral;
@@ -85,7 +77,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         User user = new User(getActivity().getApplicationContext());
-        System.out.println("  ******* Environment : " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment());
+//        System.out.println("  ******* Environment : " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment());
         accessTokenValue = user.getHsdpAccessToken();
 
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
@@ -176,13 +168,11 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
                 nucleousValue = getValue(responseString);
 
                 Log.i("value of moment", "success" + nucleousValue);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return response != null ? response.toString() : null;
         }
-
 
         private String getValue(String response) {
             String value = null;
@@ -195,8 +185,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
                 JSONObject detailsValue = jsonArray1.getJSONObject(0);
 
                 value = detailsValue.getString("value");
-
-
             } catch (JSONException ex) {
 
             }
@@ -215,7 +203,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
             momentValueEditText.setText(nucleousValue);
             Log.i("Debug test", "response" + result);
         }
-
     }
 
     private class postMoment extends AsyncTask<String, Void, String> {
@@ -247,7 +234,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
                 JSONObject jsonObject = new JSONObject(value);
                 momentId = jsonObject.getString("momentId");
                 Log.w("Json", momentId);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
