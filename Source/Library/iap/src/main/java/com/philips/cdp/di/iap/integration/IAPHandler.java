@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
@@ -36,16 +37,19 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 class IAPHandler {
     private Context mContext;
     private IAPDependencies mIAPDependencies;
     private IAPListener iapListener;
+    private IAPSettings mIAPSetting;
 
-    IAPHandler(IAPDependencies mIAPDependencies, IAPSettings mIapSettings) {
+    IAPHandler(IAPDependencies mIAPDependencies, IAPSettings pIapSettings) {
         this.mIAPDependencies = mIAPDependencies;
-        mContext = mIapSettings.getContext();
+        mIAPSetting = pIapSettings;
+        mContext = mIAPSetting.getContext();
     }
 
     void initTaggingLogging(IAPDependencies iapDependencies) {

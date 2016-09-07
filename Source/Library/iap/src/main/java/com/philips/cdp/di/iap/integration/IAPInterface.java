@@ -24,21 +24,21 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
         mIapSettings = (IAPSettings) uappSettings;
         iapHandler = new IAPHandler(mIAPDependencies, mIapSettings);
-        iapHandler.initTaggingLogging(mIAPDependencies);
+        iapHandler.initTaggingLogging(mIAPDependencies);// remove dependencies and settint
         iapHandler.initIAP(mIapSettings);
         mImplementationHandler = iapHandler.getExposedAPIImplementor(mIapSettings);
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
-        mUser = new User(mIapSettings.getContext());
+        mUser = new User(mIapSettings.getContext());// User can be inject as dependencies
         if (mUser.isUserSignIn()) {
             IAPLaunchInput mLaunchInput = (IAPLaunchInput) uappLaunchInput;
             if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
             else
                 iapHandler.initIAP(uiLauncher, mLaunchInput);
         } else {
-            throw new RuntimeException("User is not logged in.");
+            throw new RuntimeException("User is not logged in.");// Conferm the behaviour on error Callback
         }
     }
 

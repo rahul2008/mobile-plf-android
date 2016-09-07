@@ -252,7 +252,7 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
     }
 
     @Override
-    public void didUpdateCartCount() {
+    public void onUpdateCartCount() {
 
     }
 

@@ -446,7 +446,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     @Override
-    public void didUpdateCartCount() {
+    public void onUpdateCartCount() {
         mIapInterface.getProductCartCount(this);
     }
 

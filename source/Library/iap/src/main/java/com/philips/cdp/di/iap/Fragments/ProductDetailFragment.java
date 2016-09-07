@@ -85,7 +85,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             //Added to cart tracking
             tagItemAddedToCart();
             if (mIapListener != null) {
-                mIapListener.didUpdateCartCount();
+                mIapListener.onUpdateCartCount();
             }
         }
 
