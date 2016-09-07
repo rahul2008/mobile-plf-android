@@ -30,7 +30,7 @@ public class DemoApplication extends Application {
         new IAPSettings(this);
         AppInfraSingleton.setInstance(getAppInfra());
         RegistrationHelper.getInstance().setAppInfraInstance(getAppInfra());
-        initUserRegistration(Configuration.STAGING);
+        initUserRegistration(Configuration.PRODUCTION);
     }
 
     public void initUserRegistration(Configuration configuration) {

@@ -682,24 +682,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addressHashMap.put(ModelConstants.REGION_ISOCODE,
                     mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
         }
-
-        //setRequestFocus();
-    }
-
-    private void setRequestFocus() {
-        mEtFirstName.requestFocus();
-        mEtLastName.requestFocus();
-        mEtSalutation.requestFocus();
-        mEtAddressLineOne.requestFocus();
-        mEtAddressLineTwo.requestFocus();
-        mEtTown.requestFocus();
-        mEtPostalCode.requestFocus();
-        mEtCountry.requestFocus();
-        mEtEmail.requestFocus();
-        mEtPhoneNumber.requestFocus();
-        if (mlLState.getVisibility() == View.VISIBLE) {
-            mEtState.requestFocus();
-        }
     }
 
     protected AddressFields setAddressFields(AddressFields addressFields) {

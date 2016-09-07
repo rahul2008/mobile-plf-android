@@ -21,7 +21,6 @@ public class ErrorDialogFragment extends DialogFragment {
         void onDialogOkClick();
     }
 
-    private Button mOkBtn;
     Bundle bundle;
     private ErrorDialogListener mErrorDialogListener;
 
@@ -41,7 +40,7 @@ public class ErrorDialogFragment extends DialogFragment {
         TextView errorDescription = (TextView) v.findViewById(R.id.dialogDescription);
         errorDescription.setText(bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION));
 
-        mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
+        Button mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
         mOkBtn.setText(bundle.getString(IAPConstant.MODEL_ALERT_BUTTON_TEXT));
         mOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override

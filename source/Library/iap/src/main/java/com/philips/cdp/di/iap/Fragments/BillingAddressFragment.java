@@ -21,7 +21,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
@@ -216,12 +215,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);
-            if (!Utility.isProgressDialogShowing()) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
-                addFragment(
-                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
-            }
+            addFragment(
+                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
