@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.activity;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,21 +28,27 @@ import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -53,6 +60,19 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     private TextView mCountText;
     private ImageView mBackImage;
     private FrameLayout mCartContainer;
+
+    private IAPCartListener mProductCountListener = new IAPCartListener() {
+        @Override
+        public void onSuccess(final int count) {
+            onGetCartCount(count);
+        }
+
+        @Override
+        public void onFailure(final Message msg) {
+            IAPLog.i(ProductCatalogFragment.class.getName(), "Get Count Failed ");
+            Utility.dismissProgressDialog();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +261,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             mBackImage.setVisibility(View.VISIBLE);
         } else {
             mTitleTextView.setText(getString(resourceId));
-            mBackImage.setVisibility(View.INVISIBLE);
+            mBackImage.setVisibility(View.GONE);
         }
     }
 
@@ -252,7 +272,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             mBackImage.setVisibility(View.VISIBLE);
         } else {
             mTitleTextView.setText(resourceString);
-            mBackImage.setVisibility(View.INVISIBLE);
+            mBackImage.setVisibility(View.GONE);
         }
     }
 
@@ -268,18 +288,18 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     @Override
-    public void didUpdateCartCount() {
-        Toast.makeText(this, "didUpdateCartCount", Toast.LENGTH_SHORT).show();
+    public void onUpdateCartCount() {
+        Toast.makeText(this, "onUpdateCartCount", Toast.LENGTH_SHORT).show();
+        ShoppingCartPresenter shoppingCartAPI = new ShoppingCartPresenter();
+        shoppingCartAPI.getProductCartCount(getApplicationContext(), mProductCountListener);
     }
 
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
         if (shouldShow) {
             mCartContainer.setVisibility(View.VISIBLE);
-            mCountText.setVisibility(View.VISIBLE);
         } else {
             mCartContainer.setVisibility(View.GONE);
-            mCountText.setVisibility(View.GONE);
         }
     }
 

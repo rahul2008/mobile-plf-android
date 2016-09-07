@@ -11,7 +11,7 @@ public interface IAPListener {
 
     void onGetCartCount(int count);
 
-    void didUpdateCartCount();
+    void onUpdateCartCount();
 
     void updateCartIconVisibility(boolean shouldShow);
 

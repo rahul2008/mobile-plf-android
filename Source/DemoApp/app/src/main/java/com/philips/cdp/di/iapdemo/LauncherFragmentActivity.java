@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iapdemo;
 
+import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,7 +66,8 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         mIapInterface = new IAPInterface();
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPSettings iapSettings = new IAPSettings(this);
-        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        DemoApplication application = (DemoApplication)getApplicationContext();
+        IAPDependencies iapDependencies = new IAPDependencies(application.getAppInfra());
         iapSettings.setUseLocalData(false);
         IAPFlowInput iapFlowInput = new IAPFlowInput(mProductCTNs);
         mIapInterface.init(iapDependencies, iapSettings);
@@ -185,7 +187,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     }
 
     @Override
-    public void didUpdateCartCount() {
+    public void onUpdateCartCount() {
         mIapInterface.getProductCartCount(this);
     }
 
@@ -193,10 +195,8 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     public void updateCartIconVisibility(boolean shouldShow) {
         if (shouldShow) {
             mCartContainer.setVisibility(View.VISIBLE);
-            mCountText.setVisibility(View.VISIBLE);
         } else {
             mCartContainer.setVisibility(View.INVISIBLE);
-            mCountText.setVisibility(View.INVISIBLE);
         }
     }
 

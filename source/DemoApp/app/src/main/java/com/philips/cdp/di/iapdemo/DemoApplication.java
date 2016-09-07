@@ -28,9 +28,10 @@ public class DemoApplication extends Application {
 
         new IAPDependencies(appInfra);
         new IAPSettings(this);
+        //TODO:Rmove AppInfraSingleton after UserRegisteration changes
         AppInfraSingleton.setInstance(getAppInfra());
         RegistrationHelper.getInstance().setAppInfraInstance(getAppInfra());
-        initUserRegistration(Configuration.STAGING);
+        initUserRegistration(Configuration.PRODUCTION);
     }
 
     public void initUserRegistration(Configuration configuration) {
