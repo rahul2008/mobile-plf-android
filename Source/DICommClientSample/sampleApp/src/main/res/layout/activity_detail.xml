@@ -75,4 +75,18 @@
         android:layout_height="wrap_content"
         android:text="@string/unpair"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userId"
+        android:text="569de48b-d5c2-4c72-ac14-380197e3d137"
+        android:hint="@string/userId"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userToken"
+        android:text="tspm7euep8q793gz"
+        android:hint="@string/access_token"/>
+
 </LinearLayout>

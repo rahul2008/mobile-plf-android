@@ -31,6 +31,8 @@ public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
 
     private EditText editTextName;
+    private EditText editTextUserId;
+    private EditText editTextUserToken;
     private SwitchCompat lightSwitch;
     private AirPurifier currentPurifier;
 
@@ -42,6 +44,8 @@ public class DetailActivity extends AppCompatActivity {
         currentPurifier = (AirPurifier) CurrentApplianceManager.getInstance().getCurrentAppliance();
 
         editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextUserId = (EditText) findViewById(R.id.userId);
+        editTextUserToken = (EditText) findViewById(R.id.userToken);
 
         lightSwitch = (SwitchCompat) findViewById(R.id.switchLight);
         final Button buttonSet = (Button) findViewById(R.id.buttonSet);
@@ -155,7 +159,13 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        pairingHandler.startPairing();
+        String id = editTextUserId.getText().toString();
+        String token = editTextUserToken.getText().toString();
+        if (id.length() > 0 && token.length() > 0) {
+            pairingHandler.startUserPairing(id, token);
+        } else {
+            pairingHandler.startPairing();
+        }
     }
 
     private void startUnpairing() {
