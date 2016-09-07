@@ -3,6 +3,8 @@ package com.philips.cdp.registration.coppa.base;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +34,7 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
     public void testUpdateCoppaConsentStatus(){
 
         assertNotNull(mContext);
+        assertNull(mCoppaConsentUpdater.getCoppaEmailConsentStatus());
 
 
     }

@@ -8,6 +8,7 @@
 
 package com.philips.cdp.servertime;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.recievers.DateTimeChangedReceiver;
@@ -22,26 +23,29 @@ import java.util.TimeZone;
 
 public class ServerTimeTest extends InstrumentationTestCase {
     private DateTimeChangedReceiver mReceiver;
-    private TestContext mContext;
+            Context mContext;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mReceiver = new DateTimeChangedReceiver();
-        mContext = new TestContext();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
+
+        mReceiver = new DateTimeChangedReceiver();
+        mContext = getInstrumentation()
+                .getTargetContext();
 
 
     }
 
 
     public void testRefreshOffset(){
-        ServerTime.init(getInstrumentation().getTargetContext());
+        ServerTime.init(mContext);
         ServerTime.getInstance().refreshOffset();
 
         assertNotNull(ServerTime.getInstance().getCurrentTime());
         assertNotNull(ServerTime.getInstance().getCurrentUTCTimeWithFormat("dd-mm-yyyy"));
+        mReceiver.onReceive(mContext,null);
     }
 
 
