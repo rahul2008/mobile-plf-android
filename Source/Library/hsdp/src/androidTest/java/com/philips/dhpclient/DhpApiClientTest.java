@@ -2,6 +2,9 @@ package com.philips.dhpclient;
 
 import android.test.InstrumentationTestCase;
 
+import com.philips.dhpclient.response.DhpResponse;
+import com.philips.dhpclient.response.DhpResponseVerifier;
+
 import org.junit.Before;
 
 import static org.junit.Assert.*;
@@ -23,6 +26,16 @@ public class DhpApiClientTest extends InstrumentationTestCase{
 
     public void testDhpApiClient(){
         assertNotNull(mDhpApiClient);
+//        mDhpApiClient.UTCDatetimeAsString();
+        DhpResponseVerifier dhpResponseVerifier = new DhpResponseVerifier() {
+            @Override
+            public void verify(DhpResponse dhpResponse) {
+
+            }
+        };
+        mDhpApiClient.setResponseVerifier(dhpResponseVerifier);
+        assertNotNull(mDhpApiClient);
+
 
     }
 }
