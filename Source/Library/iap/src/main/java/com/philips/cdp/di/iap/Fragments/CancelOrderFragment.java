@@ -44,20 +44,14 @@ public class CancelOrderFragment extends BaseAnimationSupportFragment {
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-            if (bundle.containsKey(IAPConstant.CUSTOMER_CARE_NUMBER)
-                    && bundle.containsKey(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING)
-                    && bundle.containsKey(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING)) {
                 phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
                 phoneNumberText.setText("Call " + PhoneNumberUtils.formatNumber(phoneNumber,
                         HybrisDelegate.getInstance().getStore().getCountry()));
                 String weekdaysTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
                 String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
                 openingTimingText.setText(getString(R.string.iap_opening_hours) + weekdaysTiming + "\n" + saturdayTiming);
-            }
-            if (bundle.containsKey(IAPConstant.IAP_ORDER_ID)) {
                 cancelOrderId.setText(getString(R.string.iap_cancel_your_order) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
                 keepOrderText.setText(getString(R.string.iap_contact_consumer_number) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
-            }
         }
         phoneNumberText.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -138,7 +138,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
                             String newFragmentTag) {
         newFragment.setActionBarListener(this, this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(com.philips.cdp.di.iap.R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.replace(R.id.vertical_Container, newFragment, newFragmentTag);
         transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
 
@@ -170,7 +170,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
             mBackImage.setVisibility(View.VISIBLE);
         } else {
             mTitleTextView.setText(resourceString);
-            mBackImage.setVisibility(View.INVISIBLE);
+            mBackImage.setVisibility(View.GONE);
         }
     }
 
