@@ -32,7 +32,6 @@ import com.philips.cdp.localematch.enums.Sector;
 import org.json.JSONObject;
 
 public class WebStoreConfig {
-    private static final String TAG = WebStoreConfig.class.getSimpleName();
     final Context mContext;
 
     String mSiteID;

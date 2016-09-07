@@ -61,9 +61,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private View mPaymentDivider;
     private TextView mShippingStatus;
     private LinearLayout mProductListView;
-    private Button mBuyNow;
-    private Button mCancelOrder;
-    private LinearLayout mTrackOrderLayout;
 
     private String mPhoneContact;
 
@@ -90,12 +87,16 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
-        mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
+
+        Button mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
-        mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
+
+        Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
-        mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
+
+        LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
         mTrackOrderLayout.setOnClickListener(this);
+
         mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
         mShippingStatus = (TextView) view.findViewById(R.id.shipping_status);
 

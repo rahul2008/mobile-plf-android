@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -35,7 +36,6 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_payment, true);
-        //setBackButtonVisibility(false);
     }
 
     public static WebPaymentFragment createInstance(Bundle args, AnimationType animType) {
@@ -49,7 +49,7 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
     protected String getWebUrl() {
         Bundle arguments = getArguments();
         if (arguments == null || !arguments.containsKey(ModelConstants.WEBPAY_URL)) {
-            return null;
+            throw new RuntimeException("URL must be provided");
         }
         StringBuilder builder = new StringBuilder();
         builder.append(arguments.getString(ModelConstants.WEBPAY_URL));
@@ -61,9 +61,8 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
     }
 
     private Bundle createSuccessBundle() {
-        String orderNum = CartModelContainer.getInstance().getOrderNumber();
         Bundle bundle = new Bundle();
-        bundle.putString(ModelConstants.ORDER_NUMBER, orderNum);
+        bundle.putString(ModelConstants.ORDER_NUMBER, CartModelContainer.getInstance().getOrderNumber());
         bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, true);
         return bundle;
     }
@@ -92,7 +91,6 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
-            //Track Payment cancelled action
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
             moveToPreviousFragment();
@@ -129,11 +127,16 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
     public void onDialogOkClick() {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
-        launchProductCatalog();
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToVerticalAppByClearingStack();
+        } else {
+            launchProductCatalog();
+        }
+
     }
 
     @Override
     public void onDialogCancelClick() {
     }
-
 }

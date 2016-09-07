@@ -26,23 +26,50 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 
-public class PaymentConfirmationFragment extends BaseAnimationSupportFragment implements TwoButtonDialogFragment.TwoButtonDialogListener {
+public class PaymentConfirmationFragment extends BaseAnimationSupportFragment
+        implements TwoButtonDialogFragment.TwoButtonDialogListener {
+    public static final String TAG = PaymentConfirmationFragment.class.getName();
+    private Context mContext;
+
     private TextView mConfirmationText;
     private TextView mOrderText;
     private TextView mOrderNumber;
     private TextView mConfirmWithEmail;
-    private Context mContext;
-    private boolean mPaymentSuccessful;
-    public static final String TAG = PaymentConfirmationFragment.class.getName();
-    private TwoButtonDialogFragment mDailogFragment;
+
+    private TwoButtonDialogFragment mDialog;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_payment_confirmation,
                 container, false);
-        bindViews(view);
-        assignValues();
+        initViews(view);
+        updatePaymentUI();
         return view;
+    }
+
+    private void initViews(ViewGroup viewGroup) {
+        mConfirmationText = (TextView) viewGroup.findViewById(R.id.tv_thank);
+        mOrderText = (TextView) viewGroup.findViewById(R.id.tv_your_order_num);
+        mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_num);
+        mConfirmWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirm_email);
+        final Button mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
+        mOKButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (isNetworkNotConnected()) return;
+                handleExit();
+            }
+        });
+    }
+
+    private void updatePaymentUI() {
+        Bundle arguments = getArguments();
+        boolean isPaymentSuccessful = arguments.getBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, false);
+        if (isPaymentSuccessful) {
+            updatePaymentSuccessUI(arguments);
+        } else {
+            updatePaymentFailureUI();
+        }
     }
 
     @Override
@@ -55,8 +82,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_confirmation,true);
-       // setBackButtonVisibility(false);
+        setTitleAndBackButtonVisibility(R.string.iap_confirmation, true);
     }
 
     @Override
@@ -67,36 +93,27 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
 
     private void ShowDialogOnBackPressed() {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.iap_continue_shopping_description));
-        if (mDailogFragment == null) {
-            mDailogFragment = new TwoButtonDialogFragment();
-            mDailogFragment.setOnDialogClickListener(this);
-            mDailogFragment.setArguments(bundle);
-            mDailogFragment.setShowsDialog(false);
+        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION,
+                mContext.getString(R.string.iap_continue_shopping_description));
+        if (mDialog == null) {
+            mDialog = new TwoButtonDialogFragment();
+            mDialog.setOnDialogClickListener(this);
+            mDialog.setArguments(bundle);
+            mDialog.setShowsDialog(false);
         }
         try {
-            mDailogFragment.show(getFragmentManager(), "TwoButtonDialog");
-            mDailogFragment.setShowsDialog(true);
+            mDialog.show(getFragmentManager(), "TwoButtonDialog");
+            mDialog.setShowsDialog(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void assignValues() {
-        Bundle arguments = getArguments();
-        mPaymentSuccessful = arguments.getBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, false);
-        if (mPaymentSuccessful) {
-            updatePaymentSuccessUI(arguments);
-        } else {
-            updatePaymentFailureUI();
-        }
-    }
-
     private void updatePaymentFailureUI() {
-        //Track Payment failed action
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
-        setConfirmationTitle(R.string.iap_payment_failed);
+
+        setPaymentTitle(R.string.iap_payment_failed);
         mOrderText.setVisibility(View.INVISIBLE);
         mOrderNumber.setVisibility(View.INVISIBLE);
         mConfirmWithEmail.setVisibility(View.INVISIBLE);
@@ -107,7 +124,6 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
             if (arguments.containsKey(ModelConstants.ORDER_NUMBER)) {
                 mOrderNumber.setText(arguments.getString(ModelConstants.ORDER_NUMBER));
 
-                //Track confirmation on successful order action
                 HashMap<String, String> contextData = new HashMap<>();
                 contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber.getText().toString());
                 contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PURCHASE);
@@ -121,40 +137,20 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
             String emailConfirmation = String.format(mContext.getString(R.string.iap_confirmation_email_msg),
                     email);
             mConfirmWithEmail.setText(emailConfirmation);
-            setConfirmationTitle(R.string.iap_thank_for_order);
+            setPaymentTitle(R.string.iap_thank_for_order);
         }
     }
 
-    private void setConfirmationTitle(final int iap_thank_for_order) {
+    private void setPaymentTitle(final int iap_thank_for_order) {
         mConfirmationText.setText(iap_thank_for_order);
-    }
-
-    private void bindViews(ViewGroup viewGroup) {
-        mConfirmationText = (TextView) viewGroup.findViewById(R.id.tv_thank);
-        mOrderText = (TextView) viewGroup.findViewById(R.id.tv_your_order_num);
-        mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_num);
-        mConfirmWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirm_email);
-        final Button mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
-        mOKButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (isNetworkNotConnected()) return;
-
-                handleExit();
-            }
-        });
     }
 
     private void handleExit() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
             moveToVerticalAppByClearingStack();
-        }else{
-            if(mPaymentSuccessful){
-                moveToProductCatalog();
-            }else{
-                moveToFragment(ShoppingCartFragment.TAG);
-            }
+        } else {
+            moveToProductCatalog();
         }
     }
 
@@ -170,25 +166,20 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
         }
     }
 
-    public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {
-        PaymentConfirmationFragment fragment = new PaymentConfirmationFragment();
-        bundle.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
     @Override
     public void onDialogOkClick() {
-        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
-        if (fragment != null) {
-            moveToVerticalAppByClearingStack();
-        } else {
-            moveToProductCatalog();
-        }
+        handleExit();
     }
 
     @Override
     public void onDialogCancelClick() {
         //NOP
+    }
+
+    public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {
+        PaymentConfirmationFragment fragment = new PaymentConfirmationFragment();
+        bundle.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(bundle);
+        return fragment;
     }
 }

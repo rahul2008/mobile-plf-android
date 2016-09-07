@@ -44,7 +44,6 @@ import java.util.ArrayList;
 public class OrderSummaryFragment extends BaseAnimationSupportFragment implements
         View.OnClickListener, PaymentController.MakePaymentListener, AddressController.AddressListener {
     private OrderProductAdapter mAdapter;
-    private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
     private Button mBtnPayNow;
     private Button mBtnCancel;
@@ -76,9 +75,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         mBtnCancel.setOnClickListener(this);
 
         bundle = getArguments();
-        if (bundle.containsKey(IAPConstant.BILLING_ADDRESS_FIELDS)) {
-            mBillingAddress = (AddressFields) bundle.getSerializable(IAPConstant.BILLING_ADDRESS_FIELDS);
-        }
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
         }
@@ -86,6 +82,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         RecyclerView mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
+
+        AddressFields mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
         if (isOrderPlaced()) {
             ArrayList<ShoppingCartData> shoppingCartDataArrayList = CartModelContainer.getInstance().getShoppingCartData();
             mAdapter = new OrderProductAdapter(getContext(), this, shoppingCartDataArrayList, mBillingAddress, mPaymentMethod);
