@@ -212,7 +212,7 @@ public class PairingHandlerTest {
     }
 
     @Test
-    public void whenPairingErrorLimitIsReachedThenErrorIsReported() throws Exception {
+    public void whenPairingPortErrorLimitIsReachedThenErrorIsReported() throws Exception {
         whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
         reset(pairingPortMock);
 
@@ -335,18 +335,19 @@ public class PairingHandlerTest {
         verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
     }
 
+    // User pairing
     @Test
-    public void whenStartingUserParingThenUserIdIsSendToAppliance() throws Exception {
+    public void whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId() throws Exception {
         pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN);
+        verify(pairingPortMock).addPortListener(pairingListenerCaptor.capture());
 
         verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(USER_ID), anyString());
     }
 
     @Test
     public void whenPairingPortReportSuccessThenUserRelationshipIsAdded() throws Exception {
-        pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN);
+        whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId();
 
-        verify(pairingPortMock).addPortListener(pairingListenerCaptor.capture());
         pairingListenerCaptor.getValue().onPortUpdate(pairingPortMock);
 
         verify(pairingServiceMock).addRelationshipRequest(pairingEntitiyReferenceCaptor.capture(), pairingEntitiyReferenceCaptor.capture(), (PairingEntitiyReference) isNull(), any(PairingRelationship.class), any(PairingInfo.class));
@@ -357,6 +358,80 @@ public class PairingHandlerTest {
         assertEquals(ACCESS_TOKEN, trustor.entityRefCredentials);
         assertEquals(NETWORK_CPP_ID, trustee.entityRefId);
         assertNull(trustee.entityRefCredentials);
+    }
+
+    @Test
+    public void whenDuringUserPairingPairingPortReportsErrorThenRetryIsIssuedSilently() throws Exception {
+        whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId();
+        reset(pairingPortMock);
+
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(USER_ID), anyString());
+        verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenUserRelationshipWasAddedSuccessfullyThenSuccessIsReported() throws Exception {
+        whenPairingPortReportSuccessThenUserRelationshipIsAdded();
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("completed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.SUCCESS, pairingService);
+
+        verify(pairingListenerMock).onPairingSuccess(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenUserRelationshipHasFailedThenRetryIsIssuedSilently() throws Exception {
+        whenPairingPortReportSuccessThenUserRelationshipIsAdded();
+        reset(pairingPortMock);
+
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(USER_ID), anyString());
+        verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenUserPairingAddRelationshipErrorLimitIsReachedThenErrorIsReported() throws Exception {
+        whenPairingPortReportSuccessThenUserRelationshipIsAdded();
+        reset(pairingPortMock);
+
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, null);
+
+        verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenAddUserRelationshipStatusIsNotCompletedThenRetryIsIssuedSilently() throws Exception {
+        whenPairingPortReportSuccessThenUserRelationshipIsAdded();
+        reset(pairingPortMock);
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("failed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.SUCCESS, pairingService);
+
+        verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(USER_ID), anyString());
+        verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
+    }
+
+    @Test
+    public void whenAddUserRelationshipErrorLimitIsReachedThenErrorIsReported2() throws Exception {
+        whenPairingPortReportSuccessThenUserRelationshipIsAdded();
+        reset(pairingPortMock);
+
+        PairingService pairingService = mock(PairingService.class);
+        when(pairingService.getAddRelationStatus()).thenReturn("failed");
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+        pairingHandler.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP, Errors.CONNECT_TIMEDOUT, pairingService);
+
+        verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
     }
 
     class PairingHandlerForTest extends PairingHandler<DICommAppliance> {

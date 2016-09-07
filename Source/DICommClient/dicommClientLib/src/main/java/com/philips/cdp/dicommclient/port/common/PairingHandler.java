@@ -58,12 +58,11 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     private PermissionListener permissionListener = null;
     private CppController cppController;
     private static HashMap<String, Integer> attemptsCount = new HashMap<String, Integer>();
+    private PairingHandlerRelationship pairingHandlerRelationship;
 
     private enum ENTITY {
         PURIFIER, APP, DATAACCESS
     }
-
-    ;
 
     private ENTITY entity_state;
     private T mAppliance;
@@ -114,7 +113,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         DICommLog.i(DICommLog.PAIRING, "Started pairing with appliance = " + mAppliance.getNetworkNode().getName() + "attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         String appEui64 = cppController.getAppCppId();
-        PairingHandlerRelationship pairingHandlerRelationship = new AppPairingHandlerRelationship(appEui64, PAIRING_REFERENCEPROVIDER, mAppliance);
+        pairingHandlerRelationship = new AppPairingHandlerRelationship(appEui64, PAIRING_REFERENCEPROVIDER, mAppliance);
         startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
@@ -122,14 +121,14 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         if (mAppliance == null) return;
         DICommLog.i(DICommLog.PAIRING, "Started user pairing with appliance = " + mAppliance.getNetworkNode().getName() + "attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
-        PairingHandlerRelationship pairingHandlerRelationship = new UserPairingHandlerRelationship(userId, PAIRING_REFERENCEPROVIDER, "no idea", accessToken, mAppliance);
+        pairingHandlerRelationship = new UserPairingHandlerRelationship(userId, PAIRING_REFERENCEPROVIDER, "no idea", accessToken, mAppliance);
         startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
     /**
      * Method startPairingPortTask.
      *
-     * @param relationshipType String
+     * @param relationshipType           String
      * @param pairingHandlerRelationship PairingHandlerRelationship
      */
     private void startPairingPortTask(final String relationshipType, final PairingHandlerRelationship pairingHandlerRelationship) {
@@ -151,6 +150,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                 @Override
                 public void onPortError(DICommPort<?> port, Error error, String errorData) {
                     DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
+
                     notifyListenerFailed();
                     port.removePortListener(this);
                 }
@@ -163,7 +163,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     }
 
     private void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship) {
-
         if (!cppController.isSignOn()) return;
         int status;
         PairingService addPSRelation = createPairingService();
@@ -395,18 +394,21 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
             if (relationStatus.equalsIgnoreCase("completed")) {
 
                 if (currentRelationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)) {
-                    DICommLog.i(DICommLog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
-                    currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
-                    AppPairingHandlerRelationship appPairingHandlerRelationship = new AppPairingHandlerRelationship(cppController.getAppCppId(), PAIRING_REFERENCEPROVIDER, mAppliance);
-                    addRelationship(PAIRING_NOTIFY_RELATIONSHIP, null, appPairingHandlerRelationship);
+                    if (pairingHandlerRelationship instanceof UserPairingHandlerRelationship) {
+                        notifyListenerSuccess();
+                    } else {
+                        DICommLog.i(DICommLog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
+                        currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
+                        AppPairingHandlerRelationship appPairingHandlerRelationship = new AppPairingHandlerRelationship(cppController.getAppCppId(), PAIRING_REFERENCEPROVIDER, mAppliance);
+                        addRelationship(PAIRING_NOTIFY_RELATIONSHIP, null, appPairingHandlerRelationship);
+                    }
                 } else {
                     DICommLog.i(DICommLog.PAIRING, "Notification relationship added successfully - Pairing completed");
                     DICommLog.i(DICommLog.PAIRING, "Paring status set to true");
                     mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
                     mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
-                    //TODO better solution
-                    //TODO verify with Jeroen: implementation correct this way?
+                    //TODO see user story COM-89
                     DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
                     T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
                     appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
@@ -458,7 +460,11 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         if (getPairingAttempts(mAppliance.getNetworkNode().getCppId()) < MAX_RETRY) {
             setPairingAttempts(mAppliance.getNetworkNode().getCppId());
             // If DI-COMM local (Pairing Port) request fails, then retry only the DI-COMM request
-            startPairing();
+            if (pairingHandlerRelationship instanceof UserPairingHandlerRelationship) {
+                startUserPairing(pairingHandlerRelationship.cppId, pairingHandlerRelationship.credentials);
+            } else {
+                startPairing();
+            }
         } else {
             mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
             if (pairingListener == null) return;
