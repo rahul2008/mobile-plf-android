@@ -15,4 +15,12 @@
         android:layout_centerInParent="true"
         android:text="Registration Test" />
 
+    <Button
+        android:id="@+id/btn_registration_fargement"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/btn_registration"
+        android:text="Registration Fragment Test" />
+
 </RelativeLayout>

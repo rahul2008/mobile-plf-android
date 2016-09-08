@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.sample;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 public class RegistrationSampleActivity extends Activity implements OnClickListener, UserRegistrationUIEventListener,UserRegistrationListener {
 
     private Button mBtnRegistration;
+    private Button mBtnRegistrationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mBtnRegistration = (Button) findViewById(R.id.btn_registration);
         mBtnRegistration.setOnClickListener(this);
+        mBtnRegistrationFragment = (Button) findViewById(R.id.btn_registration_fargement);
+        mBtnRegistrationFragment.setOnClickListener(this);
 
     }
 
@@ -77,6 +81,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setAccountSettings(true);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
+                urLaunchInput.enableAddtoBackStack(true);
                 ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 
@@ -85,6 +90,9 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 break;
 
+            case R.id.btn_registration_fargement:
+                startActivity(new Intent(this,RegistrationFragmentActivity.class));
+                break;
             default:
                 break;
         }
