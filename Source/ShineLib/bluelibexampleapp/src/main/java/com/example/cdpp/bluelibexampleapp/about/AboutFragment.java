@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2016 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.example.cdpp.bluelibexampleapp.about;
 
 import android.os.Bundle;

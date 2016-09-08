@@ -15,12 +15,13 @@
         android:id="@+id/address"
         style="@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/rssi"
         style="@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 </LinearLayout>

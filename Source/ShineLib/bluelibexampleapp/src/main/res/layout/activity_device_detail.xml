@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".device.DeviceDetailActivity"
+    tools:context=".detail.DeviceDetailActivity"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
@@ -171,7 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/stat_sys_data_bluetooth"
+        android:src="@drawable/ic_add_white_48dp"
         app:layout_anchor="@+id/device_detail_container"
         app:layout_anchorGravity="top|end" />
 

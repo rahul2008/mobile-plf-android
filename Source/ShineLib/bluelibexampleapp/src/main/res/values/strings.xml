@@ -1,20 +1,29 @@
 <resources>
+    <!-- Application -->
     <string name="unknown">N/A</string>
-
     <string name="app_name">BlueLib Example App</string>
     <string name="app_version">"App version: "</string>
-
-    <string name="action_versions">Versions</string>
-    <string name="dialog_title_versions">Versions</string>
-
-    <string name="section_title_associated_devices">Associated devices</string>
-    <string name="section_title_available_devices">Available devices</string>
-
     <string name="bluelib_version">"BlueLib version: "</string>
 
-    <string name="title_device_list">Devices</string>
-    <string name="title_device_detail">Device detail</string>
+    <!-- Menu -->
+    <string name="action_versions">Versions</string>
 
+    <!-- About -->
+    <string name="dialog_title_versions">Versions</string>
+
+    <!-- Device definitions -->
+    <string name="header_device_definitions">Device definitions</string>
+
+    <!-- Association -->
+    <string name="title_associate">Associate</string>
+    <string name="header_associated_devices">Associated devices</string>
+
+    <!-- Connect -->
+    <string name="title_connect">Connect</string>
+    <string name="header_available_devices">Available devices</string>
+
+    <!-- Device details -->
+    <string name="title_device_detail">Device detail</string>
     <string name="device_detail_device_name">"Name: "</string>
     <string name="device_detail_device_type_name">"Type name: "</string>
     <string name="device_detail_device_rssi">"RSSI: %d dBm"</string>

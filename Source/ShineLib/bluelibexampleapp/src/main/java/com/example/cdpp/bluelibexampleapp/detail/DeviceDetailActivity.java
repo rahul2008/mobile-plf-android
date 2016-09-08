@@ -1,4 +1,9 @@
-package com.example.cdpp.bluelibexampleapp.device;
+/*
+ * Copyright © 2016 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+package com.example.cdpp.bluelibexampleapp.detail;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,8 +32,6 @@ import java.util.Date;
 public class DeviceDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "DeviceDetail";
-
-    public static final String ARG_ITEM_ID = "arg_item_id";
 
     private Handler mHandler = new Handler(Looper.myLooper());
 
@@ -84,7 +87,9 @@ public class DeviceDetailActivity extends AppCompatActivity {
         mDevice = BlueLibExampleApplication.get().getSelectedDevice();
         if (mDevice != null) {
             mDevice.registerSHNDeviceListener(mDeviceListener);
+
             setTitle(mDevice.getName());
+            setupDeviceCapabilities(mDevice);
         }
 
         // Show the Up button in the action bar.

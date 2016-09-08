@@ -1,5 +1,11 @@
-package com.example.cdpp.bluelibexampleapp.device;
+/*
+ * Copyright © 2016 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
+package com.example.cdpp.bluelibexampleapp.connect;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,8 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cdpp.bluelibexampleapp.R;
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
+import com.example.cdpp.bluelibexampleapp.R;
+import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
+import com.example.cdpp.bluelibexampleapp.detail.DeviceDetailActivity;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -21,9 +29,9 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NearbyDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "NearbyDevicesFragment";
+    private static final String TAG = "ConnectDevicesFragment";
 
     private static final long SCAN_TIMEOUT_MS = 10000L;
 
@@ -32,7 +40,7 @@ public class NearbyDevicesFragment extends Fragment implements SwipeRefreshLayou
 
     private List<SHNDeviceFoundInfo> mNearbyDevices = new ArrayList<>();
 
-    private DeviceFoundInfoAdapter mNearbyDevicesAdapter;
+    private ConnectDeviceAdapter mConnectDeviceAdapter;
     private Handler mHandler = new Handler(Looper.myLooper());
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -64,17 +72,17 @@ public class NearbyDevicesFragment extends Fragment implements SwipeRefreshLayou
         }
     };
 
-    public NearbyDevicesFragment() {
+    public ConnectDevicesFragment() {
     }
 
-    public static NearbyDevicesFragment newInstance() {
-        return new NearbyDevicesFragment();
+    public static ConnectDevicesFragment newInstance() {
+        return new ConnectDevicesFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_nearby, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_connect, container, false);
 
         // Setup swipe layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLayout);
@@ -114,15 +122,29 @@ public class NearbyDevicesFragment extends Fragment implements SwipeRefreshLayou
         if (recyclerView == null) {
             throw new IllegalStateException("RecyclerView not initialized.");
         }
-        mNearbyDevicesAdapter = new DeviceFoundInfoAdapter(mNearbyDevices);
-        recyclerView.setAdapter(mNearbyDevicesAdapter);
+        mConnectDeviceAdapter = new ConnectDeviceAdapter(mNearbyDevices);
+        mConnectDeviceAdapter.setOnItemClickListener(new BaseDeviceAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View itemView) {
+                final SHNDeviceFoundInfo info = mConnectDeviceAdapter.getItem(position);
+                BlueLibExampleApplication.get().setSelectedDevice(info.getShnDevice());
+
+                startActivity(new Intent(getActivity(), DeviceDetailActivity.class));
+            }
+
+            @Override
+            public void onItemLongClick(int position, View itemView) {
+                // Nothing to do
+            }
+        });
+        recyclerView.setAdapter(mConnectDeviceAdapter);
     }
 
     private void updateList() {
-        if (mNearbyDevicesAdapter == null) {
+        if (mConnectDeviceAdapter == null) {
             return;
         }
-        mNearbyDevicesAdapter.notifyDataSetChanged();
+        mConnectDeviceAdapter.notifyDataSetChanged();
     }
 
     private void scanForDevices() {

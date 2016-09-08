@@ -1,10 +1,14 @@
+/*
+ * Copyright © 2016 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.example.cdpp.bluelibexampleapp;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -16,12 +20,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.cdpp.bluelibexampleapp.about.AboutFragment;
-import com.example.cdpp.bluelibexampleapp.device.AssociatedDevicesFragment;
-import com.example.cdpp.bluelibexampleapp.device.NearbyDevicesFragment;
-import com.philips.pins.shinelib.utility.SHNLogger;
+import com.example.cdpp.bluelibexampleapp.associate.AssociatedDevicesFragment;
+import com.example.cdpp.bluelibexampleapp.connect.ConnectDevicesFragment;
 
 public class BlueLibExampleActivity extends AppCompatActivity {
 
@@ -32,42 +34,6 @@ public class BlueLibExampleActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private FloatingActionButton mFab;
-
-    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            // Nothing to do.
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            mCurrentPage = position;
-
-            switch (position) {
-                case 0:
-                    mFab.setVisibility(View.VISIBLE);
-                    break;
-                case 1:
-                    mFab.setVisibility(View.GONE);
-                    break;
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            // Nothing to do.
-        }
-    };
-
-    private View.OnClickListener mFabOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            SHNLogger.d(TAG, "Associate device.");
-
-            // TODO
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,14 +52,9 @@ public class BlueLibExampleActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        // Configure action for the Floating Action Button
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-        mFab.setOnClickListener(mFabOnClickListener);
 
         // Acquire Bluetooth permission
         acquirePermission();
@@ -149,7 +110,7 @@ public class BlueLibExampleActivity extends AppCompatActivity {
                 case 0:
                     return AssociatedDevicesFragment.newInstance();
                 case 1:
-                    return NearbyDevicesFragment.newInstance();
+                    return ConnectDevicesFragment.newInstance();
             }
             throw new IllegalStateException("No fragment defined for position: " + position);
         }
@@ -163,9 +124,9 @@ public class BlueLibExampleActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.section_title_associated_devices);
+                    return getString(R.string.title_associate);
                 case 1:
-                    return getString(R.string.section_title_available_devices);
+                    return getString(R.string.title_connect);
             }
             return null;
         }
