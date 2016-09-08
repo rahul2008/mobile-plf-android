@@ -14,6 +14,7 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class ProductRegistrationApplication extends Application {
+
+    private static AppInfraInterface mAppInfra;
 
     @Override
     public void onCreate() {
@@ -32,7 +35,7 @@ public class ProductRegistrationApplication extends Application {
     }
 
     private void initProductRegistration() {
-        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(ProdRegAppInfraSingleton.getInstance());
+        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(mAppInfra);
         ProdRegSettings prodRegSettings = new ProdRegSettings(getApplicationContext());
         new PRInterface().init(prodRegDependencies, prodRegSettings);
     }
@@ -43,7 +46,7 @@ public class ProductRegistrationApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
         newRegInit();
-        URDependancies urDependancies = new URDependancies(ProdRegAppInfraSingleton.getInstance());
+        URDependancies urDependancies = new URDependancies(mAppInfra);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
@@ -95,9 +98,8 @@ public class ProductRegistrationApplication extends Application {
 
     @SuppressWarnings("deprecation")
     private void initAppInfra() {
-        final AppInfra build = new AppInfra.Builder().build(getApplicationContext());
-        ProdRegAppInfraSingleton.setInstance(build);
-        AppInfraSingleton.setInstance(build);
-        RegistrationHelper.getInstance().setAppInfraInstance(build);
+        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfraSingleton.setInstance(mAppInfra);
+        RegistrationHelper.getInstance().setAppInfraInstance(mAppInfra);
     }
 }
