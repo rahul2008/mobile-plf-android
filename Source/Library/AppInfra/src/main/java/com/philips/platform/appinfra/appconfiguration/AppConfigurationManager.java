@@ -30,6 +30,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     AppInfra mAppInfra;
     Context mContext;
     JSONObject configJsonCache;
+    JSONObject staticconfigJsonCache;
     private static final String mAppConfig_SecureStoreKey = "ail.app_config";
 
     SecureStorageInterface ssi;
@@ -68,6 +69,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         return configJsonCache;
 
     }
+
+    private JSONObject getStaticConfigJsonCache() {
+        if (staticconfigJsonCache == null) {
+            staticconfigJsonCache = getMasterConfigFromApp();
+        }
+        return staticconfigJsonCache;
+    }
+
 
     private JSONObject getjSONFromDevice() {
         ssi = mAppInfra.getSecureStorage();
@@ -168,7 +177,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
 
     @Override
-    public Object getDefaultPropertyForKey(String key, String group ,AppConfigurationError configError) throws IllegalArgumentException {
+    public Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException {
 
         Object object = null;
         if (null == group || null == group || group.isEmpty() || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") || !group.matches("[a-zA-Z0-9_.-]+")) {
@@ -176,8 +185,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
             //configJsonCache is initialized//
+            getStaticConfigJsonCache();
             try {
-                object = getKey(key, group, configError, getMasterConfigFromApp());
+                object = getKey(key , group, configError, staticconfigJsonCache);
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
                         Log.getStackTraceString(e));
@@ -187,7 +197,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private Object getKey(String key, String group, AppConfigurationError configError, JSONObject jsonObject) {
-        System.out.println(key +" "+ group +" "+ jsonObject);
         Object object = null;
         boolean isCocoPresent = jsonObject.has(group);
         if (!isCocoPresent) { // if request coco does not exist
