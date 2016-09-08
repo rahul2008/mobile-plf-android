@@ -79,8 +79,12 @@ public class AppTagging implements AppTaggingInterface {
         contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
 
         contextData.put(AppTaggingConstants.APPSID_KEY, getAppsId());
-        contextData.put(AppTaggingConstants.COMPONENT_ID, getComponentId());
-        contextData.put(AppTaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
+        if (getComponentId() != null) {
+            contextData.put(AppTaggingConstants.COMPONENT_ID, getComponentId());
+        }
+        if (getComponentVersionVersionValue() != null) {
+            contextData.put(AppTaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
+        }
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         return contextData;
@@ -129,16 +133,16 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     private String getComponentId() {
-        if (mComponentID == null) {
-            mComponentID = "DefaultText";
-        }
+//        if (mComponentID == null) {
+//            mComponentID = "DefaultText";
+//        }
         return mComponentID;
     }
 
     private String getComponentVersionVersionValue() {
-        if (mComponentVersion == null) {
-            mComponentVersion = "DefaultValue";
-        }
+//        if (mComponentVersion == null) {
+//            mComponentVersion = "DefaultValue";
+//        }
         return mComponentVersion;
     }
 
