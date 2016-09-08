@@ -250,6 +250,11 @@ dependencies {
     }
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.5', ext: 'aar')
 
+    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.2.2', ext: 'aar')
+
+    compile(group: 'com.philips.cdp.shine', name: 'shinelib', version: '0.3.2', ext: 'aar')
+    compile(group: 'com.philips.cdp.shine', name: 'shineplugincopper', version: '0.2.5', ext: 'aar')
+
 }
 
 task copyToLib(type: Copy) {
