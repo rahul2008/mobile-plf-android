@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
@@ -278,23 +277,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     @Override
     public void onFailure(int errorCode) {
         dismissProgressDialog();
-        showToast(errorCode);
-    }
-
-    private void showToast(int errorCode) {
-        String errorText = "Server error";
-        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
-            errorText = "No connection";
-        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
-            errorText = "Connection time out";
-        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
-            errorText = "Authentication failure";
-        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
-            errorText = "Product out of stock";
-        }
-        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
     }
 
     private void addActionBar() {
