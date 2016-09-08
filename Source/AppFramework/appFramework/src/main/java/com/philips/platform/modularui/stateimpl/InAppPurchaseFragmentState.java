@@ -43,7 +43,7 @@ public class InAppPurchaseFragmentState extends UIState{
             actionBarListener = (HomeActivity)context;
         }
         if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
+            mCtnList = new ArrayList<>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.iap_productselection_ctnlist)));
         }
         launchIAP();
     }

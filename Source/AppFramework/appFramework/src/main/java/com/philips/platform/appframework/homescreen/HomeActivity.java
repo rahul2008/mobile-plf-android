@@ -115,7 +115,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
 
     private void showNavigationDrawerItem(int position) {
-
         philipsDrawerLayout.closeDrawer(navigationView);
         presenter.onClick(position, HomeActivity.this);
     }
@@ -235,6 +234,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     UIState currentState = flowManager.getCurrentState();
                     currentState.back(this);
                 }
+
+                /*
+                 If you go some screen other than HOME SCREEN and press back then
+                 HOME SCREEN has to be selected. So manually setting HOME as SELECTED.
+                */
+                adapter.setSelectedIndex(0);
             } else if (hamburgerIcon.getTag().equals("BackButton")) {
                 if (currentFrag != null && currentFrag instanceof BackEventListener){
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
