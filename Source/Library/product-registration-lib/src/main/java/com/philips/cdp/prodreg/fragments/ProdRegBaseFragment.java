@@ -71,7 +71,6 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().setTitle(getActionbarTitleResId());
         setImageBackground();
     }
 
