@@ -4,15 +4,12 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -32,26 +29,32 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         mIapListener = iapListener;
     }
 
-    protected boolean isNetworkNotConnected() {
-        if (getContext() != null && !NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
-            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
-            return true;
-        }
-        return false;
-    }
-
     public enum AnimationType {
-        /**
-         * No animation for Fragment
-         */
-        NONE,
+        NONE
     }
 
+    protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
+        mTitle = getString(resourceId);
+        if (mActionbarUpdateListener == null) {
+            throw new RuntimeException("Please set the ActionBar Listener");
+        } else
+            mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
+    }
+
+
+    protected void setTitleAndBackButtonVisibility(String title, boolean isVisible) {
+        mTitle = title;
+        if (mActionbarUpdateListener == null) {
+            throw new RuntimeException("Please set the ActionBar Listener");
+        } else {
+            mActionbarUpdateListener.updateActionBar(title, isVisible);
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        setCartIconVisibility(false);
+        setCartIconVisibility(false); //Check whether it is required ?
     }
 
     @Override
@@ -77,60 +80,27 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         }
     }
 
-    private void clearStackAndLaunchProductCatalog() {
+    public void showFragment(String fragmentTag) {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            clearFragmentStack();
-            addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), ProductCatalogFragment.TAG);
+            getActivity().getSupportFragmentManager().popBackStackImmediate(fragmentTag, 0);
         }
-    }
-
-    public void launchProductCatalog() {
-        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment == null) {
-            clearStackAndLaunchProductCatalog();
-        } else {
-            getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
-        }
-    }
-
-    protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
-        mTitle = getString(resourceId);
-        if (mActionbarUpdateListener == null) {
-            throw new RuntimeException("Please set the ActionBar Listener");
-        } else
-            mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
-    }
-
-
-    protected void setTitleAndBackButtonVisibility(String title, boolean isVisible) {
-        mTitle = title;
-        if (mActionbarUpdateListener == null) {
-            throw new RuntimeException("Please set the ActionBar Listener");
-        } else {
-            mActionbarUpdateListener.updateActionBar(title, isVisible);
-        }
-    }
-
-    protected void finishActivity() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            getActivity().finish();
-        }
-    }
-
-    @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
-
-    public boolean moveToFragment(String tag) {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            return getActivity().getSupportFragmentManager().popBackStackImmediate(tag, 0);
-        }
-        return false;
     }
 
     public boolean moveToPreviousFragment() {
         return getFragmentManager().popBackStackImmediate();
+    }
+
+    public void showProductCatalogFragment() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null) {
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                clearFragmentStack();
+                addFragment(ProductCatalogFragment.createInstance(new Bundle(),
+                        AnimationType.NONE), ProductCatalogFragment.TAG);
+            }
+        } else {
+            getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+        }
     }
 
     public void clearFragmentStack() {
@@ -146,6 +116,22 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         }
     }
 
+    public void moveToVerticalAppByClearingStack() {
+        clearFragmentStack();
+        finishActivity();
+    }
+
+    protected boolean isNetworkConnected() {
+        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
+            NetworkUtility.getInstance().showErrorDialog(getContext(),
+                    getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void updateCount(final int count) {
         if (mIapListener != null) {
             mIapListener.onGetCartCount(count);
@@ -158,13 +144,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
         }
     }
 
-    public void moveToVerticalAppByClearingStack() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
-            int count = getFragmentManager().getBackStackEntryCount();
-            for (int i = 0; i < count; i++) {
-                getFragmentManager().popBackStack();
-            }
-            finishActivity();
+    protected void finishActivity() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            getActivity().finish();
         }
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return false;
     }
 }

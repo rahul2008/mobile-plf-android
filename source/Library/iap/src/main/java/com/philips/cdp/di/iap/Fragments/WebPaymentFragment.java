@@ -131,7 +131,7 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
         if (fragment != null) {
             moveToVerticalAppByClearingStack();
         } else {
-            launchProductCatalog();
+            showProductCatalogFragment();
         }
 
     }

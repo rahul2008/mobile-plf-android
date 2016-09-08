@@ -52,8 +52,8 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(View v) {
         if (v == mContinueShoppingBtn) {
-            if (isNetworkNotConnected()) return;
-            launchProductCatalog();
+            if (!isNetworkConnected()) return;
+            showProductCatalogFragment();
         }
     }
 }

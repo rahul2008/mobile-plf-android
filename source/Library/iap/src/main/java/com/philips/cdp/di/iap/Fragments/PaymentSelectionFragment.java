@@ -104,7 +104,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
             if (fragment != null) {
                 moveToVerticalAppByClearingStack();
             } else {
-                moveToFragment(ShoppingCartFragment.TAG);
+                showFragment(ShoppingCartFragment.TAG);
             }
         }
     }

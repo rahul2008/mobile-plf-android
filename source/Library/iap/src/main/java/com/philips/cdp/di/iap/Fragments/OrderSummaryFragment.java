@@ -128,7 +128,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onClick(final View v) {
-        if (isNetworkNotConnected()) return;
+        if (!isNetworkConnected()) return;
         if (v == mBtnPayNow) {
             if (mPaymentMethod != null)
                 showCvvDialog(getFragmentManager());
@@ -154,7 +154,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (fragment != null) {
             moveToVerticalAppByClearingStack();
         } else {
-            moveToFragment(ShoppingCartFragment.TAG);
+            showFragment(ShoppingCartFragment.TAG);
         }
     }
 

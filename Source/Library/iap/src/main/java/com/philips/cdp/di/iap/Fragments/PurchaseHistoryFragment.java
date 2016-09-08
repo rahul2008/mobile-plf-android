@@ -189,7 +189,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     }
 
     private void startOrderDetailFragment() {
-        if (isNetworkNotConnected()) return;
+        if (!isNetworkConnected()) return;
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
         Bundle bundle = new Bundle();

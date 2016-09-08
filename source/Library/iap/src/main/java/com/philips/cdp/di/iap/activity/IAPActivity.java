@@ -33,22 +33,18 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -170,46 +166,14 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                 + newFragmentTag + ")");
     }
 
-
-    private void addActionBar() {
-        ActionBar mActionBar = getSupportActionBar();
-        if (mActionBar == null) return;
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
-        mBackImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
-        mBackImage.setBackground(mBackDrawable);
-        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-        setTitle(getString(R.string.app_name));
-        mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
-        ImageView mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-        mCartIcon.setBackground(mCartIconDrawable);
-        mCartIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
-            }
-        });
-        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
-        mActionBar.setCustomView(mCustomView, params);
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
+    public void showFragment(String fragmentTag) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if (fragment == null) {
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), fragmentTag);
+        } else {
+            getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+        }
     }
 
     @Override
@@ -217,7 +181,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         super.setTitle(title);
         mTitleTextView.setText(title);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -332,5 +295,45 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    private void addActionBar() {
+        ActionBar mActionBar = getSupportActionBar();
+        if (mActionBar == null) return;
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowCustomEnabled(true);
+        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER);
+        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
+        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onBackPressed();
+            }
+        });
+        mBackImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
+        mBackImage.setBackground(mBackDrawable);
+        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
+        setTitle(getString(R.string.app_name));
+        mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
+        ImageView mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
+        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        mCartIcon.setBackground(mCartIconDrawable);
+        mCartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(ShoppingCartFragment.TAG);
+            }
+        });
+        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
+        mActionBar.setCustomView(mCustomView, params);
+        Toolbar parent = (Toolbar) mCustomView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
     }
 }

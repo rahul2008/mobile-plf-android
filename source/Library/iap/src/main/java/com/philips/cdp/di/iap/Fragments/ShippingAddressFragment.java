@@ -293,9 +293,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onClick(final View v) {
-        //TODO Use isNetworkNotConnected() inside Continue only not for back
-        if (isNetworkNotConnected()) return;
         Utility.hideKeypad(mContext);
+        if(!isNetworkConnected())return;
         if (v == mBtnContinue) {
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {

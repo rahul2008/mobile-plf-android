@@ -59,7 +59,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public void onClick(final View v) {
-        if (isNetworkNotConnected()) return;
+        if (!isNetworkConnected()) return;
         if (v == mContinueShopping) {
             //Track continue shopping action
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
@@ -84,7 +84,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
-            launchProductCatalog();
+            showProductCatalogFragment();
         }
     }
 }

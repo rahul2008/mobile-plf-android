@@ -211,12 +211,12 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     @Override
     public void onClick(View v) {
         Utility.hideKeypad(mContext);
-        if (isNetworkNotConnected()) return;
+        if(!isNetworkConnected())return;
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);
-            addFragment(
-                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);
+            addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    OrderSummaryFragment.TAG);
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {

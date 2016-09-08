@@ -102,7 +102,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
-        if (!isNetworkNotConnected()) {
+        if (isNetworkConnected()) {
             updateCartOnResume();
         }
 
@@ -164,7 +164,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             }
         }
         if (v == mContinuesBtn) {
-            if (isNetworkNotConnected()) return;
+            if (!isNetworkConnected()) return;
 
             //Track continue shopping action
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
@@ -194,7 +194,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             startProductDetailFragment();
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            launchProductCatalog();
+            showProductCatalogFragment();
         }
     }
 
@@ -308,7 +308,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (getActivity() == null) return;
         mData = data;
         onOutOfStock(false);
-        if(mAdapter.mIsDeliveryAddressSet){
+        if (mAdapter.mIsDeliveryAddressSet) {
             mIsDeliveryAddress = true;
         }
         mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
@@ -328,9 +328,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
-        if (isNetworkNotConnected()) {
-            return;
-        }
+        if (!isNetworkConnected()) return;
         NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
     }
 

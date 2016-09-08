@@ -98,7 +98,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
-        if (!isNetworkNotConnected()) {
+        if (isNetworkConnected()) {
             getAddresses();
         }
         mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
@@ -127,7 +127,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
-        moveToFragment(ShoppingCartFragment.TAG);
+        showFragment(ShoppingCartFragment.TAG);
     }
 
     private void getAddresses() {
@@ -177,7 +177,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddressController.setDefaultAddress(selectedAddress);
-            if(mDeliveryMode == null)
+            if (mDeliveryMode == null)
                 mAddressController.getDeliveryModes();
             else
                 checkPaymentDetails();
@@ -260,15 +260,14 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
                 HashMap<String, String> addressHashMap = updateShippingAddress();
                 moveToShippingAddressFragment(addressHashMap);
-            } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-                if (isNetworkNotConnected()) return;
+            } else if (EditDeletePopUP.EVENT_DELETE.equals(event) && isNetworkConnected()) {
                 deleteShippingAddress();
             }
         }
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
-            if(mDeliveryMode != null)
+            if (mDeliveryMode != null)
                 args.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
                     ShippingAddressFragment.TAG);
@@ -313,7 +312,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
         addressHashMap.put(ModelConstants.TOWN, address.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
-      //  addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
+        //  addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
         addressHashMap.put(ModelConstants.PHONE_1, address.getPhone1());
 
         if (address.getRegion() != null) {
@@ -332,7 +331,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
-        if(mDeliveryMode != null)
+        if (mDeliveryMode != null)
             extras.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
         addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE),
                 ShippingAddressFragment.TAG);

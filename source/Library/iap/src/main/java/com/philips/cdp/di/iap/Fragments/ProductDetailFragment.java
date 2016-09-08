@@ -153,7 +153,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
                 mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
-                if (!isNetworkNotConnected()) {
+                if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().loadLocalData()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
                         if (!Utility.isProgressDialogShowing()) {
@@ -298,7 +298,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
 
     private void buyFromRetailers(ArrayList<StoreEntity> storeEntities) {
-        if (isNetworkNotConnected()) return;
+        if (!isNetworkConnected()) return;
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, storeEntities);
@@ -324,7 +324,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        if (isNetworkNotConnected()) return;
+        if (!isNetworkConnected()) return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
 
     }
@@ -345,7 +345,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     @Override
     public void onClick(View v) {
-        if (isNetworkNotConnected()) return;
+        if (!isNetworkConnected()) return;
         if (v == mAddToCart) {
             buyProduct(mCTNValue);
         }
