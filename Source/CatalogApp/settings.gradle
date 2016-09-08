@@ -1,1 +1,4 @@
-include ':uikitLib', ':app'
+include ':app'
+
+include ':uikitLib'
+project(':uikitLib').projectDir = new File('../UIKit/uikitLib')

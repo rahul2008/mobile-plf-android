@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <actions/>
+    <description>Android feature build from Android Refract gradle sources</description>
+    <displayName>Android Refract gradle</displayName>
+    <logRotator class="hudson.tasks.LogRotator">
+        <daysToKeep>30</daysToKeep>
+        <numToKeep>-1</numToKeep>
+        <artifactDaysToKeep>5</artifactDaysToKeep>
+        <artifactNumToKeep>100</artifactNumToKeep>
+    </logRotator>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty
+            plugin="build-failure-analyzer@1.13.4">
+            <doNotScan>false</doNotScan>
+        </com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty>
+        <org.jenkinsci.plugins.requeuejob.RequeueJobProperty plugin="jobrequeue@1.0">
+            <requeueJob>false</requeueJob>
+        </org.jenkinsci.plugins.requeuejob.RequeueJobProperty>
+        <de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty
+            plugin="jenkinswalldisplay@0.6.30"/>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url>
+                    ssh://git@atlas.natlab.research.philips.com:7999/mu/mobileuitoolkitdls-android.git
+                </url>
+                <credentialsId>781c912b-c95b-4f9b-99c7-14d29eb617ed</credentialsId>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>*/feature/Refract-gradle</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <gitTool>Git</gitTool>
+        <submoduleCfg class="list"/>
+        <extensions>
+            <hudson.plugins.git.extensions.impl.CleanCheckout/>
+            <hudson.plugins.git.extensions.impl.SubmoduleOption>
+                <disableSubmodules>false</disableSubmodules>
+                <recursiveSubmodules>true</recursiveSubmodules>
+                <trackingSubmodules>false</trackingSubmodules>
+                <reference/>
+            </hudson.plugins.git.extensions.impl.SubmoduleOption>
+        </extensions>
+    </scm>
+    <assignedNode>Automation</assignedNode>
+    <canRoam>false</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers>
+        <com.cloudbees.jenkins.plugins.BitBucketTrigger plugin="bitbucket@1.1.5">
+            <spec/>
+        </com.cloudbees.jenkins.plugins.BitBucketTrigger>
+        <hudson.triggers.SCMTrigger>
+            <spec># every 2 minutes
+                H/2 * * * *
+            </spec>
+            <ignorePostCommitHooks>false</ignorePostCommitHooks>
+        </hudson.triggers.SCMTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.plugins.gradle.Gradle plugin="gradle@1.24">
+            <description>Run tests and lint</description>
+            <switches/>
+            <tasks>assembleDebug</tasks>
+            <rootBuildScriptDir>Source/CatalogApp/</rootBuildScriptDir>
+            <buildFile/>
+            <gradleName>(Default)</gradleName>
+            <useWrapper>true</useWrapper>
+            <makeExecutable>true</makeExecutable>
+            <fromRootBuildScriptDir>true</fromRootBuildScriptDir>
+            <useWorkspaceAsHome>false</useWorkspaceAsHome>
+        </hudson.plugins.gradle.Gradle>
+    </builders>
+    <publishers/>
+    <buildWrappers/>
+</project>
