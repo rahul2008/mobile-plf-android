@@ -130,7 +130,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return sInstance;
     }
 
-    protected CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+    private CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
 
         this.mContext = context;
         mKpsConfigurationInfo = kpsConfigurationInfo;

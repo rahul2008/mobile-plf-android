@@ -2,13 +2,11 @@
 ================================================================================
 Release notes for DiComm
 ================================================================================
-
 Version *.*.*
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 ### New features:
-* COM-24 The getAppId() method has been renamed to getRelationshipId() and can now be used for more then only an AppId. For example, it can be used to include user token.
 * COM-24 Added startUserPairing call to PairingHandler that allows to create user relationship. 
 --------------------------------------------------------------------------------
 ### Bugs fixed:
