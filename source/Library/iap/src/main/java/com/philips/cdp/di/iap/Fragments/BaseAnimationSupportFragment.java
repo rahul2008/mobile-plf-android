@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import java.util.List;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener {
+    private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
     protected IAPListener mIapListener;
     String mTitle = "";
@@ -55,6 +57,12 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
     public void onResume() {
         super.onResume();
         setCartIconVisibility(false); //Check whether it is required ?
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -122,8 +130,8 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
     }
 
     protected boolean isNetworkConnected() {
-        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
-            NetworkUtility.getInstance().showErrorDialog(getContext(),
+        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+            NetworkUtility.getInstance().showErrorDialog(mContext,
                     getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
             return false;

@@ -33,6 +33,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 
@@ -295,7 +296,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public void onLoadError(IAPNetworkError error) {
-        if (error.getMessage() != null && error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
+        if (error.getMessage() != null
+                && error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);
@@ -305,6 +307,10 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mEmptyCatalogText.setVisibility(View.GONE);
             }
+            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(),
+                    getContext().getString(R.string.iap_ok),
+                    NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(getContext(), error.getIAPErrorCode()),
+                    NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(getContext(), error));
         }
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
