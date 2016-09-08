@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PhilipsUIKit">
+        <attr name="uikitContentPrimaryColor" format="reference|color"/>
+        <attr name="uikitContentSecondaryColor" format="reference|color"/>
+        <attr name="uikitContentTextColor" format="reference|color"/>
+
+        <attr name="uikitNavigationPrimaryColor" format="reference|color"/>
+        <attr name="uikitNavigationSecondaryColor" format="reference|color"/>
+        <attr name="uikitNavigationTextColor" format="reference|color"/>
+
+
+        <attr name="uikitControlTextColor" format="reference|color"/>
+        <attr name="uikitControlSecondaryEnabledColor" format="reference|color"/>
+        <attr name="uikitControlSecondaryPressedColor" format="reference|color"/>
+
+        <attr name="uikitControlPrimaryDarkEnabledColor" format="reference|color"/>
+        <attr name="uikitControlPrimaryDarkPressedColor" format="reference|color"/>
+        <attr name="uikitControlPrimaryLightEnabledColor" format="reference|color"/>
+        <attr name="uikitControlPrimaryLightPressedColor" format="reference|color"/>
+
+    </declare-styleable>
+
+
+    <declare-styleable name="DlsColorPallet">
+        <attr name="uikitColorLevel90" format="reference|color"/>
+        <attr name="uikitColorLevel85" format="reference|color"/>
+        <attr name="uikitColorLevel80" format="reference|color"/>
+        <attr name="uikitColorLevel75" format="reference|color"/>
+        <attr name="uikitColorLevel70" format="reference|color"/>
+        <attr name="uikitColorLevel65" format="reference|color"/>
+        <attr name="uikitColorLevel60" format="reference|color"/>
+        <attr name="uikitColorLevel55" format="reference|color"/>
+        <attr name="uikitColorLevel50" format="reference|color"/>
+        <attr name="uikitColorLevel45" format="reference|color"/>
+        <attr name="uikitColorLevel40" format="reference|color"/>
+        <attr name="uikitColorLevel35" format="reference|color"/>
+        <attr name="uikitColorLevel30" format="reference|color"/>
+        <attr name="uikitColorLevel25" format="reference|color"/>
+        <attr name="uikitColorLevel20" format="reference|color"/>
+        <attr name="uikitColorLevel15" format="reference|color"/>
+        <attr name="uikitColorLevel10" format="reference|color"/>
+        <attr name="uikitColorLevel05" format="reference|color"/>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Support no action bar scenarios-->
+    <style name="UikitNoActionBar">
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--white light themes-->
+    <style name="UikitVeryLightWindowBackgroundLevel0">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="UikitVeryLightWindowBackgroundLevel1">
+        <item name="android:windowBackground">?attr/uikitColorLevel05</item>
+    </style>
+
+    <style name="UikitVeryLightWindowBackgroundLevel2">
+        <item name="android:windowBackground">?attr/uikitColorLevel10</item>
+    </style>
+
+    <style name="UikitVeryLightWindowBackgroundLevel3">
+        <item name="android:windowBackground">?attr/uikitColorLevel15</item>
+    </style>
+
+    <!--Bright themes-->
+    <style name="UikitBrightWindowBackgroundLevel0">
+        <item name="android:windowBackground">?attr/uikitColorLevel35</item>
+    </style>
+
+    <style name="UikitBrightWindowBackgroundLevel1">
+        <item name="android:windowBackground">?attr/uikitColorLevel40</item>
+    </style>
+
+    <style name="UikitBrightWindowBackgroundLevel2">
+        <item name="android:windowBackground">?attr/uikitColorLevel45</item>
+    </style>
+
+    <style name="UikitBrightWindowBackgroundLevel3">
+        <item name="android:windowBackground">?attr/uikitColorLevel50</item>
+    </style>
+
+
+    <!--VeryDark themes-->
+    <style name="UikitVeryDarkWindowBackgroundLevel0">
+        <item name="android:windowBackground">?attr/uikitColorLevel65</item>
+    </style>
+
+    <style name="UikitVeryDarkWindowBackgroundLevel1">
+        <item name="android:windowBackground">?attr/uikitColorLevel70</item>
+    </style>
+
+    <style name="UikitVeryDarkWindowBackgroundLevel2">
+        <item name="android:windowBackground">?attr/uikitColorLevel75</item>
+    </style>
+
+    <style name="UikitVeryDarkWindowBackgroundLevel3">
+        <item name="android:windowBackground">?attr/uikitColorLevel80</item>
+    </style>
+
+    <array name="UikitVeryLightWindowBackgroundColors">
+        <item>@style/UikitVeryLightWindowBackgroundLevel0</item>
+        <item>@style/UikitVeryLightWindowBackgroundLevel1</item>
+        <item>@style/UikitVeryLightWindowBackgroundLevel2</item>
+        <item>@style/UikitVeryLightWindowBackgroundLevel3</item>
+    </array>
+
+    <array name="UikitBrightWindowBackgroundColors">
+        <item>@style/UikitBrightWindowBackgroundLevel0</item>
+        <item>@style/UikitBrightWindowBackgroundLevel1</item>
+        <item>@style/UikitBrightWindowBackgroundLevel2</item>
+        <item>@style/UikitBrightWindowBackgroundLevel3</item>
+    </array>
+
+    <array name="UikitVeryDarkWindowBackgroundColors">
+        <item>@style/UikitVeryDarkWindowBackgroundLevel0</item>
+        <item>@style/UikitVeryDarkWindowBackgroundLevel1</item>
+        <item>@style/UikitVeryDarkWindowBackgroundLevel2</item>
+        <item>@style/UikitVeryDarkWindowBackgroundLevel3</item>
+    </array>
+
+</resources>

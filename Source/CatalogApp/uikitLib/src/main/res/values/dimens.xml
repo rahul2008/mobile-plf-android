@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Switch dimensions-->
+    <item name="uikit_switch_off_alpha" format="float" type="dimen">0.1</item>
+
+    <dimen name="uikit_switch_stroke_width">1dp</dimen>
+    <dimen name="uikit_switch_width">48dp</dimen>
+    <dimen name="uikit_switch_height">24dp</dimen>
+    <dimen name="uikit_switch_thumb_size">24dp</dimen>
+    <dimen name="uikit_switch_track_radius">12dp</dimen>
+    <dimen name="uikit_switch_thumb_radius">11dp</dimen>
+
+</resources>

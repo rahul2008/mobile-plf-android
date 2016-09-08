@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="GroupBlue">
+        <item name="uikitColorLevel90">@color/uikit_group_blue_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_group_blue_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_group_blue_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_group_blue_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_group_blue_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_group_blue_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_group_blue_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_group_blue_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_group_blue_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_group_blue_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_group_blue_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_group_blue_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_group_blue_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_group_blue_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_group_blue_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_group_blue_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_group_blue_level_05</item>
+    </style>
+
+    <!--Blue color-->
+    <style name="Blue">
+        <item name="uikitColorLevel90">@color/uikit_blue_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_blue_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_blue_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_blue_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_blue_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_blue_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_blue_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_blue_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_blue_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_blue_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_blue_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_blue_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_blue_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_blue_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_blue_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_blue_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_blue_level_05</item>
+    </style>
+
+    <!--Aqua-->
+    <style name="Aqua">
+        <item name="uikitColorLevel90">@color/uikit_aqua_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_aqua_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_aqua_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_aqua_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_aqua_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_aqua_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_aqua_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_aqua_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_aqua_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_aqua_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_aqua_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_aqua_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_aqua_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_aqua_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_aqua_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_aqua_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_aqua_level_05</item>
+    </style>
+
+    <!--Green-->
+    <style name="Green">
+        <item name="uikitColorLevel90">@color/uikit_green_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_green_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_green_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_green_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_green_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_green_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_green_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_green_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_green_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_green_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_green_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_green_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_green_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_green_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_green_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_green_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_green_level_05</item>
+    </style>
+
+    <!--Orange-->
+    <style name="Orange">
+        <item name="uikitColorLevel90">@color/uikit_orange_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_orange_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_orange_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_orange_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_orange_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_orange_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_orange_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_orange_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_orange_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_orange_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_orange_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_orange_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_orange_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_orange_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_orange_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_orange_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_orange_level_05</item>
+    </style>
+
+    <!--Pink-->
+    <style name="Pink">
+        <item name="uikitColorLevel90">@color/uikit_pink_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_pink_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_pink_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_pink_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_pink_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_pink_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_pink_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_pink_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_pink_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_pink_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_pink_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_pink_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_pink_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_pink_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_pink_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_pink_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_pink_level_05</item>
+    </style>
+
+    <!--Purple-->
+    <style name="Purple">
+        <item name="uikitColorLevel90">@color/uikit_purple_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_purple_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_purple_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_purple_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_purple_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_purple_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_purple_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_purple_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_purple_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_purple_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_purple_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_purple_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_purple_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_purple_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_purple_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_purple_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_purple_level_05</item>
+    </style>
+
+    <!--Black-->
+    <style name="Gray">
+        <item name="uikitColorLevel90">@color/uikit_gray_level_90</item>
+        <item name="uikitColorLevel80">@color/uikit_gray_level_80</item>
+        <item name="uikitColorLevel75">@color/uikit_gray_level_75</item>
+        <item name="uikitColorLevel70">@color/uikit_gray_level_70</item>
+        <item name="uikitColorLevel65">@color/uikit_gray_level_65</item>
+        <item name="uikitColorLevel60">@color/uikit_gray_level_60</item>
+        <item name="uikitColorLevel55">@color/uikit_gray_level_55</item>
+        <item name="uikitColorLevel50">@color/uikit_gray_level_50</item>
+        <item name="uikitColorLevel45">@color/uikit_gray_level_45</item>
+        <item name="uikitColorLevel40">@color/uikit_gray_level_40</item>
+        <item name="uikitColorLevel35">@color/uikit_gray_level_35</item>
+        <item name="uikitColorLevel30">@color/uikit_gray_level_30</item>
+        <item name="uikitColorLevel25">@color/uikit_gray_level_25</item>
+        <item name="uikitColorLevel20">@color/uikit_gray_level_20</item>
+        <item name="uikitColorLevel15">@color/uikit_gray_level_15</item>
+        <item name="uikitColorLevel10">@color/uikit_gray_level_10</item>
+        <item name="uikitColorLevel05">@color/uikit_gray_level_05</item>
+    </style>
+</resources>
