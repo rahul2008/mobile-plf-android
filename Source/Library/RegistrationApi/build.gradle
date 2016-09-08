@@ -32,6 +32,7 @@ allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
 
     }
 
@@ -143,6 +144,11 @@ android {
     }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':jump')
@@ -153,7 +159,10 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.5')
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-SNAPSHOT', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
 
 
 }
@@ -196,4 +205,4 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-apply from: "resolution.gradle"
+//apply from: "resolution.gradle"
