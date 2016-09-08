@@ -48,6 +48,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
 
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
@@ -84,10 +85,9 @@ artifactory {
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz' )
+
 artifacts {
     archives zipDoc
-	archives zipSrc
 }
 
 task zipDocuments(type: Zip) {
@@ -127,11 +127,19 @@ android {
     }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-SNAPSHOT', ext: 'aar', changing: true)
+    {
+           transitive = true
+    }
 }
 
 task copyToLib(type: Copy) {
@@ -139,4 +147,4 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-apply from: "resolution.gradle"
+//apply from: "resolution.gradle"
