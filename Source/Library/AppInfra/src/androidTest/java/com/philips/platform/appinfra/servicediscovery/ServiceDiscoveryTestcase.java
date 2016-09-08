@@ -72,7 +72,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                             "  \"appidentity.sector\"  : \"B2C\",\n" +
                             " \"appidentity.appState\"  : \"Staging\",\n" +
                             "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
-                            "\"appidentity.restclient.cacheSizeInKB\"  : \"1024\" \n" +
+                            "\"restclient.cacheSizeInKB\"  : \"1024\" \n" +
                             "} \n" + "}";
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
