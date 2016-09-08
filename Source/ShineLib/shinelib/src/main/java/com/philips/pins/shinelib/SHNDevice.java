@@ -48,15 +48,24 @@ public interface SHNDevice {
     String getDeviceTypeName();
 
     /**
-     * Provides a means to connect to the peripheral.
+     * Provides a means to connect to the peripheral. The bluetooth connection is performed once.
      * <p/>
      * Callbacks about state changes are provided via a registered SHNDeviceListener instance.
-     * <p/>
-     * Please note that even in seemingly perfect conditions the Bluetooth stack may be unsuccessful
-     * in establishing a connection. Bluelib attempts to resolve this as much as possible, but users
-     * of this API need to handle connection failures through a relaxed re-connect mechanism.
      */
     void connect();
+
+    /**
+     * Provides a means to connect to the peripheral with a connect time out. The connect time out is the maximal amount of time to establish a bluetooth GATT connection.
+     * At least one attempt to connect will be performed. In case of a connection failure within the time out a retry will be issued.
+     * <p/>
+     * Callbacks about state changes are provided via a registered SHNDeviceListener instance. The time out does not guaranty the callback after the
+     * time has elapsed. It has impact only on establishing the GATT connection. As soon as the connection is established the onStateUpdate is called.
+     * Increasing the time out time improves the chances to get a successful connection. On certain phones the time out of 120 seconds increases the connection
+     * reliability.
+     *
+     * @param connectTimeOut the time out for bluetooth GATT connection time in MS.
+     */
+    void connect(long connectTimeOut);
 
     /**
      * Provides a means to disconnect from the peripheral.
