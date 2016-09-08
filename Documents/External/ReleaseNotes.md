@@ -1,6 +1,6 @@
 BlueLib(/ShineLib) for Android - Release Notes
 
-Version 1.0.1
+Version 2.0.0
 -------------
 ### Bugs fixed:
 * [BL-241] Implemented retry mechanism for perhiral connection
