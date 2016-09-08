@@ -91,7 +91,7 @@ public class RestClientActivity extends AppCompatActivity {
                 }
 
                 if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")) {
-                    StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
+                    StringRequest putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim(),
                             new Response.Listener<String>()
                             {
                                 @Override
