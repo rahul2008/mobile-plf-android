@@ -4,15 +4,11 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.controller.AddConsumerInterest;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/18/2016.
@@ -27,6 +23,8 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
 
     @Mock
     Context context;
+    RefreshUserHandler handler;
+    User user;
 
 
     @Before
@@ -35,6 +33,18 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
         context = getInstrumentation().getTargetContext();
+        handler= new RefreshUserHandler() {
+            @Override
+            public void onRefreshUserSuccess() {
+
+            }
+
+            @Override
+            public void onRefreshUserFailed(final int error) {
+
+            }
+        };
+        user= new User(getInstrumentation().getContext());
         updateUserRecordHandler = new UpdateUserRecordHandler() {
             @Override
             public void updateUserRecordLogin() {
@@ -70,6 +80,11 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
 //        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
 //        refreshandUpdateUserHandler.refreshAndUpdateUser(refreshUserHandler, user, "password");
         assertSame(refreshandUpdateUserHandler.mUpdateUserRecordHandler, updateUserRecordHandler);
+
+    }
+    public void testonFlowDownloadFailure(){
+        assertNotNull(!UserRegistrationInitializer.getInstance().isJumpInitializated());
+        assertNotNull(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress());
 
     }
 }
