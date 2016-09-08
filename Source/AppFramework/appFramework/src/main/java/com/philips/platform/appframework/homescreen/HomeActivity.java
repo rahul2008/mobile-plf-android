@@ -261,6 +261,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
 
             @Override
+            public void onUpdateCartCount() {
+
+            }
+
+            @Override
+            public void updateCartIconVisibility(boolean b) {
+
+            }
+
+            @Override
             public void onGetCompleteProductList(ArrayList<String> arrayList) {
 
             }
