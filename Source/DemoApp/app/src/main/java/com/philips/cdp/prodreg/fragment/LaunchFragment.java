@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,9 +28,8 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
  */
 public class LaunchFragment extends Fragment implements View.OnClickListener {
 
-    private TextView txt_title, configurationTextView;
+    private TextView configurationTextView;
     private Button user_registration_button, pr_button, reg_list_button;
-    private Context context;
 
     @Nullable
     @Override
@@ -42,7 +40,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setUp(final View view) {
-        context = getActivity();
         initViews(view);
         setOnClickListeners();
     }
@@ -55,7 +52,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initViews(final View view) {
-        txt_title = (TextView) view.findViewById(R.id.txt_title);
         user_registration_button = (Button) view.findViewById(R.id.btn_user_registration);
         pr_button = (Button) view.findViewById(R.id.btn_product_registration);
         reg_list_button = (Button) view.findViewById(R.id.btn_register_list);

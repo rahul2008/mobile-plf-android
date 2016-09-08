@@ -212,7 +212,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
         final ProdRegCache prodRegCache = new ProdRegCache();
         new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
-        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "purchaseDateRequired");
+        ProdRegTagging.getInstance().trackPage("ProdRegRegistrationScreen", "specialEvents", "purchaseDateRequired");
         purchaseDateLayout.showError(editTextView);
     }
 
@@ -356,7 +356,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void tagEvents(final String event, final String key, final String value) {
-        ProdRegTagging.getInstance().trackPageWithCommonGoals(event, key, value);
+        ProdRegTagging.getInstance().trackPage(event, key, value);
     }
 
     @Override

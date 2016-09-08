@@ -5,17 +5,11 @@
 */
 package com.philips.cdp.prodreg.tagging;
 
-import android.annotation.SuppressLint;
-
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
-import java.text.SimpleDateFormat;
-import java.util.Currency;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class ProdRegTagging {
@@ -32,27 +26,6 @@ public class ProdRegTagging {
         return prodRegTagging;
     }
 
-    private static String getCurrency() {
-        Currency currency = Currency.getInstance(Locale.getDefault());
-        String currencyCode = currency.getCurrencyCode();
-        if (currencyCode == null)
-            currencyCode = AnalyticsConstants.KEY_CURRENCY;
-        return currencyCode;
-    }
-
-    public static String getAppVersion() {
-        return BuildConfig.VERSION_NAME;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private static String getTimestamp() {
-        long timeMillis = System.currentTimeMillis();
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss");
-        String date = dateFormat.format(new Date(timeMillis));
-        return date;
-    }
-
     @SuppressWarnings("deprecation")
     public static void init(AppInfra appInfra) {
         aiAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
@@ -63,55 +36,15 @@ public class ProdRegTagging {
         return aiAppTaggingInterface;
     }
 
-    /*
-     * This context data will be called for every page track.
-     */
-    public Map<String, String> getCommonGoalsMap() {
-        Map<String, String> contextData = new HashMap<>();
-        return contextData;
-    }
-
-    public void trackPageWithCommonGoals(String pageName, Map<String, String> trackInfo) {
-        final Map<String, String> commonGoalsMap = getCommonGoalsMap();
-        commonGoalsMap.putAll(trackInfo);
-        getAiAppTaggingInterface().trackPageWithInfo(pageName, commonGoalsMap);
-    }
-
-    public void trackPageWithCommonGoals(String pageName, String key, String value) {
-        final Map<String, String> commonGoalsMap = getCommonGoalsMap();
+    public void trackPage(String pageName, String key, String value) {
+        final Map<String, String> commonGoalsMap = new HashMap<>();
         commonGoalsMap.put(key, value);
         getAiAppTaggingInterface().trackPageWithInfo(pageName, commonGoalsMap);
     }
 
-    public void trackOnlyPage(String pageName, Map<String, String> trackInfo) {
-        getAiAppTaggingInterface().trackPageWithInfo(pageName, trackInfo);
-    }
-
-    public void trackOnlyPage(String pageName, String key, String value) {
-        final Map<String, String> hashMap = new HashMap<>();
-        hashMap.put(key, value);
-        getAiAppTaggingInterface().trackPageWithInfo(pageName, hashMap);
-    }
-
-    public void trackActionWithCommonGoals(String event, Map<String, String> trackInfo) {
-        final Map<String, String> commonGoalsMap = getCommonGoalsMap();
-        commonGoalsMap.putAll(trackInfo);
-        getAiAppTaggingInterface().trackActionWithInfo(event, commonGoalsMap);
-    }
-
-    public void trackActionWithCommonGoals(String event, String key, String value) {
-        final Map<String, String> commonGoalsMap = getCommonGoalsMap();
+    public void trackAction(String event, String key, String value) {
+        final Map<String, String> commonGoalsMap = new HashMap<>();
         commonGoalsMap.put(key, value);
         getAiAppTaggingInterface().trackActionWithInfo(event, commonGoalsMap);
-    }
-
-    public void trackOnlyAction(String event, Map<String, String> trackInfo) {
-        getAiAppTaggingInterface().trackActionWithInfo(event, trackInfo);
-    }
-
-    public void trackOnlyAction(String event, String key, String value) {
-        final Map<String, String> hashMap = new HashMap<>();
-        hashMap.put(key, value);
-        getAiAppTaggingInterface().trackActionWithInfo(event, hashMap);
     }
 }

@@ -54,12 +54,12 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.demo'
-            versionCode 2
+            versionCode 3
             versionName "1.2.3"
         }
         device {
             applicationId 'com.philips.cdp.demo'
-            versionCode 2
+            versionCode 3
             versionName "1.2.3"
         }
     }

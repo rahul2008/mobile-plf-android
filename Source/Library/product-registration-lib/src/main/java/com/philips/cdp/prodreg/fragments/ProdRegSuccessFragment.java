@@ -57,7 +57,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_register_success, container, false);
-        ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "specialEvents", "successProductRegistration");
+        ProdRegTagging.getInstance().trackPage("ProdRegSuccessScreen", "specialEvents", "successProductRegistration");
         Button button = (Button) view.findViewById(R.id.continueButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             if (registeredProduct != null) {
-                ProdRegTagging.getInstance().trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
+                ProdRegTagging.getInstance().trackPage("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
             }
         }
     }

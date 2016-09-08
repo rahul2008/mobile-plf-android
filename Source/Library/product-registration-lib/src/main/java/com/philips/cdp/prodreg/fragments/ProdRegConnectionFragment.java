@@ -24,6 +24,7 @@ import com.philips.cdp.prodreg.constants.EnhancedLinkMovementMethod;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
 
 import java.util.List;
@@ -102,6 +103,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ProdRegTagging.getInstance().trackPage("ProdRegConnectionScreen", "specialEvents", "All products under this user registered");
         Bundle bundle = getArguments();
         if (bundle != null) {
             registeredProducts = (List<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
