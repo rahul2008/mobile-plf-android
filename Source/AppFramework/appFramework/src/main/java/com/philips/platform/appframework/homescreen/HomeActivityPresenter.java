@@ -14,10 +14,12 @@ import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseShoppingCartFragmentState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.modularui.util.UIConstants;
 
 public class HomeActivityPresenter extends UIBasePresenter implements SupportFragmentState.SetStateCallBack,UserRegistrationState.SetStateCallBack {
 
@@ -50,6 +52,9 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
                 break;
  			case MENU_OPTION_DEBUG:
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
+                break;
+            case UIConstants.UI_SHOPPING_CART_BUTTON_CLICK:
+                uiState = new InAppPurchaseShoppingCartFragmentState(UIState.UI_IAP_SHOPPING_SHOPPING_CART_FRAGMENT_STATE);
                 break;
             default:uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
         }
