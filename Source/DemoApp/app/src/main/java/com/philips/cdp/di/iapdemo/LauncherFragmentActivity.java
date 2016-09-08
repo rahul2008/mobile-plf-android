@@ -1,11 +1,9 @@
 package com.philips.cdp.di.iapdemo;
 
-import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -16,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -28,19 +24,16 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
-import static com.philips.cdp.di.iap.utils.Utility.dismissProgressDialog;
-
 /**
  * Created by 310164421 on 6/8/2016.
  */
-public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener, IAPListener {
+public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener, IAPListener, View.OnClickListener {
     ArrayList<String> mProductCTNs;
     private TextView mTitleTextView;
     private TextView mCountText;
@@ -48,12 +41,15 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     private ImageView mBackImage;
     private FrameLayout mCartContainer;
     IAPInterface mIapInterface;
+    IAPFlowInput mIapFlowInput;
+    IAPLaunchInput mIapLaunchInput;
+    IAPFlowInput iapFlowInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
-
+        initIAP();
         addActionBar();
         setContentView(R.layout.fragment_launcher_layout);
         mProductCTNs = new ArrayList<>();
@@ -62,19 +58,22 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         LaunchIAPFragment();
     }
 
-    private void LaunchIAPFragment() {
+    private void initIAP() {
         mIapInterface = new IAPInterface();
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput = new IAPLaunchInput();
         IAPSettings iapSettings = new IAPSettings(this);
-        DemoApplication application = (DemoApplication)getApplicationContext();
+        DemoApplication application = (DemoApplication) getApplicationContext();
         IAPDependencies iapDependencies = new IAPDependencies(application.getAppInfra());
         iapSettings.setUseLocalData(false);
-        IAPFlowInput iapFlowInput = new IAPFlowInput(mProductCTNs);
+        iapFlowInput = new IAPFlowInput(mProductCTNs);
         mIapInterface.init(iapDependencies, iapSettings);
-        iapLaunchInput.setIapListener(this);
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
+        mIapLaunchInput.setIapListener(this);
+    }
+
+    private void LaunchIAPFragment() {
+        mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
         try {
-            mIapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), iapLaunchInput);
+            mIapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), mIapLaunchInput);
         } catch (RuntimeException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -123,31 +122,12 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         ImageView mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);
         Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), com.philips.cdp.di.iap.R.drawable.iap_shopping_cart);
         mCartIcon.setBackground(mCartIconDrawable);
-        mCartIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
-            }
-        });
+        mCartContainer.setOnClickListener(this);
         mCountText = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.item_count);
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
     }
-
-    public void addFragment(BaseAnimationSupportFragment newFragment,
-                            String newFragmentTag) {
-        newFragment.setActionBarListener(this, this);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.vertical_Container, newFragment, newFragmentTag);
-        transaction.addToBackStack(newFragmentTag);
-        transaction.commitAllowingStateLoss();
-
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                + newFragmentTag + ")");
-    }
-
 
     private void setLocale(String languageCode, String countryCode) {
         PILLocaleManager localeManager = new PILLocaleManager(LauncherFragmentActivity.this);
@@ -212,5 +192,13 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
     @Override
     public void onFailure(int errorCode) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mCartContainer) {
+            mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, mIapFlowInput);
+            mIapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), mIapLaunchInput);
+        }
     }
 }
