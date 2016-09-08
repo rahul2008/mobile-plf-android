@@ -97,10 +97,10 @@ public class AppIdentityManager implements AppIdentityInterface {
             if (mAppState != null && !mAppState.isEmpty()) {
                 set.addAll(mAppStateValues);
                 if (!set.contains(mAppState)) {
-                    ///mAppState = null;
-                    throw new IllegalArgumentException("\"App State in appIdentityConfig  file must" +
-                            " match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
-                            "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
+                    mAppState = defAppState;
+//                    throw new IllegalArgumentException("\"App State in appIdentityConfig  file must" +
+//                            " match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
+//                            "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
                 }
             } else {
                 throw new IllegalArgumentException("AppState cannot be empty in appIdentityConfig json file");
@@ -136,7 +136,7 @@ public class AppIdentityManager implements AppIdentityInterface {
             if (mServiceDiscoveryEnvironment != null && !mServiceDiscoveryEnvironment.isEmpty()) {
                 set.addAll(mServiceDiscoveryEnv);
                 if (!set.contains(mServiceDiscoveryEnvironment)) {
-                    mServiceDiscoveryEnvironment = null;
+                    mServiceDiscoveryEnvironment = defSevicediscoveryEnv;
                     throw new IllegalArgumentException("\"servicediscoveryENV in appIdentityConfig " +
                             " file must match \" +\n" +
                             "\"one of the following values \\n TEST,\\n STAGING, \\n ACCEPTANCE, \\n PRODUCTION\"");

@@ -4,11 +4,14 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 import com.philips.platform.appinfra.servicediscovery.model.Tag;
+
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     ArrayList<String> mServicesId = new ArrayList<String>(
             Arrays.asList("userreg.janrain.api", "userreg.janrain.cdn"));
 
-
+    AppConfigurationManager mConfigInterface;
     private Context context;
 
     @Override
@@ -41,6 +44,47 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
+
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = "{\n" +
+                            "  \"UR\": {\n" +
+                            "\n" +
+                            "    \"Development\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
+                            "    \"Testing\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
+                            "    \"Evaluation\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
+                            "    \"Staging\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
+                            "    \"Production\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
+                            "\n" +
+                            "  },\n" +
+                            "  \"AI\": {\n" +
+                            "    \"MicrositeID\": 77001,\n" +
+                            "    \"RegistrationEnvironment\": \"Staging\",\n" +
+                            "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
+                            "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
+                            "    \"EE\": [123,234 ]\n" +
+                            "  }, \n" +
+                            " \"appinfra\": { \n" +
+                            "   \"appidentity.micrositeId\" : \"77000\",\n" +
+                            "  \"appidentity.sector\"  : \"B2C\",\n" +
+                            " \"appidentity.appState\"  : \"Staging\",\n" +
+                            "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
+                            "\"appidentity.restclient.cacheSizeInKB\"  : \"1024\" \n" +
+                            "} \n" + "}";
+                    result = new JSONObject(testJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+
+
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
         mserviceDiscovery = new ServiceDiscovery();
@@ -180,7 +224,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
-   /* commented by Anurag
+
     public void testBuildURL() {
         assertNotNull(mServiceDiscoveryManager.buildUrl("IN"));
     }
@@ -198,7 +242,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(message);
             }
         }));
-    }*/
+    }
 
     public void testgetCountry() {
         if (mServiceDiscoveryManager.getCountry() == null) {

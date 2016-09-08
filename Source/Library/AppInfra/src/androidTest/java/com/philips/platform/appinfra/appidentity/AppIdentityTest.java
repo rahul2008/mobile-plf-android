@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import junit.framework.Assert;
@@ -38,6 +39,7 @@ public class AppIdentityTest extends MockitoTestCase {
 
     private AppIdentityManager appIdentity;
     private AppConfigurationInterface.AppConfigurationError configError;
+    AppConfigurationManager mConfigInterface;
 
 
     @Override
@@ -45,8 +47,49 @@ public class AppIdentityTest extends MockitoTestCase {
         super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
+
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
+
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = "{\n" +
+                            "  \"UR\": {\n" +
+                            "\n" +
+                            "    \"Development\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
+                            "    \"Testing\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
+                            "    \"Evaluation\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
+                            "    \"Staging\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
+                            "    \"Production\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
+                            "\n" +
+                            "  },\n" +
+                            "  \"AI\": {\n" +
+                            "    \"MicrositeID\": 77001,\n" +
+                            "    \"RegistrationEnvironment\": \"Staging\",\n" +
+                            "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
+                            "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
+                            "    \"EE\": [123,234 ]\n" +
+                            "  }, \n" +
+                            " \"appinfra\": { \n" +
+                            "   \"appidentity.micrositeId\" : \"77000\",\n" +
+                            "  \"appidentity.sector\"  : \"B2C\",\n" +
+                            " \"appidentity.appState\"  : \"Staging\",\n" +
+                            "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
+                            "\"appidentity.restclient.cacheSizeInKB\"  : \"1024\" \n" +
+                            "} \n" + "}";
+                    result = new JSONObject(testJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+
         mAppIdentityManager = new AppIdentityManager(mAppInfra);
         assertNotNull(mAppIdentityManager);
         configError = new AppConfigurationInterface
@@ -59,10 +102,10 @@ public class AppIdentityTest extends MockitoTestCase {
         assertNotNull(mAppIdentityManager.getLocalizedAppName());
         assertNotNull(mAppIdentityManager.getAppName());
         assertNotNull(mAppIdentityManager.getAppVersion());
-//        assertNotNull(mAppIdentityManager.getMicrositeId());
-//        assertNotNull(mAppIdentityManager.getSector());
-   //     assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
-     //   assertNotNull(mAppIdentityManager.getAppState());
+        assertNotNull(mAppIdentityManager.getMicrositeId());
+        assertNotNull(mAppIdentityManager.getSector());
+        assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
+        assertNotNull(mAppIdentityManager.getAppState());
     }
 
 
@@ -74,25 +117,25 @@ public class AppIdentityTest extends MockitoTestCase {
     }
 
     public void testValidateAppState() {
-//        String appState;
-//
-//        mAppInfra.getConfigInterface().setPropertyForKey("AppState", "appinfra_appidentity",
-//                "Staging", configError);
-//        String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-//                ("AppState", "appinfra_appidentity", configError);
-//        assertNotNull(defAppState);
-//        assertEquals("Appstate is staging", defAppState, "Staging");
-//
-//        if (defAppState.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
-//            appState = defAppState;
-//        else {
-//            Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("AppState", "appinfra_appidentity", configError);
-//            if (dynAppState != null)
-//                appState = dynAppState.toString();
-//            else
-//                appState = defAppState;
-//        }
-//        assertNotNull(appState);
+        String appState;
+
+        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
+                "Staging", configError);
+        String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                ("appidentity.appState", "appinfra", configError);
+        assertNotNull(defAppState);
+        assertEquals("Appstate is staging", defAppState, "Staging");
+
+        if (defAppState.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
+            appState = defAppState;
+        else {
+            Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
+            if (dynAppState != null)
+                appState = dynAppState.toString();
+            else
+                appState = defAppState;
+        }
+        assertNotNull(appState);
 
         Set<String> set;
 
@@ -102,7 +145,7 @@ public class AppIdentityTest extends MockitoTestCase {
                     !mAppIdentityManager.getAppState().toString().isEmpty()) {
                 set.addAll(mAppStateValues);
                 if (!set.contains(mAppIdentityManager.getAppState().toString())) {
-                    ///mAppState = null;
+//                    appState = defAppState;
                     throw new IllegalArgumentException("\"App State in appIdentityConfig  file must" +
                             " match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
                             "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
@@ -119,29 +162,29 @@ public class AppIdentityTest extends MockitoTestCase {
 
 
     public void testValidateServiceDiscoveryEnv() {
-//        String servicediscoveryEnv;
-//
-//        mAppInfra.getConfigInterface().setPropertyForKey("AppState", "appinfra_appidentity",
-//                "Staging", configError);
-//
-//        String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-//                ("ServiceDiscoveryEnvironment", "appinfra_appidentity", configError);
-//
-//        assertNotNull(defSevicediscoveryEnv);
-//        assertEquals("Appstate is staging", defSevicediscoveryEnv, "Staging");
-//
-//        if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
-//            servicediscoveryEnv = defSevicediscoveryEnv;
-//        else {
-//            Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
-//                    .getPropertyForKey("ServiceDiscoveryEnvironment", "appinfra_appidentity", configError);
-//            if (dynServiceDiscoveryEnvironment != null)
-//                servicediscoveryEnv = dynServiceDiscoveryEnvironment.toString();
-//            else
-//                servicediscoveryEnv = defSevicediscoveryEnv;
-//        }
-//
-//        assertNotNull(servicediscoveryEnv);
+        String servicediscoveryEnv;
+
+        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra",
+                "Staging", configError);
+
+        String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                ("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
+
+        assertNotNull(defSevicediscoveryEnv);
+        assertEquals("Appstate is staging", defSevicediscoveryEnv, "Staging");
+
+        if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
+            servicediscoveryEnv = defSevicediscoveryEnv;
+        else {
+            Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
+                    .getPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
+            if (dynServiceDiscoveryEnvironment != null)
+                servicediscoveryEnv = dynServiceDiscoveryEnvironment.toString();
+            else
+                servicediscoveryEnv = defSevicediscoveryEnv;
+        }
+
+        assertNotNull(servicediscoveryEnv);
 
         Set<String> set;
 
@@ -161,8 +204,6 @@ public class AppIdentityTest extends MockitoTestCase {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
                     Log.getStackTraceString(error));
         }
-
-
     }
 
     public void testAppversion() {
@@ -179,8 +220,6 @@ public class AppIdentityTest extends MockitoTestCase {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void testValidateMicroSiteId() {

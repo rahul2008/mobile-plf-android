@@ -63,7 +63,8 @@ public class AppConfigurationTest extends MockitoTestCase {
                             "   \"appidentity.micrositeId\" : \"77000\",\n" +
                             "  \"appidentity.sector\"  : \"B2C\",\n" +
                             " \"appidentity.appState\"  : \"Staging\",\n" +
-                            "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\"\n" +
+                            "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
+                            "\"appidentity.restclient.cacheSizeInKB\"  : \"1024\" \n" +
                             "} \n" + "}";
                     result = new JSONObject(testJson);
                 } catch (Exception e) {

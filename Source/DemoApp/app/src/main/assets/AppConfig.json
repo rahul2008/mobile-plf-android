@@ -6,7 +6,6 @@
     "Evaluation": "4r36zdbeycca933nufcknn2hnpsz6gxu",
     "Staging": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
     "Production": "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3"
-
   },
   "AI": {
     "MicrositeID": "77701",
@@ -19,9 +18,9 @@
   "appinfra": {
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "Production",
+    "appidentity.appState"  : "Staging",
     "appidentity.serviceDiscoveryEnvironment"  : "Production"
-
+    "restclient.cacheSizeInKB": 1024
   }
 }
 
