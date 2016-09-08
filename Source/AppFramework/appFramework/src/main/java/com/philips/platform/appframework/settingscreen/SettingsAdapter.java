@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.settingscreen;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -15,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -30,7 +33,7 @@ import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
-public class SettingsAdapter extends BaseAdapter {
+public class SettingsAdapter extends BaseAdapter{
     private Context mActivity;
     private LayoutInflater inflater = null;
     private User mUser = null;
@@ -47,6 +50,7 @@ public class SettingsAdapter extends BaseAdapter {
     TextView description;
     SettingListItemType type;
     View vi;
+    ProgressDialog progress;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
@@ -85,30 +89,30 @@ public class SettingsAdapter extends BaseAdapter {
         if (mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
                 ||mSettingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
 
-           if (convertView == null) {
-            vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
-            UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
-            if (mUser.isUserSignIn()) {
-                btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
-            } else {
-                btn_settings_logout.setText(getString(R.string.settings_list_item_login));
-            }
-
-            btn_settings_logout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mUser.isUserSignIn()) {
-                        logoutAlert();
-                    } else {
-                        fragmentPresenter.onLoad(mActivity);
-                    }
+            if (convertView == null) {
+                vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
+                UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
+                if (mUser.isUserSignIn()) {
+                    btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
+                } else {
+                    btn_settings_logout.setText(getString(R.string.settings_list_item_login));
                 }
-            });
+
+                btn_settings_logout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mUser.isUserSignIn()) {
+                            logoutAlert();
+                        } else {
+                            fragmentPresenter.onLoad(mActivity);
+                        }
+                    }
+                });
             }
 
         } else {
             if (convertView == null) {
-            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
+                vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
             }
             name = (TextView) vi.findViewById(R.id.ifo);
             value = (PuiSwitch) vi.findViewById(R.id.switch_button);
@@ -145,23 +149,29 @@ public class SettingsAdapter extends BaseAdapter {
             } else {
                 value.setChecked(false);
             }
-            if (sharedPreferenceUtility.getPreferenceBoolean(Constants.isEmailMarketingEnabled)) {
-                value.setChecked(true);
-            } else {
-                value.setChecked(false);
-            }
             value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    progress = new ProgressDialog(mActivity);
+                    progress.setTitle("Please Wait!!");
+                    progress.setMessage("Wait!!");
+                    progress.setCancelable(true);
+                    progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progress.show();
                     if (isChecked) {
                         mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
                             @Override
                             public void onUpdateReceiveMarketingEmailSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
+                                progress.cancel();
+                                Toast.makeText(mActivity,"Update suceess",Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                                progress.cancel();
+                                Toast.makeText(mActivity,"Update FAIL",Toast.LENGTH_LONG).show();
+
                             }
                         }, true);
                     } else {
@@ -169,10 +179,14 @@ public class SettingsAdapter extends BaseAdapter {
                             @Override
                             public void onUpdateReceiveMarketingEmailSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
+                                progress.cancel();
+                                Toast.makeText(mActivity,"Update success",Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                                progress.cancel();
+                                Toast.makeText(mActivity,"Update FAIL",Toast.LENGTH_LONG).show();
                             }
                         }, false);
                     }
@@ -245,4 +259,6 @@ public class SettingsAdapter extends BaseAdapter {
     private String getString(int id) {
         return mActivity.getResources().getString(id);
     }
+
+
 }

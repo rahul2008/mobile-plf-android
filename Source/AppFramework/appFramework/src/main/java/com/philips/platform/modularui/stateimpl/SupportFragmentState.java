@@ -17,10 +17,10 @@ import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -74,7 +74,7 @@ public class SupportFragmentState extends UIState implements CcListener {
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
-        CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
+        CcDependencies ccDependencies = new CcDependencies(AppFrameworkApplication.gAppInfra);
 
         ccInterface.init(ccDependencies, ccSettings);
         ccInterface.launch(launcher, ccLaunchInput);

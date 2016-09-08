@@ -57,7 +57,14 @@
 
     <!-- Consumer Care related-->
 
+
+    <!-- this -->
     <string-array name="productselection_ctnlist">
+        <item>HX6064/33</item>
+    </string-array>
+
+
+    <string-array name="iap_productselection_ctnlist">
         <item>HD9240/90</item>
     </string-array>
     <!--ConsumerCare related end here.-->
