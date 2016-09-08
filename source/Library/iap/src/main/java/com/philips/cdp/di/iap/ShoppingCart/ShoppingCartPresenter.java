@@ -50,10 +50,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     private CartsEntity mCurrentCartData = null;
 
-    public interface ShoppingCartLauncher {
-        void launchShoppingCart();
-    }
-
     public ShoppingCartPresenter() {
     }
 
