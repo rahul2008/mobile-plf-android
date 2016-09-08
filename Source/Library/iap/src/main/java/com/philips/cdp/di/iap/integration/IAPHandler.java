@@ -52,20 +52,20 @@ class IAPHandler {
         mContext = mIAPSetting.getContext();
     }
 
-    void initTaggingLogging(IAPDependencies iapDependencies) {
-        IAPAnalytics.initIAPAnalytics(iapDependencies);
-        IAPLog.initIAPLog(iapDependencies);
+    void initTaggingLogging() {
+        IAPAnalytics.initIAPAnalytics(mIAPDependencies);
+        IAPLog.initIAPLog(mIAPDependencies);
     }
 
 
-    void initIAP(IAPSettings iapSettings) {
-        initHybrisDelegate(mContext, iapSettings, mIAPDependencies);
-        initControllerFactory(iapSettings);
+    void initIAP() {
+        initHybrisDelegate(mContext, mIAPSetting, mIAPDependencies);
+        initControllerFactory(mIAPSetting);
         setLangAndCountry();
     }
 
-    IAPExposedAPI getExposedAPIImplementor(IAPSettings iapSettings) {
-        return getExposedAPIImplementor(mContext, iapSettings);
+    IAPExposedAPI getExposedAPIImplementor() {
+        return getExposedAPIImplementor(mContext, mIAPSetting);
     }
 
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
