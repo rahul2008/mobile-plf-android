@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.philips.cdp.ui.catalogdls"
+<manifest package="com.philips.platform.catalogapp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -10,7 +10,7 @@
         android:theme="@style/Base.Theme.AppCompat">
 
     <activity
-        android:name="com.philips.cdpp.catalogapp.MainActivity"
+        android:name="com.philips.platform.catalogapp.MainActivity"
         android:label="@string/uikit_app_name">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

@@ -33,7 +33,7 @@ android {
     buildToolsVersion "24.0.0"
 
     defaultConfig {
-        applicationId "com.philips.cdp.ui.catalog"
+        applicationId "com.philips.platform.catalogapp"
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
@@ -79,7 +79,7 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.3'
 
-    compile project(':uikitLib')
+    compile project(':uit')
 }
 
 configurations.all {
