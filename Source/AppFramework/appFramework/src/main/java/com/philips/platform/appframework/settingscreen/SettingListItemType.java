@@ -4,7 +4,11 @@
  * consent of the copyright holder.
 */
 package com.philips.platform.appframework.settingscreen;
-
+/**
+ * Enum for item type in settings
+ * It can be:
+ *
+ */
 public enum SettingListItemType {
     HEADER, CONTENT, NOTIFICATION
 }

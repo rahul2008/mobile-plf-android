@@ -21,6 +21,11 @@ import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 
+/**
+ * This class id used for loading various fragments that are supported by home activity ,
+ * based on user selection this class loads the next state of the application.
+ *
+ */
 public class HomeActivityPresenter extends UIBasePresenter implements SupportFragmentState.SetStateCallBack,UserRegistrationState.SetStateCallBack {
 
     HomeActivityPresenter(){
@@ -34,7 +39,10 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
-
+/**
+ * This methods handles all click events done on hamburger menu
+ * Any changes for hamburger menu options shuld be made here
+ */
     @Override
     public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();

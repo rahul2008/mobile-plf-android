@@ -13,8 +13,13 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
 /**
- * Created by 310213373 on 8/10/2016.
+ * About screen to display content and version number
+ * This class is for sutomising the about screen present from UiKit Lib
+ * Added custom titles
+ * Background color
+ * Latest version
  */
+
 public class AboutScreenFragment extends AppFrameworkBaseFragment
 {
     public static final String TAG =AboutScreenFragment.class.getSimpleName();

@@ -23,6 +23,14 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment is used for showing the account settings that verticals provide
+ * In the current implementation this class has below features:
+ *  1. Options for custom settings
+ *  2. Option to launch IAP history (if logged in already )
+ *  3. Option to logout of User Registration (if logged in already )
+ *  4. Option to login and launch IAP (if not logged in )
+ */
 public class SettingsFragment extends AppFrameworkBaseFragment {
 
     private SettingsAdapter mAdapter = null;
