@@ -43,29 +43,6 @@ public class UserWithProductTest extends InstrumentationTestCase {
     public void testUserWithProduct(){
         assertNotNull(userWithProducts);
     }
-   /* @Test
-    public void testGetRefreshedAccessToken(){
-        userWithProducts.getRefreshedAccessToken(productRegistrationHandler);
-        Jump.getSignedInUser().refreshAccessToken(new Capture.CaptureApiRequestCallback() {
-
-            @Override
-            public void onSuccess() {
-                String accessToken = Jump.getSignedInUser().getAccessToken();
-                assertEquals(accessToken,accessToken);
-                productRegistrationHandler.onRegisterSuccess(accessToken);
-            }
-
-            @Override
-            public void onFailure(CaptureApiError e) {
-                productRegistrationHandler.onRegisterFailedWithFailure(0);
-            }
-        });
-    }
-    @Test
-    public void testRegister(){
-        userWithProducts.register(productRegistrationInfo,productRegistrationHandler,"en_US",getInstrumentation().getContext());
-
-    }*/
     @Test
     public void testGetRegisteredProducts(){
         userWithProducts.getRegisteredProducts("","",productRegistrationHandler);
