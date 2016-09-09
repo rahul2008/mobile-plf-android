@@ -71,8 +71,8 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         initTheme();
+        super.onCreate(savedInstanceState);
         addActionBar();
         setContentView(R.layout.iap_activity);
         addLandingViews(savedInstanceState);
