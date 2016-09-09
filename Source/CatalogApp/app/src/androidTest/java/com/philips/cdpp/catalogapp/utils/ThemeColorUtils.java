@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalogdls.utils;
+package com.philips.cdpp.catalogapp.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

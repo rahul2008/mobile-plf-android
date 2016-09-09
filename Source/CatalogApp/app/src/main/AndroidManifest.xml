@@ -7,16 +7,15 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/uikit_app_name"
-        android:theme="@style/Theme.Philips.Blue">
+        android:theme="@style/Base.Theme.AppCompat">
 
     <activity
-        android:name=".activity.MainActivity"
+        android:name="com.philips.cdpp.catalogapp.MainActivity"
         android:label="@string/uikit_app_name">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-    <activity android:name=".activity.ButtonsActivity" />
 </application>
 </manifest>

@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.ui.catalogdls.utils;
+package com.philips.cdpp.catalogapp.utils;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;

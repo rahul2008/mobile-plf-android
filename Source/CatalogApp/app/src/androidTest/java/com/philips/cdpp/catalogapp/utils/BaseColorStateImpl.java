@@ -1,8 +1,8 @@
-package com.philips.cdp.ui.catalogdls.utils;
+package com.philips.cdpp.catalogapp.utils;
 
 import android.graphics.drawable.Drawable;
 
-import com.philips.cdp.ui.catalogdls.utils.GradientDrawableUtils.StateColors;
+import com.philips.cdpp.catalogapp.utils.GradientDrawableUtils.StateColors;
 
 public abstract class BaseColorStateImpl implements StateColors {
 
