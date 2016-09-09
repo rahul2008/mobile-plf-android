@@ -1,26 +1,68 @@
 apply plugin: 'com.android.application'
 
+buildscript {
+    repositories {
+        maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
+
+        jcenter()
+
+    }
+
+    dependencies {
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
+    }
+}
+apply plugin: 'spoon'
+
+spoon{
+//    className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'
+//    methodName = 'verifyToggleSwitchOrientationChange'
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
 
     defaultConfig {
-        applicationId "com.philips.cdpp.catalogapp"
+        applicationId "com.philips.platform.catalogapp"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
+    compile project(':uit')
+}
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:22.2.1'
 }
