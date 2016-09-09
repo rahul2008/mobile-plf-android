@@ -48,8 +48,8 @@ public class TrackOrderFragment extends InAppBaseFragment
                         + bundle.getString(IAPConstant.TRACKING_ID));
             if (bundle.containsKey(IAPConstant.DELIVERY_NAME))
                 mBillingName.setText(bundle.getString(IAPConstant.DELIVERY_NAME));
-            if (bundle.containsKey(IAPConstant.ADD_DELIVERY_ADDRESS))
-                mBillingAddress.setText(bundle.getString(IAPConstant.ADD_DELIVERY_ADDRESS));
+            if (bundle.containsKey(IAPConstant.DELIVERY_ADDRESS))
+                mBillingAddress.setText(bundle.getString(IAPConstant.DELIVERY_ADDRESS));
             if (bundle.containsKey(IAPConstant.ORDER_TRACK_URL))
                 mOrderTrackUrl = bundle.getString(IAPConstant.ORDER_TRACK_URL);
         }

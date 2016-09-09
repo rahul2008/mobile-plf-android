@@ -53,9 +53,9 @@ public class NetworkUtility {
                 return;
             }
             Bundle bundle = new Bundle();
-            bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
-            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
-            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
+            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, pButtonText);
+            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE, pErrorString);
+            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION, pErrorDescription);
             try {
                 mModalAlertDemoFragment.setArguments(bundle);
                 mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");

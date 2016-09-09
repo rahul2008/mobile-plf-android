@@ -210,10 +210,10 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     private void showErrorDialog(Message msg) {
         IAPNetworkError error = (IAPNetworkError) msg.obj;
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, mContext.getString(R.string.iap_ok));
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT,
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, mContext.getString(R.string.iap_ok));
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE,
                 NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()));
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION,
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION,
                 NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         if (mErrorDialogFragment == null) {
             mErrorDialogFragment = new ErrorDialogFragment();

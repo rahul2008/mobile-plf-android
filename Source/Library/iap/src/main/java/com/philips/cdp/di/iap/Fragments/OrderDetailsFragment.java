@@ -227,7 +227,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 }
                 if (mOrderDetail.getDeliveryAddress() != null) {
                     bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
-                    bundle.putString(IAPConstant.ADD_DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
+                    bundle.putString(IAPConstant.DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
                 }
 
                 if (mOrderDetail.getOrdertrackUrl() != null) {
