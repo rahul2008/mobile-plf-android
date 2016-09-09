@@ -138,6 +138,8 @@ publishing {
     }
 }
 
+artifactoryPublish.dependsOn assembleDebug
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
