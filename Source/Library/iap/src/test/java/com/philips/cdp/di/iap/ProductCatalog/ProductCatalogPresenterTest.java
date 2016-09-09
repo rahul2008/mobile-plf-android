@@ -42,7 +42,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
-public class ProductCatalogPresenterTest implements ShoppingCartPresenter.ShoppingCartLauncher, ProductCatalogPresenter.LoadListener, IAPListener {
+public class ProductCatalogPresenterTest implements ProductCatalogPresenter.LoadListener, IAPListener {
 
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
@@ -234,11 +234,6 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
         assertEquals("PRX might not have data", error.getServerError().getErrors().get(0).getReason());
         assertEquals("PRX Error", error.getServerError().getErrors().get(0).getSubject());
         assertEquals("No product found in your Store.", error.getServerError().getErrors().get(0).getMessage());
-    }
-
-    @Override
-    public void launchShoppingCart() {
-        //NOP
     }
 
     @Override
