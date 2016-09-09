@@ -26,7 +26,7 @@ public class DemoApplication extends Application {
         super.onCreate();
         initAppInfra();
         initIAP();
-        initUserRegistration(Configuration.PRODUCTION);
+        initUserRegistration(Configuration.STAGING);
     }
 
     public void initAppInfra() {
