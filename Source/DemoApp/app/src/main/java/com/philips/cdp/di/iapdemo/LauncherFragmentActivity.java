@@ -46,9 +46,10 @@ public class LauncherFragmentActivity extends UiKitActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         int DEFAULT_THEME = R.style.Theme_Philips_BrightBlue;
         setTheme(DEFAULT_THEME);
+
+        super.onCreate(savedInstanceState);
 
         initIAP();
         addActionBar();
