@@ -27,8 +27,7 @@ configurations.all {
         force 'com.philips.cdp:uikitLib:3.3.0-SNAPSHOT'
         force 'com.philips.cdp:registrationApi:7.1.0-SNAPSHOT'
         force 'com.philips.cdp:dicommClientLib:1.2.2'
-        force 'com.philips.cdp.shine:shinelib:0.3.2'
-        force 'com.philips.cdp.shine:shineplugincopper:0.2.5'
+        force 'com.philips.cdp:shinelib:2.0.0'
 
 /*
         //force 'com.philips.cdp:hsdp:+'
