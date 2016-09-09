@@ -32,6 +32,11 @@ public class Button extends AppCompatButton {
     private void processAttributes(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITButton);
         applyBackgroundTinting(typedArray);
+        applyTextColorTinting(typedArray);
+        typedArray.recycle();
+    }
+
+    private void applyTextColorTinting(TypedArray typedArray) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UITButton_uitButtonTextColorList, -1);
         if (textColorStateID != -1) {
             setTextColor(getTextColorStateList());
