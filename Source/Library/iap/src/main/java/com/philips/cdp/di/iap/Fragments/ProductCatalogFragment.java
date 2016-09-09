@@ -93,7 +93,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
         String savedCountry = Utility.getCountryFromPreferenceForKey(getContext(), IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.CAEGORIZED_PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.CAEGORIZED_PRODUCT_CTNS) != null) {
+            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 onLoadFinished(getProductCatalog(), null);
             } else if (currentCountryCode.equals(savedCountry)) {
                 if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
@@ -120,7 +120,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
 
     private ArrayList<ProductCatalogData> getProductCatalog() {
         ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
-        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.CAEGORIZED_PRODUCT_CTNS);
+        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
 
         if (ctns != null) {
             for (String ctn : ctns) {

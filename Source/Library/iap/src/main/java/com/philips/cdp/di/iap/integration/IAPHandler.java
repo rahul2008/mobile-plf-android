@@ -128,7 +128,7 @@ class IAPHandler {
             default:
                 //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                 fragment = new ProductCatalogFragment();
-                bundle.putString(IAPConstant.CAEGORIZED_PRODUCT_CTNS, null);
+                bundle.putString(IAPConstant.CATEGORISED_PRODUCT_CTNS, null);
                 fragment.setArguments(bundle);
                 break;
         }
@@ -155,7 +155,7 @@ class IAPHandler {
 
         if (pLaunchConfig.mIAPFlowInput != null) {
             if (pLaunchConfig.mIAPFlowInput.getProductCTNs() != null)
-                intent.putStringArrayListExtra(IAPConstant.CAEGORIZED_PRODUCT_CTNS,
+                intent.putStringArrayListExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS,
                         pLaunchConfig.mIAPFlowInput.getProductCTNs());
         }
 

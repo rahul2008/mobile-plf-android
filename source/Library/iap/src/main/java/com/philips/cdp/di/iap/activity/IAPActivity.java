@@ -82,11 +82,11 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (savedInstanceState == null) {
             setLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
-            ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CAEGORIZED_PRODUCT_CTNS);
+            ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
             Bundle bundle = new Bundle();
             switch (landingScreen) {
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
-                    bundle.putStringArrayList(IAPConstant.CAEGORIZED_PRODUCT_CTNS, CTNs);
+                    bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
                     addFragment(ProductCatalogFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
                     break;

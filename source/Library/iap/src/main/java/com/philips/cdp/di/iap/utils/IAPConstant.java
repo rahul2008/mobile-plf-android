@@ -28,18 +28,12 @@ public class IAPConstant {
     //Fragment
     public static final String PRODUCT_DETAIL_FRAGMENT = "PRODUCT_DETAIL_FRAGMENT ";
 
-
     //Application constants
     public static final Boolean BUTTON_STATE_CHANGED = false;
     public static final String EMPTY_CART_FRAGMENT_REPLACED = "EMPTY_CART_FRAGMENT_REPLACED";
     public static final String SHOPPING_CART_PRESENTER = "SHOPPING_CART_PRESENTER";
-    public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
-    public static final String MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE = "MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE";
     public static final String IS_SECOND_USER = "IS_SECOND_USER";
-
-    public static final String ORDER_TRACK_URL = "ORDER_TRACK_URL";
     public static final String FROM_PAYMENT_SELECTION = "FROM_PAYMENT_SELECTION";
-    public static final String BILLING_ADDRESS_FIELDS = "BILLING_ADDRESS_FIELDS";
     public static final String PRODUCT_DETAIL_FRAGMENT_IMAGE_URL = "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL";
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
@@ -54,24 +48,29 @@ public class IAPConstant {
     public static final String IAP_BUY_URL = "IAP_BUY_URL";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
     public static final String SWITCH_TO_NO_NETWORK_CONNECTION = "SWITCH_TO_NO_NETWORK_CONNECTION";
+    public static final String SET_DELIVERY_MODE = "DELIVERY_MODE";
+    public static final String IAP_COUNTRY_KEY = "IAP_COUNTRY_KEY";
+    public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
+    public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
+    public static final String CATEGORISED_PRODUCT_CTNS = "CATEGORISED_PRODUCT_CTNS";
+    public static final String IAP_LAUNCH_SHOPPING_CART = "IAP_LAUNCH_SHOPPING_CART";
+
+    //Shipping Address screen
+    public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
+    public static final String BILLING_ADDRESS_FIELDS = "BILLING_ADDRESS_FIELDS";
+
+    //Order detail
+    public static final String DELIVERY_ADDRESS = "DELIVERY_ADDRESS";
+    public static final String ORDER_TRACK_URL = "ORDER_TRACK_URL";
     public static final String PURCHASE_HISTORY_DETAIL = "PURCHASE_HISTORY_DETAIL";
     public static final String PURCHASE_ID = "PURCHASE_ID";
+    public static final String IAP_ORDER_ID = "IAP_ORDER_ID";
     public static final String ORDER_STATUS = "ORDER_STATUS";
     public static final String TRACKING_ID = "TRACKING_ID";
     public static final String DELIVERY_NAME = "DELIVERY_NAME";
     public static final String ORDER_COMPLETED = "completed";
     public static final String ORDER_PROCESSING = "processing";
     public static final String ORDER_DETAIL = "ORDER_DETAIL";
-    public static final String SET_DELIVERY_MODE = "DELIVERY_MODE";
-    public static final String IAP_COUNTRY_KEY = "IAP_COUNTRY_KEY";
-    public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
-    public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
-    public static final String CAEGORIZED_PRODUCT_CTNS = "CAEGORIZED_PRODUCT_CTNS";
-    public static final String IAP_ORDER_ID = "IAP_ORDER_ID";
-    public static final String IAP_LAUNCH_SHOPPING_CART = "IAP_LAUNCH_SHOPPING_CART";
-
-    //Order detail
-    public static final String DELIVERY_ADDRESS = "DELIVERY_ADDRESS";
 
     //Address selection screen
     public static final String ADD_NEW_ADDRESS = "ADD_NEW_ADDRESS";

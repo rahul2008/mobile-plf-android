@@ -173,7 +173,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
 
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
-            bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
+            bundle.putString(ModelConstants.WEB_PAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());

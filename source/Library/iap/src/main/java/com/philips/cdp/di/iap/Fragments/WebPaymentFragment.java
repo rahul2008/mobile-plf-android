@@ -57,11 +57,11 @@ public class WebPaymentFragment extends WebFragment implements
     @Override
     protected String getWebUrl() {
         Bundle arguments = getArguments();
-        if (arguments == null || !arguments.containsKey(ModelConstants.WEBPAY_URL)) {
+        if (arguments == null || !arguments.containsKey(ModelConstants.WEB_PAY_URL)) {
             throw new RuntimeException("URL must be provided");
         }
         StringBuilder builder = new StringBuilder();
-        builder.append(arguments.getString(ModelConstants.WEBPAY_URL));
+        builder.append(arguments.getString(ModelConstants.WEB_PAY_URL));
         builder.append("&" + SUCCESS_KEY + "=" + PAYMENT_SUCCESS_CALLBACK_URL);
         builder.append("&" + PENDING_KEY + "=" + PAYMENT_PENDING_CALLBACK_URL);
         builder.append("&" + FAILURE_KEY + "=" + PAYMENT_FAILURE_CALLBACK_URL);

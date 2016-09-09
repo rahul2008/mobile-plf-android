@@ -12,7 +12,6 @@ public class IAPConstantTest extends TestCase {
 
     @Test
     public void testConstant() {
-        // assertEquals("Value is Same", true, IAPConstant.TEST_MODE);
         assertEquals("Value is Same", "EMPTY_CART_FRAGMENT_REPLACED", IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
         assertFalse(IAPConstant.BUTTON_STATE_CHANGED);
         assertEquals("Value is Same", 0, IAPConstant.IAP_SUCCESS);
@@ -36,7 +35,6 @@ public class IAPConstantTest extends TestCase {
         assertEquals("Value is Same",  "SINGLE_BUTTON_DIALOG_TEXT", IAPConstant.SINGLE_BUTTON_DIALOG_TEXT);
         assertEquals("Value is Same",  "SINGLE_BUTTON_DIALOG_TITLE", IAPConstant.SINGLE_BUTTON_DIALOG_TITLE);
         assertEquals("Value is Same", "SINGLE_BUTTON_DIALOG_DESCRIPTION", IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION);
-        assertEquals("Value is Same",  "MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE", IAPConstant.MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE );
         assertEquals("Value is Same",  "IS_SECOND_USER", IAPConstant.IS_SECOND_USER );
         assertEquals("Value is Same",  "PAYMENT_METHOD_LIST", IAPConstant.PAYMENT_METHOD_LIST );
         assertEquals("Value is Same",  "DELIVER_TO_THIS_ADDRESS", IAPConstant.DELIVER_TO_THIS_ADDRESS);
