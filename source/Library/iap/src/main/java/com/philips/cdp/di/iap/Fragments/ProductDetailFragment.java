@@ -309,10 +309,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onFetchAssetSuccess(final Message msg) {
+        if(mContext == null) return;
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addAssetDataToList(mCTNValue, mAsset);
-        mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+        mAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
         mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())
