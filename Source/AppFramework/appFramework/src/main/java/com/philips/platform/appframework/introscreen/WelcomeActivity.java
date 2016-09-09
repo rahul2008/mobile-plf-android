@@ -26,6 +26,13 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
+/**
+ * This class host the onboarding of the user .
+ * It has two sections
+ * 1. The user registration
+ * 2. Welcome fragments
+ *
+ */
 public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     ImageView arrowImage;
     TextView textView;
