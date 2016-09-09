@@ -9,7 +9,7 @@ import android.content.res.Resources;
 import com.philips.platform.uit.R;
 
 public enum ColorRange {
-    GROUB_BLUE {
+    GROUP_BLUE {
         @Override
         public void injectColorRange(final Resources.Theme theme) {
             theme.applyStyle(R.style.GroupBlue, true);
