@@ -46,7 +46,7 @@ public class LauncherFragmentActivity extends UiKitActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        int DEFAULT_THEME = R.style.Theme_Philips_BrightBlue;
+        int DEFAULT_THEME = com.philips.cdp.di.iap.R.style.Theme_Philips_DarkBlue_WhiteBackground;
         setTheme(DEFAULT_THEME);
 
         super.onCreate(savedInstanceState);
