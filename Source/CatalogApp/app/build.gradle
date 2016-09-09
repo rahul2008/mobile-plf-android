@@ -1,7 +1,4 @@
 apply plugin: 'com.android.application'
-apply from: '../extra/jenkins.gradle'
-//apply plugin: 'spoon'
-
 
 buildscript {
     repositories {
@@ -13,19 +10,13 @@ buildscript {
 
     dependencies {
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
-
-        classpath('com.terrafolio:gradle-jenkins-plugin:1.2.3') {
-            exclude group: 'asm', module: 'asm-tree'
-            exclude group: 'asm', module: 'asm'
-        }
-//        androidTestCompile 'com.squareup.spoon:spoon-client:1.6.4'
     }
 }
 apply plugin: 'spoon'
 
 spoon{
-    className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'
-    methodName = 'verifyToggleSwitchOrientationChange'
+//    className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'
+//    methodName = 'verifyToggleSwitchOrientationChange'
 }
 
 android {
@@ -37,12 +28,9 @@ android {
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0.1"
+        versionName "0.1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        renderscriptTargetApi 20
-        renderscriptSupportModeEnabled true
-        generatedDensities = []
     }
     buildTypes {
         release {
@@ -70,7 +58,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile 'com.android.support.test:rules:0.5'
 
     compile project(':uit')
 }
