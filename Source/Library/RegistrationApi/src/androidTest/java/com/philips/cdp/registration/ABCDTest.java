@@ -12,6 +12,7 @@ public class ABCDTest extends InstrumentationTestCase{
     @Before
     public void setUp() throws Exception {
         abcd = abcd.getInstance();
+        assertNotNull(abcd);
 
     }
     public void testmP(){
