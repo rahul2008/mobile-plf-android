@@ -352,8 +352,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     public void onGetCartCount(int count) {
 
         if (count > 0) {
-            cartCount.setText(String.valueOf(count));
             cartCount.setVisibility(View.VISIBLE);
+            cartCount.setText(String.valueOf(count));
         } else {
             cartCount.setVisibility(View.GONE);
         }
