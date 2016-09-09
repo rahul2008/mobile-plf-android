@@ -232,20 +232,19 @@ public class UserRegistrationInitializer {
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to ACCEPTANCE : "+appIdentityInfo.getAppState().toString());
 
-
         appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","STAGING",configError);
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to STAGING : "+appIdentityInfo.getAppState().toString());
 
 
-        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","PRODUCTION",configError);
+        /*appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","PRODUCTION",configError);
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to PRODUCTION : "+appIdentityInfo.getAppState().toString());
 
 
         appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","STAGING",configError);
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to  STAGING: "+appIdentityInfo.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to  STAGING: "+appIdentityInfo.getAppState().toString());*/
 
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState after : "+appIdentityInfo.getAppState().toString());
 
