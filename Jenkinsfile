@@ -1,4 +1,4 @@
-node('Android') {
+node('23.0.3') {
     stage 'Checkout'
     checkout scm
 
@@ -7,4 +7,8 @@ node('Android') {
 
     stage 'Release'
     sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+
+    stage 'Notify Bitbucket'
+    sh 'echo \"This is required but does not work out of the box!\"'
+
 }
