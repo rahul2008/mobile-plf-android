@@ -6,5 +6,5 @@ node('Android') {
     sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
 
     stage 'Release'
-    sh 'cd ./Source/AppFramework && ./gradlew assembleDebug zipDoc aP'
+    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
 }
