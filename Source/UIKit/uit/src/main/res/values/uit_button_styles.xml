@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UITDefaultButton" parent="@android:style/Widget.Button">
+        <item name="android:height">@dimen/uit_button_height</item>
+    </style>
+</resources>
