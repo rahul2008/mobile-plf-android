@@ -1,12 +1,12 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.uit.thememanager;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ThemeConfiguration {
     TonalRange tonalRange;
     ColorRange colorRange;

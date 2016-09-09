@@ -1,13 +1,13 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.uit.thememanager;
 
 import android.content.res.Resources;
 
 import com.philips.platform.uit.R;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public enum ColorRange {
     GROUB_BLUE {
         @Override
