@@ -104,6 +104,8 @@ publishing {
             version = version
             artifactId project.archivesBaseName
 
+            artifact zipDoc
+
             if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk")
             } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk").exists()) {
@@ -112,8 +114,6 @@ publishing {
                 artifact("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk")
             } else {
             }
-
-            artifact zipDoc
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
