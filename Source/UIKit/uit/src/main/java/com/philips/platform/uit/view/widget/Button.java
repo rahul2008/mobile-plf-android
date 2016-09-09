@@ -6,6 +6,7 @@ package com.philips.platform.uit.view.widget;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
@@ -25,11 +26,21 @@ public class Button extends AppCompatButton {
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        applyBackgroundTinting();
+        processAttributes(context, attrs);
     }
 
-    private void applyBackgroundTinting() {
-        if (getBackground() != null) {
+    private void processAttributes(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITButton);
+        applyBackgroundTinting(typedArray);
+        int textColorStateID = typedArray.getResourceId(R.styleable.UITButton_uitButtonTextColorList, -1);
+        if (textColorStateID != -1) {
+            setTextColor(getTextColorStateList());
+        }
+    }
+
+    private void applyBackgroundTinting(TypedArray typedArray) {
+        int backGroundListID = typedArray.getResourceId(R.styleable.UITButton_uitButtonBackgroundColorList, -1);
+        if (backGroundListID != -1 && getBackground() != null) {
             Drawable wrappedDrawable = DrawableCompat.wrap(getBackground());
             DrawableCompat.setTintList(wrappedDrawable, getBackgroundColorStateList());
         }
@@ -37,5 +48,9 @@ public class Button extends AppCompatButton {
 
     private ColorStateList getBackgroundColorStateList() {
         return AppCompatResources.getColorStateList(getContext(), R.color.uit_default_button_background_selector);
+    }
+
+    private ColorStateList getTextColorStateList() {
+        return AppCompatResources.getColorStateList(getContext(), R.color.uit_default_button_text_selector);
     }
 }

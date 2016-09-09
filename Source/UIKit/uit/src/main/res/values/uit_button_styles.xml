@@ -3,5 +3,7 @@
     <style name="UITDefaultButton" parent="Base.Widget.AppCompat.Button.Small">
         <item name="android:height">@dimen/uit_button_height</item>
         <item name="android:background">@drawable/uit_default_button_background</item>
+        <item name="uitButtonBackgroundColorList">@color/uit_default_button_background_selector</item>
+        <item name="uitButtonTextColorList">@color/uit_default_button_text_selector</item>
     </style>
 </resources>

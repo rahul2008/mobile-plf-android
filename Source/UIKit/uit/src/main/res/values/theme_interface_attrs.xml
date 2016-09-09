@@ -6,5 +6,9 @@
         <attr name="uitButtonPressedColor" format="reference|color" />
         <attr name="uitButtonDisabledColor" format="reference|color" />
         <attr name="uitButtonDisabledAlpha" format="reference|float|dimension" />
+        <attr name="uitButtonTextColor" format="reference|color" />
+        <attr name="uitButtonTextDisabledAlpha" format="reference|float|dimension" />
+        <attr name="uitButtonBackgroundColorList" format="reference" />
+        <attr name="uitButtonTextColorList" format="reference" />
     </declare-styleable>
 </resources>
