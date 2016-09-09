@@ -165,12 +165,12 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onDialogOkClick() {
+    public void onPositiveButtonClicked() {
         handleExit();
     }
 
     @Override
-    public void onDialogCancelClick() {
+    public void onNegativeButtonClicked() {
         //NOP
     }
 

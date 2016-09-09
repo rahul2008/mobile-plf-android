@@ -16,10 +16,11 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class TwoButtonDialogFragment extends DialogFragment {
-    public interface TwoButtonDialogListener {
-        void onDialogOkClick();
 
-        void onDialogCancelClick();
+    public interface TwoButtonDialogListener {
+        void onPositiveButtonClicked();
+
+        void onNegativeButtonClicked();
     }
 
     private TwoButtonDialogListener mDialogClickListener;
@@ -33,31 +34,33 @@ public class TwoButtonDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.iap_two_button_dialog, container, false);
+
         TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
         dialogTitle.setText(R.string.iap_cancel_order_title);
         Bundle bundle = getArguments();
-        TextView errorDescription = (TextView) v.findViewById(R.id.dialogDescription);
-        //errorDescription.setText(R.string.cancelPaymentMsg);
-        errorDescription.setText(bundle.getString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION));
-        Button cancel = (Button) v.findViewById(R.id.dialogButtonCancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
+
+        TextView description = (TextView) v.findViewById(R.id.dialogDescription);
+        description.setText(bundle.getString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION));
+
+        Button positiveButton = (Button) v.findViewById(R.id.dialogButtonOk);
+        positiveButton.setText(bundle.getString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT));
+        positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mDialogClickListener != null) {
-                    mDialogClickListener.onDialogCancelClick();
+                    mDialogClickListener.onPositiveButtonClicked();
                 }
                 dismissDialog();
             }
         });
-        cancel.setText(R.string.iap_cancel);
-        Button ok = (Button) v.findViewById(R.id.dialogButtonOk);
-        ok.setText(R.string.iap_ok);
 
-        ok.setOnClickListener(new View.OnClickListener() {
+        Button negativeButton = (Button) v.findViewById(R.id.dialogButtonCancel);
+        negativeButton.setText(bundle.getString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT));
+        negativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mDialogClickListener != null) {
-                    mDialogClickListener.onDialogOkClick();
+                    mDialogClickListener.onNegativeButtonClicked();
                 }
                 dismissDialog();
             }
@@ -70,11 +73,8 @@ public class TwoButtonDialogFragment extends DialogFragment {
         mDialogClickListener = dialogClickListener;
     }
 
-
     private void dismissDialog() {
         dismiss();
         setShowsDialog(false);
     }
-
-
 }

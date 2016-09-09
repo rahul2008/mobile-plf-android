@@ -5,6 +5,7 @@
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -16,9 +17,11 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFragment.TwoButtonDialogListener {
+public class WebPaymentFragment extends WebFragment implements
+        TwoButtonDialogFragment.TwoButtonDialogListener {
 
     public static final String TAG = WebPaymentFragment.class.getName();
+    private Context mContext;
     private TwoButtonDialogFragment mDialogFragment;
 
     private static final String SUCCESS_KEY = "successURL";
@@ -30,6 +33,12 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
     private static final String PAYMENT_PENDING_CALLBACK_URL = "http://www.philips.com/paymentPending";
     private static final String PAYMENT_FAILURE_CALLBACK_URL = "http://www.philips.com/paymentFailure";
     private static final String PAYMENT_CANCEL_CALLBACK_URL = "http://www.philips.com/paymentCancel";
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public void onResume() {
@@ -89,7 +98,9 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
-            launchConfirmationScreen(createErrorBundle());
+            showTwoButtonDialog(mContext.getString(R.string.iap_payment_failed),
+                    mContext.getString(R.string.iap_try_again),
+                    mContext.getString(R.string.iap_cancel));
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
@@ -102,13 +113,16 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
 
     @Override
     public boolean handleBackEvent() {
-        ShowDialogOnBackPressed();
+        showTwoButtonDialog(mContext.getString(R.string.cancelPaymentMsg),
+                mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_cancel));
         return true;
     }
 
-    private void ShowDialogOnBackPressed() {
+    private void showTwoButtonDialog(String description, String positiveText, String negativeText) {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.cancelPaymentMsg));
+        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, description);
+        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, positiveText);
+        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, negativeText);
         if (mDialogFragment == null) {
             mDialogFragment = new TwoButtonDialogFragment();
             mDialogFragment.setArguments(bundle);
@@ -124,7 +138,7 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
     }
 
     @Override
-    public void onDialogOkClick() {
+    public void onPositiveButtonClicked() {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
@@ -133,10 +147,9 @@ public class WebPaymentFragment extends WebFragment implements TwoButtonDialogFr
         } else {
             showProductCatalogFragment();
         }
-
     }
 
     @Override
-    public void onDialogCancelClick() {
+    public void onNegativeButtonClicked() {
     }
 }
