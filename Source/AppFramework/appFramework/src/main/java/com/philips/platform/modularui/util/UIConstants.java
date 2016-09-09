@@ -49,4 +49,5 @@ public class UIConstants {
     //Start screen state constant
     public static final String UI_START_STATUS = "UI_SPLASH_STATE_ONE";
     public static final String DONE_PRESSED = "donePressed";
+    public static final int UI_SHOPPING_CART_BUTTON_CLICK = 900000;
 }
