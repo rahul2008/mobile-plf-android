@@ -1,10 +1,11 @@
-package com.philips.cdp.di.iap.utils;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+package com.philips.cdp.di.iap.utils;
+
 public class IAPConstant {
+    //Error code string constants
     public static final int IAP_SUCCESS = 0;
     public static final int IAP_ERROR = -1;
     public static final int IAP_ERROR_NO_CONNECTION = 2;
@@ -13,6 +14,8 @@ public class IAPConstant {
     public static final int IAP_ERROR_SERVER_ERROR = 5;
     public static final int IAP_ERROR_INSUFFICIENT_STOCK_ERROR = 6;
     public static final int IAP_ERROR_UNKNOWN = 7;
+
+    //Application constants
     public static final String IAP_KEY_ACTIVITY_THEME = "IAP_KEY_ACTIVITY_THEME";
     public static final Boolean BUTTON_STATE_CHANGED = false;
     public static final String EMPTY_CART_FRAGMENT_REPLACED = "EMPTY_CART_FRAGMENT_REPLACED";
@@ -51,7 +54,6 @@ public class IAPConstant {
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR = "IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR";
     public static final String IAP_BUY_URL = "IAP_BUY_URL";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
-    public static final String MODEL_ALERT_CONFIRM_DESCRIPTION = "MODEL_ALERT_CONFIRM_DESCRIPTION";
     public static final String SWITCH_TO_NO_NETWORK_CONNECTION = "SWITCH_TO_NO_NETWORK_CONNECTION";
     public static final String PURCHASE_HISTORY_DETAIL = "PURCHASE_HISTORY_DETAIL";
     public static final String PURCHASE_ID = "PURCHASE_ID";
@@ -73,6 +75,8 @@ public class IAPConstant {
     public static final String CUSTOMER_CARE_SATURDAY_TIMING = "CUSTOMER_CARE_SATURDAY_TIMING";
     public static final String CUSTOMER_CARE_WEEKDAYS_TIMING = "CUSTOMER_CARE_WEEKDAYS_TIMING";
 
+    //Two button dialog string constants
+    public static final String TWO_BUTTON_DIALOG_DESCRIPTION = "TWO_BUTTON_DIALOG_DESCRIPTION";
     public static final String TWO_BUTTON_DIALOG_POSITIVE_TEXT = "TWO_BUTTON_DIALOG_POSITIVE_TEXT";
     public static final String TWO_BUTTON_DIALOG_NEGATIVE_TEXT = "TWO_BUTTON_DIALOG_NEGATIVE_TEXT";
 }

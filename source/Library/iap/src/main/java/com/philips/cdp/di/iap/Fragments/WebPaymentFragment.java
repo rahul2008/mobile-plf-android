@@ -120,7 +120,7 @@ public class WebPaymentFragment extends WebFragment implements
 
     private void showTwoButtonDialog(String description, String positiveText, String negativeText) {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, description);
+        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION, description);
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, positiveText);
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, negativeText);
         if (mDialogFragment == null) {

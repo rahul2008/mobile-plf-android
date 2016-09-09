@@ -92,7 +92,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
 
     private void ShowDialogOnBackPressed() {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION,
+        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION,
                 mContext.getString(R.string.iap_continue_shopping_description));
         if (mDialog == null) {
             mDialog = new TwoButtonDialogFragment();

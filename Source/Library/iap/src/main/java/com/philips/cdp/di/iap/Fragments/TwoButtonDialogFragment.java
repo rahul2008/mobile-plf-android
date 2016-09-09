@@ -40,7 +40,7 @@ public class TwoButtonDialogFragment extends DialogFragment {
         Bundle bundle = getArguments();
 
         TextView description = (TextView) v.findViewById(R.id.dialogDescription);
-        description.setText(bundle.getString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION));
+        description.setText(bundle.getString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION));
 
         Button positiveButton = (Button) v.findViewById(R.id.dialogButtonOk);
         positiveButton.setText(bundle.getString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT));
