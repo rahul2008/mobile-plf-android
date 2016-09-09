@@ -37,10 +37,17 @@
   },*/
   "AI": {
     "MicrositeID": 66777,
-    "RegistrationEnvironment": "PRODUCTION",
+    "RegistrationEnvironment": "STAGING",
     "NL": ["googleplus", "facebook"  ],
     "US": ["facebook","googleplus" ],
     "EE": [123,234 ]
+  },
+  "appinfra": {
+    "appidentity.micrositeId" : "77000",
+    "appidentity.sector"  : "b2c",
+    "appidentity.appState"  : "STAGING",
+    "appidentity.serviceDiscoveryEnvironment"  : "Production"
+
   }
 }
 

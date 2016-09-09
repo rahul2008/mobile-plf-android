@@ -28,6 +28,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.Locale;
@@ -205,6 +206,7 @@ public class UserRegistrationInitializer {
         AppIdentityInterface mAppIdentityInterface;
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         mAppIdentityInterface = appInfra.getAppIdentity();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
         AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
         appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
@@ -219,17 +221,34 @@ public class UserRegistrationInitializer {
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity Sector : "+ appIdentityInfo.getSector());
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity MicrositeId : "+appIdentityInfo.getMicrositeId());
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppName : "+ appIdentityInfo.getAppName());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState : "+appIdentityInfo.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState B4: "+appIdentityInfo.getAppState().toString());
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppVersion : "+ appIdentityInfo.getAppVersion());
         RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity ServiceDiscoveryEnvironment : "+ appIdentityInfo.getServiceDiscoveryEnvironment());
 
-        /*RLog.i(RLog.SERVICE_DISCOVERY," AppLocalizedNAme : "+mAppIdentityInterface.getLocalizedAppName());
-        RLog.i(RLog.SERVICE_DISCOVERY," Sector : "+ mAppIdentityInterface.getSector());
-        RLog.i(RLog.SERVICE_DISCOVERY," MicrositeId : "+mAppIdentityInterface.getMicrositeId());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppName : "+ mAppIdentityInterface.getAppName());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppState : "+appIdentityInfo.getAppState().toString());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppVersion : "+ mAppIdentityInterface.getAppVersion());
-        RLog.i(RLog.SERVICE_DISCOVERY," ServiceDiscoveryEnvironment : "+ mAppIdentityInterface.getServiceDiscoveryEnvironment());*/
+
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","ACCEPTANCE",configError);
+
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to ACCEPTANCE : "+appIdentityInfo.getAppState().toString());
+
+
+        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","STAGING",configError);
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to STAGING : "+appIdentityInfo.getAppState().toString());
+
+
+        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","PRODUCTION",configError);
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to PRODUCTION : "+appIdentityInfo.getAppState().toString());
+
+
+        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","STAGING",configError);
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to  STAGING: "+appIdentityInfo.getAppState().toString());
+
+        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState after : "+appIdentityInfo.getAppState().toString());
+
     }
 
 

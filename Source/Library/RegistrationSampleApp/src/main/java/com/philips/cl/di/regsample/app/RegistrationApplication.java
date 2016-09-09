@@ -9,7 +9,6 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -52,7 +51,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {*/
-            initRegistration(Configuration.PRODUCTION);
+            initRegistration(Configuration.STAGING);
         //}
     }
 
