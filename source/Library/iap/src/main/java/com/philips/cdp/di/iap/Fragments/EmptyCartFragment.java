@@ -20,12 +20,12 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public class EmptyCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener, EventListener {
+public class EmptyCartFragment extends InAppBaseFragment implements View.OnClickListener, EventListener {
 
     private Button mContinueShopping;
     public static final String TAG = EmptyCartFragment.class.getName();
 
-    public static EmptyCartFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+    public static EmptyCartFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         EmptyCartFragment fragment = new EmptyCartFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

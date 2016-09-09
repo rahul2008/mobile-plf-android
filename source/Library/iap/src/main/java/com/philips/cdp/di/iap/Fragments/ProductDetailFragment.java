@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductDetailFragment extends BaseAnimationSupportFragment implements
+public class ProductDetailFragment extends InAppBaseFragment implements
         PRXProductAssetBuilder.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener,
         ProductDetailController.ProductSearchListener, ShoppingCartPresenter.LoadListener<StoreEntity> {

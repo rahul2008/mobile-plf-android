@@ -25,7 +25,7 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 
-public class PaymentConfirmationFragment extends BaseAnimationSupportFragment
+public class PaymentConfirmationFragment extends InAppBaseFragment
         implements TwoButtonDialogFragment.TwoButtonDialogListener {
     public static final String TAG = PaymentConfirmationFragment.class.getName();
     private Context mContext;

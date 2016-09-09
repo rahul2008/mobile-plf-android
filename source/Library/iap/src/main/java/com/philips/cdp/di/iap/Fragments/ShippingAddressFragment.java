@@ -58,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class ShippingAddressFragment extends BaseAnimationSupportFragment
+public class ShippingAddressFragment extends InAppBaseFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
         AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,

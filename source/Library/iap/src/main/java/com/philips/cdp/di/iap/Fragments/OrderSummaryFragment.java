@@ -41,7 +41,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class OrderSummaryFragment extends BaseAnimationSupportFragment implements
+public class OrderSummaryFragment extends InAppBaseFragment implements
         View.OnClickListener, PaymentController.MakePaymentListener, AddressController.AddressListener {
     private OrderProductAdapter mAdapter;
     private PaymentMethod mPaymentMethod;

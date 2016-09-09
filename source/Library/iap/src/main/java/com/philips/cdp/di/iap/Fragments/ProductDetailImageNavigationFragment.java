@@ -19,7 +19,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public final class ProductDetailImageNavigationFragment extends BaseAnimationSupportFragment {
+public final class ProductDetailImageNavigationFragment extends InAppBaseFragment {
     private String mImageURL;
     private ImageLoader mImageLoader;
     private NetworkImageView mImageView;

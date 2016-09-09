@@ -28,7 +28,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class BuyDirectFragment extends BaseAnimationSupportFragment implements
+public class BuyDirectFragment extends InAppBaseFragment implements
         BuyDirectController.BuyDirectListener, ErrorDialogFragment.ErrorDialogListener {
     public static final String TAG = BuyDirectFragment.class.getName();
     private BuyDirectController mBuyDirectController;

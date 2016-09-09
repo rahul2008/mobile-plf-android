@@ -14,13 +14,13 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
-public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
+public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
         implements View.OnClickListener {
     public static final String TAG = EmptyPurchaseHistoryFragment.class.getName();
     private Button mContinueShoppingBtn;
 
     public static EmptyPurchaseHistoryFragment createInstance
-            (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         EmptyPurchaseHistoryFragment fragment = new EmptyPurchaseHistoryFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

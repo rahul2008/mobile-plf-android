@@ -21,7 +21,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 
-public class WebBuyFromRetailers extends BaseAnimationSupportFragment {
+public class WebBuyFromRetailers extends InAppBaseFragment {
     public static final String TAG = WebBuyFromRetailers.class.getName();
     private CircularLineProgressBar mProgress;
     private WebView mWebView;

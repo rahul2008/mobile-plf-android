@@ -8,10 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
@@ -37,7 +36,6 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import java.io.Serializable;
 import java.util.Locale;
 
 class IAPHandler {
@@ -104,12 +102,12 @@ class IAPHandler {
     }
 
     private void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
-        BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
+        InAppBaseFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher);
     }
 
-    private BaseAnimationSupportFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
-        BaseAnimationSupportFragment fragment;
+    private InAppBaseFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
+        InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
         switch (screen) {
             case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
@@ -165,7 +163,7 @@ class IAPHandler {
         pContext.startActivity(intent);
     }
 
-    protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher) {
+    protected void addFragment(InAppBaseFragment newFragment, FragmentLauncher fragmentLauncher) {
         newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), iapListener);
         String tag = newFragment.getClass().getName();
         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();

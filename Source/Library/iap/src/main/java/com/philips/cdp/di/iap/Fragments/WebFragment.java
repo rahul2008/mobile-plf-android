@@ -19,7 +19,7 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
-public abstract class WebFragment extends BaseAnimationSupportFragment {
+public abstract class WebFragment extends InAppBaseFragment {
 
     public static final String TAG = WebPaymentFragment.class.getName();
     protected WebView mWebView;

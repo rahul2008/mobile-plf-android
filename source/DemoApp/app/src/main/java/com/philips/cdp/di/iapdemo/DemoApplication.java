@@ -19,19 +19,30 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class DemoApplication extends Application {
-    private AppInfra appInfra;
+    private AppInfra mAppInfra;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initAppInfra();
-
-        new IAPDependencies(appInfra);
-        new IAPSettings(this);
-        //TODO:Rmove AppInfraSingleton after UserRegisteration changes
-        AppInfraSingleton.setInstance(getAppInfra());
-        RegistrationHelper.getInstance().setAppInfraInstance(getAppInfra());
+        initIAP();
         initUserRegistration(Configuration.PRODUCTION);
+    }
+
+    public void initAppInfra() {
+        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfraSingleton.setInstance(mAppInfra);
+        RegistrationHelper.getInstance().setAppInfraInstance(mAppInfra);
+    }
+
+    private void initIAP() {
+        new IAPDependencies(mAppInfra);
+        new IAPSettings(this);
+    }
+
+
+    public AppInfra getAppInfra() {
+        return mAppInfra;
     }
 
     public void initUserRegistration(Configuration configuration) {
@@ -89,13 +100,5 @@ public class DemoApplication extends Application {
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
-    }
-
-    public void initAppInfra() {
-        appInfra = new AppInfra.Builder().build(this);
-    }
-
-    public AppInfra getAppInfra() {
-        return appInfra;
     }
 }

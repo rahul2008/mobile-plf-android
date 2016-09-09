@@ -21,7 +21,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
-public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements BuyFromRetailersAdapter.BuyFromRetailersListener {
+public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFromRetailersAdapter.BuyFromRetailersListener {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
 
@@ -29,7 +29,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     BuyFromRetailersAdapter mAdapter;
     private ArrayList<StoreEntity> mStoreEntity;
 
-    public static BuyFromRetailersFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+    public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

@@ -20,7 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
@@ -71,8 +71,8 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTheme();
         super.onCreate(savedInstanceState);
+        initTheme();
         addActionBar();
         setContentView(R.layout.iap_activity);
         addLandingViews(savedInstanceState);
@@ -88,22 +88,22 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                     bundle.putStringArrayList(IAPConstant.CAEGORIZED_PRODUCT_CTNS, CTNs);
                     addFragment(ProductCatalogFragment.createInstance(bundle,
-                            BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
+                            InAppBaseFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
                     addFragment(ShoppingCartFragment.createInstance(bundle,
-                            BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+                            InAppBaseFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
                     addFragment(PurchaseHistoryFragment.createInstance(bundle,
-                            BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
+                            InAppBaseFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                     if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
                         addFragment(ProductDetailFragment.createInstance(bundle,
-                                BaseAnimationSupportFragment.AnimationType.NONE), ProductDetailFragment.TAG);
+                                InAppBaseFragment.AnimationType.NONE), ProductDetailFragment.TAG);
                     }
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
@@ -111,7 +111,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
                         addFragment(BuyDirectFragment.createInstance(bundle,
-                                BaseAnimationSupportFragment.AnimationType.NONE), BuyDirectFragment.TAG);
+                                InAppBaseFragment.AnimationType.NONE), BuyDirectFragment.TAG);
                     }
                     break;
             }
@@ -120,7 +120,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     private void initTheme() {
         int themeIndex = getIntent().getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
-        //Handle invalid index
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
@@ -153,7 +152,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         super.onDestroy();
     }
 
-    public void addFragment(BaseAnimationSupportFragment newFragment,
+    public void addFragment(InAppBaseFragment newFragment,
                             String newFragmentTag) {
         newFragment.setActionBarListener(this, this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -169,7 +168,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
         if (fragment == null) {
             addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                    BaseAnimationSupportFragment.AnimationType.NONE), fragmentTag);
+                    InAppBaseFragment.AnimationType.NONE), fragmentTag);
         } else {
             getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
         }
@@ -218,22 +217,20 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     @Override
     public void updateActionBar(int resourceId, boolean visibility) {
+        mTitleTextView.setText(getString(resourceId));
         if (visibility) {
-            mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.VISIBLE);
         } else {
-            mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void updateActionBar(String resourceString, boolean visibility) {
+        mTitleTextView.setText(resourceString);
         if (visibility) {
-            mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.VISIBLE);
         } else {
-            mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.GONE);
         }
     }
@@ -282,15 +279,18 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
         if (mActionBar == null) return;
+
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
+
+        View mCustomView = LayoutInflater.from(getApplicationContext()).
+                inflate(R.layout.iap_action_bar, null);
         FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,11 +298,14 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                 onBackPressed();
             }
         });
+
         mBackImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
         mBackImage.setBackground(mBackDrawable);
+
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.app_name));
+
         mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
         ImageView mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
         Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
@@ -313,7 +316,9 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                 showFragment(ShoppingCartFragment.TAG);
             }
         });
+
         mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
+
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);

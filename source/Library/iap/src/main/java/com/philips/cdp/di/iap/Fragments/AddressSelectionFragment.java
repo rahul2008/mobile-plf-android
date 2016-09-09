@@ -47,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
+public class AddressSelectionFragment extends InAppBaseFragment implements AddressController.AddressListener,
         EventListener, PaymentController.PaymentListener {
 
     public static final String TAG = AddressSelectionFragment.class.getName();

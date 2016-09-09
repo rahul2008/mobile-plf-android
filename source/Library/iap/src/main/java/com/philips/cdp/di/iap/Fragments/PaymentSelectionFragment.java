@@ -31,7 +31,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.List;
 
-public class PaymentSelectionFragment extends BaseAnimationSupportFragment
+public class PaymentSelectionFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, PaymentController.PaymentListener {
     public static final String TAG = PaymentSelectionFragment.class.getName();
     private Context mContext;

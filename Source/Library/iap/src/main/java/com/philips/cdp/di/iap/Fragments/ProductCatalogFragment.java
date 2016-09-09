@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ProductCatalogPresenter.LoadListener {
+public class ProductCatalogFragment extends InAppBaseFragment implements EventListener, ProductCatalogPresenter.LoadListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -72,7 +72,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         }
     };
 
-    public static ProductCatalogFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+    public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

@@ -188,7 +188,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onSuccess(final Message msg) {
                 if (isFromBuyNow) {
-                    // mShoppingCartLauncher.launchShoppingCart();
                     EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_SHOPPING_CART);
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);

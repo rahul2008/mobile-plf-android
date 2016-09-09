@@ -45,7 +45,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
-public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadListener<ShoppingCartData>, ShoppingCartPresenter.ShoppingCartLauncher {
+public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadListener<ShoppingCartData> {
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     private ShoppingCartPresenter mShoppingCartPresenter;
@@ -299,10 +299,5 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     @Override
     public void onRetailerError(final IAPNetworkError errorMsg) {
         //NOP
-    }
-
-    @Override
-    public void launchShoppingCart() {
-        assert (true);
     }
 }

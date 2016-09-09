@@ -30,20 +30,19 @@ import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
-import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartFragment extends BaseAnimationSupportFragment
+public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener<ShoppingCartData> {
 
@@ -78,7 +77,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
-        IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
+
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);

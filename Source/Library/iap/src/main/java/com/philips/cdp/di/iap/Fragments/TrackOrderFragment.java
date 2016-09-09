@@ -16,14 +16,14 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public class TrackOrderFragment extends BaseAnimationSupportFragment
+public class TrackOrderFragment extends InAppBaseFragment
         implements View.OnClickListener {
 
     public static final String TAG = TrackOrderFragment.class.getName();
     private String mOrderTrackUrl;
 
     public static TrackOrderFragment createInstance
-            (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         TrackOrderFragment fragment = new TrackOrderFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

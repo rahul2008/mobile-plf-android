@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class OrderDetailsFragment extends BaseAnimationSupportFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
+public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
 
     public static final String TAG = OrderDetailsFragment.class.getName();
     private Context mContext;
@@ -130,7 +130,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     }
 
     public static OrderDetailsFragment createInstance
-            (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         OrderDetailsFragment fragment = new OrderDetailsFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

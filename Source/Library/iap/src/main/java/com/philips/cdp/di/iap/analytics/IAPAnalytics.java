@@ -17,16 +17,16 @@ public class IAPAnalytics {
     static AppTaggingInterface sAppTaggingInterface;
 
     public static void initIAPAnalytics(IAPDependencies dependencies) {
-        sAppTaggingInterface = dependencies.getAppInfra().getTagging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
+        sAppTaggingInterface =
+                dependencies.getAppInfra().getTagging().
+                        createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
     }
 
     public static void trackPage(String currentPage) {
-
         if (sAppTaggingInterface != null) {
             Map<String, String> map = new HashMap<>();
             sAppTaggingInterface.trackPageWithInfo(currentPage, map);
         }
-
     }
 
     public static void trackAction(String state, String key, Object value) {

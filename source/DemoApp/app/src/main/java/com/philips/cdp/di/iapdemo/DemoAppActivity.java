@@ -160,10 +160,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
+        if(mActionBar == null) return;
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
