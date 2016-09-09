@@ -2,5 +2,6 @@
 <resources>
     <style name="UITDefaultButton" parent="@android:style/Widget.Button">
         <item name="android:height">@dimen/uit_button_height</item>
+        <item name="android:background">@drawable/uit_default_button_background</item>
     </style>
 </resources>

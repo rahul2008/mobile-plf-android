@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Buttons -->
-    <attr name="uikitButtonNormalColor" format="reference|color"/>
-    <attr name="uikitButtonPressedColor" format="reference|color"/>
-    <attr name="uikitButtonDisabledColor" format="reference|color"/>
-    <attr name="uikitButtonDisabledAlpha" format="reference|float"/>
+    <declare-styleable name="UITButton">
+        <attr name="uitButtonNormalColor" format="reference|color" />
+        <attr name="uitButtonPressedColor" format="reference|color" />
+        <attr name="uitButtonDisabledColor" format="reference|color" />
+        <attr name="uitButtonDisabledAlpha" format="reference|float|dimension" />
+    </declare-styleable>
 </resources>

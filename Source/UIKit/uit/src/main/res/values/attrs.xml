@@ -42,5 +42,5 @@
         <attr name="uikitColorLevel10" format="reference|color"/>
         <attr name="uikitColorLevel05" format="reference|color"/>
     </declare-styleable>
-
+    
 </resources>
