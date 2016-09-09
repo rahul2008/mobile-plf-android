@@ -49,7 +49,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -158,6 +158,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         });
         cartCount = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.item_count);
+        mCartIcon.setVisibility(View.GONE);
+        cartCount.setVisibility(View.INVISIBLE);
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -280,38 +282,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     private void addIapCartCount() {
         IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIapInterface();
-        iapInterface.getProductCartCount(new IAPListener() {
-            @Override
-            public void onGetCartCount(int i) {
-                cartCountUpdate(i);
-                cartCount.setText(""+i);
-            }
-
-            @Override
-            public void onUpdateCartCount() {
-
-            }
-
-            @Override
-            public void updateCartIconVisibility(boolean b) {
-
-            }
-
-            @Override
-            public void onGetCompleteProductList(ArrayList<String> arrayList) {
-
-            }
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(int i) {
-                showIAPToast(i);
-            }
-        });
+        iapInterface.getProductCartCount(this);
     }
     @Override
     protected void onResume() {
@@ -375,5 +346,49 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             });
 
         }
+    }
+
+    @Override
+    public void onGetCartCount(int count) {
+
+        if (count > 0) {
+            cartCount.setText(String.valueOf(count));
+            cartCount.setVisibility(View.VISIBLE);
+        } else {
+            cartCount.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onUpdateCartCount() {
+        if(userRegistrationState.getUserObject(this).isUserSignIn()){
+            addIapCartCount();
+        }
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+        if (shouldShow) {
+            mCartIcon.setVisibility(View.VISIBLE);
+            cartCount.setVisibility(View.VISIBLE);
+        } else {
+            mCartIcon.setVisibility(View.INVISIBLE);
+            cartCount.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> arrayList) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onFailure(int i) {
+
     }
 }
