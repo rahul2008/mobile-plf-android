@@ -7,8 +7,6 @@ package com.philips.platform.uit.view.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
@@ -46,8 +44,7 @@ public class Button extends AppCompatButton {
     private void applyBackgroundTinting(TypedArray typedArray) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UITButton_uitButtonBackgroundColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            Drawable wrappedDrawable = DrawableCompat.wrap(getBackground());
-            DrawableCompat.setTintList(wrappedDrawable, getBackgroundColorStateList());
+            setSupportBackgroundTintList(getBackgroundColorStateList());
         }
     }
 
