@@ -35,7 +35,7 @@ android {
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0.1"
 
@@ -68,13 +68,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile 'com.android.support:appcompat-v7:22.2.1'
-//    compile 'com.android.support:support-annotations:23.2.0'
-//    compile 'com.android.support:appcompat-v7:23.3.0'
-//    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-//    compile 'com.android.support:design:23.1.1'
-//    compile 'com.shamanland:fonticon:0.1.8'
-
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.3'
@@ -85,24 +78,3 @@ dependencies {
 configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:22.2.1'
 }
-
-/*spoon {
-    // for debug output
-    debug = true
-
-    // To run a single test class
-    className = 'com.philips.cdp.ui.catalog.HamburgerMenuTest'
-//    className = 'com.philips.cdp.ui.catalog.RegularButtonPressedTest'
-//    className = 'com.philips.cdp.ui.catalog.OutlineButtonTest'
-//    className = 'com.philips.cdp.ui.catalog.OutlineButtonPressedTest'
-//    className = 'com.philips.cdp.ui.catalog.TransparentButtonTest'
-//    className = 'com.philips.cdp.ui.catalog.TransparentButtonPressedTest'
-//    className = 'com.philips.cdp.ui.catalog.TransparentWhiteButtonTest'
-//    className = 'com.philips.cdp.ui.catalog.TransparentWhiteButtonPressedTest'
-//    className = 'com.philips.cdp.ui.catalog.ActionButtonTest'
-//    className = 'com.philips.cdp.ui.catalog.ActionButtonPressedTest'
-//    className = 'com.philips.cdp.ui.catalog.SplashScreenMobileTest'
-
-    // To run a single method in TestCase
-//    methodName = 'testAButtonSquareCrossIsPixelPerfect'
-}*/
