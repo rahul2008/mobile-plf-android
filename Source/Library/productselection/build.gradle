@@ -69,21 +69,30 @@ android {
     }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
-        transitive = true
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.3.0-SNAPSHOT', ext: 'aar', changing: true)
+    {
+           transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.5', ext: 'aar')
-            {
-                transitive = true
-            }
-
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-rc.5', ext: 'aar')
+	compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-SNAPSHOT', ext: 'aar', changing: true)
+    {
+           transitive = true
+    }
+	
+	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-SNAPSHOT', ext: 'aar', changing: true)
+    {
+           transitive = true
+    }	    
 }
 
 allprojects {
@@ -97,6 +106,7 @@ allprojects {
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android"
         }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }  
     }
 }
 
@@ -178,8 +188,4 @@ task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
 }
-
-apply from: "resolution.gradle"
-
-
 
