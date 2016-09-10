@@ -47,12 +47,12 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         presenter = new WelcomePresenter();
         initCustomActionBar();
         setContentView(R.layout.af_welcome_screen);
+        presenter.onLoad(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.onLoad(this);
     }
 
     @Override
