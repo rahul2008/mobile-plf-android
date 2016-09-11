@@ -97,16 +97,30 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (mShoppingCartDataList.size() == 0) return;
-        if (holder instanceof FooterOrderSummaryViewHolder) {
+
+        if(holder instanceof OrderProductHolder){
+            OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
+            IAPLog.d(TAG, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
+            cartData = mShoppingCartDataList.get(position);
+            String imageURL = cartData.getImageURL();
+            ImageLoader mImageLoader = NetworkImageLoader.getInstance(mContext)
+                    .getImageLoader();
+            orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
+            orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
+            String price = cartData.getTotalPriceFormatedPrice();
+
+            orderProductHolder.mTvtotalPrice.setText(price);
+            orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
+        }else{
+            String shippingAddress = cartData.getDeliveryAddressEntity().getFormattedAddress();
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
             footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
             footerHolder.mTitleDeliveryAddress.setText(R.string.iap_shipping_address);
             footerHolder.mTitleVat.setText(R.string.iap_vat);
             footerHolder.mTitleTotalPrice.setText(R.string.iap_total_val);
-            AddressFields shippingAddress = CartModelContainer.getInstance().getShippingAddressFields();
-            String shippingName = shippingAddress.getFirstName() + " " + shippingAddress.getLastName();
+            String shippingName = cartData.getDeliveryAddressEntity().getFirstName() + " " + cartData.getDeliveryAddressEntity().getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
-            footerHolder.mShippingAddress.setText(Utility.createAddress(shippingAddress));
+            footerHolder.mShippingAddress.setText(Utility.formatAddress(shippingAddress));
             if (null != mBillingAddress) {
                 String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                 footerHolder.mBillingFirstName.setText(billingName);
@@ -128,13 +142,12 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String deliveryCost = getLastValidItem().getDeliveryMode().getDeliveryCost().getFormattedValue();
                 String deliveryMethod = getLastValidItem().getDeliveryMode().getName();
                 footerHolder.mDeliveryPrice.setText(deliveryCost);
-                if(deliveryMethod!=null){
+                if (deliveryMethod != null) {
                     footerHolder.mTitleDelivery.setText(deliveryMethod);
-                }else{
+                } else {
                     footerHolder.mTitleDelivery.setText(R.string.iap_delivery_via);
                 }
             } else {
-                //footerHolder.mDeliveryPrice.setText("0.0");
                 footerHolder.mTitleDelivery.setVisibility(View.GONE);
                 footerHolder.mDeliveryPrice.setVisibility(View.GONE);
                 footerHolder.mDeliveryView.setVisibility(View.GONE);
@@ -156,7 +169,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mVatValueUK.setVisibility(View.GONE);
             }
 
-            final List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
             footerHolder.mEditIcon.setVisibility(View.VISIBLE);
             footerHolder.mEditIcon.setImageDrawable(mEditDrawable);
             footerHolder.mEditIcon.setOnClickListener(new View.OnClickListener() {
@@ -168,19 +180,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
 
-        } else {
-            OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
-            IAPLog.d(TAG, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
-            cartData = mShoppingCartDataList.get(position);
-            String imageURL = cartData.getImageURL();
-            ImageLoader mImageLoader = NetworkImageLoader.getInstance(mContext)
-                    .getImageLoader();
-            orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
-            orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
-            String price = cartData.getTotalPriceFormatedPrice();
-
-            orderProductHolder.mTvtotalPrice.setText(price);
-            orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
         }
     }
 

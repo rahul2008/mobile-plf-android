@@ -34,8 +34,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         void onClickAtRetailer(String buyURL, String name); // create callback function
     }
 
-    public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, BuyFromRetailersListener pBuyFromRetailersListener) {
+    public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager, ArrayList<StoreEntity> storeEntities, BuyFromRetailersListener pBuyFromRetailersListener) {
         mContext = context;
+        mFragmentManager = fragmentManager;
         mStoreEntities = storeEntities;
         mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
