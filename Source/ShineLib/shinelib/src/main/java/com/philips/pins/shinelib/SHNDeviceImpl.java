@@ -40,7 +40,6 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
-
 import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -222,13 +221,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             SHNLogger.d(TAG, "Retrying to connect GATT in state " + internalState);
             btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
         } else {
-            for (SHNService shnService : registeredServices.values()) {
-                shnService.disconnectFromBLELayer();
-            }
             if (getState() == State.Connecting) {
                 failedToConnectResult = SHNResult.SHNErrorInvalidState;
             }
+
+            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+
+            for (SHNService shnService : registeredServices.values()) {
+                shnService.disconnectFromBLELayer();
+            }
+
             setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnected);
+
             shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
             shnCentral.unregisterSHNCentralStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
         }
