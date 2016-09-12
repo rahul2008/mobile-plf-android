@@ -75,7 +75,7 @@ public interface AppInfraInterface {
      *
      * @return the config
      */
-    public RestInterface getRestInterface();
+    public RestInterface getRestClient();
 
 
 }
