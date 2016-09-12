@@ -1,7 +1,9 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    </style>
+<!-- Base application theme. -->
+<style name="Theme.Philips" parent="Theme.AppCompat.Light">
+    <item name="buttonStyle">@style/UITDefaultButton</item>
+
+</style>
 
 </resources>

@@ -1,3 +1,4 @@
 <resources>
     <string name="catalog_app_name">Catalog App DLS</string>
+    <string name="demo_primary_button">Primary button</string>
 </resources>
