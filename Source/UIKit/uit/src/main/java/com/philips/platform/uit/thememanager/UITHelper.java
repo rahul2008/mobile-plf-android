@@ -12,7 +12,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UITHelper {
 
-    public void injectCalligraphyFonts() {
+    public static void injectCalligraphyFonts() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/centralesansbook.ttf")
                 .setFontAttrId(R.attr.fontPath)
