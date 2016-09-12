@@ -256,7 +256,7 @@ public class AppInfra implements AppInfraInterface {
     }
 
     @Override
-    public RestInterface getRestInterface() {
+    public RestInterface getRestClient() {
         return mRestInterface;
     }
 

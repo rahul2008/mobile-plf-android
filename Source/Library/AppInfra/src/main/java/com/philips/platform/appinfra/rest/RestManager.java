@@ -9,7 +9,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.rest.request.DiskBasedCache;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import java.io.File;
 
@@ -21,9 +21,8 @@ public class RestManager implements RestInterface{
     private RequestQueue mRequestQueue ;
     private static Context mCtx;
     AppInfra mAppInfra;
+    private AppConfigurationInterface mAppConfigurationInterface;
 
-
-     int cacheLimit= 1024 * 1024; // 1 mb default
 
     public RestManager(Context context, AppInfra appInfra) {
         mCtx = context;
@@ -42,7 +41,13 @@ public class RestManager implements RestInterface{
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone ,passes one in.
             // Instantiate the cache
-            Cache cache = new DiskBasedCache(getCacheDir(), getCacheLimit(),mAppInfra); // 1MB cap
+            mAppConfigurationInterface = mAppInfra.getConfigInterface();
+            AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+            Integer cacheSizeinKB = (Integer)mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB","appinfra",configError);
+            if(cacheSizeinKB==null  ) {
+                cacheSizeinKB = 1024; // default fall back
+            }
+            Cache cache = new DiskBasedCache(getCacheDir(), cacheSizeinKB, mAppInfra); //
 
 // Set up the network to use HttpURLConnection as the HTTP client.
             Network network = new BasicNetwork(new HurlStack());
@@ -61,12 +66,6 @@ public class RestManager implements RestInterface{
         getRequestQueue().add(req);
     }
 
-    private int getCacheLimit() {
-        return cacheLimit;
-    }
 
-    public void setCacheLimit(int cacheLimit) {
-        this.cacheLimit = cacheLimit;
-    }
 
 }

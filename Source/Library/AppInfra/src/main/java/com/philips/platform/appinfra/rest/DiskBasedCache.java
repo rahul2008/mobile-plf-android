@@ -1,4 +1,4 @@
-package com.philips.platform.appinfra.rest.request;
+package com.philips.platform.appinfra.rest;
 
 /**
  * Created by 310238114 on 9/6/2016.
@@ -115,7 +115,12 @@ public class DiskBasedCache implements Cache {
             SecureStorageInterface secureStorage= mAppInfra.getSecureStorage();
             SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
             e.data=secureStorage.decryptData(e.data,sse);
-            return e;
+            if(sse.getErrorCode()!=null){
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AI Rest ",key+" response Decryption Error");
+                return null;
+            }
+                return e;
+
 
         } catch (IOException e) {
             VolleyLog.d("%s: %s", file.getAbsolutePath(), e.toString());

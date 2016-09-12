@@ -10,6 +10,6 @@ public interface RestInterface {
 
 
     public RequestQueue getRequestQueue();
-    public void setCacheLimit(int cacheLimit);
+
 
 }

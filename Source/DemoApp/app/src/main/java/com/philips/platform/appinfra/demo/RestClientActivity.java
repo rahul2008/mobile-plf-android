@@ -45,7 +45,7 @@ public class RestClientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rest_client);
         params= new HashMap<String,String>();
         headers= new HashMap<String,String>();
-        mRestInterface = AppInfraApplication.gAppInfra.getRestInterface();
+        mRestInterface = AppInfraApplication.gAppInfra.getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         urlInput= (EditText)findViewById(R.id.editTextURL);
         urlInput.setText(url);
