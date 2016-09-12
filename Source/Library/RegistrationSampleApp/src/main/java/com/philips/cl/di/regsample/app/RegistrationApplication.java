@@ -3,8 +3,10 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -13,7 +15,10 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,9 +26,8 @@ import java.util.Locale;
 
 public class RegistrationApplication extends Application {
 
-
+    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     private static volatile RegistrationApplication mRegistrationHelper = null;
-
 
     /**
      * @return instance of this class
@@ -51,7 +55,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {*/
-            initRegistration(Configuration.STAGING);
+            initRegistration(Configuration.DEVELOPMENT);
         //}
     }
 
@@ -163,15 +167,11 @@ public class RegistrationApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
 
+        initAppIdentity();
         URDependancies urDependancies = new URDependancies(AppInfraSingleton.getInstance());
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies,urSettings);
-
-
-
-        // RegistrationHelper.getInstance().initializeUserRegistration(this);
-        //  Tagging.init(this, "Philips Registration");
 
     }
 
@@ -223,6 +223,56 @@ public class RegistrationApplication extends Application {
                 prefs.edit().remove("reg_hsdp_environment").commit();
                 break;
         }
+    }
+
+    private void initAppIdentity() {
+
+        AppIdentityInterface mAppIdentityInterface;
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        mAppIdentityInterface = appInfra.getAppIdentity();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
+        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
+        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
+        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
+        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
+        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+
+
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppLocalizedNAme : "+appIdentityInfo.getAppLocalizedNAme());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity Sector : "+ appIdentityInfo.getSector());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity MicrositeId : "+appIdentityInfo.getMicrositeId());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppName : "+ appIdentityInfo.getAppName());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppState B4: "+appIdentityInfo.getAppState().toString());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppVersion : "+ appIdentityInfo.getAppVersion());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity ServiceDiscoveryEnvironment : "+ appIdentityInfo.getServiceDiscoveryEnvironment());
+
+
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","ACCEPTANCE",configError);
+
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppState set to ACCEPTANCE : "+appIdentityInfo.getAppState().toString());
+
+        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","DEVELOPMENT",configError);
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppState set to STAGING : "+appIdentityInfo.getAppState().toString());
+
+
+        /*appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","PRODUCTION",configError);
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppState set to PRODUCTION : "+appIdentityInfo.getAppState().toString());
+
+
+        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","STAGING",configError);
+        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppState set to  STAGING: "+appIdentityInfo.getAppState().toString());*/
+
+        Log.i(SERVICE_DISCOVERY_TAG," AppIdentity AppState after : "+appIdentityInfo.getAppState().toString());
+
     }
 }
 

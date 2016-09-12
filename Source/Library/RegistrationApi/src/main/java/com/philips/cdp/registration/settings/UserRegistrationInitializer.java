@@ -196,60 +196,7 @@ public class UserRegistrationInitializer {
         UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);
 
         UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, RegUtility.getConfiguration(mRegistrationType), locale.toString());
-
-        //Initialize App Identity
-        initAppIdentity();
     }
-
-    private void initAppIdentity() {
-
-        AppIdentityInterface mAppIdentityInterface;
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        mAppIdentityInterface = appInfra.getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppLocalizedNAme : "+appIdentityInfo.getAppLocalizedNAme());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity Sector : "+ appIdentityInfo.getSector());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity MicrositeId : "+appIdentityInfo.getMicrositeId());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppName : "+ appIdentityInfo.getAppName());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState B4: "+appIdentityInfo.getAppState().toString());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppVersion : "+ appIdentityInfo.getAppVersion());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity ServiceDiscoveryEnvironment : "+ appIdentityInfo.getServiceDiscoveryEnvironment());
-
-
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","ACCEPTANCE",configError);
-
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to ACCEPTANCE : "+appIdentityInfo.getAppState().toString());
-
-        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","STAGING",configError);
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to STAGING : "+appIdentityInfo.getAppState().toString());
-
-
-        /*appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","PRODUCTION",configError);
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to PRODUCTION : "+appIdentityInfo.getAppState().toString());
-
-
-        appConfigurationInterface.setPropertyForKey("appidentity.appState","appinfra","STAGING",configError);
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState set to  STAGING: "+appIdentityInfo.getAppState().toString());*/
-
-        RLog.i(RLog.SERVICE_DISCOVERY," AppIdentity AppState after : "+appIdentityInfo.getAppState().toString());
-
-    }
-
 
     private void registerJumpInitializationListener(Context context) {
         IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
@@ -280,6 +227,4 @@ public class UserRegistrationInitializer {
     public void setRefreshUserSessionInProgress(boolean refreshUserSessionInProgress) {
         isRefreshUserSessionInProgress = refreshUserSessionInProgress;
     }
-
-
 }
