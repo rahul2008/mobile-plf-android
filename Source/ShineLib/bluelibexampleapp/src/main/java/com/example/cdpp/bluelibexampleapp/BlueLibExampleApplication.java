@@ -46,7 +46,7 @@ public class BlueLibExampleApplication extends Application {
         setupDeviceDefinitions();
     }
 
-    public static final BlueLibExampleApplication get() {
+    public static BlueLibExampleApplication get() {
         if (sApplication == null) {
             throw new RuntimeException("Application not initialized yet.");
         }
@@ -57,7 +57,7 @@ public class BlueLibExampleApplication extends Application {
         return mShnCentral;
     }
 
-    private final void setupDeviceDefinitions() {
+    private void setupDeviceDefinitions() {
         SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
         mShnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
 

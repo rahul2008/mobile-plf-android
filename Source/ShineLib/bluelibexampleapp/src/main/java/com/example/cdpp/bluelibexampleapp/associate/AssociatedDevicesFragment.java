@@ -26,21 +26,19 @@ import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AssociatedDevicesFragment extends Fragment {
 
     private static final String TAG = "AssociatedDevicesFragment";
 
-    private SHNCentral mShnCentral;
     private SHNDeviceAssociation mShnDeviceAssociation;
 
     private DeviceDefinitionAdapter mDeviceDefinitionAdapter;
-    private List<SHNDeviceDefinitionInfo> mDeviceDefinitions = new ArrayList<>();
 
     private AssociatedDeviceAdapter mAssociatedDeviceAdapter;
-    private List<SHNDevice> mAssociatedDevices = new ArrayList<>();
+
+    private View mView;
 
     private SHNDeviceAssociation.SHNDeviceAssociationListener mDeviceAssociationListener = new SHNDeviceAssociation.SHNDeviceAssociationListener() {
         @Override
@@ -82,18 +80,18 @@ public class AssociatedDevicesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_associate, container, false);
+        mView = inflater.inflate(R.layout.fragment_associate, container, false);
 
         // Obtain reference to BlueLib instance
-        mShnCentral = BlueLibExampleApplication.get().getShnCentral();
+        SHNCentral shnCentral = BlueLibExampleApplication.get().getShnCentral();
 
         // Setup device association
-        mShnDeviceAssociation = mShnCentral.getShnDeviceAssociation();
+        mShnDeviceAssociation = shnCentral.getShnDeviceAssociation();
         mShnDeviceAssociation.setShnDeviceAssociationListener(mDeviceAssociationListener);
 
         // Setup device definitions list
-        mDeviceDefinitions = mShnCentral.getSHNDeviceDefinitions().getRegisteredDeviceDefinitions();
-        mDeviceDefinitionAdapter = new DeviceDefinitionAdapter(mDeviceDefinitions);
+        List<SHNDeviceDefinitionInfo> deviceDefinitions = shnCentral.getSHNDeviceDefinitions().getRegisteredDeviceDefinitions();
+        mDeviceDefinitionAdapter = new DeviceDefinitionAdapter(deviceDefinitions);
         mDeviceDefinitionAdapter.setOnItemClickListener(new BaseDeviceAdapter.OnItemClickListener() {
 
             @Override
@@ -111,12 +109,12 @@ public class AssociatedDevicesFragment extends Fragment {
             }
         });
 
-        RecyclerView deviceDefinitionsView = (RecyclerView) rootView.findViewById(R.id.deviceDefinitions);
+        RecyclerView deviceDefinitionsView = (RecyclerView) mView.findViewById(R.id.deviceDefinitions);
         deviceDefinitionsView.setAdapter(mDeviceDefinitionAdapter);
 
         // Setup associated devices list
-        mAssociatedDevices = mShnCentral.getShnDeviceAssociation().getAssociatedDevices();
-        mAssociatedDeviceAdapter = new AssociatedDeviceAdapter(mAssociatedDevices);
+        List<SHNDevice> associatedDevices = shnCentral.getShnDeviceAssociation().getAssociatedDevices();
+        mAssociatedDeviceAdapter = new AssociatedDeviceAdapter(associatedDevices);
         mAssociatedDeviceAdapter.setOnItemClickListener(new BaseDeviceAdapter.OnItemClickListener() {
 
             @Override
@@ -131,7 +129,7 @@ public class AssociatedDevicesFragment extends Fragment {
 
             @Override
             public void onItemLongClick(final int position, View itemView) {
-                final Snackbar snackBar = Snackbar.make(getView(), "Remove association?", Snackbar.LENGTH_LONG);
+                final Snackbar snackBar = Snackbar.make(mView, "Remove association?", Snackbar.LENGTH_LONG);
                 snackBar.setAction("Ok", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -147,10 +145,10 @@ public class AssociatedDevicesFragment extends Fragment {
             }
         });
 
-        RecyclerView associatedDevicesView = (RecyclerView) rootView.findViewById(R.id.associatedDevices);
+        RecyclerView associatedDevicesView = (RecyclerView) mView.findViewById(R.id.associatedDevices);
         associatedDevicesView.setAdapter(mAssociatedDeviceAdapter);
 
-        return rootView;
+        return mView;
     }
 
     @Override
@@ -163,6 +161,6 @@ public class AssociatedDevicesFragment extends Fragment {
     private void showMessage(String s) {
         SHNLogger.i(TAG, s);
 
-        Snackbar.make(getView(), s, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mView, s, Snackbar.LENGTH_SHORT).show();
     }
 }

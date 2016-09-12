@@ -27,13 +27,8 @@ import com.example.cdpp.bluelibexampleapp.connect.ConnectDevicesFragment;
 
 public class BlueLibExampleActivity extends AppCompatActivity {
 
-    private static final String TAG = "BlueLibExampleActivity";
-
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 1;
-    private int mCurrentPage = 0;
-
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private static final int NUMBER_OF_PAGES = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +42,14 @@ public class BlueLibExampleActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager.setAdapter(sectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
         // Acquire Bluetooth permission
         acquirePermission();
@@ -117,7 +112,7 @@ public class BlueLibExampleActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return NUMBER_OF_PAGES;
         }
 
         @Override

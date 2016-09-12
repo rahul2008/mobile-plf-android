@@ -30,7 +30,7 @@
         <activity
             android:name=".detail.DeviceDetailActivity"
             android:label="@string/title_device_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

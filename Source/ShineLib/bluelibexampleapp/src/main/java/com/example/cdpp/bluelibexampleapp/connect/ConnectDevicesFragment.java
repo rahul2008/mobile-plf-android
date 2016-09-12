@@ -33,7 +33,6 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
 
     private static final long SCAN_TIMEOUT_MS = 10000L;
 
-    private SHNCentral mShnCentral;
     private SHNDeviceScanner mDeviceScanner;
 
     private List<SHNDeviceFoundInfo> mNearbyDevices = new ArrayList<>();
@@ -80,8 +79,8 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
         setupRecyclerView(recyclerView);
 
         // Obtain reference to BlueLib instance
-        mShnCentral = BlueLibExampleApplication.get().getShnCentral();
-        mDeviceScanner = mShnCentral.getShnDeviceScanner();
+        SHNCentral shnCentral = BlueLibExampleApplication.get().getShnCentral();
+        mDeviceScanner = shnCentral.getShnDeviceScanner();
 
         return rootView;
     }
@@ -106,9 +105,6 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        if (recyclerView == null) {
-            throw new IllegalStateException("RecyclerView not initialized.");
-        }
         mConnectDeviceAdapter = new ConnectDeviceAdapter(mNearbyDevices);
         mConnectDeviceAdapter.setOnItemClickListener(new BaseDeviceAdapter.OnItemClickListener() {
             @Override

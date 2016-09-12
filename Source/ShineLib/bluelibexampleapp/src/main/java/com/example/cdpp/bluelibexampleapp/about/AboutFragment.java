@@ -48,14 +48,13 @@ public class AboutFragment extends DialogFragment {
         return rootView;
     }
 
-    private final String getVersionsString() {
+    private String getVersionsString() {
         final String blueLibVersion = mShnCentral.getVersion();
 
-        return new StringBuilder(getString(R.string.bluelib_version))
-                .append(blueLibVersion)
-                .append("\n")
-                .append(getString(R.string.app_version))
-                .append(BuildConfig.VERSION_NAME)
-                .toString();
+        return getString(R.string.bluelib_version) +
+                blueLibVersion +
+                "\n" +
+                getString(R.string.app_version) +
+                BuildConfig.VERSION_NAME;
     }
 }
