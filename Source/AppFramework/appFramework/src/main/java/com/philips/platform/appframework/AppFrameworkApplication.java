@@ -31,7 +31,14 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-
+/**
+ * Application class has following initializations
+ *  1. App infra object creation for initializion other cocos and Logging
+ *  2. Initialise User Registration
+ *  3. Initialise In App Purchase
+ *  4. Initialise Product Registration
+ *
+ */
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;
     private static Context mContext;
@@ -60,7 +67,10 @@ public class AppFrameworkApplication extends Application {
         initializeProductRegistrationLibrary();
         initializeIAP();
     }
-
+/**
+ * Method for initializing IAP
+ *
+ */
     private void initializeIAP() {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(getApplicationContext());
@@ -82,6 +92,9 @@ public class AppFrameworkApplication extends Application {
     }
 
     @SuppressWarnings("deprecation")
+    /**
+     * Initializing Product registration
+     */
     private void initializeProductRegistrationLibrary() {
         PRDependencies prodRegDependencies = new PRDependencies(gAppInfra);
 
@@ -97,7 +110,10 @@ public class AppFrameworkApplication extends Application {
         return mContext;
     }
 
-
+    /**For doing dynamic initialisation Of User registration
+     *
+     * @param configuration  The environment ype as required by UR
+     */
     public void initializeUserRegistrationLibrary(Configuration configuration) {
 
         RegistrationHelper.getInstance().setAppInfraInstance(gAppInfra);

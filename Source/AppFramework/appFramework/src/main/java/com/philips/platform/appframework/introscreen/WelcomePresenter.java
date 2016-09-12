@@ -16,6 +16,10 @@ import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 
+/**
+ * Welcome presenter hanles the events inside welcome fragment
+ * it takes care of scenarios in which we can complete onboarding or skip it for time being
+ */
 public class WelcomePresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
 
     public WelcomePresenter() {
@@ -26,6 +30,11 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
     SharedPreferenceUtility sharedPreferenceUtility;
     UIState uiState;
 
+    /**
+     * Handles the onclick of Welcome Skip and Done button
+     * @param componentID : takes compenent Id
+     * @param context : takes context
+     */
     @Override
     public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
@@ -59,6 +68,10 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
         }
     }
 
+    /**
+     * Takes care of handling whether to show user regitration after the splash screen has loaded or to show Welcome fragments if onboarding was skipped at the time of first launch
+     * @param context
+     */
     @Override
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();

@@ -48,7 +48,11 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
-
+/**
+ * This is the Main activity which host the main hamburger menu
+ * This activity is the container of all the other fragment for the app
+ * ActionbarListner is implemented by this activty and all the logic related to back handling and actionar is contained in this activity
+ */
 public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
@@ -73,6 +77,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private TextView cartCount;
     private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
 
+    /**
+     * For instantiating the view and actionabar and hamburger menu initialization
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
@@ -89,13 +97,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         configureDrawer();
         renderHamburgerMenu();
     }
+/**
+ * To update cart count of the actionbar icon
+ * @param count The cart count
 
+ */
     public void cartCountUpdate(int  count) {
         mCartItemCount = count;
         hamburgerItems.get(2).setCount(count);
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * For updating the hamburger drawer
+     */
     private void renderHamburgerMenu() {
         hamburgerUtil = null;
         drawerListView = null;
@@ -120,11 +135,19 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         });
     }
 
+    /**
+     * To show navigation Drawer
+     * @param position : Pass the position of hamburger item to be shown
+     */
     private void showNavigationDrawerItem(int position) {
         philipsDrawerLayout.closeDrawer(navigationView);
         presenter.onClick(position, HomeActivity.this);
     }
 
+    /**
+     * To set the actionbar
+     * @param mActionBar : Requires the actionbar obejct
+     */
     private void setActionBar(ActionBar mActionBar) {
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -286,7 +309,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     protected void onResume() {
         super.onResume();
-        showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
+//        showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
@@ -309,13 +332,22 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
+    /**
+     * For Updating the actionbar title as coming from other components
+     * @param i String res ID
+     * @param b Whether back is handled by them or not
+     */
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
         setTitle(getResources().getString(i));
         updateActionBarIcon(b);
     }
 
-
+    /**
+     * For Updating the actionbar title as coming from other components
+     * @param s String to be updated on actionbar title
+     * @param b Whether back is handled by them or not
+     */
     @Override
     public void updateActionBar(String s, boolean b) {
         setTitle(s);
@@ -323,6 +355,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     }
 
+    /**
+     * Method for showing the hamburger Icon or Back key on home fragments
+     */
     public void updateActionBarIcon(boolean b)
     {
         if (b) {

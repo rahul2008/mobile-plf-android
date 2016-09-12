@@ -48,7 +48,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' } 
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -214,6 +214,11 @@ repositories {
     }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
 
     testCompile('org.mockito:mockito-core:1.10.19')
@@ -225,36 +230,24 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:+'
 
-
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.5', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.2.0-SNAPSHOT', ext: 'aar', changing: true) {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
-        transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.2.0-rc.3', ext: 'aar') {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.0.0-rc.1', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '6.2.0-SNAPSHOT', ext: 'aar', changing: true){
         exclude group: 'com.android.support'
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '4.2.0-rc.2', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '4.2.0-SNAPSHOT', ext: 'aar', changing: true){
         exclude group: 'com.android.support'
         transitive=true
     }
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.5', ext: 'aar')
-
+    
     compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.2.2', ext: 'aar')
 
-    compile(group: 'com.philips.cdp.shine', name: 'shinelib', version: '0.3.2', ext: 'aar')
-    compile(group: 'com.philips.cdp.shine', name: 'shineplugincopper', version: '0.2.5', ext: 'aar')
-
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.0', ext: 'aar')
 }
 
 task copyToLib(type: Copy) {
@@ -262,4 +255,3 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-apply from: "resolution.gradle"
