@@ -15,6 +15,7 @@ public class IAPLaunchInput extends UappLaunchInput {
     }
 
     public IAPListener getIapListener() {
+        if (iapListener == null) new RuntimeException("Set IAPListener in your vertical app ");
         return iapListener;
     }
 
