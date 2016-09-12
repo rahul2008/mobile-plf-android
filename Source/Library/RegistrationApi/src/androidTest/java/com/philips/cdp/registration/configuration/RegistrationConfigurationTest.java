@@ -7,7 +7,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraSingleton;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,14 +33,6 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
 
     @Test
     public void testConfiguration() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        Object obj = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." +
-                        Configuration.STAGING.getValue(), "UR", configError);
-        assertEquals(null,obj);
 
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING, "8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
         assertEquals(null, RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
@@ -122,9 +113,5 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
         assertEquals(RegistrationFunction.Registration, RegistrationConfiguration.getInstance().getPrioritisedFunction());
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.SignIn);
         assertEquals(RegistrationFunction.SignIn, RegistrationConfiguration.getInstance().getPrioritisedFunction());
-
-        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHSDPInfo(Configuration.EVALUATION);
-        assertEquals(null,hsdpInfo);
-
     }
 }
