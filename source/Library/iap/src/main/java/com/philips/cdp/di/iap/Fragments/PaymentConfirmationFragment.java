@@ -94,6 +94,8 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION,
                 mContext.getString(R.string.iap_continue_shopping_description));
+        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, mContext.getString(R.string.iap_ok));
+        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, mContext.getString(R.string.iap_cancel));
         if (mDialog == null) {
             mDialog = new TwoButtonDialogFragment();
             mDialog.setOnDialogClickListener(this);

@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -105,7 +104,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             updateCartOnResume();
         }
 
-        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
+        mAdapter = new ShoppingCartAdapter(getContext(), mData, this, mShoppingCartAPI);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -216,7 +215,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else {
             Bundle bundle = new Bundle();
             if (mAdapter.getDeliveryMode() != null)
-                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, (Parcelable) mAdapter.getDeliveryMode());
+                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE,mAdapter.getDeliveryMode());
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
                         ShippingAddressFragment.createInstance(bundle, AnimationType.NONE), ShippingAddressFragment.TAG);
@@ -310,7 +309,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (mAdapter.mIsDeliveryAddressSet) {
             mIsDeliveryAddress = true;
         }
-        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
+        mAdapter = new ShoppingCartAdapter(getContext(), mData, this, mShoppingCartAPI);
         if (mIsDeliveryAddress) {
             mAdapter.setDeliveryAddress(mIsDeliveryAddress);
             mIsDeliveryAddress = false;

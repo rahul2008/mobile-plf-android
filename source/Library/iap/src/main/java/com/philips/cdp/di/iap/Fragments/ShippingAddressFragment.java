@@ -697,7 +697,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
         if (this instanceof BillingAddressFragment) {
             if (mlLState.getVisibility() == View.VISIBLE) {
-                addressFields.setRegionIsoCode(mShippingAddressFields.getRegionIsoCode());
+                addressFields.setRegionIsoCode(mEtState.getText().toString());
             } else {
                 addressFields.setRegionIsoCode(null);
             }

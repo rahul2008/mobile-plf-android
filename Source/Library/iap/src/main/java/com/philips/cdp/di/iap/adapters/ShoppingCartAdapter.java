@@ -53,14 +53,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ShoppingCartAPI mPresenter;
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
-    private FragmentManager mFragmentManager;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
     private static final int DELETE = 0;
     private static final int INFO = 1;
     private Drawable mOptionsDrawable;
-    OutOfStockListener mOutOfStock;
+    private OutOfStockListener mOutOfStock;
 
     private Drawable mTrashDrawable;
     private Drawable mInfoDrawable;
@@ -78,18 +77,17 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
-                               FragmentManager fragmentManager, OutOfStockListener iOutOfStock, final ShoppingCartAPI shoppingCartAPI) {
+                               OutOfStockListener iOutOfStock, final ShoppingCartAPI shoppingCartAPI) {
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
         mPresenter = shoppingCartAPI;
-        mFragmentManager = fragmentManager;
         setCountArrow(context);
         initDrawables();
         mOutOfStock = iOutOfStock;
     }
 
-    void initDrawables() {
+    private void initDrawables() {
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
         mTrashDrawable = VectorDrawable.create(mContext, R.drawable.iap_trash_bin);
         mInfoDrawable = VectorDrawable.create(mContext, R.drawable.iap_info);
@@ -356,7 +354,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return position;
     }*/
 
-    public class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
+    private class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
         NetworkImageView mNetworkImage;
         FrameLayout mDotsLayout;
         TextView mTvPrice;
@@ -366,7 +364,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTvQuantity;
         ImageView mIvOptions;
 
-        public ShoppingCartProductHolder(final View itemView) {
+        ShoppingCartProductHolder(final View itemView) {
             super(itemView);
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
@@ -379,7 +377,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
+    private class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
         TextView mDeliveryPrice;
         TextView mVatValue;
         TextView mVatInclusiveValue;
@@ -392,7 +390,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView mEditIcon;
         RelativeLayout mEditIconLayout;
 
-        public FooterShoppingCartViewHolder(View itemView) {
+        FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.iap_tv_delivery_price);
             mVatValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_value);

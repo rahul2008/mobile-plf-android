@@ -93,23 +93,20 @@ public class Utility {
         if (addressObj instanceof DeliveryAddressEntity) {
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getPostalCode());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getTown());
+            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getPostalCode());
             Country countryEntity = ((DeliveryAddressEntity) addressObj).getCountry();
             String country = getCountryName(countryEntity.getIsocode());
-            if (country != null) {
-                sb.append(country);
-            }
+            appendCountry(sb, country);
 
         } else if (addressObj instanceof AddressFields) {
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
-            String country = getCountryName(((AddressFields) addressObj).getCountryIsocode());
-            if (country != null) {
-                sb.append(country);
-            }
+            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getRegionIsoCode());
+//            String country = getCountryName(((AddressFields) addressObj).getCountryIsocode());
+//            appendCountry(sb, country);
+            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
         } else if (addressObj instanceof Addresses) {
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine2());
@@ -125,9 +122,7 @@ public class Utility {
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getPostalCode());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
             String country = getCountryName(((BillingAddress) addressObj).getCountry().getIsocode());
-            if (country != null) {
-                sb.append(country);
-            }
+            appendCountry(sb, country);
         } else if (addressObj instanceof Address) {
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
@@ -139,6 +134,12 @@ public class Utility {
             appendAddressWithNewLineIfNotNull(sb, (((Address) addressObj).getCountry().getName()));
         }
         return sb.toString();
+    }
+
+    private static void appendCountry(StringBuilder sb, String country) {
+        if (country != null) {
+            sb.append(country);
+        }
     }
 
     public static String formatAddress(final String address) {
