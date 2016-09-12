@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -34,6 +35,7 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
     private Context mContext;
     private FragmentActivity fragmentActivity;
     private int containerId;
+    private IAPListener iapListener;
     private ArrayList<String> mCtnList;
     {
         mCtnList = null;
@@ -52,6 +54,7 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
             fragmentActivity = (HomeActivity) context;
             containerId = R.id.frame_container;
             actionBarListener = (HomeActivity)context;
+            iapListener = (HomeActivity)context;
         }
         if (mCtnList == null) {
             mCtnList = new ArrayList<String>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.iap_productselection_ctnlist)));
@@ -64,6 +67,7 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, iapFlowInput);
+        iapLaunchInput.setIapListener(iapListener);
         FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerId, actionBarListener);
         try {
             iapInterface.launch(fragLauncher, iapLaunchInput);

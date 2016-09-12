@@ -14,7 +14,7 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
+import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -83,7 +83,7 @@ public class AppFrameworkApplication extends Application {
 
     @SuppressWarnings("deprecation")
     private void initializeProductRegistrationLibrary() {
-        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(gAppInfra);
+        PRDependencies prodRegDependencies = new PRDependencies(gAppInfra);
 
         UappSettings uappSettings = new UappSettings(getApplicationContext());
         new PRInterface().init(prodRegDependencies, uappSettings);

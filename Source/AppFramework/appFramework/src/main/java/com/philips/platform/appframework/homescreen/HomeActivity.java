@@ -374,8 +374,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             mCartIcon.setVisibility(View.VISIBLE);
             cartCount.setVisibility(View.VISIBLE);
         } else {
-            mCartIcon.setVisibility(View.INVISIBLE);
-            cartCount.setVisibility(View.INVISIBLE);
+            mCartIcon.setVisibility(View.GONE);
+            cartCount.setVisibility(View.GONE);
         }
     }
 
