@@ -70,9 +70,10 @@ public class CoppaDependanciesTest extends InstrumentationTestCase {
             }
 
             @Override
-            public RestInterface getRestInterface() {
+            public RestInterface getRestClient() {
                 return null;
             }
+
         });
     }
     public void testCoppaDependencies(){
