@@ -2,8 +2,11 @@
 <resources>
     <style name="UITDefaultButton" parent="Base.Widget.AppCompat.Button">
         <item name="android:height">@dimen/uit_button_height</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:background">@drawable/uit_default_button_background</item>
         <item name="uitButtonBackgroundColorList">@color/uit_default_button_background_selector</item>
         <item name="uitButtonTextColorList">@color/uit_default_button_text_selector</item>
+        <item name="android:paddingLeft">@dimen/uit_button_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/uit_button_padding_left_right</item>
     </style>
 </resources>
