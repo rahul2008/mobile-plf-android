@@ -57,6 +57,11 @@ public class DeviceDetailActivity extends AppCompatActivity {
         public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
             SHNLogger.w(TAG, "onFailedToConnect.");
         }
+
+        @Override
+        public void onReadRSSI(int rssi) {
+            // Nothing to do
+        }
     };
 
     @Override
