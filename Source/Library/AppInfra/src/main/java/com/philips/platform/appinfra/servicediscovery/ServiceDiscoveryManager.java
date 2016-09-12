@@ -69,15 +69,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     //
     private boolean downloadInProgress;
     private ArrayDeque<DownloadItemListener> downloadAwaiters;
-    private ReentrantLock downloadLock ;
+    private ReentrantLock downloadLock;
 
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
-        mRequestItemManager = new RequestItemManager(context,mAppInfra);
+        mRequestItemManager = new RequestItemManager(context, mAppInfra);
         downloadInProgress = false;
         downloadAwaiters = new ArrayDeque<DownloadItemListener>();
-        downloadLock =new ReentrantLock();
+        downloadLock = new ReentrantLock();
 //        OnRefreshListener mOnRefreshListener = this;
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
@@ -297,14 +297,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public void setHomeCountry(String countryCode) {
         this.countryCode = countryCode;
-        if(countryCode != null){
+        if (countryCode != null) {
             countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
             saveToSecureStore(countryCode, true);
             saveToSecureStore(countryCodeSource.toString(), false);
             queueResultListener(true, new DownloadItemListener() {
                 @Override
                 public void onDownloadDone(ServiceDiscovery result) {
-
+                    Log.i("Force Refresh is done", "Force Refresh is done");
                 }
             });
         }

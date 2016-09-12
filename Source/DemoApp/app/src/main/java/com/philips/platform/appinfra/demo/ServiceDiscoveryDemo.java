@@ -67,9 +67,9 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         setHomeCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String country = idEditTextCountry.toString();
+                String country = idEditTextCountry.getText().toString();
                 if(country.length() == 2){
-                    mServiceDiscoveryInterface.setHomeCountry(idEditTextCountry.toString().toUpperCase());
+                    mServiceDiscoveryInterface.setHomeCountry(country.toUpperCase());
                 }
 
             }
