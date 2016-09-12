@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
 apply from: './jacoco.gradle'
 
 def libVersionNumber = new File('../../VERSION').text.trim()
@@ -9,13 +7,63 @@ libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+		classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        
+    }
+}
+
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
+
+apply plugin: 'cdpSCM'
+
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
+	    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+        
     }
 }
 
@@ -90,15 +138,19 @@ artifactory {
     }
 }
 
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
-artifactoryPublish {
-    dependsOn sourceJar
-}
-
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
-    archives sourceJar
+    archives zipDoc
 }
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+	println "docpath" + docpath
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============	
