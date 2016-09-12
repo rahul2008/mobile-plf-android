@@ -300,4 +300,5 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     public void onRetailerError(final IAPNetworkError errorMsg) {
         //NOP
     }
+
 }

@@ -245,14 +245,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
                 }
 
-                if (data.getVatActualValue().equalsIgnoreCase("0") && !mIsDeliveryAddressSet) {
-                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
-                } else {
-                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVatValue.setText(data.getVatValue());
-                }
+                //Chitra : Pls update the code here for what reason this condition is required?
+
+//                if (data.getVatActualValue().equalsIgnoreCase("0") && !mIsDeliveryAddressSet) {
+//                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
+//                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
+//                } else {
+//                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
+//                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
+//                    shoppingCartFooter.mVatValue.setText(data.getVatValue());
+//                }
 
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
                 if (null != data.getDeliveryMode()) {

@@ -61,6 +61,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
@@ -140,15 +141,24 @@ android {
 configurations {
     compile.exclude module: 'support-annotations'
 }
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
     //Coco
-    compile 'com.philips.cdp:uikitLib:3.2.3'
-    compile('com.philips.cdp:registrationApi:7.1.0-rc.5') {
-        exclude group: 'com.android.support'
-        transitive = true
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0-SNAPSHOT', ext: 'aar', changing: true)
+    {
+           transitive = true
+    }
+	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true)
+    {
+           transitive = true
     }
     // Tests
     testCompile 'junit:junit:4.12'

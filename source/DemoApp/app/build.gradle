@@ -59,6 +59,9 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
         flatDir {
             dirs 'libs'
         }
@@ -68,8 +71,7 @@ dependencies {
     compile project(':iap')
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile "net.hockeyapp.android:HockeySDK:3.6.2"
-    compile('com.philips.cdp:registrationApi:7.1.0-rc.4') {
-        exclude group: 'com.android.support'
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
 
