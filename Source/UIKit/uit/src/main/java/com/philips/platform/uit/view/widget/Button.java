@@ -19,16 +19,16 @@ public class Button extends AppCompatButton {
     }
 
     public Button(Context context, AttributeSet attrs) {
-        this(context, attrs, android.support.v7.appcompat.R.attr.buttonStyle);
+        this(context, attrs, R.attr.buttonStyle);
     }
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        processAttributes(context, attrs);
+        processAttributes(context, attrs, defStyleAttr);
     }
 
-    private void processAttributes(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITButton);
+    private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITButton, defStyleAttr, R.style.UITDefaultButton);
         applyBackgroundTinting(typedArray);
         applyTextColorTinting(typedArray);
         typedArray.recycle();
@@ -37,22 +37,22 @@ public class Button extends AppCompatButton {
     private void applyTextColorTinting(TypedArray typedArray) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UITButton_uitButtonTextColorList, -1);
         if (textColorStateID != -1) {
-            setTextColor(getTextColorStateList());
+            setTextColor(getTextColorStateList(textColorStateID));
         }
     }
 
     private void applyBackgroundTinting(TypedArray typedArray) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UITButton_uitButtonBackgroundColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            setSupportBackgroundTintList(getBackgroundColorStateList());
+            setSupportBackgroundTintList(getBackgroundColorStateList(backGroundListID));
         }
     }
 
-    private ColorStateList getBackgroundColorStateList() {
-        return AppCompatResources.getColorStateList(getContext(), R.color.uit_default_button_background_selector);
+    private ColorStateList getBackgroundColorStateList(int backgroundColorStateID) {
+        return AppCompatResources.getColorStateList(getContext(), backgroundColorStateID);
     }
 
-    private ColorStateList getTextColorStateList() {
-        return AppCompatResources.getColorStateList(getContext(), R.color.uit_default_button_text_selector);
+    private ColorStateList getTextColorStateList(int textColorStateID) {
+        return AppCompatResources.getColorStateList(getContext(), textColorStateID);
     }
 }

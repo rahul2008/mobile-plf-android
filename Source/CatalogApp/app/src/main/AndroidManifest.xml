@@ -7,11 +7,12 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/uikit_app_name"
-        android:theme="@style/Base.Theme.AppCompat">
+        android:theme="@style/Theme.Philips">
 
     <activity
         android:name="com.philips.platform.catalogapp.MainActivity"
-        android:label="@string/uikit_app_name">
+        android:label="@string/uikit_app_name"
+        android:theme="@style/Theme.Philips">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

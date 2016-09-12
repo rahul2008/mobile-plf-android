@@ -1,12 +1,9 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
-        <item name="android:buttonStyle">@style/UITDefaultButton</item>
-        <item name="uitButtonNormalColor">?attr/uikitControlPrimaryDarkEnabledColor</item>
-        <item name="uitButtonPressedColor">?attr/uikitControlPrimaryDarkPressedColor</item>
-        <item name="uitButtonDisabledColor">?attr/uikitControlPrimaryDarkEnabledColor</item>
-        <item name="uitButtonDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
-    </style>
+<!-- Base application theme. -->
+<style name="Theme.Philips" parent="Theme.AppCompat.Light">
+    <item name="buttonStyle">@style/UITDefaultButton</item>
+
+</style>
 
 </resources>
