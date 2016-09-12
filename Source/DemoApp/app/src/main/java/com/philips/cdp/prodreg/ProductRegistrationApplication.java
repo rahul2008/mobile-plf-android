@@ -4,9 +4,9 @@ import android.app.Application;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
-import com.philips.cdp.prodreg.launcher.ProdRegSettings;
+import com.philips.cdp.prodreg.launcher.PRSettings;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -35,9 +35,9 @@ public class ProductRegistrationApplication extends Application {
     }
 
     private void initProductRegistration() {
-        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(mAppInfra);
-        ProdRegSettings prodRegSettings = new ProdRegSettings(getApplicationContext());
-        new PRInterface().init(prodRegDependencies, prodRegSettings);
+        PRDependencies PRDependencies = new PRDependencies(mAppInfra);
+        PRSettings PRSettings = new PRSettings(getApplicationContext());
+        new PRInterface().init(PRDependencies, PRSettings);
     }
 
     private void initRegistration() {

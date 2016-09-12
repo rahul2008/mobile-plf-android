@@ -17,7 +17,7 @@ import android.widget.Button;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
@@ -110,7 +110,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                     showFragment(processFragment);
                 } else {
                     clearFragmentStack();
-                    ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
+                    PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
                     if (activity != null && !activity.isFinishing() && activity instanceof ProdRegBaseActivity) {
                         activity.finish();
                     }

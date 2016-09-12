@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
@@ -117,7 +117,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
                 final FragmentActivity activity = getActivity();
                 if (activity != null && !activity.isFinishing()) {
                     clearFragmentStack();
-                    ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
+                    PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
                     if (activity instanceof ProdRegBaseActivity) {
                         getActivity().finish();
                     }

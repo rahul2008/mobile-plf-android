@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.ProdRegLaunchInput;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
@@ -117,11 +117,11 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 }
             });
             fragLauncher.setCustomAnimation(0, 0);
-            final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
-            final ProdRegLaunchInput prodRegLaunchInput = new ProdRegLaunchInput(regProdList, isFirstLaunch);
-            prodRegLaunchInput.setProdRegUiListener(prodRegUiHelper.getProdRegUiListener());
-            prodRegLaunchInput.setFirstScreenImageResourceId(imageResID);
-            new PRInterface().launch(fragLauncher, prodRegLaunchInput);
+            final PRUiHelper prUiHelper = PRUiHelper.getInstance();
+            final PRLaunchInput prLaunchInput = new PRLaunchInput(regProdList, isFirstLaunch);
+            prLaunchInput.setProdRegUiListener(prUiHelper.getProdRegUiListener());
+//            prLaunchInput.setFirstScreenImageResourceId(imageResID);
+            new PRInterface().launch(fragLauncher, prLaunchInput);
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }

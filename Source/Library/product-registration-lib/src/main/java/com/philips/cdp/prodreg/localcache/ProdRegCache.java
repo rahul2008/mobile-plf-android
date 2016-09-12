@@ -7,7 +7,7 @@ package com.philips.cdp.prodreg.localcache;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 public class ProdRegCache {
@@ -42,6 +42,6 @@ public class ProdRegCache {
     }
 
     public SecureStorageInterface getAppInfraSecureStorageInterface() {
-        return ProdRegUiHelper.getInstance().getAppInfraSecureStorageInterface();
+        return PRUiHelper.getInstance().getAppInfraSecureStorageInterface();
     }
 }

@@ -8,7 +8,7 @@ package com.philips.cdp.prodreg.util;
 import android.text.TextUtils;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -77,7 +77,7 @@ public class ProdRegUtil {
      * @return - Return max date for date picker
      */
     public long getMaxDate() {
-        final TimeInterface serverTime = ProdRegUiHelper.getInstance().getServerTime();
+        final TimeInterface serverTime = PRUiHelper.getInstance().getServerTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(serverTime.getUTCTime());
         return calendar.getTimeInMillis();

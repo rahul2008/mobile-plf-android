@@ -1,7 +1,5 @@
 package com.philips.cdp.prodreg.launcher;
 
-import android.support.annotation.IdRes;
-
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -12,18 +10,18 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegLaunchInput extends UappLaunchInput {
+public class PRLaunchInput extends UappLaunchInput {
     private ArrayList<Product> products;
     private boolean isAppLaunchFlow;
     private ProdRegUiListener prodRegUiListener;
-    private
-    @IdRes
+    /* private
+   @IdRes
     int firstScreenImageResourceId;
     private
     @IdRes
-    int otherScreenImageResourceId;
+    int otherScreenImageResourceId;*/
 
-    public ProdRegLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
+    public PRLaunchInput(final ArrayList<Product> products, final boolean isAppLaunchFlow) {
         this.products = products;
         this.isAppLaunchFlow = isAppLaunchFlow;
     }
@@ -44,7 +42,7 @@ public class ProdRegLaunchInput extends UappLaunchInput {
         this.prodRegUiListener = prodRegUiListener;
     }
 
-    public int getFirstScreenImageResourceId() {
+   /* public int getFirstScreenImageResourceId() {
         return firstScreenImageResourceId;
     }
 
@@ -58,5 +56,5 @@ public class ProdRegLaunchInput extends UappLaunchInput {
 
     public void setOtherScreenImageResourceId(final int otherScreenImageResourceId) {
         this.otherScreenImageResourceId = otherScreenImageResourceId;
-    }
+    }*/
 }

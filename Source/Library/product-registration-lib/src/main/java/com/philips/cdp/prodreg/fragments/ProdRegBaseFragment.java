@@ -20,7 +20,7 @@ import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -120,7 +120,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     protected void handleCallBack(final boolean onBack) {
-        final ProdRegUiListener prodRegUiListener = ProdRegUiHelper.getInstance().getProdRegUiListener();
+        final ProdRegUiListener prodRegUiListener = PRUiHelper.getInstance().getProdRegUiListener();
         final UserWithProducts signedInUserWithProducts = new ProdRegHelper().getSignedInUserWithProducts();
         if (onBack && prodRegUiListener != null)
             prodRegUiListener.onProdRegBack(getRegisteredProducts(), signedInUserWithProducts);

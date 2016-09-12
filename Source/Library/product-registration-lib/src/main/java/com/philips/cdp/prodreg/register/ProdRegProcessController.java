@@ -16,7 +16,7 @@ import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
@@ -62,7 +62,7 @@ public class ProdRegProcessController {
                 }
             } else {
                 processControllerCallBacks.exitProductRegistration();
-                ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.PRODUCTS_NOT_FOUND);
+                PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.PRODUCTS_NOT_FOUND);
             }
         }
     }

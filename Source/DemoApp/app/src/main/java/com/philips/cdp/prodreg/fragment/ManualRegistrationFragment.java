@@ -25,7 +25,7 @@ import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.activity.MainActivity;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.ProdRegLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
@@ -196,7 +196,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
-        ProdRegLaunchInput prodRegLaunchInput;
+        PRLaunchInput prLaunchInput;
         if (!isActivity) {
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, R.id.parent_layout, new ActionBarListener() {
@@ -213,23 +213,23 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             });
             fragLauncher.setCustomAnimation(0, 0);
             if (type.equalsIgnoreCase("app_flow")) {
-                prodRegLaunchInput = new ProdRegLaunchInput(products, true);
+                prLaunchInput = new PRLaunchInput(products, true);
             } else {
-                prodRegLaunchInput = new ProdRegLaunchInput(products, false);
+                prLaunchInput = new PRLaunchInput(products, false);
             }
-            prodRegLaunchInput.setProdRegUiListener(getProdRegUiListener());
-            prodRegLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
-            new PRInterface().launch(fragLauncher, prodRegLaunchInput);
+            prLaunchInput.setProdRegUiListener(getProdRegUiListener());
+//            prLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
+            new PRInterface().launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {
-                prodRegLaunchInput = new ProdRegLaunchInput(products, true);
+                prLaunchInput = new PRLaunchInput(products, true);
             } else {
-                prodRegLaunchInput = new ProdRegLaunchInput(products, false);
+                prLaunchInput = new PRLaunchInput(products, false);
             }
-            prodRegLaunchInput.setProdRegUiListener(getProdRegUiListener());
-            prodRegLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
-            new PRInterface().launch(activityLauncher, prodRegLaunchInput);
+            prLaunchInput.setProdRegUiListener(getProdRegUiListener());
+//            prLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
+            new PRInterface().launch(activityLauncher, prLaunchInput);
         }
     }
 
