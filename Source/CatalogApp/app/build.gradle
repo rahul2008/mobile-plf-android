@@ -1,26 +1,4 @@
 apply plugin: 'com.android.application'
-apply from: '../extra/jenkins.gradle'
-//apply plugin: 'spoon'
-
-
-buildscript {
-    repositories {
-        maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
-
-        jcenter()
-
-    }
-
-    dependencies {
-        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
-
-        classpath('com.terrafolio:gradle-jenkins-plugin:1.2.3') {
-            exclude group: 'asm', module: 'asm-tree'
-            exclude group: 'asm', module: 'asm'
-        }
-//        androidTestCompile 'com.squareup.spoon:spoon-client:1.6.4'
-    }
-}
 apply plugin: 'spoon'
 
 spoon{
@@ -39,9 +17,8 @@ android {
         versionCode 1
         versionName "1.0.1"
 
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        renderscriptTargetApi 20
-        renderscriptSupportModeEnabled true
         generatedDensities = []
     }
     buildTypes {
@@ -67,14 +44,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
+    compile("com.android.support:appcompat-v7:${supportLibraryVer}")
+    compile("com.android.support:recyclerview-v7:${supportLibraryVer}")
+    compile("com.android.support:cardview-v7:${supportLibraryVer}")
+
+    compile("com.jakewharton:butterknife:${butterKnifeVer}")
 
     compile project(':uit')
 }
 
 configurations.all {
-    resolutionStrategy.force 'com.android.support:support-annotations:22.2.1'
+    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
 }
