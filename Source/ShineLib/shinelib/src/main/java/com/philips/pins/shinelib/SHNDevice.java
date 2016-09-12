@@ -5,9 +5,10 @@
 
 package com.philips.pins.shinelib;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * SHNDevice is a representation of a peripheral inside BlueLib.
@@ -27,7 +28,8 @@ public interface SHNDevice {
     /**
      * Returns the string representation of MAC address for the bluetooth peripheral.
      *
-     * @return string representation of the peripheral MAC address as returned by {@link android.bluetooth.BluetoothDevice#getAddress()}
+     * @return string representation of the peripheral MAC address as returned
+     * by {@link android.bluetooth.BluetoothDevice#getAddress()}
      */
     String getAddress();
 
@@ -46,15 +48,24 @@ public interface SHNDevice {
     String getDeviceTypeName();
 
     /**
-     * Provides a means to connect to the peripheral.
+     * Provides a means to connect to the peripheral. The bluetooth connection is performed once.
      * <p/>
      * Callbacks about state changes are provided via a registered SHNDeviceListener instance.
-     * <p/>
-     * Please note that even in seemingly perfect conditions the Bluetooth stack may be unsuccessful
-     * in establishing a connection. Bluelib attempts to resolve this as much as possible, but users
-     * of this API need to handle connection failures through a relaxed re-connect mechanism.
      */
     void connect();
+
+    /**
+     * Provides a means to connect to the peripheral with a connect time out. The connect time out is the maximal amount of time to establish a bluetooth GATT connection.
+     * At least one attempt to connect will be performed. In case of a connection failure within the time out a retry will be issued.
+     * <p/>
+     * Callbacks about state changes are provided via a registered SHNDeviceListener instance. The time out does not guaranty the callback after the
+     * time has elapsed. It has impact only on establishing the GATT connection. As soon as the connection is established the onStateUpdate is called.
+     * Increasing the time out time improves the chances to get a successful connection. On certain phones the time out of 120 seconds increases the connection
+     * reliability.
+     *
+     * @param connectTimeOut the time out for bluetooth GATT connection time in MS.
+     */
+    void connect(long connectTimeOut);
 
     /**
      * Provides a means to disconnect from the peripheral.
@@ -62,6 +73,11 @@ public interface SHNDevice {
      * Callbacks about state changes are provided via registered SHNDeviceListener instance.
      */
     void disconnect();
+
+    /**
+     * Reads the RSSI of a connected peripheral
+     */
+    void readRSSI();
 
     /**
      * Register a {@code SHNDeviceListener} instance to receive updates about the peripheral state.
@@ -72,6 +88,16 @@ public interface SHNDevice {
      * Unregister a {@code SHNDeviceListener}.
      */
     void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener);
+
+    /**
+     * Register a {@code DiscoveryListener} instance to receive updates about discovery of services & characteristics
+     */
+    void registerDiscoveryListener(DiscoveryListener discoveryListener);
+
+    /**
+     * Unregister a {@code DiscoveryListener}
+     */
+    void unregisterDiscoveryListener(DiscoveryListener discoveryListener);
 
     /**
      * Specifies a set of capabilities supported by the peripheral and exposed by BlueLib.
@@ -125,5 +151,31 @@ public interface SHNDevice {
          * @param result reason for the connection to fail
          */
         void onFailedToConnect(SHNDevice shnDevice, SHNResult result);
+
+        /**
+         * The rssi from the peripheral
+         *
+         * @param rssi value as read from the peripheal
+         */
+        void onReadRSSI(int rssi);
+    }
+
+    /**
+     * Interface that provides updates on Services and Characteristics discovered on the {@code SHNDevice}.
+     */
+    interface DiscoveryListener {
+
+        /**
+         * @param serviceUuid of the discovered service
+         * @param service associated with the UUID, might be null
+         */
+        void onServiceDiscovered(@NonNull UUID serviceUuid, @Nullable SHNService service);
+
+        /**
+         * @param characteristicUuid of the discovered characteristic
+         * @param data initial value
+         * @param associatedCharacteristic might be null
+         */
+        void onCharacteristicDiscovered(@NonNull UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic associatedCharacteristic);
     }
 }

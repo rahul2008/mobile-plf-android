@@ -5,6 +5,7 @@
 package com.philips.cdp.bluelibtestapp;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,12 @@ public class CustomAdapter<T> extends BaseAdapter {
     private final LayoutInflater inflater;
     private final List<T> items;
     private final int customListLayoutId;
-    private final Callbacks<T> callbacks;
+    private final ViewLoader<T> viewLoader;
 
-    public CustomAdapter(List<T> items, int customListLayoutId, Callbacks<T> callbacks, Context context) {
+    public CustomAdapter(List<T> items, @LayoutRes int customListLayoutId, ViewLoader<T> viewLoader, Context context) {
         this.items = items;
         this.customListLayoutId = customListLayoutId;
-        this.callbacks = callbacks;
+        this.viewLoader = viewLoader;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -52,7 +53,7 @@ public class CustomAdapter<T> extends BaseAdapter {
             convertView = inflater.inflate(customListLayoutId, parent, false);
 
             viewDescriptors = new HashMap<>();
-            for (int key : callbacks.getViewIds()) {
+            for (int key : viewLoader.getViewIds()) {
                 viewDescriptors.put(key, convertView.findViewById(key));
             }
 
@@ -62,12 +63,12 @@ public class CustomAdapter<T> extends BaseAdapter {
         viewDescriptors = (Map<Integer, View>) convertView.getTag();
 
         T item = getItem(position);
-        callbacks.setupView(item, viewDescriptors);
+        viewLoader.setupView(item, viewDescriptors);
 
         return convertView;
     }
 
-    public interface Callbacks<T> {
+    public interface ViewLoader<T> {
         int[] getViewIds();
 
         void setupView(T item, Map<Integer, View> viewDescriptors);

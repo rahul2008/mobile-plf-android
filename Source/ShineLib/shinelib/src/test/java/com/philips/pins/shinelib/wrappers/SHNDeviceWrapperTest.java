@@ -1,13 +1,19 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
-
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.helper.MockedHandler;
-
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,17 +31,25 @@ public class SHNDeviceWrapperTest {
 
     private static final SHNResult RESULT = SHNResult.SHNErrorConnectionLost;
 
-    @Mock
-    private SHNDeviceImpl shnDeviceMock;
+    private static final UUID SERVICE_UUID = UUID.randomUUID();
 
-    @Mock
-    private SHNDevice.SHNDeviceListener shnDeviceListenerMock;
+    private static final byte[] CHARACTERISTIC_DATA = new byte[] { 0x42 };
 
-    @Captor
-    protected ArgumentCaptor<Runnable> runnableCaptor;
+    @Mock private SHNDeviceImpl shnDeviceMock;
 
-    @Captor
-    protected ArgumentCaptor<SHNDevice.SHNDeviceListener> shnDeviceListenerArgumentCaptor;
+    @Mock private SHNDevice.SHNDeviceListener shnDeviceListenerMock;
+
+    @Mock private SHNDevice.DiscoveryListener mockDiscoveryListener;
+
+    @Mock private SHNCharacteristic mockCharacteristic;
+
+    @Mock private SHNService mockService;
+
+    @Captor protected ArgumentCaptor<Runnable> runnableCaptor;
+
+    @Captor protected ArgumentCaptor<SHNDevice.SHNDeviceListener> shnDeviceListenerArgumentCaptor;
+
+    @Captor protected ArgumentCaptor<SHNDevice.DiscoveryListener> discoveryListenerArgumentCaptor;
 
     private SHNDeviceWrapper shnDeviceWrapper;
 
@@ -59,8 +73,13 @@ public class SHNDeviceWrapperTest {
     }
 
     @Test
-    public void whenCreatedThenListenerIsAttached() throws Exception {
+    public void whenCreatedThenDeviceListenerIsAttached() throws Exception {
         verify(shnDeviceMock).registerSHNDeviceListener(shnDeviceListenerArgumentCaptor.capture());
+    }
+
+    @Test
+    public void whenCreatedThenDisoveryListenerIsAttached() throws Exception {
+        verify(shnDeviceMock).registerDiscoveryListener(discoveryListenerArgumentCaptor.capture());
     }
 
     @Test
@@ -128,7 +147,6 @@ public class SHNDeviceWrapperTest {
         verify(internalHandlerMock).post(runnableCaptor.capture());
     }
 
-
     @Test
     public void whenConnectWithParametersIsCalledThenCallIsPassedToSHNDevice() throws Exception {
         whenConnectWithParametersIsCalledThenCallIsPostedOnInternalThread();
@@ -156,7 +174,7 @@ public class SHNDeviceWrapperTest {
 
     @Test
     public void whenStateIsReceivedThenCallIsPostedOnUserThread() throws Exception {
-        whenCreatedThenListenerIsAttached();
+        whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
         shnDeviceListenerArgumentCaptor.getValue().onStateUpdated(shnDeviceMock);
@@ -167,7 +185,7 @@ public class SHNDeviceWrapperTest {
 
     @Test
     public void whenThereAreMultipleListenersThenCallIsPostedOnUserThreadForEachListener() throws Exception {
-        whenCreatedThenListenerIsAttached();
+        whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
         SHNDevice.SHNDeviceListener shnDeviceListenerMock2 = mock(SHNDevice.SHNDeviceListener.class);
@@ -193,7 +211,7 @@ public class SHNDeviceWrapperTest {
 
     @Test
     public void whenFailToConnectIsReceivedThenCallIsPostedOnUserThread() throws Exception {
-        whenCreatedThenListenerIsAttached();
+        whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
         shnDeviceListenerArgumentCaptor.getValue().onFailedToConnect(shnDeviceMock, RESULT);
@@ -202,8 +220,9 @@ public class SHNDeviceWrapperTest {
     }
 
     @Test
-    public void whenThereAreMultipleListenersThenFailedToConnectCallIsPostedOnUserThreadForEachListener() throws Exception {
-        whenCreatedThenListenerIsAttached();
+    public void whenThereAreMultipleListenersThenFailedToConnectCallIsPostedOnUserThreadForEachListener()
+            throws Exception {
+        whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
         SHNDevice.SHNDeviceListener shnDeviceListenerMock2 = mock(SHNDevice.SHNDeviceListener.class);
@@ -227,7 +246,7 @@ public class SHNDeviceWrapperTest {
 
     @Test
     public void whenSameListenerIsRegisteredMultipleTimesThenNotificationIsReceivedOnce() throws Exception {
-        whenCreatedThenListenerIsAttached();
+        whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
@@ -240,7 +259,7 @@ public class SHNDeviceWrapperTest {
 
     @Test
     public void whenListenerIsUnregisteredThenNotificationIsNotReceived() throws Exception {
-        whenCreatedThenListenerIsAttached();
+        whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
         shnDeviceWrapper.unregisterSHNDeviceListener(shnDeviceListenerMock);
@@ -252,7 +271,7 @@ public class SHNDeviceWrapperTest {
 
     @Test
     public void whenListenerIsRemovedThenRemainingListenersAreNotified() throws Exception {
-        whenCreatedThenListenerIsAttached();
+        whenCreatedThenDeviceListenerIsAttached();
 
         SHNDevice.SHNDeviceListener shnDeviceListenerMock2 = mock(SHNDevice.SHNDeviceListener.class);
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
@@ -262,5 +281,88 @@ public class SHNDeviceWrapperTest {
         shnDeviceListenerArgumentCaptor.getValue().onFailedToConnect(shnDeviceMock, RESULT);
 
         verify(userHandlerMock, times(1)).post(runnableCaptor.capture());
+    }
+
+    // DiscoveryListener tests
+    @Test
+    public void whenServiceIsDiscoveredThenCallIsPostedOnUserThread() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
+
+        verify(userHandlerMock).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenCharacteristicIsDiscoveredThenCallIsPostedOnUserThread() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        discoveryListenerArgumentCaptor.getValue()
+                .onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, mockCharacteristic);
+
+        verify(userHandlerMock).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenDiscoveryListenerIsUnregisteredThenCharacteristicIsNotReceived() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
+
+        discoveryListenerArgumentCaptor.getValue()
+                .onCharacteristicDiscovered(SERVICE_UUID, CHARACTERISTIC_DATA, mockCharacteristic);
+
+        verify(userHandlerMock, never()).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenDiscoveryListenerIsUnregisteredThenServiceIsNotReceived() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
+
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
+
+        verify(userHandlerMock, never()).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenDiscoveryListenerIsUnregisteredThenNotificationIsNotReceived() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
+
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
+
+        verify(userHandlerMock, never()).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenDiscoveryListenerIsRemovedThenRemainingListenersAreNotified() throws Exception {
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        SHNDevice.DiscoveryListener mockDiscoveryListener2 = mock(SHNDevice.DiscoveryListener.class);
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener);
+        shnDeviceWrapper.registerDiscoveryListener(mockDiscoveryListener2);
+        shnDeviceWrapper.unregisterDiscoveryListener(mockDiscoveryListener);
+
+        discoveryListenerArgumentCaptor.getValue().onServiceDiscovered(SERVICE_UUID, mockService);
+
+        verify(userHandlerMock, times(1)).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void whenReadRssiIsCalledInternalHandlerIsPosted() throws Exception {
+        whenCreatedThenDeviceListenerIsAttached();
+        whenCreatedThenDisoveryListenerIsAttached();
+        shnDeviceWrapper.readRSSI();
+        verify(internalHandlerMock).post(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+        verify(shnDeviceMock).readRSSI();
     }
 }

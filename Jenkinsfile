@@ -14,6 +14,9 @@ node('Android') {
     sh 'cd ./Source/ShineLib && ./gradlew lintDebug || true'
     step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
 
+    stage 'Archive App'
+    step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibtestapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+
     if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master"){
         stage 'Publish'
         sh 'cd ./Source/ShineLib && ./gradlew zipDocuments artifactoryPublish'

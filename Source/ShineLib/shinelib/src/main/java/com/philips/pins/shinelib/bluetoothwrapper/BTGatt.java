@@ -122,6 +122,22 @@ public class BTGatt extends BluetoothGattCallback {
         executeNextCommandIfAllowed();
     }
 
+    public void readRSSI() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (bluetoothGatt != null && bluetoothGatt.readRemoteRssi()) {
+                    waitingForCompletion = true;
+                } else {
+                    btGattCallback.onReadRemoteRssi(BTGatt.this, 0, BluetoothGatt.GATT_FAILURE);
+                    executeNextCommandIfAllowed();
+                }
+            }
+        };
+        commandQueue.add(runnable);
+        executeNextCommandIfAllowed();
+    }
+
     public List<BluetoothGattService> getServices() {
         return bluetoothGatt == null ? null : bluetoothGatt.getServices();
     }

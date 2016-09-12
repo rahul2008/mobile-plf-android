@@ -145,13 +145,13 @@ public class FirmwareUpdateFragment extends Fragment implements View.OnClickList
                     buffer = outputStream.toByteArray();
                     inputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "IOException", e);
                 }
 
                 shnCapabilityFirmwareUpdate.setSHNCapabilityFirmwareUpdateListener(firmwareUpdateListener);
                 shnCapabilityFirmwareUpdate.uploadFirmware(buffer);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Log.e(TAG, "FileNotFoundException", e);
             }
         }
     }

@@ -394,6 +394,10 @@ public class SHNDeviceAssociation {
             @Override
             public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult result) {
             }
+
+            @Override
+            public void onReadRSSI(int rssi) {
+            }
         };
     }
 

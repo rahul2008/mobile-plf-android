@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
 import android.os.Handler;
@@ -74,8 +79,7 @@ public class QuickTestConnection {
                         if (SHNDevice.State.Connected == shnDevice.getState()) {
                             stop();
                             listener.onSuccess();
-                        }
-                        else if (SHNDevice.State.Disconnected == shnDevice.getState()) {
+                        } else if (SHNDevice.State.Disconnected == shnDevice.getState()) {
                             stop();
                             listener.onFailure();
                         }
@@ -93,6 +97,10 @@ public class QuickTestConnection {
                         listener.onFailure();
                     }
                 });
+            }
+
+            @Override
+            public void onReadRSSI(int rssi) {
             }
         };
 
