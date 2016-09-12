@@ -5,14 +5,11 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import org.junit.Before;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/30/2016.
@@ -33,10 +30,8 @@ public class AppTaggingTest extends InstrumentationTestCase{
         synchronized(this){//synchronized block
 
                 try{
-                    AppInfraSingleton.setInstance( new AppInfra.Builder().build(mContext));
-                    RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
-
-
+                    RegistrationHelper.getInstance().
+                            setAppInfraInstance(new AppInfra.Builder().build(mContext));
                 }catch(Exception e){System.out.println(e);}
             }
 

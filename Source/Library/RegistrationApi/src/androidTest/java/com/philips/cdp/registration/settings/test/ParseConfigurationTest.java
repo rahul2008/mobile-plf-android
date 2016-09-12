@@ -13,7 +13,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
@@ -40,8 +39,8 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 //        Tagging.enableAppTagging(true);
 //        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 //        Tagging.setLaunchingPageName("demoapp:home");
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity().getApplicationContext()));
-        AppTaggingInterface aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
+       RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(getActivity().getApplicationContext()));
+        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppTaggingInterface();
         aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);

@@ -100,9 +100,9 @@ public class CoppaInterface implements UappInterface {
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
+        RegistrationHelper.getInstance().setAppInfraInstance(((CoppaDependancies)uappDependencies).getAppInfra());
         RegistrationHelper.getInstance().setUrSettings(((CoppaSettings) uappSettings));
-        RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
+        RegistrationHelper.getInstance().initializeUserRegistration(((CoppaSettings)uappSettings).getContext());
     }
 
 }

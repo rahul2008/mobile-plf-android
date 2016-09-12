@@ -6,7 +6,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 /**
  * Created by 310243576 on 8/11/2016.
@@ -39,9 +38,7 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
         synchronized(this){//synchronized block
 
             try {
-                AppInfraSingleton.setInstance( new AppInfra.Builder().build(mContext));
-                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
-
+                RegistrationHelper.getInstance().setAppInfraInstance( new AppInfra.Builder().build(mContext));
                 appTaggingErrors.trackActionRegisterError(111);
                 appTaggingErrors.trackActionRegisterError(390);
                 appTaggingErrors.trackActionRegisterError(210);

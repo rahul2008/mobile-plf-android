@@ -16,7 +16,6 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
@@ -28,6 +27,8 @@ public class RegistrationApplication extends Application {
 
     public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     private static volatile RegistrationApplication mRegistrationHelper = null;
+
+    private AppInfraInterface mAppInfraInterface;
 
     /**
      * @return instance of this class
@@ -42,8 +43,9 @@ public class RegistrationApplication extends Application {
         super.onCreate();
         mRegistrationHelper = this;
 
-        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+
+        mAppInfraInterface =  new AppInfra.Builder().build(this);
+        //RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
 
        /* SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
@@ -168,7 +170,7 @@ public class RegistrationApplication extends Application {
         localeManager.setInputLocale(languageCode, countryCode);
 
         initAppIdentity();
-        URDependancies urDependancies = new URDependancies(AppInfraSingleton.getInstance());
+        URDependancies urDependancies = new URDependancies(mAppInfraInterface);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies,urSettings);

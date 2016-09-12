@@ -6,7 +6,6 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,12 +21,11 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
     public void setUp() throws Exception {
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
-        try {
-            AppInfraSingleton.setInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
-        } catch (Exception e) {
-
+        if( RegistrationHelper.getInstance().getAppInfraInstance()==null){
+            RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().
+                    build(getInstrumentation().getContext()));
         }
-        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+
         RLog.initForTesting(getInstrumentation().getContext());
     }
 

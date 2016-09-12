@@ -9,31 +9,24 @@
 package com.philips.cdp.registration.ui.utils.test;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.RegisterTraditional;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import org.json.JSONObject;
-import org.mockito.Mockito;
 
 public class UserTest extends InstrumentationTestCase {
 
@@ -247,8 +240,7 @@ public class UserTest extends InstrumentationTestCase {
     public void testResendVerificationMail(){
         synchronized (context) {
             try {
-                AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
-                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+                RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
             }catch(Exception e){
 
             }
@@ -296,8 +288,7 @@ public class UserTest extends InstrumentationTestCase {
 
             try{
 
-                AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
-                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+                RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
 
                 SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
                     @Override

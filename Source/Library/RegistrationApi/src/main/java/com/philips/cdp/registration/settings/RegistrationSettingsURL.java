@@ -9,7 +9,6 @@ import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
@@ -116,7 +115,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     private void initServiceDiscovery() {
 
-        AppInfraInterface appInfra = AppInfraSingleton.getInstance();
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
         serviceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {

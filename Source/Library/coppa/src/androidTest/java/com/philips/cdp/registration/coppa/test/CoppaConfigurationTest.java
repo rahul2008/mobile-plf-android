@@ -16,7 +16,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.json.JSONObject;
@@ -506,7 +505,7 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 
                 context = getInstrumentation().getContext();
                 if(RegistrationHelper.getInstance().getAppInfraInstance() == null){
-                        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+                        RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
                 }
                 RLog.initForTesting(context);
 

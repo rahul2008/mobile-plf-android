@@ -96,9 +96,9 @@ public class URInterface implements UappInterface {
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
+        RegistrationHelper.getInstance().setAppInfraInstance(((URDependancies)uappDependencies).getAppInfra());
         RegistrationHelper.getInstance().setUrSettings(((URSettings)uappSettings));
-        RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
+        RegistrationHelper.getInstance().initializeUserRegistration(((URSettings)uappSettings).getContext());
     }
 
 }

@@ -15,7 +15,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +25,7 @@ public class RegistrationCoppaApplication extends Application {
 
 
     private static volatile RegistrationCoppaApplication mRegistrationHelper = null;
+    private AppInfraInterface mAppInfraInterface;
 
 
 
@@ -41,8 +42,8 @@ public class RegistrationCoppaApplication extends Application {
         super.onCreate();
         mRegistrationHelper = this;
 
-        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
-        RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+        mAppInfraInterface= new AppInfra.Builder().build(this);
+        RegistrationHelper.getInstance().setAppInfraInstance(mAppInfraInterface);
 
         RegistrationConfiguration.getInstance().
                 setPrioritisedFunction(RegistrationFunction.Registration);
@@ -153,7 +154,7 @@ public class RegistrationCoppaApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        CoppaDependancies urDependancies = new CoppaDependancies(AppInfraSingleton.getInstance());
+        CoppaDependancies urDependancies = new CoppaDependancies(mAppInfraInterface);
         CoppaSettings urSettings = new CoppaSettings(this);
         CoppaInterface urInterface = new CoppaInterface();
         urInterface.init(urDependancies,urSettings);

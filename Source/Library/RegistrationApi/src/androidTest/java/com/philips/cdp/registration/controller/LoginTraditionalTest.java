@@ -8,11 +8,8 @@ import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import org.junit.Before;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/30/2016.
@@ -52,10 +49,7 @@ public class LoginTraditionalTest extends InstrumentationTestCase {
         synchronized(this){//synchronized block
 
             try{
-                AppInfraSingleton.setInstance( new AppInfra.Builder().build(context));
-                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
-
-
+                RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
             }catch(Exception e){System.out.println(e);}
         }
     }

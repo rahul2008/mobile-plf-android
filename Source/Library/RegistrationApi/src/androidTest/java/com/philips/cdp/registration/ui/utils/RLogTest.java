@@ -5,11 +5,8 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import org.junit.Before;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 9/6/2016.
@@ -28,8 +25,7 @@ public class RLogTest extends InstrumentationTestCase{
         synchronized(this){//synchronized block
 
             try{
-                AppInfraSingleton.setInstance( new AppInfra.Builder().build(context));
-                RegistrationHelper.getInstance().setAppInfraInstance(AppInfraSingleton.getInstance());
+                RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
 
 
             }catch(Exception e){System.out.println(e);}
