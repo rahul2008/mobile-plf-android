@@ -7,4 +7,7 @@
     <dimen name="app_top_margin">25dp</dimen>
     <dimen name="button_width">150dp</dimen>
     <dimen name="test">180dp</dimen>
+    <dimen name="colorRangeLabelHeight">48dp</dimen>
+    <dimen name="colorRangeListHeight">150dp</dimen>
+    <dimen name="colorRangeTextLabelHeight">40dp</dimen>
 </resources>

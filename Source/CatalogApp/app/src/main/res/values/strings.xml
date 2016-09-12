@@ -1,3 +1,11 @@
 <resources>
     <string name="catalog_app_name">Catalog App DLS</string>
+    <string name="colorRangesLabel">Color range</string>
+    <string name="TonalRangeLabel">Tonal range</string>
+    <string name="forContentAreaText">For Contents Area</string>
+    <string name="forBarAreadText">For bar Area</string>
+    <string name="forPrimaryControlsText">For Primary controls</string>
+    <string name="forDimText">For Dim</string>
+    <string name="accentColorRangeText">Accent color range</string>
+    <string name="warningText">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
 </resources>
