@@ -7,19 +7,17 @@ package com.example.cdpp.bluelibexampleapp.associate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
-import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.example.cdpp.bluelibexampleapp.detail.DeviceDetailActivity;
+import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.philips.pins.shinelib.SHNAssociationProcedure;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -44,8 +42,6 @@ public class AssociatedDevicesFragment extends Fragment {
     private AssociatedDeviceAdapter mAssociatedDeviceAdapter;
     private List<SHNDevice> mAssociatedDevices = new ArrayList<>();
 
-    private Handler mHandler = new Handler(Looper.myLooper());
-
     private SHNDeviceAssociation.SHNDeviceAssociationListener mDeviceAssociationListener = new SHNDeviceAssociation.SHNDeviceAssociationListener() {
         @Override
         public void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure) {
@@ -60,13 +56,7 @@ public class AssociatedDevicesFragment extends Fragment {
         @Override
         public void onAssociationSucceeded(SHNDevice shnDevice) {
             showMessage(String.format("Association with '%s' succeeded.", shnDevice.getName()));
-
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mAssociatedDeviceAdapter.notifyDataSetChanged();
-                }
-            });
+            mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -78,12 +68,7 @@ public class AssociatedDevicesFragment extends Fragment {
         public void onAssociatedDevicesUpdated() {
             showMessage("Association devices updated.");
 
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mAssociatedDeviceAdapter.notifyDataSetChanged();
-                }
-            });
+            mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
     };
 
@@ -145,13 +130,20 @@ public class AssociatedDevicesFragment extends Fragment {
             }
 
             @Override
-            public void onItemLongClick(int position, View itemView) {
-                final SHNDevice device = mAssociatedDeviceAdapter.getItem(position);
+            public void onItemLongClick(final int position, View itemView) {
+                final Snackbar snackBar = Snackbar.make(getView(), "Remove association?", Snackbar.LENGTH_LONG);
+                snackBar.setAction("Ok", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final SHNDevice device = mAssociatedDeviceAdapter.getItem(position);
 
-                mShnDeviceAssociation.removeAssociatedDevice(device);
-                mAssociatedDeviceAdapter.notifyDataSetChanged();
+                        mShnDeviceAssociation.removeAssociatedDevice(device);
+                        mAssociatedDeviceAdapter.notifyDataSetChanged();
 
-                showMessage(String.format("Association with '%s' removed.", device.getName()));
+                        showMessage(String.format("Association with '%s' removed.", device.getName()));
+                    }
+                });
+                snackBar.show();
             }
         });
 
@@ -171,6 +163,6 @@ public class AssociatedDevicesFragment extends Fragment {
     private void showMessage(String s) {
         SHNLogger.i(TAG, s);
 
-        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), s, Snackbar.LENGTH_SHORT).show();
     }
 }

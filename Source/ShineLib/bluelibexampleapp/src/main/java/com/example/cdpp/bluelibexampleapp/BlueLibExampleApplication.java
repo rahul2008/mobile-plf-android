@@ -6,8 +6,6 @@
 package com.example.cdpp.bluelibexampleapp;
 
 import android.app.Application;
-import android.os.Handler;
-import android.os.HandlerThread;
 
 import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.pins.shinelib.SHNCentral;
@@ -23,10 +21,7 @@ public class BlueLibExampleApplication extends Application {
 
     private static BlueLibExampleApplication sApplication;
 
-    private HandlerThread mHandlerThread;
-    private Handler mHandler;
     private SHNCentral mShnCentral;
-
     private SHNDevice mSelectedDevice;
 
     @Override
@@ -38,23 +33,14 @@ public class BlueLibExampleApplication extends Application {
         // Setup logger
         SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
 
-        // BlueLib handler thread
-        mHandlerThread = new HandlerThread("BlueLibThread");
-        mHandlerThread.start();
-        mHandler = new Handler(mHandlerThread.getLooper());
-
         // Obtain BlueLib instance
         SHNCentral.Builder builder = new SHNCentral.Builder(this);
         builder.showPopupIfBLEIsTurnedOff(true);
-        builder.setHandler(mHandler);
 
         try {
             mShnCentral = builder.create();
         } catch (SHNBluetoothHardwareUnavailableException e) {
             SHNLogger.e(TAG, "Error obtaining BlueLib instance: " + e.getMessage());
-
-            mHandlerThread.quitSafely();
-            mHandler = null;
         }
 
         setupDeviceDefinitions();

@@ -7,8 +7,6 @@ package com.example.cdpp.bluelibexampleapp.connect;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,8 +17,8 @@ import android.view.ViewGroup;
 
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
-import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.example.cdpp.bluelibexampleapp.detail.DeviceDetailActivity;
+import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -41,7 +39,6 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
     private List<SHNDeviceFoundInfo> mNearbyDevices = new ArrayList<>();
 
     private ConnectDeviceAdapter mConnectDeviceAdapter;
-    private Handler mHandler = new Handler(Looper.myLooper());
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -53,22 +50,12 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
             SHNLogger.i(TAG, String.format("Device found: %s", shnDeviceFoundInfo.getDeviceName()));
 
             mNearbyDevices.add(shnDeviceFoundInfo);
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateList();
-                }
-            });
+            updateList();
         }
 
         @Override
         public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    onScanStopped();
-                }
-            });
+            onScanStopped();
         }
     };
 

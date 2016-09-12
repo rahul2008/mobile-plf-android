@@ -6,8 +6,6 @@
 package com.example.cdpp.bluelibexampleapp.detail;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -32,8 +30,6 @@ import java.util.Date;
 public class DeviceDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "DeviceDetail";
-
-    private Handler mHandler = new Handler(Looper.myLooper());
 
     private SHNDevice mDevice;
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
@@ -198,12 +194,6 @@ public class DeviceDetailActivity extends AppCompatActivity {
         if (tv == null) {
             return;
         }
-
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                tv.setText(text.trim());
-            }
-        });
+        tv.setText(text.trim());
     }
 }
