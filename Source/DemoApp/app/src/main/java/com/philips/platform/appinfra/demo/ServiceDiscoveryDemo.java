@@ -34,6 +34,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
     TextView resultView;
     EditText idEditText;
+    EditText idEditTextCountry;
     String editTextData;
 
     @Override
@@ -56,10 +57,23 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
         Button geturlbyCountry_ServiceIDs = (Button) findViewById(R.id.getul_country_btn);
         Button geturlbyLanguage_ServiceIds = (Button) findViewById(R.id.getul_language_btn);
+        Button setHomeCountry = (Button) findViewById(R.id.button2);
+        idEditTextCountry = (EditText) findViewById(R.id.contry_edittext);
 
         editTextData = idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2);
+
+        setHomeCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String country = idEditTextCountry.toString();
+                if(country.length() == 2){
+                    mServiceDiscoveryInterface.setHomeCountry(idEditTextCountry.toString().toUpperCase());
+                }
+
+            }
+        });
 
         localeByLang.setOnClickListener(new View.OnClickListener() {
             @Override

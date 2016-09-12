@@ -6,14 +6,10 @@
 package com.philips.platform.appinfra.internationalization;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.telephony.TelephonyManager;
+import android.os.Build;
+import android.os.LocaleList;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.servicediscovery.RequestManager;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
@@ -36,4 +32,16 @@ public class InternationalizationManager implements InternationalizationInterfac
     public Locale getUILocale() {
         return Locale.getDefault();
     }
+
+    @Override
+    public LocaleList getLocaleList() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return LocaleList.getDefault();
+        }else {
+            return null;
+        }
+
+    }
+
+
 }
