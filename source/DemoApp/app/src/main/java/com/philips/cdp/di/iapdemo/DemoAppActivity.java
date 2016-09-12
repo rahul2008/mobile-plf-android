@@ -49,6 +49,7 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
@@ -143,7 +144,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
-        setLocale("en", "US");
+        setLocale(Locale.getDefault().getLanguage(), "US");
 
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
 
@@ -160,7 +161,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
-        if(mActionBar == null) return;
+        if (mActionBar == null) return;
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
@@ -324,7 +325,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         String mSelectedCountry = parent.getItemAtPosition(position).toString();
         if (mSelectedCountry.equals("UK"))
             mSelectedCountry = "GB";
-        setLocale("en", mSelectedCountry);
+        setLocale(Locale.getDefault().getLanguage(), mSelectedCountry);
 
         mIAPSettings.setUseLocalData(false);
         mIapInterface.init(mIapDependencies, mIAPSettings);

@@ -11,6 +11,8 @@ import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
+import java.util.Locale;
+
 public class HybrisStore extends AbstractStoreSpec {
 
     public static final String HTTPS = "https://";
@@ -18,7 +20,7 @@ public class HybrisStore extends AbstractStoreSpec {
     public static final String V2 = "v2";
     public static final String SEPERATOR = "/";
     private static final String USER = "users";
-    private static final String LANG = "?fields=FULL&lang=en";
+    private static final String LANG = "?fields=FULL&lang=";
 
     //Region API
     private static final String METAINFO = "metainfo";
@@ -166,7 +168,7 @@ public class HybrisStore extends AbstractStoreSpec {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANG);
+        builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
         return builder.toString();
     }
 
@@ -177,42 +179,42 @@ public class HybrisStore extends AbstractStoreSpec {
 
         //Carts
         String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);
-        mGetCartsUrl = baseCartUrl.concat(LANG);
-        mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG);
-        mCreateCartUrl = baseCartUrl.concat(LANG);
+        mGetCartsUrl = baseCartUrl.concat(LANG) + mStoreConfig.getLocale();
+        mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG) + mStoreConfig.getLocale();
+        mCreateCartUrl = baseCartUrl.concat(LANG) + mStoreConfig.getLocale();
         mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT);
-        mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(LANG);
+        mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(LANG) + mStoreConfig.getLocale();
 
         //Product
         mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG);
         mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCTS).concat(SUFFIX_STRING_PARAM);
         mUpdateProductUrl = baseCartUrl.concat(SUFFIX_CURRENT).
-                concat(SUFFIX_ENTRIES).concat(SUFFIX_STRING_PARAM).concat(LANG);
+                concat(SUFFIX_ENTRIES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
 
         //Address
         mRegionsUrl = createRegionsUrl();
-        mGetUserUrl = mBaseURl.concat(LANG);
-        mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(LANG);
-        mEditAddressUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(SUFFIX_STRING_PARAM).concat(LANG);
+        mGetUserUrl = mBaseURl.concat(LANG) + mStoreConfig.getLocale();
+        mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(LANG) + mStoreConfig.getLocale();
+        mEditAddressUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
         mDeliveryAddressUrl = baseCartUrl.concat(SUFFIX_CURRENT).
-                concat(SUFFIX_ADDRESSES).concat(SUFFIX_DELIVERY_ADDRESS).concat(LANG);
+                concat(SUFFIX_ADDRESSES).concat(SUFFIX_DELIVERY_ADDRESS).concat(LANG) + mStoreConfig.getLocale();
 
         //Delivery mode
-        mDeliveryModeUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODE).concat(LANG);
-        mGetDeliveryModesUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(LANG);
+        mDeliveryModeUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODE).concat(LANG) + mStoreConfig.getLocale();
+        mGetDeliveryModesUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(LANG) + mStoreConfig.getLocale();
 
         //Payment
-        mGetPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS).concat(LANG);
-        mSetPaymentDetailsUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_PAYMENT_DETAILS).concat(LANG);
+        mGetPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS).concat(LANG) + mStoreConfig.getLocale();
+        mSetPaymentDetailsUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_PAYMENT_DETAILS).concat(LANG) + mStoreConfig.getLocale();
         mMakePaymentUrl = mBaseURl.concat(SUFFIX_ORDERS).
-                concat(SUFFIX_STRING_PARAM).concat(SUFFIX_PAY).concat(LANG);
-        mPlaceOrderUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(LANG);
+                concat(SUFFIX_STRING_PARAM).concat(SUFFIX_PAY).concat(LANG) + mStoreConfig.getLocale();
+        mPlaceOrderUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(LANG) + mStoreConfig.getLocale();
 
         //Orders
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
-        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG);
+        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG) + Locale.getDefault().getLanguage();
         mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/" +
-                "en_" + getCountry() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
+                mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }
 
     @Override
