@@ -19,7 +19,7 @@
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "Staging",
-    "appidentity.serviceDiscoveryEnvironment"  : "Production"
+    "appidentity.serviceDiscoveryEnvironment"  : "Production",
     "restclient.cacheSizeInKB": 1024
   }
 }
