@@ -2,6 +2,7 @@ package com.philips.cdp.registration.coppa.base;
 
 import android.test.InstrumentationTestCase;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -85,5 +86,19 @@ public class CoppaConfigurationTest extends InstrumentationTestCase {
         assertEquals(0,mCoppaConfiguration.consentIndex());
     }
 
+    public void testGetCoppaCommunicationSentAt(){
+        assertNull(mCoppaConfiguration.getCoppaCommunicationSentAt());
+    }
 
+    public void testGetCurrentConsentsArray(){
+        assertNull(mCoppaConfiguration.getCurrentConsentsArray());
+    }
+
+    public void testClearConfiguration(){
+        mCoppaConfiguration.clearConfiguration();
+    }
+    public void testGetCoopaConfigurationFlields(){
+        JSONObject jsonObject = new JSONObject();
+        mCoppaConfiguration.getCoopaConfigurationFlields(jsonObject);
+    }
 }

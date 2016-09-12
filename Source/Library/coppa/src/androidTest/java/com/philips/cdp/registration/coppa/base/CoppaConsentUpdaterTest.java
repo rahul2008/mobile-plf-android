@@ -30,10 +30,8 @@ public class CoppaConsentUpdaterTest extends InstrumentationTestCase {
     }
 
     @Test
-    public void testUpdateCoppaConsentStatus(){
+    public void testUpdateCoppaConsentStatus() {
 
         assertNotNull(mContext);
-
-
     }
 }
