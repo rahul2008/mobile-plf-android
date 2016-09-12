@@ -158,7 +158,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         });
         cartCount = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.item_count);
-        mCartIcon.setVisibility(View.GONE);
         cartCount.setVisibility(View.INVISIBLE);
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
@@ -352,11 +351,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     public void onGetCartCount(int count) {
 
         if (count > 0) {
-            mCartIcon.setVisibility(View.VISIBLE);
             cartCount.setVisibility(View.VISIBLE);
             cartCount.setText(String.valueOf(count));
         } else {
-            mCartIcon.setVisibility(View.GONE);
             cartCount.setVisibility(View.GONE);
         }
     }
