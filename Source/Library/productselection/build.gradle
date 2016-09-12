@@ -84,11 +84,6 @@ dependencies {
            transitive = true
     }
 
-	compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-SNAPSHOT', ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
-	
 	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
