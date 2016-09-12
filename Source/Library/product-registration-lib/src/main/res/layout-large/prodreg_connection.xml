@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/link_tv"
         android:layout_marginTop="@dimen/pr_d_value_tablet"
-        android:text="Back"
+        android:text="@string/PPR_Back_Btntxt"
         android:textAllCaps="false"/>
 
     <Button

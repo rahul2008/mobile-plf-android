@@ -3,13 +3,13 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.philips.cdp.demo"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 3
         versionName "1.2.4"
         testApplicationId "com.philips.cdp.demo.test"

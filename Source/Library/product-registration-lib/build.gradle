@@ -112,12 +112,12 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS=============	
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 1
         versionName "1.2.4"
         testApplicationId "com.philips.cdp.test"
