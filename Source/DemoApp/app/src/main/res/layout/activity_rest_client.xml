@@ -14,7 +14,7 @@
         android:id="@+id/textView6" />
 
     <EditText
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:hint="Enter URL"
         android:layout_width="match_parent"
@@ -28,12 +28,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerRequestType"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal" />
 
 
     <Button
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Set Headers"
@@ -41,18 +40,80 @@
         android:id="@+id/buttonSetHeaders" />
 
     <Button
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Set Params"
-        android:layout_marginBottom="10dp"
+
         android:id="@+id/buttonSetParams" />
 
     <Button
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Invoke"
         android:id="@+id/buttonInvoke" />
 
+    <LinearLayout
+       android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+    <TextView
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Rest Client Authentication"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+       >
+
+        <Button
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:background="#00ff00"
+            android:id="@+id/buttonLogin" />
+
+        <Button
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check"
+            android:background="#0000ff"
+            android:id="@+id/buttonCheck" />
+
+        <Button
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ff0000"
+            android:text="Logout"
+            android:id="@+id/buttonLogout" />
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewLogStatus"
+        android:text="Not logged in"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewAccessToken"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

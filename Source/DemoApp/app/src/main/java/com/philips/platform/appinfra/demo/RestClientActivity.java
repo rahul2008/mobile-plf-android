@@ -22,6 +22,9 @@ import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,12 +36,14 @@ public class RestClientActivity extends AppCompatActivity {
    // String url = "https://www.oldchaphome.nl/RCT/test.php?action=data&id=as";
     String url = "https://www.oldchaphome.nl/RCT/test.php?action=data&id=aa";
 
-
+    String accessToken;
     private Spinner requestTypeSpinner;
      HashMap<String,String> params;
      HashMap<String,String> headers;
     EditText urlInput;
     RestInterface mRestInterface;
+    TextView loginStatus;
+    TextView accessTokenTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,8 @@ public class RestClientActivity extends AppCompatActivity {
         mRestInterface = AppInfraApplication.gAppInfra.getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         urlInput= (EditText)findViewById(R.id.editTextURL);
+        loginStatus = (TextView) findViewById(R.id.textViewLogStatus);
+        accessTokenTextView= (TextView) findViewById(R.id.textViewAccessToken);
         urlInput.setText(url);
         Button setHeaders = (Button)findViewById(R.id.buttonSetHeaders);
         setHeaders.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +117,8 @@ public class RestClientActivity extends AppCompatActivity {
                                     showAlertDialog("Error Response",error.toString());
                                 }
                             }
+
+
                     ) {
 
                         @Override
@@ -177,6 +186,105 @@ public class RestClientActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        Button loginButton = (Button)findViewById(R.id.buttonLogin);
+        assert loginButton != null;
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringRequest mStringRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authtoken", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("LOG", "" + response);
+                        //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                        JSONObject jobj = null;
+                        try {
+                            jobj = new JSONObject(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        accessToken = jobj.optString("access_token");
+                        if(null!=accessToken){
+                            loginStatus.setText("Logged In");
+                            accessTokenTextView.setText(accessToken);
+                        }
+                        showAlertDialog("Success Response",response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("LOG", "" + error);
+                        //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        showAlertDialog("Error Response",error.toString());
+                    }
+                });
+                // mStringRequest.setShouldCache(false); // set false to disable cache
+                mRestInterface.getRequestQueue().add(mStringRequest);
+
+            }
+        });
+
+        Button autchCheckButton = (Button)findViewById(R.id.buttonCheck);
+        assert autchCheckButton != null;
+        autchCheckButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringRequest putRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authcheck",
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.i("LOG", "" + response);
+                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                showAlertDialog("Success Response",response);
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("LOG", "" + error);
+                                //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                showAlertDialog("Error Response",error.toString());
+                            }
+                        }
+
+
+                ) {
+
+                    @Override
+                    public  Map<String, String> getHeaders()
+                    {
+                        Map<String, String> paramList = new HashMap<String, String> ();
+                       /* for(String  key: params.keySet() ){
+                            paramList.put(key, params.get(key));
+                        }*/
+                        paramList.put("Authorization", "Bearer "+accessToken);
+                        return paramList;
+                    }
+
+                    @Override
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        int mStatusCode = response.statusCode;
+                        return super.parseNetworkResponse(response);
+                    }
+
+                };
+
+                mRestInterface.getRequestQueue().add(putRequest);
+            }
+        });
+
+        Button logoutButton = (Button)findViewById(R.id.buttonLogout);
+        assert logoutButton != null;
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                accessToken=null;
+                loginStatus.setText("Not logged In");
+                accessTokenTextView.setText(null);
             }
         });
     }
