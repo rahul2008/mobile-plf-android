@@ -27,7 +27,7 @@ public class URDependanciesTest extends InstrumentationTestCase {
             try{
                 RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(mContext));
                 mURDependancies = new URDependancies(RegistrationHelper.getInstance().getAppInfraInstance());
-                assertNull(mURDependancies);
+                assertNotNull(mURDependancies);
             }catch(Exception e){System.out.println(e);}
         }
     }
