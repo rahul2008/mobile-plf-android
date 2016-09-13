@@ -66,7 +66,6 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         super.onCreate(savedInstanceState);
         presenter = new SplashPresenter();
         initView();
-        startTimer();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Splash Activity Created ");
 
     }
@@ -75,6 +74,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
     protected void onResume() {
         super.onResume();
         isVisible = true;
+        startTimer();
     }
 
     @Override

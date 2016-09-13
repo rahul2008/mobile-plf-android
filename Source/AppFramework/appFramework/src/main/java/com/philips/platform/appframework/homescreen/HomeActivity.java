@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +24,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -266,7 +265,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof BaseAnimationSupportFragment) {
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
-                        updateCartIconVisibility(true);
                         popBackTillHomeFragment();
                     }
                 } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase("digitalcare")) {
@@ -286,8 +284,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                  HOME SCREEN has to be selected. So manually setting HOME as SELECTED.
                 */
                 adapter.setSelectedIndex(0);
-            } else if (hamburgerIcon.getTag().equals("BackButton")) {
-                if (currentFrag != null && currentFrag instanceof BackEventListener){
+            } else if (hamburgerIcon.getTag().equals("BackButton")) {/*
+                if (currentFrag != null && currentFrag instanceof BaseAnimationSupportFragment) {
+                    backState = ((BackEventListener) currentFrag).handleBackEvent();
+                    if (!backState) {
+                        popBackTillHomeFragment();
+                    }
+                }
+               else*/ if (currentFrag != null && currentFrag instanceof BackEventListener){
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
                        super.onBackPressed();
@@ -304,33 +308,21 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
 
     private void addIapCartCount() {
-        IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIapInterface();
-        iapInterface.getProductCartCount(this);
+        try {
+            IAPInterface iapInterface = ((AppFrameworkApplication) getApplicationContext()).getIapInterface();
+            iapInterface.getProductCartCount(this);
+        }catch (RuntimeException e){
+            Log.e(""+TAG,"Exception caught"+e);
+        }
     }
     @Override
     protected void onResume() {
         super.onResume();
-//        showNavigationDrawerItem(sharedPreferenceUtility.getPreferenceInt(HOME_FRAGMENT_PRESSED));
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
         }
 
-    }
-
-    private void showIAPToast(int errorCode) {
-        String errorText = getResources().getString(R.string.iap_unknown_error);
-        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
-        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
-        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
-        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
-        }
-
-        if (null != this) {
-            Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        }
     }
 
     /**
@@ -356,6 +348,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     }
 
+    public void cartIconVisibility(boolean shouldShow) {
+        if(shouldShow){
+            mCartIcon.setVisibility(View.VISIBLE);
+            userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+            if(userRegistrationState.getUserObject(this).isUserSignIn()) {
+                addIapCartCount();
+            }
+        }
+    }
     /**
      * Method for showing the hamburger Icon or Back key on home fragments
      */
@@ -383,12 +384,13 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
+    int cartItemCount = 0;
     @Override
     public void onGetCartCount(int count) {
-
+        cartItemCount = count;
         if (count > 0 && mCartIcon.getVisibility() == View.VISIBLE) {
             cartCount.setVisibility(View.VISIBLE);
-            cartCount.setText(String.valueOf(count));
+            cartCount.setText(String.valueOf(cartItemCount));
         } else {
             cartCount.setVisibility(View.GONE);
         }
@@ -405,7 +407,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     public void updateCartIconVisibility(boolean shouldShow) {
         if (shouldShow) {
             mCartIcon.setVisibility(View.VISIBLE);
-            cartCount.setVisibility(View.VISIBLE);
+
+            if(cartItemCount > 0) {
+                cartCount.setVisibility(View.VISIBLE);
+                cartCount.setText(String.valueOf(cartItemCount));
+            }
         } else {
             mCartIcon.setVisibility(View.GONE);
             cartCount.setVisibility(View.GONE);
