@@ -43,28 +43,28 @@ public class AssociatedDevicesFragment extends Fragment {
     private SHNDeviceAssociation.SHNDeviceAssociationListener mDeviceAssociationListener = new SHNDeviceAssociation.SHNDeviceAssociationListener() {
         @Override
         public void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure) {
-            showMessage("Association started.");
+            showMessage(getContext().getString(R.string.association_started));
         }
 
         @Override
         public void onAssociationStopped() {
-            showMessage("Association stopped.");
+            showMessage(getContext().getString(R.string.association_stopped));
         }
 
         @Override
         public void onAssociationSucceeded(SHNDevice shnDevice) {
-            showMessage(String.format("Association with '%s' succeeded.", shnDevice.getName()));
+            showMessage(String.format(getContext().getString(R.string.association_succeeded), shnDevice.getName()));
             mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onAssociationFailed(SHNResult shnError) {
-            showMessage("Association failed: " + shnError.name());
+            showMessage(getContext().getString(R.string.association_failed) + shnError.name());
         }
 
         @Override
         public void onAssociatedDevicesUpdated() {
-            showMessage("Association devices updated.");
+            showMessage(getContext().getString(R.string.association_devices_updated));
 
             mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
@@ -129,7 +129,7 @@ public class AssociatedDevicesFragment extends Fragment {
 
             @Override
             public void onItemLongClick(final int position, View itemView) {
-                final Snackbar snackBar = Snackbar.make(mView, "Remove association?", Snackbar.LENGTH_LONG);
+                final Snackbar snackBar = Snackbar.make(mView, R.string.association_question_remove, Snackbar.LENGTH_LONG);
                 snackBar.setAction("Ok", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -138,7 +138,7 @@ public class AssociatedDevicesFragment extends Fragment {
                         mShnDeviceAssociation.removeAssociatedDevice(device);
                         mAssociatedDeviceAdapter.notifyDataSetChanged();
 
-                        showMessage(String.format("Association with '%s' removed.", device.getName()));
+                        showMessage(String.format(getContext().getString(R.string.association_removed), device.getName()));
                     }
                 });
                 snackBar.show();
@@ -158,9 +158,9 @@ public class AssociatedDevicesFragment extends Fragment {
         mAssociatedDeviceAdapter.notifyDataSetChanged();
     }
 
-    private void showMessage(String s) {
-        SHNLogger.i(TAG, s);
+    private void showMessage(String message) {
+        SHNLogger.i(TAG, message);
 
-        Snackbar.make(mView, s, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mView, message, Snackbar.LENGTH_SHORT).show();
     }
 }

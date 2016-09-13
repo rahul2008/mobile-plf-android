@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.cdpp.bluelibexampleapp.R;
-import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.List;
 
@@ -70,8 +69,6 @@ public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDevi
 
         @Override
         public void onClick(View v) {
-            SHNLogger.d(TAG, "onClick");
-
             OnItemClickListener listener = BaseDeviceAdapter.this.mOnItemClickListener;
             if (listener == null) {
                 return;
@@ -81,8 +78,6 @@ public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDevi
 
         @Override
         public boolean onLongClick(View v) {
-            SHNLogger.d(TAG, "onLongClick");
-
             OnItemClickListener listener = BaseDeviceAdapter.this.mOnItemClickListener;
             if (listener == null) {
                 return false;

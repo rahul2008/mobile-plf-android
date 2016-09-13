@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/item_padding"
-            android:text="@string/header_available_devices"
+            android:text="@string/available_devices_header"
             android:textAllCaps="true" />
 
         <View

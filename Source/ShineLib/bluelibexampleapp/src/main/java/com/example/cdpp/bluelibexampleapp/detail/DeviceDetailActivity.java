@@ -8,6 +8,7 @@ package com.example.cdpp.bluelibexampleapp.detail;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,29 +27,38 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class DeviceDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "DeviceDetail";
+
+    private View mView;
 
     private SHNDevice mDevice;
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
 
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
-            switch (shnDevice.getState()) {
+            SHNDevice.State deviceState = shnDevice.getState();
+
+            switch (deviceState) {
                 case Connected:
-                    SHNLogger.i(TAG, "Device connected: " + shnDevice.getName());
                     setupDeviceCapabilities(shnDevice);
+                    showMessage("Device connected: " + shnDevice.getName(), false);
+
                     break;
                 case Connecting:
-                    SHNLogger.i(TAG, "Device connecting...");
+                    showMessage("Device connecting...", true);
+
                     break;
                 case Disconnected:
-                    SHNLogger.i(TAG, "Device disconnected.");
+                    showMessage("Device disconnected.", false);
+
                     break;
                 case Disconnecting:
-                    SHNLogger.i(TAG, "Device disconnecting...");
+                    showMessage("Device disconnecting...", true);
+
                     break;
             }
         }
@@ -64,10 +74,18 @@ public class DeviceDetailActivity extends AppCompatActivity {
         }
     };
 
+    private void showMessage(String message, boolean isIndefinite) {
+        SHNLogger.i(TAG, message);
+
+        Snackbar.make(mView, message, isIndefinite ? Snackbar.LENGTH_INDEFINITE : Snackbar.LENGTH_LONG).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_detail);
+
+        mView = findViewById(android.R.id.content);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -191,7 +209,7 @@ public class DeviceDetailActivity extends AppCompatActivity {
     }
 
     private void updateBatteryLevel(int batteryLevel) {
-        setTextByViewId(String.format("%d%%", batteryLevel), R.id.textViewBatteryValue);
+        setTextByViewId(String.format(Locale.US, "%d%%", batteryLevel), R.id.textViewBatteryValue);
     }
 
     private void setTextByViewId(final String text, final int textViewId) {

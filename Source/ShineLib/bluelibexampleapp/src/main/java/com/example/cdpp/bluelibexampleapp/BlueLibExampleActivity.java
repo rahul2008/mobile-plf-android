@@ -119,9 +119,9 @@ public class BlueLibExampleActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.title_associate);
+                    return getString(R.string.association_title);
                 case 1:
-                    return getString(R.string.title_connect);
+                    return getString(R.string.connect_title);
             }
             return null;
         }

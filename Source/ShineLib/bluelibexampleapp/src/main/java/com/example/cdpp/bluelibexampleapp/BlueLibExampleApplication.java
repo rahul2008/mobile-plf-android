@@ -48,7 +48,7 @@ public class BlueLibExampleApplication extends Application {
 
     public static BlueLibExampleApplication get() {
         if (sApplication == null) {
-            throw new RuntimeException("Application not initialized yet.");
+            throw new IllegalStateException("Application not initialized yet.");
         }
         return sApplication;
     }

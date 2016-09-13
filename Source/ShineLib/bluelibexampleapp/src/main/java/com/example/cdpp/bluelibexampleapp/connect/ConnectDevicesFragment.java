@@ -117,7 +117,7 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
 
             @Override
             public void onItemLongClick(int position, View itemView) {
-                // Nothing to do
+                // Nothing to do.
             }
         });
         recyclerView.setAdapter(mConnectDeviceAdapter);

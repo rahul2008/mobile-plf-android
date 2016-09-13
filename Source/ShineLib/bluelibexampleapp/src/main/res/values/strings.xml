@@ -2,35 +2,39 @@
     <!-- Application -->
     <string name="unknown">N/A</string>
     <string name="app_name">BlueLib Example App</string>
-    <string name="app_version">"App version: "</string>
-    <string name="bluelib_version">"BlueLib version: "</string>
 
     <!-- Menu -->
-    <string name="action_versions">Versions</string>
+    <string name="version_app">"App version: "</string>
+    <string name="version_bluelib">"BlueLib version: "</string>
+    <string name="menu_action_versions">Versions</string>
 
     <!-- About -->
-    <string name="dialog_title_versions">Versions</string>
+    <string name="about_versions_title">Versions</string>
 
     <!-- Device definitions -->
-    <string name="header_device_definitions">Device definitions</string>
+    <string name="device_definitions_header">Device definitions</string>
 
     <!-- Association -->
-    <string name="title_associate">Associate</string>
-    <string name="header_associated_devices">Associated devices</string>
+    <string name="association_devices_header">Associated devices</string>
+    <string name="association_devices_updated">Association devices updated.</string>
+    <string name="association_failed">"Association failed: "</string>
+    <string name="association_question_remove">Remove association?</string>
+    <string name="association_removed">Association with %1$s removed.</string>
+    <string name="association_started">Association started.</string>
+    <string name="association_stopped">Association stopped.</string>
+    <string name="association_succeeded">Association with %1$s succeeded.</string>
+    <string name="association_title">Associate</string>
 
     <!-- Connect -->
-    <string name="title_connect">Connect</string>
-    <string name="header_available_devices">Available devices</string>
+    <string name="connect_title">Connect</string>
+    <string name="available_devices_header">Available devices</string>
 
     <!-- Device details -->
-    <string name="title_device_detail">Device detail</string>
-    <string name="device_detail_device_name">"Name: "</string>
-    <string name="device_detail_device_type_name">"Type name: "</string>
-    <string name="device_detail_device_rssi">"RSSI: %d dBm"</string>
-    <string name="device_detail_device_address">"Address: "</string>
-    <string name="device_detail_device_state">"State: "</string>
+    <string name="device_detail_rssi">"RSSI: %1$d dBm"</string>
+    <string name="device_detail_title">Device detail</string>
 
     <!-- Device Information values -->
+    <string name="battery">Battery level</string>
     <string name="firmware_version">Firmware revision</string>
     <string name="hardware_version">Hardware revision</string>
     <string name="manufacturer_name">Manufacturer name</string>
@@ -38,5 +42,4 @@
     <string name="serial_number">Serial number</string>
     <string name="software_version">Software revision</string>
     <string name="system_id">System ID</string>
-    <string name="battery">Battery level</string>
 </resources>

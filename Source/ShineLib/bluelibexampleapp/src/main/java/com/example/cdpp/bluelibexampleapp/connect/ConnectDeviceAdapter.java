@@ -32,7 +32,7 @@ public class ConnectDeviceAdapter extends BaseDeviceAdapter<SHNDeviceFoundInfo> 
         holder.rssiView.setVisibility(View.VISIBLE);
         holder.addressView.setVisibility(View.VISIBLE);
 
-        holder.rssiView.setText(String.format(Locale.US, context.getString(R.string.device_detail_device_rssi), deviceFoundInfo.getRssi()));
+        holder.rssiView.setText(String.format(Locale.US, context.getString(R.string.device_detail_rssi), deviceFoundInfo.getRssi()));
         holder.nameView.setText(device.getName() == null ? context.getString(R.string.unknown) : device.getName());
         holder.addressView.setText(device.getAddress());
     }

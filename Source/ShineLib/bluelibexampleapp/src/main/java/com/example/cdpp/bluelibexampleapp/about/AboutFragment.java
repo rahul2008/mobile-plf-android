@@ -39,7 +39,7 @@ public class AboutFragment extends DialogFragment {
         mShnCentral = BlueLibExampleApplication.get().getShnCentral();
 
         // Set dialog title
-        getDialog().setTitle(R.string.dialog_title_versions);
+        getDialog().setTitle(R.string.about_versions_title);
 
         // Display version string
         TextView versionNameTxt = (TextView) rootView.findViewById(R.id.versionNameTxt);
@@ -51,10 +51,10 @@ public class AboutFragment extends DialogFragment {
     private String getVersionsString() {
         final String blueLibVersion = mShnCentral.getVersion();
 
-        return getString(R.string.bluelib_version) +
-                blueLibVersion +
+        return getString(R.string.version_app) +
+                BuildConfig.VERSION_NAME +
                 "\n" +
-                getString(R.string.app_version) +
-                BuildConfig.VERSION_NAME;
+                getString(R.string.version_bluelib) +
+                blueLibVersion;
     }
 }
