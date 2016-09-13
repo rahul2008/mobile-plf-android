@@ -40,7 +40,7 @@ public class TimeGuardedEditorWrapperTest {
         verify(editorMock).putString(KEY, VALUE);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = TimeoutException.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
         wrapper = new TimeGuardedEditorWrapperForTest(editorMock, EXCEEDED_EXECUTION_TIME);
 
