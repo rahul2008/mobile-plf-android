@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UITPrimaryControl">
+        <item name="uitButtonNormalColor">?attr/uikitControlPrimaryDarkEnabledColor</item>
+        <item name="uitButtonPressedColor">?attr/uikitControlPrimaryDarkPressedColor</item>
+        <item name="uitButtonDisabledColor">?attr/uikitControlPrimaryDarkEnabledColor</item>
+        <item name="uitButtonDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
+        <item name="uitButtonTextColor">?attr/uikitControlTextColor</item>
+        <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
+    </style>
+
+    <style name="UITPrimaryControl.AlternatePrimary">
+        <item name="uitButtonNormalColor">?attr/uikitControlPrimaryLightEnabledColor</item>
+        <item name="uitButtonPressedColor">?attr/uikitControlPrimaryLightPressedColor</item>
+        <item name="uitButtonDisabledColor">?attr/uikitControlPrimaryLightEnabledColor</item>
+    </style>
+
+    <style name="UITPrimaryControl.Secondary">
+        <item name="uitButtonNormalColor">?attr/uikitControlSecondaryEnabledColor</item>
+        <item name="uitButtonPressedColor">?attr/uikitControlSecondaryPressedColor</item>
+        <item name="uitButtonDisabledColor">?attr/uikitControlSecondaryEnabledColor</item>
+    </style>
+
+</resources>
