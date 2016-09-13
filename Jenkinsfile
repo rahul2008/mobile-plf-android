@@ -8,7 +8,7 @@ node('Android') {
     stage 'Unit test'
     sh 'rm -rf ./Source/ShineLib/shinelib/build/test-results/debug ./Source/ShineLib/pluginreferenceboard/build/test-results/debug'
     sh 'cd ./Source/ShineLib && ./gradlew test || true'
-    step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/debug/*.xml'])
+    step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/*/*.xml'])
 
     stage 'Lint'
     sh 'cd ./Source/ShineLib && ./gradlew lintDebug || true'
