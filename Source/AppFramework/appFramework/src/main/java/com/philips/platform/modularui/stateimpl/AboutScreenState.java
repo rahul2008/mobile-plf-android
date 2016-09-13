@@ -12,6 +12,9 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 
+/**
+ * This class has UI extended from UIKIT about screen , It shows the current version of the app
+ */
 public class AboutScreenState  extends UIState {
     AppFrameworkApplication appFrameworkApplication;
 
@@ -20,11 +23,19 @@ public class AboutScreenState  extends UIState {
         super(stateID);
     }
 
+    /**
+     * Navigating to AboutScreenFragment
+     * @param context requires context
+     */
     @Override
     public void navigate(Context context) {
         ((AppFrameworkBaseActivity)context).showFragment( new AboutScreenFragment(), AboutScreenFragment.TAG);
     }
 
+    /**
+     * To handle back pressed
+     * @param context requires context
+     */
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
