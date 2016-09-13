@@ -244,7 +244,10 @@ dependencies {
 	
     compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.2.2', ext: 'aar')
 
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.0', ext: 'aar')
+    compile(group: 'com.philips.cdp.shine', name: 'shinelib', version: '+', ext: 'aar')
+    compile(group: 'com.philips.cdp.shine', name: 'shineplugincopper', version: '+', ext: 'aar')
+
+    testCompile 'junit:junit:4.12'
 
 
 }
