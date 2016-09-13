@@ -74,7 +74,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mLaunchProductDetail;
     private Button mAddCtn;
 
-    private ArrayList<String> mCategorizedProductList = new ArrayList<>();
+    private static ArrayList<String> mCategorizedProductList;
 
     private int mSelectedCountryIndex;
     private ProgressDialog mProgressDialog = null;
@@ -157,6 +157,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
+        mCategorizedProductList = new ArrayList<>();
     }
 
     private void addActionBar() {
@@ -214,7 +215,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void init() {
         User user = new User(this);
-        mCategorizedProductList.clear();
+        // mCategorizedProductList.clear();
         if (user.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0) {
@@ -442,8 +443,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else {
             mCountText.setVisibility(View.GONE);
         }
-        dismissProgressDialog();
-        // mIapInterface.getCompleteProductList(this);
+        mIapInterface.getCompleteProductList(this);
     }
 
     @Override
