@@ -30,8 +30,9 @@ public class ProductRegistrationApplication extends Application {
         super.onCreate();
         MultiDex.install(this);
         initAppInfra();
+        setLocale();
         initProductRegistration();
-        initRegistration();
+        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
     }
 
     private void initProductRegistration() {
@@ -40,27 +41,24 @@ public class ProductRegistrationApplication extends Application {
         new PRInterface().init(PRDependencies, PRSettings);
     }
 
-    private void initRegistration() {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-        newRegInit();
-        URDependancies urDependancies = new URDependancies(mAppInfra);
-        URSettings urSettings = new URSettings(this);
-        URInterface urInterface = new URInterface();
-        urInterface.init(urDependancies, urSettings);
-    }
+    /**
+     * For doing dynamic initialisation Of User registration
+     *
+     * @param configuration The environment ype as required by UR
+     */
+    public void initializeUserRegistrationLibrary(Configuration configuration) {
 
-    private void newRegInit() {
+        RegistrationHelper.getInstance().setAppInfraInstance(mAppInfra);
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT, "8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING, "g52bfma28yjbd24hyjcswudwedcmqy7c");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.EVALUATION, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION, "9z23k3q8bhqyfwx78aru6bz8zksga54u");
 
+
         RegistrationConfiguration.getInstance().setMicrositeId("77000");
-        RegistrationConfiguration.getInstance().setRegistrationEnvironment(Configuration.STAGING);
+        RegistrationConfiguration.getInstance().setRegistrationEnvironment(configuration);
+
 
         RegistrationConfiguration.getInstance().setEmailVerificationRequired(true);
         RegistrationConfiguration.getInstance().setTermsAndConditionsAcceptanceRequired(true);
@@ -70,6 +68,7 @@ public class ProductRegistrationApplication extends Application {
         ageMap.put("GB", "16");
         ageMap.put("default", "16");
         RegistrationConfiguration.getInstance().setMinAgeLimit(ageMap);
+
 
         HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
         ArrayList<String> values1 = new ArrayList<String>();
@@ -94,6 +93,18 @@ public class ProductRegistrationApplication extends Application {
         providers.put("US", values2);
         providers.put("default", values3);
         RegistrationConfiguration.getInstance().setProviders(providers);
+        URDependancies urDependancies = new URDependancies(mAppInfra);
+        URSettings urSettings = new URSettings(this);
+        URInterface urInterface = new URInterface();
+        urInterface.init(urDependancies, urSettings);
+    }
+
+    private void setLocale() {
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode, countryCode);
     }
 
     @SuppressWarnings("deprecation")
