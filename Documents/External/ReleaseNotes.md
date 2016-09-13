@@ -5,8 +5,12 @@ Version 2.0.1
 ### New features:
 * [CON-31] Made tests compatible with the release build variant. Added new exception type: TimeoutException. TimeoutException is generated in case the injected persistent storage takes too long to perform its operations.
 
+### Bugs fixed:
+* [BL-385] NPE when disconnecting BtGatt
+
 ### Known issues:
 * [BG-234] Google backup might restore previously associated devices
+
 
 Version 2.0.0
 -------------
@@ -19,6 +23,7 @@ Version 2.0.0
 
 ### Known issues:
 * [BG-234] Google backup might restore previously associated devices
+
 
 Version 1.0.0
 -------------
