@@ -17,6 +17,11 @@
     <dimen name="uit_button_padding_left_right">24dp</dimen>
     <dimen name="uit_button_corner_radius">2dp</dimen>
     <dimen name="uit_button_text_size">16sp</dimen>
-    <item name="uit_button_disabled_alpha" format="float" type="dimen">0.35</item>
+    <item name="uit_button_disabled_alpha" format="float" type="dimen">0.25</item>
 
+
+    <!--ImageButton-->
+    <dimen name="uit_imagebutton_size">40dp</dimen>
+    <dimen name="uit_imagebutton_image_size">24dp</dimen>
+    <dimen name="uit_imagebutton_padding">8dp</dimen>
 </resources>
