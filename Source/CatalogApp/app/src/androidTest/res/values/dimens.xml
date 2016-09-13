@@ -12,6 +12,17 @@
     <dimen name="button_font_size">16sp</dimen>
     <dimen name="button_cornerradius">2dp</dimen>
 
+    <dimen name="iconbutton_height">40dp</dimen>
+    <dimen name="iconbutton_width">40dp</dimen>
+    <dimen name="icon_height">24dp</dimen>
+    <dimen name="icon_width">24dp</dimen>
+    <dimen name="iconbutton_left_padding">6dp</dimen>
+    <dimen name="iconbutton_right_padding">6dp</dimen>
+    <dimen name="iconbutton_cornerradius">2dp</dimen>
+
+
+
+
 
 
 </resources>

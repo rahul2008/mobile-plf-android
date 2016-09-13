@@ -9,7 +9,6 @@ import com.philips.platform.uit.view.widget.Button;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
@@ -17,7 +16,7 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ButtonWithIconTest {
+public class ButtonWithTextAndIconTest {
 
     private Button button;
     private Resources testResources;
@@ -35,15 +34,10 @@ public class ButtonWithIconTest {
 
     /************************************************Layout************************************************/
 
-    @Test
-    public void verifyIconButtonHeight(){
 
-    }
+    /************************************************Theming************************************************/
 
-    @Test
-    public void verifyIconButtonWidth(){
 
-    }
 
 
 

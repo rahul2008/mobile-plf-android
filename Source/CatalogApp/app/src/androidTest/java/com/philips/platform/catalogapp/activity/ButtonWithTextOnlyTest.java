@@ -19,7 +19,7 @@ import static junit.framework.Assert.assertEquals;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class DefaultButtonWithTextTest {
+public class ButtonWithTextOnlyTest {
 
     private Button button;
     private Resources testResources;
