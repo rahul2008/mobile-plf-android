@@ -7,9 +7,12 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
 
+import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +20,8 @@ import java.util.HashMap;
  * Created by 310243576 on 8/25/2016.
  */
 public class RegistrationConfigurationTest extends InstrumentationTestCase {
+
+    RegistrationConfiguration registrationConfiguration;
     @Before
     public void setUp() throws Exception {
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
@@ -25,6 +30,7 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
             RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().
                     build(getInstrumentation().getContext()));
         }
+        registrationConfiguration = RegistrationConfiguration.getInstance();
 
         RLog.initForTesting(getInstrumentation().getContext());
     }
@@ -111,5 +117,23 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
         assertEquals(RegistrationFunction.Registration, RegistrationConfiguration.getInstance().getPrioritisedFunction());
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.SignIn);
         assertEquals(RegistrationFunction.SignIn, RegistrationConfiguration.getInstance().getPrioritisedFunction());
+    }
+
+    @Test
+    public void testBuildException(){
+        Method method = null;
+        String s= "";
+        HSDPInfo hsdpInfo = new HSDPInfo();
+        try {
+            method = RegistrationConfiguration.class.getDeclaredMethod("buildException", HSDPInfo.class);
+            method.setAccessible(true);
+            method.invoke(registrationConfiguration, hsdpInfo);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

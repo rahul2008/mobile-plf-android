@@ -85,6 +85,18 @@ public class ResendVerificationEmailTest extends InstrumentationTestCase{
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+         jsonArray = null;
+        try {
+            method = ResendVerificationEmail.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
+            method.setAccessible(true);
+            method.invoke(mResendVerificationEmail, jsonArray);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 }
