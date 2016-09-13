@@ -13,7 +13,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
@@ -46,6 +45,7 @@ import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -58,9 +58,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
@@ -886,6 +884,17 @@ public class User {
         }
         Jump.signOutCaptureUser(mContext);
 
+    }
+
+    public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener)
+    {
+        RegistrationHelper.getInstance().registerUserRegistrationListener(userRegistrationListener);
+    }
+
+    public void unRegisterUserRegistrationListener(UserRegistrationListener
+                                                           userRegistrationListener) {
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(
+                userRegistrationListener);
     }
 
 }

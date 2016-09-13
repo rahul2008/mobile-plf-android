@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -14,20 +13,16 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Set;
 
 public class RegistrationConfiguration {
 
-    public static final String UR = "UR";
-
+    public static final String UR = "UserRegistration";
 
 
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
@@ -48,23 +43,6 @@ public class RegistrationConfiguration {
 
         }
         return registrationConfiguration;
-    }
-
-
-    public void setRegistrationClientId(@NonNull Configuration environment, @NonNull String value) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." +
-                        environment.getValue(),
-                UR,
-                value,
-                configError);
-        if (!isSuccesss) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
-        }
     }
 
     public String getRegistrationClientId(@NonNull Configuration environment) {
@@ -108,28 +86,6 @@ public class RegistrationConfiguration {
     }
 
     /**
-     * Set Microsite Id
-     *
-     * @param micrositeId String
-     */
-    public void setMicrositeId(@NonNull String micrositeId) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "MicrositeID",
-                UR,
-                micrositeId,
-                configError);
-        if (!isSuccesss) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
-        }
-    }
-
-
-
-    /**
      * Get Microsite Id
      *
      * @return String
@@ -147,27 +103,6 @@ public class RegistrationConfiguration {
         }
         return campaignId;
     }
-
-    /**
-     * Set Microsite Id
-     *
-     * @param campaignId String
-     */
-    public void setCampainId(@NonNull String campaignId) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "CampaignId",
-                UR,
-                campaignId,
-                configError);
-        if (!isSuccesss) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
-        }
-    }
-
 
     /**
      * Get Registarion Environment
@@ -188,26 +123,6 @@ public class RegistrationConfiguration {
         return registrationEnvironment;
     }
 
-
-    /**
-     * Set Registration Environment
-     *
-     * @param registrationEnvironment Configuration
-     */
-    public void setRegistrationEnvironment(final Configuration registrationEnvironment) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "RegistrationEnvironment",
-                UR,
-                registrationEnvironment.getValue(),
-                configError);
-        if (!isSuccesss) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
-        }
-    }
 
 
     /**
@@ -231,26 +146,6 @@ public class RegistrationConfiguration {
     }
 
     /**
-     * Set Email verification status
-     *
-     * @param emailVerificationRequired
-     */
-    public void setEmailVerificationRequired(boolean emailVerificationRequired) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "EmailVerificationRequired",
-                UR,
-                "" + emailVerificationRequired,
-                configError);
-        if (!isSuccesss) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
-        }
-    }
-
-    /**
      * Status of terms and condition accepatance
      *
      * @return boolean
@@ -269,56 +164,6 @@ public class RegistrationConfiguration {
         }
 
         return false;
-
-
-    }
-
-    /**
-     * Set terms and condition acceptance required or no
-     *
-     * @param termsAndConditionsAcceptanceRequired
-     */
-    public void setTermsAndConditionsAcceptanceRequired(boolean termsAndConditionsAcceptanceRequired) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "TermsAndConditionsAcceptanceRequired",
-                UR,
-                "" + termsAndConditionsAcceptanceRequired,
-                configError);
-        if (!isSuccesss) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
-        }
-    }
-
-
-    /**
-     * Set Min age Limit
-     *
-     * @param minAgeLimit Map with Key value pair of country code and min age
-     */
-
-    public void setMinAgeLimit(HashMap<String, String> minAgeLimit) {
-        Set set = minAgeLimit.keySet();
-        Iterator iterator = set.iterator();
-        while (iterator.hasNext()) {
-            String key = (String) iterator.next();
-            AppConfigurationInterface.AppConfigurationError configError = new
-                    AppConfigurationInterface.AppConfigurationError();
-            boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                    getConfigInterface().setPropertyForKey("Flow." +
-                            "MinimumAgeLimit." + key
-                    ,
-                    UR,
-                    minAgeLimit.get(key),
-                    configError);
-            if (!isSuccesss) {
-                RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                        "Error Message : " + configError.toString());
-            }
-        }
     }
 
     /**
@@ -328,87 +173,36 @@ public class RegistrationConfiguration {
      * @return integer value of min age if mapping available else 0
      */
     public int getMinAgeLimitByCountry(String countryCode) {
-        String DEFAULT = "default";
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-
-        Object obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("Flow." +
-                        "MinimumAgeLimit." + countryCode, UR, configError);
-        if (obj != null) {
-            String minAge = (String) obj;
-            return Integer.parseInt(minAge);
-        }
-
-        obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("Flow." +
-                        "MinimumAgeLimit." + DEFAULT, UR, configError);
-        if (obj != null) {
-            String minAge = (String) obj;
-            return Integer.parseInt(minAge);
-        }
-
-
-        return 0;
-    }
-
-
-
- /*   "SigninProviders.NL": ["googleplus", "facebook","sinaweibo","qq" ],
-            "SigninProviders.US": ["googleplus", "facebook","sinaweibo","qq" ],
-            "SigninProviders.default": ["googleplus", "facebook","sinaweibo","qq" ]*/
-
-
-    /**
-     * Set providers in Hash map first param is country code and other is enabled providers list in Hash map
-     *
-     * @param providers
-     */
-    public void setProviders(@NonNull HashMap<String, ArrayList<String>> providers) {
-        String DEFAULT = "default";
-        Set keySet = providers.keySet();
-        Iterator iterator = keySet.iterator();
-        while (iterator.hasNext()) {
-            String key = (String) iterator.next();
-            ArrayList<String> signinProviders = null;
-            signinProviders = providers.get(key.toUpperCase());
-            if (null == signinProviders) {
-                signinProviders = providers.get(DEFAULT);
-            }
-            if (signinProviders != null) {
-
-                AppConfigurationInterface.AppConfigurationError configError = new
-                        AppConfigurationInterface.AppConfigurationError();
-                boolean isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                        getConfigInterface().setPropertyForKey("SigninProviders." +
-                                key.toUpperCase(Locale.ROOT)
-                        ,
-                        UR,
-                        signinProviders,
-                        configError);
-                if (!isSuccesss) {
-                    RLog.e("provider RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                            "provider Error Message : " + configError.toString());
+        try {
+            String DEFAULT = "default";
+            AppConfigurationInterface.AppConfigurationError configError = new
+                    AppConfigurationInterface.AppConfigurationError();
+            Object obj = RegistrationHelper.
+                    getInstance().getAppInfraInstance().
+                    getConfigInterface().
+                    getPropertyForKey("Flow." +
+                            "MinimumAgeLimit", UR, configError);
+            if (obj != null) {
+                JSONObject jsonObject = new JSONObject((String)obj);
+                if(!jsonObject.isNull(countryCode)){
+                    return (int) jsonObject.get(countryCode);
+                }else if(!jsonObject.isNull(DEFAULT)){
+                    return (int) jsonObject.get(DEFAULT);
                 }
-
             }
-
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        return 0;
     }
 
 
     /**
      * Get HSDP information for specified configuration
      *
-     * @param configuration
      * @return HSDPInfo Object
      */
-    public HSDPInfo getHSDPInfo(Configuration configuration) {
+    public HSDPInfo getHSDPInfo() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         HSDPInfo hsdpInfo = new HSDPInfo();
@@ -416,94 +210,33 @@ public class RegistrationConfiguration {
         String appName = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HsdpConfiguration." +
-                        configuration.getValue() + "." + "AppName", UR, configError);
+                getPropertyForKey("HSDPConfiguration.ApplicationName", UR, configError);
         String sharedId = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HsdpConfiguration." +
-                        configuration.getValue() + "." + "SharedId", UR, configError);
+                getPropertyForKey("HSDPConfiguration.Shared", UR, configError);
 
         String secreteId = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HsdpConfiguration." +
-                        configuration.getValue() + "." + "SecreteId", UR, configError);
+                getPropertyForKey("HSDPConfiguration.Secret", UR, configError);
 
         String baseUrl = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HsdpConfiguration." +
-                        configuration.getValue() + "." + "BaseURL", UR, configError);
+                getPropertyForKey("HSDPConfiguration.BaseURL", UR, configError);
 
         hsdpInfo.setApplicationName(appName);
         hsdpInfo.setSharedId(sharedId);
         hsdpInfo.setSecreteId(secreteId);
         hsdpInfo.setBaseURL(baseUrl);
 
-        if(appName== null && sharedId == null && secreteId==null&& baseUrl==null){
+        if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;
         }
 
         return hsdpInfo;
     }
-
-    /**
-     * Set HSDP Information for specific Configuraton
-     *
-     * @param configuration
-     * @param hsdpInfo      HSDP Information
-     */
-    public void setHSDPInfo(Configuration configuration, HSDPInfo hsdpInfo) {
-
-        if (hsdpInfo != null) {
-            AppConfigurationInterface.AppConfigurationError configError = new
-                    AppConfigurationInterface.AppConfigurationError();
-            boolean isSuccesss;
-            isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                    getConfigInterface().setPropertyForKey(
-                    "HsdpConfiguration." +
-                            configuration.getValue() + "." +
-                            "AppName",
-                    UR,
-                    hsdpInfo.getApplicationName(),
-                    configError);
-
-            isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                    getConfigInterface().setPropertyForKey(
-                    "HsdpConfiguration." +
-                            configuration.getValue() + "." +
-                            "SecreteId",
-                    UR,
-                    hsdpInfo.getSecreteId(),
-                    configError);
-
-            isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                    getConfigInterface().setPropertyForKey(
-                    "HsdpConfiguration." +
-                            configuration.getValue() + "." +
-                            "SharedId",
-                    UR,
-                    hsdpInfo.getSharedId(),
-                    configError);
-
-            isSuccesss = RegistrationHelper.getInstance().getAppInfraInstance().
-                    getConfigInterface().setPropertyForKey(
-                    "HsdpConfiguration." +
-                            configuration.getValue() + "." +
-                            "BaseURL",
-                    UR,
-                    hsdpInfo.getBaseURL(),
-                    configError);
-
-            if (!isSuccesss) {
-                RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                        "Error Message : " + configError.toString());
-            }
-        }
-
-    }
-
 
     /**
      * Get provoders
@@ -522,7 +255,7 @@ public class RegistrationConfiguration {
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
                 getPropertyForKey("SigninProviders." +
-                        countryCode.toUpperCase(Locale.ROOT), UR, configError);
+                        countryCode, UR, configError);
 
         if (obj != null) {
             return (ArrayList<String>) obj;
@@ -532,7 +265,7 @@ public class RegistrationConfiguration {
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
                 getPropertyForKey("SigninProviders." +
-                        DEFAULT.toUpperCase(Locale.ROOT), UR, configError);
+                        DEFAULT, UR, configError);
         if (obj != null) {
             return (ArrayList<String>) obj;
         }
@@ -557,14 +290,12 @@ public class RegistrationConfiguration {
         }
 
 
-
-
-        HSDPInfo hsdpInfo = getHSDPInfo(RegUtility.getConfiguration(environment));
+        HSDPInfo hsdpInfo = getHSDPInfo();
 
         if (hsdpInfo == null) {
-            RLog.i("HSDP_STATUS","HSDP configuration is not configured for " + environment + " environment ");
+            RLog.i("HSDP_STATUS", "HSDP configuration is not configured for " + environment + " environment ");
             return false;
-           // throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
+            // throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
         }
         if (null != hsdpInfo) {
 
@@ -612,7 +343,6 @@ public class RegistrationConfiguration {
         }
         return exception;
     }
-
 
 
 }

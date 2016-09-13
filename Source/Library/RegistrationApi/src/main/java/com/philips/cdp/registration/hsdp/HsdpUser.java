@@ -18,11 +18,9 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
@@ -222,7 +220,7 @@ public class HsdpUser {
     private DhpApiClientConfiguration getDhpApiClientConfiguration() {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
         String environment = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
-        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHSDPInfo(RegUtility.getConfiguration(environment));
+        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHSDPInfo();
         if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 

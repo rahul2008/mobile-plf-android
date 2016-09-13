@@ -80,6 +80,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.activity_main);
 
+
         mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
 
@@ -97,6 +98,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         }
 
         user = new User(mContext);
+        user.registerUserRegistrationListener(this);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
 
@@ -253,7 +255,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+         user.unRegisterUserRegistrationListener(this);
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity unregister : RegisterUserRegistrationListener");
         super.onDestroy();
 
