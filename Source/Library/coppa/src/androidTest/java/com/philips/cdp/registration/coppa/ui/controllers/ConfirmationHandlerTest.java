@@ -4,11 +4,12 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
+import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by 310243576 on 8/20/2016.
@@ -17,6 +18,7 @@ public class ConfirmationHandlerTest extends InstrumentationTestCase {
 
     Context mContext;
     ConfirmationHandler mConfirmationHandler;
+    ParentalConsentFragment mParentalConsentFragment;
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -26,6 +28,8 @@ public class ConfirmationHandlerTest extends InstrumentationTestCase {
         CoppaExtension coppaExtension = new CoppaExtension(mContext);
         mConfirmationHandler = new ConfirmationHandler(coppaExtension,mContext);
         assertNotNull(mConfirmationHandler);
+        mParentalConsentFragment= new ParentalConsentFragment();
+        assertNotNull(mParentalConsentFragment);
     }
 
     @Test
@@ -33,5 +37,19 @@ public class ConfirmationHandlerTest extends InstrumentationTestCase {
         assertNotNull(mConfirmationHandler);
     }
 
-
+    @Test
+    public void testPrivate(){
+        Method method = null;
+        try {
+            method =ConfirmationHandler.class.getDeclaredMethod("handleFailure");;
+            method.setAccessible(true);
+            method.invoke(mConfirmationHandler);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 }
