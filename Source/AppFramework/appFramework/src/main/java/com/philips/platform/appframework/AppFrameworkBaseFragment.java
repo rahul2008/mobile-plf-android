@@ -53,7 +53,7 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
      */
     private void setActionbarTitle() {
         if (mActionBarTitle == null) {
-            mActionBarTitle = (TextView) getActivity().findViewById(R.id.iap_header_title);
+            mActionBarTitle = (TextView) getActivity().findViewById(R.id.af_actionbar_title);
         }
         String titleText = null;
         if (getActionbarTitle() == null) {
