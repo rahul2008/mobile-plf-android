@@ -12,6 +12,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * Created by 310238655 on 8/26/2016.
@@ -56,6 +57,21 @@ public class RestManager implements RestInterface{
            // mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
+    }
+
+    @Override
+    public HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
+        HashMap<String, String> header = new  HashMap<String, String>();
+        TokenProviderInterface.Token token = provider.getToken();
+        String scheme = "";
+        if (token.getTokenType() == TokenProviderInterface.TokenType.OAUTH2)
+            scheme = "Bearer";
+        else
+            throw new IllegalArgumentException("unsupported token type");
+       // String header = "Authorization: " + scheme + " " + token.getTokenValue();
+        header.put("Authorization", scheme + " " + token.getTokenValue());
+
+        return header;
     }
 
     private File getCacheDir(){

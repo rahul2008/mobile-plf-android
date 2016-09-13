@@ -20,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import org.json.JSONException;
@@ -257,11 +258,31 @@ public class RestClientActivity extends AppCompatActivity {
                     @Override
                     public  Map<String, String> getHeaders()
                     {
+                        TokenProviderInterface provider= new TokenProviderInterface() {
+                            @Override
+                            public Token getToken() {
+                                return new Token() {
+                                    @Override
+                                    public TokenType getTokenType() {
+                                        return TokenType.OAUTH2;
+                                    }
+
+                                    @Override
+                                    public String getTokenValue() {
+                                        return accessToken;
+                                    }
+                                };
+                            }
+                        };
+                        HashMap<String, String> header = mRestInterface.setTokenProvider(provider);
                         Map<String, String> paramList = new HashMap<String, String> ();
                        /* for(String  key: params.keySet() ){
                             paramList.put(key, params.get(key));
                         }*/
-                        paramList.put("Authorization", "Bearer "+accessToken);
+                        if(null!=header){
+                            paramList.putAll(header);
+                        }
+                        // other header can be added here
                         return paramList;
                     }
 
