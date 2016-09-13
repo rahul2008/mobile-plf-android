@@ -8,7 +8,7 @@
         <item name="uitButtonTextColor">?attr/uikitControlTextColor</item>
         <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
     </style>
-    <style name="BaseMapping.UltraLight">
+    <style name="UltraLight" parent="BaseMapping">
         <item name="uikitContentPrimaryColor">@color/uikitColorWhite</item>
         <item name="uikitContentSecondaryColor">?attr/uikitColorLevel10</item>
         <item name="uikitContentTextColor">@color/uikit_gray_level_75</item>

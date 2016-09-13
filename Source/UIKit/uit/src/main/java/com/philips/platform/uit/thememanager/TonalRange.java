@@ -16,7 +16,7 @@ public enum TonalRange {
     ULTRA_LIGHT{
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.BaseMapping_UltraLight, true);
+            theme.applyStyle(R.style.UltraLight, true);
         }
     },
     VERY_LIGHT {
