@@ -78,7 +78,7 @@ public class DemoListFragment extends Fragment implements AdapterView.OnItemClic
         switch (key) {
             case 0:
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_container, new ButtonFragment());
+                transaction.replace(R.id.mainContainer, new ButtonFragment());
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ColorListHelper {
-    public int[] getDefaultColorRangeArray() {
+public class ThemeColorHelper {
+    public int[] getColorRangeArray() {
         return new int[]{
                 R.color.uikit_group_blue_level_45,
                 R.color.uikit_blue_level_45,
@@ -55,7 +55,7 @@ public class ColorListHelper {
 
     List<ColorModel> getColorRangeItemsList() {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
-        int[] color = getDefaultColorRangeArray();
+        int[] color = getColorRangeArray();
         colorRangeModelsList.add(new ColorModel("GB", "group_blue", color[0]));
         colorRangeModelsList.add(new ColorModel("Bl", "blue", color[1]));
         colorRangeModelsList.add(new ColorModel("Aq", "aqua", color[2]));
@@ -69,7 +69,25 @@ public class ColorListHelper {
     }
 
     public List<ColorModel> getNavigationColorRangeItemsList(final String colorRange, final Context context) {
-        return getTonalRangeItemsList(colorRange, context);
+        final List<ColorModel> navigationColorModelList = new ArrayList<>();
+
+        final int[] navigationColors = getNavigationColors(colorRange, context.getPackageName(), context.getResources());
+        navigationColorModelList.add(new ColorModel("UL", navigationColors[0]));
+        navigationColorModelList.add(new ColorModel("VL", navigationColors[1]));
+        navigationColorModelList.add(new ColorModel("L", navigationColors[2]));
+        navigationColorModelList.add(new ColorModel("B", navigationColors[3]));
+        navigationColorModelList.add(new ColorModel("VD", navigationColors[4]));
+        return navigationColorModelList;
+    }
+
+    private int[] getNavigationColors(final String colorResourcePlaceHolder, final String packageName, final Resources resources) {
+        return new int[]{
+                getColorResourceId(resources, colorResourcePlaceHolder, "65", packageName),
+                getColorResourceId(resources, colorResourcePlaceHolder, "40", packageName),
+                getColorResourceId(resources, colorResourcePlaceHolder, "20", packageName),
+                getColorResourceId(resources, colorResourcePlaceHolder, "05", packageName),
+                R.color.uikitColorWhite
+        };
     }
 
     public List<ColorModel> getDimColors(final String packageName, final Resources resources, final String colorResourcePlaceHolder) {
@@ -91,7 +109,7 @@ public class ColorListHelper {
 
     public List<ColorModel> getPrimaryColors(final Resources resources, final String colorResourcePlaceHolder, final String packageName) {
         final List<ColorModel> primaryColors = new ArrayList<>();
-        final int[] color = getPrimarycontrolColors(resources, colorResourcePlaceHolder, packageName);
+        final int[] color = getPrimaryControlColors(resources, colorResourcePlaceHolder, packageName);
         primaryColors.add(new ColorModel("UL", color[0]));
         primaryColors.add(new ColorModel("VL", color[1]));
         primaryColors.add(new ColorModel("L", color[2]));
@@ -100,7 +118,7 @@ public class ColorListHelper {
         return primaryColors;
     }
 
-    private int[] getPrimarycontrolColors(final Resources resources, final String colorResourcePlaceHolder, final String packageName) {
+    private int[] getPrimaryControlColors(final Resources resources, final String colorResourcePlaceHolder, final String packageName) {
         return new int[]{
                 getColorResourceId(resources, colorResourcePlaceHolder, "45", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "45", packageName),
@@ -116,7 +134,7 @@ public class ColorListHelper {
 
     List<ColorModel> getAccentColorRangeItemsList() {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
-        int[] color = getDefaultColorRangeArray();
+        int[] color = getColorRangeArray();
         colorRangeModelsList.add(new ColorModel("GB", color[0]));
         colorRangeModelsList.add(new ColorModel("Bl", color[1]));
         colorRangeModelsList.add(new ColorModel("Aq", color[2]));

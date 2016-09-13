@@ -7,7 +7,7 @@
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/uikit_app_name"
+        android:label="@string/catalog_app_name"
         android:theme="@style/AppTheme">
 
     <activity

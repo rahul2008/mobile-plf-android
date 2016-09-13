@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.platform.catalogapp.themesettings.ThemeChangedListener;
 import com.philips.platform.catalogapp.themesettings.ThemeColorAdapter;
@@ -41,7 +42,10 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
     @Bind(R.id.accentColorRangeList)
     RecyclerView accentColorRangeList;
 
-    private ColorListHelper colorListHelper;
+    @Bind(R.id.warningText)
+    TextView warningText;
+
+    private ThemeColorHelper themeColorHelper;
 
     @Nullable
     @Override
@@ -49,7 +53,7 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
         final View view = inflater.inflate(R.layout.fragment_theme_settings, container, false);
 
         ButterKnife.bind(this, view);
-        colorListHelper = new ColorListHelper();
+        themeColorHelper = new ThemeColorHelper();
         buildColorRangeList();
         buildTonalRangeList("group_blue");
         buildNavigationBar("group_blue");
@@ -62,30 +66,30 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
     }
 
     private void buildAccentColorsList(final String colorRange) {
-        accentColorRangeList.setAdapter(new ThemeColorAdapter(colorListHelper.getAccentColorsList(getContext(), colorRange), this));
+        accentColorRangeList.setAdapter(new ThemeColorAdapter(themeColorHelper.getAccentColorsList(getContext(), colorRange), this));
 
         setLayoutOrientation(accentColorRangeList);
     }
 
     private void buildDimColorsList(final String colorRange) {
-        dimColorListview.setAdapter(new ThemeColorAdapter(colorListHelper.getDimColors(getContext().getPackageName(), getResources(), colorRange), this));
+        dimColorListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getDimColors(getContext().getPackageName(), getResources(), colorRange), this));
 
         setLayoutOrientation(dimColorListview);
     }
 
     private void buildPrimaryColorsList(final String colorRange) {
-        primaryControlsListview.setAdapter(new ThemeColorAdapter(colorListHelper.getPrimaryColors(getResources(), colorRange, getContext().getPackageName()), this));
+        primaryControlsListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getPrimaryColors(getResources(), colorRange, getContext().getPackageName()), this));
         setLayoutOrientation(primaryControlsListview);
     }
 
     private void buildNavigationBar(final String colorRange) {
-        notificationBarListview.setAdapter(new ThemeColorAdapter(colorListHelper.getNavigationColorRangeItemsList(colorRange, getContext()), this));
+        notificationBarListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), this));
 
         setLayoutOrientation(notificationBarListview);
     }
 
     private void buildTonalRangeList(final String changedColorRange) {
-        tonalRangeListview.setAdapter(new ThemeColorAdapter(colorListHelper.getTonalRangeItemsList(changedColorRange, getContext()), this));
+        tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getTonalRangeItemsList(changedColorRange, getContext()), this));
 
         setLayoutOrientation(tonalRangeListview);
     }
@@ -95,7 +99,7 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
     }
 
     private void buildColorRangeList() {
-        colorRangeListview.setAdapter(new ThemeColorAdapter(colorListHelper.getColorRangeItemsList(), this));
+        colorRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), this));
 
         setLayoutOrientation(colorRangeListview);
     }
@@ -107,6 +111,8 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
         buildNavigationBar(changedColorRange);
         buildPrimaryColorsList(changedColorRange);
         buildDimColorsList(changedColorRange);
+
+        warningText.setVisibility(View.VISIBLE);
     }
 }
 
