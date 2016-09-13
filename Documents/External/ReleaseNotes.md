@@ -1,5 +1,13 @@
 BlueLib(/ShineLib) for Android - Release Notes
 
+Version 2.0.1
+-------------
+### New features:
+* [CON-31] Made tests compatible with the release build variant. Added new exception type: TimeoutException. TimeoutException is generated in case the injected persistent storage takes too long to perform its operations.
+
+### Known issues:
+* [BG-234] Google backup might restore previously associated devices
+
 Version 2.0.0
 -------------
 ### Bugs fixed:
