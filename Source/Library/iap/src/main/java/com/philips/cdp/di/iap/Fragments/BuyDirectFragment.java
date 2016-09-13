@@ -195,7 +195,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
                 + titleCode.substring(1));
         addressFields.setTown(address.getTown());
         if (address.getRegion() != null) {
-            addressFields.setRegionIsoCode(address.getRegion().getName());
+            addressFields.setRegionName(address.getRegion().getName());
             CartModelContainer.getInstance().setRegionIsoCode(address.getRegion().getIsocode());
         }
         addressFields.setCountryIsocode(address.getCountry().getIsocode());

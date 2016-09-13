@@ -382,7 +382,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         }
 
         if (addr.getRegion() != null) {
-            fields.setRegionIsoCode(addr.getRegion().getName());
+            fields.setRegionName(addr.getRegion().getName());
             CartModelContainer.getInstance().setRegionIsoCode(addr.getRegion().getIsocode());
         }
 
