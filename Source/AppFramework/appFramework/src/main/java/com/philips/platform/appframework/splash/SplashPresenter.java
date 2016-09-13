@@ -17,6 +17,10 @@ import com.philips.platform.modularui.stateimpl.WelcomeRegistrationState;
 import com.philips.platform.modularui.stateimpl.WelcomeState;
 import com.philips.platform.modularui.util.UIConstants;
 
+/**
+ * Spalsh presenter loads the splash screen and sets the next state after splash
+ * The wait timer for splash screen is 3 secs ( configurable by verticals)
+ */
 public class SplashPresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
     SharedPreferenceUtility sharedPreferenceUtility;
     SplashPresenter(){
@@ -32,6 +36,12 @@ public class SplashPresenter extends UIBasePresenter implements UserRegistration
 
     }
 
+    /**
+     *  The methods takes decision to load which next state needs to be loaded after splash screen
+     *Depending upon the User registration is compelted on not state will change
+
+     * @param context
+     */
     @Override
     public void onLoad(Context context) {
         sharedPreferenceUtility = getSharedPreferenceUtility(context);

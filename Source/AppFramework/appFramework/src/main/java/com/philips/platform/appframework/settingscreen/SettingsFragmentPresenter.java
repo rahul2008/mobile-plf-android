@@ -15,7 +15,10 @@ import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.InAppPurchaseHistoryFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-
+/**
+ * Settings presenter handles the state change for launching UR or IAP from on click of buttons
+ *
+ */
 public class SettingsFragmentPresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
 
     SettingsFragmentPresenter(){
@@ -24,6 +27,16 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
 
     AppFrameworkApplication appFrameworkApplication;
     UIState uiState;
+
+    /**
+     * Handles the click events for Login / Log out button
+     * Launches UR for Login button click and Logs out of UR for logout button
+     * Launches IAP history on click of Order history ( only if user is logged in )
+     *
+     * @param componentID takes component Id
+     *
+     * @param context needs context
+     */
     @Override
     public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
@@ -41,6 +54,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
         }
     }
 
+    /**
+     * Laods the User registration
+     * @param context requires context
+     */
     @Override
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
@@ -50,12 +67,16 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
     }
 
+    /**
+     * For setting the next state
+     * @param context
+     */
     @Override
     public void setNextState(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         uiState.setPresenter(this);
-        ((HomeActivity)context).finishAffinity();
+       ((HomeActivity)context).finishAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
     }
 }

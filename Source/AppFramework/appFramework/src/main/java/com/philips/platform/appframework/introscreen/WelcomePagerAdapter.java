@@ -10,6 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+/**
+ * Adapter is made for Showing instances of Welcome Fragment
+ * If onboarding screens need to be changed those changes should be done in this fragment
+ * Addition and removal of new screen should be done here
+ */
 public class WelcomePagerAdapter extends FragmentPagerAdapter {
     protected static final String[] CONTENT = new String[]{"Page 1", "Page 2", "Page 3"};
     private static final int FIRST_INSTANCE = 0;

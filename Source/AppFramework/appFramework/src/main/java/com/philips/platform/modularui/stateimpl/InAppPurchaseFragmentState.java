@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
@@ -33,6 +34,7 @@ public class InAppPurchaseFragmentState extends UIState{
     public InAppPurchaseFragmentState(@UIStateDef int stateID) {
         super(stateID);
     }
+    private IAPListener iapListener;
 
     @Override
     public void navigate(Context context) {
@@ -41,9 +43,10 @@ public class InAppPurchaseFragmentState extends UIState{
             fragmentActivity = (HomeActivity) context;
             containerID = R.id.frame_container;
             actionBarListener = (HomeActivity)context;
+            iapListener = (HomeActivity)context;
         }
         if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
+            mCtnList = new ArrayList<>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.iap_productselection_ctnlist)));
         }
         launchIAP();
     }
@@ -53,6 +56,7 @@ public class InAppPurchaseFragmentState extends UIState{
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
+        iapLaunchInput.setIapListener(iapListener);
         FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID,actionBarListener);
         try {
             iapInterface.launch(fragLauncher, iapLaunchInput);

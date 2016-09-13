@@ -13,7 +13,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.ProdRegLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -89,14 +89,14 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
     public void runProductRegistration(){
         ArrayList<Product> products = new ArrayList<>();
         products.add(loadProduct());
-        ProdRegLaunchInput prodRegLaunchInput;
+        PRLaunchInput prodRegLaunchInput;
         if(mContext instanceof HomeActivity){
             containerID = R.id.frame_container;
             fa = (HomeActivity)mContext;
         }
         FragmentLauncher fragLauncher = new FragmentLauncher(fa, containerID,actionBarListener);
         fragLauncher.setCustomAnimation(0, 0);
-        prodRegLaunchInput = new ProdRegLaunchInput(products, false);
+        prodRegLaunchInput = new PRLaunchInput(products, false);
         prodRegLaunchInput.setProdRegUiListener(this);
         new PRInterface().launch(fragLauncher,prodRegLaunchInput);
     }

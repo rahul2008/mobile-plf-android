@@ -16,7 +16,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-
+/**
+ * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
+ * The default content can be resplaced by verticals by changing the xml file 'parent_introduction_fragment_layout'
+ */
 public class WelcomeFragment extends Fragment {
     private static final int PAGE_ONE = 0;
     private static final int PAGE_TWO = 1;

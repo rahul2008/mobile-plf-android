@@ -2,6 +2,7 @@ package com.philips.platform.appframework.aboutscreen;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,13 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
 /**
- * Created by 310213373 on 8/10/2016.
+ * About screen to display content and version number
+ * This class is for sutomising the about screen present from UiKit Lib
+ * Added custom titles
+ * Background color
+ * Latest version
  */
+
 public class AboutScreenFragment extends AppFrameworkBaseFragment
 {
     public static final String TAG =AboutScreenFragment.class.getSimpleName();
@@ -27,7 +33,9 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
         View view = inflater.inflate(R.layout.uikit_about_screen, container, false);
         TextView  version =(TextView)view.findViewById(R.id.about_version);
         version.setText("App Version" +BuildConfig.VERSION_NAME);
-       view.setBackgroundColor(getResources().getColor(R.color.uikit_philips_dark_blue));
+
+        view.setBackgroundColor(ContextCompat.getColor(this.getActivity(), R.color.uikit_philips_dark_blue));
+
         TextView  content =(TextView)view.findViewById(R.id.about_content);
         content.setText(R.string.about_screen_description);
         return view;

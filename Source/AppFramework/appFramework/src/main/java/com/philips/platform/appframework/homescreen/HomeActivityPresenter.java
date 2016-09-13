@@ -14,11 +14,18 @@ import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseShoppingCartFragmentState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.modularui.util.UIConstants;
 
+/**
+ * This class id used for loading various fragments that are supported by home activity ,
+ * based on user selection this class loads the next state of the application.
+ *
+ */
 public class HomeActivityPresenter extends UIBasePresenter implements SupportFragmentState.SetStateCallBack,UserRegistrationState.SetStateCallBack {
 
     HomeActivityPresenter(){
@@ -32,7 +39,10 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
-
+/**
+ * This methods handles all click events done on hamburger menu
+ * Any changes for hamburger menu options shuld be made here
+ */
     @Override
     public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
@@ -50,6 +60,9 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
                 break;
  			case MENU_OPTION_DEBUG:
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
+                break;
+            case UIConstants.UI_SHOPPING_CART_BUTTON_CLICK:
+                uiState = new InAppPurchaseShoppingCartFragmentState(UIState.UI_IAP_SHOPPING_SHOPPING_CART_FRAGMENT_STATE);
                 break;
             default:uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
         }

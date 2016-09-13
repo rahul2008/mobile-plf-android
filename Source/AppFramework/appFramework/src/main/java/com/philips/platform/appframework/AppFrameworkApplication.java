@@ -14,7 +14,7 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.ProdRegDependencies;
+import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -31,7 +31,14 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-
+/**
+ * Application class has following initializations
+ *  1. App infra object creation for initializion other cocos and Logging
+ *  2. Initialise User Registration
+ *  3. Initialise In App Purchase
+ *  4. Initialise Product Registration
+ *
+ */
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;
     private static Context mContext;
@@ -60,11 +67,14 @@ public class AppFrameworkApplication extends Application {
         initializeProductRegistrationLibrary();
         initializeIAP();
     }
-
+/**
+ * Method for initializing IAP
+ *
+ */
     private void initializeIAP() {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(getApplicationContext());
-        IAPDependencies iapDependencies = new IAPDependencies(AppInfraSingleton.getInstance());
+        IAPDependencies iapDependencies = new IAPDependencies(gAppInfra);
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
     }
@@ -82,8 +92,11 @@ public class AppFrameworkApplication extends Application {
     }
 
     @SuppressWarnings("deprecation")
+    /**
+     * Initializing Product registration
+     */
     private void initializeProductRegistrationLibrary() {
-        ProdRegDependencies prodRegDependencies = new ProdRegDependencies(AppInfraSingleton.getInstance());
+        PRDependencies prodRegDependencies = new PRDependencies(gAppInfra);
 
         UappSettings uappSettings = new UappSettings(getApplicationContext());
         new PRInterface().init(prodRegDependencies, uappSettings);
@@ -97,7 +110,10 @@ public class AppFrameworkApplication extends Application {
         return mContext;
     }
 
-
+    /**For doing dynamic initialisation Of User registration
+     *
+     * @param configuration  The environment ype as required by UR
+     */
     public void initializeUserRegistrationLibrary(Configuration configuration) {
 
         RegistrationHelper.getInstance().setAppInfraInstance(gAppInfra);

@@ -30,6 +30,11 @@ import com.philips.platform.appframework.R;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This fragment if for internal testing of dynamic configuration change of User registration
+ *
+ */
+
 public class DebugTestFragment extends AppFrameworkBaseFragment {
     public static final String TAG = DebugTestFragment.class.getSimpleName();
     private String configurationType[] = {"Staging", "Evaluation", "Testing", "Development", "Production"};
