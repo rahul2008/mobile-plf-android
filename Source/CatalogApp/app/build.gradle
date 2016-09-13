@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
+apply plugin: 'jacoco'
 
-spoon{
+spoon {
     className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'
     methodName = 'verifyToggleSwitchOrientationChange'
 }
@@ -17,7 +18,6 @@ android {
         versionCode 1
         versionName "0.1.0"
 
-        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         generatedDensities = []
     }
@@ -25,6 +25,10 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        jenkins {
+            testCoverageEnabled true
         }
     }
 
@@ -48,10 +52,36 @@ android {
     }
 }
 
+def coverageSourceDirs = ['src/main/java']
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(dir: 'build/intermediates/classes/jenkins',
+            excludes: ['**/R.class',
+                       '**/R$*.class'])
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testJenkinsUnitTest.exec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
 dependencies {
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
 
     compile("com.android.support:appcompat-v7:${supportLibraryVer}")
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}")
@@ -59,7 +89,17 @@ dependencies {
 
     compile("com.jakewharton:butterknife:${butterKnifeVer}")
 
+
     compile project(':uit')
+
+    compile "org.mockito:mockito-all:${mockitoVer}"
+    compile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
+
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
 }
 
 configurations.all {
