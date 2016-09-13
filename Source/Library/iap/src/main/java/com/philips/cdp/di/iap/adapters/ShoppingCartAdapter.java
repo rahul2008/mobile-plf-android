@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +69,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private DeliveryModes mDeliveryMode;
     private DeliveryModeDialog mDialog;
 
-    public boolean mIsDeliveryAddressSet;
+//    public boolean mIsDeliveryAddressSet;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -138,7 +137,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         int quantityStatus = getQuantityStatus(newCount, oldCount);
                         if (!Utility.isProgressDialogShowing()) {
                             Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                            mIsDeliveryAddressSet = true;
+//                            mIsDeliveryAddressSet = true;
                             mPresenter.updateProductQuantity(mData.get(position), newCount, quantityStatus);
                         }
                     }
@@ -229,32 +228,27 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (mData.get(0) != null) {
                 data = mData.get(0);
 
-                shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+                shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total)
+                        + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+                shoppingCartFooter.mVatInclusiveValue.setText
+                        (String.format(mContext.getString(R.string.iap_vat_inclusive_text),
+                                mContext.getString(R.string.iap_vat)));
 
                 if (!data.isVatInclusive()) {
-                    shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVatInclusiveValue.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
-                    shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
                     shoppingCartFooter.mVatValue.setVisibility(View.GONE);
                     shoppingCartFooter.mVAT.setVisibility(View.GONE);
+
+                    shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
                 } else {
-                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
                     shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
+
+                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVatValue.setText(data.getVatValue());
                 }
-
-                //Chitra : Pls update the code here for what reason this condition is required?
-
-//                if (data.getVatActualValue().equalsIgnoreCase("0") && !mIsDeliveryAddressSet) {
-//                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-//                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
-//                } else {
-//                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-//                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
-//                    shoppingCartFooter.mVatValue.setText(data.getVatValue());
-//                }
 
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
                 if (null != data.getDeliveryMode()) {
@@ -275,7 +269,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mDialog = new DeliveryModeDialog(mContext, ShoppingCartAdapter.this, (AddressController.AddressListener)mOutOfStock);
+                            mDialog = new DeliveryModeDialog(mContext, ShoppingCartAdapter.this, (AddressController.AddressListener) mOutOfStock);
                             mDialog.showDialog();
 
                         }
@@ -424,8 +418,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
     }
 
-    public void setDeliveryAddress(boolean isDeliveryAddressSet){
+    /*public void setDeliveryAddress(boolean isDeliveryAddressSet) {
         mIsDeliveryAddressSet = isDeliveryAddressSet;
-    }
+    }*/
 
 }
