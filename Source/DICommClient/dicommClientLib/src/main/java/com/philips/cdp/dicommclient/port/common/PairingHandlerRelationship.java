@@ -32,10 +32,8 @@ abstract class PairingHandlerRelationship {
         pairingTrustee.entityRefType = appliance.getDeviceType();
         pairingTrustee.entityRefCredentials = null;
 
-        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefId"
-                + pairingTrustee.entityRefId);
-        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefType"
-                + pairingTrustee.entityRefType);
+        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefId" + pairingTrustee.entityRefId);
+        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefType" + pairingTrustee.entityRefType);
 
         return pairingTrustee;
     }

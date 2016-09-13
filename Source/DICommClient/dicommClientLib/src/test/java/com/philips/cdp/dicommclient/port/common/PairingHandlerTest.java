@@ -92,6 +92,7 @@ public class PairingHandlerTest {
     private final String NETWORK_CPP_ID = "NETWORK_CPP_ID";
     private final String USER_ID = "test-user";
     private final String ACCESS_TOKEN = "abc";
+    private final String DEVICE_RELATIONSHIP_TYPE = "cph_device_association";
     private PairingHandler pairingHandler;
 
     @Before
@@ -338,7 +339,7 @@ public class PairingHandlerTest {
     // User pairing
     @Test
     public void whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId() throws Exception {
-        pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN);
+        pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN, DEVICE_RELATIONSHIP_TYPE);
         verify(pairingPortMock).addPortListener(pairingListenerCaptor.capture());
 
         verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(USER_ID), anyString());

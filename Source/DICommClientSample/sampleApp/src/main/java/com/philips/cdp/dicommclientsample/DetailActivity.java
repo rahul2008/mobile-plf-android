@@ -29,6 +29,7 @@ import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 
 public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
+    public static final String RELATION_TYPE_AIR_PURIFIER = "cph_device_association";
 
     private EditText editTextName;
     private EditText editTextUserId;
@@ -162,7 +163,7 @@ public class DetailActivity extends AppCompatActivity {
         String id = editTextUserId.getText().toString();
         String token = editTextUserToken.getText().toString();
         if (id.length() > 0 && token.length() > 0) {
-            pairingHandler.startUserPairing(id, token);
+            pairingHandler.startUserPairing(id, token, RELATION_TYPE_AIR_PURIFIER);
         } else {
             pairingHandler.startPairing();
         }

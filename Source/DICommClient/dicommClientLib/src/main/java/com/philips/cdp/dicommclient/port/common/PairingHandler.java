@@ -41,6 +41,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 
     public static final String PAIRING_REFERENCEPROVIDER = "cpp";
+    public static final String PAIRING_USER_REFERENCEPROVIDER = "cphuser";
     public static final String PAIRING_DI_COMM_RELATIONSHIP = "di-comm";
     public static final String PAIRING_NOTIFY_RELATIONSHIP = "notify";
     public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "dataaccess";
@@ -110,18 +111,18 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      */
     public void startPairing() {
         if (mAppliance == null) return;
-        DICommLog.i(DICommLog.PAIRING, "Started pairing with appliance = " + mAppliance.getNetworkNode().getName() + "attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
+        DICommLog.i(DICommLog.PAIRING, "Started pairing with appliance = " + mAppliance.getNetworkNode().getName() + " attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         String appEui64 = cppController.getAppCppId();
         pairingHandlerRelationship = new AppPairingHandlerRelationship(appEui64, PAIRING_REFERENCEPROVIDER, mAppliance);
         startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
-    public void startUserPairing(String userId, String accessToken) {
+    public void startUserPairing(String userId, String accessToken, String relationType) {
         if (mAppliance == null) return;
-        DICommLog.i(DICommLog.PAIRING, "Started user pairing with appliance = " + mAppliance.getNetworkNode().getName() + "attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
+        DICommLog.i(DICommLog.PAIRING, "Started user pairing with appliance = " + mAppliance.getNetworkNode().getName() + " attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
-        pairingHandlerRelationship = new UserPairingHandlerRelationship(userId, PAIRING_REFERENCEPROVIDER, "no idea", accessToken, mAppliance);
+        pairingHandlerRelationship = new UserPairingHandlerRelationship(userId, PAIRING_USER_REFERENCEPROVIDER, relationType, accessToken, mAppliance);
         startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
@@ -461,7 +462,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
             setPairingAttempts(mAppliance.getNetworkNode().getCppId());
             // If DI-COMM local (Pairing Port) request fails, then retry only the DI-COMM request
             if (pairingHandlerRelationship instanceof UserPairingHandlerRelationship) {
-                startUserPairing(pairingHandlerRelationship.cppId, pairingHandlerRelationship.credentials);
+                startUserPairing(pairingHandlerRelationship.cppId, pairingHandlerRelationship.credentials, pairingHandlerRelationship.type);
             } else {
                 startPairing();
             }
