@@ -266,6 +266,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof BaseAnimationSupportFragment) {
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
+                        updateCartIconVisibility(true);
                         popBackTillHomeFragment();
                     }
                 } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase("digitalcare")) {
