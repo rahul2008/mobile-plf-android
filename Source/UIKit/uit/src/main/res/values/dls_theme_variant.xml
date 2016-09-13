@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="BaseMapping">
-        <item name="uitButtonNormalColor">?attr/uikitControlPrimaryDarkEnabledColor</item>
-        <item name="uitButtonPressedColor">?attr/uikitControlPrimaryDarkPressedColor</item>
-        <item name="uitButtonDisabledColor">?attr/uikitControlPrimaryDarkEnabledColor</item>
-        <item name="uitButtonDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
-        <item name="uitButtonTextColor">?attr/uikitControlTextColor</item>
-        <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
-    </style>
-    <style name="UltraLight" parent="BaseMapping">
+    <style name="UltraLight">
         <item name="uikitContentPrimaryColor">@color/uikitColorWhite</item>
-        <item name="uikitContentSecondaryColor">?attr/uikitColorLevel10</item>
-        <item name="uikitContentTextColor">@color/uikit_gray_level_75</item>
+        <item name="uikitContentSecondaryColor">?attr/uikitColorLevel05</item>
 
         <item name="uikitNavigationPrimaryColor">@color/uikitColorWhite</item>
         <item name="uikitNavigationSecondaryColor">?attr/uikitColorLevel05</item>
-        <item name="uikitNavigationTextColor">?attr/uikitColorLevel75</item>
 
         <item name="uikitControlTextColor">@android:color/white</item>
         <item name="uikitControlSecondaryEnabledColor">?attr/uikitColorLevel15</item>
         <item name="uikitControlSecondaryPressedColor">?attr/uikitColorLevel25</item>
 
-        <item name="uikitControlPrimaryDarkEnabledColor">?attr/uikitColorLevel75</item>
-        <item name="uikitControlPrimaryDarkPressedColor">?attr/uikitColorLevel65</item>
-        <item name="uikitControlPrimaryLightEnabledColor">?attr/uikitColorLevel45</item>
-        <item name="uikitControlPrimaryLightPressedColor">?attr/uikitColorLevel35</item>
+        <item name="uikitControlPrimaryEnabledColor">?attr/uikitColorLevel45</item>
+        <item name="uikitControlPrimaryPressedColor">?attr/uikitColorLevel35</item>
+        <item name="uikitControlPrimaryAlternateEnabledColor">?attr/uikitColorLevel75</item>
+        <item name="uikitControlPrimaryAlternatePressedColor">?attr/uikitColorLevel65</item>
 
     </style>
 

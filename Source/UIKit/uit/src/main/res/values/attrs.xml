@@ -14,10 +14,10 @@
         <attr name="uikitControlSecondaryEnabledColor" format="reference|color"/>
         <attr name="uikitControlSecondaryPressedColor" format="reference|color"/>
 
-        <attr name="uikitControlPrimaryDarkEnabledColor" format="reference|color"/>
-        <attr name="uikitControlPrimaryDarkPressedColor" format="reference|color"/>
-        <attr name="uikitControlPrimaryLightEnabledColor" format="reference|color"/>
-        <attr name="uikitControlPrimaryLightPressedColor" format="reference|color"/>
+        <attr name="uikitControlPrimaryEnabledColor" format="reference|color"/>
+        <attr name="uikitControlPrimaryPressedColor" format="reference|color"/>
+        <attr name="uikitControlPrimaryAlternateEnabledColor" format="reference|color"/>
+        <attr name="uikitControlPrimaryAlternatePressedColor" format="reference|color"/>
 
     </declare-styleable>
 
