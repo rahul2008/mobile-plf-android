@@ -47,32 +47,32 @@ public class HsdpUserTest extends InstrumentationTestCase {
         assertNotNull(mHsdpUser);
         assertFalse(mHsdpUser.isHsdpUserSignedIn());
     }
-    @Test
-    public void testLogOut(){
-        mHsdpUser.logOut(logoutHandler);
-        NetworkUtility.isNetworkAvailable(getInstrumentation().getContext());
-
-    }
-    @Test
-    public void testRefresh(){
-        refreshLoginSessionHandler= new RefreshLoginSessionHandler() {
-            @Override
-            public void onRefreshLoginSessionSuccess() {
-
-            }
-
-            @Override
-            public void onRefreshLoginSessionFailedWithError(final int error) {
-
-            }
-
-            @Override
-            public void onRefreshLoginSessionInProgress(final String message) {
-
-            }
-        };
-        mHsdpUser.refreshToken(refreshLoginSessionHandler);
-    }
+//    @Test
+//    public void testLogOut(){//
+//        mHsdpUser.logOut(logoutHandler);
+//      //  NetworkUtility.isNetworkAvailable(getInstrumentation().getContext());
+//
+//    }
+//    @Test
+//    public void testRefresh(){
+//        refreshLoginSessionHandler= new RefreshLoginSessionHandler() {
+//            @Override
+//            public void onRefreshLoginSessionSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onRefreshLoginSessionFailedWithError(final int error) {
+//
+//            }
+//
+//            @Override
+//            public void onRefreshLoginSessionInProgress(final String message) {
+//
+//            }
+//        };
+//        mHsdpUser.refreshToken(refreshLoginSessionHandler);
+//    }
 
     @Test
     public void testIsHsdpUserSignedIn(){

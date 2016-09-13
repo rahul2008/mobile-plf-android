@@ -58,22 +58,51 @@ public class RegistrationHelperTest extends InstrumentationTestCase{
         };
     }
 
-    public void testRegistrationHelper() {
-
-
-        mRegistrationHelper.getCountryCode();
-        mRegistrationHelper.registerUserRegistrationListener(
-                mUserRegistrationListener);
-        mRegistrationHelper.unRegisterUserRegistrationListener(
-                mUserRegistrationListener);
-        mRegistrationHelper.getUserRegistrationListener();
-        mRegistrationHelper.setUserRegistrationEventListener
-                (mUserRegistrationListener);
-        mRegistrationHelper.getUserRegistrationEventListener();
-        mRegistrationHelper.registerNetworkStateListener(mNetworStateListener);
-        mRegistrationHelper.unRegisterNetworkListener(mNetworStateListener);
-        mRegistrationHelper.getNetworkStateListener();
-//        mRegistrationHelper.getLocale(mContext);
-        mRegistrationHelper.getRegistrationApiVersion();
-    }
+//    public void testRegistrationHelperGetCountryCode() {
+//
+//
+//        mRegistrationHelper.getCountryCode();
+//     }
+//    public void testRegistrationHelperRegister() {
+//
+//   mRegistrationHelper.registerUserRegistrationListener(
+//                mUserRegistrationListener);
+//        mRegistrationHelper.unRegisterUserRegistrationListener(
+//                mUserRegistrationListener);
+//    }
+//    public void testRegistrationHelperRegistrationListener() {
+//
+//
+//        mRegistrationHelper.getUserRegistrationListener();
+//    }
+//    public void testRegistrationHelperRegistrationEventListener() {
+//        mRegistrationHelper.setUserRegistrationEventListener
+//                (mUserRegistrationListener);
+//        mRegistrationHelper.getUserRegistrationEventListener();
+//    }
+//    public void testRegistrationHelperNetworkStateListener() {
+//        mRegistrationHelper.registerNetworkStateListener(mNetworStateListener);
+//        mRegistrationHelper.unRegisterNetworkListener(mNetworStateListener);
+//   }
+//    public void testRegistrationHelperRegistrationApiVersion() {
+//    mRegistrationHelper.getRegistrationApiVersion();
+//    }
+//    public void testRegistrationHelper() {
+//
+//
+//        mRegistrationHelper.getCountryCode();
+//        mRegistrationHelper.registerUserRegistrationListener(
+//                mUserRegistrationListener);
+//        mRegistrationHelper.unRegisterUserRegistrationListener(
+//                mUserRegistrationListener);
+//        mRegistrationHelper.getUserRegistrationListener();
+//        mRegistrationHelper.setUserRegistrationEventListener
+//                (mUserRegistrationListener);
+//        mRegistrationHelper.getUserRegistrationEventListener();
+//        mRegistrationHelper.registerNetworkStateListener(mNetworStateListener);
+//        mRegistrationHelper.unRegisterNetworkListener(mNetworStateListener);
+//        mRegistrationHelper.getNetworkStateListener();
+////        mRegistrationHelper.getLocale(mContext);
+//        mRegistrationHelper.getRegistrationApiVersion();
+//    }
 }
