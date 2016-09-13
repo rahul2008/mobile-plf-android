@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
 
 import java.util.Comparator;
@@ -74,13 +75,10 @@ public class DemoListFragment extends Fragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         TextView textView = (TextView) view.findViewById(android.R.id.text1);
         int key = getKeyFromValue((String) textView.getText());
-        //We find the position from the value
+        // TODO: 9/13/2016 : Handle this properly with enums. Right now enable so that we can test buttons
         switch (key) {
             case 0:
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_container, new ButtonFragment());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                ((MainActivity)getActivity()).switchFragment(new ButtonFragment());
                 break;
             case 1:
                 break;

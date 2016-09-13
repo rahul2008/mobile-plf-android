@@ -1,5 +1,6 @@
 package com.philips.platform.catalogapp;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,5 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
     public ThemeConfiguration getThemeConfig() {
         return new ThemeConfiguration(ColorRange.GROUP_BLUE, TonalRange.ULTRA_LIGHT, this);
+    }
+
+    public void switchFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
