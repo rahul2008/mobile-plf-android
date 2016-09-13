@@ -16,6 +16,7 @@ buildscript {
         }
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
@@ -27,11 +28,18 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
-repositories {
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
-	maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+
+    }
+
+    apply plugin: 'com.jfrog.artifactory-upload'
+
+    group = 'com.philips.cdp'
+
 }
 
 group = 'com.philips.cdp'
@@ -48,7 +56,6 @@ artifactory {
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
-            maven = true
         }
     }
     resolve {
