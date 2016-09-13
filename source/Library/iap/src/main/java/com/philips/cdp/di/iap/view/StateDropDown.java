@@ -33,7 +33,7 @@ public class StateDropDown {
     private void createPopUp(final View anchor, final Context context) {
         List<RowItem> rowItems = createRowItems();
         mPopUp = new UIKitListPopupWindow(context, anchor,
-                UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+                UIKitListPopupWindow.UIKIT_Type.UIKIT_TOPLEFT, rowItems);
         mPopUp.setModal(true);
         mPopUp.setOnItemClickListener(mListener);
     }
