@@ -243,7 +243,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         } else {
             mCountText.setVisibility(View.GONE);
         }
-        dismissProgressDialog();
     }
 
     @Override
