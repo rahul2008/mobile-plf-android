@@ -24,6 +24,7 @@ public class AppTaggingTest extends MockitoTestCase {
 
     AppTaggingInterface mAIAppTaggingInterface;
     AppTaggingInterface mockAppTaggingInterface;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -31,7 +32,8 @@ public class AppTaggingTest extends MockitoTestCase {
 
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
-        mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
+        mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent
+                ("Component name","Component ID");
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
     }
 
@@ -57,7 +59,7 @@ public class AppTaggingTest extends MockitoTestCase {
 
     public void testTrackPageWithInfo() {
 
-       // mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
+        mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
@@ -73,7 +75,7 @@ public class AppTaggingTest extends MockitoTestCase {
             for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
                 keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
             }
-            //mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
+            mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
@@ -83,9 +85,9 @@ public class AppTaggingTest extends MockitoTestCase {
         }
     }
 
-    public void testTrackActionWithInfo() {
+    public void testMockTrackActionWithInfo() {
 
-       // mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", "key1", "value1");
+        mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", "key1", "value1");
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
@@ -101,7 +103,7 @@ public class AppTaggingTest extends MockitoTestCase {
             for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
                 keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
             }
-            //mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
+            mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
@@ -131,5 +133,7 @@ public class AppTaggingTest extends MockitoTestCase {
             }
         }).when(mockApplication).registerComponentCallbacks(handler);
     }
+
+
 
 }
