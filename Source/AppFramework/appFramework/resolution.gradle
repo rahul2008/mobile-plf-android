@@ -1,4 +1,4 @@
-allprojects {
+    allprojects {
     repositories {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
@@ -26,6 +26,8 @@ configurations.all {
         force 'com.philips.cdp:AppInfra:1.2.0-SNAPSHOT'
         force 'com.philips.cdp:uikitLib:3.3.0-SNAPSHOT'
         force 'com.philips.cdp:registrationApi:7.1.0-SNAPSHOT'
+        force 'com.philips.cdp:dicommClientLib:1.2.2'
+        force 'com.philips.cdp:shinelib:2.0.0'
 
 /*
         //force 'com.philips.cdp:hsdp:+'

@@ -5,18 +5,12 @@
 */
 package com.philips.platform.appframework;
 
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -59,7 +53,7 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
      */
     private void setActionbarTitle() {
         if (mActionBarTitle == null) {
-            mActionBarTitle = (TextView) getActivity().findViewById(R.id.hamburger_title);
+            mActionBarTitle = (TextView) getActivity().findViewById(R.id.iap_header_title);
         }
         String titleText = null;
         if (getActionbarTitle() == null) {

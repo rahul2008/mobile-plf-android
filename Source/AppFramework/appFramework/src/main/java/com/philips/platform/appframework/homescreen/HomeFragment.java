@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 
+/**
+ * This is the home fragment the main landing page of the application , once onboarding is completed.
+ * All the fragments are added on top of this , back event from all other fragemnts ends up  landing here
+ */
 
 public class HomeFragment extends AppFrameworkBaseFragment {
     public static final String TAG =  HomeFragment.class.getSimpleName();
@@ -23,6 +27,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((HomeActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override
