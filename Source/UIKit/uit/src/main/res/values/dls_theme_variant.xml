@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="BaseMapping">
         <item name="uitButtonNormalColor">?attr/uikitControlPrimaryDarkEnabledColor</item>
         <item name="uitButtonPressedColor">?attr/uikitControlPrimaryDarkPressedColor</item>
@@ -8,6 +9,7 @@
         <item name="uitButtonTextColor">?attr/uikitControlTextColor</item>
         <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
     </style>
+
     <style name="UltraLight" parent="BaseMapping">
         <item name="uikitContentPrimaryColor">@color/uikitColorWhite</item>
         <item name="uikitContentSecondaryColor">?attr/uikitColorLevel10</item>

@@ -1,9 +1,9 @@
 <resources>
 
-<!-- Base application theme. -->
-<style name="Theme.Philips" parent="Theme.AppCompat.Light">
-    <item name="buttonStyle">@style/UITDefaultButton</item>
+    <!-- Base application theme. -->
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
+        <item name="buttonStyle">@style/UITDefaultButton</item>
 
-</style>
+    </style>
 
 </resources>
