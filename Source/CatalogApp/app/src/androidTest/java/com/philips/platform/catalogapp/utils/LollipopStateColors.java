@@ -8,30 +8,29 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
-public class LollipopStateColor extends KitKatStateColors {
+public class LollipopStateColors extends KitKatStateColors {
     private static final String COLOR_STATE_LIST = "mColorStateList";
     private static final String STROKE_COLOR_STATE_LIST = "mStrokeColorStateList";
 
-
-    public LollipopStateColor(Drawable d) {
+    public LollipopStateColors(Drawable d) {
         super(d);
     }
 
     @Override
     public int getGradientSolidColor() {
-        ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getSolidColorStateListFiledName());
+        ColorStateList solidColors = (ColorStateList) GradientDrawableCompat.getField(constantState, getSolidColorStateListFiledName());
         return getColorBasedOnAttribute(solidColors, android.R.attr.state_enabled);
     }
 
     @Override
     public int getStrokeSolidColor() {
-        ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getStrokeSolidColorStateListFiledName());
+        ColorStateList solidColors = (ColorStateList) GradientDrawableCompat.getField(constantState, getStrokeSolidColorStateListFiledName());
         return getColorBasedOnAttribute(solidColors, android.R.attr.state_enabled);
     }
 
     @Override
     public int getStrokeSolidStateColor(int attr) {
-        ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getStrokeSolidColorStateListFiledName());
+        ColorStateList solidColors = (ColorStateList) GradientDrawableCompat.getField(constantState, getStrokeSolidColorStateListFiledName());
         return getColorBasedOnAttribute(solidColors, attr);
     }
 

@@ -8,18 +8,18 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
-public class MarshmallowStateColor extends LollipopStateColor {
+public class MarshmallowStateColors extends LollipopStateColors {
     private static final String COLOR_STATE_LIST = "mTint";
     private static final String SOLID_COLOR_STATE_LIST = "mSolidColors";
     private static final String STROKE_COLOR_STATE_LIST = "mStrokeColors";
 
-    public MarshmallowStateColor(Drawable d) {
+    public MarshmallowStateColors(Drawable d) {
         super(d);
     }
 
     @Override
     public int getStateColor(int attr) {
-        ColorStateList mSolidColorStateList = (ColorStateList) GradientDrawableUtils.getField(constantState, COLOR_STATE_LIST);
+        ColorStateList mSolidColorStateList = (ColorStateList) GradientDrawableCompat.getField(constantState, COLOR_STATE_LIST);
         return mSolidColorStateList.getColorForState(new int[]{attr}, Color.WHITE);
     }
 

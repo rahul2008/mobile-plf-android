@@ -2,9 +2,9 @@ package com.philips.platform.catalogapp.utils;
 
 import android.graphics.drawable.Drawable;
 
-import com.philips.platform.catalogapp.utils.GradientDrawableUtils.StateColors;
+import com.philips.platform.catalogapp.utils.GradientDrawableCompat.StateColors;
 
-public abstract class BaseColorStateImpl implements StateColors {
+public abstract class BaseStateColorsImpl implements StateColors {
 
     protected Drawable drawable;
     protected Drawable.ConstantState constantState;
@@ -13,7 +13,7 @@ public abstract class BaseColorStateImpl implements StateColors {
     private static final String CORNER_RADIUS = "mRadius";
     private static final String STROKE_WIDTH = "mStrokeWidth";
 
-    public BaseColorStateImpl(Drawable drawable) {
+    public BaseStateColorsImpl(Drawable drawable) {
         this.drawable = drawable;
         constantState = drawable.getConstantState();
     }
@@ -21,10 +21,10 @@ public abstract class BaseColorStateImpl implements StateColors {
     @Override
     public float[] getCornerRadius() {
         Drawable.ConstantState state = getConstantStateForRadius();
-        float[] radiusArray = (float[]) GradientDrawableUtils.getField(state, CORNER_RADIUS_ARRAY);
+        float[] radiusArray = (float[]) GradientDrawableCompat.getField(state, CORNER_RADIUS_ARRAY);
         //try to find radius if array is null
         if (radiusArray == null) {
-            float radius = (float) GradientDrawableUtils.getField(state, CORNER_RADIUS);
+            float radius = (float) GradientDrawableCompat.getField(state, CORNER_RADIUS);
             radiusArray = new float[]{radius};
         }
         return radiusArray;
@@ -33,11 +33,11 @@ public abstract class BaseColorStateImpl implements StateColors {
     @Override
     public int getStrokeWidth() {
         Drawable.ConstantState state = getConstantStateForStrokeWidth();
-        return (int) GradientDrawableUtils.getField(state, STROKE_WIDTH);
+        return (int) GradientDrawableCompat.getField(state, STROKE_WIDTH);
     }
 
     protected int getStrokeWidthFromConstantState(Drawable.ConstantState state) {
-        return (int) GradientDrawableUtils.getField(state, STROKE_WIDTH);
+        return (int) GradientDrawableCompat.getField(state, STROKE_WIDTH);
     }
 
     protected Drawable.ConstantState getConstantStateForRadius() {

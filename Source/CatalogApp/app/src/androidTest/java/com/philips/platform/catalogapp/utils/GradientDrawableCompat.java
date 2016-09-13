@@ -13,14 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GradientDrawableUtils {
+public class GradientDrawableCompat {
 
     public interface StateColors {
         int getStateColor(int attr);
+
         float[] getCornerRadius();
+
         int getStrokeWidth();
+
         int getGradientSolidColor();
+
         int getStrokeSolidColor();
+
         int getStrokeSolidStateColor(int attr);
     }
 
@@ -28,11 +33,11 @@ public class GradientDrawableUtils {
         int version = Build.VERSION.SDK_INT;
         StateColors impl;
         if (d instanceof DrawableWrapper) {
-            impl = new DrawableWrapperStateColor(d);
+            impl = new DrawableStateColorsWrapper(d);
         } else if (version >= 23) {
-            impl = new MarshmallowStateColor(d);
+            impl = new MarshmallowStateColors(d);
         } else if (version >= 21) {
-            impl = new LollipopStateColor(d);
+            impl = new LollipopStateColors(d);
         } else {
             impl = new KitKatStateColors(d);
         }
@@ -44,7 +49,6 @@ public class GradientDrawableUtils {
             Field field = getTintField(state.getClass(), fieldName);
             field.setAccessible(true);
             return field.get(state);
-
         } catch (IllegalAccessException | NullPointerException e) {
             e.printStackTrace();
         }

@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.catalogapp.MainActivity;
-import com.philips.platform.catalogapp.utils.GradientDrawableUtils;
+import com.philips.platform.catalogapp.utils.GradientDrawableCompat;
 import com.philips.platform.uit.view.widget.Button;
 
 import org.junit.Before;
@@ -29,58 +29,58 @@ public class DefaultButtonWithTextTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         button = new Button(mActivityTestRule.getActivity());
         backgroundDrawable = button.getBackground();
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    /************************************************Layout************************************************/
+    /************************************************
+     * Layout
+     ************************************************/
 
     @Test
-    public void verifyButtonHeight(){
+    public void verifyButtonHeight() {
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_height);
         assertEquals(expectedHeight, button.getMinHeight());
     }
 
     @Test
-    public void verifyButtonLeftPadding(){
+    public void verifyButtonLeftPadding() {
         int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_left_padding);
         assertEquals(expectedLeftPadding, button.getPaddingLeft());
     }
 
     @Test
-    public void verifyButtonRightPadding(){
+    public void verifyButtonRightPadding() {
         int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_right_padding);
         assertEquals(expectedRightPadding, button.getPaddingLeft());
-
     }
 
     @Test
-    public void verifyButtonCornerRadius(){
-        GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(backgroundDrawable);
+    public void verifyButtonCornerRadius() {
+        GradientDrawableCompat.StateColors stateColors = GradientDrawableCompat.getStateColors(backgroundDrawable);
         float radius = (float) Math.ceil(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
         assertEquals(radius, stateColors.getCornerRadius()[0]);
+    }
+
+    @Test
+    public void verifyButtonFontType() {
 
     }
 
     @Test
-    public void verifyButtonFontType(){
-
+    public void verifyButtonFontSize() {
+        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_font_size));
+        assertEquals(expectedFontSize, (int) button.getTextSize());
     }
+
+    /******************************************************
+     * Theming
+     ********************************************/
 
     @Test
-    public void verifyButtonFontSize(){
-        int expectedFontSize = (int)(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_font_size));
-        assertEquals(expectedFontSize, (int)button.getTextSize());
-    }
-
-    /******************************************************Theming********************************************/
-
-    @Test
-    public void verifyButtonFontColor(){
-
+    public void verifyButtonFontColor() {
 
     }
-
-        }
+}
