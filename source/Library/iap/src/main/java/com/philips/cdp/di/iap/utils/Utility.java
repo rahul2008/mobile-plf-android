@@ -90,48 +90,21 @@ public class Utility {
 
     public static String createAddress(final Object addressObj) {
         StringBuilder sb = new StringBuilder();
-        if (addressObj instanceof DeliveryAddressEntity) {
-            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine1());
-            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getTown());
-            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getPostalCode());
-            Country countryEntity = ((DeliveryAddressEntity) addressObj).getCountry();
-            String country = getCountryName(countryEntity.getIsocode());
-            appendCountry(sb, country);
-
-        } else if (addressObj instanceof AddressFields) {
+        if (addressObj instanceof AddressFields) {
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine2());
+            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getRegionName());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getRegionIsoCode());
+            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
 //            String country = getCountryName(((AddressFields) addressObj).getCountryIsocode());
 //            appendCountry(sb, country);
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
-        } else if (addressObj instanceof Addresses) {
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine1());
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getPostalCode());
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
-            if ((((Addresses) addressObj).getRegion()) != null && (((Addresses) addressObj).getRegion().getName()) != null) {
-                appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
-            }
-            sb.append(((Addresses) addressObj).getCountry().getName());
         } else if (addressObj instanceof BillingAddress) {
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getPostalCode());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
-            String country = getCountryName(((BillingAddress) addressObj).getCountry().getIsocode());
-            appendCountry(sb, country);
-        } else if (addressObj instanceof Address) {
-            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
-            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
-            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
-            if ((((Address) addressObj).getRegion()) != null && (((Address) addressObj).getRegion().getName()) != null) {
-                appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getRegion().getName());
-            }
-            appendAddressWithNewLineIfNotNull(sb, (((Address) addressObj).getCountry().getName()));
+            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getPostalCode());
+//            String country = getCountryName(((BillingAddress) addressObj).getCountry().getIsocode());
+//            appendCountry(sb, country);
         }
         return sb.toString();
     }
