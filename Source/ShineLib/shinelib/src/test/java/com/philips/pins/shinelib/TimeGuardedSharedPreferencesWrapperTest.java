@@ -42,7 +42,7 @@ public class TimeGuardedSharedPreferencesWrapperTest {
         verify(sharedPreferencesMock).getAll();
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = TimeoutException.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
         timeGuardedSharedPreferencesWrapper = new TimeGuardedSharedPreferencesWrapperForTest(sharedPreferencesMock, THREAD_ID, EXCEEDED_EXECUTION_TIME);
 

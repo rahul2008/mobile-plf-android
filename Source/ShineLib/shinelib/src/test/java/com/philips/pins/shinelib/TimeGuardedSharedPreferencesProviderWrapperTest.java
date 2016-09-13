@@ -66,7 +66,7 @@ public class TimeGuardedSharedPreferencesProviderWrapperTest {
         assertTrue(sharedPreferences instanceof TimeGuardedSharedPreferencesWrapper);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = TimeoutException.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
         timeGuardedSharedPreferencesProviderWrapper = new TimeGuardedSharedPreferencesProviderWrapperForTest(sharedPreferencesProviderMock, 0, EXCEEDED_EXECUTION_TIME);
 
