@@ -103,7 +103,9 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     }
 
     private void loadPlugIn(){
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+        userObject = new User(mContext);
+
+    userObject.registerUserRegistrationListener(this);
     }
 
     private void runUserRegistration(){
