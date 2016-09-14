@@ -68,7 +68,6 @@ public class AppFrameworkApplication extends Application {
         mContext = getApplicationContext();
         flowManager = new UIFlowManager();
         AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
-        RegistrationHelper.getInstance().setAppInfraInstance(gAppInfra);
         gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
@@ -127,63 +126,8 @@ public class AppFrameworkApplication extends Application {
      * @param configuration  The environment ype as required by UR
      */
     public void initializeUserRegistrationLibrary(Configuration configuration) {
-/*
-
-
-        */
-/*RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.DEVELOPMENT, "8kaxdrpvkwyr7pnp987amu4aqb4wmnte");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.TESTING, "g52bfma28yjbd24hyjcswudwedcmqy7c");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.EVALUATION, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.STAGING, "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        RegistrationConfiguration.getInstance().setRegistrationClientId(Configuration.PRODUCTION, "9z23k3q8bhqyfwx78aru6bz8zksga54u");
-
-
-        RegistrationConfiguration.getInstance().setMicrositeId("77000");
-        RegistrationConfiguration.getInstance().setRegistrationEnvironment(configuration);
-
-
-        RegistrationConfiguration.getInstance().setEmailVerificationRequired(true);
-        RegistrationConfiguration.getInstance().setTermsAndConditionsAcceptanceRequired(true);
-
-        HashMap<String, String> ageMap = new HashMap<>();
-        ageMap.put("NL", "16");
-        ageMap.put("GB", "16");
-        ageMap.put("default", "16");
-        RegistrationConfiguration.getInstance().setMinAgeLimit(ageMap);
-
-*//*
-
-       */
-/* HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
-        ArrayList<String> values1 = new ArrayList<String>();
-        ArrayList<String> values2 = new ArrayList<String>();
-        ArrayList<String> values3 = new ArrayList<String>();
-        values1.add("facebook");
-        values1.add("googleplus");
-        values1.add("sinaweibo");
-        values1.add("qq");
-
-        values2.add("facebook");
-        values2.add("googleplus");
-        values2.add("sinaweibo");
-        values2.add("qq");
-
-        values3.add("facebook");
-        values3.add("googleplus");
-        values3.add("sinaweibo");
-        values3.add("qq");
-
-        providers.put("NL", values1);
-        providers.put("US", values2);
-        providers.put("default", values3);
-        RegistrationConfiguration.getInstance().setProviders(providers);*//*
-
-        URDependancies urDependancies = new URDependancies(gAppInfra);
-        URSettings urSettings = new URSettings(this);
-        URInterface urInterface = new URInterface();
-        urInterface.init(urDependancies, urSettings);
-*/ RegistrationHelper.getInstance().setAppInfraInstance(gAppInfra);
         final String UR = "UserRegistration";
+
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
@@ -212,13 +156,7 @@ public class AppFrameworkApplication extends Application {
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
 
-      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
-        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
-        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
 
-*/
         gAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "MicrositeID",
                 UR,
@@ -229,9 +167,7 @@ public class AppFrameworkApplication extends Application {
                 UR,
                 configuration.getValue(),
                 configError);
-       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-*/
+
         gAppInfra.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "EmailVerificationRequired",
@@ -279,14 +215,6 @@ public class AppFrameworkApplication extends Application {
                 providers,
                 configError);
 
-       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
-        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
-        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
-*/
-
-        //Store current environment
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
