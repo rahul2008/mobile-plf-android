@@ -38,7 +38,6 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -64,16 +63,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     protected TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
-    private TextView actionBarCount;
     private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null;
     private static int mCartItemCount = 0;
-    private final int CART_POSITION_IN_MENU = 2;
     private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private ImageView mCartIcon;
     private TextView cartCount;
+    int cartItemCount = 0;
     private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
 
     /**
@@ -88,7 +86,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
          */
         super.onCreate(savedInstanceState);
         presenter = new HomeActivityPresenter();
-        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " HomeScreen Activity Created ");
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -384,7 +381,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
-    int cartItemCount = 0;
     @Override
     public void onGetCartCount(int count) {
         cartItemCount = count;
