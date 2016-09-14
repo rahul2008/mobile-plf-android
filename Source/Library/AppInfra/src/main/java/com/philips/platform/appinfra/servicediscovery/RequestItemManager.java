@@ -148,8 +148,21 @@ public class RequestItemManager {
 
                     }
                 }
-                else{
+                else if(localeList.size() > 0){
                     Locale mLocale = mAppInfra.getInternationalization().getUILocale();
+                    for (int i = 0; i < localeList.size(); i++) {
+//                        for (int j = 0; j < mLocaleList.size(); j++) {
+                            if (mLocale.getDefault().toString().equals(localeList.get(i))) {
+                                matchByCountry.setLocale(localeList.get(i));
+                                configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
+                                break;
+                            }else{
+                                matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
+                                configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+                            }
+//                        }
+
+                    }
                 }
                 // Multi, single Locale verification with locale response object
 //                for (int i = 0; i < localeList.size(); i++) {
