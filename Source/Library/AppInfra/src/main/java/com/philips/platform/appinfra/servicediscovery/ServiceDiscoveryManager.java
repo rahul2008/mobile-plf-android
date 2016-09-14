@@ -54,11 +54,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private AppInfra mAppInfra;
     private Context context;
-    private ServiceDiscovery serviceDiscovery = null;
-    boolean isDataAvailable = false;
-    public static boolean isDownloadInProgress = false;
+    ServiceDiscovery serviceDiscovery = null;
+    //    boolean isDataAvailable = false;
+//    public static boolean isDownloadInProgress = false;
     private String countryCode;
-    private String mUrl = null;
+    //    private String mUrl = null;
     String mCountry;
 
     OnErrorListener.ERRORVALUES mErrorValues = null;
@@ -82,7 +82,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
-//        refresh(null);
+        refresh(new OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "refresh ", "refresh" );
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "refresh", "refresh" );
+            }
+        });
     }
 
     private void queueResultListener(boolean forcerefresh, DownloadItemListener listener) {
@@ -151,6 +161,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild);
                 Log.i("Request Call", "Request Call");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Request Call", "Request Call" );
             } else {
                 // TODO RayKlo ???
             }
@@ -304,9 +315,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             queueResultListener(true, new DownloadItemListener() {
                 @Override
                 public void onDownloadDone(ServiceDiscovery result) {
-                    Log.i("Force Refresh is done", "Force Refresh is done");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Force Refresh is done", "Force Refresh is done");
                 }
             });
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Null not Allowed", "Null not Allowed");
         }
     }
 

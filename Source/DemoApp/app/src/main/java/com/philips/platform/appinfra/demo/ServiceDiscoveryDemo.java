@@ -167,8 +167,10 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         String configUrl= null ;
         Iterator it = urlMap.entrySet().iterator();
         Map mMap= new HashMap<String,Map>();
-        Map dataMap = new HashMap<String,String >();
+
         while (it.hasNext()) {
+
+            Map dataMap = new HashMap<String,String >();
             Map.Entry pair = (Map.Entry)it.next();
             System.out.println(pair.getKey() + " = " + pair.getValue());
             key = pair.getKey().toString();
@@ -178,9 +180,14 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
             dataMap.put(locale, configUrl);
             mMap.put(key, dataMap);
-
             it.remove(); // avoids a ConcurrentModificationException
         }
+
+//        for (int i = 0; i < urlMap.size(); i++)
+//        {
+//            Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+//            Log.i("SD", ""+urlMap.get(i).getConfigUrls());
+//        }
         resultView.setText(" URL Model   : " +mMap);
 
     }
