@@ -148,7 +148,9 @@ public class CartModelContainer {
     }
 
     public void addProductCatalogDataDataToList(String ctn, ProductCatalogData data) {
-        mProductCatalogData.put(ctn, data);
+        if (!mProductCatalogData.containsKey(ctn)) {
+            mProductCatalogData.put(ctn, data);
+        }
     }
 
     public boolean isProductCatalogDataPresent(String ctn) {
@@ -160,6 +162,10 @@ public class CartModelContainer {
             return mProductCatalogData.get(ctn);
         }
         return null;
+    }
+
+    public void clearCategoriezedProductList() {
+        mProductCatalogData.clear();
     }
 
     public HashMap<String, ArrayList<String>> getPRXAssetObjects() {
@@ -193,5 +199,4 @@ public class CartModelContainer {
     public void setCountry(String country) {
         this.country = country;
     }
-
 }

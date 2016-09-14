@@ -123,13 +123,12 @@ public class ProductCatalogHelper {
         String CTN;
         for (ProductCatalogData entry : data) {
             CTN = entry.getCtnNumber();
-            if (!container.isProductCatalogDataPresent(CTN)) {
-                if (Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY) == null) {
+            if (currentCountry.equalsIgnoreCase(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY))) {
+                if (!container.isProductCatalogDataPresent(CTN)) {
                     container.addProductCatalogDataDataToList(CTN, entry);
-                } else if (!currentCountry.equals(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY))) {
-                    container.addProductCatalogDataDataToList(CTN, entry);
-                } else
-                    IAPLog.i(IAPLog.LOG, "Already added all Product Catalog in List");
+                }
+            }else{
+                CartModelContainer.getInstance().clearCategoriezedProductList();
             }
         }
         Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());
