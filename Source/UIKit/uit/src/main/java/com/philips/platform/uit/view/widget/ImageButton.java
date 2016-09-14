@@ -7,6 +7,9 @@ package com.philips.platform.uit.view.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
@@ -30,17 +33,41 @@ public class ImageButton extends AppCompatImageButton {
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITImageButton, defStyleAttr, R.style.UITImageButton);
         applyBackgroundTinting(typedArray);
+        applyDrawableProperties(typedArray);
         typedArray.recycle();
     }
 
+    private void applyDrawableProperties(TypedArray typedArray) {
+        applyDrawableBounds(typedArray);
+        applyDrawableColor(typedArray);
+    }
+
+    private void applyDrawableColor(TypedArray typedArray) {
+        int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableColorList, -1);
+        if (resourceId != -1) {
+            Drawable wrapDrawable = DrawableCompat.wrap(getDrawable());
+            DrawableCompat.setTintList(wrapDrawable, getDrawableColorStateList(resourceId));
+        }
+    }
+
+    private void applyDrawableBounds(TypedArray typedArray) {
+        int height = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageDrawableHeight, 0.0f);
+        int width = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageDrawableWidth, 0.0f);
+        getDrawable().setBounds(0, 0, width, height);
+    }
+
     private void applyBackgroundTinting(TypedArray typedArray) {
-        int backGroundListID = typedArray.getResourceId(R.styleable.UITButton_uitButtonBackgroundColorList, -1);
+        int backGroundListID = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            setSupportBackgroundTintList(getBackgroundColorStateList(backGroundListID));
+            ViewCompat.setBackgroundTintList(this, getBackgroundColorStateList(backGroundListID));
         }
     }
 
     private ColorStateList getBackgroundColorStateList(int backgroundColorStateID) {
         return AppCompatResources.getColorStateList(getContext(), backgroundColorStateID);
+    }
+
+    private ColorStateList getDrawableColorStateList(int drawableColorStateID) {
+        return AppCompatResources.getColorStateList(getContext(), drawableColorStateID);
     }
 }
