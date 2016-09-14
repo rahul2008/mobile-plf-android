@@ -17,7 +17,7 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ButtonWithIconOnlyTest {
+public class PrimaryButtonWithIconOnlyTest {
 
     private AppCompatImageButton iconButton;
     private Resources testResources;
@@ -40,6 +40,12 @@ public class ButtonWithIconOnlyTest {
 //        int expectedIconButtonHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_height);
 //        assertEquals(expectedIconButtonHeight, iconButton.getHeight());
 //    }
+
+    //    @Test
+//    public void verifyButtonWithIconWidth(){
+//        int expectedIconButtonHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_height);
+//        assertEquals(expectedIconButtonHeight, iconButton.getHeight());
+//    }
 //
 //    @Test
 //    public void verifyIconHeight(){
@@ -55,13 +61,27 @@ public class ButtonWithIconOnlyTest {
 //    }
 
     @Test
-    public void verifyCornerRadiusOfButtonWithIcon(){
+    public void verifyButtonWithIconLeftPadding(){
 
+    }
+
+    @Test
+    public void verifyButtonWithIconRightPadding(){
+
+    }
+
+    @Test
+    public void verifyCornerRadiusOfButtonWithIcon(){
 
 
     }
 
     /************************************************Theming************************************************/
+
+    @Test
+    public void verifyIconButtonIconColor(){
+
+    }
 
 
 

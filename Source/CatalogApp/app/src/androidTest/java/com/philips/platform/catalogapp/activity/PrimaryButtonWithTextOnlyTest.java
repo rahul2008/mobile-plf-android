@@ -1,8 +1,9 @@
+package com.philips.platform.catalogapp.activity;
+
 /**
- * (C) Koninklijke Philips N.V., 2015.
+ * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.platform.catalogapp.activity;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -10,20 +11,24 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.graphics.ColorUtils;
 
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.utils.GradientDrawableUtils;
+import com.philips.platform.catalogapp.utils.ThemeColorUtils;
 import com.philips.platform.uit.view.widget.Button;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static com.philips.platform.catalogapp.test.R.color.GroupBlue35;
+import static com.philips.platform.catalogapp.test.R.color.groupblue45;
+import static com.philips.platform.catalogapp.utils.ThemeColorUtils.modulateColorAlpha;
 import static junit.framework.Assert.assertEquals;
 
-public class ButtonWithTextOnlyTest {
+public class PrimaryButtonWithTextOnlyTest {
 
     private Button button;
     private Resources testResources;
@@ -32,6 +37,7 @@ public class ButtonWithTextOnlyTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    private int parseColorWhite;
 
     @Before
     public void setUp() {
@@ -39,11 +45,12 @@ public class ButtonWithTextOnlyTest {
         backgroundDrawable = button.getBackground();
         testResources = getInstrumentation().getContext().getResources();
         context = mActivityTestRule.getActivity();
+        parseColorWhite = Color.parseColor("#ffffff");
     }
 
-    /*************************************************
+    /*****************************************
      * Layout Scenarios
-     ************************************************/
+     *********************************************/
 
     @Test
     public void verifyButtonHeight() {
@@ -60,7 +67,7 @@ public class ButtonWithTextOnlyTest {
     @Test
     public void verifyButtonRightPadding() {
         int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_right_padding);
-        assertEquals(expectedRightPadding, button.getPaddingLeft());
+        assertEquals(expectedRightPadding, button.getPaddingRight());
     }
 
     @Test
@@ -70,7 +77,8 @@ public class ButtonWithTextOnlyTest {
         assertEquals(radius, stateColors.getCornerRadius()[0]);
     }
 
-    @Test
+    // TODO: 9/14/2016
+    @Ignore
     public void verifyButtonFontType() {
 
     }
@@ -84,19 +92,22 @@ public class ButtonWithTextOnlyTest {
     /*******************************************************
      * Theming
      ******************************************************/
-
+    // TODO: 9/14/2016
     @Test
     public void verifyPrimaryTextOnlyButtonControlColorULTone() {
         final ColorStateList tintList = button.getSupportBackgroundTintList();
         int actualColor = tintList.getColorForState(new int[]{android.R.attr.state_enabled}, -1);
-        assertEquals(Color.parseColor("#1474A4"), actualColor);
+        final int expectedColor = testResources.getColor(groupblue45);
+        assertEquals(expectedColor, actualColor);
     }
 
+    // TODO: 9/14/2016
     @Test
     public void verifyPrimaryTextOnlyPressedButtonControlColorULTone() {
         final ColorStateList tintList = button.getSupportBackgroundTintList();
         int actualColor = tintList.getColorForState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, -1);
-        assertEquals(Color.parseColor("#439AC1"), actualColor);
+        final int expectedColor = testResources.getColor(GroupBlue35);
+        assertEquals(expectedColor, actualColor);
     }
 
     @Test
@@ -107,16 +118,12 @@ public class ButtonWithTextOnlyTest {
         assertEquals(modulateColorAlpha(enabledColor, 0.25f), actualColor);
     }
 
-    private static int modulateColorAlpha(int color, float alphaMod) {
-        return ColorUtils.setAlphaComponent(color, Math.round(Color.alpha(color) * alphaMod));
-    }
-
     @Test
     public void verifyPrimaryTextOnlyButtonFontColor() {
         button.setEnabled(true);
         final int textColors = button.getCurrentTextColor();
         int actualTextColor = textColors;
-        assertEquals(Color.parseColor("#ffffff"), actualTextColor);
+        assertEquals(parseColorWhite, actualTextColor);
     }
 
     @Test
@@ -124,8 +131,11 @@ public class ButtonWithTextOnlyTest {
         button.setPressed(true);
         final int textColors = button.getCurrentTextColor();
         int actualTextColor = textColors;
-        assertEquals(Color.parseColor("#ffffff"), actualTextColor);
+        assertEquals(parseColorWhite, actualTextColor);
     }
+
+    // TODO: 9/14/2016
+//    idling resources using espresso
 
     @Test
     public void verifyPrimaryTextOnlyDisabledButtonFontColor() {
@@ -133,7 +143,16 @@ public class ButtonWithTextOnlyTest {
         final int textColors = button.getCurrentTextColor();
         int actualTextColor = textColors;
         final int disabledTextColor = Color.parseColor("#ffffff");
-        assertEquals(modulateColorAlpha(disabledTextColor, 0.35f), actualTextColor);
+        assertEquals(ThemeColorUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
+    }
+
+    @Test
+    public void verifyPrimaryTextOnlyDisabled1ButtonFontColor() {
+        button.setEnabled(false);
+        final int textColors = button.getCurrentTextColor();
+        int actualTextColor = textColors;
+        final int disabledTextColor = Color.parseColor("#ffffff");
+        assertEquals(ThemeColorUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
     }
 }
 
