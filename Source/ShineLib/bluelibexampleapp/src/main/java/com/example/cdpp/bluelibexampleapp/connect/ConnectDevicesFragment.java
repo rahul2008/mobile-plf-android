@@ -17,46 +17,22 @@ import android.view.ViewGroup;
 
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
-import com.example.cdpp.bluelibexampleapp.detail.DeviceDetailActivity;
 import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
-import com.philips.pins.shinelib.SHNCentral;
+import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
+import com.example.cdpp.bluelibexampleapp.device.DeviceScanner;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
-import com.philips.pins.shinelib.SHNDeviceScanner;
-import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DeviceScanner.OnDeviceScanListener {
 
     private static final String TAG = "ConnectDevicesFragment";
 
-    private static final long SCAN_TIMEOUT_MS = 10000L;
-
-    private SHNDeviceScanner mDeviceScanner;
-
-    private List<SHNDeviceFoundInfo> mNearbyDevices = new ArrayList<>();
-
     private ConnectDeviceAdapter mConnectDeviceAdapter;
-
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private boolean mIsScanning;
-
-    private final SHNDeviceScanner.SHNDeviceScannerListener mDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
-        @Override
-        public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-            SHNLogger.i(TAG, String.format("Device found: %s", shnDeviceFoundInfo.getDeviceName()));
-
-            mNearbyDevices.add(shnDeviceFoundInfo);
-            updateList();
-        }
-
-        @Override
-        public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-            onScanStopped();
-        }
-    };
+    private DeviceScanner mDeviceScanner;
+    private List<SHNDeviceFoundInfo> mDeviceFoundInfos = new ArrayList<>();
 
     public ConnectDevicesFragment() {
     }
@@ -78,9 +54,9 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.nearbyDevices);
         setupRecyclerView(recyclerView);
 
-        // Obtain reference to BlueLib instance
-        SHNCentral shnCentral = BlueLibExampleApplication.get().getShnCentral();
-        mDeviceScanner = shnCentral.getShnDeviceScanner();
+        // Listen for scan events
+        mDeviceScanner = BlueLibExampleApplication.get().getScanner();
+        mDeviceScanner.addOnScanListener(this);
 
         return rootView;
     }
@@ -89,23 +65,46 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
     public void onResume() {
         super.onResume();
 
-        scanForDevices();
+        if (mDeviceFoundInfos.isEmpty()) {
+            mDeviceScanner.startScan();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mDeviceScanner.stopScanning();
+        mDeviceScanner.stopScan();
+        mDeviceScanner.removeOnScanListener(this);
     }
 
     @Override
     public void onRefresh() {
-        scanForDevices();
+        mDeviceScanner.startScan();
+    }
+
+    @Override
+    public void onDeviceScanStarted() {
+        mDeviceFoundInfos.clear();
+
+        updateList();
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void onDeviceFoundInfo(SHNDeviceFoundInfo deviceFoundInfo) {
+        mDeviceFoundInfos.add(deviceFoundInfo);
+
+        updateList();
+    }
+
+    @Override
+    public void onDeviceScanFinished() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        mConnectDeviceAdapter = new ConnectDeviceAdapter(mNearbyDevices);
+        mConnectDeviceAdapter = new ConnectDeviceAdapter(mDeviceFoundInfos);
         mConnectDeviceAdapter.setOnItemClickListener(new BaseDeviceAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View itemView) {
@@ -128,30 +127,5 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
             return;
         }
         mConnectDeviceAdapter.notifyDataSetChanged();
-    }
-
-    private void scanForDevices() {
-        if (mIsScanning) {
-            return;
-        }
-
-        // Initialize device list
-        mNearbyDevices.clear();
-        updateList();
-
-        // Scan for devices
-        mDeviceScanner.startScanning(mDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, SCAN_TIMEOUT_MS);
-
-        onScanStarted();
-    }
-
-    private void onScanStarted() {
-        mIsScanning = true;
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    private void onScanStopped() {
-        mIsScanning = false;
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

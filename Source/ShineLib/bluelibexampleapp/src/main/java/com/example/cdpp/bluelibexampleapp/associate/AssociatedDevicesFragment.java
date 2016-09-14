@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
-import com.example.cdpp.bluelibexampleapp.detail.DeviceDetailActivity;
+import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
 import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.philips.pins.shinelib.SHNAssociationProcedure;
 import com.philips.pins.shinelib.SHNCentral;

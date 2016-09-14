@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.example.cdpp.bluelibexampleapp.detail;
+package com.example.cdpp.bluelibexampleapp.device;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,33 +34,15 @@ public class DeviceDetailActivity extends AppCompatActivity {
     private static final String TAG = "DeviceDetail";
 
     private View mView;
+    private FloatingActionButton mFab;
 
     private SHNDevice mDevice;
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
 
         @Override
-        public void onStateUpdated(SHNDevice shnDevice) {
-            SHNDevice.State deviceState = shnDevice.getState();
-
-            switch (deviceState) {
-                case Connected:
-                    setupDeviceCapabilities(shnDevice);
-                    showMessage("Device connected: " + shnDevice.getName(), false);
-
-                    break;
-                case Connecting:
-                    showMessage("Device connecting...", true);
-
-                    break;
-                case Disconnected:
-                    showMessage("Device disconnected.", false);
-
-                    break;
-                case Disconnecting:
-                    showMessage("Device disconnecting...", true);
-
-                    break;
-            }
+        public void onStateUpdated(SHNDevice device) {
+            updateUiState(device);
+            updateConnectButtonState(device.getState());
         }
 
         @Override
@@ -74,12 +56,6 @@ public class DeviceDetailActivity extends AppCompatActivity {
         }
     };
 
-    private void showMessage(String message, boolean isIndefinite) {
-        SHNLogger.i(TAG, message);
-
-        Snackbar.make(mView, message, isIndefinite ? Snackbar.LENGTH_INDEFINITE : Snackbar.LENGTH_LONG).show();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,12 +63,13 @@ public class DeviceDetailActivity extends AppCompatActivity {
 
         mView = findViewById(android.R.id.content);
 
+        // Setup the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        // Setup connection button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Setup the connect button
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mDevice == null) {
@@ -102,20 +79,32 @@ public class DeviceDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Obtain selected device instance
-        mDevice = BlueLibExampleApplication.get().getSelectedDevice();
-        if (mDevice != null) {
-            mDevice.registerSHNDeviceListener(mDeviceListener);
-
-            setTitle(mDevice.getName());
-            setupDeviceCapabilities(mDevice);
-        }
-
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        mDevice = BlueLibExampleApplication.get().getSelectedDevice();
+        if (mDevice != null) {
+            mDevice.registerSHNDeviceListener(mDeviceListener);
+
+            // Update UI
+            setTitle(mDevice.getName());
+            updateUiState(mDevice);
+            updateConnectButtonState(mDevice.getState());
+        }
+    }
+
+    private void updateConnectButtonState(SHNDevice.State state) {
+        if (mFab == null) {
+            return;
+        }
+        mFab.setEnabled(SHNDevice.State.Disconnected.equals(state));
+
+        boolean isButtonVisible = mFab.isEnabled() && !BlueLibExampleApplication.get().isDeviceAssociated(mDevice);
+
+        mFab.setVisibility(isButtonVisible ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -136,6 +125,28 @@ public class DeviceDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateUiState(@NonNull SHNDevice device) {
+        switch (device.getState()) {
+            case Connected:
+                showMessage(String.format(Locale.US, getString(R.string.device_connected), device.getName()), false);
+                setupDeviceCapabilities(device);
+                break;
+            case Connecting:
+                showMessage(getString(R.string.device_connecting), true);
+                break;
+            case Disconnected:
+                showMessage(getString(R.string.device_disconnected), false);
+                break;
+            case Disconnecting:
+                showMessage(getString(R.string.device_disconnecting), true);
+                break;
+        }
+    }
+
+    private void showMessage(String message, boolean isIndefinite) {
+        Snackbar.make(mView, message, isIndefinite ? Snackbar.LENGTH_INDEFINITE : Snackbar.LENGTH_LONG).show();
     }
 
     private void setupDeviceCapabilities(final SHNDevice shnDevice) {
@@ -188,7 +199,9 @@ public class DeviceDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error) {
-                setTextByViewId(error.name(), textViewId);
+                SHNLogger.e(TAG, "Error reading device information: " + error.name());
+
+                setTextByViewId(getString(R.string.unknown), textViewId);
             }
         });
     }

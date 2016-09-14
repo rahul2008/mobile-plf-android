@@ -7,6 +7,7 @@ package com.example.cdpp.bluelibexampleapp;
 
 import android.app.Application;
 
+import com.example.cdpp.bluelibexampleapp.device.DeviceScanner;
 import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -23,6 +24,7 @@ public class BlueLibExampleApplication extends Application {
 
     private SHNCentral mShnCentral;
     private SHNDevice mSelectedDevice;
+    private DeviceScanner mDeviceScanner;
 
     @Override
     public void onCreate() {
@@ -43,6 +45,9 @@ public class BlueLibExampleApplication extends Application {
             SHNLogger.e(TAG, "Error obtaining BlueLib instance: " + e.getMessage());
         }
 
+        // Create device scanner
+        mDeviceScanner = new DeviceScanner(mShnCentral);
+
         setupDeviceDefinitions();
     }
 
@@ -53,8 +58,19 @@ public class BlueLibExampleApplication extends Application {
         return sApplication;
     }
 
-    public final SHNCentral getShnCentral() {
+    public SHNCentral getShnCentral() {
         return mShnCentral;
+    }
+
+    public DeviceScanner getScanner() {
+        return mDeviceScanner;
+    }
+
+    public boolean isDeviceAssociated(SHNDevice device) {
+        if (device == null) {
+            return false;
+        }
+        return mShnCentral.getShnDeviceAssociation().getAssociatedDevices().contains(device);
     }
 
     private void setupDeviceDefinitions() {
@@ -72,4 +88,5 @@ public class BlueLibExampleApplication extends Application {
     public SHNDevice getSelectedDevice() {
         return mSelectedDevice;
     }
+
 }

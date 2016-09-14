@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".detail.DeviceDetailActivity"
+            android:name=".device.DeviceDetailActivity"
             android:label="@string/device_detail_title"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
