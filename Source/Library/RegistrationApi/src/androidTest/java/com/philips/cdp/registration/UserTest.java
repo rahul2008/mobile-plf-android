@@ -12,20 +12,16 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
-//import com.philips.cdp.registration.configuration.Configuration;
-//import com.philips.cdp.registration.configuration.PILConfiguration;
-//import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-//import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-//import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONObject;
+import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,9 +31,13 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-
-
 import static com.janrain.android.utils.LogUtils.throwDebugException;
+
+//import com.philips.cdp.registration.configuration.Configuration;
+//import com.philips.cdp.registration.configuration.PILConfiguration;
+//import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+//import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
+//import com.philips.cdp.registration.dao.DIUserProfile;
 
 /**
  * Created by 310202337 on 4/12/2016.
@@ -660,6 +660,29 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 
         }
 
+
+        @Test
+        public void testUserRegisttationListener(){
+                User   user = new User(getInstrumentation().getContext());
+               UserRegistrationListener userRegistrationListener =  new UserRegistrationListener() {
+                        @Override
+                        public void onUserLogoutSuccess() {
+
+                        }
+
+                        @Override
+                        public void onUserLogoutFailure() {
+
+                        }
+
+                        @Override
+                        public void onUserLogoutSuccessWithInvalidAccessToken() {
+
+                        }
+                };
+                user.registerUserRegistrationListener(userRegistrationListener);
+                user.unRegisterUserRegistrationListener(userRegistrationListener);
+        }
 
 
 

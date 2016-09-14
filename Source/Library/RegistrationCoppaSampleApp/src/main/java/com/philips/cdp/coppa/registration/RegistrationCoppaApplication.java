@@ -50,6 +50,8 @@ public class RegistrationCoppaApplication extends Application {
             initRegistration(Configuration.DEVELOPMENT);
         }
 
+
+
     }
 
     final String UR = "UserRegistration";

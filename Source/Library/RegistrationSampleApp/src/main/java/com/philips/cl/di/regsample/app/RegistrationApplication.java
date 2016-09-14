@@ -51,7 +51,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.STAGING);
+            initRegistration(Configuration.DEVELOPMENT);
         }
     }
 
