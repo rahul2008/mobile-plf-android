@@ -152,7 +152,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/simulator/debug/com/philips/')
+    classes = fileTree('build/intermediates/classes/device/debug/com/philips/')
     source = fileTree('src/main/java')
     classpath = files()
 
