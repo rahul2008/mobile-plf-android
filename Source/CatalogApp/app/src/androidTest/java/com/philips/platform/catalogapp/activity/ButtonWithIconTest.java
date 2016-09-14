@@ -1,5 +1,10 @@
 package com.philips.platform.catalogapp.activity;
 
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
@@ -13,10 +18,7 @@ import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class ButtonWithIconTest {
 
     private Button button;
@@ -27,7 +29,7 @@ public class ButtonWithIconTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         button = new Button(mActivityTestRule.getActivity());
         backgroundDrawable = button.getBackground();
         testResources = getInstrumentation().getContext().getResources();
@@ -36,15 +38,12 @@ public class ButtonWithIconTest {
     /************************************************Layout************************************************/
 
     @Test
-    public void verifyIconButtonHeight(){
+    public void verifyIconButtonHeight() {
 
     }
 
     @Test
-    public void verifyIconButtonWidth(){
+    public void verifyIconButtonWidth() {
 
     }
-
-
-
-        }
+}
