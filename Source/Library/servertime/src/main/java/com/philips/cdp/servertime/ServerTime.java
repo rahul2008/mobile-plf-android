@@ -15,9 +15,12 @@ import android.util.Log;
 
 import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -52,10 +55,10 @@ public class ServerTime {
 
     private static volatile ServerTime serverTimeInstance;
 
-    public synchronized static void init(final Context pContext) {
-        mContext = pContext;
-        mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE,
-                Context.MODE_PRIVATE);
+    public static void init(final Context pContext) {
+            mContext = pContext;
+            mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE,
+                    Context.MODE_PRIVATE);
     }
 
     private ServerTime() {
@@ -90,7 +93,9 @@ public class ServerTime {
 
     }
 
-    private final String[] serverPool = {"0.asia.pool.ntp.org", "1.asia.pool.ntp.org",
+    private final String[] serverPool = new String[]
+            {"0.asia.pool.ntp.org",
+            "1.asia.pool.ntp.org",
             "2.asia.pool.ntp.org", "3.asia.pool.ntp.org"};
 
     private boolean requestTime(String host, int timeout) {
@@ -126,7 +131,10 @@ public class ServerTime {
             final long clockOffset = ((receiveTime - originateTime) +
                     (transmitTime - responseTime)) / 2;
             mNtpTime = responseTime + clockOffset;
-        } catch (Exception e) {
+        } catch (UnknownHostException | SocketException e ) {
+            Log.d(TAG, "request time failed: " + e);
+            return false;
+        } catch (IOException e) {
             Log.d(TAG, "request time failed: " + e);
             return false;
         } finally {
@@ -134,7 +142,6 @@ public class ServerTime {
                 socket.close();
             }
         }
-
         return true;
     }
 
@@ -160,47 +167,47 @@ public class ServerTime {
         return System.currentTimeMillis() - SystemClock.elapsedRealtime();
     }
 
-    public synchronized String getCurrentUTCTimeWithFormat(final String pFormat) {
-        final long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
-        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ROOT);
-        Date date = null;
-        if (isRefreshInProgress) {
-            date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
-        } else {
-            date = new Date(getOffset() + System.currentTimeMillis());
+    public String getCurrentUTCTimeWithFormat(final String pFormat) {
+        synchronized (this) {
+            final long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
+            final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ROOT);
+            Date date = null;
+            if (isRefreshInProgress) {
+                date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
+            } else {
+                date = new Date(getOffset() + System.currentTimeMillis());
+            }
+            sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
+            return sdf.format(date);
         }
-        sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
-        return sdf.format(date);
     }
 
 
     private boolean isRefreshInProgress;
 
     private void saveElapsedOffset(final long offSetMilliseconds) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        final SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(ServerTimeConstants.OFFSET_ELAPSED, offSetMilliseconds);
         editor.commit();
     }
 
     public synchronized void refreshOffset() {
-        isRefreshInProgress = true;
-        final long elapsedTime = SystemClock.elapsedRealtime();
-        final long currentTime = System.currentTimeMillis();
-
-        long nowAsPerDeviceTimeZone = 0;
-        for (int i = 0; i < ServerTimeConstants.POOL_SIZE; i++) {
-            if (this.requestTime(serverPool[i], 30000)) {
-                nowAsPerDeviceTimeZone = getNtpTime();
-                break;
+        synchronized (this) {
+            isRefreshInProgress = true;
+            long nowAsPerDeviceTimeZone = 0;
+            for (int i = 0; i < ServerTimeConstants.POOL_SIZE; i++) {
+                if (this.requestTime(serverPool[i], 30000)) {
+                    nowAsPerDeviceTimeZone = getNtpTime();
+                    break;
+                }
             }
+            if (nowAsPerDeviceTimeZone != 0L) {
+                final long deviceTime = System.currentTimeMillis();
+                saveOffset(nowAsPerDeviceTimeZone - deviceTime);
+            }
+            saveElapsedOffset(System.currentTimeMillis() - SystemClock.elapsedRealtime());
+            isRefreshInProgress = false;
         }
-        if (nowAsPerDeviceTimeZone != 0L) {
-            final long deviceTime = System.currentTimeMillis();
-            saveOffset(nowAsPerDeviceTimeZone - deviceTime);
-        }
-        saveElapsedOffset(currentTime - elapsedTime);
-        isRefreshInProgress = false;
-
     }
 
     private long getCurrentTimeZoneDiff() {

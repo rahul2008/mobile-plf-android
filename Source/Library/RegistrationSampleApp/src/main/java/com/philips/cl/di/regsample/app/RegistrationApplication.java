@@ -10,7 +10,6 @@ import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -43,7 +42,6 @@ public class RegistrationApplication extends Application {
         super.onCreate();
         mRegistrationHelper = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
-        RegistrationHelper.getInstance().setAppInfraInstance(mAppInfraInterface);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
