@@ -72,6 +72,6 @@ public enum SHNDataType {
     CM3RestingHeartRateDataMoonshine,
     EnergyIntakeMoonshine,
     ExtendedWeight,
-    IrLightMoonshine,
-    LuxValueMoonshine
+    LuxValueMoonshine,
+    IrLightMoonshine
 }
