@@ -16,7 +16,7 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ButtonWithTextAndIconTest {
+public class PrimaryButtonWithTextAndIconTest {
 
     private Button button;
     private Resources testResources;
