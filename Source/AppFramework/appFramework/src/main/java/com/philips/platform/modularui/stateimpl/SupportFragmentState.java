@@ -42,11 +42,12 @@ public class SupportFragmentState extends UIState implements CcListener {
 
     @Override
     public void navigate(Context context) {
-        mFragmentActivity = (HomeActivity) context;
         mContext = context;
-        actionBarListener  = (HomeActivity) context;
+
         if(context instanceof HomeActivity){
             containerID = R.id.frame_container;
+            mFragmentActivity = (HomeActivity) context;
+            actionBarListener  = (HomeActivity) context;
         }
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         runCC();
