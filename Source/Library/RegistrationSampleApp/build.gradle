@@ -86,11 +86,11 @@ android {
     }
 
     productFlavors {
-        simulator {
+        /*simulator {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
             versionName objcdp.getVersionWithHash()
-        }
+        }*/
         device {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
