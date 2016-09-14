@@ -107,7 +107,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
             //noinspection deprecation
             arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
             mActionBar.setCustomView(mCustomView, params);
-            textView.setText(R.string.af_app_name);
+          //  textView.setText(R.string.af_app_name);
         }
     }
 
@@ -126,11 +126,13 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-
+    textView.setText(i);
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
+        textView.setText(s);
+
 
     }
 
