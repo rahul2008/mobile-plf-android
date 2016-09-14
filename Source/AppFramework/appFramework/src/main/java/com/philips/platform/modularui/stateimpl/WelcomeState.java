@@ -12,15 +12,27 @@ import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 
 public class WelcomeState extends UIState {
+    /**
+     * constructor
+     * @param stateID
+     */
     public WelcomeState(@UIStateDef int stateID) {
         super(stateID);
     }
 
+    /**
+     * to navigate
+     * @param context requires context
+     */
     @Override
     public void navigate(Context context) {
         context.startActivity(new Intent(context, WelcomeActivity.class));
     }
 
+    /**
+     * handles back pressed
+     * @param context requires context
+     */
     @Override
     public void back(final Context context) {
     }

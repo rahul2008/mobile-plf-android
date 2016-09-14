@@ -13,11 +13,18 @@ import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 
 public class SettingsFragmentState extends UIState {
-
+    /**
+     * constructor
+     * @param stateID
+     */
     public SettingsFragmentState(@UIStateDef int stateID) {
         super(stateID);
     }
 
+    /**
+     * to navigate
+     * @param context requires context
+     */
     @Override
     public void navigate(Context context) {
         if(context instanceof HomeActivity) {
@@ -25,6 +32,10 @@ public class SettingsFragmentState extends UIState {
         }
     }
 
+    /**
+     * to handle back
+     * @param context requires context
+     */
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();

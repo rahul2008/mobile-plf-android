@@ -14,7 +14,8 @@ import java.lang.annotation.RetentionPolicy;
 abstract public class UIState {
 
     UIBasePresenter uiBasePresenter;
-    /**
+    /**  This class defines constants for each state ,
+     * Any new state should be added here and its constant should be defined here
      * Constants for each state
      */
     @IntDef({UI_WELCOME_REGISTRATION_STATE,UI_SPLASH_STATE,UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
@@ -46,28 +47,58 @@ abstract public class UIState {
     @UIState.UIStateDef
     int stateID;
 
+    /**
+     * State constructor
+     * @param stateID  pass the state Id
+     */
     public UIState(@UIState.UIStateDef int stateID){
         this.stateID = stateID;
     }
 
+    /**
+     * getter for state Id
+     * @return stateID
+     */
     @UIState.UIStateDef
     public int getStateID() {
         return stateID;
     }
 
+    /**
+     * setter for state ID
+     * @param stateID requirs the state ID
+     */
     @UIState.UIStateDef
     public void setStateID(int stateID) {
         this.stateID = stateID;
     }
 
+    /**
+     * For navigating from one state to other
+     * @param context requires context
+     */
     protected abstract void navigate(Context context);
 
+    /**
+     * For going back to last state
+     * @param context requires context
+     */
+
     public abstract void back(Context context);
+
+    /**
+     * to set the presenter
+     * @param uiBasePresenter
+     */
 
     public void setPresenter(UIBasePresenter uiBasePresenter){
         this.uiBasePresenter = uiBasePresenter;
     }
 
+    /**
+     * to get the presenter object
+     * @return
+     */
     public UIBasePresenter getPresenter(){
         return uiBasePresenter;
     }

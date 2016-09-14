@@ -157,10 +157,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(com.philips.cdp.di.iap.R.layout.iap_action_bar, null); // layout which contains your button.
-        hamburgerIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_iv_header_back_button);
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
+        hamburgerIcon = (ImageView) mCustomView.findViewById(R.id.af_hamburger_imageview);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
-        hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
+        hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.af_hamburger_frame_layout);
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,9 +168,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         });
         hamburgerIcon.setTag("HamburgerIcon");
-        actionBarTitle = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_title);
+        actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
-        mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);
+        mCartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
         mCartIcon.setBackground(mCartIconDrawable);
         mCartIcon.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +180,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 presenter.onClick(UIConstants.UI_SHOPPING_CART_BUTTON_CLICK, HomeActivity.this);
             }
         });
-        cartCount = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.item_count);
+        cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
         cartCount.setVisibility(View.INVISIBLE);
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
@@ -266,6 +266,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof BaseAnimationSupportFragment) {
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
+                        updateCartIconVisibility(true);
                         popBackTillHomeFragment();
                     }
                 } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase("digitalcare")) {
@@ -385,7 +386,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     public void onGetCartCount(int count) {
 
-        if (count > 0) {
+        if (count > 0 && mCartIcon.getVisibility() == View.VISIBLE) {
             cartCount.setVisibility(View.VISIBLE);
             cartCount.setText(String.valueOf(count));
         } else {
