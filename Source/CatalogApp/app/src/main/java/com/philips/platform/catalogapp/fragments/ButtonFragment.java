@@ -21,7 +21,7 @@ public class ButtonFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.demo_buttons, null);
+        View view = inflater.inflate(R.layout.fragment_buttons, null);
         imageButton = (ImageButton) view.findViewById(R.id.demo_image_button);
         imageButton.setImageDrawable(getShareIcon());
         return view;

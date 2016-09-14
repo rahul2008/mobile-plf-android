@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="UltraLight">
         <item name="uikitContentPrimaryColor">@color/uikitColorWhite</item>
         <item name="uikitContentSecondaryColor">?attr/uikitColorLevel05</item>
@@ -18,4 +19,38 @@
 
     </style>
 
+    <style name="VeryLight">
+        <item name="uikitContentPrimaryColor">?attr/uikitColorLevel20</item>
+        <item name="uikitContentSecondaryColor">?attr/uikitColorLevel25</item>
+
+        <item name="uikitNavigationPrimaryColor">?attr/uikitColorLevel05</item>
+        <item name="uikitNavigationSecondaryColor">?attr/uikitColorLevel10</item>
+
+    </style>
+
+    <style name="Light">
+        <item name="uikitContentPrimaryColor">?attr/uikitColorLevel35</item>
+        <item name="uikitContentSecondaryColor">?attr/uikitColorLevel40</item>
+
+        <item name="uikitNavigationPrimaryColor">?attr/uikitColorLevel20</item>
+        <item name="uikitNavigationSecondaryColor">?attr/uikitColorLevel25</item>
+    </style>
+
+
+    <style name="Bright">
+        <item name="uikitContentPrimaryColor">?attr/uikitColorLevel50</item>
+        <item name="uikitContentSecondaryColor">?attr/uikitColorLevel55</item>
+
+        <item name="uikitNavigationPrimaryColor">?attr/uikitColorLevel40</item>
+        <item name="uikitNavigationSecondaryColor">?attr/uikitColorLevel45</item>
+    </style>
+
+    <style name="VeryDark">
+        <item name="uikitContentPrimaryColor">?attr/uikitColorLevel80</item>
+        <item name="uikitContentSecondaryColor">?attr/uikitColorLevel85</item>
+
+        <item name="uikitNavigationPrimaryColor">?attr/uikitColorLevel65</item>
+        <item name="uikitNavigationSecondaryColor">?attr/uikitColorLevel70</item>
+
+    </style>
 </resources>

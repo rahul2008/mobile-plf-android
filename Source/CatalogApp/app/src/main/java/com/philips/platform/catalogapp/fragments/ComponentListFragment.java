@@ -7,7 +7,6 @@ package com.philips.platform.catalogapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +24,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class DemoListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ComponentListFragment extends Fragment implements AdapterView.OnItemClickListener {
     private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     ListView listView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.demo_main_listview, null);
-        listView = (ListView) view.findViewById(R.id.demo_list);
+        View view = inflater.inflate(R.layout.fragment_component_list, null);
+        listView = (ListView) view.findViewById(R.id.componentList);
         setListItems();
         return view;
     }

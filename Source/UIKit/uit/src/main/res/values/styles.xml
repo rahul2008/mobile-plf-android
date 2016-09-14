@@ -1,9 +1,9 @@
 <resources>
 
-<!-- Base application theme. -->
-<style name="Theme.Philips" parent="Theme.AppCompat.Light">
-    <item name="buttonStyle">@style/UITDefaultButton</item>
-    <item name="imageButtonStyle">@style/UITImageButton</item>
-</style>
+    <!-- Base application theme. -->
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
+        <item name="buttonStyle">@style/UITDefaultButton</item>
+        <item name="imageButtonStyle">@style/UITImageButton</item>
+    </style>
 
 </resources>
