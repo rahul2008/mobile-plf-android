@@ -42,5 +42,14 @@
         <attr name="uikitColorLevel10" format="reference|color"/>
         <attr name="uikitColorLevel05" format="reference|color"/>
     </declare-styleable>
-    
+
+    <declare-styleable name="UitComponentType">
+        <attr name="uitComponentType" format="enum">
+            <enum name="Primary" value="0"/>
+            <enum name="AltPrimary" value="1"/>
+            <enum name="Secondary" value="2"/>
+            <enum name="Accent" value="3"/>
+        </attr>
+    </declare-styleable>
+
 </resources>
