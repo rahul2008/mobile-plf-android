@@ -1,20 +1,14 @@
 package com.philips.platform.appinfra.appidentity;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import junit.framework.Assert;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -78,7 +72,7 @@ public class AppIdentityTest extends MockitoTestCase {
                             "  \"appidentity.sector\"  : \"B2C\",\n" +
                             " \"appidentity.appState\"  : \"Staging\",\n" +
                             "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
-                            "\"restclient.cacheSizeInKB\"  : \"1024\" \n" +
+                            "\"restclient.cacheSizeInKB\"  : 1024 \n" +
                             "} \n" + "}";
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
