@@ -20,6 +20,7 @@
     
     <style name="UITImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">@drawable/uit_default_button_background</item>
+        <item name="android:minWidth">@dimen/uit_imagebutton_size</item>
         <item name="android:minHeight">@dimen/uit_imagebutton_size</item>
         <item name="android:paddingRight">@dimen/uit_imagebutton_padding</item>
         <item name="android:paddingLeft">@dimen/uit_imagebutton_padding</item>
