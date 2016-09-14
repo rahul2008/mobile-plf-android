@@ -11,4 +11,11 @@
         <attr name="uitButtonBackgroundColorList" format="reference" />
         <attr name="uitButtonTextColorList" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="UITImageButton">
+        <attr name="uitImageDrawableHeight" format="dimension" />
+        <attr name="uitImageDrawableWidth" format="dimension" />
+        <attr name="uitImageButtonDrawableColorList" format="reference" />
+        <attr name="uitImageButtonColorList" format="reference" />
+    </declare-styleable>
 </resources>

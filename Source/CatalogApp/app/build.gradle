@@ -29,13 +29,17 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "0.1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        jenkins {
+            testCoverageEnabled true
         }
     }
 
@@ -55,7 +59,37 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'LICENSE.txt'
+        exclude 'asm-license.txt'
 
+    }
+}
+
+def coverageSourceDirs = ['src/main/java']
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(dir: 'build/intermediates/classes/jenkins',
+            excludes: ['**/R.class',
+                       '**/R$*.class'])
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testJenkinsUnitTest.exec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
     }
 }
 
@@ -69,5 +103,5 @@ dependencies {
 }
 
 configurations.all {
-    resolutionStrategy.force 'com.android.support:support-annotations:22.2.1'
+    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
 }
