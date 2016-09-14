@@ -15,6 +15,7 @@
     <declare-styleable name="UITImageButton">
         <attr name="uitImageDrawableHeight" format="dimension" />
         <attr name="uitImageDrawableWidth" format="dimension" />
+        <attr name="uitImageDrawableSrc" format="reference"/>
         <attr name="uitImageButtonDrawableColorList" format="reference" />
         <attr name="uitImageButtonColorList" format="reference" />
     </declare-styleable>

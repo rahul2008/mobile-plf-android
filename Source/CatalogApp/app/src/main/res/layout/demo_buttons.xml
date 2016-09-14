@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="@dimen/button_layout_padding"
-        android:layout_marginEnd="@dimen/button_layout_padding"
+        android:layout_marginLeft="@dimen/edge_left_spacing"
         android:paddingTop="@dimen/button_layout_padding">
 
         <com.philips.platform.uit.view.widget.Button
@@ -27,7 +26,8 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/category_divider_width"
+                android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/button_layout_padding"
                 android:background="@android:color/darker_gray"
                 android:text="@string/buttons_with_icons"
@@ -36,8 +36,8 @@
             <com.philips.platform.uit.view.widget.ImageButton
                 android:id="@+id/demo_image_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/share"/>
+                android:layout_marginTop="@dimen/component_bottom_spacing"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
