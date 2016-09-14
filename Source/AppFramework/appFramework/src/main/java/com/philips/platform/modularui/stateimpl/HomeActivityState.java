@@ -12,15 +12,27 @@ import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 
 public class HomeActivityState extends UIState {
+    /**
+     * constructor
+     * @param stateID
+     */
     public HomeActivityState(@UIStateDef int stateID) {
         super(stateID);
     }
 
+    /**
+     * Navigate to HomeActivity
+     * @param context requires context
+     */
     @Override
     public void navigate(Context context) {
         context.startActivity(new Intent(context, HomeActivity.class));
     }
 
+    /**
+     * to handle back
+     * @param context requires context
+     */
     @Override
     public void back(final Context context) {
     }

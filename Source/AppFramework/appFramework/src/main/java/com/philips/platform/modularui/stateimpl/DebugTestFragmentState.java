@@ -15,14 +15,27 @@ import com.philips.platform.modularui.statecontroller.UIState;
 public class DebugTestFragmentState extends UIState {
     AppFrameworkApplication appFrameworkApplication;
 
+    /**
+     * constructor
+     * @param stateID
+     */
     public DebugTestFragmentState(@UIStateDef int stateID) {
         super(stateID);
     }
 
+    /**
+     * Navigate to the fragment
+     * @param context requires context
+     */
     @Override
     public void navigate(Context context) {
         ((AppFrameworkBaseActivity)context).showFragment( new DebugTestFragment(), DebugTestFragment.TAG);
     }
+
+    /**
+     * to handle back key
+     * @param context requires context
+     */
 
     @Override
     public void back(final Context context) {

@@ -13,16 +13,27 @@ import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 
 public class WelcomeRegistrationState extends UIState {
-
+    /**
+     * constructor
+     * @param stateID
+     */
     public WelcomeRegistrationState(@UIStateDef int stateID) {
         super(stateID);
     }
 
+    /**
+     * to navigate
+     * @param context requires context
+     */
     @Override
     protected void navigate(Context context) {
         context.startActivity(new Intent(context, WelcomeActivity.class));
     }
 
+    /**
+     * to handle back events
+     * @param context requires context
+     */
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();

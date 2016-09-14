@@ -14,7 +14,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -103,7 +102,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     }
 
     private void loadPlugIn(){
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+        userObject = new User(mContext);
+        userObject.registerUserRegistrationListener(this);
     }
 
     private void runUserRegistration(){
