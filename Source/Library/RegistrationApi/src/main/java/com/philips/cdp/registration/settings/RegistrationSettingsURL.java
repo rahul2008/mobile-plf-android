@@ -84,7 +84,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             jumpConfig.captureAppId = "hffxcm638rna8wrxxggx2gykhc";
         } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.DEVELOPMENT))) {
             jumpConfig.engageAppId = "bdbppnbjfcibijknnfkk";
-            jumpConfig.captureAppId = "fhbmobeahciagddgfidm";
+            jumpConfig.captureAppId = "eupac7ugz25x8dwahvrbpmndf8";
         } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.TESTING))) {
             jumpConfig.engageAppId = "fhbmobeahciagddgfidm";
             jumpConfig.captureAppId = "x7nftvwfz8e8vcutz49p8eknqp";
