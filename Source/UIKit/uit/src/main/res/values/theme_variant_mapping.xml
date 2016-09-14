@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="UITPrimaryControl">
         <item name="uitButtonNormalColor">?attr/uikitControlPrimaryEnabledColor</item>
         <item name="uitButtonPressedColor">?attr/uikitControlPrimaryPressedColor</item>
