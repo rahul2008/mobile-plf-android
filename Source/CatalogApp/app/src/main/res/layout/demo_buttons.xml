@@ -34,6 +34,7 @@
                 android:textColor="@android:color/black"/>
 
             <com.philips.platform.uit.view.widget.ImageButton
+                android:id="@+id/demo_image_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/share"/>

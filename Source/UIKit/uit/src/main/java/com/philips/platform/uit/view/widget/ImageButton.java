@@ -17,6 +17,8 @@ import android.util.AttributeSet;
 import com.philips.platform.uit.R;
 
 public class ImageButton extends AppCompatImageButton {
+    private ColorStateList drawableColorlist;
+
     public ImageButton(Context context) {
         this(context, null);
     }
@@ -30,6 +32,15 @@ public class ImageButton extends AppCompatImageButton {
         processAttributes(context, attrs, defStyleAttr);
     }
 
+    @Override
+    public void setImageDrawable(Drawable drawable) {
+        super.setImageDrawable(drawable);
+        if(drawableColorlist != null && drawable != null) {
+            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTintList(wrappedDrawable,drawableColorlist);
+        }
+    }
+
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITImageButton, defStyleAttr, R.style.UITImageButton);
         applyBackgroundTinting(typedArray);
@@ -39,14 +50,13 @@ public class ImageButton extends AppCompatImageButton {
 
     private void applyDrawableProperties(TypedArray typedArray) {
         applyDrawableBounds(typedArray);
-        applyDrawableColor(typedArray);
+        assignDrawableColorList(typedArray);
     }
 
-    private void applyDrawableColor(TypedArray typedArray) {
+    private void assignDrawableColorList(TypedArray typedArray) {
         int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableColorList, -1);
         if (resourceId != -1) {
-            Drawable wrapDrawable = DrawableCompat.wrap(getDrawable());
-            DrawableCompat.setTintList(wrapDrawable, getDrawableColorStateList(resourceId));
+            drawableColorlist = getDrawableColorStateList(resourceId);
         }
     }
 
