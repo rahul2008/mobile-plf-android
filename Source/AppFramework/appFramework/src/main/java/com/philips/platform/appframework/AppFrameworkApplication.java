@@ -45,7 +45,8 @@ public class AppFrameworkApplication extends Application {
     private static Context mContext;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
-     /**
+    final String UR = "UserRegistration";
+    /**
      * @return instance of this class
      */
 
@@ -66,7 +67,7 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableFileLog(true);
         setLocale();
 
-        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
+        initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
         initializeProductRegistrationLibrary();
         initializeIAP();
     }
@@ -118,7 +119,6 @@ public class AppFrameworkApplication extends Application {
      * @param configuration  The environment ype as required by UR
      */
     public void initializeUserRegistrationLibrary(Configuration configuration) {
-        final String UR = "UserRegistration";
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
@@ -181,6 +181,7 @@ public class AppFrameworkApplication extends Application {
                 minAge,
                 configError);
 
+        initHSDP();
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
@@ -313,6 +314,37 @@ public class AppFrameworkApplication extends Application {
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+    }
 
+    public void initHSDP() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        gAppInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.ApplicationName",
+                UR,
+                "Datacore",
+                configError);
+
+        gAppInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.Secret",
+                UR,
+                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+                configError);
+
+        gAppInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.Shared",
+                UR,
+                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+                configError);
+
+        gAppInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.BaseURL",
+                UR,
+                "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com/",
+                configError);
     }
-    }
+}
