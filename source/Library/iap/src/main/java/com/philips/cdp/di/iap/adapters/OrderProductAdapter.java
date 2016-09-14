@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -65,16 +66,17 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private AddressListener mListener;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
-
+    private FragmentManager mFragmentManager;
     private Drawable mEditDrawable;
 
     public OrderProductAdapter(Context pContext, AddressListener listener, ArrayList<ShoppingCartData> pShoppingCartDataList,
-                               AddressFields pBillingAddress, PaymentMethod pPaymentMethod) {
+                               AddressFields pBillingAddress, PaymentMethod pPaymentMethod, FragmentManager pFragmentManager) {
         mContext = pContext;
         mListener = listener;
         mShoppingCartDataList = pShoppingCartDataList;
         mBillingAddress = pBillingAddress;
         mPaymentMethod = pPaymentMethod;
+        mFragmentManager = pFragmentManager;
         initDrawables();
     }
 
@@ -98,7 +100,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (mShoppingCartDataList.size() == 0) return;
 
-        if(holder instanceof OrderProductHolder){
+        if (holder instanceof OrderProductHolder) {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
             IAPLog.d(TAG, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
             cartData = mShoppingCartDataList.get(position);
@@ -111,7 +113,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
-        }else{
+        } else {
             String shippingAddress = cartData.getDeliveryAddressEntity().getFormattedAddress();
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
             footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
@@ -213,7 +215,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onLoadListenerError(IAPNetworkError error) {
-        //NOP
+        NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok),
+                mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+
     }
 
     @Override

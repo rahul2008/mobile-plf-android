@@ -21,7 +21,7 @@ public class ErrorDialogFragment extends DialogFragment {
         void onDialogOkClick();
     }
 
-    Bundle bundle;
+    private Bundle bundle;
     private ErrorDialogListener mErrorDialogListener;
 
     @Override
@@ -38,7 +38,7 @@ public class ErrorDialogFragment extends DialogFragment {
         TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
         dialogTitle.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE));
 
-        TextView dialogDescription = (TextView) v.findViewById(R.id.dialogDescription);
+        final TextView dialogDescription = (TextView) v.findViewById(R.id.dialogDescription);
         dialogDescription.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION));
 
         Button mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
@@ -50,6 +50,10 @@ public class ErrorDialogFragment extends DialogFragment {
                     mErrorDialogListener.onDialogOkClick();
                 }
                 dismissDialog();
+                if (bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION) != null
+                        && bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {
+                    getFragmentManager().popBackStackImmediate();
+                }
             }
         });
         return v;

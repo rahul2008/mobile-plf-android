@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 public class NetworkUtility {
     private static NetworkUtility mNetworkUtility;
     private ErrorDialogFragment mModalAlertDemoFragment;
-    private boolean isOnline;
 
     public static NetworkUtility getInstance() {
         synchronized (NetworkUtility.class) {
