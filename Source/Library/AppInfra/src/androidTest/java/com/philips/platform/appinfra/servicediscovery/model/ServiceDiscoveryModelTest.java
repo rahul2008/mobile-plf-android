@@ -61,22 +61,16 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
 
     public void testsetError() {
 
-        Error error = new Error();
-        error.setHttpStatus("Test");
+//        Error error = new Error();
+        ServiceDiscovery.Error error= new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ErrorMessage");
+        error.setErrorvalue(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT);
+        assertNotNull(error.getErrorvalue());
         error.setMessage("Test");
-        error.setPayload("Test");
-        error.setErrorvalues(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT);
-        assertSame("Test", error.getHttpStatus());
-        assertSame("Test", error.getMessage());
-        assertSame("Test", error.getPayload());
-        assertSame("Test", error.getHttpStatus());
-        assertNotNull(error.getErrorvalues());
-        assertNotNull(error.getHttpStatus());
-        assertNotNull(error.getPayload());
         assertNotNull(error.getMessage());
 
 
         mServiceDiscoveryModel.setError(error);
+        assertNotNull(mServiceDiscoveryModel.getError());
         assertNotNull(mServiceDiscoveryModel.error);
     }
 
@@ -117,7 +111,7 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
 
     public MatchByCountryOrLanguage commonMatchByCountryOrLanguage() {
 
-        Tag mTag = new Tag();
+        MatchByCountryOrLanguage.Config.Tag mTag = new MatchByCountryOrLanguage.Config.Tag();
         mTag.setId("TestTagId");
         mTag.setName("TestTagName");
         mTag.setKey("TestTagKey");
@@ -133,7 +127,7 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
         mMap.put("TestMapKey", "TestMapValue");
 
 
-        Config mconfig= new Config();
+        MatchByCountryOrLanguage.Config mconfig= new MatchByCountryOrLanguage.Config();
         mconfig.setMicrositeId("TestMicrositeId");
         mconfig.setTags(mTagArray);
         mconfig.setUrls(mMap);
@@ -161,12 +155,6 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
         assertNotNull(mServiceDiscoveryModel.getCountry());
     }
 
-    public void testgetError() {
-        Error error = new Error();
-        error.setErrorvalues(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT);
-        mServiceDiscoveryModel.setError(error);
-        assertNotNull(mServiceDiscoveryModel.getError());
-    }
 
 
 }
