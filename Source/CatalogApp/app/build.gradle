@@ -37,6 +37,10 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        jenkins {
+            testCoverageEnabled true
+        }
     }
 
     lintOptions {
@@ -56,6 +60,35 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'LICENSE.txt'
 
+    }
+}
+
+def coverageSourceDirs = ['src/main/java']
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(dir: 'build/intermediates/classes/jenkins',
+            excludes: ['**/R.class',
+                       '**/R$*.class'])
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testJenkinsUnitTest.exec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
     }
 }
 

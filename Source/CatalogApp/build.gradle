@@ -23,7 +23,22 @@ buildscript {
 
 allprojects {
     apply plugin: 'com.github.ben-manes.versions'
+    apply plugin: 'jacoco'
 
+    jacoco {
+        toolVersion = '0.7.1.201405082137'
+    }
+
+    tasks.withType(Test) {
+        maxHeapSize = '4g'
+        scanForTestClasses = false
+        include "**/*Test.class"
+
+        test {
+            // set JVM arguments for the test JVM(s)
+            jvmArgs '-noverify'
+        }
+    }
     repositories {
         maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
         maven { url 'http://130.145.245.193:8081/artifactory/jitpack.io' }
