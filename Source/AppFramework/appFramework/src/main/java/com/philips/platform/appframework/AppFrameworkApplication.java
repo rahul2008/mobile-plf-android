@@ -18,8 +18,6 @@ import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -33,7 +31,6 @@ import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 /**
  * Application class has following initializations
@@ -48,12 +45,7 @@ public class AppFrameworkApplication extends Application {
     private static Context mContext;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
-
-    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
-
-    private AppInfraInterface mAppInfraInterface;
-
-    /**
+     /**
      * @return instance of this class
      */
 
