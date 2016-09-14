@@ -281,14 +281,21 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                  HOME SCREEN has to be selected. So manually setting HOME as SELECTED.
                 */
                 adapter.setSelectedIndex(0);
-            } else if (hamburgerIcon.getTag().equals("BackButton")) {/*
+            } else if (hamburgerIcon.getTag().equals("BackButton")) {
                 if (currentFrag != null && currentFrag instanceof BaseAnimationSupportFragment) {
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
-                        popBackTillHomeFragment();
+                        AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
+                        UIFlowManager flowManager = applicationContext.getFlowManager();
+                        UIState currentState = flowManager.getCurrentState();
+                        if(currentState.getStateID() == UIState.UI_IAP_SHOPPING_SHOPPING_CART_FRAGMENT_STATE){
+                            popBackTillHomeFragment();
+                        }else {
+                            super.onBackPressed();
+                        }
                     }
                 }
-               else*/ if (currentFrag != null && currentFrag instanceof BackEventListener){
+               else if (currentFrag != null && currentFrag instanceof BackEventListener){
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
                        super.onBackPressed();
