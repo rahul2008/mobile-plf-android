@@ -96,6 +96,7 @@ public class IAPConstant {
     public static final String SINGLE_BUTTON_DIALOG_TEXT = "SINGLE_BUTTON_DIALOG_TEXT";
 
     //Two button dialog string constants
+    public static final String TWO_BUTTON_DIALOG_TITLE = "TWO_BUTTON_DIALOG_TITLE";
     public static final String TWO_BUTTON_DIALOG_DESCRIPTION = "TWO_BUTTON_DIALOG_DESCRIPTION";
     public static final String TWO_BUTTON_DIALOG_POSITIVE_TEXT = "TWO_BUTTON_DIALOG_POSITIVE_TEXT";
     public static final String TWO_BUTTON_DIALOG_NEGATIVE_TEXT = "TWO_BUTTON_DIALOG_NEGATIVE_TEXT";

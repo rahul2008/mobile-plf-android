@@ -327,7 +327,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
-
     }
 
     @Override

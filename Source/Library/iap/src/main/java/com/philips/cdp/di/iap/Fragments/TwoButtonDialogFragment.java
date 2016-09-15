@@ -35,9 +35,10 @@ public class TwoButtonDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.iap_two_button_dialog, container, false);
 
-        TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
-        dialogTitle.setText(R.string.iap_cancel_order_title);
         Bundle bundle = getArguments();
+
+        TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
+        dialogTitle.setText(bundle.getString(IAPConstant.TWO_BUTTON_DIALOG_TITLE));
 
         TextView description = (TextView) v.findViewById(R.id.dialogDescription);
         description.setText(bundle.getString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION));
