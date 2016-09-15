@@ -5,9 +5,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -238,6 +241,14 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
     public void testHandleResendVerificationEmailSuccess(){
         Method method = null;
         try {
+            synchronized(this){//synchronized block
+
+                try{
+                    RegistrationHelper.getInstance().
+                            setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
+                    RLog.initForTesting(getInstrumentation().getContext());
+                }catch(Exception e){System.out.println(e);}
+            }
             method =AccountActivationFragment.class.getDeclaredMethod("handleResendVerificationEmailSuccess");;
             method.setAccessible(true);
             method.invoke(accountActivationFragment);
@@ -271,6 +282,14 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
         Method method = null;
         UserRegistrationFailureInfo userRegistrationFailureInfo= new UserRegistrationFailureInfo();
         try {
+            synchronized(this){//synchronized block
+
+                try{
+                    RegistrationHelper.getInstance().
+                            setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
+                    RLog.initForTesting(getInstrumentation().getContext());
+                }catch(Exception e){System.out.println(e);}
+            }
             method =AccountActivationFragment.class.getDeclaredMethod("handleResendVerificationEmailFailedWithError",UserRegistrationFailureInfo.class);;
             method.setAccessible(true);
             method.invoke(accountActivationFragment,userRegistrationFailureInfo);
