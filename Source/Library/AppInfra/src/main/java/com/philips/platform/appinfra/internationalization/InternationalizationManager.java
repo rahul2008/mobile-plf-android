@@ -6,8 +6,6 @@
 package com.philips.platform.appinfra.internationalization;
 
 import android.content.Context;
-import android.os.Build;
-import android.os.LocaleList;
 
 import com.philips.platform.appinfra.AppInfra;
 
@@ -33,15 +31,15 @@ public class InternationalizationManager implements InternationalizationInterfac
         return Locale.getDefault();
     }
 
-    @Override
-    public LocaleList getLocaleList() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return LocaleList.getDefault();
-        }else {
-            return null;
-        }
-
-    }
+//    @Override
+//    public LocaleList getLocaleList() {
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            return LocaleList.getDefault();
+//        }else {
+//            return null;
+//        }
+//
+//    }
 
 
 }

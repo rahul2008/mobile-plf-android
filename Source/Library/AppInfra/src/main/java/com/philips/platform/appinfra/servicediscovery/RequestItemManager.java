@@ -3,7 +3,7 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
 import android.os.Build;
-import android.os.LocaleList;
+//import android.os.LocaleList;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -123,7 +123,7 @@ public class RequestItemManager {
 
                 ArrayList<String> localeList = new ArrayList<String>();
                 JSONArray configCountryJSONArray = null;
-                LocaleList mLocaleList = mAppInfra.getInternationalization().getLocaleList();
+//                LocaleList mLocaleList = mAppInfra.getInternationalization().getLocaleList();
 
                 if (resultsJSONArray.length() > 1) {
 
@@ -136,22 +136,21 @@ public class RequestItemManager {
                     configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    for (int i = 0; i < localeList.size(); i++) {
-                        for (int j = 0; j < mLocaleList.size(); j++) {
-                            if (mLocaleList.get(j).equals(localeList.get(i))) {
-                                matchByCountry.setLocale(localeList.get(i));
-                                configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
-                                break;
-                            }
-                        }
-
-                    }
-                }
-                else if(localeList.size() > 0){
+//                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                    for (int i = 0; i < localeList.size(); i++) {
+//                        for (int j = 0; j < mLocaleList.size(); j++) {
+//                            if (mLocaleList.get(j).equals(localeList.get(i))) {
+//                                matchByCountry.setLocale(localeList.get(i));
+//                                configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
+//                                break;
+//                            }
+//                        }
+//
+//                    }
+//                }
+                if(localeList.size() > 0){
                     Locale mLocale = mAppInfra.getInternationalization().getUILocale();
                     for (int i = 0; i < localeList.size(); i++) {
-//                        for (int j = 0; j < mLocaleList.size(); j++) {
                             if (mLocale.getDefault().toString().equals(localeList.get(i))) {
                                 matchByCountry.setLocale(localeList.get(i));
                                 configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
@@ -160,7 +159,6 @@ public class RequestItemManager {
                                 matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                                 configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
                             }
-//                        }
 
                     }
                 }

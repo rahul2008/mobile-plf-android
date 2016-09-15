@@ -5,7 +5,7 @@
  */
 package com.philips.platform.appinfra.internationalization;
 
-import android.os.LocaleList;
+//import android.os.LocaleList;
 
 import java.util.Locale;
 
@@ -33,6 +33,6 @@ public interface InternationalizationInterface {
      *
      * @return the LocaleList
      */
-    public LocaleList getLocaleList();
+//    public LocaleList getLocaleList();
 
 }
