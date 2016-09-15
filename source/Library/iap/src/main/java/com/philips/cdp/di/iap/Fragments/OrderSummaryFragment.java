@@ -79,7 +79,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
         AddressFields mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
-        mAdapter = new OrderProductAdapter(getContext(), this, new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod, getFragmentManager());
+        mAdapter = new OrderProductAdapter(getContext(), this, new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
         updateCartOnResume();
         mOrderListView.setAdapter(mAdapter);
         return rootView;

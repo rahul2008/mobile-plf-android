@@ -31,7 +31,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     public interface LoadListener<T> {
         void onLoadFinished(ArrayList<T> data);
 
-        void onLoadListenerError(IAPNetworkError error);
+        void onLoadListenerError(Message msg);
 
         void onRetailerError(IAPNetworkError errorMsg);
     }
@@ -59,11 +59,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
         dismissProgressDialog();
         if (mLoadListener != null) {
-            if(msg.obj instanceof IAPNetworkError) {
-                mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
-            }else{
-                mLoadListener.onLoadListenerError(createIAPErrorMessage(mContext.getString(R.string.iap_something_went_wrong)));
-            }
+            mLoadListener.onLoadListenerError(msg);
         }
     }
 

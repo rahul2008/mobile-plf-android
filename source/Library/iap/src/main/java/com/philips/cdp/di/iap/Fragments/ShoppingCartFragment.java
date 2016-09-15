@@ -315,17 +315,19 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onLoadListenerError(IAPNetworkError error) {
+    public void onLoadListenerError(Message msg) {
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
         if (!isNetworkConnected()) return;
-        if (error.getMessage().contains("Exception")) {
+
+        if (msg.obj instanceof IAPNetworkError) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        } else {
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
         }
+
     }
 
     @Override

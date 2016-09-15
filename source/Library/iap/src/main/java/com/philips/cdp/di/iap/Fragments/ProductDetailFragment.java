@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -455,9 +456,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         buyFromRetailers(data);
     }
 
+
     @Override
-    public void onLoadListenerError(IAPNetworkError error) {
-        IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment " + error);
+    public void onLoadListenerError(Message msg) {
+        IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment ");
+        if (msg.obj instanceof IAPNetworkError) {
+            NetworkUtility.getInstance().showErrorMessage(msg,((FragmentActivity)mContext).getSupportFragmentManager(), mContext);
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity)mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+        }
     }
 
     @Override

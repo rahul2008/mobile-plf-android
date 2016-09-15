@@ -122,7 +122,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
+                mLoadListener.onLoadListenerError(msg);
                 Utility.dismissProgressDialog();
             }
         });

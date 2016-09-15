@@ -1,11 +1,13 @@
 package com.philips.cdp.di.iap.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -66,17 +68,15 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private AddressListener mListener;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
-    private FragmentManager mFragmentManager;
     private Drawable mEditDrawable;
 
     public OrderProductAdapter(Context pContext, AddressListener listener, ArrayList<ShoppingCartData> pShoppingCartDataList,
-                               AddressFields pBillingAddress, PaymentMethod pPaymentMethod, FragmentManager pFragmentManager) {
+                               AddressFields pBillingAddress, PaymentMethod pPaymentMethod) {
         mContext = pContext;
         mListener = listener;
         mShoppingCartDataList = pShoppingCartDataList;
         mBillingAddress = pBillingAddress;
         mPaymentMethod = pPaymentMethod;
-        mFragmentManager = pFragmentManager;
         initDrawables();
     }
 
@@ -214,10 +214,13 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onLoadListenerError(IAPNetworkError error) {
-        NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok),
-                mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-
+    public void onLoadListenerError(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            NetworkUtility.getInstance().showErrorMessage(msg,((FragmentActivity)mContext).getSupportFragmentManager(), mContext);
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity)mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+        }
     }
 
     @Override

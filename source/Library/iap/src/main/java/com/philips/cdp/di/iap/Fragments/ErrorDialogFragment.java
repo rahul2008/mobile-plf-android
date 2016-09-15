@@ -7,6 +7,8 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+
+import java.util.List;
 
 public class ErrorDialogFragment extends DialogFragment {
     public interface ErrorDialogListener {
@@ -54,6 +58,9 @@ public class ErrorDialogFragment extends DialogFragment {
                         && bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {
                     getFragmentManager().popBackStackImmediate();
                 }
+                if(getVisibleFragment(getFragmentManager())!=null && getVisibleFragment(getFragmentManager()) instanceof OrderSummaryFragment || getVisibleFragment(getFragmentManager()) instanceof ShoppingCartFragment ){
+                    getFragmentManager().popBackStackImmediate();
+                }
             }
         });
         return v;
@@ -76,5 +83,17 @@ public class ErrorDialogFragment extends DialogFragment {
     private void dismissDialog() {
         dismiss();
         setShowsDialog(false);
+    }
+
+    public Fragment getVisibleFragment(FragmentManager fragmentManager){
+
+        List<Fragment> fragments = fragmentManager.getFragments();
+        if(fragments != null){
+            for(Fragment fragment : fragments){
+                if(fragment != null && fragment.isVisible())
+                    return fragment;
+            }
+        }
+        return null;
     }
 }
