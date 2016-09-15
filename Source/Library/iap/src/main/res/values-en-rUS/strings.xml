@@ -115,7 +115,6 @@
     <string name="iap_empty_purchase_history">If you placed an order using this app, please check your mail for the confirmation email</string>
     <string name="iap_other_channel">If you ordered using another sales channel your purchase might not show up here</string>
     <string name="iap_contact_consumer_care">Contact Consumer Care</string>
-    <string name="iap_order_number">Order number # </string>
     <string name="iap_shipped">Shipped</string>
     <string name="iap_not_yet_shipped">Not yet shipped</string>
     <string name="iap_order_created">Created</string>
@@ -130,6 +129,7 @@
     <string name="iap_handed_to_courier">Handed over to the carrier</string>
     <string name="iap_order_deliver_msg">Your order will be delivered by&#58;FedEx(parcel postage)</string>
     <string name="iap_tracking_number">Tracking number</string>
+    <string name="iap_track_order">Track order</string>
     <string name="iap_track_my_order">Track my order</string>
     <string name="iap_order_picked">Your order was picked up by FedEx on</string>
     <string name="iap_track_package">You can track your package any time with tracking number</string>
@@ -144,24 +144,52 @@
     <string name="iap_cancel_order_msg">You can cancel your order any time before it is handed over to the carrier.</string>
     <string name="iap_customer_help">Our customer care team is pleased to help you.</string>
     <string name="iap_keep_order_number">Please keep your order number at hand&#58;</string>
-    <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked. Please try again. If the problem persists, contact Philips Consumer Care</string>
+
+    <!--Not Localized-->
+
+    <!--Errors -->
     <string name="iap_try_again">Try Again</string>
     <string name="iap_check_internet_coneection">Please check your Internet Connection</string>
     <string name="iap_you_are_offline">You are offline</string>
+    <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked. Please try again. If the problem persists, contact Philips Consumer Care</string>
     <string name="iap_no_internet">Your internet connection doesn’t seem to be working. Please check and try again</string>
     <string name="iap_something_gone_wrong">Something went wrong. We cannot find any products.</string>
     <string name="iap_server_problem">Please check your internet connection or try again later if the problem persists (it could be a server problem)</string>
 
-    <!--Not Localized-->
+    <!-- Payment Failure -->
+    <string name="iap_payment_failed_title">There was a problem processing your payment</string>
+    <string name="iap_payment_failed_message">Your account was not charged. Please try again.</string>
+
+    <!-- Model Error -->
+    <string name="iap_ok">OK</string>
+
     <string name="iap_get_product_catalog_details">Getting Product Details</string>
     <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_payment_failed">Payment failed</string>
     <string name="iap_in_stock">in stock</string>
+    <string name="iap_continue_shopping_description">Do you want to continue shopping?</string>
     <string name="iap_delivery_via">Delivery via FedEx</string>
-
-    <!-- Model Error -->
-    <string name="iap_ok">OK</string>
+    <string name="iap_order_number">Order number # </string>
+    <string name="iap_payment_by">Paid by</string>
+    <string name="iap_buy">Buy</string>
+    <string name="view_invoice">View invoice</string>
+    <string name="iap_track_order_title">Track order</string>
+    <string name="iap_shipping_to">Shipping to</string>
+    <string name="iap_track_package_text">You can track your package anytime with tracking number</string>
+    <string name="iap_retailer_title_for_no_retailers">No Retailers!</string>
+    <string name="iap_no_retailer_message">There are no online retailers currently available for this product.</string>
+    <string name="iap_order_completed_text">Your order will be delivered by \nFedEx(parcel postage) \nTracking number %s</string>
+    <string name="iap_order_completed_text_without_track_id">Your order will be delivered by \nFedEx(parcel postage)</string>
     <string name="iap_no_product_available">No product found in your Store.</string>
+    <string name="iap_shipped_to">Shipped To:</string>
+    <string name="iap_delivery_method">Delivery Method</string>
+    <string name="iap_cvv_cvc">CVV/CVC</string>
+    <string name="iap_txt_cvv_cvc">Enter CVV/CVC</string>
+    <string name="iap_proceed">Proceed</string>
+    <string name="iap_cvv_astric">***</string>
+    <string name="iap_contact_consumer_number">Please keep your order number at hand:</string>
+    <string name="iap_cancel_order_title">Cancel Order</string>
+    <string name="iap_processing">Processing</string>
     <string name="iap_opening_hours">Call center opening hours:\n</string>
 
 </resources>

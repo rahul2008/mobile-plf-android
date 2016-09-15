@@ -48,7 +48,6 @@ public class CvvCvcDialogFragment extends DialogFragment {
         }
         final Button btnProceed = (Button) view.findViewById(R.id.dialogButtonOk);
         mEditText = (EditText) view.findViewById(R.id.iap_edit_box);
-        mEditText.setSelection(0);
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

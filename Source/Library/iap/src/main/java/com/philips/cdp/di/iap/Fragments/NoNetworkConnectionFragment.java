@@ -14,7 +14,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
-public class NoNetworkConnectionFragment extends BaseAnimationSupportFragment {
+public class NoNetworkConnectionFragment extends InAppBaseFragment {
     public static final String TAG = NoNetworkConnectionFragment.class.getSimpleName();
 
     @Override
@@ -33,7 +33,7 @@ public class NoNetworkConnectionFragment extends BaseAnimationSupportFragment {
         return rootview;
     }
 
-    public static BaseAnimationSupportFragment createInstance(Bundle bundle, AnimationType animType) {
+    public static InAppBaseFragment createInstance(Bundle bundle, AnimationType animType) {
         NoNetworkConnectionFragment fragment = new NoNetworkConnectionFragment();
         bundle.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(bundle);

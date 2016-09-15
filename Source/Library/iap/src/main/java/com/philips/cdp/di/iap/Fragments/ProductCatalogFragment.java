@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ProductCatalogPresenter.LoadListener {
+public class ProductCatalogFragment extends InAppBaseFragment implements EventListener, ProductCatalogPresenter.LoadListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -72,7 +72,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         }
     };
 
-    public static ProductCatalogFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+    public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
@@ -93,7 +93,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         String savedCountry = Utility.getCountryFromPreferenceForKey(getContext(), IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.CAEGORIZED_PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.CAEGORIZED_PRODUCT_CTNS) != null) {
+            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 onLoadFinished(getProductCatalog(), null);
             } else if (currentCountryCode.equals(savedCountry)) {
                 if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
@@ -120,7 +120,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     private ArrayList<ProductCatalogData> getProductCatalog() {
         ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
-        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.CAEGORIZED_PRODUCT_CTNS);
+        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
 
         if (ctns != null) {
             for (String ctn : ctns) {

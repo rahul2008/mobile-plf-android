@@ -65,7 +65,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         holder.options.setImageDrawable(mOptionsDrawable);
 
         //Update payment options buttons
-        updatePaymentButtonsVisiblity(holder.paymentOptions, position);
+        updatePaymentButtonsVisibility(holder.paymentOptions, position);
 
         //bind options: edit, delete menu
         bindOptionsButton(holder.optionLayout, position);
@@ -75,26 +75,26 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         bindToggleButton(holder, holder.toggle);
 
         //bind deliver to address
-        bindDeliverToAddress(holder.deliver);
+        bindDeliverToThisAddress(holder.deliverToThisAddress);
 
         //bind add new address
-        bindNewAddress(holder.newAddress);
+        bindAddNewAddress(holder.addNewAddress);
     }
 
-    private void bindNewAddress(final Button newAddress) {
+    private void bindAddNewAddress(final Button newAddress) {
         newAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.SHIPPING_ADDRESS_FRAGMENT);
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_NEW_ADDRESS);
             }
         });
     }
 
-    private void bindDeliverToAddress(Button deliver) {
+    private void bindDeliverToThisAddress(Button deliver) {
         deliver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_DELIVERY_ADDRESS);
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);
             }
         });
     }
@@ -105,7 +105,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         }
     }
 
-    private void updatePaymentButtonsVisiblity(final ViewGroup paymentOptions, final int position) {
+    private void updatePaymentButtonsVisibility(final ViewGroup paymentOptions, final int position) {
         if (mSelectedIndex == position) {
             paymentOptions.setVisibility(View.VISIBLE);
         } else {
@@ -161,12 +161,15 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     }
 
     public class AddressSelectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        Button deliverToThisAddress;
+        Button addNewAddress;
+
         TextView name;
         TextView address;
+
         UIKitRadioButton toggle;
         ImageView options;
-        Button deliver;
-        Button newAddress;
+
         ViewGroup paymentOptions;
         ViewGroup optionLayout;
 
@@ -177,8 +180,8 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             toggle = (UIKitRadioButton) view.findViewById(R.id.rbtn_toggle);
             options = (ImageView) view.findViewById(R.id.img_options);
             paymentOptions = (ViewGroup) view.findViewById(R.id.payment_options);
-            deliver = (Button) view.findViewById(R.id.btn_deliver);
-            newAddress = (Button) view.findViewById(R.id.btn_new_address);
+            deliverToThisAddress = (Button) view.findViewById(R.id.btn_deliver_to_this_address);
+            addNewAddress = (Button) view.findViewById(R.id.btn_add_new_address);
             optionLayout = (ViewGroup) view.findViewById(R.id.options_layout);
             view.setOnClickListener(this);
         }

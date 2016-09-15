@@ -16,14 +16,14 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public class TrackOrderFragment extends BaseAnimationSupportFragment
+public class TrackOrderFragment extends InAppBaseFragment
         implements View.OnClickListener {
 
     public static final String TAG = TrackOrderFragment.class.getName();
     private String mOrderTrackUrl;
 
     public static TrackOrderFragment createInstance
-            (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         TrackOrderFragment fragment = new TrackOrderFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
@@ -48,8 +48,8 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
                         + bundle.getString(IAPConstant.TRACKING_ID));
             if (bundle.containsKey(IAPConstant.DELIVERY_NAME))
                 mBillingName.setText(bundle.getString(IAPConstant.DELIVERY_NAME));
-            if (bundle.containsKey(IAPConstant.ADD_DELIVERY_ADDRESS))
-                mBillingAddress.setText(bundle.getString(IAPConstant.ADD_DELIVERY_ADDRESS));
+            if (bundle.containsKey(IAPConstant.DELIVERY_ADDRESS))
+                mBillingAddress.setText(bundle.getString(IAPConstant.DELIVERY_ADDRESS));
             if (bundle.containsKey(IAPConstant.ORDER_TRACK_URL))
                 mOrderTrackUrl = bundle.getString(IAPConstant.ORDER_TRACK_URL);
         }

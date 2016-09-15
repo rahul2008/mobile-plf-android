@@ -1,11 +1,7 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without
-the written consent of the copyright holder.
-
-Project           : SaecoAvanti
-----------------------------------------------------------------------------*/
-
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.utils;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -15,17 +11,12 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class IAPLog {
     public final static String LOG = "InAppPurchase";
-    public static final String FRAGMENT_LIFECYCLE = "FragmentLifecycle";
-    public static final String BASE_FRAGMENT_ACTIVITY = "IAPActivity";
-    public static final String DEMOAPPACTIVITY = "DemoAppActivity";
-    public static final String BUY_DIRECT_FRAGMENT = "BuyDirectFragment";
-
     public static boolean isLoggingEnabled = false;
-
-    static LoggingInterface sAppLoggingInterface;
+    public static LoggingInterface sAppLoggingInterface;
 
     public static void initIAPLog(IAPDependencies dependencies) {
-        sAppLoggingInterface = dependencies.getAppInfra().getLogging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
+        sAppLoggingInterface = dependencies.getAppInfra().getLogging().
+                createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
         enableLogging(true);
     }
 

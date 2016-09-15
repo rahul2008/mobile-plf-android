@@ -58,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class ShippingAddressFragment extends BaseAnimationSupportFragment
+public class ShippingAddressFragment extends InAppBaseFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
         AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,
@@ -266,8 +266,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
-        if (mlLState.getVisibility() == View.VISIBLE)
-            mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+            mShippingAddressFields.setRegionName(mEtState.getText().toString());
+        }
+
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             //Track new address creation
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -294,7 +297,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(final View v) {
         Utility.hideKeypad(mContext);
-        if(!isNetworkConnected())return;
+        if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
@@ -493,7 +496,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
-        //setBackButtonVisibility(true);
         if (!(this instanceof BillingAddressFragment)) {
             if (getArguments() != null &&
                     getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
@@ -637,7 +639,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
         if (mAddressFieldsHashmap != null)
             addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
-        // addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.PHONE_2, "");
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
@@ -695,11 +696,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressFields.setEmail(mEtEmail.getText().toString());
 
+
         if (this instanceof BillingAddressFragment) {
             if (mlLState.getVisibility() == View.VISIBLE) {
-                addressFields.setRegionIsoCode(mShippingAddressFields.getRegionIsoCode());
+                addressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+                addressFields.setRegionName(mEtState.getText().toString());
             } else {
                 addressFields.setRegionIsoCode(null);
+                addressFields.setRegionName(null);
             }
         }
         return addressFields;

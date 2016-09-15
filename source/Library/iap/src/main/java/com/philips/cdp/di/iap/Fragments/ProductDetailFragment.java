@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductDetailFragment extends BaseAnimationSupportFragment implements
+public class ProductDetailFragment extends InAppBaseFragment implements
         PRXProductAssetBuilder.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener,
         ProductDetailController.ProductSearchListener, ShoppingCartPresenter.LoadListener<StoreEntity> {
@@ -309,10 +310,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     @Override
     public void onFetchAssetSuccess(final Message msg) {
+        if(mContext == null) return;
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addAssetDataToList(mCTNValue, mAsset);
-        mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+        mAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
         mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())
@@ -454,9 +456,16 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         buyFromRetailers(data);
     }
 
+
     @Override
-    public void onLoadListenerError(IAPNetworkError error) {
-        IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment " + error);
+    public void onLoadListenerError(Message msg) {
+        IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment ");
+        if (msg.obj instanceof IAPNetworkError) {
+            NetworkUtility.getInstance().showErrorMessage(msg,((FragmentActivity)mContext).getSupportFragmentManager(), mContext);
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity)mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+        }
     }
 
     @Override

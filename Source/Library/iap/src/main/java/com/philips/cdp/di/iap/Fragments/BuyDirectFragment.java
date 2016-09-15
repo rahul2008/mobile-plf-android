@@ -28,7 +28,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class BuyDirectFragment extends BaseAnimationSupportFragment implements
+public class BuyDirectFragment extends InAppBaseFragment implements
         BuyDirectController.BuyDirectListener, ErrorDialogFragment.ErrorDialogListener {
     public static final String TAG = BuyDirectFragment.class.getName();
     private BuyDirectController mBuyDirectController;
@@ -86,6 +86,8 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
             handleError(msg);
         } else if (msg.obj instanceof RegionsList) {
             CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+            mBuyDirectController.getUser();
+        } else  if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             mBuyDirectController.getUser();
         }
     }
@@ -193,7 +195,7 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
                 + titleCode.substring(1));
         addressFields.setTown(address.getTown());
         if (address.getRegion() != null) {
-            addressFields.setRegionIsoCode(address.getRegion().getName());
+            addressFields.setRegionName(address.getRegion().getName());
             CartModelContainer.getInstance().setRegionIsoCode(address.getRegion().getIsocode());
         }
         addressFields.setCountryIsocode(address.getCountry().getIsocode());
@@ -210,10 +212,10 @@ public class BuyDirectFragment extends BaseAnimationSupportFragment implements
     private void showErrorDialog(Message msg) {
         IAPNetworkError error = (IAPNetworkError) msg.obj;
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, mContext.getString(R.string.iap_ok));
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT,
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, mContext.getString(R.string.iap_ok));
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE,
                 NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()));
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION,
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION,
                 NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         if (mErrorDialogFragment == null) {
             mErrorDialogFragment = new ErrorDialogFragment();

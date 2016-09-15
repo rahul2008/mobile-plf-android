@@ -11,6 +11,8 @@ import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
+import java.util.Locale;
+
 public class HybrisStore extends AbstractStoreSpec {
 
     public static final String HTTPS = "https://";
@@ -166,7 +168,7 @@ public class HybrisStore extends AbstractStoreSpec {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANG + "en");
+        builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
         return builder.toString();
     }
 
@@ -210,7 +212,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
         //Orders
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
-        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG) + "en";
+        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG) + Locale.getDefault().getLanguage();
         mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/" +
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }

@@ -20,7 +20,6 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -30,16 +29,16 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by 310164421 on 6/8/2016.
- */
-public class LauncherFragmentActivity extends UiKitActivity implements ActionBarListener, IAPListener, View.OnClickListener {
-    ArrayList<String> mProductCTNs;
+public class LauncherFragmentActivity extends UiKitActivity
+        implements ActionBarListener, IAPListener, View.OnClickListener {
+
     private TextView mTitleTextView;
     private TextView mCountText;
-    private final int DEFAULT_THEME = R.style.Theme_Philips_BrightBlue;
     private ImageView mBackImage;
     private FrameLayout mCartContainer;
+
+    ArrayList<String> mProductCTNs;
+
     IAPInterface mIapInterface;
     IAPFlowInput mIapFlowInput;
     IAPLaunchInput mIapLaunchInput;
@@ -47,15 +46,20 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int DEFAULT_THEME = com.philips.cdp.di.iap.R.style.Theme_Philips_DarkBlue_WhiteBackground;
         setTheme(DEFAULT_THEME);
+
         super.onCreate(savedInstanceState);
+
         initIAP();
         addActionBar();
         setContentView(R.layout.fragment_launcher_layout);
+
         mProductCTNs = new ArrayList<>();
         mProductCTNs.add("HX8331/11");
         setLocale("en", "US");
-        LaunchIAPFragment();
+
+        launchInAppAsFragment();
     }
 
     private void initIAP() {
@@ -70,7 +74,7 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         mIapLaunchInput.setIapListener(this);
     }
 
-    private void LaunchIAPFragment() {
+    private void launchInAppAsFragment() {
         mIapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
         try {
             mIapInterface.launch(new FragmentLauncher(this, R.id.vertical_Container, this), mIapLaunchInput);
@@ -78,7 +82,6 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -97,33 +100,44 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
+        if (mActionBar == null) return;
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(com.philips.cdp.di.iap.R.layout.iap_action_bar, null); // layout which contains your button.
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_back_button);
+
+        View mCustomView = LayoutInflater.from(getApplicationContext()).
+                inflate(com.philips.cdp.di.iap.R.layout.iap_action_bar, null);
+
+        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById
+                (com.philips.cdp.di.iap.R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 onBackPressed();
             }
         });
+
         mBackImage = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), com.philips.cdp.di.iap.R.drawable.iap_back_arrow);
+        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(),
+                com.philips.cdp.di.iap.R.drawable.iap_back_arrow);
         mBackImage.setBackground(mBackDrawable);
+
         mTitleTextView = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_title);
         setTitle(getString(com.philips.cdp.di.iap.R.string.app_name));
+
         mCartContainer = (FrameLayout) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_container);
         ImageView mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), com.philips.cdp.di.iap.R.drawable.iap_shopping_cart);
+        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(),
+                com.philips.cdp.di.iap.R.drawable.iap_shopping_cart);
         mCartIcon.setBackground(mCartIconDrawable);
         mCartContainer.setOnClickListener(this);
         mCountText = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.item_count);
+
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -136,22 +150,20 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     @Override
     public void updateActionBar(int resourceId, boolean visibility) {
+        mTitleTextView.setText(getString(resourceId));
         if (visibility) {
-            mTitleTextView.setText(getString(resourceId));
             mBackImage.setVisibility(View.VISIBLE);
         } else {
-            mTitleTextView.setText(getString(resourceId));
-            mBackImage.setVisibility(View.INVISIBLE);
+            mBackImage.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void updateActionBar(String resourceString, boolean visibility) {
+        mTitleTextView.setText(resourceString);
         if (visibility) {
-            mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.VISIBLE);
         } else {
-            mTitleTextView.setText(resourceString);
             mBackImage.setVisibility(View.GONE);
         }
     }
@@ -176,13 +188,12 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
         if (shouldShow) {
             mCartContainer.setVisibility(View.VISIBLE);
         } else {
-            mCartContainer.setVisibility(View.INVISIBLE);
+            mCartContainer.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-
     }
 
     @Override
@@ -191,7 +202,6 @@ public class LauncherFragmentActivity extends UiKitActivity implements ActionBar
 
     @Override
     public void onFailure(int errorCode) {
-
     }
 
     @Override

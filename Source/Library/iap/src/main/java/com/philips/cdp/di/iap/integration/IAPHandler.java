@@ -11,8 +11,8 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
+import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
@@ -104,12 +104,12 @@ class IAPHandler {
 
     //IAPListener is necessary to inject for vertical.
     private void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
-        BaseAnimationSupportFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
+        InAppBaseFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher, iapLaunchInput.getIapListener());
     }
 
-    private BaseAnimationSupportFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
-        BaseAnimationSupportFragment fragment;
+    private InAppBaseFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
+        InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
         switch (screen) {
             case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
@@ -130,7 +130,7 @@ class IAPHandler {
             default:
                 //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                 fragment = new ProductCatalogFragment();
-                bundle.putString(IAPConstant.CAEGORIZED_PRODUCT_CTNS, null);
+                bundle.putString(IAPConstant.CATEGORISED_PRODUCT_CTNS, null);
                 fragment.setArguments(bundle);
                 break;
         }
@@ -157,7 +157,7 @@ class IAPHandler {
 
         if (pLaunchInput.mIAPFlowInput != null) {
             if (pLaunchInput.mIAPFlowInput.getProductCTNs() != null)
-                intent.putStringArrayListExtra(IAPConstant.CAEGORIZED_PRODUCT_CTNS,
+                intent.putStringArrayListExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS,
                         pLaunchInput.mIAPFlowInput.getProductCTNs());
         }
 
@@ -165,7 +165,7 @@ class IAPHandler {
         pContext.startActivity(intent);
     }
 
-    protected void addFragment(BaseAnimationSupportFragment newFragment, FragmentLauncher fragmentLauncher, IAPListener iapListener) {
+    protected void addFragment(InAppBaseFragment newFragment, FragmentLauncher fragmentLauncher, IAPListener iapListener) {
         newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), iapListener);
         String tag = newFragment.getClass().getName();
         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();

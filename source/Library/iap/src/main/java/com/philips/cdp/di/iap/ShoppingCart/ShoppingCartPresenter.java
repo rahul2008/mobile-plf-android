@@ -122,7 +122,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
+                mLoadListener.onLoadListenerError(msg);
                 Utility.dismissProgressDialog();
             }
         });
@@ -188,7 +188,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onSuccess(final Message msg) {
                 if (isFromBuyNow) {
-                    // mShoppingCartLauncher.launchShoppingCart();
                     EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_SHOPPING_CART);
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);

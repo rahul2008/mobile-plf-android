@@ -18,9 +18,10 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
+import java.net.InetAddress;
 import java.util.List;
 
-public abstract class BaseAnimationSupportFragment extends Fragment implements BackEventListener {
+public abstract class InAppBaseFragment extends Fragment implements BackEventListener {
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
     protected IAPListener mIapListener;
@@ -73,7 +74,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements B
             Utility.dismissProgressDialog();
     }
 
-    public void addFragment(BaseAnimationSupportFragment newFragment,
+    public void addFragment(InAppBaseFragment newFragment,
                             String newFragmentTag) {
         if (mActionbarUpdateListener == null || mIapListener == null) return;
         newFragment.setActionBarListener(mActionbarUpdateListener, mIapListener);

@@ -20,13 +20,13 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public class CancelOrderFragment extends BaseAnimationSupportFragment {
+public class CancelOrderFragment extends InAppBaseFragment {
 
     public static final String TAG = CancelOrderFragment.class.getName();
     private String phoneNumber;
 
     public static CancelOrderFragment createInstance
-            (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         CancelOrderFragment fragment = new CancelOrderFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

@@ -47,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
+public class AddressSelectionFragment extends InAppBaseFragment implements AddressController.AddressListener,
         EventListener, PaymentController.PaymentListener {
 
     public static final String TAG = AddressSelectionFragment.class.getName();
@@ -108,8 +108,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void registerEvents() {
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
     }
 
     public void bindCancelListener() {
@@ -264,14 +264,14 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 deleteShippingAddress();
             }
         }
-        if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
+        if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_ADDRESS)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             if (mDeliveryMode != null)
                 args.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
                     ShippingAddressFragment.TAG);
-        } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
+        } else if (event.equalsIgnoreCase(IAPConstant.DELIVER_TO_THIS_ADDRESS)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
                 mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
@@ -382,7 +382,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
 
         if (addr.getRegion() != null) {
-            fields.setRegionIsoCode(addr.getRegion().getName());
+            fields.setRegionName(addr.getRegion().getName());
             CartModelContainer.getInstance().setRegionIsoCode(addr.getRegion().getIsocode());
         }
 
@@ -417,7 +417,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void unregisterEvents() {
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
     }
 }

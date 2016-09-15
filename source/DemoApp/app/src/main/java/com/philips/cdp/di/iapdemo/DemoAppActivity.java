@@ -49,12 +49,13 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener, AdapterView.OnItemSelectedListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private DemoApplication mApplicationContext;
 
     private LinearLayout mSelectCountryLl, mAddCTNLl;
@@ -73,7 +74,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mLaunchProductDetail;
     private Button mAddCtn;
 
-    private ArrayList<String> mCategorizedProductList = new ArrayList<>();
+    private static ArrayList<String> mCategorizedProductList;
 
     private int mSelectedCountryIndex;
     private ProgressDialog mProgressDialog = null;
@@ -143,7 +144,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
-        setLocale("en", "US");
+        setLocale(Locale.getDefault().getLanguage(), "US");
 
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
 
@@ -156,14 +157,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
+        mCategorizedProductList = new ArrayList<>();
     }
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
+        if (mActionBar == null) return;
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -213,7 +215,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void init() {
         User user = new User(this);
-        mCategorizedProductList.clear();
+        // mCategorizedProductList.clear();
         if (user.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0) {
@@ -324,7 +326,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         String mSelectedCountry = parent.getItemAtPosition(position).toString();
         if (mSelectedCountry.equals("UK"))
             mSelectedCountry = "GB";
-        setLocale("en", mSelectedCountry);
+        setLocale(Locale.getDefault().getLanguage(), mSelectedCountry);
 
         mIAPSettings.setUseLocalData(false);
         mIapInterface.init(mIapDependencies, mIAPSettings);
@@ -441,8 +443,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else {
             mCountText.setVisibility(View.GONE);
         }
-        dismissProgressDialog();
-        // mIapInterface.getCompleteProductList(this);
+        mIapInterface.getCompleteProductList(this);
     }
 
     @Override
