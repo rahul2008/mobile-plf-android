@@ -289,6 +289,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 //        }
 
         String country = getCountry(serviceDiscovery);
+        String countrySource = fetchFromSecureStorage(false);
+        if (countrySource != null && countrySource.equalsIgnoreCase("SIMCARD")) {
+            countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
+        } else if (countrySource != null && countrySource.equalsIgnoreCase("GEOIP")) {
+            countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+        }else if(countrySource != null && countrySource.equalsIgnoreCase("STOREDPREFERENCE")){
+            countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
+        }
 
         if (country != null) {
             listener.onSuccess(country, countryCodeSource);
@@ -689,8 +697,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     String getCountry(ServiceDiscovery service) {
 
-        if (countryCode != null)
+        if (countryCode != null) {
             return countryCode;
+        }
 
 
         countryCode = fetchFromSecureStorage(true);
