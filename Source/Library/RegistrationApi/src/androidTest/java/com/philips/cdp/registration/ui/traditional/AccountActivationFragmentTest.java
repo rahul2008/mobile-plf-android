@@ -37,38 +37,8 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
     {
         assertNotNull(accountActivationFragment);
     }
-    @Test
-    public void testHandleResend(){
-        Method method = null;
-        try {
-            method =AccountActivationFragment.class.getDeclaredMethod("handleResend");;
-            method.setAccessible(true);
-            method.invoke(accountActivationFragment);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
 
-    }
-    @Test
-    public void testHandleActivate(){
-        Method method = null;
-        try {
-            method =AccountActivationFragment.class.getDeclaredMethod("handleActivate");;
-            method.setAccessible(true);
-            method.invoke(accountActivationFragment);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
 
-    }
     @Test
     public void testinitUI(){
         Method method = null;
@@ -120,22 +90,7 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
         }
 
     }
-    @Test
-    public void testHideActivateSpinner(){
-        Method method = null;
-        try {
-            method =AccountActivationFragment.class.getDeclaredMethod("hideActivateSpinner");;
-            method.setAccessible(true);
-            method.invoke(accountActivationFragment);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
 
-    }
     @Test
     public void testShowResendSpinner(){
         Method method = null;
@@ -224,6 +179,14 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
         Method method = null;
         int error=10000;
         try {
+            synchronized(this){//synchronized block
+
+                try{
+                    RegistrationHelper.getInstance().
+                            setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
+                    RLog.initForTesting(getInstrumentation().getContext());
+                }catch(Exception e){System.out.println(e);}
+            }
             method =AccountActivationFragment.class.getDeclaredMethod("handleRefreshUserFailed",int.class);;
             method.setAccessible(true);
             method.invoke(accountActivationFragment,error);
