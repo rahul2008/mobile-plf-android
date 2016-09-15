@@ -11,7 +11,19 @@ import java.util.HashMap;
 public interface RestInterface {
 
 
+    /**
+     * Gets request queue.
+     *
+     * @return the REST request queue
+     */
     public RequestQueue getRequestQueue();
+
+    /**
+     * Sets token provider.
+     *
+     * @param provider the token provider which needs to be implemented by verticals
+     * @return the token provider
+     */
     public HashMap<String, String> setTokenProvider(TokenProviderInterface provider);
 
 }

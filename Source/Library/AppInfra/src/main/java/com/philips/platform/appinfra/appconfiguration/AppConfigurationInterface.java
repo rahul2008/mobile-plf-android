@@ -31,7 +31,7 @@ public interface AppConfigurationInterface {
      *
      * @param key         the group name
      * @param group       the key
-     * @param object      the object (String/Integer/String[]/Integer[])
+     * @param object      the object (String/Integer/String[]/Integer[]/null)   null to be passed to delete key
      * @param configError the configError object as OUT parameter
      * @return the set operation status (success/failure)
      */

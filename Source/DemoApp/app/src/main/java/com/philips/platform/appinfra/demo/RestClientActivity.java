@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
+import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import org.json.JSONException;
@@ -99,67 +100,83 @@ public class RestClientActivity extends AppCompatActivity {
                 }
 
                 if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")) {
-                    StringRequest putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim(),
-                            new Response.Listener<String>()
-                            {
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.i("LOG", "" + response);
-                                    //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
-                                    showAlertDialog("Success Response",response);
+                    StringRequest putRequest = null;
+                    try {
+                        putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim(),
+                                new Response.Listener<String>()
+                                {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.i("LOG", "" + response);
+                                        //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                        showAlertDialog("Success Response",response);
+                                    }
+                                },
+                                new Response.ErrorListener()
+                                {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.i("LOG", "" + error);
+                                        //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                        showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
+                                    }
                                 }
-                            },
-                            new Response.ErrorListener()
+
+
+                        ) {
+
+                            @Override
+                            protected Map<String, String> getParams()
                             {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.i("LOG", "" + error);
-                                    //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                                    showAlertDialog("Error Response",error.toString());
+                                Map<String, String> paramList = new HashMap<String, String>();
+                                for(String  key: params.keySet() ){
+                                    paramList.put(key, params.get(key));
                                 }
+                               // paramList.put("name", "Alif");
+                                return paramList;
                             }
 
-
-                    ) {
-
-                        @Override
-                        protected Map<String, String> getParams()
-                        {
-                            Map<String, String> paramList = new HashMap<String, String> ();
-                            for(String  key: params.keySet() ){
-                                paramList.put(key, params.get(key));
+                            @Override
+                            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                                int mStatusCode = response.statusCode;
+                                return super.parseNetworkResponse(response);
                             }
-                           // paramList.put("name", "Alif");
-                            return paramList;
-                        }
 
-                        @Override
-                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                            int mStatusCode = response.statusCode;
-                            return super.parseNetworkResponse(response);
-                        }
-
-                    };
-
-                    mRestInterface.getRequestQueue().add(putRequest); // 1 MB cache
+                        };
+                    } catch (HttpForbiddenException e) {
+                        Log.i("LOG", "" + e.toString());
+                        showAlertDialog("HttpForbiddenException",e.toString());
+                    }
+                    if(null!=putRequest) {
+                        mRestInterface.getRequestQueue().add(putRequest);
+                    }
                 }else{
-                    StringRequest mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim(), new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.i("LOG", "" + response);
-                            //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
-                            showAlertDialog("Success Response",response);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.i("LOG", "" + error);
-                            //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                            showAlertDialog("Error Response",error.toString());
-                        }
-                    });
-                   // mStringRequest.setShouldCache(false); // set false to disable cache
-                    mRestInterface.getRequestQueue().add(mStringRequest);
+                    StringRequest mStringRequest = null;
+                    try {
+                        mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim(), new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.i("LOG", "" + response);
+                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                showAlertDialog("Success Response",response);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("LOG", "" + error);
+
+                                //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
+                            }
+                        });
+                    } catch (HttpForbiddenException e) {
+                        Log.i("LOG", "" + e.toString());
+                        showAlertDialog("HttpForbiddenException",e.toString());
+                    }
+                    // mStringRequest.setShouldCache(false); // set false to disable cache
+                    if(null!=mStringRequest) {
+                        mRestInterface.getRequestQueue().add(mStringRequest);
+                    }
 
                     }
 
@@ -195,34 +212,42 @@ public class RestClientActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringRequest mStringRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authtoken", new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("LOG", "" + response);
-                        //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
-                        JSONObject jobj = null;
-                        try {
-                            jobj = new JSONObject(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                StringRequest mStringRequest = null;
+                try {
+                    mStringRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authtoken", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("LOG", "" + response);
+                            //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                            JSONObject jobj = null;
+                            try {
+                                jobj = new JSONObject(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            accessToken = jobj.optString("access_token");
+                            if(null!=accessToken){
+                                loginStatus.setText("Logged In");
+                                accessTokenTextView.setText(accessToken);
+                            }
+                            showAlertDialog("Success Response",response);
                         }
-                        accessToken = jobj.optString("access_token");
-                        if(null!=accessToken){
-                            loginStatus.setText("Logged In");
-                            accessTokenTextView.setText(accessToken);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.i("LOG", "" + error);
+                            //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                            showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
                         }
-                        showAlertDialog("Success Response",response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("LOG", "" + error);
-                        //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                        showAlertDialog("Error Response",error.toString());
-                    }
-                });
+                    });
+                } catch (HttpForbiddenException e) {
+                    Log.i("LOG", "" + e.toString());
+                    showAlertDialog("HttpForbiddenException",e.toString());
+                }
                 // mStringRequest.setShouldCache(false); // set false to disable cache
-                mRestInterface.getRequestQueue().add(mStringRequest);
+                if(null!=mStringRequest) {
+                    mRestInterface.getRequestQueue().add(mStringRequest);
+                }
 
             }
         });
@@ -232,69 +257,76 @@ public class RestClientActivity extends AppCompatActivity {
         autchCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringRequest putRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authcheck",
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.i("LOG", "" + response);
-                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
-                                showAlertDialog("Success Response",response);
+                StringRequest mStringRequest = null;
+                try {
+                    mStringRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authcheck",
+                            new Response.Listener<String>()
+                            {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.i("LOG", "" + response);
+                                    //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                    showAlertDialog("Success Response",response);
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.i("LOG", "" + error);
+                                    //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                    showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
+                                }
                             }
-                        },
-                        new Response.ErrorListener()
+
+
+                    ) {
+
+                        @Override
+                        public Map<String, String> getHeaders()
                         {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.i("LOG", "" + error);
-                                //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                                showAlertDialog("Error Response",error.toString());
+                            TokenProviderInterface provider= new TokenProviderInterface() {
+                                @Override
+                                public Token getToken() {
+                                    return new Token() {
+                                        @Override
+                                        public TokenType getTokenType() {
+                                            return TokenType.OAUTH2;
+                                        }
+
+                                        @Override
+                                        public String getTokenValue() {
+                                            return accessToken;
+                                        }
+                                    };
+                                }
+                            };
+                            HashMap<String, String> header = mRestInterface.setTokenProvider(provider);
+                            Map<String, String> paramList = new HashMap<String, String> ();
+                           /* for(String  key: params.keySet() ){
+                                paramList.put(key, params.get(key));
+                            }*/
+                            if(null!=header){
+                                paramList.putAll(header);
                             }
+                            // other header can be added here
+                            return paramList;
                         }
 
-
-                ) {
-
-                    @Override
-                    public  Map<String, String> getHeaders()
-                    {
-                        TokenProviderInterface provider= new TokenProviderInterface() {
-                            @Override
-                            public Token getToken() {
-                                return new Token() {
-                                    @Override
-                                    public TokenType getTokenType() {
-                                        return TokenType.OAUTH2;
-                                    }
-
-                                    @Override
-                                    public String getTokenValue() {
-                                        return accessToken;
-                                    }
-                                };
-                            }
-                        };
-                        HashMap<String, String> header = mRestInterface.setTokenProvider(provider);
-                        Map<String, String> paramList = new HashMap<String, String> ();
-                       /* for(String  key: params.keySet() ){
-                            paramList.put(key, params.get(key));
-                        }*/
-                        if(null!=header){
-                            paramList.putAll(header);
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            int mStatusCode = response.statusCode;
+                            return super.parseNetworkResponse(response);
                         }
-                        // other header can be added here
-                        return paramList;
-                    }
 
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        int mStatusCode = response.statusCode;
-                        return super.parseNetworkResponse(response);
-                    }
-
-                };
-
-                mRestInterface.getRequestQueue().add(putRequest);
+                    };
+                } catch (HttpForbiddenException e) {
+                    Log.i("LOG", "" + e.toString());
+                    showAlertDialog("HttpForbiddenException",e.toString());
+                }
+                if(null!=mStringRequest) {
+                    mRestInterface.getRequestQueue().add(mStringRequest);
+                }
             }
         });
 

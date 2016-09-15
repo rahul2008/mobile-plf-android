@@ -22,8 +22,12 @@ public class StringRequest extends Request<String> {
      * @param errorListener Error listener, or null to ignore errors
      */
     public StringRequest(int method, String url, Response.Listener<String> listener,
-                         Response.ErrorListener errorListener) {
+                         Response.ErrorListener errorListener) throws HttpForbiddenException {
         super(method, url, errorListener);
+        if(!url.contains("https")){
+            throw new HttpForbiddenException();
+        }
+
         mListener = listener;
     }
 
@@ -34,8 +38,11 @@ public class StringRequest extends Request<String> {
      * @param listener      Listener to receive the String response
      * @param errorListener Error listener, or null to ignore errors
      */
-    public StringRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        this(Method.GET, url, listener, errorListener);
+    public StringRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) throws HttpForbiddenException{
+        this(Method.GET, url, listener, errorListener) ;
+        if(!url.contains("https")){
+            throw new HttpForbiddenException();
+        }
     }
 
     @Override

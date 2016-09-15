@@ -208,7 +208,7 @@ public class AppInfra implements AppInfraInterface {
                 ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppInfra initialized", appInfraLogStatement.toString());
             }
 
-            ai.setRestInterface(mRestInterface == null ? new RestManager(pContext,ai) : mRestInterface);
+            ai.setRestInterface(mRestInterface == null ? new RestManager(ai) : mRestInterface);
             Log.v("APPINFRA INT","Rest Intitialization Done");
             Log.v("APPINFRA INT","AI Intitialization Done");
             return ai;

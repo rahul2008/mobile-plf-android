@@ -20,13 +20,11 @@ import java.util.HashMap;
 
 public class RestManager implements RestInterface{
     private RequestQueue mRequestQueue ;
-    private static Context mCtx;
     AppInfra mAppInfra;
     private AppConfigurationInterface mAppConfigurationInterface;
 
 
-    public RestManager(Context context, AppInfra appInfra) {
-        mCtx = context;
+    public RestManager( AppInfra appInfra) {
         mAppInfra = appInfra;
     }
 
@@ -51,12 +49,16 @@ public class RestManager implements RestInterface{
             Cache cache = new DiskBasedCache(getCacheDir(), cacheSizeinKB, mAppInfra); //
 
 // Set up the network to use HttpURLConnection as the HTTP client.
-            Network network = new BasicNetwork(new HurlStack());
+            Network network = getNetwork();
             mRequestQueue = new RequestQueue(cache,network);
             mRequestQueue.start();
            // mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
+    }
+
+    protected Network getNetwork(){
+        return new BasicNetwork(new HurlStack());
     }
 
     @Override
@@ -75,7 +77,7 @@ public class RestManager implements RestInterface{
     }
 
     private File getCacheDir(){
-        return  mCtx.getApplicationContext().getDir("CacheDir", Context.MODE_PRIVATE);
+        return  mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
