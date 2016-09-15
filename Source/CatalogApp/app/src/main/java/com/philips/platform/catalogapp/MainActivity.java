@@ -1,16 +1,15 @@
 package com.philips.platform.catalogapp;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.philips.platform.catalogapp.fragments.DemoListFragment;
+import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.TonalRange;
 import com.philips.platform.uit.thememanager.UITHelper;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,14 +21,9 @@ public class MainActivity extends AppCompatActivity {
         initDemoListFragment();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void initDemoListFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.main_container, new DemoListFragment());
+        transaction.add(R.id.main_container, new ComponentListFragment());
         transaction.commit();
     }
 

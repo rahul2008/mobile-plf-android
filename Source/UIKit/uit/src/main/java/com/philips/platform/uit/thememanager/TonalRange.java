@@ -22,31 +22,25 @@ public enum TonalRange {
     VERY_LIGHT {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-//            theme.injectColorRange(R.style.VeryLightBright, true);
+            theme.applyStyle(R.style.VeryLight, true);
         }
     },
     LIGHT{
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-//            theme.injectColorRange(R.style.VeryLightDark, true);
+            theme.applyStyle(R.style.Light, true);
         }
     },
     BRIGHT{
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-//            theme.injectColorRange(R.style.VeryLightDark, true);
-        }
-    },
-    DARK {
-        @Override
-        public void injectTonalRange(Resources.Theme theme) {
-//            theme.injectColorRange(R.style.Bright, true);
+            theme.applyStyle(R.style.Bright, true);
         }
     },
     VERYDARK {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-//            theme.injectColorRange(R.style.VeryDark, true);
+            theme.applyStyle(R.style.VeryDark, true);
         }
     };
 

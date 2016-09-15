@@ -8,15 +8,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/button_layout_padding"
+        android:layout_marginStart="@dimen/button_layout_padding"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/edge_left_spacing"
         android:paddingTop="@dimen/button_layout_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/individual_buttons_label"/>
 
         <com.philips.platform.uit.view.widget.Button
             android:id="@+id/primary_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/component_bottom_spacing"
             android:text="@string/demo_primary_button"/>
+
+
+        <com.philips.platform.uit.view.widget.Button
+            android:id="@+id/alt_primary_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/component_bottom_spacing"
+            android:text="@string/alternate_primary_label"
+            app:uitComponentType="AltPrimary"/>
+
+        <com.philips.platform.uit.view.widget.Button
+            android:id="@+id/seconday_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/component_bottom_spacing"
+            android:text="@string/secondary_button_label"
+            app:uitComponentType="Secondary"/>
 
         <!--Icon only buttons-->
         <LinearLayout
@@ -27,17 +51,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/category_divider_width"
-                android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/button_layout_padding"
                 android:background="@android:color/darker_gray"
+                android:gravity="center_vertical"
                 android:text="@string/buttons_with_icons"
                 android:textColor="@android:color/black"/>
 
             <com.philips.platform.uit.view.widget.ImageButton
                 android:id="@+id/demo_image_button"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="@dimen/component_bottom_spacing"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/component_bottom_spacing"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

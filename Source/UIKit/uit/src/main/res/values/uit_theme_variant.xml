@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UltraLight">
+        <item name="uitContentPrimaryColor">@color/uitColorWhite</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel05</item>
+
+        <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
+
+        <item name="uitControlTextColor">@android:color/white</item>
+        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel15</item>
+        <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel25</item>
+
+        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
+        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel35</item>
+        <item name="uitControlPrimaryAlternateEnabledColor">?attr/uitColorLevel75</item>
+        <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel65</item>
+
+    </style>
+
+    <style name="VeryLight">
+        <item name="uitContentPrimaryColor">?attr/uitColorLevel20</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel25</item>
+
+        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel05</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel10</item>
+
+    </style>
+
+    <style name="Light">
+        <item name="uitContentPrimaryColor">?attr/uitColorLevel35</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel40</item>
+
+        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel20</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel25</item>
+    </style>
+
+
+    <style name="Bright">
+        <item name="uitContentPrimaryColor">?attr/uitColorLevel50</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel55</item>
+
+        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
+    </style>
+
+    <style name="VeryDark">
+        <item name="uitContentPrimaryColor">?attr/uitColorLevel80</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel85</item>
+
+        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel65</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel70</item>
+
+    </style>
+</resources>
