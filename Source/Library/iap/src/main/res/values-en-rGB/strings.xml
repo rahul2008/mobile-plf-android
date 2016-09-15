@@ -165,5 +165,8 @@
     <string name="iap_no_product_available">No product found in your Store.</string>
     <string name="iap_opening_hours">Call center opening hours:\n</string>
 
+    <!-- Payment Failure -->
+    <string name="iap_payment_failed_title">There was a problem processing your payment</string>
+    <string name="iap_payment_failed_message">Your account was not charged. Please try again.</string>
 
 </resources>

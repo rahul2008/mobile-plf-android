@@ -92,6 +92,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
 
     private void ShowDialogOnBackPressed() {
         Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_TITLE, mContext.getString(R.string.iap_cancel_order_title));
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION,
                 mContext.getString(R.string.iap_continue_shopping_description));
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, mContext.getString(R.string.iap_ok));
