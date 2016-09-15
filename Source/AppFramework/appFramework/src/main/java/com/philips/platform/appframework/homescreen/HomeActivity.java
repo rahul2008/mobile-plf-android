@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -148,7 +148,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.BASE_FRAGMENT_ACTIVITY, "DemoAppActivity == onCreate");
+        IAPLog.d(IAPLog.LOG, "DemoAppActivity == onCreate");
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -259,7 +259,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     if (!backState) {
                         fragmentManager.popBackStack();
                     }
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof BaseAnimationSupportFragment) {
+                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof InAppBaseFragment) {
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
                         popBackTillHomeFragment();
