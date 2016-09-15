@@ -320,12 +320,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
             Utility.dismissProgressDialog();
         }
         if (!isNetworkConnected()) return;
-        if (error.getMessage().contains("Exception")) {
+
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
-        }
     }
 
     @Override
