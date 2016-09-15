@@ -47,10 +47,10 @@ public  interface SecureStorageInterface {
     public byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
-     * encrypt Data .
+     * decrypt Data .
      *
      * @param  dataToBeDecrypted Encrypted Byte array
-     * @return  Plain Byte array
+     * @return  Decrypted/Plain Byte array
      */
     public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 

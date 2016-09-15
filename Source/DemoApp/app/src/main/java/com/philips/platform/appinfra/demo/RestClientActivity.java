@@ -118,7 +118,8 @@ public class RestClientActivity extends AppCompatActivity {
                                     public void onErrorResponse(VolleyError error) {
                                         Log.i("LOG", "" + error);
                                         //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                                        showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
+                                        String errorcode =   null!= error.networkResponse?   error.networkResponse.statusCode+"" : "";
+                                        showAlertDialog("Volley Error ","Code:"+errorcode+ "\n Message:\n"+ error.toString());
                                     }
                                 }
 
@@ -166,7 +167,9 @@ public class RestClientActivity extends AppCompatActivity {
                                 Log.i("LOG", "" + error);
 
                                 //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                                showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
+
+                                String errorcode =   null!= error.networkResponse?   error.networkResponse.statusCode+"" : "";
+                                showAlertDialog("Volley Error ","Code:"+errorcode+ "\n Message:\n"+ error.toString());
                             }
                         });
                     } catch (HttpForbiddenException e) {
@@ -237,14 +240,15 @@ public class RestClientActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                             Log.i("LOG", "" + error);
                             //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                            showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
+                            String errorcode =   null!= error.networkResponse?   error.networkResponse.statusCode+"" : "";
+                            showAlertDialog("Volley Error ","Code:"+errorcode+ "\n Message:\n"+ error.toString());
                         }
                     });
                 } catch (HttpForbiddenException e) {
                     Log.i("LOG", "" + e.toString());
                     showAlertDialog("HttpForbiddenException",e.toString());
                 }
-                // mStringRequest.setShouldCache(false); // set false to disable cache
+                mStringRequest.setShouldCache(false); // set false to disable cache , by default its true
                 if(null!=mStringRequest) {
                     mRestInterface.getRequestQueue().add(mStringRequest);
                 }
@@ -275,7 +279,8 @@ public class RestClientActivity extends AppCompatActivity {
                                 public void onErrorResponse(VolleyError error) {
                                     Log.i("LOG", "" + error);
                                     //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                                    showAlertDialog("Volley Error ","Code: "+error.networkResponse.statusCode+ "\n  Message: "+ error.toString());
+                                    String errorcode =   null!= error.networkResponse?   error.networkResponse.statusCode+"" : "";
+                                    showAlertDialog("Volley Error ","Code:"+errorcode+ "\n Message:\n"+ error.toString());
                                 }
                             }
 
