@@ -13,25 +13,28 @@ import java.lang.reflect.Method;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ParentalAccessFragmentTest extends InstrumentationTestCase {
+public class ParentalConsentFragmentTest extends InstrumentationTestCase {
 
     ParentalConsentFragment parentalConsentFragment;
+
     @Before
     public void setUp() throws Exception {
         parentalConsentFragment = new ParentalConsentFragment();
     }
+
     @Test
-    public void testAssert(){
+    public void testAssces() {
         assertNotNull(parentalConsentFragment);
     }
+
     @Test
-    public void testInitUi(){
+    public void testInitUi() {
         Method method = null;
         View view = new View(getInstrumentation().getContext());
         try {
-            method = ParentalConsentFragment.class.getDeclaredMethod("initUi",View.class);
+            method = ParentalConsentFragment.class.getDeclaredMethod("initUi", View.class);
             method.setAccessible(true);
-            method.invoke(parentalConsentFragment, new Object[]{view});
+            method.invoke(parentalConsentFragment, view);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -40,13 +43,12 @@ public class ParentalAccessFragmentTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
     }
-    /*@Test
-    public void testShowParentalAccessDailog(){
-        Method method = null;
-        //not
 
+    @Test
+    public void testGetReConfirmText() {
+        Method method = null;
         try {
-            method = ParentalConsentFragment.class.getDeclaredMethod("showParentalAccessDailog");
+            method = ParentalConsentFragment.class.getDeclaredMethod("getReConfirmText");
             method.setAccessible(true);
             method.invoke(parentalConsentFragment);
         } catch (NoSuchMethodException e) {
@@ -56,5 +58,5 @@ public class ParentalAccessFragmentTest extends InstrumentationTestCase {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }
