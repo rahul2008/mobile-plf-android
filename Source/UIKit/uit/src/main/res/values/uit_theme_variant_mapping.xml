@@ -6,7 +6,7 @@
         <item name="uitButtonPressedColor">?attr/uitControlPrimaryPressedColor</item>
         <item name="uitButtonDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uitButtonDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
-        <item name="uitButtonTextColor">?attr/uitControlTextColor</item>
+        <item name="uitButtonTextColor">?attr/uitControlPrimaryTextColor</item>
         <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
     </style>
 
@@ -14,12 +14,14 @@
         <item name="uitButtonNormalColor">?attr/uitControlPrimaryAlternateEnabledColor</item>
         <item name="uitButtonPressedColor">?attr/uitControlPrimaryAlternatePressedColor</item>
         <item name="uitButtonDisabledColor">?attr/uitControlPrimaryAlternateEnabledColor</item>
+        <item name="uitButtonTextColor">?attr/uitControlPrimaryAlternateTextColor</item>
     </style>
 
     <style name="UITPrimaryControl.Secondary">
         <item name="uitButtonNormalColor">?attr/uitControlSecondaryEnabledColor</item>
         <item name="uitButtonPressedColor">?attr/uitControlSecondaryPressedColor</item>
         <item name="uitButtonDisabledColor">?attr/uitControlSecondaryEnabledColor</item>
+        <item name="uitButtonTextColor">?attr/uitControlSecondaryTextColor</item>
     </style>
 
 </resources>

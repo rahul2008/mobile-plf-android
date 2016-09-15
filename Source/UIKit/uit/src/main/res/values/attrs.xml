@@ -10,14 +10,17 @@
         <attr name="uitNavigationTextColor" format="reference|color"/>
 
 
-        <attr name="uitControlTextColor" format="reference|color"/>
+        <attr name="uitControlSecondaryTextColor" format="reference|color"/>
         <attr name="uitControlSecondaryEnabledColor" format="reference|color"/>
         <attr name="uitControlSecondaryPressedColor" format="reference|color"/>
 
         <attr name="uitControlPrimaryEnabledColor" format="reference|color"/>
         <attr name="uitControlPrimaryPressedColor" format="reference|color"/>
+        <attr name="uitControlPrimaryTextColor" format="reference|color"/>
+
         <attr name="uitControlPrimaryAlternateEnabledColor" format="reference|color"/>
         <attr name="uitControlPrimaryAlternatePressedColor" format="reference|color"/>
+        <attr name="uitControlPrimaryAlternateTextColor" format="reference|color"/>
 
     </declare-styleable>
 
