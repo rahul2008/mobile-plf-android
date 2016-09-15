@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static com.philips.platform.catalogapp.test.R.color.GroupBlue35;
-import static com.philips.platform.catalogapp.test.R.color.groupblue45;
+import static com.philips.platform.catalogapp.test.R.color.GroupBlue45;
 import static com.philips.platform.catalogapp.utils.ThemeColorUtils.modulateColorAlpha;
 import static junit.framework.Assert.assertEquals;
 
@@ -97,7 +97,7 @@ public class PrimaryButtonWithTextOnlyTest {
     public void verifyPrimaryTextOnlyButtonControlColorULTone() {
         final ColorStateList tintList = button.getSupportBackgroundTintList();
         int actualColor = tintList.getColorForState(new int[]{android.R.attr.state_enabled}, -1);
-        final int expectedColor = testResources.getColor(groupblue45);
+        final int expectedColor = testResources.getColor(GroupBlue45);
         assertEquals(expectedColor, actualColor);
     }
 

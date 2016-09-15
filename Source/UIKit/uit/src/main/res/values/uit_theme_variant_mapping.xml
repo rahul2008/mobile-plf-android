@@ -2,24 +2,24 @@
 <resources>
 
     <style name="UITPrimaryControl">
-        <item name="uitButtonNormalColor">?attr/uikitControlPrimaryEnabledColor</item>
-        <item name="uitButtonPressedColor">?attr/uikitControlPrimaryPressedColor</item>
-        <item name="uitButtonDisabledColor">?attr/uikitControlPrimaryEnabledColor</item>
+        <item name="uitButtonNormalColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitButtonPressedColor">?attr/uitControlPrimaryPressedColor</item>
+        <item name="uitButtonDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uitButtonDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
-        <item name="uitButtonTextColor">?attr/uikitControlTextColor</item>
+        <item name="uitButtonTextColor">?attr/uitControlTextColor</item>
         <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
     </style>
 
     <style name="UITPrimaryControl.AlternatePrimary">
-        <item name="uitButtonNormalColor">?attr/uikitControlPrimaryAlternateEnabledColor</item>
-        <item name="uitButtonPressedColor">?attr/uikitControlPrimaryAlternatePressedColor</item>
-        <item name="uitButtonDisabledColor">?attr/uikitControlPrimaryAlternateEnabledColor</item>
+        <item name="uitButtonNormalColor">?attr/uitControlPrimaryAlternateEnabledColor</item>
+        <item name="uitButtonPressedColor">?attr/uitControlPrimaryAlternatePressedColor</item>
+        <item name="uitButtonDisabledColor">?attr/uitControlPrimaryAlternateEnabledColor</item>
     </style>
 
     <style name="UITPrimaryControl.Secondary">
-        <item name="uitButtonNormalColor">?attr/uikitControlSecondaryEnabledColor</item>
-        <item name="uitButtonPressedColor">?attr/uikitControlSecondaryPressedColor</item>
-        <item name="uitButtonDisabledColor">?attr/uikitControlSecondaryEnabledColor</item>
+        <item name="uitButtonNormalColor">?attr/uitControlSecondaryEnabledColor</item>
+        <item name="uitButtonPressedColor">?attr/uitControlSecondaryPressedColor</item>
+        <item name="uitButtonDisabledColor">?attr/uitControlSecondaryEnabledColor</item>
     </style>
 
 </resources>

@@ -67,7 +67,7 @@ public class ToggleSwitchTest {
 
     @Test
     public void verifyThumbStrokeColor() {
-        int baseColor = ThemeColorUtils.getAttributeColor(mActivityTestRule.getActivity(), R.attr.uikit_baseColor);
+        int baseColor = ThemeColorUtils.getAttributeColor(mActivityTestRule.getActivity(), R.attr.uit_baseColor);
         GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(thumbDrawable);
         Assert.assertEquals(baseColor, stateColors.getStrokeSolidColor());
     }
@@ -75,14 +75,14 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchCheckedColorTest() {
         GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(toggleSwitch.getTrackDrawable());
-        int baseColor = ThemeColorUtils.getAttributeColor(mActivityTestRule.getActivity(), R.attr.uikit_baseColor);
+        int baseColor = ThemeColorUtils.getAttributeColor(mActivityTestRule.getActivity(), R.attr.uit_baseColor);
         Assert.assertEquals(baseColor, stateColors.getStateColor(android.R.attr.state_checked));
     }
 
     @Test
     public void verifyToggleSwitchOffColorTest() {
         GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(toggleSwitch.getTrackDrawable());
-        int baseColor = ThemeColorUtils.getAttributeColor(mActivityTestRule.getActivity(), R.attr.uikit_baseColor);
+        int baseColor = ThemeColorUtils.getAttributeColor(mActivityTestRule.getActivity(), R.attr.uit_baseColor);
         int offColor = ThemeColorUtils.modulateColorAlpha(baseColor, 0.1f);
         Assert.assertEquals(offColor, stateColors.getStateColor(android.R.attr.state_enabled));
     }
