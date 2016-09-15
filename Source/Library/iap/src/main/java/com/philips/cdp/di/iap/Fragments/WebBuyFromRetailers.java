@@ -82,7 +82,9 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 webViewPreviousState = PAGE_STARTED;
-                mProgress.setVisibility(View.VISIBLE);
+                if (mProgress != null) {
+                    mProgress.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -90,9 +92,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
                 if (mProgress != null) {
                     mProgress.setVisibility(View.GONE);
                 }
-                if (mWebView.canGoBack()) {
-                    handleBackEvent();
-                }
+
             }
         });
     }
