@@ -15,6 +15,7 @@ import android.test.InstrumentationTestCase;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.controller.RegisterTraditional;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -27,6 +28,9 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONObject;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class UserTest extends InstrumentationTestCase {
 
@@ -373,5 +377,34 @@ public class UserTest extends InstrumentationTestCase {
         mUser.isUserSignIn();
         mUser.handleMergeFlowError("sample");
         assertNotNull(mUser);
+    }
+    public void testSaveDIUserProfileToDisk(){
+        Method method = null;
+        DIUserProfile diUserProfile = new DIUserProfile();
+        diUserProfile.setHsdpUUID("TestUUID");
+        diUserProfile.setHsdpAccessToken("TestHsdpToken");
+        diUserProfile.setLanguageCode("en");
+        diUserProfile.setCountryCode("US");
+        diUserProfile.setEmail("test@test.com");
+        diUserProfile.setPassword("@#$%^");
+        diUserProfile.setGivenName("TestName");
+        diUserProfile.setOlderThanAgeLimit(true);
+        diUserProfile.setReceiveMarketingEmail(true);
+        diUserProfile.setDisplayName("TestDisplayName");
+        diUserProfile.setFamilyName("TestFamilyName");
+        diUserProfile.setJanrainUUID("TestJanrainID");
+
+
+        try {
+            method = User.class.getDeclaredMethod("saveDIUserProfileToDisk", DIUserProfile.class);
+            method.setAccessible(true);
+            method.invoke(mUser,diUserProfile);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

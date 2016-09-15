@@ -419,13 +419,13 @@ public class User {
         return signedIn;
     }
 
-    private boolean isJanrainUserRecord() {
-        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-        if (captured != null) {
-            return true;
-        }
-        return false;
-    }
+//    private boolean isJanrainUserRecord() {
+//        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+//        if (captured != null) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     // check merge flow error for capture
     public boolean handleMergeFlowError(String existingProvider) {
