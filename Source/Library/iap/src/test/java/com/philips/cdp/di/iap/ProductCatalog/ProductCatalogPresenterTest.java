@@ -148,6 +148,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
                 .class, "get_prx_success_response_HX9003_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
+        CartModelContainer.getInstance().setCountry("US");
         CartModelContainer.getInstance().addProductDataToList("HX9003/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
     }
