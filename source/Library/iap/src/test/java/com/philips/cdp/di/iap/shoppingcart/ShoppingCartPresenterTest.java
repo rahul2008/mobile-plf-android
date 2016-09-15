@@ -287,13 +287,13 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     }
 
     @Override
-    public void onLoadListenerError(final IAPNetworkError error) {
-        boolean isHybrisError = error instanceof IAPNetworkError;
+    public void onLoadListenerError(final Message msg) {
+        boolean isHybrisError = msg.obj instanceof IAPNetworkError;
         assert (isHybrisError);
-        assertEquals(error.getStatusCode(), error.getIAPErrorCode());
-        assertEquals("Hybris", error.getServerError().getErrors().get(0).getType());
-        assertEquals("Hybris Server Down", error.getServerError().getErrors().get(0).getReason());
-        assertEquals("Hybris Error", error.getServerError().getErrors().get(0).getSubject());
+        assertEquals(((IAPNetworkError)msg.obj).getStatusCode(), ((IAPNetworkError)msg.obj).getIAPErrorCode());
+        assertEquals("Hybris", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getType());
+        assertEquals("Hybris Server Down", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getReason());
+        assertEquals("Hybris Error", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getSubject());
     }
 
     @Override
