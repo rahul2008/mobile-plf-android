@@ -154,6 +154,11 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
+        if (msg.obj instanceof Products) {
+            if (((Products) msg.obj).getPagination().getTotalResults() < 1) {
+                mLoadListener.onLoadError(createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
+            }
+        }
         if (processHybrisRequestForGetProductCatalogData(msg))
             return;
 
