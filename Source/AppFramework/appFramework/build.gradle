@@ -15,7 +15,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.0'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
     }
@@ -53,9 +53,6 @@ allprojects {
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
-        flatDir {
-            dirs 'libs'
-        }
     }
 }
 
