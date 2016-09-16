@@ -77,6 +77,8 @@
                 android:layout_marginTop="@dimen/button_layout_padding"
                 android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
+                android:paddingEnd="@dimen/component_bottom_spacing"
+                android:paddingStart="@dimen/component_bottom_spacing"
                 android:text="@string/buttons_with_icons"
                 android:textColor="@android:color/black"/>
 
@@ -84,6 +86,15 @@
                 android:id="@+id/demo_image_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/component_bottom_spacing"/>
+
+            <com.philips.platform.uit.view.widget.Button
+                android:id="@+id/demo_image_text_button"
+                style="@style/UITDefaultButton.UITImageTextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/uit_imagebutton_padding"
+                android:text="Helloosdofsjdfkdjfk"
                 android:layout_marginTop="@dimen/component_bottom_spacing"/>
         </LinearLayout>
     </LinearLayout>

@@ -24,4 +24,6 @@
     <dimen name="uit_imagebutton_size">40dp</dimen>
     <dimen name="uit_imagebutton_image_size">24dp</dimen>
     <dimen name="uit_imagebutton_padding">8dp</dimen>
+    <dimen name="uit_image_text_button_padding_left">32dp</dimen>
+
 </resources>

@@ -144,18 +144,14 @@ public class ThemeUtils {
                 continue;
             }
 
-            final TypedArray a = obtainAttributes(r, theme, attrs, android.support.v7.appcompat.R.styleable.ColorStateListItem);
-            final int baseColor = a.getColor(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_color,
+            final TypedArray typedArray = obtainAttributes(r, theme, attrs, android.support.v7.appcompat.R.styleable.ColorStateListItem);
+            final int baseColor = typedArray.getColor(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_color,
                     Color.MAGENTA);
 
             float alphaMod = 1.0f;
-            if (a.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha)) {
-                alphaMod = a.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha, alphaMod);
-            } else if (a.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha)) {
-                alphaMod = a.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha, alphaMod);
-            }
+            alphaMod = getAlphaMode(typedArray, alphaMod);
 
-            a.recycle();
+            typedArray.recycle();
 
             // Parse all unrecognized attributes as state specifiers.
             int j = 0;
@@ -191,6 +187,15 @@ public class ThemeUtils {
         System.arraycopy(stateSpecList, 0, stateSpecs, 0, listSize);
 
         return new ColorStateList(stateSpecs, colors);
+    }
+
+    private static float getAlphaMode(final TypedArray typedArray, float alphaMod) {
+        if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha)) {
+            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha, alphaMod);
+        } else if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha)) {
+            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha, alphaMod);
+        }
+        return alphaMod;
     }
 
     /**

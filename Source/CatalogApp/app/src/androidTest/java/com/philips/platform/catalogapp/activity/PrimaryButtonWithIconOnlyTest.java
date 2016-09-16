@@ -88,7 +88,6 @@ public class PrimaryButtonWithIconOnlyTest {
     public void verifyButtonWithIconRightPadding() {
         int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_right_padding);
         assertEquals(expectedLeftPadding, iconButton.getPaddingRight());
-
     }
 
     @Test
@@ -106,16 +105,15 @@ public class PrimaryButtonWithIconOnlyTest {
     @Test
     public void verifyIconButtonDefaultIconColor() {
 
-
     }
+
     @Test
     public void verifyIconButtonPressedIconColor() {
 
-
     }
+
     @Test
     public void verifyIconButtonDisabledIconColor() {
-
 
     }
 }

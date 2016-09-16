@@ -10,12 +10,17 @@
         <attr name="uitButtonTextDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uitButtonBackgroundColorList" format="reference"/>
         <attr name="uitButtonTextColorList" format="reference"/>
+        <attr name="uitButtonDrawableColorList" format="reference"/>
+        <attr name="uitButtonImageColorList" format="reference"/>
+        <attr name="uitButtonImageDrawableHeight" format="dimension"/>
+        <attr name="uitButtonImageDrawableWidth" format="dimension"/>
+        <attr name="uitButtonImageDrawableSrc" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="UITImageButton">
-        <attr name="uitImageDrawableHeight" format="dimension"/>
-        <attr name="uitImageDrawableWidth" format="dimension"/>
-        <attr name="uitImageDrawableSrc" format="reference"/>
+        <attr name="uitImageButtonDrawableHeight" format="dimension"/>
+        <attr name="uitImageButtonDrawableWidth" format="dimension"/>
+        <attr name="uitImageButtonDrawableSrc" format="reference"/>
         <attr name="uitImageButtonDrawableColorList" format="reference"/>
         <attr name="uitImageButtonColorList" format="reference"/>
     </declare-styleable>

@@ -35,16 +35,6 @@ public class ImageButton extends AppCompatButton {
         processAttributes(context, attrs, defStyleAttr);
     }
 
-    public void setImageDrawable(Drawable drawable) {
-        if (drawableColorlist != null && drawable != null) {
-            drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            drawable.invalidateSelf();
-            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
-        }
-        setCompoundDrawables(drawable, null, null, null);
-    }
-
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITImageButton, defStyleAttr, R.style.UITImageButton);
         assignDrawableProperties(typedArray);
@@ -55,19 +45,9 @@ public class ImageButton extends AppCompatButton {
         typedArray.recycle();
     }
 
-    private void applyDrawable(TypedArray typedArray) {
-        int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageDrawableSrc, -1);
-        //We allow setting drawable programmatically too, which can be case for vectors.
-        if(resourceId != -1) {
-            Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();
-            drawable.setBounds(0,0,drawableWidth, drawableHeight);
-            setCompoundDrawables(drawable, null, null, null);
-        }
-    }
-
     private void assignDrawableProperties(TypedArray typedArray) {
-        drawableWidth = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageDrawableWidth, 0.0f);
-        drawableHeight = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageDrawableHeight, 0.0f);
+        drawableWidth = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageButtonDrawableWidth, 0.0f);
+        drawableHeight = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageButtonDrawableHeight, 0.0f);
 
         //Store the color state list
         int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableColorList, -1);
@@ -81,6 +61,26 @@ public class ImageButton extends AppCompatButton {
         if (backGroundListID != -1 && getBackground() != null) {
             ViewCompat.setBackgroundTintList(this, getColorStateListFromResourceID(backGroundListID));
         }
+    }
+
+    private void applyDrawable(TypedArray typedArray) {
+        int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableSrc, -1);
+        //We allow setting drawable programmatically too, which can be case for vectors.
+        if (resourceId != -1) {
+            Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();
+            drawable.setBounds(0, 0, drawableWidth, drawableHeight);
+            setCompoundDrawables(drawable, null, null, null);
+        }
+    }
+
+    public void setImageDrawable(Drawable drawable) {
+        if (drawableColorlist != null && drawable != null) {
+            drawable.setBounds(0, 0, drawableWidth, drawableHeight);
+            drawable.invalidateSelf();
+            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
+        }
+        setCompoundDrawables(drawable, null, null, null);
     }
 
     private ColorStateList getColorStateListFromResourceID(int backgroundColorStateID) {
