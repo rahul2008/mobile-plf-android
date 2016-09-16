@@ -15,8 +15,11 @@ import android.test.InstrumentationTestCase;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.controller.RegisterTraditional;
+import com.philips.cdp.registration.dao.ConsumerArray;
+import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
@@ -31,6 +34,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserTest extends InstrumentationTestCase {
 
@@ -399,6 +404,10 @@ public class UserTest extends InstrumentationTestCase {
             method = User.class.getDeclaredMethod("saveDIUserProfileToDisk", DIUserProfile.class);
             method.setAccessible(true);
             method.invoke(mUser,diUserProfile);
+             diUserProfile = null;
+
+            method.invoke(mUser,diUserProfile);
+
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -407,4 +416,48 @@ public class UserTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
     }
+
+    public void testGetUserInstance(){
+        Method method = null;
+        try {
+            method = User.class.getDeclaredMethod("getUserInstance", null);
+            method.setAccessible(true);
+            method.invoke(mUser,null);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testAddConsumerInterest(){
+        AddConsumerInterestHandler addConsumerInterestHandler = new AddConsumerInterestHandler() {
+            @Override
+            public void onAddConsumerInterestSuccess() {
+
+            }
+
+            @Override
+            public void onAddConsumerInterestFailedWithError(int error) {
+
+            }
+        };
+        ConsumerArray consumerArray = new  ConsumerArray();
+
+//        List<ConsumerInterest> consumerInterestList = new ArrayList<ConsumerInterest>();
+//        ConsumerInterest consumerInterest = new ConsumerInterest();
+//        consumerInterest.setCampaignName("campaignName");
+//        consumerInterest.setSubjectArea("subjectArea");
+//        consumerInterest.setTopicCommunicationKey("topicCommunicationKey");
+//        consumerInterest.setTopicValue("topicValue");
+//        consumerInterestList.add(consumerInterest);
+//        consumerArray.setConsumerArraylist(consumerInterestList);
+        mUser.addConsumerInterest(addConsumerInterestHandler,consumerArray);
+
+
+    }
+
+
 }

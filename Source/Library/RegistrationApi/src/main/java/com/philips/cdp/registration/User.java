@@ -492,7 +492,7 @@ public class User {
         CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
         JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
         mConsumerInterestArray = new JSONArray();
-        ConsumerArray consumer = ConsumerArray.getInstance();
+        ConsumerArray consumer = consumerArray;
 
         if (consumer != null) {
             for (ConsumerInterest diConsumerInterest : consumer.getConsumerArraylist()) {
