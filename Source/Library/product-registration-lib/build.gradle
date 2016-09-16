@@ -117,7 +117,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.2.4"
+        versionName "1.2.5"
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }

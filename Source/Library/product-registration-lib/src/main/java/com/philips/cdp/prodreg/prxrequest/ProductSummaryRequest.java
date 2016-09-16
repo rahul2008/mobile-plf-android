@@ -30,7 +30,7 @@ public class ProductSummaryRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        String mConfiguration = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
+        String mConfiguration = getRegistrationEnvironment();
         if (mConfiguration.equalsIgnoreCase("Development")) {
             mServerInfo = "https://10.128.41.113.philips.com/prx/product/";
         } else if (mConfiguration.equalsIgnoreCase("Testing")) {
@@ -43,6 +43,10 @@ public class ProductSummaryRequest extends PrxRequest {
             mServerInfo = "https://www.philips.com/prx/product/";
         }
         return mServerInfo;
+    }
+
+    protected String getRegistrationEnvironment() {
+        return RegistrationConfiguration.getInstance().getRegistrationEnvironment();
     }
 
     @Override
