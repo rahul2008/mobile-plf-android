@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def libVersionNumber = new File('../../VERSION_JUMP').text.trim()
+//def libVersionNumber = new File('../../VERSION_JUMP').text.trim()
 
 buildscript {
     repositories {
@@ -43,8 +43,8 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-//version = "6.0.5-rc.1"
-version = libVersionNumber
+version = "6.0.5-SNAPSHOT"
+
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
