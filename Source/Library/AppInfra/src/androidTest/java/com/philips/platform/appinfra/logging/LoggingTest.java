@@ -216,6 +216,8 @@ public class LoggingTest extends MockitoTestCase {
     }
 
     public void testLogwithFileAndConsoleDisabled(){
+        loggingInterface.enableConsoleLog(true);
+        loggingInterface.enableFileLog(true);
         loggingInterface.enableConsoleLog(false);
         loggingInterface.enableConsoleLog(false);
         loggingInterface.enableFileLog(false);

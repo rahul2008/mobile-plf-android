@@ -27,7 +27,7 @@ public class JsonObjectRequest extends JsonRequest<JSONObject> {
      * @param errorListener Error listener, or null to ignore errors.
      */
     public JsonObjectRequest(int method, String url, JSONObject jsonRequest,
-                             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+                             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener)throws HttpForbiddenException {
         super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
                 errorListener);
     }
@@ -39,7 +39,7 @@ public class JsonObjectRequest extends JsonRequest<JSONObject> {
      * @see #JsonObjectRequest(int, String, JSONObject, Response.Listener, Response.ErrorListener)
      */
     public JsonObjectRequest(String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener,
-                             Response.ErrorListener errorListener) {
+                             Response.ErrorListener errorListener) throws HttpForbiddenException {
         this(jsonRequest == null ? Method.GET : Method.POST, url, jsonRequest,
                 listener, errorListener);
     }

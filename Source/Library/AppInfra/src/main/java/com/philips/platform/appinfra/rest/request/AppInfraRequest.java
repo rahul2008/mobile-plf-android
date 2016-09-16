@@ -35,7 +35,7 @@ public class AppInfraRequest<T> extends Request<T> {
      * @param headers Map of request headers
      */
     public AppInfraRequest(int method,String url, Class<T> clazz, Map<String, String> headers,
-                           Response.Listener<T> listener, Response.ErrorListener errorListener) {
+                           Response.Listener<T> listener, Response.ErrorListener errorListener) throws HttpForbiddenException {
         super(method, url, errorListener);
         this.clazz = clazz;
         this.headers = headers;

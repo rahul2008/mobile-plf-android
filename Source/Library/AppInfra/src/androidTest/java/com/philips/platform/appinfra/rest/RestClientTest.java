@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.volley.Network;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
@@ -21,6 +22,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static org.mockito.Mockito.mock;
+
 /**
  * Created by 310238114 on 9/13/2016.
  */
@@ -30,6 +33,7 @@ public class RestClientTest extends MockitoTestCase {
     private AppInfra mAppInfra;
     private RestInterface mRestInterface;
     AppConfigurationManager mConfigInterface;
+    RequestQueue mockRequestQueue;
     String url = "https://www.oldchaphome.nl/RCT/test.php?action=data&id=aa";
     @Override
     protected void setUp() throws Exception {
@@ -39,6 +43,7 @@ public class RestClientTest extends MockitoTestCase {
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
+        mockRequestQueue= mock(RequestQueue.class);
         ///////////////////////////////////
         //overriding App Configuration to read cacheSize
         mConfigInterface = new AppConfigurationManager(mAppInfra) {
@@ -165,31 +170,42 @@ public class RestClientTest extends MockitoTestCase {
            e.printStackTrace();
        }
        // mStringRequest.setShouldCache(false); // set false to disable cache
-       mRestInterface.getRequestQueue().add(mStringRequest);
+       mStringRequest.setShouldCache(false);
+       mockRequestQueue.add(mStringRequest);
+       mStringRequest.setShouldCache(true);
+       mockRequestQueue.add(mStringRequest);
+       /// below req should get value from cache
+       mockRequestQueue.add(mStringRequest);
+
     }
 
     public void testJsonObjectRequest(){
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("param1", "value1");
 
-        JsonObjectRequest req = new JsonObjectRequest(url, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.i("LOG", "JsonStringRequest Response:" + response);
-                        assertNotNull(response);
-                       /* try {
-                            Log.v("Response:%n %s", response.toString(4));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Error: ", error.getMessage());
-            }
-        });
+        try {
+            JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(url, new JSONObject(params),
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.i("LOG", "JsonStringRequest Response:" + response);
+                            assertNotNull(response);
+                           /* try {
+                                Log.v("Response:%n %s", response.toString(4));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }*/
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("Error: ", error.getMessage());
+                }
+            });
+            mockRequestQueue.add(mJsonObjectRequest);
+        } catch (HttpForbiddenException e) {
+            e.printStackTrace();
+        }
     }
 
 }

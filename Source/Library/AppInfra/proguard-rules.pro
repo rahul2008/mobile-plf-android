@@ -94,7 +94,9 @@
     public protected *;
   }
 
-
+-keep public class com.philips.platform.appinfra.rest.** {
+    public protected *;
+  }
 
 -keep public interface com.philips.platform.appinfra.appidentity.AppIdentityInterface {*;}
 

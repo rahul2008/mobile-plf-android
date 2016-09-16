@@ -53,7 +53,7 @@ public class ImageRequest extends Request<Bitmap> {
      * @param errorListener Error listener, or null to ignore errors
      */
     public ImageRequest(String url, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
-                        ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, Response.ErrorListener errorListener) {
+                        ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, Response.ErrorListener errorListener) throws HttpForbiddenException {
         super(Method.GET, url, errorListener);
         setRetryPolicy(new DefaultRetryPolicy(DEFAULT_IMAGE_TIMEOUT_MS, DEFAULT_IMAGE_MAX_RETRIES,
                 DEFAULT_IMAGE_BACKOFF_MULT));
@@ -70,7 +70,7 @@ public class ImageRequest extends Request<Bitmap> {
      */
     @Deprecated
     public ImageRequest(String url, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
-                        Bitmap.Config decodeConfig, Response.ErrorListener errorListener) {
+                        Bitmap.Config decodeConfig, Response.ErrorListener errorListener) throws HttpForbiddenException{
         this(url, listener, maxWidth, maxHeight,
                 ImageView.ScaleType.CENTER_INSIDE, decodeConfig, errorListener);
     }
