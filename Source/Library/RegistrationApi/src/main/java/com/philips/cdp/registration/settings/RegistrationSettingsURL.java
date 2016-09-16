@@ -165,8 +165,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                     @Override
                     public void onSuccess(URL url) {
-                        jumpConfig.captureRecoverUri = url.toString() + "&loc=" + langCode + "_" + countryCode;
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + url.toString());
+                        //https://www.philips.co.in/c-w/reset-password.html?cl=mob
+                        String modifiedUrl = url.toString().replaceAll("c-w","myphilips");
+                        jumpConfig.captureRecoverUri = modifiedUrl + "&loc=" + langCode + "_" + countryCode;
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + modifiedUrl);
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
                     }
                 });
