@@ -11,11 +11,11 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
 import com.philips.platform.uit.R;
+import com.philips.platform.uit.thememanager.ThemeUtils;
 
 public class ImageButton extends AppCompatButton {
     private ColorStateList drawableColorlist;
@@ -84,6 +84,6 @@ public class ImageButton extends AppCompatButton {
     }
 
     private ColorStateList getColorStateListFromResourceID(int backgroundColorStateID) {
-        return AppCompatResources.getColorStateList(getContext(), backgroundColorStateID);
+        return ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backgroundColorStateID);
     }
 }
