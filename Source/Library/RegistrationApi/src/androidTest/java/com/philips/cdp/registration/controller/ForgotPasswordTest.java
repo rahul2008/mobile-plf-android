@@ -7,6 +7,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -21,6 +22,9 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
 
@@ -63,6 +67,25 @@ public class ForgotPasswordTest extends InstrumentationTestCase{
         mForgotPassword.onFlowDownloadFailure() ;
 
                     }
+
+    public void testGetErrorMessage(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put("sample");
+        Method method = null;
+        try {
+            method = ForgotPassword.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
+            method.setAccessible(true);
+            method.invoke(mForgotPassword,jsonArray);
+            jsonArray = null;
+            method.invoke(mForgotPassword,jsonArray);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

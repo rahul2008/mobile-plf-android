@@ -6,13 +6,18 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
 
@@ -80,5 +85,40 @@ public class RegisterSocialTest extends InstrumentationTestCase {
 
         //mRegisterSocial.onSuccess();
       mRegisterSocial.onFlowDownloadFailure();
+        mRegisterSocial.onCode("");
     }
+    public void testGetErrorMessage(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put("sample");
+        Method method = null;
+        try {
+            method = RegisterSocial.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
+            method.setAccessible(true);
+            method.invoke(mRegisterSocial,jsonArray);
+            jsonArray = null;
+            method.invoke(mRegisterSocial,jsonArray);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public void testHandleOnLoginSuccess(){
+//        Method method = null;
+//        try {
+//            method = RegisterSocial.class.getDeclaredMethod("handleOnLoginSuccess");
+//            method.setAccessible(true);
+//            method.invoke(mRegisterSocial);
+//
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

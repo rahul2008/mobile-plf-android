@@ -9,6 +9,7 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 
+import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,5 +81,23 @@ public class LoginTraditionalTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
+    }
+    public void testGetErrorMessage(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put("sample");
+        Method method = null;
+        try {
+            method = LoginTraditional.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
+            method.setAccessible(true);
+            method.invoke(loginTraditional,jsonArray);
+            jsonArray = null;
+            method.invoke(loginTraditional,jsonArray);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

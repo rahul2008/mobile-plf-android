@@ -8,9 +8,13 @@ import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
 
@@ -66,6 +70,24 @@ public class RegisterTraditionalTest extends InstrumentationTestCase {
 
         assertNotNull(mRegisterTraditional);
 
+    }
+    public void testGetErrorMessage(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put("sample");
+        Method method = null;
+        try {
+            method = RegisterTraditional.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
+            method.setAccessible(true);
+            method.invoke(mRegisterTraditional,jsonArray);
+            jsonArray = null;
+            method.invoke(mRegisterTraditional,jsonArray);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 }

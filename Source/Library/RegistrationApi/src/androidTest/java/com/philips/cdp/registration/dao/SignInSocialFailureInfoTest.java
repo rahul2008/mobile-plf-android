@@ -42,4 +42,8 @@ public class SignInSocialFailureInfoTest extends InstrumentationTestCase {
         assertEquals(error,signInSocialFailureInfo.getError());
     }
 
+    public void testGetErrorDescription(){
+         assertEquals(null,signInSocialFailureInfo.getErrorDescription());
+    }
+
 }
