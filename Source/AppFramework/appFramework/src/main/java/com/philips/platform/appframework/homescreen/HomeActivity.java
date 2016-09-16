@@ -51,7 +51,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListner is implemented by this activty and all the logic related to back handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -92,6 +92,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         setActionBar(getSupportActionBar());
         configureDrawer();
         renderHamburgerMenu();
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
 /**
  * To update cart count of the actionbar icon
@@ -264,7 +265,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     if (!backState) {
                         popBackTillHomeFragment();
                     }
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase("digitalcare")) {
+                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase(getResources().getString(R.string.af_digital_care))) {
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
                         popBackTillHomeFragment();
@@ -422,5 +423,15 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     public void onFailure(int i) {
 
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
+        String str=backEntry.getName();
+        Log.v("FragmentTag",str);
+        if(str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag))){
+            cartIconVisibility(true);
+        }
     }
 }
