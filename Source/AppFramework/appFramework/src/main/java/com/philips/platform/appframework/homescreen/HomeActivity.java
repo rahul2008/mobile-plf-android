@@ -445,11 +445,13 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
     @Override
     public void onBackStackChanged() {
-        FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
-        String str = backEntry.getName();
-        if(null != str) {
-            if (str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag)) || str.equalsIgnoreCase("Registration_fragment_tag")) {
-                cartIconVisibility(true);
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+            String str = backEntry.getName();
+            if (null != str) {
+                if (str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag)) || str.equalsIgnoreCase("Registration_fragment_tag")) {
+                    cartIconVisibility(true);
+                }
             }
         }
     }
