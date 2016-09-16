@@ -34,7 +34,7 @@
 
   <AppFramework>
     <AppFrameworkHomeScreen>com.philips.platform.appframework:id/hamburger_title</AppFrameworkHomeScreen>
-    <HamburgerIcon>com.philips.platform.appframework:id/hamburger_icon</HamburgerIcon>
+    <HamburgerIcon>com.philips.platform.appframework:id/hamburger_click</HamburgerIcon>
     <Settings>//android.widget.TextView[@text='Settings']</Settings>
     <Connectivity>//android.widget.TextView[@text='Connectivity']</Connectivity>
     <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
