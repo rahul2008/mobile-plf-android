@@ -24,10 +24,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -422,16 +424,32 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void onFailure(int i) {
-
+        showToast(i);
     }
 
+    private void showToast(int errorCode) {
+        String errorText = getResources().getString(R.string.af_iap_server_error);
+        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_no_connection);
+        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_connection_time_out);
+        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_authentication_failure);
+        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_prod_out_of_stock);
+        }
+        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
     @Override
     public void onBackStackChanged() {
         FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
-        String str=backEntry.getName();
-        Log.v("FragmentTag",str);
-        if(str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag))){
-            cartIconVisibility(true);
+        String str = backEntry.getName();
+        if(null != str) {
+            if (str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag)) || str.equalsIgnoreCase("Registration_fragment_tag")) {
+                cartIconVisibility(true);
+            }
         }
     }
 }
