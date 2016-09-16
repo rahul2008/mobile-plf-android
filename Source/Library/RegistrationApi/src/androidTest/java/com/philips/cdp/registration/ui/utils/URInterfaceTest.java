@@ -57,7 +57,6 @@ public class URInterfaceTest extends InstrumentationTestCase {
         UappLaunchInput uappLaunchInput = new UappLaunchInput();
         try {
             method = URInterface.class.getDeclaredMethod("launchAsFragment", ActivityLauncher.class, UappLaunchInput.class);
-            ;
             method.setAccessible(true);
             method.invoke(urInterface, uiLauncher, uappLaunchInput);
         } catch (NoSuchMethodException e) {

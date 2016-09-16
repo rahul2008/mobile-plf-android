@@ -11,6 +11,7 @@ import org.junit.Test;
  */
 public class XRegErrorTest extends InstrumentationTestCase{
     XRegError xRegError;
+    String mSigninErrMsg;
     @Before
     public void setUp() throws Exception {
         xRegError = new XRegError(getInstrumentation().getContext());
@@ -18,5 +19,13 @@ public class XRegErrorTest extends InstrumentationTestCase{
     @Test
     public void testAssert(){
         assertNotNull(xRegError);
+    }
+    @Test
+    public void testSetError(){
+        String errorMsg="error";
+        xRegError.setError(errorMsg);
+        assertNotNull(xRegError);
+        mSigninErrMsg=errorMsg;
+        xRegError.getContext();
     }
 }

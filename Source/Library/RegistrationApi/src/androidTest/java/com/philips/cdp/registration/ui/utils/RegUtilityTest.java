@@ -129,7 +129,6 @@ public class RegUtilityTest extends InstrumentationTestCase {
         SpannableString spanableString = new SpannableString(source);
         try {
             method = RegUtility.class.getDeclaredMethod("removeUnderlineFromLink", SpannableString.class);
-            ;
             method.setAccessible(true);
             method.invoke(regUtility, spanableString);
         } catch (NoSuchMethodException e) {

@@ -10,6 +10,10 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
+import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by 310243576 on 8/30/2016.
@@ -58,5 +62,23 @@ public class LoginTraditionalTest extends InstrumentationTestCase {
     {
         assertNotNull(loginTraditional);
 //        loginTraditional.loginTraditionally("sample@sample.com","sample");
+    }
+    @Test
+    public void testUpdateUIBasedOnConsentStatus(){
+        Method method = null;
+        String email="email@email.com" ;
+        String password="1234455";
+        try {
+            method =LoginTraditional.class.getDeclaredMethod("loginTraditionally",String.class,String.class);;
+            method.setAccessible(true);
+            method.invoke(loginTraditional,email,password);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 }

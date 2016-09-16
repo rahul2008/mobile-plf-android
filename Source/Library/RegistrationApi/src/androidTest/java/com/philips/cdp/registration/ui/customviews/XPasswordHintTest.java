@@ -17,7 +17,7 @@ public class XPasswordHintTest extends InstrumentationTestCase{
         xPassword= new XPassword(getInstrumentation().getContext());
     }
     @Test
-    public void testassert(){
+    public void testAssert(){
         assertNotNull(xPassword);
     }
 }
