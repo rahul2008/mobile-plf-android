@@ -44,8 +44,11 @@ public class ParentalAccessConfirmFragmentTest extends InstrumentationTestCase {
         Method method = null;
         int minAge=19;
         try {
+            String minAgeLimitTest = "text";
+            minAgeLimitTest = String.format(minAgeLimitTest, minAge);
+
             method = ParentalAccessConfirmFragment.class.getDeclaredMethod("showParentalAccessDailog",int.class);
-            method.setAccessible(true);
+           method.setAccessible(true);
             method.invoke(parentalAccessConfirmFragment,minAge);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

@@ -184,47 +184,57 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onSaveInstanceState(Bundle outState) {
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
-        if(mRegError.getVisibility() == View.VISIBLE){
-            mBundle.putBoolean("isSavedRegError", true);
-            mBundle.putString("saveErrText", mRegError.getErrorMsg());
+        if (mBundle != null) {
+            if (mRegError != null) {
+                if (mRegError.getVisibility() == View.VISIBLE) {
+                    mBundle.putBoolean("isSavedRegError", true);
+                    mBundle.putString("saveErrText", mRegError.getErrorMsg());
+                }
+            }
+            if (mEtEmail != null) {
+                if (mEtEmail.isEmailErrorVisible()) {
+                    isSavedEmailError = true;
+                    mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
+                    mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
+                }
+            }
+            if (mEtPassword != null) {
+                if (mEtPassword.isPasswordErrorVisible()) {
+                    isSavedPasswordErr = true;
+                    mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
+                    mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
+                }
+            }
+            if (mBtnResend != null) {
+                if (mBtnResend.getVisibility() == View.VISIBLE && mEtEmail.isEmailErrorVisible()) {
+                    isSavedVerifyEmail = true;
+                    mBundle.putBoolean("isSavedVerifyEmail", isSavedVerifyEmail);
+                    mBundle.putString("savedVerifyEmail", mEtEmail.getSavedEmailErrDescription());
+                }
+            }
+            mBundle.putBoolean("isLoginBton", isLoginBtn);
         }
-        if(mEtEmail.isEmailErrorVisible()){
-            isSavedEmailError = true;
-            mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
-            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
-        }
-        if(mEtPassword.isPasswordErrorVisible()){
-            isSavedPasswordErr = true;
-            mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
-            mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
-        }
-        if(mBtnResend.getVisibility() == View.VISIBLE && mEtEmail.isEmailErrorVisible()){
-            isSavedVerifyEmail = true;
-            mBundle.putBoolean("isSavedVerifyEmail", isSavedVerifyEmail);
-            mBundle.putString("savedVerifyEmail", mEtEmail.getSavedEmailErrDescription());
-        }
-        mBundle.putBoolean("isLoginBton", isLoginBtn);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null){
-            if(savedInstanceState.getString("saveEmailErrText")!=null
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString("saveEmailErrText") != null
                     && savedInstanceState.getBoolean("isSaveEmailErrText")
-                    && !savedInstanceState.getBoolean("isLoginBton")){
+                    && !savedInstanceState.getBoolean("isLoginBton")) {
                 mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
 
-            }else if(savedInstanceState.getBoolean("isSavedRegError")){
+            } else if (savedInstanceState.getBoolean("isSavedRegError")) {
                 mRegError.setError(savedInstanceState.getString("saveErrText"));
             }
-            if(savedInstanceState.getString("savedPasswordErr")!=null && savedInstanceState.getBoolean("isSavedPasswordErr")){
+            if (savedInstanceState.getString("savedPasswordErr") != null && savedInstanceState.getBoolean("isSavedPasswordErr")) {
                 mEtPassword.setErrDescription(savedInstanceState.getString("savedPasswordErr"));
                 mEtPassword.showInvalidPasswordAlert();
             }
-            if(savedInstanceState.getString("savedVerifyEmail")!=null && savedInstanceState.getBoolean("isSavedVerifyEmail")){
+            if (savedInstanceState.getString("savedVerifyEmail") != null && savedInstanceState.getBoolean("isSavedVerifyEmail")) {
                 mEtEmail.setErrDescription(savedInstanceState.getString("savedVerifyEmail"));
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();

@@ -419,13 +419,13 @@ public class User {
         return signedIn;
     }
 
-    private boolean isJanrainUserRecord() {
-        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-        if (captured != null) {
-            return true;
-        }
-        return false;
-    }
+//    private boolean isJanrainUserRecord() {
+//        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+//        if (captured != null) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     // check merge flow error for capture
     public boolean handleMergeFlowError(String existingProvider) {
@@ -492,7 +492,7 @@ public class User {
         CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
         JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
         mConsumerInterestArray = new JSONArray();
-        ConsumerArray consumer = ConsumerArray.getInstance();
+        ConsumerArray consumer = consumerArray;
 
         if (consumer != null) {
             for (ConsumerInterest diConsumerInterest : consumer.getConsumerArraylist()) {
