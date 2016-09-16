@@ -51,6 +51,8 @@
             <enum name="Primary" value="0"/>
             <enum name="AltPrimary" value="1"/>
             <enum name="Secondary" value="2"/>
+            <enum name="Quiet" value="2"/>
+            <enum name="Circular" value="2"/>
             <enum name="Accent" value="3"/>
         </attr>
     </declare-styleable>

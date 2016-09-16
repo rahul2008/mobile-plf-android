@@ -16,16 +16,20 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.uit.view.widget.Button;
 import com.philips.platform.uit.view.widget.ImageButton;
 
 public class ButtonFragment extends Fragment {
     ImageButton imageButton;
+    Button imageTextButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_buttons, null);
+        View view = inflater.inflate(R.layout.fragment_buttons, container, false);
         imageButton = (ImageButton) view.findViewById(R.id.demo_image_button);
+        imageTextButton = (Button) view.findViewById(R.id.demo_image_text_button);
         imageButton.setImageDrawable(getShareIcon());
+        imageTextButton.setImageDrawable(getShareIcon());
         setDisableSwitch(view);
         return view;
     }
