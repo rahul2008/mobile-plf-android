@@ -12,6 +12,7 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -254,6 +255,80 @@ public class BuyDirectControllerTest {
 
         setStoreAndDelegate();
         mBuyDirectController.getDeliveryModes();
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+
+    @Test
+    public void testGetPaymentDetailsSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onGetPaymentMode(Message msg) {
+                assertEquals(RequestCode.GET_PAYMENT_DETAILS, msg.what);
+                assertTrue(msg.obj instanceof PaymentMethods);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.getPaymentMode();
+        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "Payment.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetPaymentDetailsEmptySuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onGetPaymentMode(Message msg) {
+                testEmptyResponse(msg, RequestCode.GET_PAYMENT_DETAILS);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.getPaymentMode();
+        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetPaymentDetailsErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onGetPaymentMode(Message msg) {
+                testErrorResponse(msg, RequestCode.GET_PAYMENT_DETAILS);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.getPaymentMode();
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testSetPaymentDetailsSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onSetPaymentMode(Message msg) {
+                testSuccessResponse(msg, RequestCode.SET_PAYMENT_DETAILS);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.setPaymentMode("");
+        mNetworkController.sendSuccess(null);
+    }
+
+    @Test
+    public void testSetPaymentDetailsErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onSetPaymentMode(Message msg) {
+                testErrorResponse(msg, RequestCode.SET_PAYMENT_DETAILS);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.setPaymentMode("");
         mNetworkController.sendFailure(new VolleyError());
     }
 
