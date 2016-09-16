@@ -70,7 +70,7 @@ catch(Exception e){}
         DhpResponse dhpResponse = new DhpResponse(rawResponse);
 
         try {
-            method = DhpApiClient.class.getDeclaredMethod("getDhpAuthenticationResponse", new Class[]{DhpResponse.class});
+            method = DhpAuthenticationManagementClient.class.getDeclaredMethod("getDhpAuthenticationResponse", new Class[]{DhpResponse.class});
             method.setAccessible(true);
             method.invoke(mDhpAuthenticationManagementClient, new  Object[]{dhpResponse});
         } catch (NoSuchMethodException e) {
@@ -85,9 +85,9 @@ catch(Exception e){}
     public void testGetUTCdatetimeAsString()  {
         Method method = null;
         try {
-            method = DhpApiClient.class.getDeclaredMethod("getUTCdatetimeAsString", null);
+            method = DhpAuthenticationManagementClient.class.getDeclaredMethod("getUTCdatetimeAsString");
             method.setAccessible(true);
-            method.invoke(mDhpAuthenticationManagementClient,null);
+            method.invoke(mDhpAuthenticationManagementClient);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
