@@ -14,11 +14,15 @@ public class PRInterface implements UappInterface {
 
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        PRUiHelper.getInstance().init(uappDependencies, uappSettings);
+        getInstance().init(uappDependencies, uappSettings);
+    }
+
+    protected PRUiHelper getInstance() {
+        return PRUiHelper.getInstance();
     }
 
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        PRUiHelper.getInstance().launch(uiLauncher, uappLaunchInput);
+        getInstance().launch(uiLauncher, uappLaunchInput);
     }
 }

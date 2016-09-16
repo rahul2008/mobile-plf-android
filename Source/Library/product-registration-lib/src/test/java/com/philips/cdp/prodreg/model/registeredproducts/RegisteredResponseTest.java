@@ -35,10 +35,12 @@ public class RegisteredResponseTest extends InstrumentationTestCase {
 
     public void testSetResults() throws Exception {
         registeredResponse.setResults(results);
+        assertEquals(results, registeredResponse.getResults());
     }
 
     public void testSetResult_count() throws Exception {
         registeredResponse.setResult_count("2");
+        assertEquals("2", registeredResponse.getResult_count());
     }
 
     public void testGetResults() throws Exception {
