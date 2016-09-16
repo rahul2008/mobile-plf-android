@@ -8,21 +8,14 @@
 
 package com.philips.cdp.registration.coppa.base;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.philips.cdp.registration.coppa.base.Consent;
-import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
+import android.test.InstrumentationTestCase;
 
 /**
  * Created by 310202337 on 3/29/2016.
  */
-public class ConsentTest extends ActivityInstrumentationTestCase2<RegistrationCoppaActivity> {
+public class ConsentTest extends InstrumentationTestCase{
 
-    private Consent mConsent;
-
-    public ConsentTest() {
-        super(RegistrationCoppaActivity.class);
-    }
+     Consent mConsent;
 
     @Override
     protected void setUp() throws Exception {

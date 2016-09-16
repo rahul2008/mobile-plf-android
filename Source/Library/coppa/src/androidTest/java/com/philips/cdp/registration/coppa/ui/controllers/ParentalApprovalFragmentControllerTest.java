@@ -54,7 +54,7 @@ public class ParentalApprovalFragmentControllerTest extends InstrumentationTestC
     public void testAddReConfirmParentalConsentFragment(){
             Method method = null;
             try {
-                method =ConfirmationHandler.class.getDeclaredMethod("addReConfirmParentalConsentFragment");;
+                method =ParentalApprovalFragmentController.class.getDeclaredMethod("addReConfirmParentalConsentFragment");;
                 method.setAccessible(true);
                 method.invoke(mParentalApprovalFragmentController);
             } catch (NoSuchMethodException e) {
@@ -70,7 +70,7 @@ public class ParentalApprovalFragmentControllerTest extends InstrumentationTestC
     public void testUpdateUIBasedOnConsentStatus(){
         Method method = null;
         try {
-            method =ConfirmationHandler.class.getDeclaredMethod("updateUIBasedOnConsentStatus", CoppaStatus.class);;
+            method =ParentalApprovalFragmentController.class.getDeclaredMethod("updateUIBasedOnConsentStatus", CoppaStatus.class);;
             method.setAccessible(true);
             method.invoke(mParentalApprovalFragmentController, CoppaStatus.kDICOPPAConfirmationGiven);
         } catch (NoSuchMethodException e) {
@@ -102,7 +102,7 @@ public class ParentalApprovalFragmentControllerTest extends InstrumentationTestC
     public void testHoursSinceLastConsent(){
         Method method = null;
         try {
-            method =ConfirmationHandler.class.getDeclaredMethod("hoursSinceLastConsent", int.class);;
+            method =ParentalApprovalFragmentController.class.getDeclaredMethod("hoursSinceLastConsent", int.class);;
             method.setAccessible(true);
             method.invoke(mParentalApprovalFragmentController);
         } catch (NoSuchMethodException e) {

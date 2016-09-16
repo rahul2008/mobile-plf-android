@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Created by 310243576 on 8/18/2016.
  */
@@ -29,7 +32,8 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().
+                getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
         context = getInstrumentation().getTargetContext();
@@ -57,7 +61,8 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
             }
         };
         assertNotNull(updateUserRecordHandler);
-        refreshandUpdateUserHandler = new RefreshandUpdateUserHandler(updateUserRecordHandler, context);
+        refreshandUpdateUserHandler = new RefreshandUpdateUserHandler(updateUserRecordHandler,
+                context);
         assertNotNull(refreshandUpdateUserHandler);
 
     }
@@ -85,6 +90,36 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
     public void testonFlowDownloadFailure(){
         assertNotNull(!UserRegistrationInitializer.getInstance().isJumpInitializated());
         assertNotNull(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress());
+
+    }
+    @Test
+    public void testRefreshUpdateUser(){
+        Method method = null;
+         RefreshUserHandler handler=new RefreshUserHandler() {
+             @Override
+             public void onRefreshUserSuccess() {
+
+             }
+
+             @Override
+             public void onRefreshUserFailed(final int error) {
+
+             }
+         } ;
+        User user=new User(getInstrumentation().getContext());
+        String password="abs";
+        try {
+            method =RefreshandUpdateUserHandler.class.getDeclaredMethod("refreshUpdateUser",
+                    RefreshUserHandler.class,User.class,String.class);
+            method.setAccessible(true);
+            method.invoke(refreshandUpdateUserHandler,handler,user,password);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 }

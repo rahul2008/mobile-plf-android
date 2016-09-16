@@ -6,10 +6,8 @@ import android.test.InstrumentationTestCase;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 
 import org.json.JSONArray;
 import org.junit.Before;
@@ -18,8 +16,6 @@ import org.mockito.Mock;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/18/2016.
@@ -90,6 +86,34 @@ public class ResendVerificationEmailTest extends InstrumentationTestCase{
             method = ResendVerificationEmail.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
             method.setAccessible(true);
             method.invoke(mResendVerificationEmail, jsonArray);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void testHandleInvalidInputs(){
+
+        synchronized(this){//synchronized block
+
+            try{
+                RegistrationHelper.getInstance().setAppInfraInstance( new AppInfra.Builder().build(context));
+                mResendVerificationEmail.resendVerificationMail("emailAddress@sample.com");
+
+            }catch(Exception e){System.out.println(e);}
+        }
+
+        Method method = null;
+        CaptureApiError error=new CaptureApiError();
+        UserRegistrationFailureInfo userRegistrationFailureInfo= new UserRegistrationFailureInfo();
+        try {
+            method = ResendVerificationEmail.class.getDeclaredMethod("handleInvalidInputs", CaptureApiError.class,UserRegistrationFailureInfo.class);
+            method.setAccessible(true);
+            method.invoke(mResendVerificationEmail, error,userRegistrationFailureInfo);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

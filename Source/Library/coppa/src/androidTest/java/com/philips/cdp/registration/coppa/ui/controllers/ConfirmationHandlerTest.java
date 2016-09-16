@@ -4,6 +4,7 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
+import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 
 import org.junit.Test;
@@ -44,6 +45,22 @@ public class ConfirmationHandlerTest extends InstrumentationTestCase {
             method =ConfirmationHandler.class.getDeclaredMethod("handleFailure");;
             method.setAccessible(true);
             method.invoke(mConfirmationHandler);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void testAddParentalConsentFragment(){
+        Method method = null;
+        CoppaStatus coppaStatus= CoppaStatus.kDICOPPAConfirmationGiven;
+        try {
+            method =ConfirmationHandler.class.getDeclaredMethod("addParentalConsentFragment",CoppaStatus.class);;
+            method.setAccessible(true);
+            method.invoke(mConfirmationHandler,coppaStatus);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

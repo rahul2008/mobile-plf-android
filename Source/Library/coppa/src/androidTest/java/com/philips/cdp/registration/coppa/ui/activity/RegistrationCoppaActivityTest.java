@@ -32,9 +32,11 @@ public class RegistrationCoppaActivityTest extends InstrumentationTestCase {
         Method method = null;
         try {
             method = RegistrationCoppaActivity.class.getDeclaredMethod("setOrientation", int.class);
-            ;
             method.setAccessible(true);
             method.invoke(mRegistrationCoppaActivity, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            method.invoke(mRegistrationCoppaActivity, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            method.invoke(mRegistrationCoppaActivity, ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            method.invoke(mRegistrationCoppaActivity, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

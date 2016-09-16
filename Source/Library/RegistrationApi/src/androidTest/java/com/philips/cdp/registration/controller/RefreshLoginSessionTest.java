@@ -10,8 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by 310243576 on 8/18/2016.
  */
@@ -56,6 +54,8 @@ public class RefreshLoginSessionTest extends InstrumentationTestCase{
         assertNotNull(mRefreshLoginSessionHandler);
         CaptureApiError error = new CaptureApiError();
         mRefreshLoginSessionTest.onFailure(error);
+        assertNotNull(mRefreshLoginSessionTest);
+        mRefreshLoginSessionTest.onSuccess();
         assertNotNull(mRefreshLoginSessionTest);
 
     }
