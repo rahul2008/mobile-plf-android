@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 
 /**
  * About screen to display content and version number
@@ -23,6 +24,13 @@ import com.philips.platform.appframework.R;
 public class AboutScreenFragment extends AppFrameworkBaseFragment
 {
     public static final String TAG =AboutScreenFragment.class.getSimpleName();
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity)getActivity()).updateActionBarIcon(false);
+        ((HomeActivity)getActivity()).cartIconVisibility(true);
+    }
 
     @Override
     public String getActionbarTitle() {
