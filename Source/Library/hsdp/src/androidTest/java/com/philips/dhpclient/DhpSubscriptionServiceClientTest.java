@@ -5,6 +5,11 @@ import android.test.InstrumentationTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -43,5 +48,21 @@ public class DhpSubscriptionServiceClientTest extends InstrumentationTestCase{
         assertFalse(mDhpTermsAndConditionsResponse.equals(null));
         assertNotNull(mDhpTermsAndConditionsResponse.hashCode());
         assertNotNull(mDhpTermsAndConditionsResponse.toString());
+    }
+    public void testGetLastAcceptedTermsAndConditions(){
+        Method method = null;
+                Map<String, Object> responseMap = new HashMap<String, Object>();
+            responseMap.put("200","\\.sample");
+        try {
+            method = DhpSubscriptionServiceClient.class.getDeclaredMethod("getLastAcceptedTermsAndConditions", Map.class);
+            method.setAccessible(true);
+            method.invoke(mDhpSubscriptionServiceClient,responseMap);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }
