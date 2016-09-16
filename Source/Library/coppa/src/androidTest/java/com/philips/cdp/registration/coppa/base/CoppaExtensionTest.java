@@ -3,7 +3,13 @@ package com.philips.cdp.registration.coppa.base;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.coppa.utils.CoppaSettings;
+
 import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by 310243576 on 8/24/2016.
@@ -18,10 +24,10 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
-
+        mContext = getInstrumentation().getTargetContext();
         mCoppaConsentUpdater = new CoppaExtension(mContext);
         assertNotNull(mCoppaConsentUpdater);
-        mContext = getInstrumentation().getTargetContext();
+
     }
 
     @Test
@@ -41,5 +47,96 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
         mCoppaConsentUpdater.resetConfiguration();
         CoppaConfiguration.clearConfiguration();
         assertNotNull(mCoppaConsentUpdater);
+    }
+
+    @Test
+    public void testGetCoppaStatusForConsent(){
+        com.philips.cdp.registration.coppa.base.Consent consent = new com.philips.cdp.registration.coppa.base.Consent();
+        consent.setMicroSiteID("77000");
+        consent.setCampaignId("COPPA");
+        consent.setCommunicationSentAt("1928-10-30");
+        consent.setConfirmationStoredAt("1928-10-30");
+        consent.setConfirmationCommunicationSentAt("1928-10-30");
+        consent.setLocale("en-US");
+        consent.setId("22222222");
+        consent.setStoredAt("22222222");
+        consent.setConfirmationCommunicationToSendAt("22222222");
+
+            Method method = null;
+            try {
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setConfirmationGiven(Boolean.toString(true));
+                consent.setGiven(Boolean.toString(false));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setConfirmationGiven(Boolean.toString(true));
+                consent.setGiven(Boolean.toString(true));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setConfirmationGiven(Boolean.toString(false));
+                consent.setGiven(Boolean.toString(true));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setConfirmationGiven(Boolean.toString(false));
+                consent.setGiven(Boolean.toString(false));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setConfirmationGiven(null);
+                consent.setGiven(Boolean.toString(true));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setConfirmationGiven("NULL");
+                consent.setGiven(Boolean.toString(true));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setLocale("en_US");
+                consent.setConfirmationGiven("NULL");
+                consent.setGiven(Boolean.toString(true));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setLocale("en-US");
+                consent.setConfirmationGiven(null);
+                consent.setGiven(Boolean.toString(true));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setLocale("en_US");
+                consent.setConfirmationGiven(null);
+                consent.setGiven(Boolean.toString(true));
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+
+                consent.setGiven(null);
+                method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
+                method.setAccessible(true);
+                method.invoke(mCoppaConsentUpdater,consent);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+
     }
 }
