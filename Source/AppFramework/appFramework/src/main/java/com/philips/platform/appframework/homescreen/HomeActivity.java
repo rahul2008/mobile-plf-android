@@ -67,7 +67,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private HamburgerAdapter adapter;
     private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
-    private FrameLayout hamburgerClick = null;
+    private FrameLayout hamburgerClick = null,shoppingCartLayout;
     private static int mCartItemCount = 0;
     private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -170,9 +170,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
         mCartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
+        shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
         mCartIcon.setBackground(mCartIconDrawable);
-        mCartIcon.setOnClickListener(new View.OnClickListener() {
+        shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 philipsDrawerLayout.closeDrawer(navigationView);
