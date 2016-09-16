@@ -96,7 +96,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtTown.setText(mBillingAddressFields.getTown());
             mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
             mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-            mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
+            mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
 
             if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
                     mBillingAddressFields.getRegionName() != null) {
