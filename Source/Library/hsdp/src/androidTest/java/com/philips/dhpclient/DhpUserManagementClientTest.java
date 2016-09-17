@@ -69,6 +69,7 @@ public class DhpUserManagementClientTest extends InstrumentationTestCase{
             method = DhpUserManagementClient.class.getDeclaredMethod("remapZeroOrNegativeToNull", Double.class);
             method.setAccessible(true);
             method.invoke(mDhpUserManagementClient,doubleVal);
+            method.invoke(mDhpUserManagementClient,-0.1);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

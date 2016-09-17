@@ -5,6 +5,9 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.utils.CoppaSettings;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Test;
 
@@ -57,10 +60,18 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
         consent.setCommunicationSentAt("1928-10-30");
         consent.setConfirmationStoredAt("1928-10-30");
         consent.setConfirmationCommunicationSentAt("1928-10-30");
-        consent.setLocale("en-US");
+        consent.setLocale("en_US");
         consent.setId("22222222");
         consent.setStoredAt("22222222");
         consent.setConfirmationCommunicationToSendAt("22222222");
+        synchronized(this){//synchronized block
+
+            try{
+                RegistrationHelper.getInstance().
+                        setAppInfraInstance(new AppInfra.Builder().build(mContext));
+            }catch(Exception e){System.out.println(e);}
+        }
+        RLog.initForTesting(mContext);
 
             Method method = null;
             try {
@@ -73,6 +84,7 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
                 method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);
                 method.setAccessible(true);
                 method.invoke(mCoppaConsentUpdater,consent);
+
 
                 consent.setConfirmationGiven(Boolean.toString(true));
                 consent.setGiven(Boolean.toString(true));
@@ -104,7 +116,6 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
                 method.setAccessible(true);
                 method.invoke(mCoppaConsentUpdater,consent);
 
-                consent.setLocale("en_US");
                 consent.setConfirmationGiven("NULL");
                 consent.setGiven(Boolean.toString(true));
                 method = CoppaExtension.class.getDeclaredMethod("getCoppaStatusForConsent",com.philips.cdp.registration.coppa.base.Consent.class);

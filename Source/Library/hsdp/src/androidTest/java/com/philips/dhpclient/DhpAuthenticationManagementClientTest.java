@@ -41,7 +41,6 @@ public class DhpAuthenticationManagementClientTest extends InstrumentationTestCa
 //
         mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret","date","accessToken");
         mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret","","");
-
         mDhpAuthenticationManagementClient.validateToken("userId","accessToken");
         mDhpAuthenticationManagementClient.validateToken(null,null);
         mDhpAuthenticationManagementClient.validateToken("","");
@@ -50,16 +49,16 @@ catch(Exception e){}
         mDhpAuthenticationManagementClient.logout("sample","sample");
         mDhpAuthenticationManagementClient.logout(null,null);
         mDhpAuthenticationManagementClient.logout("","");
-        DhpAuthenticationManagementClient.AuthenticationRequestJson mAuthenticationRequestJson= new DhpAuthenticationManagementClient.AuthenticationRequestJson("loginId","password");
+        DhpAuthenticationManagementClient.AuthenticationRequestJson mAuthenticationRequestJson=
+                new DhpAuthenticationManagementClient.AuthenticationRequestJson("loginId","password");
 
-        DhpAuthenticationManagementClient.RefreshTokenRequest mRefreshTokenRequest= new DhpAuthenticationManagementClient.RefreshTokenRequest("refreshToken");
+        DhpAuthenticationManagementClient.RefreshTokenRequest mRefreshTokenRequest=
+                new DhpAuthenticationManagementClient.RefreshTokenRequest("refreshToken");
 
-        DhpAuthenticationManagementClient.ResetPasswordRequest mResetPasswordRequest= new DhpAuthenticationManagementClient.ResetPasswordRequest("resetPasswordRequest");
+        DhpAuthenticationManagementClient.ResetPasswordRequest mResetPasswordRequest=
+                new DhpAuthenticationManagementClient.ResetPasswordRequest("resetPasswordRequest");
 
      assertNotNull(mDhpAuthenticationManagementClient);
-
-
-
 
     }
     public void testSign() throws URISyntaxException {
@@ -72,6 +71,8 @@ catch(Exception e){}
         try {
             method = DhpAuthenticationManagementClient.class.getDeclaredMethod("getDhpAuthenticationResponse", new Class[]{DhpResponse.class});
             method.setAccessible(true);
+            method.invoke(mDhpAuthenticationManagementClient, new  Object[]{dhpResponse});
+            dhpResponse = null;
             method.invoke(mDhpAuthenticationManagementClient, new  Object[]{dhpResponse});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

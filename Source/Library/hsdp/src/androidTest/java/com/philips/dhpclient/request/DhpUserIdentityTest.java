@@ -46,7 +46,11 @@ public class DhpUserIdentityTest extends InstrumentationTestCase {
     @Test
     public void testDhpUserIdentitty(){
         assertNotNull(mDhpUserIdentity);
+       DhpUserIdentity mDhpUserIdentity1 = new DhpUserIdentity("loginId","password", profile);
+
+        assertTrue(mDhpUserIdentity.equals(mDhpUserIdentity1));
         assertTrue(mDhpUserIdentity.equals(mDhpUserIdentity));
+
         assertFalse(mDhpUserIdentity.equals(mRawResponse));
         assertFalse(mDhpUserIdentity.equals(null));
         assertNotNull(mDhpUserIdentity.hashCode());
