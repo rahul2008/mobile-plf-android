@@ -46,6 +46,8 @@ public class UserWithProductTest extends InstrumentationTestCase {
     @Test
     public void testGetRegisteredProducts(){
         userWithProducts.getRegisteredProducts("","",productRegistrationHandler);
+        userWithProducts.getRegisteredProducts(null,null,productRegistrationHandler);
+
 
     }
 }

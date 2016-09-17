@@ -7,9 +7,12 @@ import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -108,7 +111,19 @@ public class ResendVerificationEmailTest extends InstrumentationTestCase{
         }
 
         Method method = null;
-        CaptureApiError error=new CaptureApiError();
+        JSONObject response = new JSONObject();
+        try {
+            response.put("error",RegConstants.INVALID_CREDENTIALS);
+            response.put("code",200);
+            response.put("error_description","sample");
+            response.put(RegConstants.INVALID_FIELDS,RegConstants.INVALID_FIELDS);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        CaptureApiError error=new CaptureApiError( response,  "engageToken",  "conflictingProvider");
+
         UserRegistrationFailureInfo userRegistrationFailureInfo= new UserRegistrationFailureInfo();
         try {
             method = ResendVerificationEmail.class.getDeclaredMethod("handleInvalidInputs", CaptureApiError.class,UserRegistrationFailureInfo.class);

@@ -89,7 +89,6 @@ public class RegisterSocialTest extends InstrumentationTestCase {
     }
     public void testGetErrorMessage(){
         JSONArray jsonArray = new JSONArray();
-        jsonArray.put("sample");
         Method method = null;
         try {
             method = RegisterSocial.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
@@ -106,19 +105,37 @@ public class RegisterSocialTest extends InstrumentationTestCase {
         }
     }
 
-//    public void testHandleOnLoginSuccess(){
-//        Method method = null;
-//        try {
-//            method = RegisterSocial.class.getDeclaredMethod("handleOnLoginSuccess");
-//            method.setAccessible(true);
-//            method.invoke(mRegisterSocial);
-//
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void testHandleOnLoginSuccess(){
+        Method method = null;
+        try {
+            method = RegisterSocial.class.getDeclaredMethod("handleOnLoginSuccess");
+            method.setAccessible(true);
+            method.invoke(mRegisterSocial);
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testRegisterNewUser(){
+        Method method = null;
+        final JSONObject user = new JSONObject();
+         final String userRegistrationToken = "sample";
+        try {
+            method = RegisterSocial.class.getDeclaredMethod("registerNewUser",new Class[]{JSONObject.class,  String.class});
+            method.setAccessible(true);
+            method.invoke(mRegisterSocial,new Object[]{user, userRegistrationToken});
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 }

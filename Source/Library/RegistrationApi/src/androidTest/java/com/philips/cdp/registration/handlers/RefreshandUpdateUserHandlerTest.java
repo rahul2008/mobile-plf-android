@@ -122,4 +122,18 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
         }
 
     }
+    public void testGetDIUserProfileFromDisk(){
+        Method method = null;
+        try {
+            method = RefreshandUpdateUserHandler.class.getDeclaredMethod("getDIUserProfileFromDisk");
+            method.setAccessible(true);
+            method.invoke(refreshandUpdateUserHandler);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 }

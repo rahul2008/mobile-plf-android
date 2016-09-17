@@ -62,6 +62,7 @@ public class LoginTraditionalTest extends InstrumentationTestCase {
     public void testLoginTradional()
     {
         assertNotNull(loginTraditional);
+        loginTraditional.onFailure(null);
 //        loginTraditional.loginTraditionally("sample@sample.com","sample");
     }
     @Test
