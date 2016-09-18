@@ -51,7 +51,7 @@ public class UserWithProductTest extends InstrumentationTestCase {
         userWithProducts.getRegisteredProducts("","",productRegistrationHandler);
         userWithProducts.getRegisteredProducts(null,null,productRegistrationHandler);
 
-       final String locale ="en-US";
+       String locale ="en-US";
 
 
         Method method = null;
@@ -62,6 +62,19 @@ public class UserWithProductTest extends InstrumentationTestCase {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            method = UserWithProduct.class.getDeclaredMethod("startProdRegAsyncTask", new Class[]{String.class});
+            method.setAccessible(true);
+            locale = "en_US";
+            method.invoke(userWithProducts, new Object[]{locale});
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -89,7 +102,7 @@ public class UserWithProductTest extends InstrumentationTestCase {
 
             }
         };
-        final String locale ="en-US";
+        String locale ="en-US";
 
 
         Method method = null;
@@ -100,7 +113,7 @@ public class UserWithProductTest extends InstrumentationTestCase {
             method.invoke(userWithProducts,new Object[]{  prodRegInfo,
                     productRegisterHandler,  locale,
                     mContext});
-        } catch (NoSuchMethodException e) {
+    } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
@@ -108,5 +121,21 @@ public class UserWithProductTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
+        try{
+            method = UserWithProduct.class.getDeclaredMethod("registerProduct", new Class[]{ProductRegistrationInfo.class,
+                    ProductRegistrationHandler.class, String.class,Context.class});
+            method.setAccessible(true);
+            locale ="en_US";
+            method.invoke(userWithProducts,new Object[]{  prodRegInfo,
+                    productRegisterHandler,  locale,
+                    mContext});        }catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        }
+
     }
-}
