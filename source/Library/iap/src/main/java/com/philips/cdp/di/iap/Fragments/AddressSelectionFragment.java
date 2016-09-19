@@ -220,14 +220,14 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
 
             Addresses address = retrieveSelectedAddress();
-            AddressFields selectedAddress = prepareAddressFields(address);
+            AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
             addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
                     BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
-            AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
+            AddressFields selectedAddress = Utility.prepareAddressFields(retrieveSelectedAddress(), mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
@@ -340,57 +340,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private Addresses retrieveSelectedAddress() {
         int pos = mAdapter.getSelectedPosition();
         return mAddresses.get(pos);
-    }
-
-    private AddressFields prepareAddressFields(Addresses addr) {
-        AddressFields fields = new AddressFields();
-        if (isNotNullNorEmpty(addr.getFirstName())) {
-            fields.setFirstName(addr.getFirstName());
-        }
-        if (isNotNullNorEmpty(addr.getLastName())) {
-            fields.setLastName(addr.getLastName());
-        }
-        if (isNotNullNorEmpty(addr.getTitleCode())) {
-            String titleCode = addr.getTitleCode();
-            if (titleCode.trim().length() > 0)
-                fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
-        }
-        if (isNotNullNorEmpty(addr.getLine1())) {
-            fields.setLine1(addr.getLine1());
-        }
-        if (isNotNullNorEmpty(addr.getLine2())) {
-            fields.setLine2(addr.getLine2());
-        }
-        if (isNotNullNorEmpty(addr.getTown())) {
-            fields.setTown(addr.getTown());
-        }
-        if (isNotNullNorEmpty(addr.getPostalCode())) {
-            fields.setPostalCode(addr.getPostalCode());
-        }
-        if (isNotNullNorEmpty(addr.getCountry().getIsocode())) {
-            fields.setCountryIsocode(addr.getCountry().getIsocode());
-        }
-
-        if (isNotNullNorEmpty(addr.getEmail())) {
-            fields.setEmail(addr.getEmail());
-        } else {
-            fields.setEmail(mJanRainEmail); // Since there is no email response from hybris
-        }
-
-        if (isNotNullNorEmpty(addr.getPhone1())) {
-            fields.setPhoneNumber(addr.getPhone1());
-        }
-
-        if (addr.getRegion() != null) {
-            fields.setRegionName(addr.getRegion().getName());
-            CartModelContainer.getInstance().setRegionIsoCode(addr.getRegion().getIsocode());
-        }
-
-        return fields;
-    }
-
-    private boolean isNotNullNorEmpty(String field) {
-        return !TextUtils.isEmpty(field);
     }
 
     public static AddressSelectionFragment createInstance(final Bundle args, final AnimationType animType) {
