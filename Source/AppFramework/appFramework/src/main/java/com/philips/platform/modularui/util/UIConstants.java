@@ -50,4 +50,11 @@ public class UIConstants {
     public static final String UI_START_STATUS = "UI_SPLASH_STATE_ONE";
     public static final String DONE_PRESSED = "donePressed";
     public static final int UI_SHOPPING_CART_BUTTON_CLICK = 900000;
+
+    /*
+    IAP flow constants, values for IAP views should start from 4000 series
+    */
+    public static final int IAP_CATALOG_VIEW = 4001;
+    public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
+    public static final int IAP_SHOPPING_CART_VIEW = 4003;
 }

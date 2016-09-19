@@ -8,13 +8,16 @@ package com.philips.platform.appframework.settingscreen;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.InAppPurchaseHistoryFragmentState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.modularui.util.UIConstants;
+
 /**
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
@@ -47,7 +50,14 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
                 break;
             case SettingsAdapter.iapHistoryLaunch:
-                uiState = new InAppPurchaseHistoryFragmentState(UIState.UI_IAP_SHOPPING_HISTORY_FRAGMENT_STATE);
+                uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                InAppPurchaseFragmentState.InAppStateData uiStateDataModel = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
+                uiStateDataModel.setActionBarListner((HomeActivity)context);
+                uiStateDataModel.setFragmentActivity((HomeActivity)context);
+                uiStateDataModel.setIAPListener((HomeActivity)context);
+                uiStateDataModel.setContainerID(R.id.frame_container);
+                uiStateDataModel.setIapFlow(UIConstants.IAP_PURCHASE_HISTORY_VIEW);
+                uiState.setUiStateData(uiStateDataModel);
                 uiState.setPresenter(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
                 break;

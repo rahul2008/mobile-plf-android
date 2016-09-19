@@ -102,4 +102,14 @@ abstract public class UIState {
     public UIBasePresenter getPresenter(){
         return uiBasePresenter;
     }
+
+    public UIStateData getUiStateData() {
+        return uiStateData;
+    }
+
+    public void setUiStateData(UIStateData uiStateData) {
+        this.uiStateData = uiStateData;
+    }
+
+    private UIStateData uiStateData;
 }
