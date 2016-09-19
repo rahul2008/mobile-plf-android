@@ -51,7 +51,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private ConnectivityPresenter connectivityPresenter;
 
     public ConnectivityFragment() {
-        connectivityPresenter = new ConnectivityPresenter(this, getActivity());
     }
 
     @Override
@@ -67,7 +66,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        connectivityPresenter = new ConnectivityPresenter(this, getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         editText = (EditText) rootView.findViewById(R.id.nucleous_value_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
@@ -118,6 +117,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 startConnectivity();
                 break;
             case R.id.get_momentumvalue_button:
+                editTextValue=editText.getText().toString();
                 processMoment(user, editTextValue);
                 break;
             default:

@@ -33,7 +33,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
 
     @Override
     public void getMoment(final User user, final String momentId) {
-        GetMomentRequest getMomentRequest = new GetMomentRequest(getMomentResponseListener,user.getHsdpAccessToken(),momentId);
+        GetMomentRequest getMomentRequest = new GetMomentRequest(getMomentResponseListener,user,momentId);
         getMomentRequest.executeRequest(context.getApplicationContext());
     }
 
@@ -51,8 +51,8 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
 
     private GetMomentRequest.GetMomentResponseListener getMomentResponseListener = new GetMomentRequest.GetMomentResponseListener() {
         @Override
-        public void onGetMomentSuccess(final String momentId) {
-            connectivityViewListener.updateUIOnPostMomentSuccess(momentId);
+        public void onGetMomentSuccess(final String momentValue) {
+            connectivityViewListener.updateUIOnGetMomentSuccess(momentValue);
         }
 
         @Override

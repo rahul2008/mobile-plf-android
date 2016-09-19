@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.philips.cdp.registration.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,20 +26,20 @@ public class GetMomentRequest extends PlatformRequest {
 
     private GetMomentResponseListener getMomentResponseListener;
 
-    private String accessTokenValue;
-
     private String momentId;
 
-    public GetMomentRequest(final GetMomentResponseListener getMomentResponseListener, final String accessTokenValue, final String momentId) {
+    private User user;
+
+    public GetMomentRequest(final GetMomentResponseListener getMomentResponseListener, final User user, final String momentId) {
         this.getMomentResponseListener = getMomentResponseListener;
-        this.accessTokenValue = accessTokenValue;
+        this.user = user;
         this.momentId = momentId;
     }
 
     public interface GetMomentResponseListener {
-        public void onGetMomentSuccess(String momentId);
+        void onGetMomentSuccess(String momentId);
 
-        public void onGetMomentError(VolleyError error);
+        void onGetMomentError(VolleyError error);
     }
 
     @Override
@@ -53,8 +54,8 @@ public class GetMomentRequest extends PlatformRequest {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
-                headers.put("authorization", "bearer " + accessTokenValue);
-                headers.put("performerid", "c8ccf342-7a32-4a87-838f-d31d3949ad59");
+                headers.put("authorization", "bearer " + user.getHsdpAccessToken());
+                headers.put("performerid", user.getHsdpUUID());
                 headers.put("api-version", "7");
                 headers.put("appagent", "PlatformInfra Postman");
                 headers.put("cache-control", "no-cache");
