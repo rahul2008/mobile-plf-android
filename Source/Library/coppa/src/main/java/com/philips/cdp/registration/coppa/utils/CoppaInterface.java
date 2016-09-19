@@ -57,7 +57,7 @@ public class CoppaInterface implements UappInterface {
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     registrationFragment,
                     RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
-            if(((URLaunchInput)
+            if(((CoppaLaunchInput)
                     uappLaunchInput).isAddtoBackStack()) {
                 fragmentTransaction.addToBackStack(RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
             }

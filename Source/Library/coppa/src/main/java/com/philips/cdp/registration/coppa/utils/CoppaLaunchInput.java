@@ -1,6 +1,6 @@
 package com.philips.cdp.registration.coppa.utils;
 
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
@@ -18,11 +18,21 @@ public class CoppaLaunchInput extends UappLaunchInput {
         isParentalFragment = parentalFragment;
     }
 
+    public boolean isAddtoBackStack() {
+        return isAddToBackStack;
+    }
+
+    public void enableAddtoBackStack(boolean isAddToBackStack) {
+        this.isAddToBackStack = isAddToBackStack;
+    }
+
+    private boolean isAddToBackStack;
+
     private boolean isParentalFragment;
 
     private RegistrationFunction registrationFunction;
 
-    private UserRegistrationUIEventListener userRegistrationListener;
+    private UserRegistrationCoppaUIEventListener userRegistrationListener;
 
     public RegistrationFunction getRegistrationFunction() {
         return registrationFunction;
@@ -41,12 +51,12 @@ public class CoppaLaunchInput extends UappLaunchInput {
     }
 
 
-    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
+    public void setUserRegistrationCoppaUIEventListener(UserRegistrationCoppaUIEventListener
                                                            userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
     }
 
-    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+    public UserRegistrationCoppaUIEventListener getUserRegistrationUIEventListener() {
         return this.userRegistrationListener;
     }
 }
