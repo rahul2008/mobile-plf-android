@@ -119,7 +119,7 @@ public class Utility {
         }
     }
 
-    public static String createAddress(final AddressFields address) {
+    public static String getAddressToDisplay(final AddressFields address) {
         StringBuilder sb = new StringBuilder();
         appendAddressWithNewLineIfNotNull(sb, address.getLine1());
         appendAddressWithNewLineIfNotNull(sb, address.getLine2());
