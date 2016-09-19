@@ -74,6 +74,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((HomeActivity)getActivity()).updateActionBarIcon(false);
+        ((HomeActivity)getActivity()).cartIconVisibility(true);
     }
 
     @Override

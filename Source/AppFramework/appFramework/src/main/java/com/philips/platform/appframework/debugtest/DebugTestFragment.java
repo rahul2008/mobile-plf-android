@@ -26,6 +26,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,13 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Override
     public String getActionbarTitle() {
         return "Debug and Test ";
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity)getActivity()).updateActionBarIcon(false);
+        ((HomeActivity)getActivity()).cartIconVisibility(true);
     }
 
     @Nullable
