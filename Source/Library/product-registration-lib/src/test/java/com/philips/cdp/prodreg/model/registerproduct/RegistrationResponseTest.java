@@ -1,23 +1,19 @@
 package com.philips.cdp.prodreg.model.registerproduct;
 
-import android.test.InstrumentationTestCase;
-
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
+
+import junit.framework.TestCase;
 
 import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class RegistrationResponseTest extends InstrumentationTestCase {
+public class RegistrationResponseTest extends TestCase {
 
     RegistrationResponse registrationResponse;
     @Mock
@@ -26,6 +22,7 @@ public class RegistrationResponseTest extends InstrumentationTestCase {
     String mCTN, mSerialNumber, mAccessToken;
     RegistrationRequest mRegistrationRequest;
     private String TAG = getClass() + "";
+    private String jsonData = "{\"success\": true,\"data\":{\"locale\": \"en_GB\",\"modelNumber\": \"HC5450/83\",\"registrationDate\": \"2014-11-26\",\"dateOfPurchase\": \"2014-06-12\",\"warrantyEndDate\": \"2019-06-12\",\"contractNumber\": \"CQ5A000ef\",\"productRegistrationUuid\": \"eb26c6d8-693f-4ec0-be60-2c603eaad8a3\",\"emailStatus\": \"success\"}}";
 
     @Override
     public void setUp() throws Exception {
@@ -45,20 +42,7 @@ public class RegistrationResponseTest extends InstrumentationTestCase {
     @Test
     public void testSummaryResponseObject() {
         try {
-            StringBuilder sb = new StringBuilder();
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("product_registration.txt")));
-                String mLine = reader.readLine();
-                while (mLine != null) {
-                    sb.append(mLine);
-                    mLine = reader.readLine();
-                }
-
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            RegistrationResponse registrationResponse = (RegistrationResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
+            RegistrationResponse registrationResponse = (RegistrationResponse) mRegistrationRequest.getResponseData(new JSONObject(jsonData));
             RegistrationResponseData mResponseData = registrationResponse.getData();
             assertNotNull(mResponseData);
 

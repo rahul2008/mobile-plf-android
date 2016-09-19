@@ -4,16 +4,14 @@
  */
 package com.philips.cdp.prodreg.prxrequest;
 
-import android.test.InstrumentationTestCase;
-
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.registration.configuration.Configuration;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
-public class RegisteredProductsRequestTest extends InstrumentationTestCase {
+public class RegisteredProductsRequestTest extends TestCase {
     private RegisteredProductsRequest registeredProductsRequest;
     private String mCtn = "HC5410/83";
 
@@ -33,33 +31,6 @@ public class RegisteredProductsRequestTest extends InstrumentationTestCase {
         };
         final String serverInfo = registeredProductsRequest.getServerInfo();
         assertEquals(serverInfo, "https://www.philips.com/prx/registration.registeredProducts");
-    }
-
-    @Test
-    public void testGetRequestUrl() throws Exception {
-        registeredProductsRequest = new RegisteredProductsRequest() {
-            @Override
-            protected String getRegistrationEnvironment() {
-                return Configuration.PRODUCTION.name();
-            }
-
-            @Override
-            public Sector getSector() {
-                return Sector.B2C;
-            }
-
-            @Override
-            public String getLocaleMatchResult() {
-                return "en_GB";
-            }
-
-            @Override
-            public Catalog getCatalog() {
-                return Catalog.CONSUMER;
-            }
-        };
-        final String requestUrl = registeredProductsRequest.getRequestUrl();
-        assertEquals(requestUrl, "https://www.philips.com/prx/registration.registeredProducts");
     }
 
     @Test

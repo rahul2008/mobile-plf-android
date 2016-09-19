@@ -1,6 +1,6 @@
 package com.philips.cdp.prodreg.model.registerproduct;
 
-import android.test.InstrumentationTestCase;
+import junit.framework.TestCase;
 
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class RegistrationResponseDataTest extends InstrumentationTestCase {
+public class RegistrationResponseDataTest extends TestCase {
 
     RegistrationResponseData dataTest;
 

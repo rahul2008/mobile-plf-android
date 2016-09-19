@@ -1,23 +1,19 @@
 package com.philips.cdp.prodreg.model.metadata;
 
-import android.test.InstrumentationTestCase;
-
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
+
+import junit.framework.TestCase;
 
 import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class ProductMetadataResponseTest extends InstrumentationTestCase {
+public class ProductMetadataResponseTest extends TestCase {
     ProductMetadataResponse productMetadataResponse;
     @Mock
     ProductMetadataResponseData data;
@@ -25,6 +21,7 @@ public class ProductMetadataResponseTest extends InstrumentationTestCase {
     String mCTN, mSerialNumber, mAccessToken;
     RegistrationRequest mRegistrationRequest;
     private String TAG = getClass() + "";
+    private String jsonData = "{\"success\": true,\t\"data\": {\"message\": \"If, after the purchase date, you register your product within three months, you are eligible for extended warranty. After product registration we can extend your warranty for another 3 years on top of the two years that you already have (5 years warranty in total). \\nMake sure the date of purchase and serialNumber number are correct. \\nTo find the serialNumber number, see the text next to the field for entering the serialNumber number. \\nPlease have your proof of purchase on hand in case you need to activate your warranty. That's why we provide you with product registration, the ability to upload the proof of purchase.\\nIf, after the purchase date, you register your product within three months, you are eligible for extended warranty. After product registration we can extend your warranty for another 3 years on top of the two years that you already have (5 years warranty in total). \\nMake sure the date of purchase and serialNumber number are correct. \\nTo find the serialNumber number, see the text nexto the field for entering the serialNumber number. \\nPlease have your proof of purchase on hand in case you need to activate your warranty. That's why we provide you with product registration, the ability to upload the proof of purchase.\\n\",\"isConnectDevice\": false,\"requiresSerialNumber\": true,\"extendedWarrantyMonths\": 60,\"hasGiftPack\": true,\"ctn\": \"HC5410/83\",\"hasExtendedWarranty\": true,\"serialNumberFormat\": \"^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$\",\"requiresDateOfPurchase\": true,\"serialNumberSampleContent\": {\"title\": \"Find the serialNumber number\",\"asset\": \"/consumerfiles/assets/img/registerproducts/HC.jpg\",\"snFormat\": \"Format: XXXX\",\"snExample\": \"Example: 1344\",\"description\": \"The serialNumber number is on the back of the unit. This number consists of four digits.\"}}}";
 
     @Override
     public void setUp() throws Exception {
@@ -45,20 +42,7 @@ public class ProductMetadataResponseTest extends InstrumentationTestCase {
     @Test
     public void testSummaryResponseObject() {
         try {
-            StringBuilder sb = new StringBuilder();
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("product_metadata.txt")));
-                String mLine = reader.readLine();
-                while (mLine != null) {
-                    sb.append(mLine);
-                    mLine = reader.readLine();
-                }
-
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ProductMetadataResponse productMetaData = (ProductMetadataResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
+            ProductMetadataResponse productMetaData = (ProductMetadataResponse) mRegistrationRequest.getResponseData(new JSONObject(jsonData));
             ProductMetadataResponseData mResponseData = productMetaData.getData();
             assertNotNull(mResponseData);
 
