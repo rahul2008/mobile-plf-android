@@ -138,6 +138,7 @@ public class RestClientTest extends MockitoTestCase {
         mRestInterface= new RestManager(mAppInfra){
             @Override
             protected Network getNetwork() {
+               assertNotNull( ClientSSLSocketFactory.getSocketFactory(mAppInfra));
                 HttpStack stack = new HurlStack(null, ClientSSLSocketFactory.getSocketFactory(mAppInfra));
                 Network network = new BasicNetwork(stack);
                 return network;

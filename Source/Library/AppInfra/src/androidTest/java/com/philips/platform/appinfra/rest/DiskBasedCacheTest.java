@@ -30,6 +30,18 @@ public class DiskBasedCacheTest extends MockitoTestCase {
       mAppInfra = new AppInfra.Builder().build(context);
 
    }
+
+   public void testInitialize(){
+      Cache cache = new DiskBasedCache(getCacheDir(), 1024, mAppInfra); //
+      assertNotNull(cache);
+      cache.initialize();
+      Cache.Entry e = new Cache.Entry();
+      e.data="sample data".getBytes();
+      cache.put("key",e);
+      assertNotNull(cache.get("key").data);
+      //assertEquals(e.data,cache.get("key").data);
+
+   }
     // Simple end-to-end serialize/deserialize test.
      public void testCacheHeaderSerialization() throws Exception {
         Cache.Entry e = new Cache.Entry();
