@@ -99,7 +99,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
             footerHolder.mTitleDeliveryAddress.setText(R.string.iap_shipping_address);
             footerHolder.mTitleVat.setText(R.string.iap_vat);
-            footerHolder.mTitleTotalPrice.setText(R.string.iap_total_val);
             String shippingName = cartData.getDeliveryAddressEntity().getFirstName() + " " + cartData.getDeliveryAddressEntity().getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
             footerHolder.mShippingAddress.setText(Utility.formatAddress(shippingAddress));
@@ -135,7 +134,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mDeliveryPrice.setVisibility(View.GONE);
                 footerHolder.mDeliveryView.setVisibility(View.GONE);
             }
-            footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+            footerHolder.mTitleTotalPrice.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
             footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
             footerHolder.mVatValue.setText(getLastValidItem().getVatValue());
             if (!getLastValidItem().isVatInclusive()) {
@@ -242,11 +241,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mPaymentCardHolderName;
         TextView mTitleDelivery;
         TextView mDeliveryPrice;
-        TextView mTotalPriceLable;
+        TextView mTitleTotalPrice;
         TextView mTotalPrice;
         TextView mTitleVat;
         TextView mVatValue;
-        TextView mTitleTotalPrice;
         TextView mVatInclusive;
         View mDeliveryView;
         TextView mVatValueUK;
@@ -265,11 +263,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mPaymentCardHolderName = (TextView) itemView.findViewById(R.id.tv_card_holder_name);
             mTitleDelivery = (TextView) itemView.findViewById(R.id.tv_delivery);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.tv_delivery_price);
-            mTotalPriceLable = (TextView) itemView.findViewById(R.id.tv_total_lable);
+            mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
             mTitleVat = (TextView) itemView.findViewById(R.id.tv_vat);
             mVatValue = (TextView) itemView.findViewById(R.id.tv_vat_price);
-            mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mVatInclusive = (TextView) itemView.findViewById(R.id.tv_vat_inclusive);
             mDeliveryView = (View) itemView.findViewById(R.id.delivery_view);
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_order_summary);
