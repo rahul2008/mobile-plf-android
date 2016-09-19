@@ -9,18 +9,15 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class DemoApplication extends Application {
@@ -33,7 +30,7 @@ public class DemoApplication extends Application {
         super.onCreate();
         initAppInfra();
         initIAP();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.PRODUCTION);
     }
 
     public void initAppInfra() {
