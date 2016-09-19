@@ -7,6 +7,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appframework.connectivity.models.Measurement;
 import com.philips.platform.appframework.connectivity.models.MomentDetail;
 import com.philips.platform.appframework.connectivity.models.UserMoment;
@@ -24,24 +26,22 @@ import java.util.Map;
  */
 public class PostMomentRquest extends PlatformRequest {
 
-    private String url;
-
     private UserMoment userMoment;
 
     private PostMomentResponseListener postMomentResponseListener;
 
-    private String accessTokenValue;
+    private User user;
 
     public interface PostMomentResponseListener {
-        public void onPostMomentSuccess(String momentId);
+        void onPostMomentSuccess(String momentId);
 
-        public void onPostMomentError(VolleyError error);
+        void onPostMomentError(VolleyError error);
     }
 
-    public PostMomentRquest(final UserMoment userMoment, String accessTokenValue,final PostMomentResponseListener postMomentResponseListener) {
+    public PostMomentRquest(final UserMoment userMoment, User user, final PostMomentResponseListener postMomentResponseListener) {
         this.userMoment = userMoment;
         this.postMomentResponseListener = postMomentResponseListener;
-        this.accessTokenValue = accessTokenValue;
+        this.user = user;
     }
 
     @Override
@@ -57,8 +57,8 @@ public class PostMomentRquest extends PlatformRequest {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
-                headers.put("authorization", "bearer " +accessTokenValue);
-                headers.put("performerid", "c8ccf342-7a32-4a87-838f-d31d3949ad59");
+                headers.put("authorization", "bearer " + user.getHsdpAccessToken());
+                headers.put("performerid", user.getHsdpUUID());
                 headers.put("api-version", "7");
                 headers.put("appagent", "PlatformInfra Postman");
                 headers.put("cache-control", "no-cache");
@@ -79,7 +79,8 @@ public class PostMomentRquest extends PlatformRequest {
     //TODO:Need to remove this. DOnt use hard coded url. Check with Deepthi.
     @Override
     public String getUrl() {
-        return "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com//api/users/c8ccf342-7a32-4a87-838f-d31d3949ad59/moments";
+        String baseUrl = RegistrationConfiguration.getInstance().getHSDPInfo().getBaseURL();
+        return baseUrl + "/api/users/" + user.getHsdpUUID() + "/moments";
     }
 
     public JSONObject getParams() {

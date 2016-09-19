@@ -27,7 +27,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
 
     @Override
     public void postMoment(final User user, final String momentValue) {
-        PostMomentRquest postMomentRquest = new PostMomentRquest(getDummyUserMoment(momentValue), user.getHsdpAccessToken(), postMomentResponseListener);
+        PostMomentRquest postMomentRquest = new PostMomentRquest(getDummyUserMoment(momentValue), user, postMomentResponseListener);
         postMomentRquest.executeRequest(context.getApplicationContext());
     }
 

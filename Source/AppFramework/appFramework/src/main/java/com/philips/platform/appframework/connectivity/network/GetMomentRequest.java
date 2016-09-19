@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,7 +77,8 @@ public class GetMomentRequest extends PlatformRequest {
 
     @Override
     public String getUrl() {
-        return "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com//api/users/c8ccf342-7a32-4a87-838f-d31d3949ad59/moments/" + momentId;
+        String baseUrl = RegistrationConfiguration.getInstance().getHSDPInfo().getBaseURL();
+        return baseUrl + "/api/users/" + user.getHsdpUUID() + "/moments/" + momentId;
     }
 
     @Override
