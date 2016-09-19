@@ -16,7 +16,6 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRDependencies;
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -28,6 +27,8 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
@@ -59,14 +60,15 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         flowManager = new UIFlowManager();
-        AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
-        gAppInfra = AppInfraSingleton.getInstance();
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+       // gAppInfra = AppInfraSingleton.getInstance();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-
-        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
+        UserRegistrationState ur= new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        ur.setmApplicationContext(this);
+        ur.initializeUserRegistrationLibrary(Configuration.PRODUCTION);
         initializeProductRegistrationLibrary();
         initializeIAP();
     }
@@ -116,7 +118,7 @@ public class AppFrameworkApplication extends Application {
     /**For doing dynamic initialisation Of User registration
      *
      * @param configuration  The environment ype as required by UR
-     */
+     *//*
     public void initializeUserRegistrationLibrary(Configuration configuration) {
         final String UR = "UserRegistration";
 
@@ -314,5 +316,5 @@ public class AppFrameworkApplication extends Application {
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
 
-    }
+    }*/
     }
