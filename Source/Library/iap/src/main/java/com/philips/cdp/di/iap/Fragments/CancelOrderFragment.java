@@ -51,7 +51,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
                 String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
                 openingTimingText.setText(getString(R.string.iap_opening_hours) + weekdaysTiming + "\n" + saturdayTiming);
                 cancelOrderId.setText(getString(R.string.iap_cancel_your_order) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
-                keepOrderText.setText(getString(R.string.iap_contact_consumer_number) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
+                keepOrderText.setText(getString(R.string.iap_keep_order_number) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
         }
         phoneNumberText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +74,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_track_order_title, true);
+        setTitleAndBackButtonVisibility(R.string.iap_track_order, true);
     }
 
     @Override

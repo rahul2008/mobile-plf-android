@@ -118,7 +118,7 @@ public class WebPaymentFragment extends WebFragment implements
     public boolean handleBackEvent() {
         mIsPaymentFailed = false;
         showTwoButtonDialog(mContext.getString(R.string.iap_cancel_order_title),
-                mContext.getString(R.string.cancelPaymentMsg),
+                mContext.getString(R.string.iap_cancel_payment),
                 mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_cancel));
         return true;
     }

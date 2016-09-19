@@ -33,7 +33,7 @@
             android:id="@+id/tv_from_other_channel"
             style="@style/tvTitle"
             android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_bottom"
-            android:text="@string/iap_contact_consumer_number" />
+            android:text="@string/iap_keep_order_number" />
 
         <Button
             android:id="@+id/bt_phone_number"

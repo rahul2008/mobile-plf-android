@@ -185,7 +185,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-        setTitle(getString(R.string.app_name));
+        setTitle(getString(R.string.demo_app_name));
 
         mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
 

@@ -159,7 +159,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mVatValue.setText(getLastValidItem().getVatValue());
             if (!getLastValidItem().isVatInclusive()) {
                 footerHolder.mVatInclusive.setVisibility(View.VISIBLE);
-                footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
+                footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_including_vat), mContext.getString(R.string.iap_vat)));
                 footerHolder.mVatValueUK.setVisibility(View.VISIBLE);
                 footerHolder.mVatValueUK.setText(getLastValidItem().getVatValue());
                 footerHolder.mVatValue.setVisibility(View.GONE);

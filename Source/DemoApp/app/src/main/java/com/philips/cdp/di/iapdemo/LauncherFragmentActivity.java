@@ -128,7 +128,7 @@ public class LauncherFragmentActivity extends UiKitActivity
         mBackImage.setBackground(mBackDrawable);
 
         mTitleTextView = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_title);
-        setTitle(getString(com.philips.cdp.di.iap.R.string.app_name));
+        setTitle(getResources().getString(R.string.demo_app_name));
 
         mCartContainer = (FrameLayout) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_container);
         ImageView mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);

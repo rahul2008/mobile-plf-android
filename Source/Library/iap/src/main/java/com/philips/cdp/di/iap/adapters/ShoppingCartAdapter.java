@@ -231,7 +231,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total)
                         + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
                 shoppingCartFooter.mVatInclusiveValue.setText
-                        (String.format(mContext.getString(R.string.iap_vat_inclusive_text),
+                        (String.format(mContext.getString(R.string.iap_including_vat),
                                 mContext.getString(R.string.iap_vat)));
 
                 if (!data.isVatInclusive()) {

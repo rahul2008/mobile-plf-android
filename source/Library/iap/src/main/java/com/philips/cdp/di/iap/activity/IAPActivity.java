@@ -303,7 +303,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         mBackImage.setBackground(mBackDrawable);
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-        setTitle(getString(R.string.app_name));
+        setTitle(getString(R.string.iap_app_name));
 
         mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
         ImageView mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
