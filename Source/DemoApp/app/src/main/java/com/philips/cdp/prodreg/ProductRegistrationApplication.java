@@ -38,13 +38,14 @@ public class ProductRegistrationApplication extends Application {
         initAppInfra();
         setLocale();
         initProductRegistration();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.PRODUCTION);
     }
 
     private void initProductRegistration() {
         PRDependencies PRDependencies = new PRDependencies(mAppInfraInterface);
         PRSettings PRSettings = new PRSettings(getApplicationContext());
         new PRInterface().init(PRDependencies, PRSettings);
+        mAppInfraInterface.getTagging().setPreviousPage("demoapp:");
     }
 
     /**

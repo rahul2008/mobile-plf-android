@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -36,7 +37,6 @@ import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
@@ -212,7 +212,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
         final ProdRegCache prodRegCache = new ProdRegCache();
         new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
-        ProdRegTagging.getInstance().trackPage("ProdRegRegistrationScreen", "specialEvents", "purchaseDateRequired");
+        ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
         purchaseDateLayout.showError(editTextView);
     }
 
@@ -356,7 +356,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void tagEvents(final String event, final String key, final String value) {
-        ProdRegTagging.getInstance().trackPage(event, key, value);
+        ProdRegTagging.getInstance().trackAction(event, key, value);
     }
 
     @Override

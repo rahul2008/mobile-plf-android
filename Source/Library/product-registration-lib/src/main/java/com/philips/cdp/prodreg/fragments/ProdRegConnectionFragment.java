@@ -96,6 +96,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
         // Make sure the TextView supports clicking on Links
         tv.setMovementMethod(EnhancedLinkMovementMethod.getInstance());
         tv.setText(spannable, TextView.BufferType.SPANNABLE);
+        ProdRegTagging.getInstance().trackPage("AllProductsRegisteredScreen", "", "");
         return view;
     }
 
@@ -103,7 +104,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ProdRegTagging.getInstance().trackPage("ProdRegConnectionScreen", "specialEvents", "All products under this user registered");
+        ProdRegTagging.getInstance().trackAction("AllProductsRegisteredEvent", "specialEvents", "All products under this user registered");
         Bundle bundle = getArguments();
         if (bundle != null) {
             registeredProducts = (List<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);

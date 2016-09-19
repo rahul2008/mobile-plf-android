@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
@@ -23,7 +24,6 @@ import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
@@ -80,7 +80,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         if (savedInstanceState == null) {
             final ProdRegCache prodRegCache = new ProdRegCache();
             new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT, 1);
-            ProdRegTagging.getInstance().trackPage("ProdRegProcessScreen", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT)));
+            ProdRegTagging.getInstance().trackAction("ProdRegProcessPopUpEvent", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT)));
             showLoadingDialog();
         } else {
             prodRegProcessController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));

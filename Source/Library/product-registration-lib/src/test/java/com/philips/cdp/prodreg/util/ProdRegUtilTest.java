@@ -1,7 +1,7 @@
 package com.philips.cdp.prodreg.util;
 
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
-import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import junit.framework.TestCase;

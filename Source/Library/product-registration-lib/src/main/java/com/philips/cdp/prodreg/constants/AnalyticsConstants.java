@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.cdp.prodreg.tagging;
+package com.philips.cdp.prodreg.constants;
 
 /**
  * AnalyticsConstants is holding constant members used for TAGGING, Adobe

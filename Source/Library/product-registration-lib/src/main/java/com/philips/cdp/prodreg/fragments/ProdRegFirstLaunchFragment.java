@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
@@ -103,10 +103,10 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 if (user.isUserSignIn()) {
                     final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
                     processFragment.setArguments(dependencies);
-                    ProdRegTagging.getInstance().trackPage("ProdRegFirstLaunchScreen", "specialEvents", "productregistrationOptin");
+                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "specialEvents", "productregistrationOptin");
                     final ProdRegCache prodRegCache = new ProdRegCache();
                     new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
-                    ProdRegTagging.getInstance().trackPage("ProdRegFirstLaunchScreen", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
+                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
                     showFragment(processFragment);
                 } else {
                     clearFragmentStack();
