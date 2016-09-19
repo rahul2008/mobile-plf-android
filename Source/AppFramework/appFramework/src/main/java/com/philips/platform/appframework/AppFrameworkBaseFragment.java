@@ -19,8 +19,6 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
     private TextView mActionBarTitle = null;
     protected UIBasePresenter fragmentPresenter;
 
-
-
     public abstract String getActionbarTitle();
 
     @Override
@@ -45,7 +43,7 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
         }
         String titleText = null;
         if (getActionbarTitle() == null) {
-            titleText = getResources().getString(R.string.app_name);
+            titleText = getResources().getString(R.string.af_app_name);
         } else {
             titleText = getActionbarTitle();
         }
