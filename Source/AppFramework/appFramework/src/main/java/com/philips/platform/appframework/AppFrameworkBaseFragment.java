@@ -6,11 +6,7 @@
 package com.philips.platform.appframework;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.widget.TextView;
 
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -20,11 +16,6 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
  */
 public abstract class AppFrameworkBaseFragment extends Fragment{
 
-    private static String tag = AppFrameworkBaseFragment.class.getSimpleName();
-    private static FragmentActivity mFragmentActivityContext = null;
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private FragmentManager fragmentManager = null;
-    private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
     protected UIBasePresenter fragmentPresenter;
 
@@ -35,9 +26,6 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tag = this.getClass().getSimpleName();
-        mFragmentActivityContext = getActivity();
-        fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
     }
 
 
