@@ -85,8 +85,9 @@ public class RegistrationConfiguration {
         return micrositeId;
     }
 
+
     /**
-     * Get Microsite Id
+     * Get Campaign Id
      *
      * @return String
      */
@@ -95,8 +96,8 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String campaignId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("PILConfiguration." +
-                        "CampaignId", UR, configError);
+                getPropertyForKey("Flow.PILConfiguration." +
+                        "CampaignID", UR, configError);
         if (null == campaignId) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());

@@ -147,8 +147,6 @@ public class RegistrationCoppaApplication extends Application {
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
-        providers.add("sinaweibo");
-        providers.add("qq");
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "NL",
