@@ -34,7 +34,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mUser = new User(mIapSettings.getContext());// User can be inject as dependencies
         if (mUser.isUserSignIn()) {
             if (!mIapSettings.isUseLocalData())
-                Hybris(uiLauncher, (IAPLaunchInput) uappLaunchInput);
+                launchHybris(uiLauncher, (IAPLaunchInput) uappLaunchInput);
             else
                 iapHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
         } else {
@@ -42,7 +42,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         }
     }
 
-    private void Hybris(UiLauncher uiLauncher, IAPLaunchInput uappLaunchInput) {
+    private void launchHybris(UiLauncher uiLauncher, IAPLaunchInput uappLaunchInput) {
         IAPLaunchInput mLaunchInput = uappLaunchInput;
         if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
         else
