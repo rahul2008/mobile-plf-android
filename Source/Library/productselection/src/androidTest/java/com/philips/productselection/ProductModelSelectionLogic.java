@@ -533,6 +533,7 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
     }
 
+/*
 
     public void testProductSelectionComponentConfigManager() {
         ProductModelSelectionHelper mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
@@ -549,7 +550,8 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-       /* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
+       */
+/* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
 
@@ -559,7 +561,8 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
                     Toast.makeText(Launcher.this, "Summary returned null", Toast.LENGTH_SHORT).show();
 
             }
-        });*/
+        });*//*
+
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
@@ -569,13 +572,16 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
         //ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
        // ProductSelectionLogger.enableLogging();
        assertNotNull(ProductModelSelectionHelper.getInstance().getContext());
-      /*  assertNotNull(ProductModelSelectionHelper.getInstance().getLauncherType());
+      */
+/*  assertNotNull(ProductModelSelectionHelper.getInstance().getLauncherType());
         assertNotNull(ProductModelSelectionHelper.getInstance().getLocale());
         assertNotNull(ProductModelSelectionHelper.getInstance().getProductModelSelectionType());
         assertNotNull(ProductModelSelectionHelper.getInstance().getProductSelectionListener());
-        assertNotNull(ProductModelSelectionHelper.getInstance().getProductModelSelectionType());*/
+        assertNotNull(ProductModelSelectionHelper.getInstance().getProductModelSelectionType());*//*
+
 
 
     }
+*/
 
 }
