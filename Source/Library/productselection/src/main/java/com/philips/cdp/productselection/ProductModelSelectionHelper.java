@@ -26,7 +26,7 @@ import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
+//import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -46,6 +46,7 @@ public class ProductModelSelectionHelper {
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
     private ProgressDialog mProgressDialog = null;
+    private AppInfraInterface mAppInfraInterface;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -92,10 +93,11 @@ public class ProductModelSelectionHelper {
      *
      * @param applicationContext Please pass the valid  Context
      */
-    public void initialize(Context applicationContext) {
+    public void initialize(Context applicationContext, AppInfraInterface appInfraInterface) {
         if (mContext == null) {
             ProductModelSelectionHelper.mContext = applicationContext;
         }
+        mAppInfraInterface = appInfraInterface;
     }
 
     /*public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage) {
@@ -114,7 +116,9 @@ public class ProductModelSelectionHelper {
 
 
     public AppInfraInterface getAPPInfraInstance() {
-        return AppInfraSingleton.getInstance();
+        //return AppInfraSingleton.getInstance();
+
+        return mAppInfraInterface;
     }
 
     public AppTaggingInterface getTaggingInterface() {
