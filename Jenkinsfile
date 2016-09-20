@@ -10,6 +10,7 @@ if (!env.CHANGE_ID) {
 
 node('Android && 23.0.3') {
     timestamps{
+        def MailRecipient = 'benit.dhotekar@philips.com, DL_CDP2_Callisto@philips.com, abhishek.gadewar@philips.com, krishna.kumar.a@philips.com, ramesh.r.m@philips.com'
         stage 'Checkout'
         checkout scm
 
@@ -19,8 +20,18 @@ node('Android && 23.0.3') {
             stage 'Build'
             sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
 
-            stage 'Release'
-            sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            switch(env.BRANCH_NAME) {
+                case ['develop', 'master']:
+                    stage 'Release'
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                    break
+                case ~/release.*$/:
+                    stage 'Release'
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                    break
+                default:
+                    break
+            }
 
             stage 'Notify Bitbucket'
             sh 'echo \"Check the build status in bitbucket!\"'
@@ -31,6 +42,6 @@ node('Android && 23.0.3') {
             currentBuild.result = 'FAILED'
         }
         step([$class: 'StashNotifier'])
-        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'benit.dhotekar@philips.com', sendToIndividuals: true])
+        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
    }
 }
