@@ -15,6 +15,8 @@ import com.philips.hor_productselection_android.R;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 /**
  * SampleActivitySelection is the main container class which can contain Digital Care fragments.
@@ -28,6 +30,7 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
     private FragmentManager fragmentManager = null;
+    private AppInfraInterface mAppInfraInterface;
 
     private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
@@ -65,7 +68,9 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
 //        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
 //        componentBuilder.setFragmentActivity(this);
 
-        ProductModelSelectionHelper.getInstance().initialize(this);
+        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+
+        ProductModelSelectionHelper.getInstance().initialize(this, mAppInfraInterface);
         ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
 
         //ProductModelSelectionHelper.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
