@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
@@ -27,20 +26,7 @@ public class AppInfraApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        //AppInfraSingleton appInfraSingleton ;
-
-
-
-
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
-        gAppInfra=AppInfraSingleton.getInstance();
-
-
-       /* LoggingInterface overridenLogger=null;
-        AppInfraSingleton.setInstance(gAppInfra=new AppInfra.Builder().setLogging(overridenLogger).build(getApplicationContext()));*/
-
-
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
         gAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
