@@ -15,8 +15,8 @@
     <string name="iap_items"> items</string>
     <string name="iap_delivery_method">Delivery Method</string>
     <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
-    <string name="iap_vat">VAT</string>
-    <string name="iap_including_vat">Including VAT</string>
+    <string name="iap_vat">TAX</string>
+    <string name="iap_including_vat">Including TAX</string>
     <string name="iap_delivery_via">Delivery via FedEx</string>
     <string name="iap_enter_promo_code">Enter promo or gift code</string>
 
