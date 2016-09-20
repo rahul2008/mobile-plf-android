@@ -8,7 +8,6 @@ package com.example.cdpp.bluelibexampleapp.device;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
+import com.example.cdpp.bluelibexampleapp.util.UiUtils;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
@@ -130,23 +130,19 @@ public class DeviceDetailActivity extends AppCompatActivity {
     private void updateUiState(@NonNull SHNDevice device) {
         switch (device.getState()) {
             case Connected:
-                showMessage(String.format(Locale.US, getString(R.string.device_connected), device.getName()), false);
+                UiUtils.showVolatileMessage(mView, String.format(Locale.US, getString(R.string.device_connected), device.getName()));
                 setupDeviceCapabilities(device);
                 break;
             case Connecting:
-                showMessage(getString(R.string.device_connecting), true);
+                UiUtils.showPersistentMessage(mView, getString(R.string.device_connecting));
                 break;
             case Disconnected:
-                showMessage(getString(R.string.device_disconnected), false);
+                UiUtils.showVolatileMessage(mView, getString(R.string.device_disconnected));
                 break;
             case Disconnecting:
-                showMessage(getString(R.string.device_disconnecting), true);
+                UiUtils.showPersistentMessage(mView, getString(R.string.device_disconnecting));
                 break;
         }
-    }
-
-    private void showMessage(String message, boolean isIndefinite) {
-        Snackbar.make(mView, message, isIndefinite ? Snackbar.LENGTH_INDEFINITE : Snackbar.LENGTH_LONG).show();
     }
 
     private void setupDeviceCapabilities(final SHNDevice shnDevice) {

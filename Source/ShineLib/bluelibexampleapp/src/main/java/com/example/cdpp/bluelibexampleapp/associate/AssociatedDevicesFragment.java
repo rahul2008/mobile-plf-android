@@ -7,7 +7,6 @@ package com.example.cdpp.bluelibexampleapp.associate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,8 +15,10 @@ import android.view.ViewGroup;
 
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
-import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
 import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
+import com.example.cdpp.bluelibexampleapp.device.DeviceDefinitionAdapter;
+import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
+import com.example.cdpp.bluelibexampleapp.util.UiUtils;
 import com.philips.pins.shinelib.SHNAssociationProcedure;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -43,28 +44,28 @@ public class AssociatedDevicesFragment extends Fragment {
     private SHNDeviceAssociation.SHNDeviceAssociationListener mDeviceAssociationListener = new SHNDeviceAssociation.SHNDeviceAssociationListener() {
         @Override
         public void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure) {
-            showMessage(getContext().getString(R.string.association_started));
+            UiUtils.showPersistentMessage(mView, getContext().getString(R.string.association_started));
         }
 
         @Override
         public void onAssociationStopped() {
-            showMessage(getContext().getString(R.string.association_stopped));
+            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.association_stopped));
         }
 
         @Override
         public void onAssociationSucceeded(SHNDevice shnDevice) {
-            showMessage(String.format(getContext().getString(R.string.association_succeeded), shnDevice.getName()));
+            UiUtils.showVolatileMessage(mView, String.format(getContext().getString(R.string.association_succeeded), shnDevice.getName()));
             mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onAssociationFailed(SHNResult shnError) {
-            showMessage(getContext().getString(R.string.association_failed) + shnError.name());
+            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.association_failed) + shnError.name());
         }
 
         @Override
         public void onAssociatedDevicesUpdated() {
-            showMessage(getContext().getString(R.string.association_devices_updated));
+            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.association_devices_updated));
 
             mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
@@ -129,8 +130,7 @@ public class AssociatedDevicesFragment extends Fragment {
 
             @Override
             public void onItemLongClick(final int position, View itemView) {
-                final Snackbar snackBar = Snackbar.make(mView, R.string.association_question_remove, Snackbar.LENGTH_LONG);
-                snackBar.setAction("Ok", new View.OnClickListener() {
+                UiUtils.showConfirmationMessage(mView, getString(R.string.association_question_remove), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final SHNDevice device = mAssociatedDeviceAdapter.getItem(position);
@@ -138,10 +138,9 @@ public class AssociatedDevicesFragment extends Fragment {
                         mShnDeviceAssociation.removeAssociatedDevice(device);
                         mAssociatedDeviceAdapter.notifyDataSetChanged();
 
-                        showMessage(String.format(getContext().getString(R.string.association_removed), device.getName()));
+                        UiUtils.showVolatileMessage(mView, String.format(getContext().getString(R.string.association_removed), device.getName()));
                     }
                 });
-                snackBar.show();
             }
         });
 
@@ -156,11 +155,5 @@ public class AssociatedDevicesFragment extends Fragment {
         super.onResume();
 
         mAssociatedDeviceAdapter.notifyDataSetChanged();
-    }
-
-    private void showMessage(String message) {
-        SHNLogger.i(TAG, message);
-
-        Snackbar.make(mView, message, Snackbar.LENGTH_SHORT).show();
     }
 }

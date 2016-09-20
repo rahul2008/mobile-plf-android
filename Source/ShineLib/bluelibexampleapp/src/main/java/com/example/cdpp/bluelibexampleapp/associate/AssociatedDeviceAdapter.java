@@ -45,7 +45,7 @@ public class AssociatedDeviceAdapter extends BaseDeviceAdapter<SHNDevice> {
     }
 
     @Override
-    protected SHNDevice getItem(int position) {
+    public SHNDevice getItem(int position) {
         return mItems.get(position);
     }
 }

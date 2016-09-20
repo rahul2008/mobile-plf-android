@@ -43,7 +43,7 @@ public class ConnectDeviceAdapter extends BaseDeviceAdapter<SHNDeviceFoundInfo> 
     }
 
     @Override
-    protected SHNDeviceFoundInfo getItem(int position) {
+    public SHNDeviceFoundInfo getItem(int position) {
         return mItems.get(position);
     }
 }

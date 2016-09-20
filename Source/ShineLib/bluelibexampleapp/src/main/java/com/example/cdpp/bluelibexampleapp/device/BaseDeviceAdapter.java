@@ -17,8 +17,6 @@ import java.util.List;
 
 public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDeviceAdapter.DeviceViewHolder> {
 
-    private static final String TAG = "BaseDeviceAdapter";
-
     private OnItemClickListener mOnItemClickListener;
 
     protected final List<T> mItems;
@@ -39,7 +37,7 @@ public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDevi
         return mItems.size();
     }
 
-    protected abstract T getItem(int position);
+    public abstract T getItem(int position);
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
