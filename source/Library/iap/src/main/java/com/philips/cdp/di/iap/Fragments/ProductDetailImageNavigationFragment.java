@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public final class ProductDetailImageNavigationFragment extends InAppBaseFragment {
+
+    private Context mContext;
     private String mImageURL;
     private ImageLoader mImageLoader;
     private NetworkImageView mImageView;
@@ -27,6 +30,12 @@ public final class ProductDetailImageNavigationFragment extends InAppBaseFragmen
 
     public static ProductDetailImageNavigationFragment newInstance() {
         return new ProductDetailImageNavigationFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -64,7 +73,7 @@ public final class ProductDetailImageNavigationFragment extends InAppBaseFragmen
     private void bindImageToViewPager() {
         mImageView = new NetworkImageView(getActivity());
         // Instantiate the RequestQueue.
-        mImageLoader = NetworkImageLoader.getInstance(getContext())
+        mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
 
         mImageLoader.get(mImageURL, ImageLoader.getImageListener(mImageView,
