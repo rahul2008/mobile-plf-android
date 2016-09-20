@@ -56,10 +56,10 @@ public class ErrorDialogFragment extends DialogFragment {
                 dismissDialog();
                 if (bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION) != null
                         && bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {
-                    getFragmentManager().popBackStackImmediate();
+                    getActivity().getFragmentManager().popBackStackImmediate();
                 }
                 if(getVisibleFragment(getFragmentManager())!=null && getVisibleFragment(getFragmentManager()) instanceof OrderSummaryFragment || getVisibleFragment(getFragmentManager()) instanceof ShoppingCartFragment ){
-                    getFragmentManager().popBackStackImmediate();
+                    getActivity().getFragmentManager().popBackStackImmediate();
                 }
             }
         });
@@ -86,6 +86,8 @@ public class ErrorDialogFragment extends DialogFragment {
     }
 
     public Fragment getVisibleFragment(FragmentManager fragmentManager){
+
+        if(fragmentManager==null) return null;
 
         List<Fragment> fragments = fragmentManager.getFragments();
         if(fragments != null){
