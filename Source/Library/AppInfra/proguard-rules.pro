@@ -63,7 +63,6 @@
 -keep public class com.philips.platform.appinfra.AppInfra { *; }
 -keep public class com.philips.platform.appinfra.AppInfra.Builder { *; }
 -keepnames public class com.philips.platform.appinfra.AppInfra.Builder
--keep public class com.philips.platform.appinfra.AppInfraSingleton { *; }
 -keep public class com.philips.platform.appinfra.GlobalStore { *; }
 
 -keepnames public class com.philips.platform.appinfra.AppInfra
