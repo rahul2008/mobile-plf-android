@@ -695,7 +695,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.
                 getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        mProductSelectionHelper.initialize(getActivity());
+        //mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
                         getLocaleMatchResponseWithCountryFallBack().getLanguage(),
                 DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
@@ -760,7 +760,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             mProgressDialog.show();
         }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        mProductSelectionHelper.initialize(getActivity());
+        //mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
                         getLocaleMatchResponseWithCountryFallBack().getLanguage(),
                 DigitalCareConfigManager.getInstance().

@@ -26,6 +26,7 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
@@ -94,7 +95,6 @@ public class DigitalCareConfigManager {
         return mContext;
     }
 
-
     /**
      * <p>This is the DigitalCare initialization method. Please make sure to call this method
      * before invoking the DigitalComponent.
@@ -110,8 +110,11 @@ public class DigitalCareConfigManager {
             mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
             LocaleMatchHandler.initializePRXMap();
             mAppInfraInterface = appInfraInterface;
+
             // initializeTaggingContext(mContext);
         }
+
+        ProductModelSelectionHelper.getInstance().initialize(mContext, mAppInfraInterface);
 
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
         String[] localeArray = new String[2];

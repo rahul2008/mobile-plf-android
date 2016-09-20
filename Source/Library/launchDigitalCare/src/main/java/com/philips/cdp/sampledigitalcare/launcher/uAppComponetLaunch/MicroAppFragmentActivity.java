@@ -24,8 +24,10 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.platform.appinfra.AppInfraSingleton;
+//import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -44,6 +46,7 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
     private FragmentManager mFragmentManager = null;
     private CcSettings ccSettings = null;
     private CcLaunchInput ccLaunchInput = null;
+    private  AppInfraInterface mAppInfraInterface;
 
     private ActionBarListener actionBarListener = new ActionBarListener() {
         @Override
@@ -98,14 +101,14 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
            /* CcInterface ccInterface = new CcInterface();
             ccInterface.init(this, null);
             ccInterface.launch(launcher, productsSelection, this);*/
-
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
             CcInterface ccInterface = new CcInterface();
             if (ccSettings == null) ccSettings = new CcSettings(this);
             if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);
-            CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
+            CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
             ccInterface.init(ccDependencies, ccSettings);
             ccInterface.launch(launcher, ccLaunchInput);
