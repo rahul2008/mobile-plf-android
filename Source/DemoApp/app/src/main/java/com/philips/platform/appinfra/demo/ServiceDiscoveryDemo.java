@@ -52,8 +52,8 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         idEditText = (EditText) findViewById(R.id.serviceid_editText);
         Button localeByLang = (Button) findViewById(R.id.getlocal_by_lang_button);
         Button localeByCountry = (Button) findViewById(R.id.getlocal_by_country_butn);
-        Button urlbyLang = (Button) findViewById(R.id.geturl_by_country_btn);
-        Button urlbyCountry = (Button) findViewById(R.id.geturl_by_lang_buttn);
+        Button urlbyLang = (Button) findViewById(R.id.geturl_by_lang_buttn);
+        Button urlbyCountry = (Button) findViewById(R.id.geturl_by_country_btn);
         Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
         Button geturlbyCountry_ServiceIDs = (Button) findViewById(R.id.getul_country_btn);
         Button geturlbyLanguage_ServiceIds = (Button) findViewById(R.id.getul_language_btn);
