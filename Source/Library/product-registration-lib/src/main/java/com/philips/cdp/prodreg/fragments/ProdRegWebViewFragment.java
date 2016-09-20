@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
         View view = inflater.inflate(R.layout.prod_reg_webview, container, false);
         mWebView = (WebView) view.findViewById(R.id.prod_reg_webview);
         mProgressBar = (ProgressBar) view.findViewById(R.id.prod_reg_progress_bar);
+        ProdRegTagging.getInstance().trackPage("PhilipsWebScreen", "", "");
         // Make sure we handle clicked links ourselves
         mWebView.setWebViewClient(new WebViewClient() {
             @Override

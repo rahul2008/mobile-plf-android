@@ -73,6 +73,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ProdRegTagging.getInstance().trackPage("ProductRegistrationSuccessScreen", "", "");
         final Bundle arguments = getArguments();
         if (arguments != null) {
             RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
