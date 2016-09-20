@@ -5,6 +5,7 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.coppa.event.UserRegistrationCoppaHelper;
 import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
+import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaUIEventListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 
 import org.junit.Before;
@@ -34,7 +35,7 @@ public class RegistrationCoppaHelperTest extends InstrumentationTestCase{
 
     @Test
     public void testRegistrationCoppaHelper(){
-        UserRegistrationUIEventListener userRegistrationUIEventListener = new UserRegistrationUIEventListener() {
+        UserRegistrationCoppaUIEventListener userRegistrationUIEventListener = new UserRegistrationCoppaUIEventListener() {
             @Override
             public void onUserRegistrationComplete(Activity activity) {
 

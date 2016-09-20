@@ -405,7 +405,6 @@ public class UserTest extends InstrumentationTestCase {
             method.setAccessible(true);
             method.invoke(mUser,diUserProfile);
              diUserProfile = null;
-
             method.invoke(mUser,diUserProfile);
 
         } catch (NoSuchMethodException e) {
@@ -420,9 +419,9 @@ public class UserTest extends InstrumentationTestCase {
     public void testGetUserInstance(){
         Method method = null;
         try {
-            method = User.class.getDeclaredMethod("getUserInstance", null);
+            method = User.class.getDeclaredMethod("getUserInstance");
             method.setAccessible(true);
-            method.invoke(mUser,null);
+            method.invoke(mUser);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

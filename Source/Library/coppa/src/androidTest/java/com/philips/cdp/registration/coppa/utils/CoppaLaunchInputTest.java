@@ -2,6 +2,7 @@ package com.philips.cdp.registration.coppa.utils;
 
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaUIEventListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 
@@ -18,8 +19,11 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
     @Mock
     RegistrationFunction registrationFunction;
 
+//    @Mock
+//    UserRegistrationUIEventListener userRegistrationListener;
+
     @Mock
-    UserRegistrationUIEventListener userRegistrationListener;
+    UserRegistrationCoppaUIEventListener mUserRegistrationCoppaUIEventListener;
 
     @Before
     public void setUp() throws Exception {
@@ -53,8 +57,8 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
         assertEquals(registrationFunction,coppaLaunchInput.getRegistrationFunction());
     }
     public void testUserRegistrationListener(){
-        coppaLaunchInput.setUserRegistrationUIEventListener(userRegistrationListener);
-        assertEquals(userRegistrationListener,coppaLaunchInput.getUserRegistrationUIEventListener());
+        coppaLaunchInput.setUserRegistrationCoppaUIEventListener(mUserRegistrationCoppaUIEventListener);
+        assertEquals(mUserRegistrationCoppaUIEventListener,coppaLaunchInput.getUserRegistrationUIEventListener());
     }
 
 }
