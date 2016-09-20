@@ -89,7 +89,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .getImageLoader();
             orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
             orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
-            String price = cartData.getTotalPriceFormatedPrice();
+            String price = cartData.getFormattedTotalPrice();
 
             orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
@@ -135,7 +135,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mDeliveryView.setVisibility(View.GONE);
             }
             footerHolder.mTitleTotalPrice.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-            footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
+            footerHolder.mTotalPrice.setText(getLastValidItem().getFormattedTotalPriceWithTax());
             footerHolder.mVatValue.setText(getLastValidItem().getVatValue());
             if (!getLastValidItem().isVatInclusive()) {
                 footerHolder.mVatInclusive.setVisibility(View.VISIBLE);

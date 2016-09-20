@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -196,7 +195,7 @@ public class ProductCatalogHelper {
     private void fillEntryBaseData(final ProductsEntity entry, final ProductCatalogData productItem) {
         if (entry.getPrice() == null || entry.getDiscountPrice() == null)
             return;
-        productItem.setFormatedPrice(entry.getPrice().getFormattedValue());
+        productItem.setFormattedPrice(entry.getPrice().getFormattedValue());
         productItem.setPriceValue(String.valueOf(entry.getPrice().getValue()));
         if (entry.getDiscountPrice() != null && entry.getDiscountPrice().getFormattedValue() != null
                 && !entry.getDiscountPrice().getFormattedValue().isEmpty()) {

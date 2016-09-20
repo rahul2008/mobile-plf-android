@@ -175,7 +175,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
         if (productCatalogData != null) {
             bundle.putString(IAPConstant.PRODUCT_TITLE, productCatalogData.getProductTitle());
             bundle.putString(IAPConstant.PRODUCT_CTN, productCatalogData.getCtnNumber());
-            bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
+            bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormattedPrice());
             bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);

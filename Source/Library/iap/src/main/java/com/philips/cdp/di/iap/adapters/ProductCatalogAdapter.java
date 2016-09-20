@@ -54,7 +54,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();
         String discountedPrice = productCatalogData.getDiscountedPrice();
-        String formatedPrice = productCatalogData.getFormatedPrice();
+        String formatedPrice = productCatalogData.getFormattedPrice();
 
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
