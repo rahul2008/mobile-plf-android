@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import org.hamcrest.Matcher;
 
-public class TextColorMatchers {
+public class TextViewPropertiesMatchers {
 
     public static Matcher<View> isSameTextColor(final int stateAttr, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {

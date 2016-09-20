@@ -5,6 +5,7 @@
 package com.philips.platform.catalogapp.utils;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -32,5 +33,16 @@ public class UITTestUtils {
             throw new RuntimeException(e.getMessage());
         }
         return drawable;
+    }
+
+
+    public static ColorStateList getColorStateListWithReflection(Object object, String funcName) {
+        ColorStateList colorList = null;
+        try {
+            colorList = (ColorStateList) MethodUtils.invokeMethod(object, funcName);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return colorList;
     }
 }

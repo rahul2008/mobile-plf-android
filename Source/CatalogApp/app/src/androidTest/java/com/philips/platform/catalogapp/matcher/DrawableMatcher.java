@@ -37,13 +37,13 @@ public class DrawableMatcher {
         };
     }
 
-    public static Matcher<Drawable> isSameRadius(final int index, final int expectedValue) {
+    public static Matcher<Drawable> isSameRadius(final int index, final float expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                return stateColors.getCornerRadius()[index] == expectedValue;
+                return Float.compare(stateColors.getCornerRadius()[index], expectedValue) == 0;
             }
         };
     }
