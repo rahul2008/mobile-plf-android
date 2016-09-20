@@ -74,7 +74,7 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonCornerRadius() {
-        float radius = (float) Math.ceil(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
+        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
