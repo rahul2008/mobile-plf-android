@@ -33,13 +33,20 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         mUser = new User(mIapSettings.getContext());// User can be inject as dependencies
         if (mUser.isUserSignIn()) {
-            IAPLaunchInput mLaunchInput = (IAPLaunchInput) uappLaunchInput;
-            if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
+            if (!mIapSettings.isUseLocalData())
+                Hybris(uiLauncher, (IAPLaunchInput) uappLaunchInput);
             else
-                iapHandler.initIAP(uiLauncher, mLaunchInput);
+                iapHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
         } else {
             throw new RuntimeException("User is not logged in.");// Confirm the behaviour on error Callback
         }
+    }
+
+    private void Hybris(UiLauncher uiLauncher, IAPLaunchInput uappLaunchInput) {
+        IAPLaunchInput mLaunchInput = uappLaunchInput;
+        if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
+        else
+            iapHandler.initIAP(uiLauncher, mLaunchInput);
     }
 
     @Override

@@ -221,7 +221,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             if (mSelectedCountryIndex > 0) {
                 showProgressDialog();
                 try {
-                    mIapInterface.getProductCartCount(this);
+                    if (!mIAPSettings.isUseLocalData())
+                        mIapInterface.getProductCartCount(this);
+                    else
+                        dismissProgressDialog();
                 } catch (RuntimeException exception) {
                     dismissProgressDialog();
                 }

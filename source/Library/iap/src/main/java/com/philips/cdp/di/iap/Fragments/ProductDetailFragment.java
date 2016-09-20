@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -310,7 +311,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onFetchAssetSuccess(final Message msg) {
-        if(mContext == null) return;
+        if (mContext == null) return;
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addAssetDataToList(mCTNValue, mAsset);
@@ -461,9 +462,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onLoadListenerError(Message msg) {
         IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment ");
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg,((FragmentActivity)mContext).getSupportFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity)mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
+            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
     }
@@ -484,5 +485,18 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void startShoppingCartFragment() {
         addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            int count = getFragmentManager().getBackStackEntryCount();
+            IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
+            for (int i = 0; i < count; i++) {
+                getFragmentManager().popBackStack();
+            }
+            finishActivity();
+        }
+        return false;
     }
 }
