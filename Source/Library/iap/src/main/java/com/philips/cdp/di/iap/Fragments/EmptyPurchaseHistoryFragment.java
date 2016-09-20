@@ -38,7 +38,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_order_history, true);
+        setTitleAndBackButtonVisibility(R.string.iap_order_history, false);
     }
 
     @Override

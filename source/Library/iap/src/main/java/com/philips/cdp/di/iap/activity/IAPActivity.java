@@ -165,12 +165,18 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     public void showFragment(String fragmentTag) {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
-        if (fragment == null) {
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                    InAppBaseFragment.AnimationType.NONE), fragmentTag);
+        if (!NetworkUtility.getInstance().isNetworkAvailable(this)) {
+            NetworkUtility.getInstance().showErrorDialog(this,
+                    getSupportFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
         } else {
-            getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+            if (fragment == null) {
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                        InAppBaseFragment.AnimationType.NONE), fragmentTag);
+            } else {
+                getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+            }
         }
     }
 
