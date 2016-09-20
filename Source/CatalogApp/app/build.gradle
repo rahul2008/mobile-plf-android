@@ -94,12 +94,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
-
     compile project(':uit')
+    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
 }
 
 configurations.all {

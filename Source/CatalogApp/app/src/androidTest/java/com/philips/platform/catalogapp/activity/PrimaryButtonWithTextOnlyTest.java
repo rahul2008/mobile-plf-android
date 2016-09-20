@@ -1,23 +1,24 @@
-package com.philips.platform.catalogapp.activity;
-
 /**
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
+package com.philips.platform.catalogapp.activity;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
 
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.fragments.ButtonFragment;
+import com.philips.platform.catalogapp.matcher.FunctionDrawableMatchers;
 import com.philips.platform.catalogapp.utils.GradientDrawableUtils;
-import com.philips.platform.catalogapp.utils.ThemeColorUtils;
+import com.philips.platform.catalogapp.utils.TestConstants;
+import com.philips.platform.catalogapp.utils.UITTestUtils;
 import com.philips.platform.uit.view.widget.Button;
 
 import org.junit.Before;
@@ -26,9 +27,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.catalogapp.test.R.color.GroupBlue35;
 import static com.philips.platform.catalogapp.test.R.color.GroupBlue45;
-import static com.philips.platform.catalogapp.utils.ThemeColorUtils.modulateColorAlpha;
+import static com.philips.platform.catalogapp.utils.UITTestUtils.modulateColorAlpha;
 import static junit.framework.Assert.assertEquals;
 
 public class PrimaryButtonWithTextOnlyTest {
@@ -58,9 +61,9 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonHeight() {
-        final View viewById = mActivityTestRule.getActivity().findViewById(R.id.primary_button);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_height);
-        assertEquals(expectedHeight, button.getMinHeight());
+        Espresso.onView(withId(R.id.primary_button))
+                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND,expectedHeight)));
     }
 
     @Test
@@ -151,7 +154,7 @@ public class PrimaryButtonWithTextOnlyTest {
         final int textColors = button.getCurrentTextColor();
         int actualTextColor = textColors;
         final int disabledTextColor = Color.parseColor("#ffffff");
-        assertEquals(ThemeColorUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
+        assertEquals(UITTestUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
     }
 
     @Ignore
@@ -161,7 +164,7 @@ public class PrimaryButtonWithTextOnlyTest {
         final int textColors = button.getCurrentTextColor();
         int actualTextColor = textColors;
         final int disabledTextColor = Color.parseColor("#ffffff");
-        assertEquals(ThemeColorUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
+        assertEquals(UITTestUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
     }
 
 }
