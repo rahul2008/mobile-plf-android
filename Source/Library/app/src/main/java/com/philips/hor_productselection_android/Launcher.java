@@ -30,7 +30,8 @@ import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCal
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
+//import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -53,6 +54,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     //    private ProductModelSelectionHelper mConfigManager = null;
     private SampleAdapter adapter = null;
     private Button change_theme = null;
+    private AppInfraInterface mAppInfraInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         setContentView(R.layout.main);
 
 
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
+        //AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
         AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
@@ -201,13 +203,13 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         for (int i = 0; i < mList.size(); i++) {
             ctnList[i] = mList.get(i);
         }
-
+        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        mProductSelectionHelper.initialize(this);
+        mProductSelectionHelper.initialize(this, mAppInfraInterface);
         mProductSelectionHelper.setLocale("en", "GB");
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
