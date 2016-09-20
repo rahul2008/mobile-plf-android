@@ -19,6 +19,9 @@ import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
@@ -55,6 +58,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
                 uiState.init(new FragmentLauncher((HomeActivity)context, R.id.frame_container,(HomeActivity)context));
                 InAppPurchaseFragmentState.InAppStateData uiStateDataModel = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 uiStateDataModel.setIapFlow(UIConstants.IAP_PURCHASE_HISTORY_VIEW);
+                uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
                 uiState.setPresenter(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
@@ -70,6 +74,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));
         uiState.setPresenter(this);
         ((UserRegistrationState)uiState).registerForNextState(this);
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);

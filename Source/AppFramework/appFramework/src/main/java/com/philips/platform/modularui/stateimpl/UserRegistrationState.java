@@ -8,7 +8,6 @@ package com.philips.platform.modularui.stateimpl;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.StringRes;
-import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -17,9 +16,6 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -28,9 +24,12 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
     Context mContext;
     User userObject;
-    int containerID;
-    FragmentActivity fragmentActivity;
-    private ActionBarListener actionBarListener;
+    private FragmentLauncher fragmentLauncher;
+
+    @Override
+    public void init(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+    }
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
@@ -84,15 +83,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void navigate(Context context) {
         mContext = context;
-
-        if(context instanceof HomeActivity){
-            containerID = R.id.frame_container;
-            actionBarListener  = (HomeActivity) context;
-        }
-        if(context instanceof WelcomeActivity){
-            containerID = R.id.fragment_frame_container;
-            actionBarListener  = (WelcomeActivity) context;
-        }
         loadPlugIn();
         runUserRegistration();
     }
@@ -102,25 +92,13 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         ((AppFrameworkBaseActivity)context).popBack();
     }
 
-    @Override
-    public void init(UiLauncher uiLauncher) {
-
-    }
-
     private void loadPlugIn(){
         userObject = new User(mContext);
         userObject.registerUserRegistrationListener(this);
     }
 
     private void runUserRegistration(){
-        if(mContext instanceof WelcomeActivity){
-            containerID = R.id.fragment_frame_container;
-            fragmentActivity = (WelcomeActivity)mContext;
-        }else if(mContext instanceof HomeActivity){
-            containerID = R.id.frame_container;
-            fragmentActivity = (HomeActivity)mContext;
-        }
-        launchRegistrationFragment(false);
+       launchRegistrationFragment(false);
     }
     /**
      * Launch registration fragment
@@ -132,8 +110,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         urLaunchInput.setAccountSettings(isAccountSettings);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-        FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (fragmentActivity,containerID,actionBarListener);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }

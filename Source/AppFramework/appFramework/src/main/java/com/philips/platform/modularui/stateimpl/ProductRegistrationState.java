@@ -6,7 +6,6 @@
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.localematch.enums.Catalog;
@@ -19,34 +18,32 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ProductRegistrationState extends UIState implements ProdRegUiListener {
 
     private ArrayList<String> mCtnList = null;
-    private FragmentActivity mFragmentActivity = null;
     Context mContext;
-    int containerID;
-    private FragmentActivity fa;
-    private ActionBarListener actionBarListener;
+    private FragmentLauncher fragmentLauncher;
 
     public ProductRegistrationState(@UIStateDef int stateID){
         super(stateID);
     }
+
+    @Override
+    public void init(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+    }
+
     @Override
     protected void navigate(Context context) {
         mContext = context;
-        mFragmentActivity = (HomeActivity) context;
-        actionBarListener  = (HomeActivity) context;
         runProductRegistration();
     }
 
@@ -55,14 +52,9 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
-    @Override
-    public void init(UiLauncher uiLauncher) {
-
-    }
-
     private Product loadProduct() {
         if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(mFragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
+            mCtnList = ((ProductRegistrationData)getUiStateData()).getCtnList();
         }
         String[] ctnList = new String[mCtnList.size()];
         for (int i = 0; i < mCtnList.size(); i++) {
@@ -96,14 +88,23 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         ArrayList<Product> products = new ArrayList<>();
         products.add(loadProduct());
         PRLaunchInput prodRegLaunchInput;
-        if(mContext instanceof HomeActivity){
-            containerID = R.id.frame_container;
-            fa = (HomeActivity)mContext;
-        }
-        FragmentLauncher fragLauncher = new FragmentLauncher(fa, containerID,actionBarListener);
-        fragLauncher.setCustomAnimation(0, 0);
         prodRegLaunchInput = new PRLaunchInput(products, false);
         prodRegLaunchInput.setProdRegUiListener(this);
-        new PRInterface().launch(fragLauncher,prodRegLaunchInput);
+        new PRInterface().launch(fragmentLauncher,prodRegLaunchInput);
+    }
+
+    /**
+     * Data Model for CoCo is defined here to have minimal import files.
+     */
+    public class ProductRegistrationData extends UIStateData {
+        private ArrayList<String> mCtnList = null;
+
+        public ArrayList<String> getCtnList() {
+            return mCtnList;
+        }
+
+        public void setCtnList(ArrayList<String> mCtnList) {
+            this.mCtnList = mCtnList;
+        }
     }
 }

@@ -14,7 +14,6 @@ import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.util.UIConstants;
@@ -22,7 +21,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class InAppPurchaseFragmentState extends UIState{
 
@@ -51,7 +49,7 @@ public class InAppPurchaseFragmentState extends UIState{
             iapFlowType = IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
         }
         if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(fragmentLauncher.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist)));
+            mCtnList = ((InAppStateData)getUiStateData()).getCtnList();
         }
         launchIAP();
     }
@@ -75,8 +73,20 @@ public class InAppPurchaseFragmentState extends UIState{
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
+    /**
+     * Data Model for CoCo is defined here to have minimal import files.
+     */
     public class InAppStateData extends UIStateData {
         private int iapFlow;
+        private ArrayList<String> mCtnList = null;
+
+        public ArrayList<String> getCtnList() {
+            return mCtnList;
+        }
+
+        public void setCtnList(ArrayList<String> mCtnList) {
+            this.mCtnList = mCtnList;
+        }
 
         public int getIapFlow() {
             return iapFlow;

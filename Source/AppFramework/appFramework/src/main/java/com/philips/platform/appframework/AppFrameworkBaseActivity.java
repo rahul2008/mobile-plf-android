@@ -12,13 +12,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.homescreen.HomeFragment;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
-import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
@@ -32,7 +30,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        ProductSelectionLogger.i(Constants.ACTIVITY, "onCreate");
         fragmentManager = getSupportFragmentManager();
     }
 
