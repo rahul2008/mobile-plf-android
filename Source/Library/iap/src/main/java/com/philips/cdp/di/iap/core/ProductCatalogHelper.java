@@ -47,7 +47,7 @@ public class ProductCatalogHelper {
 
             ArrayList<ProductCatalogData> products = mergeResponsesFromHybrisAndPRX(planBProductCTNs, productData, prxModel);
             PaginationEntity pagination = null;
-            if (productData != null)
+            if (productData != null && products.size()!=0)
                 pagination = productData.getPagination();
             refreshList(products, pagination, listener);
 
