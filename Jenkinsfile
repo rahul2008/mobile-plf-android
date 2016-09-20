@@ -20,8 +20,18 @@ node('Android && 23.0.3') {
             stage 'Build'
             sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
 
-            stage 'Release'
-            sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            switch(env.BRANCH_NAME) {
+                case ['develop', 'master']:
+                    stage 'Release'
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                    break
+                case ~/release.*$/:
+                    stage 'Release'
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                    break
+                default:
+                    break
+            }
 
             stage 'Notify Bitbucket'
             sh 'echo \"Check the build status in bitbucket!\"'
