@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
+    private Context mContext;
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
@@ -55,9 +57,9 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
     private int mRemainingProducts = 0;
     private boolean mIsLoading = false;
     private int mTotalPages = -1;
-    ProductCatalogAPI mPresenter;
-    ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
-    Bundle mBundle;
+    private ProductCatalogAPI mPresenter;
+    private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
+    private Bundle mBundle;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -79,18 +81,23 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = ControllerFactory.getInstance()
-                .getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
+                .getProductCatalogPresenter(mContext, this, getFragmentManager());
+        mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
         mBundle = getArguments();
 
-        PILLocaleManager localeManager = new PILLocaleManager(getContext());
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
         String currentCountryCode = localeManager.getCountryCode();
-        String savedCountry = Utility.getCountryFromPreferenceForKey(getContext(), IAPConstant.IAP_COUNTRY_KEY);
+        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
@@ -157,7 +164,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
         setCartIconVisibility(true);
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
         if (!ControllerFactory.getInstance().loadLocalData()) {
-            mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener);
+            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
         mAdapter.tagProducts();
     }
@@ -175,7 +182,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
         if (productCatalogData != null) {
             bundle.putString(IAPConstant.PRODUCT_TITLE, productCatalogData.getProductTitle());
             bundle.putString(IAPConstant.PRODUCT_CTN, productCatalogData.getCtnNumber());
-            bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
+            bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormattedPrice());
             bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
@@ -235,7 +242,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
 
     private void loadProductCatalog() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
         mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
     }
@@ -249,11 +256,11 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
 
         if (!Utility.isProgressDialogShowing()) {
             IAPLog.i(TAG, "Loading Page = " + mCurrentPage + "Total Results = " + mTotalResults + "Size of Array = " + mProductCatalog.size());
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
 
         if (mPresenter == null)
-            mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(getContext(), this, getFragmentManager());
+            mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(mContext, this, getFragmentManager());
         mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE, null);
     }
 
@@ -307,10 +314,10 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mEmptyCatalogText.setVisibility(View.GONE);
             }
-            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(),
-                    getContext().getString(R.string.iap_ok),
-                    NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(getContext(), error.getIAPErrorCode()),
-                    NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(getContext(), error));
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                    mContext.getString(R.string.iap_ok),
+                    NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()),
+                    NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         }
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();

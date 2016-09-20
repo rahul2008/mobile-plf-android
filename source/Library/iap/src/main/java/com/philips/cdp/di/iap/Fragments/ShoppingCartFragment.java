@@ -88,8 +88,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
-        mAddressController = new AddressController(getContext(), this);
+                .getShoppingCartPresenter(mContext, this, getFragmentManager());
+        mAddressController = new AddressController(mContext, this);
         return rootView;
     }
 
@@ -104,13 +104,13 @@ public class ShoppingCartFragment extends InAppBaseFragment
             updateCartOnResume();
         }
 
-        mAdapter = new ShoppingCartAdapter(getContext(), mData, this, mShoppingCartAPI);
+        mAdapter = new ShoppingCartAdapter(mContext, mData, this, mShoppingCartAPI);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     private void updateCartOnResume() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
 
         if (CartModelContainer.getInstance().isCartCreated()) {
@@ -203,7 +203,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
-        bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormatedPrice());
+        bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
@@ -213,7 +213,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             Bundle bundle = new Bundle();
             if (mAdapter.getDeliveryMode() != null)
@@ -302,7 +302,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         /*if (mAdapter.mIsDeliveryAddressSet) {
             mIsDeliveryAddress = true;
         }*/
-        mAdapter = new ShoppingCartAdapter(getContext(), mData, this, mShoppingCartAPI);
+        mAdapter = new ShoppingCartAdapter(mContext, mData, this, mShoppingCartAPI);
         /*if (mIsDeliveryAddress) {
             mAdapter.setDeliveryAddress(mIsDeliveryAddress);
             mIsDeliveryAddress = false;
@@ -322,7 +322,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (!isNetworkConnected()) return;
 
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));

@@ -7,7 +7,10 @@ package com.philips.cdp.di.iap.response.addresses;
 
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
-public class Addresses {
+import java.io.Serializable;
+
+public class Addresses implements Serializable{
+    private static final long serialVersionUID = -2423291510688767513L;
     private Region region;
     private Country country;
 

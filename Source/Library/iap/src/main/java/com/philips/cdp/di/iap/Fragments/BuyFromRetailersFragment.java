@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +26,9 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
 
-    RecyclerView mRecyclerView;
-    BuyFromRetailersAdapter mAdapter;
+    private Context mContext;
+    private RecyclerView mRecyclerView;
+    private BuyFromRetailersAdapter mAdapter;
     private ArrayList<StoreEntity> mStoreEntity;
 
     public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
@@ -36,6 +38,11 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -62,7 +69,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_retailer_title, true);
         if (mStoreEntity != null) {
-            mAdapter = new BuyFromRetailersAdapter(getContext(), getFragmentManager(), mStoreEntity, this);
+            mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }

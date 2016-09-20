@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.container;
 
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.response.State.RegionsList;
@@ -19,17 +18,21 @@ public class CartModelContainer {
     private static CartModelContainer container;
     private AddressFields mBillingAddress;
     private AddressFields mShippingAddressFields;
+
     private String regionIsoCode;
     private String mAddressId;
     private String mOrderNumber;
     private RegionsList mRegionList;
+
     private HashMap<String, SummaryModel> mPRXDataObjects;
     private HashMap<String, ProductCatalogData> mProductCatalogData;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
+
     private List<DeliveryModes> mDeliveryModes;
 
     private boolean switchToBillingAddress;
     private boolean mIsCartCreated;
+
     private String language;
     private String country;
 

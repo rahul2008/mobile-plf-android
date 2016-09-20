@@ -26,8 +26,8 @@ public class ProductCatalogDataTest extends TestCase{
 
     @Test
     public void testGetTotalPriceFormattedPrice() {
-       productCatalogData.setTotalPriceFormatedPrice("$1000");
-        String totalPriceFormatted = productCatalogData.getTotalPriceFormatedPrice();
+       productCatalogData.setFormattedTotalPrice("$1000");
+        String totalPriceFormatted = productCatalogData.getFormattedTotalPrice();
         assertFalse(totalPriceFormatted.isEmpty());
         assertTrue(totalPriceFormatted.toString().equalsIgnoreCase("$1000"));
         assertFalse(totalPriceFormatted.toString().equalsIgnoreCase("$1345"));
@@ -35,8 +35,8 @@ public class ProductCatalogDataTest extends TestCase{
 
     @Test
     public void testGetFormattedPrice() {
-        productCatalogData.setFormatedPrice("$1000");
-        String totalPriceFormatted = productCatalogData.getFormatedPrice();
+        productCatalogData.setFormattedPrice("$1000");
+        String totalPriceFormatted = productCatalogData.getFormattedPrice();
         assertFalse(totalPriceFormatted.isEmpty());
         assertTrue(totalPriceFormatted.toString().equalsIgnoreCase("$1000"));
         assertFalse(totalPriceFormatted.toString().equalsIgnoreCase("$1345"));
@@ -44,8 +44,8 @@ public class ProductCatalogDataTest extends TestCase{
 
     @Test
     public void testGetTotalPriceWithTaxFormattedPrice() {
-        productCatalogData.setTotalPriceWithTaxFormatedPrice("$1000");
-        String totalPriceFormatted = productCatalogData.getTotalPriceWithTaxFormatedPrice();
+        productCatalogData.setFormattedTotalPriceWithTax("$1000");
+        String totalPriceFormatted = productCatalogData.getFormattedTotalPriceWithTax();
         assertFalse(totalPriceFormatted.isEmpty());
         assertTrue(totalPriceFormatted.toString().equalsIgnoreCase("$1000"));
         assertFalse(totalPriceFormatted.toString().equalsIgnoreCase("$1345"));

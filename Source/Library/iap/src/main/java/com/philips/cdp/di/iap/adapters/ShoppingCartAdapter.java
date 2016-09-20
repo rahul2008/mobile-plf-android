@@ -205,7 +205,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String imageURL = cartData.getImageURL();
             shoppingCartProductHolder.mTvProductTitle.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mIvOptions.setImageDrawable(mOptionsDrawable);
-            shoppingCartProductHolder.mTvPrice.setText(cartData.getTotalPriceFormatedPrice());
+            shoppingCartProductHolder.mTvPrice.setText(cartData.getFormattedTotalPrice());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
@@ -250,7 +250,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mVatValue.setText(data.getVatValue());
                 }
 
-                shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
+                shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
                 if (null != data.getDeliveryMode()) {
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();

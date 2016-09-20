@@ -20,7 +20,6 @@ import android.widget.Button;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
-import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
@@ -62,7 +61,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
-        mPaymentController = new PaymentController(getContext(), this);
+        mPaymentController = new PaymentController(mContext, this);
 
         mBtnPayNow = (Button) rootView.findViewById(R.id.btn_paynow);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
@@ -78,8 +77,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
         RecyclerView mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
-        AddressFields mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
-        mAdapter = new OrderProductAdapter(getContext(), this, new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
+        mAdapter = new OrderProductAdapter(mContext, this, new ArrayList<ShoppingCartData>(), mPaymentMethod);
         updateCartOnResume();
         mOrderListView.setAdapter(mAdapter);
         return rootView;
@@ -93,9 +91,9 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
 
     private void updateCartOnResume() {
         ShoppingCartAPI presenter = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
+                .getShoppingCartPresenter(mContext, mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing())
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         updateCartDetails(presenter);
     }
 
@@ -133,18 +131,18 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             if (mPaymentMethod != null)
                 showCvvDialog(getFragmentManager());
             else {
-                placeOrderElseMakePayment(null);
+                placeOrder(null);
             }
         } else if (v == mBtnCancel) {
             doOnCancelOrder();
         }
     }
 
-    private void placeOrderElseMakePayment(String pSecurityCode) {
+    private void placeOrder(String pSecurityCode) {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
                 IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             mPaymentController.placeOrder(pSecurityCode);
         }
     }
@@ -176,7 +174,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             bundle.putString(ModelConstants.WEB_PAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
@@ -210,7 +208,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
             } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             }
         }
     }
@@ -223,7 +221,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
         } else {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
     }
 
@@ -283,7 +281,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             String securityCode = data.getStringExtra(
                     IAPConstant.CVV_KEY_BUNDLE);
             IAPLog.d(IAPLog.LOG, "CVV =" + securityCode);
-            placeOrderElseMakePayment(securityCode);
+            placeOrder(securityCode);
         }
     }
 }

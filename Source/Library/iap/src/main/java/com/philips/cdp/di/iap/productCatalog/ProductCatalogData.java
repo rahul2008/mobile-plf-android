@@ -2,16 +2,24 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.productCatalog;
 
 public class ProductCatalogData {
+    private int mTotalItems;
+    private int mStockLevel;
 
     private String mCtnNumber;
     private String mProductTitle;
     private String mImageURL;
-    private int mTotalItems;
-    private int mStockLevel;
+    private String mDiscountedPrice;
+    private String mFormattedTotalPrice;
+    private String mFormattedTotalPriceWithTax;
+    private String mFormattedPrice;
+    private String mPriceValue;
+    private String mMarketingTextHeader;
+
+    public ProductCatalogData() {
+    }
 
     public String getDiscountedPrice() {
         return mDiscountedPrice;
@@ -20,12 +28,6 @@ public class ProductCatalogData {
     public void setDiscountedPrice(final String mDiscountedPrice) {
         this.mDiscountedPrice = mDiscountedPrice;
     }
-
-    private String mDiscountedPrice;
-    private String mTotalPriceFormatedPrice;
-    private String mTotalPriceWithTaxFormatedPrice;
-    private String mFormatedPrice;
-    private String mPriceValue;
 
     public String getPriceValue() {
         return mPriceValue;
@@ -41,12 +43,6 @@ public class ProductCatalogData {
 
     public void setMarketingTextHeader(final String pMarketingTextHeader) {
         this.mMarketingTextHeader = pMarketingTextHeader;
-    }
-
-    private String mMarketingTextHeader;
-
-
-    public ProductCatalogData() {
     }
 
     public String getCtnNumber() {
@@ -85,27 +81,27 @@ public class ProductCatalogData {
         mStockLevel = stockLevel;
     }
 
-    public String getTotalPriceWithTaxFormatedPrice() {
-        return mTotalPriceWithTaxFormatedPrice;
+    public String getFormattedTotalPriceWithTax() {
+        return mFormattedTotalPriceWithTax;
     }
 
-    public void setTotalPriceWithTaxFormatedPrice(String mTotalPriceWithTaxFormatedPrice) {
-        this.mTotalPriceWithTaxFormatedPrice = mTotalPriceWithTaxFormatedPrice;
+    public void setFormattedTotalPriceWithTax(String mFormattedTotalPriceWithTax) {
+        this.mFormattedTotalPriceWithTax = mFormattedTotalPriceWithTax;
     }
 
-    public String getFormatedPrice() {
-        return mFormatedPrice;
+    public String getFormattedPrice() {
+        return mFormattedPrice;
     }
 
-    public void setFormatedPrice(String mFormatedPrice) {
-        this.mFormatedPrice = mFormatedPrice;
+    public void setFormattedPrice(String mFormattedPrice) {
+        this.mFormattedPrice = mFormattedPrice;
     }
 
-    public String getTotalPriceFormatedPrice() {
-        return mTotalPriceFormatedPrice;
+    public String getFormattedTotalPrice() {
+        return mFormattedTotalPrice;
     }
 
-    public void setTotalPriceFormatedPrice(String mTotalPriceFormatedPrice) {
-        this.mTotalPriceFormatedPrice = mTotalPriceFormatedPrice;
+    public void setFormattedTotalPrice(String mFormattedTotalPrice) {
+        this.mFormattedTotalPrice = mFormattedTotalPrice;
     }
 }

@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController.AddressListener;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -51,11 +52,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Drawable mEditDrawable;
 
     public OrderProductAdapter(Context pContext, AddressListener listener, ArrayList<ShoppingCartData> pShoppingCartDataList,
-                               AddressFields pBillingAddress, PaymentMethod pPaymentMethod) {
+                               PaymentMethod pPaymentMethod) {
         mContext = pContext;
         mListener = listener;
         mShoppingCartDataList = pShoppingCartDataList;
-        mBillingAddress = pBillingAddress;
         mPaymentMethod = pPaymentMethod;
         initDrawables();
     }
@@ -89,7 +89,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .getImageLoader();
             orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
             orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
-            String price = cartData.getTotalPriceFormatedPrice();
+            String price = cartData.getFormattedTotalPrice();
 
             orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
@@ -102,6 +102,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String shippingName = cartData.getDeliveryAddressEntity().getFirstName() + " " + cartData.getDeliveryAddressEntity().getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
             footerHolder.mShippingAddress.setText(Utility.formatAddress(shippingAddress));
+            mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
             if (null != mBillingAddress) {
                 String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                 footerHolder.mBillingFirstName.setText(billingName);
@@ -135,7 +136,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mDeliveryView.setVisibility(View.GONE);
             }
             footerHolder.mTitleTotalPrice.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-            footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
+            footerHolder.mTotalPrice.setText(getLastValidItem().getFormattedTotalPriceWithTax());
             footerHolder.mVatValue.setText(getLastValidItem().getVatValue());
             if (!getLastValidItem().isVatInclusive()) {
                 footerHolder.mVatInclusive.setVisibility(View.VISIBLE);
@@ -196,9 +197,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onLoadListenerError(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg,((FragmentActivity)mContext).getSupportFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity)mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
+            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
     }
