@@ -7,8 +7,6 @@ package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
 
-import com.adobe.mobile.MobilePrivacyStatus;
-
 import java.util.Map;
 
 
@@ -20,12 +18,17 @@ public interface AppTaggingInterface {
     /**
      * The enum Privacy status.
      */
-    enum PrivacyStatus {OPTIN, OPTOUT, UNKNOWN};
+    enum PrivacyStatus {
+        OPTIN, OPTOUT, UNKNOWN
+    }
+
+    ;
 
 
     /**
      * Create instance for component ai app tagging interface.
      * This method to be used by all component to get their respective tagging
+     *
      * @param componentId      the component id
      * @param componentVersion the component version
      * @return the appinfra app tagging interface
@@ -90,19 +93,20 @@ public interface AppTaggingInterface {
     /**
      * Collect LifeCycle info.
      *
-     * @param context  the page name
+     * @param context   the page name
      * @param paramDict set of key/value pairs to be added to the tracking entry
      */
     public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict);
+
     /**
      * Collect LifeCycle info.
      *
-     * @param context  the page name
+     * @param context the page name
      */
     public void collectLifecycleInfo(Activity context);
+
     /**
      * Pause LifeCycle info.
-     *
      */
     public void pauseLifecycleInfo();
 

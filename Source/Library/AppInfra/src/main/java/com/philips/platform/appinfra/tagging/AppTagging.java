@@ -7,12 +7,12 @@ package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.text.SimpleDateFormat;
@@ -116,7 +116,9 @@ public class AppTagging implements AppTaggingInterface {
 
             UTCtime = df.format(mAppInfra.getTime().getUTCTime());
             mUTCTimestamp = UTCtime;
-            Log.i("mUTCTimestamp", "" + mUTCTimestamp);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    "Tagging", mUTCTimestamp);
+
         }
 
         return mUTCTimestamp;

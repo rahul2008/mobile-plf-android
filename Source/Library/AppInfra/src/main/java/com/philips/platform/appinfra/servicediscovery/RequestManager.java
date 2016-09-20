@@ -6,7 +6,6 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -21,8 +20,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
-import com.philips.cdp.prxclient.network.SSLCertificateManager;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
@@ -85,7 +84,9 @@ public class RequestManager {
 
                                         ssi.storeValueForKey("Country", mcountry, mSecureStorage);
                                         ssi.storeValueForKey("COUNTRY_SOURCE", "GEOIP", mSecureStorage);
-                                        Log.i("Responce", "" + mcountry);
+                                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface
+                                                .LogLevel.ERROR,"SecureStorage",mcountry);
+
                                     }
                                 }
 //                                else {
@@ -235,7 +236,8 @@ public class RequestManager {
                             }
                             ////////////////end of parse///////////
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                    "Service Discovery",e.getMessage());
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -247,39 +249,51 @@ public class RequestManager {
                         if (error instanceof TimeoutError) {
 
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT;
-                            Log.i("TimeoutORNoConnection", "" + "TimeoutORNoConnection");
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                    "Service Discovery",errorValue.toString());
+
                             volleyError.setMessage("TimeoutORNoConnection");
                             volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof NoConnectionError) {
 
-                            Log.i("NoConnectionError", "" + "NoConnectionError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK;
                             volleyError.setMessage("NoConnectionError");
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                    "Service Discovery",errorValue.toString());
+
                             volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof AuthFailureError) {
 
-                            Log.i("AuthFailureError", "" + "AuthFailureError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                             volleyError.setMessage("AuthFailureError");
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                    "Service Discovery",errorValue.toString());
+
                             volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof ServerError) {
 
-                            Log.i("ServerError", "" + "ServerError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                             volleyError.setMessage("ServerError");
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                    "Service Discovery",errorValue.toString());
+
                             volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof NetworkError) {
 
-                            Log.i("NetworkError", "" + "NetworkError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                             volleyError.setMessage("NetworkError");
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                    "Service Discovery",errorValue.toString());
+
                             volleyError.setErrorvalues(errorValue);
                         } else if (error instanceof ParseError) {
 
-                            Log.i("ParseError", "" + "ParseError");
                             errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                             volleyError.setMessage("ServerError");
                             volleyError.setErrorvalues(errorValue);
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                    "Service Discovery",errorValue.toString());
+
                         }
                         ServiceDiscoveryManager.isDownloadInProgress = false;
                         mServiceDiscovery.setError(volleyError);

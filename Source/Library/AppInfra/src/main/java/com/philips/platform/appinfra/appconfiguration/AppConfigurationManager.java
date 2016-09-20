@@ -187,7 +187,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             //configJsonCache is initialized//
             getStaticConfigJsonCache();
             try {
-                object = getKey(key , group, configError, staticconfigJsonCache);
+                object = getKey(key, group, configError, staticconfigJsonCache);
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
                         Log.getStackTraceString(e));

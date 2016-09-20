@@ -26,7 +26,7 @@ public class Volleyrequester {
     }
 
     public static Volleyrequester getInstance() {
-        if(mVolleyQueue == null) {
+        if (mVolleyQueue == null) {
             mVolleyQueue = new Volleyrequester();
         }
 
@@ -34,7 +34,7 @@ public class Volleyrequester {
     }
 
     public RequestQueue getRequestQueue(Context context) {
-        if(this.mRequestQueue == null) {
+        if (this.mRequestQueue == null) {
             this.mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
 

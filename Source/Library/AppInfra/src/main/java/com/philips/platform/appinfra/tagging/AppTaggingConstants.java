@@ -40,5 +40,4 @@ public class AppTaggingConstants {
     public static final String COMPONENT_VERSION = "componentVersion";
 
 
-
 }

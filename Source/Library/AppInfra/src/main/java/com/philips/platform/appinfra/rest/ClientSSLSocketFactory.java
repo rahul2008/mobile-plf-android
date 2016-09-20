@@ -1,8 +1,6 @@
 package com.philips.platform.appinfra.rest;
 
-import android.app.Application;
 import android.net.SSLCertificateSocketFactory;
-import android.net.SSLSessionCache;
 
 import com.philips.platform.appinfra.AppInfra;
 
@@ -15,7 +13,6 @@ import java.security.cert.X509Certificate;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**

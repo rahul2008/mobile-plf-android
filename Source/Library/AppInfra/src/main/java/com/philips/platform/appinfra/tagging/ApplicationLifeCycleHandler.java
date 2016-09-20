@@ -5,12 +5,6 @@ import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.adobe.mobile.Config;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 
 /**
  * Created by 310200764 on 9/1/2015.
@@ -23,7 +17,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     AppTaggingInterface mAppTaggingInterface;
 
-    public ApplicationLifeCycleHandler(AppTaggingInterface appTaggingInterface){
+    public ApplicationLifeCycleHandler(AppTaggingInterface appTaggingInterface) {
         mAppTaggingInterface = appTaggingInterface;
     }
 
@@ -41,7 +35,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
 //        if (isInBackground) {
 
-            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in ForeGround");
+        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in ForeGround");
 
 //            isInBackground = false;
 //        }
@@ -49,7 +43,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onActivityPaused(Activity activity) {
-        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
+        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in Background");
     }
 
     @Override

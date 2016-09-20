@@ -25,7 +25,6 @@ public class AppTaggingWrapper extends AppTagging {
     }
 
 
-
 //    public static void trackPage(String currPage, String key, String value) {
 //        if (null != prevPage) {
 //            AppTagging.trackPage(currPage, prevPage, key, value);

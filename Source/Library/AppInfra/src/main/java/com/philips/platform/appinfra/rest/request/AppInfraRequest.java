@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -49,8 +50,6 @@ public class AppInfraRequest<T> extends Request<T> {
 
     @Override
     protected void deliverResponse(T response) {
-
-        Log.i("deliverResponse",""+response);
         listener.onResponse(response);
     }
     @Override

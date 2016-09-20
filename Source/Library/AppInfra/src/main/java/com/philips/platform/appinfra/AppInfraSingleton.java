@@ -14,6 +14,7 @@ import java.util.ConcurrentModificationException;
 
 /**
  * Class to provide global access to one single instance of AppInfra.
+ *
  * @deprecated With the introduction of a dependency injection framework, this class will be deprecated.
  */
 public final class AppInfraSingleton {
@@ -21,15 +22,16 @@ public final class AppInfraSingleton {
 
     /**
      * Set the AppInfraInterface instance that is made available through this singleton class. Only to be used by application once.
-     * @deprecated With the introduction of a dependency injection framework, this class will be deprecated.
+     *
      * @param appInfra AppInfraInterface to be made globally available
+     * @deprecated With the introduction of a dependency injection framework, this class will be deprecated.
      */
     public static void setInstance(AppInfraInterface appInfra) {
         if (appInfra == null)
             throw new NullPointerException();
-        if (mAppInfra == null && null!=appInfra){ // first run initialization
+        if (mAppInfra == null && null != appInfra) { // first run initialization
             mAppInfra = appInfra;
-        }else { // once initialized appInfra cannot be modified
+        } else { // once initialized appInfra cannot be modified
             throw new ConcurrentModificationException();
         }
 
@@ -37,6 +39,7 @@ public final class AppInfraSingleton {
 
     /**
      * Get the AppInfraInterface instance that is made available through this singleton class.
+     *
      * @deprecated With the introduction of a dependency injection framework, this class will be deprecated.
      */
     public static AppInfraInterface getInstance() {
