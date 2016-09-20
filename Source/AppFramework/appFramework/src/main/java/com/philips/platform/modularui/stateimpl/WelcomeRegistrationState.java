@@ -11,6 +11,7 @@ import android.content.Intent;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class WelcomeRegistrationState extends UIState {
     /**
@@ -37,5 +38,10 @@ public class WelcomeRegistrationState extends UIState {
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
+
+    @Override
+    public void init(UiLauncher uiLauncher) {
+
     }
 }

@@ -7,7 +7,7 @@
     "JanRainConfiguration.RegistrationClientID.Production": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
     "PILConfiguration.MicrositeID": "77000",
     "PILConfiguration.CampaignID": "CL20150501_PC_TB_COPPA",
-    "PILConfiguration.RegistrationEnvironment": "STAGING",
+    "PILConfiguration.RegistrationEnvironment": "PRODUCTION",
     "Flow.EmailVerificationRequired" : true,
     "Flow.TermsAndConditionsAcceptanceRequired" : true,
     "Flow.MinimumAgeLimit" : { "NL":12 ,"GB":0,"default": 16},
@@ -16,20 +16,20 @@
 },
   "AI": {
     "MicrositeID": "77000",
-    "RegistrationEnvironment": "STAGING",
+    "RegistrationEnvironment": "PRODUCTION",
     "NL": ["googleplus", "facebook"  ],
     "US": ["facebook","googleplus" ],
     "EE": [123,234 ]
   },
   "IAP": {
-    "hostport": "acc.occ.shop.philips.com",
+    "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "STAGING",
-    "appidentity.serviceDiscoveryEnvironment"  : "STAGING"
+    "appidentity.appState"  : "PRODUCTION",
+    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION"
 
   }
 }

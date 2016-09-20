@@ -6,7 +6,6 @@
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
@@ -20,7 +19,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,30 +27,21 @@ import java.util.Arrays;
 public class InAppPurchaseFragmentState extends UIState{
 
     Context mContext;
-    private FragmentActivity fragmentActivity;
-    private int containerID;
     private ArrayList<String> mCtnList = null;
-    private ActionBarListener actionBarListener;
     public InAppPurchaseFragmentState(@UIStateDef int stateID) {
         super(stateID);
     }
-    private IAPListener iapListener;
     int iapFlowType;
+    private FragmentLauncher fragmentLauncher;
+
+    @Override
+    public void init(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+    }
 
     @Override
     public void navigate(Context context) {
         mContext = context;
-        /*if(context instanceof HomeActivity) {
-            fragmentActivity = (HomeActivity) context;
-            containerID = R.id.frame_container;
-            actionBarListener = (HomeActivity)context;
-            iapListener = (HomeActivity)context;
-        }*/
-
-        fragmentActivity = getUiStateData().getFragmentActivity();
-        containerID = getUiStateData().getContainerID();
-        actionBarListener = getUiStateData().getActionBarListner();
-        iapListener = ((InAppStateData)getUiStateData()).getIAPListener();
         iapFlowType = ((InAppStateData)getUiStateData()).getIapFlow();
         if(iapFlowType == UIConstants.IAP_CATALOG_VIEW){
             iapFlowType = IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
@@ -61,7 +51,7 @@ public class InAppPurchaseFragmentState extends UIState{
             iapFlowType = IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
         }
         if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.iap_productselection_ctnlist)));
+            mCtnList = new ArrayList<>(Arrays.asList(fragmentLauncher.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist)));
         }
         launchIAP();
     }
@@ -70,11 +60,10 @@ public class InAppPurchaseFragmentState extends UIState{
         IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(/*IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW*/iapFlowType, iapFlowInput);
-        iapLaunchInput.setIapListener(iapListener);
-        FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID,actionBarListener);
+        iapLaunchInput.setIAPFlow(iapFlowType, iapFlowInput);
+        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
-            iapInterface.launch(fragLauncher, iapLaunchInput);
+            iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
         } catch (RuntimeException e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -85,17 +74,9 @@ public class InAppPurchaseFragmentState extends UIState{
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
+
     public class InAppStateData extends UIStateData {
-        private IAPListener mIAPListener;
         private int iapFlow;
-
-        public IAPListener getIAPListener() {
-            return mIAPListener;
-        }
-
-        public void setIAPListener(IAPListener mIAPListener) {
-            this.mIAPListener = mIAPListener;
-        }
 
         public int getIapFlow() {
             return iapFlow;

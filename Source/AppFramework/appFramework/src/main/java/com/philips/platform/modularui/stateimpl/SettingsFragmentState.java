@@ -11,6 +11,7 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class SettingsFragmentState extends UIState {
     /**
@@ -39,5 +40,10 @@ public class SettingsFragmentState extends UIState {
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
+
+    @Override
+    public void init(UiLauncher uiLauncher) {
+
     }
 }

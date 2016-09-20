@@ -22,6 +22,7 @@ import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
@@ -99,6 +100,11 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBack();
+    }
+
+    @Override
+    public void init(UiLauncher uiLauncher) {
+
     }
 
     private void loadPlugIn(){

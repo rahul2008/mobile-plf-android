@@ -20,6 +20,7 @@ import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
  * This class id used for loading various fragments that are supported by home activity ,
@@ -52,11 +53,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
             case MENU_OPTION_SETTINGS: uiState = new SettingsFragmentState(UIState.UI_SETTINGS_FRAGMENT_STATE);
                 break;
             case MENU_OPTION_SHOP: uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));
                 InAppPurchaseFragmentState.InAppStateData uiStateData = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
-                uiStateData.setActionBarListner((HomeActivity)context);
-                uiStateData.setFragmentActivity((HomeActivity)context);
-                uiStateData.setIAPListener((HomeActivity)context);
-                uiStateData.setContainerID(R.id.frame_container);
                 uiStateData.setIapFlow(UIConstants.IAP_CATALOG_VIEW);
                 uiState.setUiStateData(uiStateData);
                 break;
@@ -70,11 +68,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
                 break;
             case UIConstants.UI_SHOPPING_CART_BUTTON_CLICK:
                 uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));
                 InAppPurchaseFragmentState.InAppStateData uiStateDataModel = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
-                uiStateDataModel.setActionBarListner((HomeActivity)context);
-                uiStateDataModel.setFragmentActivity((HomeActivity)context);
-                uiStateDataModel.setIAPListener((HomeActivity)context);
-                uiStateDataModel.setContainerID(R.id.frame_container);
                 uiStateDataModel.setIapFlow(UIConstants.IAP_SHOPPING_CART_VIEW);
                 uiState.setUiStateData(uiStateDataModel);
                 break;

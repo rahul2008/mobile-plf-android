@@ -30,7 +30,6 @@ import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -151,7 +150,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.LOG, "DemoAppActivity == onCreate");
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -215,7 +213,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
 
     private void configureDrawer() {
-        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, com.philips.cdp.uikit.R.string.app_name, com.philips.cdp.uikit.R.string.app_name) {
+        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, R.string.af_app_name, R.string.af_app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }

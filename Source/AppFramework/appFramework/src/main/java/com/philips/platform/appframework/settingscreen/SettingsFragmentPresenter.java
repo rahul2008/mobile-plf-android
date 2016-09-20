@@ -17,6 +17,7 @@ import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
@@ -51,11 +52,8 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
                 break;
             case SettingsAdapter.iapHistoryLaunch:
                 uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                uiState.init(new FragmentLauncher((HomeActivity)context, R.id.frame_container,(HomeActivity)context));
                 InAppPurchaseFragmentState.InAppStateData uiStateDataModel = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
-                uiStateDataModel.setActionBarListner((HomeActivity)context);
-                uiStateDataModel.setFragmentActivity((HomeActivity)context);
-                uiStateDataModel.setIAPListener((HomeActivity)context);
-                uiStateDataModel.setContainerID(R.id.frame_container);
                 uiStateDataModel.setIapFlow(UIConstants.IAP_PURCHASE_HISTORY_VIEW);
                 uiState.setUiStateData(uiStateDataModel);
                 uiState.setPresenter(this);

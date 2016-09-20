@@ -8,6 +8,8 @@ package com.philips.platform.modularui.statecontroller;
 import android.content.Context;
 import android.support.annotation.IntDef;
 
+import com.philips.platform.uappframework.launcher.UiLauncher;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -20,8 +22,7 @@ abstract public class UIState {
      */
     @IntDef({UI_WELCOME_REGISTRATION_STATE,UI_SPLASH_STATE,UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
             UI_WELCOME_STATE, UI_USER_REGISTRATION_STATE, UI_HOME_STATE,
-            UI_HOME_FRAGMENT_STATE, UI_SETTINGS_FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE, UI_PROD_REGISTRATION_STATE, UI_IAP_SHOPPING_FRAGMENT_STATE,UI_ABOUT_SCREEN_STATE,UI_IAP_SHOPPING_HISTORY_FRAGMENT_STATE
-    ,UI_IAP_SHOPPING_SHOPPING_CART_FRAGMENT_STATE})
+            UI_HOME_FRAGMENT_STATE, UI_SETTINGS_FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE, UI_PROD_REGISTRATION_STATE, UI_IAP_SHOPPING_FRAGMENT_STATE,UI_ABOUT_SCREEN_STATE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIStateDef {
     }
@@ -41,8 +42,6 @@ abstract public class UIState {
     public static final int UI_PROD_REGISTRATION_STATE = 1013;
 	public static final int UI_IAP_SHOPPING_FRAGMENT_STATE = 1015;
     public static final int UI_ABOUT_SCREEN_STATE=1016;
-    public static final int UI_IAP_SHOPPING_HISTORY_FRAGMENT_STATE = 1017;
-    public static final int UI_IAP_SHOPPING_SHOPPING_CART_FRAGMENT_STATE = 1018;
 
     @UIState.UIStateDef
     int stateID;
@@ -86,6 +85,11 @@ abstract public class UIState {
 
     public abstract void back(Context context);
 
+    /**
+     * implement this to inject the dependencies
+     */
+
+    public abstract void init(UiLauncher uiLauncher);
     /**
      * to set the presenter
      * @param uiBasePresenter
