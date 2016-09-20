@@ -12,6 +12,8 @@ import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.TonalRange;
 import com.philips.platform.uit.thememanager.UITHelper;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -42,6 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(final Context newBase) {
-        super.attachBaseContext(UITHelper.wrapCalligraphy(newBase));
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
