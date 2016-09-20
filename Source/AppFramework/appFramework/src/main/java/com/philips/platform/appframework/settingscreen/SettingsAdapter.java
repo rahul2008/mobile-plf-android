@@ -29,6 +29,8 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -51,7 +53,7 @@ import java.util.ArrayList;
 public class SettingsAdapter extends BaseAdapter{
     private Context mActivity;
     private LayoutInflater inflater = null;
-    private User mUser = null;
+    private UserRegistrationState userRegistrationState;
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingListItem> mSettingsItemList = null;
     private UIBasePresenter fragmentPresenter;
@@ -71,7 +73,9 @@ public class SettingsAdapter extends BaseAdapter{
                            LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mUser = new User(context);
+        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+
+    //    mUser = new User(context);
         mSettingsItemList = settingsItemList;
         mLogoutHandler = logoutHandler;
         this.fragmentPresenter = fragmentPresenter;
@@ -107,7 +111,7 @@ public class SettingsAdapter extends BaseAdapter{
             if (convertView == null) {
                 vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
                 UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
-                if (mUser.isUserSignIn()) {
+                if (userRegistrationState.getUserObject(mActivity).isUserSignIn()) {
                     btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
                 } else {
                     btn_settings_logout.setText(getString(R.string.settings_list_item_login));
@@ -116,7 +120,7 @@ public class SettingsAdapter extends BaseAdapter{
                 btn_settings_logout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mUser.isUserSignIn()) {
+                        if (userRegistrationState.getUserObject(mActivity).isUserSignIn()) {
                             logoutAlert();
                         } else {
                             fragmentPresenter.onLoad(mActivity);
@@ -159,7 +163,7 @@ public class SettingsAdapter extends BaseAdapter{
             name.setText(mSettingsItemList.get(position).title);
             value.setVisibility(View.VISIBLE);
 
-            if (mUser.getReceiveMarketingEmail()) {
+            if (userRegistrationState.getUserObject(mActivity).getReceiveMarketingEmail()) {
                 value.setChecked(true);
             } else {
                 value.setChecked(false);
@@ -174,7 +178,7 @@ public class SettingsAdapter extends BaseAdapter{
                     progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progress.show();
                     if (isChecked) {
-                        mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                        userRegistrationState.getUserObject(mActivity).updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
                             @Override
                             public void onUpdateReceiveMarketingEmailSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
@@ -190,7 +194,7 @@ public class SettingsAdapter extends BaseAdapter{
                             }
                         }, true);
                     } else {
-                        mUser.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                        userRegistrationState.getUserObject(mActivity).updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
                             @Override
                             public void onUpdateReceiveMarketingEmailSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
@@ -253,7 +257,7 @@ public class SettingsAdapter extends BaseAdapter{
                 .setPositiveButton(getString(R.string.settings_list_item_log_out),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mUser.logout(mLogoutHandler);
+                                userRegistrationState.getUserObject(mActivity).logout(mLogoutHandler);
                             }
                         })
                 .setIcon(android.R.drawable.ic_dialog_alert)

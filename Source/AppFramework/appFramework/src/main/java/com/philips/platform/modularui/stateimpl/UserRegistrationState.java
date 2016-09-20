@@ -43,6 +43,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     User userObject;
     int containerID;
     FragmentActivity fragmentActivity;
+    Configuration configuration;
 
     public Context getmApplicationContext() {
         return mApplicationContext;
@@ -178,9 +179,9 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     /**For doing dynamic initialisation Of User registration
      *
-     * @param configuration  The environment ype as required by UR
      */
-    public void initializeUserRegistrationLibrary(Configuration configuration) {
+    public void initializeUserRegistrationLibrary() {
+        configuration= Configuration.STAGING;
         final String UR = "UserRegistration";
 
         AppConfigurationInterface.AppConfigurationError configError = new
