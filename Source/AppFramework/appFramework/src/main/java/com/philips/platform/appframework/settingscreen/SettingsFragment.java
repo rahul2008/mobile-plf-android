@@ -13,14 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import java.util.ArrayList;
 
 /**
@@ -38,6 +37,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     UIBasePresenter uiBasePresenter;
     public static final int logOutButton = 5555;
     public static final String TAG = SettingsFragment.class.getSimpleName();
+    private UserRegistrationState userRegistrationState;
+
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {
@@ -100,9 +101,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     }
 
     private ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
-        User user = new User(getActivity());
-
-        if (user.isUserSignIn()) {
+        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        if (userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
             return settingScreenItemList;
         }
 

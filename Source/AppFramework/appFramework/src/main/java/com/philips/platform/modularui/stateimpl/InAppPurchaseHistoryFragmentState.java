@@ -63,7 +63,9 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
     }
 
     private void launchIAP() {
-        IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIapInterface();;
+        InAppPurchaseFragmentState iap = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+
+        IAPInterface iapInterface = iap.getIapInterface();;
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, iapFlowInput);
@@ -89,5 +91,10 @@ public class InAppPurchaseHistoryFragmentState extends UIState {
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBack();
+    }
+
+    @Override
+    public void init(Context context) {
+
     }
 }

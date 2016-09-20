@@ -12,18 +12,21 @@ import android.widget.Toast;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +40,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
     int containerID;
     private FragmentActivity fa;
     private ActionBarListener actionBarListener;
+    Context mApplicationContext;
 
     public ProductRegistrationState(@UIStateDef int stateID){
         super(stateID);
@@ -52,6 +56,15 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
+
+    @Override
+    public void init(Context context) {
+        mApplicationContext=context;
+        PRDependencies prodRegDependencies = new PRDependencies(AppFrameworkApplication.gAppInfra);
+
+        UappSettings uappSettings = new UappSettings(mApplicationContext);
+        new PRInterface().init(prodRegDependencies, uappSettings);
     }
 
     private Product loadProduct() {

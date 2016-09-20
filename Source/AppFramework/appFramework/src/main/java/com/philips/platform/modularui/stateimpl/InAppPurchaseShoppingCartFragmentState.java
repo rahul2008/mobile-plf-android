@@ -52,7 +52,9 @@ public class InAppPurchaseShoppingCartFragmentState extends UIState{
     }
 
     private void launchIAP() {
-        IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIapInterface();
+        InAppPurchaseFragmentState iap = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+
+        IAPInterface iapInterface = iap.getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList.get(0));
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
@@ -69,6 +71,11 @@ public class InAppPurchaseShoppingCartFragmentState extends UIState{
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
+
+    @Override
+    public void init(Context context) {
+
     }
 
 

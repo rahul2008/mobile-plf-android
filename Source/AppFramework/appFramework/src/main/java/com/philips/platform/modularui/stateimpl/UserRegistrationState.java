@@ -44,16 +44,11 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     int containerID;
     FragmentActivity fragmentActivity;
     Configuration configuration;
-
-    public Context getmApplicationContext() {
-        return mApplicationContext;
-    }
-
-    public void setmApplicationContext(Context mApplicationContext) {
-        this.mApplicationContext = mApplicationContext;
-    }
-
     Context mApplicationContext;
+
+
+
+
     private ActionBarListener actionBarListener;
 
     @Override
@@ -128,6 +123,13 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         ((AppFrameworkBaseActivity)context).popBack();
     }
 
+    @Override
+    public void init(Context context) {
+        this.mApplicationContext = context;
+        initializeUserRegistrationLibrary(Configuration.STAGING);
+
+    }
+
     private void loadPlugIn(){
         userObject = new User(mContext);
         userObject.registerUserRegistrationListener(this);
@@ -180,8 +182,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     /**For doing dynamic initialisation Of User registration
      *
      */
-    public void initializeUserRegistrationLibrary() {
-        configuration= Configuration.STAGING;
+    public void initializeUserRegistrationLibrary(Configuration configuration) {
         final String UR = "UserRegistration";
 
         AppConfigurationInterface.AppConfigurationError configError = new

@@ -41,4 +41,9 @@ public class DebugTestFragmentState extends UIState {
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
+
+    @Override
+    public void init(Context context) {
+
+    }
 }

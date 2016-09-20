@@ -32,7 +32,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        ProductSelectionLogger.i(Constants.ACTIVITY, "onCreate");
         fragmentManager = getSupportFragmentManager();
     }
 

@@ -9,9 +9,11 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -35,6 +37,12 @@ public class InAppPurchaseFragmentState extends UIState{
         super(stateID);
     }
     private IAPListener iapListener;
+    private Context mApplicationContext;
+    private IAPInterface iapInterface;
+
+    public IAPInterface getIapInterface() {
+        return iapInterface;
+    }
 
     @Override
     public void navigate(Context context) {
@@ -52,7 +60,7 @@ public class InAppPurchaseFragmentState extends UIState{
     }
 
     private void launchIAP() {
-        IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIapInterface();
+        IAPInterface iapInterface = getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
@@ -69,6 +77,17 @@ public class InAppPurchaseFragmentState extends UIState{
     @Override
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    }
+
+    @Override
+    public void init(Context context) {
+        mApplicationContext=context;
+        iapInterface = new IAPInterface();
+        IAPSettings iapSettings = new IAPSettings(mApplicationContext);
+        IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.gAppInfra);
+        iapSettings.setUseLocalData(false);
+        iapInterface.init(iapDependencies, iapSettings);
+
     }
 
 

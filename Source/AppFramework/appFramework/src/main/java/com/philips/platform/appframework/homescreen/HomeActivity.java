@@ -42,6 +42,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -305,7 +306,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     private void addIapCartCount() {
         try {
-            IAPInterface iapInterface = ((AppFrameworkApplication) getApplicationContext()).getIapInterface();
+            InAppPurchaseFragmentState iap = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+
+            IAPInterface iapInterface = iap.getIapInterface();
             iapInterface.getProductCartCount(this);
         }catch (RuntimeException e){
             Log.e(""+TAG,"Exception caught"+e);

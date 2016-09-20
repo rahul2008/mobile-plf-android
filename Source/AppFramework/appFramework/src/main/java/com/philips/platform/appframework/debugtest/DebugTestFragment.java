@@ -22,11 +22,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +46,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     private SharedPreferences sharedPreferences;
     private Context context;
     private TextView version;
+    private UserRegistrationState userRegistrationState;
 
     @Override
     public String getActionbarTitle() {
@@ -92,8 +94,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                 }
                 int position1 = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
                 if (position1 != position) {
-                    User user = new User(context);
-                    user.logout(null);
+                    userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+                    userRegistrationState.getUserObject(context).logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
                     if (configuration.equalsIgnoreCase("Development")) {
                         initialiseUserRegistration("Development");

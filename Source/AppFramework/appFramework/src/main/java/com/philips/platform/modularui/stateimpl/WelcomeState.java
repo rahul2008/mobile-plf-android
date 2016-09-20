@@ -36,4 +36,9 @@ public class WelcomeState extends UIState {
     @Override
     public void back(final Context context) {
     }
+
+    @Override
+    public void init(Context context) {
+
+    }
 }

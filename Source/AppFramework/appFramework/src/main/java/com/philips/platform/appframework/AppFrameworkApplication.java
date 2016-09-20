@@ -7,15 +7,10 @@ package com.philips.platform.appframework;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.IAPInterface;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.PRDependencies;
+
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -23,6 +18,8 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
+import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -46,7 +43,6 @@ public class AppFrameworkApplication extends Application {
      */
 
 
-    private IAPInterface iapInterface;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -61,26 +57,18 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableFileLog(true);
         setLocale();
         UserRegistrationState ur= new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-        ur.setmApplicationContext(this);
-        ur.initializeUserRegistrationLibrary();
-        initializeProductRegistrationLibrary();
-        initializeIAP();
+        ur.init(this);
+        ProductRegistrationState pr= new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
+        pr.init(this);
+        InAppPurchaseFragmentState iap = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+        iap.init(this);
+
     }
 /**
  * Method for initializing IAP
  *
  */
-    private void initializeIAP() {
-        iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(getApplicationContext());
-        IAPDependencies iapDependencies = new IAPDependencies(gAppInfra);
-        iapSettings.setUseLocalData(false);
-        iapInterface.init(iapDependencies, iapSettings);
-    }
 
-    public IAPInterface getIapInterface() {
-        return iapInterface;
-    }
 
     private void setLocale() {
         String languageCode = Locale.getDefault().getLanguage();
@@ -94,12 +82,6 @@ public class AppFrameworkApplication extends Application {
     /**
      * Initializing Product registration
      */
-    private void initializeProductRegistrationLibrary() {
-        PRDependencies prodRegDependencies = new PRDependencies(gAppInfra);
-
-        UappSettings uappSettings = new UappSettings(getApplicationContext());
-        new PRInterface().init(prodRegDependencies, uappSettings);
-    }
 
     public UIFlowManager getFlowManager() {
         return flowManager;

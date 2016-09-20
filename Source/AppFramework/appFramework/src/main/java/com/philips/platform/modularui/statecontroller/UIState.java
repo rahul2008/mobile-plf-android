@@ -87,6 +87,13 @@ abstract public class UIState {
     public abstract void back(Context context);
 
     /**
+     * For initialising the component
+     * @param context
+     */
+
+    public abstract void init(Context context);
+
+    /**
      * to set the presenter
      * @param uiBasePresenter
      */

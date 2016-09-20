@@ -37,4 +37,9 @@ public class HomeFragmentState extends UIState {
     public void back(final Context context) {
         ((AppFrameworkBaseActivity)context).finishActivity();
     }
+
+    @Override
+    public void init(Context context) {
+
+    }
 }
