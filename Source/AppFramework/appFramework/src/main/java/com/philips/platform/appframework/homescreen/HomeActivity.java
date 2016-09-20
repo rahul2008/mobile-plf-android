@@ -24,10 +24,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -51,7 +53,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListner is implemented by this activty and all the logic related to back handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -65,7 +67,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private HamburgerAdapter adapter;
     private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
-    private FrameLayout hamburgerClick = null;
+    private FrameLayout hamburgerClick = null,shoppingCartLayout;
     private static int mCartItemCount = 0;
     private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -92,6 +94,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         setActionBar(getSupportActionBar());
         configureDrawer();
         renderHamburgerMenu();
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
 /**
  * To update cart count of the actionbar icon
@@ -167,9 +170,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
         mCartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
+        shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
         mCartIcon.setBackground(mCartIconDrawable);
-        mCartIcon.setOnClickListener(new View.OnClickListener() {
+        shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 philipsDrawerLayout.closeDrawer(navigationView);
@@ -264,7 +268,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     if (!backState) {
                         popBackTillHomeFragment();
                     }
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase("digitalcare")) {
+                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase(getResources().getString(R.string.af_digital_care))) {
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
                         popBackTillHomeFragment();
@@ -282,20 +286,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 */
                 adapter.setSelectedIndex(0);
             } else if (hamburgerIcon.getTag().equals("BackButton")) {
-                if (currentFrag != null && currentFrag instanceof InAppBaseFragment) {
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                        AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
-                        UIFlowManager flowManager = applicationContext.getFlowManager();
-                        UIState currentState = flowManager.getCurrentState();
-                        if(currentState.getStateID() == UIState.UI_IAP_SHOPPING_SHOPPING_CART_FRAGMENT_STATE){
-                            popBackTillHomeFragment();
-                        }else {
-                            super.onBackPressed();
-                        }
-                    }
-                }
-               else if (currentFrag != null && currentFrag instanceof BackEventListener){
+
+               if (currentFrag != null && currentFrag instanceof BackEventListener){
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
                     if (!backState) {
                        super.onBackPressed();
@@ -433,6 +425,34 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void onFailure(int i) {
+        showToast(i);
+    }
 
+    private void showToast(int errorCode) {
+        String errorText = getResources().getString(R.string.af_iap_server_error);
+        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_no_connection);
+        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_connection_time_out);
+        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_authentication_failure);
+        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+            errorText = getResources().getString(R.string.af_iap_prod_out_of_stock);
+        }
+        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+    @Override
+    public void onBackStackChanged() {
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+            String str = backEntry.getName();
+            if (null != str) {
+                if (str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag)) || str.equalsIgnoreCase("Registration_fragment_tag")) {
+                    cartIconVisibility(true);
+                }
+            }
+        }
     }
 }

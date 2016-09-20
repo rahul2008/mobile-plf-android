@@ -77,5 +77,15 @@
     <string name="af_country">US</string>
     <string name="af_language">en</string>
 
+    <!--Fragment tag -->
+    <string name="af_digital_care">digitalcare</string>
+    <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
+
+    <!-- IAP errors -->
+    <string name="af_iap_server_error">Server error</string>
+    <string name="af_iap_no_connection">No connection</string>
+    <string name="af_iap_connection_time_out">Connection time out</string>
+    <string name="af_iap_authentication_failure">Authentication failure</string>
+    <string name="af_iap_prod_out_of_stock">Product out of stock</string>
 
 </resources>
