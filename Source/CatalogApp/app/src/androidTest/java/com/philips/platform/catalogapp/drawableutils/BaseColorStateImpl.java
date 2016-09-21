@@ -1,10 +1,12 @@
-package com.philips.platform.catalogapp.utils;
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+package com.philips.platform.catalogapp.drawableutils;
 
 import android.graphics.drawable.Drawable;
 
-import com.philips.platform.catalogapp.utils.GradientDrawableUtils.StateColors;
-
-public abstract class BaseColorStateImpl implements StateColors {
+public abstract class BaseColorStateImpl implements GradientDrawableUtils.StateColors {
 
     protected Drawable drawable;
     protected Drawable.ConstantState constantState;

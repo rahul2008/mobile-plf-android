@@ -1,24 +1,26 @@
-package com.philips.platform.catalogapp.activity;
-
 /**
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
+package com.philips.platform.catalogapp.activity;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
+import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.fragments.ButtonFragment;
-import com.philips.platform.catalogapp.utils.GradientDrawableUtils;
-import com.philips.platform.catalogapp.utils.ThemeColorUtils;
-import com.philips.platform.uit.view.widget.Button;
+import com.philips.platform.catalogapp.matcher.FunctionDrawableMatchers;
+import com.philips.platform.catalogapp.matcher.TextViewPropertiesMatchers;
+import com.philips.platform.catalogapp.matcher.ViewPropertiesMatchers;
+import com.philips.platform.catalogapp.utils.TestConstants;
+import com.philips.platform.catalogapp.utils.UITTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -26,30 +28,27 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.catalogapp.test.R.color.GroupBlue35;
 import static com.philips.platform.catalogapp.test.R.color.GroupBlue45;
-import static com.philips.platform.catalogapp.utils.ThemeColorUtils.modulateColorAlpha;
-import static junit.framework.Assert.assertEquals;
+import static com.philips.platform.catalogapp.utils.UITTestUtils.modulateColorAlpha;
 
 public class PrimaryButtonWithTextOnlyTest {
 
-    private Button button;
     private Resources testResources;
-    private Drawable backgroundDrawable;
-    private Context context;
+    private Context instrumentationContext;
+    private IdlingResource idlingResource;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
-    private int parseColorWhite;
 
     @Before
     public void setUp() {
-        button = new Button(mActivityTestRule.getActivity());
-        backgroundDrawable = button.getBackground();
-        testResources = getInstrumentation().getContext().getResources();
-        context = mActivityTestRule.getActivity();
-        parseColorWhite = Color.parseColor("#ffffff");
         mActivityTestRule.getActivity().switchFragment(new ButtonFragment());
+        testResources = getInstrumentation().getContext().getResources();
+        instrumentationContext = getInstrumentation().getContext();
     }
 
     /*****************************************
@@ -58,29 +57,31 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonHeight() {
-        final View viewById = mActivityTestRule.getActivity().findViewById(R.id.primary_button);
+        UITTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_height);
-        assertEquals(expectedHeight, button.getMinHeight());
+        getPrimaryButton()
+                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
 
     @Test
     public void verifyButtonLeftPadding() {
         int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_left_padding);
-        assertEquals(expectedLeftPadding, button.getPaddingLeft());
+        getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyButtonRightPadding() {
         int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_right_padding);
-        assertEquals(expectedRightPadding, button.getPaddingRight());
+        getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyButtonCornerRadius() {
-        GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(backgroundDrawable);
-        float radius = (float) Math.ceil(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
-        assertEquals(radius, stateColors.getCornerRadius()[0]);
+        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
+        getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
+
+
 
     // TODO: 9/14/2016
     @Ignore
@@ -91,78 +92,60 @@ public class PrimaryButtonWithTextOnlyTest {
     @Test
     public void verifyButtonFontSize() {
         int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_font_size));
-        assertEquals(expectedFontSize, (int) button.getTextSize());
+        getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
     /*******************************************************
      * Theming
      ******************************************************/
-    // TODO: 9/14/2016
     @Test
     public void verifyPrimaryTextOnlyButtonControlColorULTone() {
-        final ColorStateList tintList = button.getSupportBackgroundTintList();
-        int actualColor = tintList.getColorForState(new int[]{android.R.attr.state_enabled}, -1);
-        final int expectedColor = testResources.getColor(GroupBlue45);
-        assertEquals(expectedColor, actualColor);
+        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        getPrimaryButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
 
-    // TODO: 9/14/2016
+    // TODO: 9/20/2016 Fix this failing test case.
     @Ignore
     @Test
     public void verifyPrimaryTextOnlyPressedButtonControlColorULTone() {
-        final ColorStateList tintList = button.getSupportBackgroundTintList();
-        int actualColor = tintList.getColorForState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, -1);
-        final int expectedColor = testResources.getColor(GroupBlue35);
-        assertEquals(expectedColor, actualColor);
+        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue35);
+        getPrimaryButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_pressed, expectedColor)));
     }
 
     @Test
     public void verifyPrimaryTextOnlyDisabledButtonControlColorULTone() {
-        final ColorStateList tintList = button.getSupportBackgroundTintList();
-        int actualColor = tintList.getColorForState(new int[]{-android.R.attr.state_enabled}, -1);
-        final int enabledColor = Color.parseColor("#1474A4");
-        assertEquals(modulateColorAlpha(enabledColor, 0.25f), actualColor);
+        final int disabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.25f);
+        disableAllViews();
+        getPrimaryButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
     }
 
     @Test
     public void verifyPrimaryTextOnlyButtonFontColor() {
-        button.setEnabled(true);
-        final int textColors = button.getCurrentTextColor();
-        int actualTextColor = textColors;
-        assertEquals(parseColorWhite, actualTextColor);
+        getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, Color.WHITE)));
     }
 
     @Ignore
     @Test
     public void verifyPrimaryTextOnlyPressedButtonFontColor() {
-        button.setPressed(true);
-        final int textColors = button.getCurrentTextColor();
-        int actualTextColor = textColors;
-        assertEquals(parseColorWhite, actualTextColor);
+        getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_pressed, Color.WHITE)));
     }
 
-    // TODO: 9/14/2016
-//    idling resources using espresso
-
-    @Ignore
     @Test
     public void verifyPrimaryTextOnlyDisabledButtonFontColor() {
-        button.setEnabled(false);
-        final int textColors = button.getCurrentTextColor();
-        int actualTextColor = textColors;
-        final int disabledTextColor = Color.parseColor("#ffffff");
-        assertEquals(ThemeColorUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
+        disableAllViews();
+        final int disabledTextColor = UITTestUtils.modulateColorAlpha(Color.WHITE, 0.25f);
+        getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
     }
 
-    @Ignore
-    @Test
-    public void verifyPrimaryTextOnlyDisabled1ButtonFontColor() {
-        button.setEnabled(false);
-        final int textColors = button.getCurrentTextColor();
-        int actualTextColor = textColors;
-        final int disabledTextColor = Color.parseColor("#ffffff");
-        assertEquals(ThemeColorUtils.modulateColorAlpha(disabledTextColor, 0.25f), actualTextColor);
+    private ViewInteraction getPrimaryButton() {
+        return onView(withId(R.id.primary_button));
     }
 
+    private void disableAllViews() {
+        onView(withId(R.id.disable_switch)).perform(ViewActions.click());
+    }
 }
 

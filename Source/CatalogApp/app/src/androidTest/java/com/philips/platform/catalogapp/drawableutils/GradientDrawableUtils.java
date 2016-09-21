@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.catalogapp.utils;
+package com.philips.platform.catalogapp.drawableutils;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
