@@ -33,7 +33,8 @@ import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.AppInfraInterface;
+//import com.philips.platform.appinfra.AppInfraSingleton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +64,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
+    private AppInfraInterface mAppInfraInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,8 +197,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
     private void initializeDigitalCareLibrary() {
 
-        if (AppInfraSingleton.getInstance() == null)
-            AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));
+       /* if (AppInfraSingleton.getInstance() == null)
+            AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));*/
 //  localeManager.setInputLocale("ar", "SA");
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
@@ -283,13 +285,15 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
+                mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+
                 CcInterface ccInterface = new CcInterface();
                 if (ccSettings == null) ccSettings = new CcSettings(this);
                 if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
                 ccLaunchInput.setProductModelSelectionType(productsSelection);
 
-
-                CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
+                //CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
+                CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
                 ccInterface.init(ccDependencies, ccSettings);
                 ccInterface.launch(activityLauncher, ccLaunchInput);
