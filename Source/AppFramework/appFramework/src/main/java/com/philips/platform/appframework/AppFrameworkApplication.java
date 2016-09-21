@@ -14,7 +14,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.InAppPurchaseState;
+import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
@@ -29,11 +29,11 @@ import java.util.Locale;
  */
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;
-    private static Context mContext;
+    private static Context context;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
     UserRegistrationState ur;
-    InAppPurchaseState iap;
+    IAPState iap;
      /**
      * @return instance of this class
      */
@@ -45,7 +45,7 @@ public class AppFrameworkApplication extends Application {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        mContext = getApplicationContext();
+        context = getApplicationContext();
         flowManager = new UIFlowManager();
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
@@ -56,11 +56,11 @@ public class AppFrameworkApplication extends Application {
         ur.init(this);
         ProductRegistrationState pr= new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
         pr.init(this);
-        iap = new InAppPurchaseState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+        iap = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
         iap.init(this);
     }
 
-    public InAppPurchaseState getIap(){
+    public IAPState getIap(){
         return iap;
     }
 /**
@@ -87,7 +87,7 @@ public class AppFrameworkApplication extends Application {
     }
 
     public static Context getContext() {
-        return mContext;
+        return context;
     }
 
 

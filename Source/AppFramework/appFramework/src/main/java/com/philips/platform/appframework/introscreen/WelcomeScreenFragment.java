@@ -96,7 +96,7 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
     private static String TAG = WelcomeActivity.class.getSimpleName();
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
-    private CircleIndicator mIndicator;
+    private CircleIndicator indicator;
     private UIBasePresenter presenter;
 
 
@@ -117,10 +117,10 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
         startRegistrationScreenButton.setOnClickListener(this);
         appframeworkSkipButton.setOnClickListener(this);
 
-        mIndicator = (CircleIndicator) view.findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
-        mIndicator.setFillColor(Color.WHITE);
-        mIndicator.setStrokeColor(Color.WHITE);
+        indicator = (CircleIndicator) view.findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
+        indicator.setFillColor(Color.WHITE);
+        indicator.setStrokeColor(Color.WHITE);
         appframework_leftarrow.setVisibility(FontIconView.GONE);
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

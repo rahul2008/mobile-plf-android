@@ -9,10 +9,11 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.modularui.statecontroller.CoCoListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
@@ -22,12 +23,13 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter hanles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class WelcomePresenter extends UIBasePresenter implements CoCoListener {
+public class WelcomePresenter extends UIBasePresenter implements UIStateListener {
 
     public WelcomePresenter() {
 
     }
 
+    private Context activityContext;
     AppFrameworkApplication appFrameworkApplication;
     SharedPreferenceUtility sharedPreferenceUtility;
     UIState uiState;
@@ -39,6 +41,7 @@ public class WelcomePresenter extends UIBasePresenter implements CoCoListener {
      */
     @Override
     public void onClick(int componentID, Context context) {
+        activityContext = context;
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         ((WelcomeActivity) context).changeActionBarState(true);
         switch (componentID) {
@@ -59,7 +62,7 @@ public class WelcomePresenter extends UIBasePresenter implements CoCoListener {
                 ((UserRegistrationState)uiState).registerForNextState(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
                 break;
-            case WelcomeActivity.backButtonClick:
+            case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeActivityState(UIState.UI_HOME_STATE);
                 appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
                 if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE))
@@ -98,11 +101,11 @@ public class WelcomePresenter extends UIBasePresenter implements CoCoListener {
     }
 
     @Override
-    public void coCoCallBack(Context context) {
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        uiState = new HomeActivityState(UIState.UI_HOME_STATE);
-        uiState.setPresenter(this);
-        ((WelcomeActivity) context).finishAffinity();
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
+    public void onStateComplete(UIState uiState) {
+        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
+        this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
+        this.uiState.setPresenter(this);
+        ((WelcomeActivity) activityContext).finishAffinity();
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, activityContext);
     }
 }

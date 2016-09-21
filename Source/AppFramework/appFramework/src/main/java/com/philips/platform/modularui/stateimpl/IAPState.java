@@ -24,11 +24,11 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
 
-public class InAppPurchaseState extends UIState{
+public class IAPState extends UIState{
 
-    Context mContext;
+    private Context activityContext;
     private ArrayList<String> mCtnList = null;
-    public InAppPurchaseState(@UIStateDef int stateID) {
+    public IAPState(@UIStateDef int stateID) {
         super(stateID);
     }
     private IAPListener iapListener;
@@ -46,9 +46,11 @@ public class InAppPurchaseState extends UIState{
         fragmentLauncher = (FragmentLauncher) uiLauncher;
     }
 
+    // TODO : Deepthi - M -swap the params for init and navigate further we may hv to inject dependencies and settings
     @Override
     public void navigate(Context context) {
-        mContext = context;
+        activityContext = context;
+        // can use switch
         iapFlowType = ((InAppStateData)getUiStateData()).getIapFlow();
         if(iapFlowType == UIConstants.IAP_CATALOG_VIEW){
             iapFlowType = IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
@@ -57,6 +59,7 @@ public class InAppPurchaseState extends UIState{
         }else if(iapFlowType == UIConstants.IAP_SHOPPING_CART_VIEW){
             iapFlowType = IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
         }
+        // get directly from data model
         if (mCtnList == null) {
             mCtnList = ((InAppStateData)getUiStateData()).getCtnList();
         }
@@ -64,7 +67,7 @@ public class InAppPurchaseState extends UIState{
     }
 
     private void launchIAP() {
-        IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIap().getIapInterface();
+        IAPInterface iapInterface = ((AppFrameworkApplication) activityContext.getApplicationContext()).getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(iapFlowType, iapFlowInput);
@@ -73,7 +76,8 @@ public class InAppPurchaseState extends UIState{
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
         } catch (RuntimeException e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors
+            Toast.makeText(activityContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

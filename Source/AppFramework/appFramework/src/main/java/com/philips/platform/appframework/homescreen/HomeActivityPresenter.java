@@ -9,13 +9,13 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.modularui.statecontroller.CoCoListener;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.InAppPurchaseState;
+import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
@@ -30,34 +30,37 @@ import java.util.Arrays;
  * based on user selection this class loads the next state of the application.
  *
  */
-public class HomeActivityPresenter extends UIBasePresenter implements CoCoListener {
+public class HomeActivityPresenter extends UIBasePresenter implements UIStateListener {
 
     HomeActivityPresenter(){
         setState(UIState.UI_HOME_STATE);
     }
-    AppFrameworkApplication appFrameworkApplication;
-    UIState uiState;
+    private AppFrameworkApplication appFrameworkApplication;
+    private UIState uiState;
     private final int MENU_OPTION_HOME = 0;
     private final int MENU_OPTION_SETTINGS = 1;
     private final int MENU_OPTION_SHOP = 2;
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
+    private Context activityContext;
+
 /**
  * This methods handles all click events done on hamburger menu
  * Any changes for hamburger menu options shuld be made here
  */
     @Override
     public void onClick(int componentID, Context context) {
+         activityContext = context;
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         switch (componentID){
             case MENU_OPTION_HOME: uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
                 break;
             case MENU_OPTION_SETTINGS: uiState = new SettingsFragmentState(UIState.UI_SETTINGS_FRAGMENT_STATE);
                 break;
-            case MENU_OPTION_SHOP: uiState = new InAppPurchaseState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+            case MENU_OPTION_SHOP: uiState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
                 uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));
-                InAppPurchaseState.InAppStateData uiStateData = new InAppPurchaseState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
+                IAPState.InAppStateData uiStateData = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 uiStateData.setIapFlow(UIConstants.IAP_CATALOG_VIEW);
                 uiState.setUiStateData(uiStateData);
                 break;
@@ -74,9 +77,9 @@ public class HomeActivityPresenter extends UIBasePresenter implements CoCoListen
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
                 break;
             case UIConstants.UI_SHOPPING_CART_BUTTON_CLICK:
-                uiState = new InAppPurchaseState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                uiState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
                 uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));
-                InAppPurchaseState.InAppStateData uiStateDataModel = new InAppPurchaseState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
+                IAPState.InAppStateData uiStateDataModel = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 uiStateDataModel.setIapFlow(UIConstants.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
@@ -96,14 +99,14 @@ public class HomeActivityPresenter extends UIBasePresenter implements CoCoListen
     }
 
     @Override
-    public void coCoCallBack(Context context) {
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
-        uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));
+    public void onStateComplete(UIState uiState) {
+        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
+        this.uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
+        this.uiState.init(new FragmentLauncher((HomeActivity)activityContext,R.id.frame_container,(HomeActivity)activityContext));
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE).new ProductRegistrationData();
-        uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.productselection_ctnlist))));
-        uiState.setUiStateData(uiStateDataModel);
-        uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
+        uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist))));
+        this.uiState.setUiStateData(uiStateDataModel);
+        this.uiState.setPresenter(this);
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, activityContext);
     }
 }

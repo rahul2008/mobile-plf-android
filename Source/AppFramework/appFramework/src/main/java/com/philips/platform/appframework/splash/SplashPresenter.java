@@ -9,7 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.modularui.statecontroller.CoCoListener;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
@@ -22,15 +22,16 @@ import com.philips.platform.modularui.util.UIConstants;
  * Spalsh presenter loads the splash screen and sets the next state after splash
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
-public class SplashPresenter extends UIBasePresenter implements CoCoListener {
+public class SplashPresenter extends UIBasePresenter implements UIStateListener {
     SharedPreferenceUtility sharedPreferenceUtility;
     SplashPresenter(){
         setState(UIState.UI_SPLASH_STATE);
     }
 
-    AppFrameworkApplication appFrameworkApplication;
-    UIState uiState;
-    UserRegistrationState userRegistrationState;
+    private AppFrameworkApplication appFrameworkApplication;
+    private UIState uiState;
+    private UserRegistrationState userRegistrationState;
+    private Context activityContext;
 
     @Override
     public void onClick(int componentID, Context context) {
@@ -45,6 +46,7 @@ public class SplashPresenter extends UIBasePresenter implements CoCoListener {
      */
     @Override
     public void onLoad(Context context) {
+        activityContext = context;
         sharedPreferenceUtility = getSharedPreferenceUtility(context);
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
@@ -67,10 +69,10 @@ public class SplashPresenter extends UIBasePresenter implements CoCoListener {
     }
 
     @Override
-    public void coCoCallBack(Context context) {
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        uiState = new HomeActivityState(UIState.UI_HOME_STATE);
-        uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
+    public void onStateComplete(UIState uiState) {
+        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
+        this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
+        this.uiState.setPresenter(this);
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState,activityContext);
     }
 }

@@ -18,7 +18,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.statecontroller.CoCoListener;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -28,11 +28,11 @@ import java.util.ArrayList;
 
 public class SupportFragmentState extends UIState implements CcListener {
     private ArrayList<String> ctnList = null;
-    private Context context;
+    private Context activityContext;
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private FragmentLauncher fragmentLauncher;
-    private CoCoListener supportListener;
+    private UIStateListener supportListener;
 
     public SupportFragmentState(@UIStateDef int stateID) {
         super(stateID);
@@ -46,7 +46,7 @@ public class SupportFragmentState extends UIState implements CcListener {
 
     @Override
     public void navigate(Context context) {
-        this.context = context;
+        this.activityContext = context;
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         runCC();
     }
@@ -65,7 +65,7 @@ public class SupportFragmentState extends UIState implements CcListener {
         productsSelection.setSector(Sector.B2C);
         CcInterface ccInterface = new CcInterface();
 
-        if (ccSettings == null) ccSettings = new CcSettings(context);
+        if (ccSettings == null) ccSettings = new CcSettings(activityContext);
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
@@ -80,8 +80,8 @@ public class SupportFragmentState extends UIState implements CcListener {
     }
 
 
-    public void registerForNextState(CoCoListener setStateCallBack) {
-        this.supportListener = (CoCoListener) getPresenter();
+    public void registerForNextState(UIStateListener setStateCallBack) {
+        this.supportListener = (UIStateListener) getPresenter();
     }
 
     public void unloadCoCo() {
@@ -95,7 +95,7 @@ public class SupportFragmentState extends UIState implements CcListener {
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            supportListener.coCoCallBack(context);
+            supportListener.onStateComplete(new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE));
             return true;
         }
         return false;

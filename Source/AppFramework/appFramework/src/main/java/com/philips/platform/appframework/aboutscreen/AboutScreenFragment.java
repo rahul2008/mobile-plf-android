@@ -34,18 +34,18 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
 
     @Override
     public String getActionbarTitle() {
-        return "About";
+        return getResources().getString(R.string.about_screen_title);
     }
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.uikit_about_screen, container, false);
         TextView  version =(TextView)view.findViewById(R.id.about_version);
-        version.setText("App Version" +BuildConfig.VERSION_NAME);
-
+        version.setText(getResources().getString(R.string.about_screen_app_version) +BuildConfig.VERSION_NAME);
         view.setBackgroundColor(ContextCompat.getColor(this.getActivity(), R.color.uikit_philips_dark_blue));
-
         TextView  content =(TextView)view.findViewById(R.id.about_content);
         content.setText(R.string.about_screen_description);
         return view;
+
     }
 }

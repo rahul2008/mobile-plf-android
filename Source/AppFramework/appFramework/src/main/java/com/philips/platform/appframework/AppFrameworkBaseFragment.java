@@ -16,7 +16,7 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
  */
 public abstract class AppFrameworkBaseFragment extends Fragment{
 
-    private TextView mActionBarTitle = null;
+    private TextView actionBarTitle = null;
     protected UIBasePresenter fragmentPresenter;
 
     public abstract String getActionbarTitle();
@@ -38,8 +38,8 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
      * selection/creation.
      */
     private void setActionbarTitle() {
-        if (mActionBarTitle == null) {
-            mActionBarTitle = (TextView) getActivity().findViewById(R.id.af_actionbar_title);
+        if (actionBarTitle == null) {
+            actionBarTitle = (TextView) getActivity().findViewById(R.id.af_actionbar_title);
         }
         String titleText = null;
         if (getActionbarTitle() == null) {
@@ -47,6 +47,6 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
         } else {
             titleText = getActionbarTitle();
         }
-        mActionBarTitle.setText(titleText);
+        actionBarTitle.setText(titleText);
     }
 }

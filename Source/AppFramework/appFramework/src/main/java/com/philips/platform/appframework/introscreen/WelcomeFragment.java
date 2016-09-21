@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.Constants;
+
 /**
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
  * The default content can be resplaced by verticals by changing the xml file 'parent_introduction_fragment_layout'
@@ -26,12 +28,12 @@ public class WelcomeFragment extends Fragment {
     private static final int PAGE_THREE = 2;
     // Store instance variables
     private int page;
-    private TextView largeText, smallText;
+    private TextView smallText;
 
     public static WelcomeFragment newInstance(int page, String title) {
         WelcomeFragment fragmentFirst = new WelcomeFragment();
         Bundle args = new Bundle();
-        args.putInt("pageIndex", page);
+        args.putInt(Constants.PAGE_INDEX, page);
         fragmentFirst.setArguments(args);
         return fragmentFirst;
     }
@@ -40,7 +42,6 @@ public class WelcomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_welcome_fragment, null);
-        largeText = (TextView) view.findViewById(R.id.large_text);
         smallText = (TextView) view.findViewById(R.id.small_text);
         switch (page) {
             case PAGE_ONE:
@@ -69,6 +70,6 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("pageIndex", 0);
+        page = getArguments().getInt(Constants.PAGE_INDEX, 0);
     }
 }
