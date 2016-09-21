@@ -82,7 +82,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mResources = context.getResources();
         mData = shoppingCartData;
         mPresenter = shoppingCartAPI;
-        setCountArrow(context);
+        setCountArrow(context, true);
         initDrawables();
         mOutOfStock = iOutOfStock;
     }
@@ -94,8 +94,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mEditDrawable = VectorDrawable.create(mContext, R.drawable.pencil_01);
     }
 
-    private void setCountArrow(final Context context) {
-        countArrow = VectorDrawable.create(context, R.drawable.iap_product_count_drop_down);
+    private void setCountArrow(final Context context, final boolean isEnable) {
+        if (isEnable)
+            countArrow = VectorDrawable.create(context, R.drawable.iap_product_count_drop_down);
+        else
+            countArrow = VectorDrawable.create(context, R.drawable.iap_product_disable_count_drop_down);
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
         countArrow.setBounds(0, 0, width, height);
@@ -291,23 +294,25 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
-        int mDisabledColor = ContextCompat.getColor(mContext, R.color.uikit_enricher4);
         if (pStockLevel == 0) {
             pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvStock.setText(mResources.getString(R.string.iap_out_of_stock));
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
+            setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
         } else if (pStockLevel < pQuantity) {
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
             pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvStock.setText("Only " + pStockLevel + " left");
+            setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
         } else {
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(true);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(true);
             pShoppingCartProductHolder.mTvQuantity.setEnabled(true);
+            setCountArrow(mContext, true);
         }
     }
 
