@@ -168,7 +168,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
          when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
          prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registration failed");
-        verify(registerControllerCallBacksMock, atLeastOnce()).showFragment(prodRegSuccessFragmentMock);
+        verify(registerControllerCallBacksMock, atLeastOnce()).showFragment(prodRegConnectionFragmentMock);
 
          when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
          prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);

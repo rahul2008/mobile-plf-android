@@ -29,5 +29,5 @@ public class ProdRegConstants {
     public static final int START_DATE_YEAR = 2000;
     public static final int START_DATE_MONTH = 0;
     public static final int START_DATE_DAY = 01;
-    public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
+    public static String PRODUCT_REGISTRATION_KEY = "prod_reg";
 }

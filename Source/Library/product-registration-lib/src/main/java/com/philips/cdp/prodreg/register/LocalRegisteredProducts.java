@@ -89,7 +89,7 @@ public class LocalRegisteredProducts {
         getProdRegCache().storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
-    protected void syncLocalCache(final RegisteredProduct[] products) {
+    protected void migrateLegacyCache(final RegisteredProduct[] products) {
         Set<RegisteredProduct> localRegisteredProducts = getUniqueRegisteredProducts();
         for (RegisteredProduct registeredProduct : products) {
             registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
