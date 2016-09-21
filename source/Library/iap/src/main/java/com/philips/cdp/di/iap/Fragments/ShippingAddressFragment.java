@@ -123,6 +123,8 @@ public class ShippingAddressFragment extends InAppBaseFragment
     private Drawable imageArrow;
     protected boolean mIgnoreTextChangeListener = false;
 
+    private String mRegionIsoCode = null;
+
     PhoneNumberUtil phoneNumberUtil;
     Phonenumber.PhoneNumber phoneNumber = null;
 
@@ -580,11 +582,15 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     @Override
     public void stateRegionCode(String regionCode) {
+        mRegionIsoCode = regionCode;
         mShippingAddressFields.setRegionIsoCode(regionCode);
         if (addressHashMap != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
         }
-        CartModelContainer.getInstance().setRegionIsoCode(regionCode);
+
+        if (!(this instanceof BillingAddressFragment)) {
+            CartModelContainer.getInstance().setRegionIsoCode(regionCode);
+        }
     }
 
     private class IAPTextWatcher implements TextWatcher {
@@ -699,7 +705,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
         if (this instanceof BillingAddressFragment) {
             if (mlLState.getVisibility() == View.VISIBLE) {
-                addressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+                addressFields.setRegionIsoCode(mRegionIsoCode);
                 addressFields.setRegionName(mEtState.getText().toString());
             } else {
                 addressFields.setRegionIsoCode(null);

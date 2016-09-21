@@ -7,7 +7,7 @@
     "JanRainConfiguration.RegistrationClientID.Production": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
     "PILConfiguration.MicrositeID": "77000",
     "PILConfiguration.CampaignID": "CL20150501_PC_TB_COPPA",
-    "PILConfiguration.RegistrationEnvironment": "Production",
+    "PILConfiguration.RegistrationEnvironment": "PRODUCTION",
     "Flow.EmailVerificationRequired": true,
     "Flow.TermsAndConditionsAcceptanceRequired": true,
     "Flow.MinimumAgeLimit": {
@@ -26,7 +26,7 @@
   },
   "AI": {
     "MicrositeID": 66777,
-    "RegistrationEnvironment": "Production",
+    "RegistrationEnvironment": "PRODUCTION",
     "NL": [
       "googleplus",
       "facebook"
@@ -43,7 +43,7 @@
   "appinfra": {
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "Production",
+    "appidentity.appState": "PRODUCTION",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION"
   },
   "IAP": {
