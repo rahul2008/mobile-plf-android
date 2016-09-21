@@ -152,11 +152,11 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
     //Coco
-	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0-rc.1', ext: 'aar')
     {
            transitive = true
     }
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '1.0.0-rc.1', ext: 'aar')
     {
            transitive = true
     }
