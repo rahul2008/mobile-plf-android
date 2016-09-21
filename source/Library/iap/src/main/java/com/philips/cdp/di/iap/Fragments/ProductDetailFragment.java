@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -52,7 +54,7 @@ import java.util.Map;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
         PRXProductAssetBuilder.AssetListener, View.OnClickListener, EventListener,
-        AbstractModel.DataLoadListener,
+        AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
         ProductDetailController.ProductSearchListener, ShoppingCartPresenter.LoadListener<StoreEntity> {
 
 
@@ -102,7 +104,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                             mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
             } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             }
         }
     };
@@ -138,7 +140,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
-        mAdapter = new ImageAdapter(getContext(), getFragmentManager(),
+        mAdapter = new ImageAdapter(mContext, getFragmentManager(),
                 mLaunchedFromProductCatalog, new ArrayList<String>());
         mPager.setAdapter(mAdapter);
         indicator.setViewPager(mPager);
@@ -194,7 +196,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void makeAssetRequest() {
         if (!CartModelContainer.getInstance().isPRXAssetPresent(mCTNValue)) {
             if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
             PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, mCTNValue, this);
             builder.build();
@@ -207,7 +209,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     break;
                 }
             }
-            mAdapter = new ImageAdapter(getContext(), getFragmentManager(),
+            mAdapter = new ImageAdapter(mContext, getFragmentManager(),
                     mLaunchedFromProductCatalog, mAsset);
             mPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
@@ -289,10 +291,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void getRetailersInformation() {
         ShoppingCartAPI presenter = ControllerFactory.
-                getInstance().getShoppingCartPresenter(getContext(), this, getFragmentManager());
+                getInstance().getShoppingCartPresenter(mContext, this, getFragmentManager());
 
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             presenter.getRetailersInformation(mCTNValue);
         }
     }
@@ -310,7 +312,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onFetchAssetSuccess(final Message msg) {
-        if(mContext == null) return;
+        if (mContext == null) return;
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addAssetDataToList(mCTNValue, mAsset);
@@ -327,7 +329,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
         if (!isNetworkConnected()) return;
-        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
 
     }
 
@@ -461,18 +463,18 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onLoadListenerError(Message msg) {
         IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment ");
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg,((FragmentActivity)mContext).getSupportFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity)mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
+            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
     }
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
-        NetworkUtility.getInstance().showErrorDialog(getContext(),
-                getFragmentManager(), getContext().getString(R.string.iap_ok),
-                getContext().getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());
+        NetworkUtility.getInstance().showErrorDialog(mContext,
+                getFragmentManager(), mContext.getString(R.string.iap_ok),
+                mContext.getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());
     }
 
     @Override
@@ -484,5 +486,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void startShoppingCartFragment() {
         addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
+    }
+
+    @Override
+    public void onDialogOkClick() {
+        moveToVerticalAppByClearingStack();
     }
 }

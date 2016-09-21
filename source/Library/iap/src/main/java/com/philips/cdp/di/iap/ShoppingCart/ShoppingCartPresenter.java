@@ -398,10 +398,10 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             cartItem.setProductTitle(data.getProductTitle());
             cartItem.setCtnNumber(ctn);
             cartItem.setQuantity(entry.getQuantity());
-            cartItem.setFormatedPrice(entry.getBasePrice().getFormattedValue());
+            cartItem.setFormattedPrice(entry.getBasePrice().getFormattedValue());
             cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
-            cartItem.setTotalPriceWithTaxFormatedPrice(cartsEntity.getTotalPriceWithTax().getFormattedValue());
-            cartItem.setTotalPriceFormatedPrice(entry.getTotalPrice().getFormattedValue());
+            cartItem.setFormattedTotalPriceWithTax(cartsEntity.getTotalPriceWithTax().getFormattedValue());
+            cartItem.setFormattedTotalPrice(entry.getTotalPrice().getFormattedValue());
             cartItem.setTotalItems(cartsEntity.getTotalItems());
             cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
             cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());

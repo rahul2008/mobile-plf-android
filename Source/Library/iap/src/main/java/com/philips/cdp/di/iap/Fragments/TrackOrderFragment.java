@@ -66,7 +66,7 @@ public class TrackOrderFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_track_order_title, true);
+        setTitleAndBackButtonVisibility(R.string.iap_track_order, true);
     }
 
     @Override

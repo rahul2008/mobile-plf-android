@@ -17,11 +17,8 @@ import android.widget.EditText;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.response.addresses.Country;
-import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
-import com.philips.cdp.di.iap.response.orders.Address;
-import com.philips.cdp.di.iap.response.payment.BillingAddress;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,9 +39,6 @@ public class Utility {
         }
     }
 
-    /***
-     * Dismiss the progress dialog
-     */
     public static void dismissProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
@@ -64,7 +58,8 @@ public class Utility {
     }
 
     public static void hideKeypad(Context pContext) {
-        InputMethodManager inputMethodManager = (InputMethodManager) pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager)
+                pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         if (null != ((Activity) pContext).getCurrentFocus()) {
             inputMethodManager.hideSoftInputFromWindow(((Activity) pContext).getCurrentFocus().getWindowToken(),
@@ -73,46 +68,9 @@ public class Utility {
     }
 
     public static void showKeypad(Context pContext, EditText editText) {
-        InputMethodManager inputMethodManager = (InputMethodManager) pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager)
+                pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(editText, 0);
-    }
-
-
-    protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
-        if (!TextUtils.isEmpty(code)) {
-            sb.append(code).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
-        }
-    }
-
-    protected static String getCountryName(String isoCode) {
-        return new Locale(Locale.getDefault().toString(), isoCode).getDisplayCountry();
-    }
-
-    public static String createAddress(final Object addressObj) {
-        StringBuilder sb = new StringBuilder();
-        if (addressObj instanceof AddressFields) {
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine1());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getRegionName());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
-//            String country = getCountryName(((AddressFields) addressObj).getCountryIsocode());
-//            appendCountry(sb, country);
-        } else if (addressObj instanceof BillingAddress) {
-            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine1());
-            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
-            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getPostalCode());
-//            String country = getCountryName(((BillingAddress) addressObj).getCountry().getIsocode());
-//            appendCountry(sb, country);
-        }
-        return sb.toString();
-    }
-
-    private static void appendCountry(StringBuilder sb, String country) {
-        if (country != null) {
-            sb.append(country);
-        }
     }
 
     public static String formatAddress(final String address) {
@@ -120,13 +78,6 @@ public class Utility {
             return address.replaceAll(", ", "\n");
         else
             return null;
-    }
-
-    public static int getThemeColor(Context context) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
-        int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
-        a.recycle();
-        return mThemeBaseColor;
     }
 
     public static String getFormattedDate(String date) {
@@ -142,6 +93,13 @@ public class Utility {
         return sdf.format(convertedDate);
     }
 
+    public static int getThemeColor(Context context) {
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
+        int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
+        a.recycle();
+        return mThemeBaseColor;
+    }
+
     public static void addCountryInPreference(Context pContext, String key, String value) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
@@ -154,4 +112,80 @@ public class Utility {
         String value = sharedPreferences.getString(key, null);
         return value;
     }
+
+    protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
+        if (!TextUtils.isEmpty(code)) {
+            sb.append(code).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
+        }
+    }
+
+    public static String getAddressToDisplay(final AddressFields address) {
+        StringBuilder sb = new StringBuilder();
+        appendAddressWithNewLineIfNotNull(sb, address.getLine1());
+        appendAddressWithNewLineIfNotNull(sb, address.getLine2());
+        appendAddressWithNewLineIfNotNull(sb, address.getRegionName());
+        appendAddressWithNewLineIfNotNull(sb, address.getTown());
+        appendAddressWithNewLineIfNotNull(sb, address.getPostalCode());
+        return sb.toString();
+    }
+
+    private static boolean isNotNullNorEmpty(String field) {
+        return !TextUtils.isEmpty(field);
+    }
+
+    public static AddressFields prepareAddressFields(Addresses addresses, String janRainEmail) {
+        AddressFields fields = new AddressFields();
+
+        if (isNotNullNorEmpty(addresses.getFirstName())) {
+            fields.setFirstName(addresses.getFirstName());
+        }
+
+        if (isNotNullNorEmpty(addresses.getLastName())) {
+            fields.setLastName(addresses.getLastName());
+        }
+
+        if (isNotNullNorEmpty(addresses.getTitleCode())) {
+            String titleCode = addresses.getTitleCode();
+            if (titleCode.trim().length() > 0)
+                fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault())
+                        + titleCode.substring(1));
+        }
+
+        if (isNotNullNorEmpty(addresses.getLine1())) {
+            fields.setLine1(addresses.getLine1());
+        }
+
+        if (isNotNullNorEmpty(addresses.getLine2())) {
+            fields.setLine2(addresses.getLine2());
+        }
+
+        if (isNotNullNorEmpty(addresses.getTown())) {
+            fields.setTown(addresses.getTown());
+        }
+
+        if (isNotNullNorEmpty(addresses.getPostalCode())) {
+            fields.setPostalCode(addresses.getPostalCode());
+        }
+
+        if (isNotNullNorEmpty(addresses.getCountry().getIsocode())) {
+            fields.setCountryIsocode(addresses.getCountry().getIsocode());
+        }
+
+        if (isNotNullNorEmpty(addresses.getEmail())) {
+            fields.setEmail(addresses.getEmail());
+        } else {
+            fields.setEmail(janRainEmail); // Since there is no email response from hybris
+        }
+
+        if (isNotNullNorEmpty(addresses.getPhone1())) {
+            fields.setPhoneNumber(addresses.getPhone1());
+        }
+
+        if (addresses.getRegion() != null) {
+            fields.setRegionName(addresses.getRegion().getName());
+            CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocode());
+        }
+        return fields;
+    }
+
 }

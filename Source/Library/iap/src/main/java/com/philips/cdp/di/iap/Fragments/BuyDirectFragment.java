@@ -57,7 +57,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         super.onCreate(savedInstanceState);
         mBuyDirectController = new BuyDirectController(mContext, this);
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_processing));
+            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_order_processing));
             mBuyDirectController.createCart();
         }
     }

@@ -123,6 +123,8 @@ public class ShippingAddressFragment extends InAppBaseFragment
     private Drawable imageArrow;
     protected boolean mIgnoreTextChangeListener = false;
 
+    private String mRegionIsoCode = null;
+
     PhoneNumberUtil phoneNumberUtil;
     Phonenumber.PhoneNumber phoneNumber = null;
 
@@ -194,7 +196,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mPaymentController = new PaymentController(mContext, this);
         mShippingAddressFields = new AddressFields();
 
-        mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
+        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
 
         mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
@@ -279,7 +281,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -388,7 +390,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtAddressLineOne);
                 }
-                NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(),
+                NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                         getString(R.string.iap_ok), getString(R.string.iap_server_error),
                         error.getMessage());
                 mBtnContinue.setEnabled(false);
@@ -527,7 +529,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
                 mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
     }
 
@@ -537,7 +539,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
     }
 
@@ -556,7 +558,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             Utility.dismissProgressDialog();
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             Utility.dismissProgressDialog();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
@@ -580,11 +582,15 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     @Override
     public void stateRegionCode(String regionCode) {
+        mRegionIsoCode = regionCode;
         mShippingAddressFields.setRegionIsoCode(regionCode);
         if (addressHashMap != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
         }
-        CartModelContainer.getInstance().setRegionIsoCode(regionCode);
+
+        if (!(this instanceof BillingAddressFragment)) {
+            CartModelContainer.getInstance().setRegionIsoCode(regionCode);
+        }
     }
 
     private class IAPTextWatcher implements TextWatcher {
@@ -699,7 +705,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
         if (this instanceof BillingAddressFragment) {
             if (mlLState.getVisibility() == View.VISIBLE) {
-                addressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+                addressFields.setRegionIsoCode(mRegionIsoCode);
                 addressFields.setRegionName(mEtState.getText().toString());
             } else {
                 addressFields.setRegionIsoCode(null);

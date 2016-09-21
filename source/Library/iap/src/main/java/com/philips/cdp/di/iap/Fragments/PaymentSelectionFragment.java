@@ -53,7 +53,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
             mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_METHOD_LIST);
         }
 
-        mPaymentMethodsAdapter = new PaymentMethodsAdapter(getContext(), mPaymentMethodList);
+        mPaymentMethodsAdapter = new PaymentMethodsAdapter(mContext, mPaymentMethodList);
         mPaymentMethodsRecyclerView.setAdapter(mPaymentMethodsAdapter);
 
         mPaymentController = new PaymentController(mContext, this);
@@ -144,7 +144,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     public void onSetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());

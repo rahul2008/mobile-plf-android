@@ -80,7 +80,7 @@
         android:id="@+id/iap_tv_vat_inclusive"
         style="@style/iap_vat_uk"
         android:layout_below="@id/iap_tv_totalItems"
-        android:text="@string/iap_vat_inclusive_text" />
+        android:text="@string/iap_including_vat" />
 
     <TextView
         android:id="@+id/iap_tv_vat_value"

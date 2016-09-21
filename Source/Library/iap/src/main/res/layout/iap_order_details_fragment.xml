@@ -267,7 +267,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/view_invoice" />
+                android:text="@string/iap_view_invoice" />
 
             <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/invoice_arrow"
@@ -292,7 +292,7 @@
             android:layout_marginBottom="@dimen/iap_order_icon_margin_left"
             android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-            android:text="@string/iap_buy"
+            android:text="@string/iap_order_again"
             android:visibility="gone" />
 
         <Button

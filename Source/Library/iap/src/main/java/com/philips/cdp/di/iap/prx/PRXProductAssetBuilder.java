@@ -34,6 +34,7 @@ public class PRXProductAssetBuilder {
     private AssetListener mAssetListener;
     private Context mContext;
     String mCTN;
+
     private static final int RTP = 1;
     private static final int APP = 2;
     private static final int DPP = 3;
@@ -48,7 +49,6 @@ public class PRXProductAssetBuilder {
 
     public PRXProductAssetBuilder(Context context, String CTN,
                                   AssetListener listener) {
-
         mContext = context;
         mAssetListener = listener;
         mCTN = CTN;
@@ -142,7 +142,7 @@ public class PRXProductAssetBuilder {
     }
 
     private ProductAssetRequest prepareAssetBuilder(final String code) {
-        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
+        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();//Check
 
         ProductAssetRequest productAssetBuilder = new ProductAssetRequest(code, null);
         productAssetBuilder.setSector(Sector.B2C);
@@ -172,7 +172,7 @@ public class PRXProductAssetBuilder {
                  width = mContext.getResources().getDisplayMetrics().widthPixels;
                  height = (int) mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
             }catch (NullPointerException e){
-
+                e.getStackTrace();
             }
             return this;
         }

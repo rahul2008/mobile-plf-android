@@ -1,28 +1,20 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.adapters;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -32,30 +24,19 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.AddressController.AddressListener;
-import com.philips.cdp.di.iap.response.addresses.DeliveryCost;
-import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
-import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
         ShoppingCartPresenter.LoadListener<ShoppingCartData>, DeliveryModeDialog.DialogListener {
     private final static String TAG = OrderProductAdapter.class.getSimpleName();
@@ -71,11 +52,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Drawable mEditDrawable;
 
     public OrderProductAdapter(Context pContext, AddressListener listener, ArrayList<ShoppingCartData> pShoppingCartDataList,
-                               AddressFields pBillingAddress, PaymentMethod pPaymentMethod) {
+                               PaymentMethod pPaymentMethod) {
         mContext = pContext;
         mListener = listener;
         mShoppingCartDataList = pShoppingCartDataList;
-        mBillingAddress = pBillingAddress;
         mPaymentMethod = pPaymentMethod;
         initDrawables();
     }
@@ -109,7 +89,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .getImageLoader();
             orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
             orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
-            String price = cartData.getTotalPriceFormatedPrice();
+            String price = cartData.getFormattedTotalPrice();
 
             orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
@@ -119,19 +99,20 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
             footerHolder.mTitleDeliveryAddress.setText(R.string.iap_shipping_address);
             footerHolder.mTitleVat.setText(R.string.iap_vat);
-            footerHolder.mTitleTotalPrice.setText(R.string.iap_total_val);
             String shippingName = cartData.getDeliveryAddressEntity().getFirstName() + " " + cartData.getDeliveryAddressEntity().getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
             footerHolder.mShippingAddress.setText(Utility.formatAddress(shippingAddress));
+            mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
             if (null != mBillingAddress) {
                 String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                 footerHolder.mBillingFirstName.setText(billingName);
-                footerHolder.mBillingAddress.setText(Utility.createAddress(mBillingAddress));
+                footerHolder.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress));
             }
             if (null != mPaymentMethod) {
                 String paymentBillingName = mPaymentMethod.getBillingAddress().getFirstName() + " " + mPaymentMethod.getBillingAddress().getLastName();
                 footerHolder.mBillingFirstName.setText(paymentBillingName);
-                footerHolder.mBillingAddress.setText(Utility.createAddress(mPaymentMethod.getBillingAddress()));
+                AddressFields billingAddressFields = Utility.prepareAddressFields(mPaymentMethod.getBillingAddress(), null);
+                footerHolder.mBillingAddress.setText(Utility.getAddressToDisplay(billingAddressFields));
 
                 footerHolder.mLLPaymentMode.setVisibility(View.VISIBLE);
                 footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardType().getCode() + " " + mPaymentMethod.getCardNumber());
@@ -154,12 +135,12 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mDeliveryPrice.setVisibility(View.GONE);
                 footerHolder.mDeliveryView.setVisibility(View.GONE);
             }
-            footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-            footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
+            footerHolder.mTitleTotalPrice.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+            footerHolder.mTotalPrice.setText(getLastValidItem().getFormattedTotalPriceWithTax());
             footerHolder.mVatValue.setText(getLastValidItem().getVatValue());
             if (!getLastValidItem().isVatInclusive()) {
                 footerHolder.mVatInclusive.setVisibility(View.VISIBLE);
-                footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
+                footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_including_vat), mContext.getString(R.string.iap_vat)));
                 footerHolder.mVatValueUK.setVisibility(View.VISIBLE);
                 footerHolder.mVatValueUK.setText(getLastValidItem().getVatValue());
                 footerHolder.mVatValue.setVisibility(View.GONE);
@@ -216,9 +197,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onLoadListenerError(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg,((FragmentActivity)mContext).getSupportFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity)mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
+            NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
     }
@@ -261,11 +242,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mPaymentCardHolderName;
         TextView mTitleDelivery;
         TextView mDeliveryPrice;
-        TextView mTotalPriceLable;
+        TextView mTitleTotalPrice;
         TextView mTotalPrice;
         TextView mTitleVat;
         TextView mVatValue;
-        TextView mTitleTotalPrice;
         TextView mVatInclusive;
         View mDeliveryView;
         TextView mVatValueUK;
@@ -284,11 +264,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mPaymentCardHolderName = (TextView) itemView.findViewById(R.id.tv_card_holder_name);
             mTitleDelivery = (TextView) itemView.findViewById(R.id.tv_delivery);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.tv_delivery_price);
-            mTotalPriceLable = (TextView) itemView.findViewById(R.id.tv_total_lable);
+            mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
             mTitleVat = (TextView) itemView.findViewById(R.id.tv_vat);
             mVatValue = (TextView) itemView.findViewById(R.id.tv_vat_price);
-            mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mVatInclusive = (TextView) itemView.findViewById(R.id.tv_vat_inclusive);
             mDeliveryView = (View) itemView.findViewById(R.id.delivery_view);
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_order_summary);

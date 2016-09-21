@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -54,13 +55,7 @@ public class ErrorDialogFragment extends DialogFragment {
                     mErrorDialogListener.onDialogOkClick();
                 }
                 dismissDialog();
-                if (bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION) != null
-                        && bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {
-                    getFragmentManager().popBackStackImmediate();
-                }
-                if(getVisibleFragment(getFragmentManager())!=null && getVisibleFragment(getFragmentManager()) instanceof OrderSummaryFragment || getVisibleFragment(getFragmentManager()) instanceof ShoppingCartFragment ){
-                    getFragmentManager().popBackStackImmediate();
-                }
+                handleEmptyScreen();
             }
         });
         return v;
@@ -87,6 +82,8 @@ public class ErrorDialogFragment extends DialogFragment {
 
     public Fragment getVisibleFragment(FragmentManager fragmentManager){
 
+        if(fragmentManager==null) return null;
+
         List<Fragment> fragments = fragmentManager.getFragments();
         if(fragments != null){
             for(Fragment fragment : fragments){
@@ -95,5 +92,29 @@ public class ErrorDialogFragment extends DialogFragment {
             }
         }
         return null;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new Dialog(getActivity(), getTheme()){
+            @Override
+            public void onBackPressed() {
+
+                dismissDialog();
+                handleEmptyScreen();
+
+            }
+        };
+    }
+
+    private void handleEmptyScreen() {
+        if (bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION) != null
+                && bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {
+            getActivity().getFragmentManager().popBackStackImmediate();
+        }
+        if(getVisibleFragment(getFragmentManager())!=null && getVisibleFragment(getFragmentManager()) instanceof OrderSummaryFragment || getVisibleFragment(getFragmentManager()) instanceof ShoppingCartFragment ){
+            getActivity().getFragmentManager().popBackStackImmediate();
+        }
+
     }
 }

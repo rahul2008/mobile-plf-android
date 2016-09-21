@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -74,7 +75,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mLaunchProductDetail;
     private Button mAddCtn;
 
-    private static ArrayList<String> mCategorizedProductList;
+    private ArrayList<String> mCategorizedProductList;
 
     private int mSelectedCountryIndex;
     private ProgressDialog mProgressDialog = null;
@@ -185,7 +186,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-        setTitle(getString(R.string.app_name));
+        setTitle(getString(R.string.demo_app_name));
 
         mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
 
@@ -221,7 +222,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             if (mSelectedCountryIndex > 0) {
                 showProgressDialog();
                 try {
-                    mIapInterface.getProductCartCount(this);
+                    if (!mIAPSettings.isUseLocalData())
+                        mIapInterface.getProductCartCount(this);
+                    else
+                        dismissProgressDialog();
                 } catch (RuntimeException exception) {
                     dismissProgressDialog();
                 }
@@ -263,6 +267,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             IAPFlowInput iapFlowInput =
                     new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
+            mEtCTN.setText("");
+            hideKeypad(this);
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
@@ -274,6 +280,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             IAPFlowInput iapFlowInput =
                     new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
             launchIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput);
+            mEtCTN.setText("");
+            hideKeypad(this);
         } else if (view == mRegister) {
             RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             URLaunchInput urLaunchInput = new URLaunchInput();
@@ -400,6 +408,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    public void hideKeypad(Context pContext) {
+        InputMethodManager inputMethodManager = (InputMethodManager)
+                pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (null != ((Activity) pContext).getCurrentFocus()) {
+            inputMethodManager.hideSoftInputFromWindow(((Activity) pContext).getCurrentFocus().getWindowToken(),
+                    0);
+        }
+    }
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
