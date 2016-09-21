@@ -7,7 +7,7 @@ package com.philips.platform.catalogapp.matcher;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-import com.philips.platform.catalogapp.utils.GradientDrawableUtils;
+import com.philips.platform.catalogapp.drawableutils.GradientDrawableUtils;
 
 import org.hamcrest.Matcher;
 
