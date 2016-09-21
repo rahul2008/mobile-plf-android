@@ -16,8 +16,12 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 public class UITTestUtils {
     public static int getAttributeColor(Context context, int attribute) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});
-        int color = typedArray.getColor(0, Color.WHITE);
-        typedArray.recycle();
+        int color = Color.MAGENTA;
+        if (typedArray != null) {
+            color = typedArray.getColor(0, Color.WHITE);
+            typedArray.recycle();
+
+        }
         return color;
     }
 

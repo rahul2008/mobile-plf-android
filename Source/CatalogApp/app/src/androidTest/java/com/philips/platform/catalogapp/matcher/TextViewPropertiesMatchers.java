@@ -19,7 +19,7 @@ public class TextViewPropertiesMatchers {
                 if (view instanceof TextView) {
                     return ((TextView) view).getTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA) == expectedValue;
                 }
-                return false;
+                throw new RuntimeException("Expected TextView got " +view.getClass().getName());
             }
         };
     }
