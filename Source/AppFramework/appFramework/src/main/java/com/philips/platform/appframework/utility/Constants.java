@@ -19,8 +19,8 @@ public class Constants {
     public static final String DEVELOPMENT = "Development";
     public static final String PRODUCTION = "Production";
 
-    public final String PRODUCT_REGISTRATION_PREFERENCES = "prod_demo";
-    public final String REGISTRATION_ENV_PREFERENCES = "prod_demo";
+    public static final String PRODUCT_REGISTRATION_PREFERENCES = "prod_demo";
+    public static final String REGISTRATION_ENV_PREFERENCES = "prod_demo";
 
     /**
      * Home Activity string constants
@@ -32,6 +32,6 @@ public class Constants {
     /**
      * WelcomeActivity constants
      */
-    public static int BACK_BUTTON_CLICK_CONSTANT = 100000;
-    public static String PAGE_INDEX = "pageIndex";
+    public static final int BACK_BUTTON_CLICK_CONSTANT = 100000;
+    public static final String PAGE_INDEX = "pageIndex";
 }

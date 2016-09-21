@@ -92,7 +92,7 @@ public class SupportFragmentState extends UIState implements CcListener {
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            supportListener.onStateComplete(activityContext);
+            supportListener.onStateComplete(new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE));
             return true;
         }
         return false;

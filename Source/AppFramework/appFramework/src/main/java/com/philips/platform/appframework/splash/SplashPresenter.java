@@ -28,9 +28,10 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
         setState(UIState.UI_SPLASH_STATE);
     }
 
-    AppFrameworkApplication appFrameworkApplication;
-    UIState uiState;
-    UserRegistrationState userRegistrationState;
+    private AppFrameworkApplication appFrameworkApplication;
+    private UIState uiState;
+    private UserRegistrationState userRegistrationState;
+    private Context activityContext;
 
     @Override
     public void onClick(int componentID, Context context) {
@@ -45,6 +46,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
      */
     @Override
     public void onLoad(Context context) {
+        activityContext = context;
         sharedPreferenceUtility = getSharedPreferenceUtility(context);
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
@@ -68,9 +70,9 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
 
     @Override
     public void onStateComplete(UIState uiState) {
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
         this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         this.uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState,context);
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState,activityContext);
     }
 }

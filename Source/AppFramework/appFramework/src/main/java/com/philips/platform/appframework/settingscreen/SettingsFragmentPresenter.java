@@ -33,8 +33,9 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
         setState(UIState.UI_SETTINGS_FRAGMENT_STATE);
     }
 
-    AppFrameworkApplication appFrameworkApplication;
-    UIState uiState;
+    private AppFrameworkApplication appFrameworkApplication;
+    private UIState uiState;
+    private Context activityContext;
 
     /**
      * Handles the click events for Login / Log out button
@@ -47,6 +48,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
      */
     @Override
     public void onClick(int componentID, Context context) {
+        activityContext = context;
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         switch (componentID){
             case SettingsFragment.logOutButton:
@@ -87,10 +89,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
      */
     @Override
     public void onStateComplete(UIState uiState) {
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
         this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         this.uiState.setPresenter(this);
-        ((HomeActivity)context).finishAffinity();
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState,context);
+        ((HomeActivity)activityContext).finishAffinity();
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState,activityContext);
     }
 }
