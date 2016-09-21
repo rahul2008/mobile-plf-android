@@ -40,6 +40,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureApiError;
@@ -882,7 +883,8 @@ public class Jump {
         } catch (StreamCorruptedException e) {
             throwDebugException(new RuntimeException(e));
         } catch (IOException e) {
-            throwDebugException(new RuntimeException(e));
+            Log.e("Jump ","IOException : "+e.getMessage());
+            //throwDebugException(new RuntimeException(e));
         } catch (ClassNotFoundException e) {
             throwDebugException(new RuntimeException(e));
         } finally {
