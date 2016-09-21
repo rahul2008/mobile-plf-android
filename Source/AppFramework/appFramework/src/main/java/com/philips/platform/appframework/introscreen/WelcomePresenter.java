@@ -15,6 +15,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
  * Welcome presenter hanles the events inside welcome fragment
@@ -43,6 +44,7 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
 
             case R.id.appframework_skip_button:
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+                uiState.init(new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context));
                 uiState.setPresenter(this);
                 ((UserRegistrationState)uiState).registerForNextState(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
@@ -51,6 +53,7 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
                 sharedPreferenceUtility = new SharedPreferenceUtility(context);
                 sharedPreferenceUtility.writePreferenceBoolean(UIConstants.DONE_PRESSED, true);
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+                uiState.init(new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context));
                 uiState.setPresenter(this);
                 ((UserRegistrationState)uiState).registerForNextState(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
@@ -80,6 +83,7 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
             ((WelcomeActivity) context).changeActionBarState(true);
             setState(UIState.UI_WELCOME_REGISTRATION_STATE);
             uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+            uiState.init(new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context));
             uiState.setPresenter(this);
             ((UserRegistrationState)uiState).registerForNextState(this);
             appFrameworkApplication.getFlowManager().navigateToState(uiState, context);

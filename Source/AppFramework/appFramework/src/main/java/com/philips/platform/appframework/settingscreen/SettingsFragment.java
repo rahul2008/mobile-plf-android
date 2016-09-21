@@ -86,7 +86,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
         final ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler, fragmentPresenter);
+        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler, fragmentPresenter );
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -11,6 +11,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class DebugTestFragmentState extends UIState {
     AppFrameworkApplication appFrameworkApplication;
@@ -42,6 +43,10 @@ public class DebugTestFragmentState extends UIState {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
+    @Override
+    public void init(UiLauncher uiLauncher) {
+
+    }
     @Override
     public void init(Context context) {
 

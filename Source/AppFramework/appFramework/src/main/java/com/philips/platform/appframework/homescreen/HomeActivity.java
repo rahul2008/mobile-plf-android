@@ -30,7 +30,6 @@ import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -42,7 +41,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
+import com.philips.platform.modularui.stateimpl.InAppPurchaseState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -76,6 +75,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private TextView cartCount;
     int cartItemCount = 0;
     private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
+    InAppPurchaseState iap;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -96,6 +96,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         configureDrawer();
         renderHamburgerMenu();
         getSupportFragmentManager().addOnBackStackChangedListener(this);
+      //  iap = new InAppPurchaseState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+      //  iap.init(this);
+
     }
 /**
  * To update cart count of the actionbar icon
@@ -152,7 +155,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.LOG, "DemoAppActivity == onCreate");
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -216,7 +218,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
 
     private void configureDrawer() {
-        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, com.philips.cdp.uikit.R.string.app_name, com.philips.cdp.uikit.R.string.app_name) {
+        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, R.string.af_app_name, R.string.af_app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }
@@ -283,7 +285,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
                 /*
                  If you go some screen other than HOME SCREEN and press back then
-                 HOME SCREEN has to be selected. So manually setting HOME as SELECTED.
+                 HOME SCREEN has to be selected. So manually r HOME as SELECTED.
                 */
                 adapter.setSelectedIndex(0);
             } else if (hamburgerIcon.getTag().equals("BackButton")) {
@@ -306,9 +308,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     private void addIapCartCount() {
         try {
-            InAppPurchaseFragmentState iap = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
 
-            IAPInterface iapInterface = iap.getIapInterface();
+            IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
             iapInterface.getProductCartCount(this);
         }catch (RuntimeException e){
             Log.e(""+TAG,"Exception caught"+e);

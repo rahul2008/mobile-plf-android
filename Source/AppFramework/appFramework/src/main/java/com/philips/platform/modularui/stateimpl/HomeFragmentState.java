@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homescreen.HomeFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class HomeFragmentState extends UIState {
     /**
@@ -38,6 +39,10 @@ public class HomeFragmentState extends UIState {
         ((AppFrameworkBaseActivity)context).finishActivity();
     }
 
+    @Override
+    public void init(UiLauncher uiLauncher) {
+
+    }
     @Override
     public void init(Context context) {
 

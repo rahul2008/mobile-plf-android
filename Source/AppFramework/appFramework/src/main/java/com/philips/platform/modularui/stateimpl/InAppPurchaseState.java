@@ -6,7 +6,6 @@
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
@@ -17,23 +16,19 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateData;
+import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class InAppPurchaseFragmentState extends UIState{
+public class InAppPurchaseState extends UIState{
 
     Context mContext;
-    private FragmentActivity fragmentActivity;
-    private int containerID;
     private ArrayList<String> mCtnList = null;
-    private ActionBarListener actionBarListener;
-    public InAppPurchaseFragmentState(@UIStateDef int stateID) {
+    public InAppPurchaseState(@UIStateDef int stateID) {
         super(stateID);
     }
     private IAPListener iapListener;
@@ -43,31 +38,39 @@ public class InAppPurchaseFragmentState extends UIState{
     public IAPInterface getIapInterface() {
         return iapInterface;
     }
+    int iapFlowType;
+    private FragmentLauncher fragmentLauncher;
+
+    @Override
+    public void init(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+    }
 
     @Override
     public void navigate(Context context) {
         mContext = context;
-        if(context instanceof HomeActivity) {
-            fragmentActivity = (HomeActivity) context;
-            containerID = R.id.frame_container;
-            actionBarListener = (HomeActivity)context;
-            iapListener = (HomeActivity)context;
+        iapFlowType = ((InAppStateData)getUiStateData()).getIapFlow();
+        if(iapFlowType == UIConstants.IAP_CATALOG_VIEW){
+            iapFlowType = IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
+        }else if(iapFlowType == UIConstants.IAP_PURCHASE_HISTORY_VIEW){
+            iapFlowType = IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
+        }else if(iapFlowType == UIConstants.IAP_SHOPPING_CART_VIEW){
+            iapFlowType = IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
         }
         if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(fragmentActivity.getResources().getStringArray(R.array.iap_productselection_ctnlist)));
+            mCtnList = ((InAppStateData)getUiStateData()).getCtnList();
         }
         launchIAP();
     }
 
     private void launchIAP() {
-        IAPInterface iapInterface = getIapInterface();
+        IAPInterface iapInterface = ((AppFrameworkApplication)mContext.getApplicationContext()).getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapFlowInput);
-        iapLaunchInput.setIapListener(iapListener);
-        FragmentLauncher fragLauncher = new FragmentLauncher(fragmentActivity, containerID,actionBarListener);
+        iapLaunchInput.setIAPFlow(iapFlowType, iapFlowInput);
+        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
-            iapInterface.launch(fragLauncher, iapLaunchInput);
+            iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
         } catch (RuntimeException e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -90,5 +93,28 @@ public class InAppPurchaseFragmentState extends UIState{
 
     }
 
+    /**
+     * Data Model for CoCo is defined here to have minimal import files.
+     */
+    public class InAppStateData extends UIStateData {
+        private int iapFlow;
+        private ArrayList<String> mCtnList = null;
 
+        public ArrayList<String> getCtnList() {
+            return mCtnList;
+        }
+
+        public void setCtnList(ArrayList<String> mCtnList) {
+            this.mCtnList = mCtnList;
+        }
+
+        public int getIapFlow() {
+            return iapFlow;
+        }
+
+        public void setIapFlow(int iapFlow) {
+            this.iapFlow = iapFlow;
+        }
+
+    }
 }

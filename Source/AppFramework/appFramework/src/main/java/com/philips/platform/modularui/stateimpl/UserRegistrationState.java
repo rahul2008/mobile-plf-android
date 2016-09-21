@@ -33,6 +33,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
@@ -41,15 +42,14 @@ import java.util.Locale;
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
     Context mContext;
     User userObject;
-    int containerID;
-    FragmentActivity fragmentActivity;
+    private FragmentLauncher fragmentLauncher;
     Configuration configuration;
     Context mApplicationContext;
 
-
-
-
-    private ActionBarListener actionBarListener;
+    @Override
+    public void init(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+    }
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
@@ -93,7 +93,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         return userObject;
     }
 
-
     public void registerForNextState(SetStateCallBack setStateCallBack){
         this.setStateCallBack = (SetStateCallBack) getPresenter();
     }
@@ -105,15 +104,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void navigate(Context context) {
         mContext = context;
-
-        if(context instanceof HomeActivity){
-            containerID = R.id.frame_container;
-            actionBarListener  = (HomeActivity) context;
-        }
-        if(context instanceof WelcomeActivity){
-            containerID = R.id.fragment_frame_container;
-            actionBarListener  = (WelcomeActivity) context;
-        }
         loadPlugIn();
         runUserRegistration();
     }
@@ -126,25 +116,17 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void init(Context context) {
         this.mApplicationContext = context;
-        initializeUserRegistrationLibrary(Configuration.STAGING);
+        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
 
     }
 
     private void loadPlugIn(){
         userObject = new User(mContext);
         userObject.registerUserRegistrationListener(this);
-
     }
 
     private void runUserRegistration(){
-        if(mContext instanceof WelcomeActivity){
-            containerID = R.id.fragment_frame_container;
-            fragmentActivity = (WelcomeActivity)mContext;
-        }else if(mContext instanceof HomeActivity){
-            containerID = R.id.frame_container;
-            fragmentActivity = (HomeActivity)mContext;
-        }
-        launchRegistrationFragment(false);
+       launchRegistrationFragment(false);
     }
     /**
      * Launch registration fragment
@@ -156,8 +138,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         urLaunchInput.setAccountSettings(isAccountSettings);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-        FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (fragmentActivity,containerID,actionBarListener);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
