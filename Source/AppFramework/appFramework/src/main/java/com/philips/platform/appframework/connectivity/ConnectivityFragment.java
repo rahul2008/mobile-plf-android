@@ -57,6 +57,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
     private SHNCentral shnCentral;
     private SHNDevice shineDevice;
     private SHNDeviceDefinitionInfo shnDeviceDefinitionInfo;
+    private User user;
 
     public ConnectivityFragment() {
     }
@@ -76,7 +77,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
-        User user = new User(getActivity().getApplicationContext());
+        user = new User(getActivity().getApplicationContext());
 //        System.out.println("  ******* Environment : " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment());
         accessTokenValue = user.getHsdpAccessToken();
 
@@ -148,11 +149,11 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
         protected String doInBackground(String... params) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-                    .url("https://referenceplatform-ds-platforminfradev.cloud.pcftest.com//api/users/c8ccf342-7a32-4a87-838f-d31d3949ad59/moments/" + momentId)
+                    .url("https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com//api/users/"+user.getHsdpUUID()+"/moments/" + momentId)
                     .get()
                     .addHeader("content-type", "application/json")
                     .addHeader("authorization", "bearer " + accessTokenValue)
-                    .addHeader("performerid", "c8ccf342-7a32-4a87-838f-d31d3949ad59")
+                    .addHeader("performerid", user.getHsdpUUID())
                     .addHeader("api-version", "7")
                     .addHeader("appagent", "PlatformInfra Postman")
                     .addHeader("cache-control", "no-cache")
@@ -215,11 +216,11 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment {
             MediaType mediaType = MediaType.parse("application/json");
             RequestBody body = RequestBody.create(mediaType, "{\r\n\t\"details\" : [\r\n        {\r\n            \"type\" : \"NucleousLevel\",\r\n            \"value\" : " + editTextValue + "\r\n        }\r\n    ],\r\n    \"measurements\" : [\r\n        {\r\n            \"details\" : [\r\n                {\r\n                    \"type\" : \"NucleousLevel\",\r\n                    \"value\" : 60\r\n                }\r\n            ],\r\n            \"timestamp\" : \"2015-08-14T07:07:14.000Z\",\r\n            \"type\" : \"Duration\",\r\n            \"unit\" : \"percentage\",\r\n            \"value\" : 60\r\n        }\r\n    ],\r\n    \"timestamp\" : \"2015-08-13T14:54:25+0200\",\r\n    \"type\" : \"NucleousLevel\"\r\n}\r\n");
             Request request = new Request.Builder()
-                    .url("https://referenceplatform-ds-platforminfradev.cloud.pcftest.com//api/users/c8ccf342-7a32-4a87-838f-d31d3949ad59/moments")
+                    .url("https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com//api/users/"+user.getHsdpUUID()+"/moments")
                     .post(body)
                     .addHeader("content-type", "application/json")
                     .addHeader("authorization", "bearer " + accessTokenValue)
-                    .addHeader("performerid", "c8ccf342-7a32-4a87-838f-d31d3949ad59")
+                    .addHeader("performerid", user.getHsdpUUID())
                     .addHeader("api-version", "7")
                     .addHeader("appagent", "PlatformInfra Postman")
                     .addHeader("cache-control", "no-cache")

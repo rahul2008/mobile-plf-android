@@ -31,13 +31,13 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
 /**
  * Application class has following initializations
- *  1. App infra object creation for initializion other cocos and Logging
- *  2. Initialise User Registration
- *  3. Initialise In App Purchase
- *  4. Initialise Product Registration
- *
+ * 1. App infra object creation for initializion other cocos and Logging
+ * 2. Initialise User Registration
+ * 3. Initialise In App Purchase
+ * 4. Initialise Product Registration
  */
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;
@@ -49,7 +49,6 @@ public class AppFrameworkApplication extends Application {
      * @return instance of this class
      */
 
-
     private IAPInterface iapInterface;
 
     @SuppressWarnings("deprecation")
@@ -59,20 +58,20 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         flowManager = new UIFlowManager();
-        gAppInfra =  new AppInfra.Builder().build(getApplicationContext());
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
 
-        initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
         initializeProductRegistrationLibrary();
         initializeIAP();
     }
-/**
- * Method for initializing IAP
- *
- */
+
+    /**
+     * Method for initializing IAP
+     */
     private void initializeIAP() {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(getApplicationContext());
@@ -112,9 +111,10 @@ public class AppFrameworkApplication extends Application {
         return mContext;
     }
 
-    /**For doing dynamic initialisation Of User registration
+    /**
+     * For doing dynamic initialisation Of User registration
      *
-     * @param configuration  The environment ype as required by UR
+     * @param configuration The environment ype as required by UR
      */
     public void initializeUserRegistrationLibrary(Configuration configuration) {
 
@@ -145,7 +145,6 @@ public class AppFrameworkApplication extends Application {
                 , UR,
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
-
 
         gAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "MicrositeID",
@@ -179,7 +178,7 @@ public class AppFrameworkApplication extends Application {
                 minAge,
                 configError);
 
-        initHSDP();
+        initHSDP(configuration);
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
@@ -206,11 +205,9 @@ public class AppFrameworkApplication extends Application {
                 providers,
                 configError);
 
-
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
-
 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
@@ -223,10 +220,10 @@ public class AppFrameworkApplication extends Application {
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
-
-
     }
+
     final String AI = "appinfra";
+
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = gAppInfra.getAppIdentity();
@@ -257,7 +254,6 @@ public class AppFrameworkApplication extends Application {
                 AI,
                 "Production",
                 configError);
-
 
         switch (configuration) {
             case EVALUATION:
@@ -314,35 +310,76 @@ public class AppFrameworkApplication extends Application {
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
     }
 
-    public void initHSDP() {
+    public void initHSDP(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.ApplicationName",
-                UR,
-                "Datacore",
-                configError);
+        switch (configuration) {
+            case EVALUATION:
+                break;
+            case DEVELOPMENT:
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        UR,
+                        "Datacore",
+                        configError);
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Secret",
-                UR,
-                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
-                configError);
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        UR,
+                        "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+                        configError);
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Shared",
-                UR,
-                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
-                configError);
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        UR,
+                        "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+                        configError);
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.BaseURL",
-                UR,
-                "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com/",
-                configError);
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        UR,
+                        "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com/",
+                        configError);
+                break;
+            case STAGING:
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        UR,
+                        "uGrow",
+                        configError);
+
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        UR,
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        UR,
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+
+                gAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        UR,
+                        "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com/",
+                        configError);
+                break;
+            case TESTING:
+                break;
+            case PRODUCTION:
+                break;
+            default:
+        }
+
     }
 }
