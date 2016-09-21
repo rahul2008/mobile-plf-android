@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.modularui.statecontroller.CoCoListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
@@ -26,7 +27,7 @@ import java.util.Arrays;
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
  */
-public class SettingsFragmentPresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
+public class SettingsFragmentPresenter extends UIBasePresenter implements CoCoListener {
 
     SettingsFragmentPresenter(){
         setState(UIState.UI_SETTINGS_FRAGMENT_STATE);
@@ -85,11 +86,11 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UserRe
      * @param context
      */
     @Override
-    public void setNextState(Context context) {
+    public void coCoCallBack(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         uiState.setPresenter(this);
-       ((HomeActivity)context).finishAffinity();
+        ((HomeActivity)context).finishAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
     }
 }
