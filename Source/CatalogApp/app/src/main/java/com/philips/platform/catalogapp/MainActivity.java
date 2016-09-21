@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         UITHelper.init(getThemeConfig());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        initDemoListFragment();
+        initDemoListFragment();
     }
 
     private void initDemoListFragment() {

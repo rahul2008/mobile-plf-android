@@ -55,10 +55,9 @@ public class PrimaryButtonWithTextOnlyTest {
      * Layout Scenarios
      *********************************************/
 
-    // TODO: 9/20/2016 fix the timing issue.
-    @Ignore
     @Test
     public void verifyButtonHeight() {
+        UITTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_height);
         getPrimaryButton()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));

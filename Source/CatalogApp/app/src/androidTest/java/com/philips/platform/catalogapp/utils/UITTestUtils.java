@@ -37,12 +37,29 @@ public class UITTestUtils {
 
 
     public static ColorStateList getColorStateListWithReflection(Object object, String funcName) {
-        ColorStateList colorList = null;
+        ColorStateList colorList;
         try {
             colorList = (ColorStateList) MethodUtils.invokeMethod(object, funcName);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
         return colorList;
+    }
+
+    /**
+     * Avoid using until really necessary to call it.
+     * We can't avoid waiting in few situations, where we need actual view must be drawn before we start asserting.
+     * @param object
+     * @param milliSecs
+     */
+    public static void waitFor(Object object, int milliSecs) {
+        Thread thread = Thread.currentThread();
+        synchronized (object) {
+            try {
+                object.wait(milliSecs);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
