@@ -304,7 +304,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
     @Override
     public void onLoadError(IAPNetworkError error) {
         if (error.getMessage() != null
-                && error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
+                && error.getMessage().equalsIgnoreCase(mContext.getResources().getString(R.string.iap_no_product_available))) {
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);

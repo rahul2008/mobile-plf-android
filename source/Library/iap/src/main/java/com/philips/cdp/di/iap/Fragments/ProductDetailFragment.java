@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ import java.util.Map;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
         PRXProductAssetBuilder.AssetListener, View.OnClickListener, EventListener,
-        AbstractModel.DataLoadListener,
+        AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
         ProductDetailController.ProductSearchListener, ShoppingCartPresenter.LoadListener<StoreEntity> {
 
 
@@ -488,15 +489,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     @Override
-    public boolean handleBackEvent() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
-            int count = getFragmentManager().getBackStackEntryCount();
-            IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
-            for (int i = 0; i < count; i++) {
-                getFragmentManager().popBackStack();
-            }
-            finishActivity();
-        }
-        return false;
+    public void onDialogOkClick() {
+        moveToVerticalAppByClearingStack();
     }
 }
