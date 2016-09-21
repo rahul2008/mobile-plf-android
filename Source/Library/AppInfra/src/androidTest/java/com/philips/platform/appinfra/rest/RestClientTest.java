@@ -178,6 +178,32 @@ public class RestClientTest extends MockitoTestCase {
        /// below req should get value from cache
        mockRequestQueue.add(mStringRequest);
 
+
+       StringRequest mStringRequest2 = null;
+       try {
+           mStringRequest = new StringRequest(Request.Method.GET, "http://www.oldchaphome.nl/RCT/test.php?action=data&id=aa", new Response.Listener<String>() {
+               @Override
+               public void onResponse(String response) {
+                   Log.i("LOG", "StringRequest Response:" + response);
+                   assertNotNull(response);
+                   //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+
+               }
+           }, new Response.ErrorListener() {
+               @Override
+               public void onErrorResponse(VolleyError error) {
+                   Log.i("LOG", "" + error);
+                   //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+               }
+           });
+       } catch (HttpForbiddenException e) {
+           e.printStackTrace();
+       }
+       //RequestQueue q =  mRestInterface.getRequestQueue();
+//       given(mockRequestQueue.add(mStringRequest2)).willThrow(new HttpForbiddenException());
+
+
     }
 
     public void testJsonObjectRequest(){
