@@ -75,6 +75,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
      */
     @Override
     public void onLoad(Context context) {
+        activityContext=context;
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));

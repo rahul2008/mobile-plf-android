@@ -24,6 +24,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
@@ -55,15 +56,12 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
+
     @Override
-    public void init(Context context) {
-        mApplicationContext=context;
-        PRDependencies prodRegDependencies = new PRDependencies(AppFrameworkApplication.gAppInfra);
-
-        UappSettings uappSettings = new UappSettings(mApplicationContext);
-        new PRInterface().init(prodRegDependencies, uappSettings);
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        PRDependencies prodRegDependencies = new PRDependencies(uappDependencies.getAppInfra());
+         new PRInterface().init(prodRegDependencies, uappSettings);
     }
-
     private Product loadProduct() {
         if (ctnList == null) {
             ctnList = ((ProductRegistrationData)getUiStateData()).getCtnList();

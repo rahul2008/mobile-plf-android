@@ -11,6 +11,8 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class DebugTestFragmentState extends UIState {
     /**
@@ -45,7 +47,8 @@ public class DebugTestFragmentState extends UIState {
 
     }
     @Override
-    public void init(Context context) {
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
 
     }
+
 }

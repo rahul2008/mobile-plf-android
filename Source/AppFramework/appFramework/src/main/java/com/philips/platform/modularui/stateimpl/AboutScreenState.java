@@ -11,6 +11,8 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
@@ -44,7 +46,7 @@ public class AboutScreenState  extends UIState {
 
     }
     @Override
-    public void init(Context context) {
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
 
     }
 }

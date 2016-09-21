@@ -23,6 +23,8 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,7 @@ public class SupportFragmentState extends UIState implements CcListener {
     private CcLaunchInput ccLaunchInput;
     private FragmentLauncher fragmentLauncher;
     private UIStateListener supportListener;
+    private UappDependencies uappDependencies;
 
     public SupportFragmentState(@UIStateDef int stateID) {
         super(stateID);
@@ -69,7 +72,7 @@ public class SupportFragmentState extends UIState implements CcListener {
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
-        CcDependencies ccDependencies = new CcDependencies(AppFrameworkApplication.gAppInfra);
+        CcDependencies ccDependencies = new CcDependencies(uappDependencies.getAppInfra());
 
         ccInterface.init(ccDependencies, ccSettings);
         ccInterface.launch(fragmentLauncher, ccLaunchInput);
@@ -89,7 +92,9 @@ public class SupportFragmentState extends UIState implements CcListener {
 
     }
     @Override
-    public void init(Context context) {
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+       this.uappDependencies=uappDependencies;
+
 
     }
     @Override

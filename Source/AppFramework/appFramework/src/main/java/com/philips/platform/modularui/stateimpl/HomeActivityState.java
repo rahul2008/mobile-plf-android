@@ -11,6 +11,8 @@ import android.content.Intent;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class HomeActivityState extends UIState {
     /**
@@ -43,7 +45,7 @@ public class HomeActivityState extends UIState {
 
     }
     @Override
-    public void init(Context context) {
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
 
     }
 }
