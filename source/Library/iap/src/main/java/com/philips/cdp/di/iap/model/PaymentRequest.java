@@ -57,9 +57,9 @@ public class PaymentRequest extends AbstractModel {
         params.put(ModelConstants.POSTAL_CODE, billingAddress.getPostalCode());
         params.put(ModelConstants.TOWN, billingAddress.getTown());
         params.put(ModelConstants.COUNTRY_ISOCODE, billingAddress.getCountryIsocode());
-        if (CartModelContainer.getInstance().getRegionIsoCode() != null) {
-            params.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
-        }else{
+        if (billingAddress.getRegionIsoCode() != null) {
+            params.put(ModelConstants.REGION_ISOCODE, billingAddress.getRegionIsoCode());
+        } else {
             params.put(ModelConstants.REGION_ISOCODE, "");
         }
         params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
