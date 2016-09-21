@@ -29,7 +29,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client"};
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,44 +162,39 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(intentPrxActivity);
 
                 break;
-            case 4:
-                Intent intentlocalMatchActivity = new Intent(AppInfraMainActivity.this,
-                        LocalMatchActivity.class);
-                startActivity(intentlocalMatchActivity);
 
-                break;
-            case 5:
+            case 4:
                 Intent intentAppIdentityActivity = new Intent(AppInfraMainActivity.this,
                         AppIndentityDemoPage.class);
                 startActivity(intentAppIdentityActivity);
 
                 break;
-            case 6:
+            case 5:
                 Intent intentLocalMainActivity = new Intent(AppInfraMainActivity.this,
                         InternationalizationDemoPage.class);
                 startActivity(intentLocalMainActivity);
 
                 break;
-            case 7:
+            case 6:
                 Intent intentServiceDiscoveryActivity = new Intent(AppInfraMainActivity.this,
                         ServiceDiscoveryDemo.class);
                 startActivity(intentServiceDiscoveryActivity);
 
                 break;
-            case 8:
+            case 7:
                 Intent intentTimeSyncActivity = new Intent(AppInfraMainActivity.this,
                         TimeSyncDemo.class);
                 startActivity(intentTimeSyncActivity);
 
                 break;
-            case 9:
+            case 8:
 
                 Intent configActivity = new Intent(AppInfraMainActivity.this,
                         AppConfigurationActivity.class);
                 startActivity(configActivity);
                 break;
 
-            case 10:
+            case 9:
 
                 Intent restClientActivity = new Intent(AppInfraMainActivity.this,
                         RestClientActivity.class);

@@ -169,26 +169,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return service;
     }
 
-//    String getService(final OnRefreshListener listener) {
-//        final String urlBuild;
-//        final String country = getCountry();
-//
-//        if (null != country) {
-//            urlBuild = buildUrl(country);
-//            if (urlBuild != null) {
-//                new RequestManager(context, mAppInfra).execute(urlBuild, listener);
-//
-//            }
-//        } else {
-//            urlBuild = buildUrl(country);
-//            if (urlBuild != null) {
-//                new RequestManager(context, mAppInfra).execute(urlBuild, listener);
-//
-//            }
-//        }
-//        return urlBuild;
-//    }
-
     String buildUrl() {
         final AppIdentityInterface identityManager = mAppInfra.getAppIdentity(); // TODO RayKlo don't recreate existing instances
         final InternationalizationInterface localManager = mAppInfra.getInternationalization();
@@ -257,33 +237,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
      */
     @Override
     public void getHomeCountry(final OnGetHomeCountryListener listener) {
-//        String country = getCountry();
-//        String countrySource = fetchFromSecureStorage(false);
-//
-//        if (country != null) {
-//            setHomeCountry(country);
-//            if (countrySource != null && countrySource.equalsIgnoreCase("SIMCARD")) {
-//                listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.SIMCARD);
-//            } else if (countrySource != null && countrySource.equalsIgnoreCase("GEOIP")) {
-//                listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
-//            } else if(countrySource != null && countrySource.equalsIgnoreCase("STOREDPREFERENCE")) {
-//                listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE);
-//            }
-//
-//        } else {
-//            refresh(new OnRefreshListener() {
-//                @Override
-//                public void onError(ERRORVALUES error, String message) {
-//                    listener.onError(error, message);
-//                }
-//
-//                @Override
-//                public void onSuccess() {
-//                    String country = getCountry();
-//                    listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
-//                }
-//            });
-//        }
 
         String country = getCountry(serviceDiscovery);
         String countrySource = fetchFromSecureStorage(false);
@@ -363,41 +316,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     void serviceURLwithCountryorLanguagePreferences(final String serviceId, final OnGetServiceUrlListener listener, final boolean isserviceURLwithCountryPreference) {
-//        if ( serviceId == null || serviceId.contains(",")) {
-//            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-//        } else {
-//            if (isDataAvailable) {
-//                if (isserviceURLwithCountryPreference) {
-//                    filterDataForUrlbyCountry(serviceId, listener);
-//                } else {
-//                    filterDataForUrlbyLang(serviceId, listener);
-//                }
-//            } else {
-//                if (!isDownloadInProgress) {
-//                    refresh(new OnRefreshListener() {
-//                        @Override
-//                        public void onError(ERRORVALUES error, String message) {
-//                            listener.onError(error, message);
-//                        }
-//
-//                        @Override
-//                        public void onSuccess() {
-//                            if (isserviceURLwithCountryPreference) {
-//                                filterDataForUrlbyCountry(serviceId, listener);
-//                            } else {
-//                                filterDataForUrlbyLang(serviceId, listener);
-//                            }
-//                        }
-//                    });
-//                } else if(listener != null) {
-//                    listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-//                }else{
-//                    Log.i("null interface found", "null interface found");
-//                }
-//
-//            }
-//        }
-
         if (serviceId == null || serviceId.contains(",")) {
             listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
         } else {
@@ -429,39 +347,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     void ServicesWithLanguageorCountryPreference(final ArrayList<String> serviceIds, final OnGetServiceUrlMapListener listener, final boolean isserviceswithCountryPreference) {
-//        if (serviceId == null) {
-//            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-//        } else {
-//            if (isDataAvailable) {
-//                if (isserviceswithCountryPreference) {
-//                    filterDataForUrlbyCountry(serviceId, listener);
-//                } else {
-//                    filterDataForUrlbyLang(serviceId, listener);
-//                }
-//            } else {
-//                if (!isDownloadInProgress) {
-//                    refresh(new OnRefreshListener() {
-//                        @Override
-//                        public void onError(ERRORVALUES error, String message) {
-//                            listener.onError(error, message);
-//                        }
-//
-//                        @Override
-//                        public void onSuccess() {
-//                            if (isserviceswithCountryPreference) {
-//                                filterDataForUrlbyCountry(serviceId, listener);
-//                            } else {
-//                                filterDataForUrlbyLang(serviceId, listener);
-//                            }
-//                        }
-//                    });
-//                } else if(listener != null) {
-//                    listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-//                }else{
-//                    Log.i("null interface found", "null interface found");
-//                }
-//            }
-//        }
 
         if (serviceIds == null) {
             listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
@@ -494,36 +379,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     void ServiceLocaleWithCountryorLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener, final boolean isServiceLocaleWithCountry) {
-//        if (isDataAvailable) {
-//            if (isServiceLocaleWithCountry) {
-//                filterDataForLocalByCountry(serviceId, listener);
-//            } else {
-//                filterDataForLocalByLang(serviceId, listener);
-//            }
-//
-//        } else {
-//            if (!isDownloadInProgress) {
-//                refresh(new OnRefreshListener() {
-//                    @Override
-//                    public void onError(ERRORVALUES error, String message) {
-//                        listener.onError(error, message);
-//                    }
-//
-//                    @Override
-//                    public void onSuccess() {
-//                        if (isServiceLocaleWithCountry) {
-//                            filterDataForLocalByCountry(serviceId, listener);
-//                        } else {
-//                            filterDataForLocalByLang(serviceId, listener);
-//                        }
-//                    }
-//                });
-//            } else if(listener != null) {
-//                listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_RESPONSE");
-//            }else{
-//                Log.i("null interface found", "null interface found");
-//            }
-//        }
 
         if (serviceId == null) {
             listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
@@ -677,7 +532,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-
     @Override
     public void refresh(final OnRefreshListener listener) { // TODO RayKlo: refresh only works if we have no data?
         refresh(listener, false);
@@ -703,13 +557,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         });
     }
 
-
     String getCountry(ServiceDiscovery service) {
 
         if (countryCode != null) {
             return countryCode;
         }
-
 
         countryCode = fetchFromSecureStorage(true);
         String countrySource = fetchFromSecureStorage(false);
