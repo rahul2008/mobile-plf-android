@@ -99,6 +99,8 @@ public class WebPaymentFragment extends WebFragment implements
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
+            if (!mIsPaymentFailed)
+                mDialogFragment = null;
             mIsPaymentFailed = true;
             showTwoButtonDialog(mContext.getString(R.string.iap_payment_failed_title),
                     mContext.getString(R.string.iap_payment_failed_message),
@@ -129,13 +131,14 @@ public class WebPaymentFragment extends WebFragment implements
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION, description);
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, positiveText);
         bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, negativeText);
-        if (mDialogFragment == null) {
-            mDialogFragment = new TwoButtonDialogFragment();
-            mDialogFragment.setArguments(bundle);
-            mDialogFragment.setOnDialogClickListener(this);
-            mDialogFragment.setShowsDialog(false);
-        }
+
         try {
+            if (mDialogFragment == null) {
+                mDialogFragment = new TwoButtonDialogFragment();
+                mDialogFragment.setArguments(bundle);
+                mDialogFragment.setOnDialogClickListener(this);
+                mDialogFragment.setShowsDialog(false);
+            }
             mDialogFragment.show(getFragmentManager(), "TwoButtonDialog");
             mDialogFragment.setShowsDialog(true);
         } catch (Exception e) {

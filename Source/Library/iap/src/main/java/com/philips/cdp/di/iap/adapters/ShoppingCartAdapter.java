@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -238,16 +239,20 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mVatValue.setVisibility(View.GONE);
                     shoppingCartFooter.mVAT.setVisibility(View.GONE);
 
-                    shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
+                    if (data.getVatValue() != null) {
+                        shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
+                        shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
+                        shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
+                    }
                 } else {
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
                     shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
 
-                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVatValue.setText(data.getVatValue());
+                    if (data.getVatValue() != null) {
+                        shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
+                        shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
+                        shoppingCartFooter.mVatValue.setText(data.getVatValue());
+                    }
                 }
 
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
@@ -286,16 +291,23 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
+        int mDisabledColor = ContextCompat.getColor(mContext, R.color.uikit_enricher4);
         if (pStockLevel == 0) {
             pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvStock.setText(mResources.getString(R.string.iap_out_of_stock));
+            pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
+            pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
             mOutOfStock.onOutOfStock(true);
         } else if (pStockLevel < pQuantity) {
+            pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
+            pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
             pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvStock.setText("Only " + pStockLevel + " left");
             mOutOfStock.onOutOfStock(true);
         } else {
-            pShoppingCartProductHolder.mTvStock.setVisibility(View.GONE);
+            pShoppingCartProductHolder.mQuantityLayout.setEnabled(true);
+            pShoppingCartProductHolder.mQuantityLayout.setClickable(true);
+            pShoppingCartProductHolder.mTvQuantity.setEnabled(true);
         }
     }
 
