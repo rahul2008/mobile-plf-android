@@ -20,17 +20,19 @@ node('Android && 23.0.3') {
             stage 'Build'
             sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
 
-            switch(env.BRANCH_NAME) {
-                case ['develop', 'master']:
-                    stage 'Release'
-                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
-                    break
-                case ~/release.*$/:
-                    stage 'Release'
-                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
-                    break
-                default:
-                    break
+            if(env.BRANCH_NAME == 'master') {
+                stage 'Release'
+                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            }
+
+            if(env.BRANCH_NAME == 'develop') {
+                stage 'Release'
+                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            }
+
+            if(env.BRANCH_NAME =~ /release\/.*/) {
+                stage 'Release'
+                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
             }
 
             stage 'Notify Bitbucket'
