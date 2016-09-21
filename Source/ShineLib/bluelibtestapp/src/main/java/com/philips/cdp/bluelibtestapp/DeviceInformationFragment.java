@@ -68,6 +68,7 @@ public class DeviceInformationFragment extends Fragment {
     @Override
     public void onPause() {
         SHNLogger.d(TAG, "onPause() called with: " + "");
+
         super.onPause();
         shnSelectedDevice.unregisterSHNDeviceListener(deviceListener);
     }
