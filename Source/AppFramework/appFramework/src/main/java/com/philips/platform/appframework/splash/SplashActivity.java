@@ -53,7 +53,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
-    private int SplashID = 90001;
     private static String TAG = SplashActivity.class.getSimpleName();
     private boolean isVisible = false;
 

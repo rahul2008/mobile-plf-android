@@ -28,8 +28,8 @@ import java.util.List;
 
 public class ProductRegistrationState extends UIState implements ProdRegUiListener {
 
-    private ArrayList<String> mCtnList = null;
-    Context mContext;
+    private ArrayList<String> ctnList = null;
+    Context activityContext;
     private FragmentLauncher fragmentLauncher;
 
     public ProductRegistrationState(@UIStateDef int stateID){
@@ -43,7 +43,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
     @Override
     protected void navigate(Context context) {
-        mContext = context;
+        activityContext = context;
         runProductRegistration();
     }
 
@@ -53,12 +53,12 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
     }
 
     private Product loadProduct() {
-        if (mCtnList == null) {
-            mCtnList = ((ProductRegistrationData)getUiStateData()).getCtnList();
+        if (ctnList == null) {
+            ctnList = ((ProductRegistrationData)getUiStateData()).getCtnList();
         }
-        String[] ctnList = new String[mCtnList.size()];
-        for (int i = 0; i < mCtnList.size(); i++) {
-            ctnList[i] = mCtnList.get(i);
+        String[] ctnList = new String[this.ctnList.size()];
+        for (int i = 0; i < this.ctnList.size(); i++) {
+            ctnList[i] = this.ctnList.get(i);
         }
         Product product = new Product(ctnList[0], Sector.B2C, Catalog.CONSUMER);
         product.setSerialNumber("");
@@ -80,7 +80,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
     @Override
     public void onProdRegFailed(ProdRegError prodRegError) {
-        Toast.makeText(mContext,""+ProdRegError.USER_NOT_SIGNED_IN,Toast.LENGTH_SHORT).show();
+        Toast.makeText(activityContext,""+ProdRegError.USER_NOT_SIGNED_IN,Toast.LENGTH_SHORT).show();
 
     }
 

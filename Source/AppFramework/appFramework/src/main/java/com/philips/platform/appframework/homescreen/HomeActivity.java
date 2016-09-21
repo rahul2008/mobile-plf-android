@@ -38,6 +38,7 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
@@ -67,13 +68,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null,shoppingCartLayout;
-    private static int mCartItemCount = 0;
     private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
-    private ImageView mCartIcon;
+    private ImageView cartIcon;
     private TextView cartCount;
-    int cartItemCount = 0;
-    private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
+    private int cartItemCount = 0;
+
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -95,16 +95,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         renderHamburgerMenu();
         getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
-/**
- * To update cart count of the actionbar icon
- * @param count The cart count
-
- */
-    public void cartCountUpdate(int  count) {
-        mCartItemCount = count;
-        hamburgerItems.get(2).setCount(count);
-        adapter.notifyDataSetChanged();
-    }
 
     /**
      * For updating the hamburger drawer
@@ -119,14 +109,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
         showNavigationDrawerItem(0);
-        sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,0);
+        sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,0);
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
                     adapter.notifyDataSetChanged();
-                    sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,position);
+                    sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
                 }
             }
@@ -164,13 +154,13 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 philipsDrawerLayout.openDrawer(navigationView);
             }
         });
-        hamburgerIcon.setTag("HamburgerIcon");
+        hamburgerIcon.setTag(Constants.HAMBURGER_ICON_TAG);
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
-        mCartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
+        cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
-        mCartIcon.setBackground(mCartIconDrawable);
+        cartIcon.setBackground(mCartIconDrawable);
         shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,11 +217,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     private void setHamburgerAdaptor() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-            if (i == 2 && mCartItemCount > 0) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, mCartItemCount));
-            } else {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i],null));
-            }
         }
     }
 
@@ -247,7 +233,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
             boolean backState = false;
-            if (hamburgerIcon.getTag().equals("HamburgerIcon")) {
+            if (hamburgerIcon.getTag().equals(Constants.HAMBURGER_ICON_TAG)) {
                 if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     philipsDrawerLayout.closeDrawer(Gravity.LEFT);
                     return;
@@ -283,7 +269,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                  HOME SCREEN has to be selected. So manually setting HOME as SELECTED.
                 */
                 adapter.setSelectedIndex(0);
-            } else if (hamburgerIcon.getTag().equals("BackButton")) {
+            } else if (hamburgerIcon.getTag().equals(Constants.BACK_BUTTON_TAG)) {
 
                if (currentFrag != null && currentFrag instanceof BackEventListener){
                     backState = ((BackEventListener) currentFrag).handleBackEvent();
@@ -344,7 +330,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     public void cartIconVisibility(boolean shouldShow) {
         if(shouldShow){
-            mCartIcon.setVisibility(View.VISIBLE);
+            cartIcon.setVisibility(View.VISIBLE);
             userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
             if(userRegistrationState.getUserObject(this).isUserSignIn()) {
                 addIapCartCount();
@@ -358,7 +344,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     {
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-            hamburgerIcon.setTag("BackButton");
+            hamburgerIcon.setTag(Constants.BACK_BUTTON_TAG);
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -367,7 +353,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             });
         } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerIcon.setTag("HamburgerIcon");
+            hamburgerIcon.setTag(Constants.HAMBURGER_ICON_TAG);
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -381,7 +367,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     public void onGetCartCount(int count) {
         cartItemCount = count;
-        if (count > 0 && mCartIcon.getVisibility() == View.VISIBLE) {
+        if (count > 0 && cartIcon.getVisibility() == View.VISIBLE) {
             cartCount.setVisibility(View.VISIBLE);
             cartCount.setText(String.valueOf(cartItemCount));
         } else {
@@ -399,14 +385,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
         if (shouldShow) {
-            mCartIcon.setVisibility(View.VISIBLE);
+            cartIcon.setVisibility(View.VISIBLE);
 
             if(cartItemCount > 0) {
                 cartCount.setVisibility(View.VISIBLE);
                 cartCount.setText(String.valueOf(cartItemCount));
             }
         } else {
-            mCartIcon.setVisibility(View.GONE);
+            cartIcon.setVisibility(View.GONE);
             cartCount.setVisibility(View.GONE);
         }
     }

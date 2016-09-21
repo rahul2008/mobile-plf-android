@@ -10,12 +10,12 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.modularui.statecontroller.CoCoListener;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.InAppPurchaseFragmentState;
+import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -27,7 +27,7 @@ import java.util.Arrays;
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
  */
-public class SettingsFragmentPresenter extends UIBasePresenter implements CoCoListener {
+public class SettingsFragmentPresenter extends UIBasePresenter implements UIStateListener {
 
     SettingsFragmentPresenter(){
         setState(UIState.UI_SETTINGS_FRAGMENT_STATE);
@@ -55,9 +55,9 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements CoCoLi
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
                 break;
             case SettingsAdapter.iapHistoryLaunch:
-                uiState = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+                uiState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
                 uiState.init(new FragmentLauncher((HomeActivity)context, R.id.frame_container,(HomeActivity)context));
-                InAppPurchaseFragmentState.InAppStateData uiStateDataModel = new InAppPurchaseFragmentState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
+                IAPState.InAppStateData uiStateDataModel = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 uiStateDataModel.setIapFlow(UIConstants.IAP_PURCHASE_HISTORY_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
@@ -83,14 +83,14 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements CoCoLi
 
     /**
      * For setting the next state
-     * @param context
+     * @param uiState
      */
     @Override
-    public void coCoCallBack(Context context) {
+    public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        uiState = new HomeActivityState(UIState.UI_HOME_STATE);
-        uiState.setPresenter(this);
+        this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
+        this.uiState.setPresenter(this);
         ((HomeActivity)context).finishAffinity();
-        appFrameworkApplication.getFlowManager().navigateToState(uiState,context);
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState,context);
     }
 }

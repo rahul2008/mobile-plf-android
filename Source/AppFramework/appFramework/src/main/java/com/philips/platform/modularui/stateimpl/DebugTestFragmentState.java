@@ -7,15 +7,12 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class DebugTestFragmentState extends UIState {
-    AppFrameworkApplication appFrameworkApplication;
-
     /**
      * constructor
      * @param stateID

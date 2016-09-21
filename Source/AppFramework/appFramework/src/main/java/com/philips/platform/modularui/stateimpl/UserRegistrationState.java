@@ -16,16 +16,16 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.statecontroller.CoCoListener;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
-    private Context mContext;
+    private Context activityContext;
     private User userObject;
-    private CoCoListener userRegistrationListener;
+    private UIStateListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
 
     @Override
@@ -46,9 +46,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            userRegistrationListener.coCoCallBack(mContext);
+            userRegistrationListener.onStateComplete(this);
         }
-
     }
 
     @Override
@@ -66,8 +65,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         return userObject;
     }
 
-    public void registerForNextState(CoCoListener setStateCallBack){
-        this.userRegistrationListener = (CoCoListener) getPresenter();
+    public void registerForNextState(UIStateListener setStateCallBack){
+        this.userRegistrationListener = (UIStateListener) getPresenter();
     }
 
     public UserRegistrationState(@UIStateDef int stateID) {
@@ -76,7 +75,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     @Override
     public void navigate(Context context) {
-        mContext = context;
+        activityContext = context;
         loadPlugIn();
         runUserRegistration();
     }
@@ -87,7 +86,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     }
 
     private void loadPlugIn(){
-        userObject = new User(mContext);
+        userObject = new User(activityContext);
         userObject.registerUserRegistrationListener(this);
     }
 

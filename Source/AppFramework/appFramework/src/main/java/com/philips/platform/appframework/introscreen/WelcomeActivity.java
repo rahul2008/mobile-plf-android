@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -36,10 +37,10 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
     ImageView arrowImage;
     TextView textView;
-    FragmentManager mFragmentManager;
+    FragmentManager fragmentManager;
     WelcomeScreenFragment welcomeScreenFragment;
     FragmentTransaction fragmentTransaction;
-    final static int backButtonClick = 123;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         }
         if (!isConsumed) {
 
-            presenter.onClick(backButtonClick, this);
+            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
         }
 
 
@@ -104,17 +105,15 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
             arrowImage = (ImageView) mCustomView
                     .findViewById(R.id.arrow_left);
             textView = (TextView) mCustomView.findViewById(R.id.action_bar_text);
-            //noinspection deprecation
             arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
             mActionBar.setCustomView(mCustomView, params);
-          //  textView.setText(R.string.af_app_name);
         }
     }
 
     void loadWelcomeFragment() {
-        mFragmentManager = this.getSupportFragmentManager();
+        fragmentManager = this.getSupportFragmentManager();
         welcomeScreenFragment = new WelcomeScreenFragment();
-        fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_frame_container, welcomeScreenFragment);
         fragmentTransaction.commit();
     }

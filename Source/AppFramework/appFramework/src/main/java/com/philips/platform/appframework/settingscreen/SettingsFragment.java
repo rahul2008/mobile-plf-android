@@ -33,12 +33,12 @@ import java.util.ArrayList;
  */
 public class SettingsFragment extends AppFrameworkBaseFragment {
 
-    private SettingsAdapter mAdapter = null;
-    private ListView mList = null;
+    private SettingsAdapter adapter = null;
+    private ListView list = null;
     UIBasePresenter uiBasePresenter;
     public static final int logOutButton = 5555;
     public static final String TAG = SettingsFragment.class.getSimpleName();
-    private LogoutHandler mLogoutHandler = new LogoutHandler() {
+    private LogoutHandler logoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {
             uiBasePresenter = new SettingsFragmentPresenter();
@@ -82,12 +82,12 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
         fragmentPresenter = new SettingsFragmentPresenter();
-        mList = (ListView) view.findViewById(R.id.listwithouticon);
+        list = (ListView) view.findViewById(R.id.listwithouticon);
 
         final ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler, fragmentPresenter);
-        mList.setAdapter(mAdapter);
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter = new SettingsAdapter(getActivity(), settingScreenItemList, logoutHandler, fragmentPresenter);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(settingScreenItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())){

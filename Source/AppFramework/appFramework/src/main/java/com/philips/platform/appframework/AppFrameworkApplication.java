@@ -41,7 +41,7 @@ import java.util.Locale;
  */
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;
-    private static Context mContext;
+    private static Context context;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
      /**
@@ -56,7 +56,7 @@ public class AppFrameworkApplication extends Application {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        mContext = getApplicationContext();
+        context = getApplicationContext();
         flowManager = new UIFlowManager();
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
@@ -108,7 +108,7 @@ public class AppFrameworkApplication extends Application {
     }
 
     public static Context getContext() {
-        return mContext;
+        return context;
     }
 
     /**For doing dynamic initialisation Of User registration

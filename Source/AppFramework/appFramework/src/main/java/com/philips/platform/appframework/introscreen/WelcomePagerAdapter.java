@@ -20,7 +20,7 @@ public class WelcomePagerAdapter extends FragmentPagerAdapter {
     private static final int FIRST_INSTANCE = 0;
     private static final int SECOND_INSTANCE = 1;
     private static final int THIRD_INSTANCE = 2;
-    private int mCount = CONTENT.length;
+    private int count = CONTENT.length;
 
     public WelcomePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -44,7 +44,7 @@ public class WelcomePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mCount;
+        return count;
     }
 
     @Override

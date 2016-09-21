@@ -18,7 +18,7 @@ abstract public class UIState {
     UIBasePresenter uiBasePresenter;
     /**  This class defines constants for each state ,
      * Any new state should be added here and its constant should be defined here
-     * Constants for each state
+     * Constants for each state,Values for the states start from 1001 and continues further.
      */
     @IntDef({UI_WELCOME_REGISTRATION_STATE,UI_SPLASH_STATE,UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
             UI_WELCOME_STATE, UI_USER_REGISTRATION_STATE, UI_HOME_STATE,
