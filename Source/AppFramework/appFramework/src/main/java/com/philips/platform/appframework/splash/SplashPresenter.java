@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.modularui.statecontroller.CoCoListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
@@ -21,7 +22,7 @@ import com.philips.platform.modularui.util.UIConstants;
  * Spalsh presenter loads the splash screen and sets the next state after splash
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
-public class SplashPresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
+public class SplashPresenter extends UIBasePresenter implements CoCoListener {
     SharedPreferenceUtility sharedPreferenceUtility;
     SplashPresenter(){
         setState(UIState.UI_SPLASH_STATE);
@@ -66,7 +67,7 @@ public class SplashPresenter extends UIBasePresenter implements UserRegistration
     }
 
     @Override
-    public void setNextState(Context context) {
+    public void coCoCallBack(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         uiState.setPresenter(this);

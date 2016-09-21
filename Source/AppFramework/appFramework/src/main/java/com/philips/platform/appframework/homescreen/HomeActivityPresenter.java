@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.modularui.statecontroller.CoCoListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
@@ -18,7 +19,6 @@ import com.philips.platform.modularui.stateimpl.InAppPurchaseState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
-import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -30,7 +30,7 @@ import java.util.Arrays;
  * based on user selection this class loads the next state of the application.
  *
  */
-public class HomeActivityPresenter extends UIBasePresenter implements SupportFragmentState.SetStateCallBack,UserRegistrationState.SetStateCallBack {
+public class HomeActivityPresenter extends UIBasePresenter implements CoCoListener {
 
     HomeActivityPresenter(){
         setState(UIState.UI_HOME_STATE);
@@ -59,7 +59,6 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
                 uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));
                 InAppPurchaseState.InAppStateData uiStateData = new InAppPurchaseState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 uiStateData.setIapFlow(UIConstants.IAP_CATALOG_VIEW);
-                uiStateData.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateData);
                 break;
             case MENU_OPTION_SUPPORT: uiState = new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE);
@@ -97,7 +96,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements SupportFra
     }
 
     @Override
-    public void setNextState(Context context) {
+    public void coCoCallBack(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
         uiState.init(new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context));

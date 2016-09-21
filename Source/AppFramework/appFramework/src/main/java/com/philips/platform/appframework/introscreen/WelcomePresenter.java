@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.modularui.statecontroller.CoCoListener;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
@@ -21,7 +22,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter hanles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class WelcomePresenter extends UIBasePresenter implements UserRegistrationState.SetStateCallBack {
+public class WelcomePresenter extends UIBasePresenter implements CoCoListener {
 
     public WelcomePresenter() {
 
@@ -97,12 +98,11 @@ public class WelcomePresenter extends UIBasePresenter implements UserRegistratio
     }
 
     @Override
-    public void setNextState(Context context) {
+    public void coCoCallBack(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         uiState.setPresenter(this);
         ((WelcomeActivity) context).finishAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(uiState, context);
     }
-
 }

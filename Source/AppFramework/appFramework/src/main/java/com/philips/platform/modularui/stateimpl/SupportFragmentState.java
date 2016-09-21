@@ -18,6 +18,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.modularui.statecontroller.CoCoListener;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -26,11 +27,12 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import java.util.ArrayList;
 
 public class SupportFragmentState extends UIState implements CcListener {
-    private ArrayList<String> mCtnList = null;
-    private Context mContext;
+    private ArrayList<String> ctnList = null;
+    private Context context;
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private FragmentLauncher fragmentLauncher;
+    private CoCoListener supportListener;
 
     public SupportFragmentState(@UIStateDef int stateID) {
         super(stateID);
@@ -44,26 +46,26 @@ public class SupportFragmentState extends UIState implements CcListener {
 
     @Override
     public void navigate(Context context) {
-        mContext = context;
+        this.context = context;
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         runCC();
     }
 
     void runCC()
     {
-        if (mCtnList == null) {
-            mCtnList = ((ConsumerCareData)getUiStateData()).getCtnList();
+        if (ctnList == null) {
+            ctnList = ((ConsumerCareData)getUiStateData()).getCtnList();
         }
-        String[] ctnList = new String[mCtnList.size()];
-        for (int i = 0; i < mCtnList.size(); i++) {
-            ctnList[i] = mCtnList.get(i);
+        String[] ctnList = new String[this.ctnList.size()];
+        for (int i = 0; i < this.ctnList.size(); i++) {
+            ctnList[i] = this.ctnList.get(i);
         }
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
         CcInterface ccInterface = new CcInterface();
 
-        if (ccSettings == null) ccSettings = new CcSettings(mContext);
+        if (ccSettings == null) ccSettings = new CcSettings(context);
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
@@ -77,30 +79,23 @@ public class SupportFragmentState extends UIState implements CcListener {
         ((AppFrameworkBaseActivity) context).popBackTillHomeFragment();
     }
 
-    @Override
-    public void init(Context context) {
 
-    }
-
-    public interface SetStateCallBack {
-        void setNextState(Context contexts);
-    }
-
-    SetStateCallBack setStateCallBack;
-
-    public void registerForNextState(SetStateCallBack setStateCallBack) {
-        this.setStateCallBack = (SetStateCallBack) getPresenter();
+    public void registerForNextState(CoCoListener setStateCallBack) {
+        this.supportListener = (CoCoListener) getPresenter();
     }
 
     public void unloadCoCo() {
         DigitalCareConfigManager.getInstance().unRegisterCcListener(this);
 
     }
+    @Override
+    public void init(Context context) {
 
+    }
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            setStateCallBack.setNextState(mContext);
+            supportListener.coCoCallBack(context);
             return true;
         }
         return false;

@@ -31,6 +31,7 @@ import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.modularui.statecontroller.CoCoListener;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -40,8 +41,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
-    Context mContext;
-    User userObject;
+    private Context mContext;
+    private User userObject;
+    private CoCoListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
     Configuration configuration;
     Context mApplicationContext;
@@ -64,7 +66,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            setStateCallBack.setNextState(mContext);
+            userRegistrationListener.coCoCallBack(mContext);
         }
 
     }
@@ -79,25 +81,16 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     }
 
-    /**
-     * Interface to have callbacks for updating the title from UserRegistration CoCo callbacks.
-     */
-    public interface SetStateCallBack{
-        void setNextState(Context contexts);
-    }
-    SetStateCallBack setStateCallBack;
-
     public User getUserObject(Context context) {
         userObject = new User(context);
-
         return userObject;
     }
 
-    public void registerForNextState(SetStateCallBack setStateCallBack){
-        this.setStateCallBack = (SetStateCallBack) getPresenter();
+    public void registerForNextState(CoCoListener setStateCallBack){
+        this.userRegistrationListener = (CoCoListener) getPresenter();
     }
 
-    public UserRegistrationState(@UIStateDef int stateID ) {
+    public UserRegistrationState(@UIStateDef int stateID) {
         super(stateID);
     }
 
