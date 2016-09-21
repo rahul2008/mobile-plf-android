@@ -1,5 +1,12 @@
 Product Registration for Android Release Notes
 ===============================================
+
+	Version - 1.2.6	                   		   Date: 20-09-2016
+----------------------------------------------------------------
+	Following issues are Fixed 
+	
+	1.	Consumed Latest User registration        
+	
 	Version - 1.2.5	                   		   Date: 16-09-2016
 ----------------------------------------------------------------
 	Following issues are Fixed 

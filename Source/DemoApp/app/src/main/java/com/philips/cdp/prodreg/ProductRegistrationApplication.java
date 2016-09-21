@@ -3,7 +3,6 @@ package com.philips.cdp.prodreg;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRDependencies;
@@ -17,7 +16,6 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
@@ -26,7 +24,6 @@ import java.util.Locale;
 
 public class ProductRegistrationApplication extends Application {
 
-    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     private static AppInfraInterface mAppInfraInterface;
     final String AI = "appinfra";
     private final String UR = "UserRegistration";
@@ -82,13 +79,6 @@ public class ProductRegistrationApplication extends Application {
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
 
-      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
-        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
-        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
-
-*/
         mAppInfraInterface.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "MicrositeID",
                 UR,
@@ -124,11 +114,7 @@ public class ProductRegistrationApplication extends Application {
                 UR,
                 minAge,
                 configError);
-      /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
-        System.out.println("GB age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("GB"));
-        System.out.println("default age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("default"));
-        System.out.println("unknown age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("unknown"));
-*/
+
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
@@ -154,15 +140,6 @@ public class ProductRegistrationApplication extends Application {
                 UR,
                 providers,
                 configError);
-
-       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
-        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
-        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
-*/
-
-        //Store current environment
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
@@ -193,7 +170,6 @@ public class ProductRegistrationApplication extends Application {
     @SuppressWarnings("deprecation")
     private void initAppInfra() {
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
-        AppInfraSingleton.setInstance(mAppInfraInterface);
         RegistrationHelper.getInstance().setAppInfraInstance(mAppInfraInterface);
     }
 
@@ -281,13 +257,5 @@ public class ProductRegistrationApplication extends Application {
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppLocalizedNAme : " + appIdentityInfo.getAppLocalizedNAme());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity Sector : " + appIdentityInfo.getSector());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity MicrositeId : " + appIdentityInfo.getMicrositeId());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppName : " + appIdentityInfo.getAppName());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppState : " + appIdentityInfo.getAppState().toString());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
     }
 }

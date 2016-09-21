@@ -126,7 +126,7 @@ public class PRUiHelper implements UappInterface {
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
 //            arguments.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, PRLaunchInput.getFirstScreenImageResourceId());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, PRLaunchInput.isAppLaunchFlow());
-            ProdRegTagging.getInstance().trackPage("ProdRegStartEvent", "specialEvents", "startProductRegistration");
+            ProdRegTagging.getInstance().trackAction("ProdRegStartEvent", "specialEvents", "startProductRegistration");
             final User user = new User(fragmentLauncher.getFragmentActivity());
             if (PRLaunchInput.isAppLaunchFlow()) {
                 ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
