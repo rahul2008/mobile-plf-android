@@ -155,25 +155,25 @@ public class ProdRegRegistrationControllerTest extends TestCase {
     }
 
     @Test
-     @SuppressWarnings("deprecation")
-     public void testGetProdRegListener() {
-         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
-         ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
-         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-         prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
+    @SuppressWarnings("deprecation")
+    public void testGetProdRegListener() {
+        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
+        ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registered successfully");
-         verify(registerControllerCallBacksMock).dismissLoadingDialog();
-         verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
+        verify(registerControllerCallBacksMock).dismissLoadingDialog();
+        verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
 
-         when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
-         prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registration failed");
         verify(registerControllerCallBacksMock, atLeastOnce()).showFragment(prodRegConnectionFragmentMock);
 
-         when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
-         prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
-         verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
-     }
+        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
+        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
+    }
 
     @Test
     public void testGetMethods() {
