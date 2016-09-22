@@ -10,9 +10,12 @@ import android.content.Intent;
 
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class WelcomeState extends UIState {
+
+    private FragmentLauncher fragmentLauncher;
     /**
      * constructor
      * @param stateID
@@ -23,25 +26,22 @@ public class WelcomeState extends UIState {
 
     /**
      * to navigate
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        context.startActivity(new Intent(context, WelcomeActivity.class));
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), WelcomeActivity.class));
     }
 
     /**
-     * handles back pressed
+     * handles handleBack pressed
      * @param context requires context
      */
     @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
     }
 
-    @Override
-    public void init(UiLauncher uiLauncher) {
-
-    }
     @Override
     public void init(Context context) {
 

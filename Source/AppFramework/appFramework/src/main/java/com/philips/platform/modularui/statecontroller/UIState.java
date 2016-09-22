@@ -74,16 +74,16 @@ abstract public class UIState {
 
     /**
      * For navigating from one state to other
-     * @param context requires context
+     * @param uiLauncher requires the UiLauncher object
      */
-    protected abstract void navigate(Context context);
+    public abstract void navigate(UiLauncher uiLauncher);
 
     /**
-     * For going back to last state
+     * For going handleBack to last state
      * @param context requires context
      */
 
-    public abstract void back(Context context);
+    public abstract void handleBack(Context context);
 
     /**
      * For initialising the component
@@ -92,11 +92,6 @@ abstract public class UIState {
 
     public abstract void init(Context context);
 
-    /**
-     * implement this to inject the dependencies
-     */
-
-    public abstract void init(UiLauncher uiLauncher);
     /**
      * to set the presenter
      * @param uiBasePresenter

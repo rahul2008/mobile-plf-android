@@ -5,7 +5,7 @@
 */
 package com.philips.platform.modularui.statecontroller;
 
-import android.content.Context;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
  * Flow manager class is used for navigating from one state to other state
@@ -35,10 +35,10 @@ public class UIFlowManager {
     /**
      * For naviating to next state
      * @param uiState requires Uistate object
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher object
      */
-    public void navigateToState(UIState uiState, Context context) {
-        uiState.navigate(context);
+    public void navigateToState(UIState uiState, UiLauncher uiLauncher) {
+        uiState.navigate(uiLauncher);
         setCurrentState(uiState);
     }
 }

@@ -33,17 +33,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
+
     private Context activityContext;
     private User userObject;
     private UIStateListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
-    Configuration configuration;
-    Context mApplicationContext;
-
-    @Override
-    public void init(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
-    }
+    private Context mApplicationContext;
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
@@ -86,14 +81,15 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     }
 
     @Override
-    public void navigate(Context context) {
-        activityContext = context;
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        activityContext = fragmentLauncher.getFragmentActivity();
         loadPlugIn();
         runUserRegistration();
     }
 
     @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
         ((AppFrameworkBaseActivity)context).popBack();
     }
 

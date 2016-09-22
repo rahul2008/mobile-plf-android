@@ -17,6 +17,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -35,14 +36,13 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     private SettingsAdapter adapter = null;
     private ListView list = null;
     UIBasePresenter uiBasePresenter;
-    public static final int logOutButton = 5555;
     public static final String TAG = SettingsFragment.class.getSimpleName();
     private UserRegistrationState userRegistrationState;
     private LogoutHandler logoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {
             uiBasePresenter = new SettingsFragmentPresenter();
-            uiBasePresenter.onClick(logOutButton,getActivity());
+            uiBasePresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT,getActivity());
             ((HomeActivity)getContext()).onGetCartCount(0);
         }
 
@@ -91,7 +91,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(settingScreenItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())){
-                    fragmentPresenter.onClick(SettingsAdapter.iapHistoryLaunch, getActivity());
+                    fragmentPresenter.onClick(Constants.IAP_PURCHASE_HISTORY, getActivity());
                 }
             }
         });

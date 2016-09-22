@@ -32,38 +32,36 @@ import java.util.List;
 public class ProductRegistrationState extends UIState implements ProdRegUiListener {
 
     private ArrayList<String> ctnList = null;
-    Context activityContext;
+    private Context activityContext;
     private FragmentLauncher fragmentLauncher;
-    Context mApplicationContext;
+    private Context applicationContext;
+
     public ProductRegistrationState(@UIStateDef int stateID){
         super(stateID);
     }
 
     @Override
-    public void init(UiLauncher uiLauncher) {
+    public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
+        activityContext = fragmentLauncher.getFragmentActivity();
+        launchProductRegistration();
     }
 
     @Override
-    protected void navigate(Context context) {
-        activityContext = context;
-        runProductRegistration();
-    }
-
-    @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
     @Override
     public void init(Context context) {
-        mApplicationContext=context;
+        applicationContext = context;
         PRDependencies prodRegDependencies = new PRDependencies(AppFrameworkApplication.gAppInfra);
 
-        UappSettings uappSettings = new UappSettings(mApplicationContext);
+        UappSettings uappSettings = new UappSettings(applicationContext);
         new PRInterface().init(prodRegDependencies, uappSettings);
     }
 
+    // TODO : Create product model inside Data Model
     private Product loadProduct() {
         if (ctnList == null) {
             ctnList = ((ProductRegistrationData)getUiStateData()).getCtnList();
@@ -96,7 +94,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
     }
 
-    public void runProductRegistration(){
+    public void launchProductRegistration(){
         ArrayList<Product> products = new ArrayList<>();
         products.add(loadProduct());
         PRLaunchInput prodRegLaunchInput;

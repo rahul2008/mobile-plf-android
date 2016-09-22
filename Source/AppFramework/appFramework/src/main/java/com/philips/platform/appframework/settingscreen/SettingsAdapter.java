@@ -56,7 +56,6 @@ public class SettingsAdapter extends BaseAdapter{
     private ArrayList<SettingListItem> settingsItemList = null;
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
-    public static final int iapHistoryLaunch = 5454;
     private PuiSwitch value;
     private TextView number,on_off,description,name;
     private FontIconTextView arrow;
@@ -176,13 +175,13 @@ public class SettingsAdapter extends BaseAdapter{
                             public void onUpdateReceiveMarketingEmailSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
-                                Toast.makeText(activityContext,"Update suceess",Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_success),Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext,"Update FAIL",Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_fail),Toast.LENGTH_LONG).show();
 
                             }
                         }, true);
@@ -192,13 +191,13 @@ public class SettingsAdapter extends BaseAdapter{
                             public void onUpdateReceiveMarketingEmailSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
-                                Toast.makeText(activityContext,"Update success",Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_success),Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext,"Update FAIL",Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_fail),Toast.LENGTH_LONG).show();
                             }
                         }, false);
                     }
@@ -241,7 +240,7 @@ public class SettingsAdapter extends BaseAdapter{
     private void logoutAlert() {
         new AlertDialog.Builder(activityContext)
                 .setTitle(getString(R.string.settings_list_item_log_out))
-                .setMessage("Are you sure want to log out?")
+                .setMessage(activityContext.getResources().getString(R.string.settings_logout_alert))
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

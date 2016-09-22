@@ -10,9 +10,12 @@ import android.content.Intent;
 
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class HomeActivityState extends UIState {
+
+    private FragmentLauncher fragmentLauncher;
     /**
      * constructor
      * @param stateID
@@ -23,25 +26,22 @@ public class HomeActivityState extends UIState {
 
     /**
      * Navigate to HomeActivity
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        context.startActivity(new Intent(context, HomeActivity.class));
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), HomeActivity.class));
     }
 
     /**
-     * to handle back
+     * to handle handleBack
      * @param context requires context
      */
     @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
     }
 
-    @Override
-    public void init(UiLauncher uiLauncher) {
-
-    }
     @Override
     public void init(Context context) {
 

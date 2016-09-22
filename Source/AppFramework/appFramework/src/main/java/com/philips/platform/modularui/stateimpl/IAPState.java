@@ -18,7 +18,6 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
-import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -27,50 +26,46 @@ import java.util.ArrayList;
 public class IAPState extends UIState{
 
     private Context activityContext;
-    private ArrayList<String> mCtnList = null;
+    private Context mApplicationContext;
+    private IAPInterface iapInterface;
+    private FragmentLauncher fragmentLauncher;
+    /**
+     IAP flow constants, values for IAP views should start from 4000 series
+     */
+    public static final int IAP_CATALOG_VIEW = 4001;
+    public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
+    public static final int IAP_SHOPPING_CART_VIEW = 4003;
+
     public IAPState(@UIStateDef int stateID) {
         super(stateID);
     }
-    private IAPListener iapListener;
-    private Context mApplicationContext;
-    private IAPInterface iapInterface;
 
     public IAPInterface getIapInterface() {
         return iapInterface;
     }
-    int iapFlowType;
-    private FragmentLauncher fragmentLauncher;
-
-    @Override
-    public void init(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
-    }
 
     // TODO : Deepthi - M -swap the params for init and navigate further we may hv to inject dependencies and settings
     @Override
-    public void navigate(Context context) {
-        activityContext = context;
-        // can use switch
-        iapFlowType = ((InAppStateData)getUiStateData()).getIapFlow();
-        if(iapFlowType == UIConstants.IAP_CATALOG_VIEW){
-            iapFlowType = IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-        }else if(iapFlowType == UIConstants.IAP_PURCHASE_HISTORY_VIEW){
-            iapFlowType = IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
-        }else if(iapFlowType == UIConstants.IAP_SHOPPING_CART_VIEW){
-            iapFlowType = IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
-        }
-        // get directly from data model
-        if (mCtnList == null) {
-            mCtnList = ((InAppStateData)getUiStateData()).getCtnList();
-        }
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        activityContext = fragmentLauncher.getFragmentActivity();
         launchIAP();
     }
 
+    // TODO : Remove from UIconstants
+    private int getIAPFlowType(int iapFlowType){
+        switch (iapFlowType){
+            case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
+            case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
+            case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
+            default:return IAPState.IAP_CATALOG_VIEW;
+        }
+    }
     private void launchIAP() {
         IAPInterface iapInterface = ((AppFrameworkApplication) activityContext.getApplicationContext()).getIap().getIapInterface();
-        IAPFlowInput iapFlowInput = new IAPFlowInput(mCtnList);
+        IAPFlowInput iapFlowInput = new IAPFlowInput(((InAppStateData)getUiStateData()).getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(iapFlowType, iapFlowInput);
+        iapLaunchInput.setIAPFlow(getIAPFlowType(((InAppStateData)getUiStateData()).getIapFlow()), iapFlowInput);
         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
@@ -82,7 +77,7 @@ public class IAPState extends UIState{
     }
 
     @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
@@ -101,6 +96,7 @@ public class IAPState extends UIState{
      * Data Model for CoCo is defined here to have minimal import files.
      */
     public class InAppStateData extends UIStateData {
+
         private int iapFlow;
         private ArrayList<String> mCtnList = null;
 

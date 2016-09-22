@@ -10,9 +10,11 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class DebugTestFragmentState extends UIState {
+    private FragmentLauncher fragmentLauncher;
     /**
      * constructor
      * @param stateID
@@ -23,27 +25,24 @@ public class DebugTestFragmentState extends UIState {
 
     /**
      * Navigate to the fragment
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new DebugTestFragment(), DebugTestFragment.TAG);
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showFragment( new DebugTestFragment(), DebugTestFragment.TAG);
     }
 
     /**
-     * to handle back key
+     * to handle handleBack key
      * @param context requires context
      */
 
     @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
-    @Override
-    public void init(UiLauncher uiLauncher) {
-
-    }
     @Override
     public void init(Context context) {
 

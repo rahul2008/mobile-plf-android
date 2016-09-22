@@ -44,7 +44,6 @@ import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -52,7 +51,7 @@ import java.util.ArrayList;
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
- * ActionbarListner is implemented by this activty and all the logic related to back handling and actionar is contained in this activity
+ * ActionbarListner is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
 public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
     private static String TAG = HomeActivity.class.getSimpleName();
@@ -166,7 +165,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             @Override
             public void onClick(View v) {
                 philipsDrawerLayout.closeDrawer(navigationView);
-                presenter.onClick(UIConstants.UI_SHOPPING_CART_BUTTON_CLICK, HomeActivity.this);
+                presenter.onClick(Constants.UI_SHOPPING_CART_BUTTON_CLICK, HomeActivity.this);
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
@@ -262,11 +261,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
                     UIFlowManager flowManager = applicationContext.getFlowManager();
                     UIState currentState = flowManager.getCurrentState();
-                    currentState.back(this);
+                    currentState.handleBack(this);
                 }
 
                 /*
-                 If you go some screen other than HOME SCREEN and press back then
+                 If you go some screen other than HOME SCREEN and press handleBack then
                  HOME SCREEN has to be selected. So manually r HOME as SELECTED.
                 */
                 adapter.setSelectedIndex(0);
@@ -310,7 +309,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     /**
      * For Updating the actionbar title as coming from other components
      * @param i String res ID
-     * @param b Whether back is handled by them or not
+     * @param b Whether handleBack is handled by them or not
      */
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
@@ -321,7 +320,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     /**
      * For Updating the actionbar title as coming from other components
      * @param s String to be updated on actionbar title
-     * @param b Whether back is handled by them or not
+     * @param b Whether handleBack is handled by them or not
      */
     @Override
     public void updateActionBar(String s, boolean b) {

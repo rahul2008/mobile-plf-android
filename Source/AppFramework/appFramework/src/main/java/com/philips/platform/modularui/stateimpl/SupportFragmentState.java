@@ -38,15 +38,10 @@ public class SupportFragmentState extends UIState implements CcListener {
         super(stateID);
     }
 
-
     @Override
-    public void init(UiLauncher uiLauncher) {
+    public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-    }
-
-    @Override
-    public void navigate(Context context) {
-        this.activityContext = context;
+        this.activityContext = fragmentLauncher.getFragmentActivity();
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         runCC();
     }
@@ -75,7 +70,7 @@ public class SupportFragmentState extends UIState implements CcListener {
         ccInterface.launch(fragmentLauncher, ccLaunchInput);
     }
     @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
         ((AppFrameworkBaseActivity) context).popBackTillHomeFragment();
     }
 

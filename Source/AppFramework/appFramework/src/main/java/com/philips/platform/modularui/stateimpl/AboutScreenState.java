@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
@@ -17,32 +18,30 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  */
 public class AboutScreenState  extends UIState {
 
+    FragmentLauncher fragmentLauncher;
     public AboutScreenState(@UIStateDef int stateID) {
         super(stateID);
     }
 
     /**
      * Navigating to AboutScreenFragment
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new AboutScreenFragment(), AboutScreenFragment.TAG);
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showFragment( new AboutScreenFragment(), AboutScreenFragment.TAG);
     }
 
     /**
-     * To handle back pressed
+     * To handle handleBack pressed
      * @param context requires context
      */
     @Override
-    public void back(final Context context) {
+    public void handleBack(final Context context) {
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
-    @Override
-    public void init(UiLauncher uiLauncher) {
-
-    }
     @Override
     public void init(Context context) {
 
