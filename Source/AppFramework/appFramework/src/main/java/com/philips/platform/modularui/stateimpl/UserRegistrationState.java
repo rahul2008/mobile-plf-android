@@ -39,11 +39,40 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     private UIStateListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
     private Context mApplicationContext;
+    final String AI = "appinfra";
 
     public UserRegistrationState(@UIStateDef int stateID) {
         super(stateID);
     }
-    
+
+    /**
+     * UIState overridden methods
+     * @param uiLauncher requires the UiLauncher object
+     */
+    @Override
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        activityContext = fragmentLauncher.getFragmentActivity();
+        launchUR();
+    }
+
+    @Override
+    public void handleBack(final Context context) {
+        ((AppFrameworkBaseActivity)context).popBack();
+    }
+
+    @Override
+    public void init(Context context) {
+        this.mApplicationContext = context;
+        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
+
+    }
+
+    /**
+     * ActionBarListener interface implementation methods
+     * @param i
+     * @param b
+     */
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
 
@@ -54,6 +83,10 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     }
 
+    /**
+     * UserRegistrationUIEventListener interface implementation methods
+     * @param activity
+     */
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
@@ -71,59 +104,9 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     }
 
-    public User getUserObject(Context context) {
-        userObject = new User(context);
-        return userObject;
-    }
-
-    public void registerUIStateListener(UIStateListener setStateCallBack){
-        this.userRegistrationListener = (UIStateListener) getPresenter();
-    }
-
-    @Override
-    public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
-        activityContext = fragmentLauncher.getFragmentActivity();
-        loadPlugIn();
-        runUserRegistration();
-    }
-
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBack();
-    }
-
-    @Override
-    public void init(Context context) {
-        this.mApplicationContext = context;
-        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
-
-    }
-
-    private void loadPlugIn(){
-        userObject = new User(activityContext);
-        userObject.registerUserRegistrationListener(this);
-    }
-
-    private void runUserRegistration(){
-       launchRegistrationFragment(false);
-    }
     /**
-     * Launch registration fragment
+     * UserRegistrationListener interface implementation methods
      */
-    private void launchRegistrationFragment(boolean isAccountSettings) {
-
-        URLaunchInput urLaunchInput = new URLaunchInput();
-        urLaunchInput.setUserRegistrationUIEventListener(this);
-        urLaunchInput.setAccountSettings(isAccountSettings);
-        urLaunchInput.enableAddtoBackStack(true);
-        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-        URInterface urInterface = new URInterface();
-        urInterface.launch(fragmentLauncher, urLaunchInput);
-    }
-
-
-
     @Override
     public void onUserLogoutSuccess() {
 
@@ -137,6 +120,35 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
 
+    }
+
+
+    public User getUserObject(Context context) {
+        userObject = new User(context);
+        return userObject;
+    }
+
+    /**
+     * Registering for UIStateListener callbacks
+     * @param setStateCallBack
+     */
+    public void registerUIStateListener(UIStateListener setStateCallBack){
+        this.userRegistrationListener = (UIStateListener) getPresenter();
+    }
+
+    /**
+     * Launch registration fragment
+     */
+    private void launchUR() {
+        userObject = new User(activityContext);
+        userObject.registerUserRegistrationListener(this);
+        URLaunchInput urLaunchInput = new URLaunchInput();
+        urLaunchInput.setUserRegistrationUIEventListener(this);
+        urLaunchInput.setAccountSettings(false);
+        urLaunchInput.enableAddtoBackStack(true);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        URInterface urInterface = new URInterface();
+        urInterface.launch(fragmentLauncher, urLaunchInput);
     }
 
     /**For doing dynamic initialisation Of User registration
@@ -252,7 +264,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
 
     }
-    final String AI = "appinfra";
+
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = AppFrameworkApplication.gAppInfra.getAppIdentity();

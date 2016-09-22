@@ -37,12 +37,26 @@ public class SupportFragmentState extends UIState implements CcListener {
         super(stateID);
     }
 
+    /**
+     * UIState overridden methods
+     * @param uiLauncher requires the UiLauncher object
+     */
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         this.activityContext = fragmentLauncher.getFragmentActivity();
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         launchCC();
+    }
+
+    @Override
+    public void handleBack(final Context context) {
+        ((AppFrameworkBaseActivity) context).popBackTillHomeFragment();
+    }
+
+    @Override
+    public void init(Context context) {
+
     }
 
     void launchCC()
@@ -64,12 +78,11 @@ public class SupportFragmentState extends UIState implements CcListener {
         ccInterface.init(ccDependencies, ccSettings);
         ccInterface.launch(fragmentLauncher, ccLaunchInput);
     }
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity) context).popBackTillHomeFragment();
-    }
 
-
+    /**
+     * Registering for UIStateListener callbacks
+     * @param setStateCallBack
+     */
     public void registerUIStateListener(UIStateListener setStateCallBack) {
         this.supportListener = (UIStateListener) getPresenter();
     }
@@ -78,10 +91,12 @@ public class SupportFragmentState extends UIState implements CcListener {
         DigitalCareConfigManager.getInstance().unRegisterCcListener(this);
 
     }
-    @Override
-    public void init(Context context) {
 
-    }
+    /**
+     * CcListener interface implementation methods
+     * @param s
+     * @return
+     */
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {

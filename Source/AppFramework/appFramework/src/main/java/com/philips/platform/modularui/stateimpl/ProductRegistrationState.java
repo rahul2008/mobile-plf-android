@@ -39,6 +39,10 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         super(stateID);
     }
 
+    /**
+     * UIState overridden methods
+     * @param uiLauncher requires the UiLauncher object
+     */
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
@@ -60,6 +64,12 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         new PRInterface().init(prodRegDependencies, uappSettings);
     }
 
+
+    /**
+     * ProdRegUiListener interface implementation methods
+     * @param list
+     * @param userWithProducts
+     */
     @Override
     public void onProdRegContinue(List<RegisteredProduct> list, UserWithProducts userWithProducts) {
 
@@ -76,6 +86,9 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
     }
 
+    /**
+     * Launch PR method
+     */
     public void launchPR(){
         ArrayList<Product> products = new ArrayList<>();
         products.add(((ProductRegistrationData)getUiStateData()).getProductData());
