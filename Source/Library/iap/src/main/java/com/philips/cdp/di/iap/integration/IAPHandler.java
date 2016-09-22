@@ -48,7 +48,6 @@ class IAPHandler {
     IAPHandler(IAPDependencies mIAPDependencies, IAPSettings pIapSettings) {
         this.mIAPDependencies = mIAPDependencies;
         mIAPSetting = pIapSettings;
-        mContext = mIAPSetting.getContext();
     }
 
     void initTaggingLogging() {
@@ -58,18 +57,14 @@ class IAPHandler {
 
 
     void initIAP() {
-        initHybrisDelegate(mContext, mIAPSetting, mIAPDependencies);
+        initHybrisDelegate(mIAPSetting, mIAPDependencies);
         initControllerFactory(mIAPSetting);
         setLangAndCountry();
     }
 
-    IAPExposedAPI getExposedAPIImplementor() {
-        return getExposedAPIImplementor(mContext, mIAPSetting);
-    }
-
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(mContext, pLaunchInput, (ActivityLauncher) uiLauncher);
+            launchActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
         }
@@ -78,12 +73,12 @@ class IAPHandler {
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
         final IAPListener iapListener = pLaunchInput.getIapListener();
         //User logged off scenario
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+        HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
         delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 if (uiLauncher instanceof ActivityLauncher) {
-                    launchActivity(mContext, pLaunchInput, (ActivityLauncher) uiLauncher);
+                    launchActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
                 } else {
                     launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
                 }
@@ -177,20 +172,20 @@ class IAPHandler {
                 + tag + ")");
     }
 
-    private IAPExposedAPI getExposedAPIImplementor(Context context, IAPSettings iapSettings) {
+    protected IAPExposedAPI getExposedAPIImplementor(IAPSettings iapSettings) {
         IAPExposedAPI api;
         if (iapSettings.isUseLocalData()) {
-            api = new AppLocalHandler(context);
+            api = new AppLocalHandler(iapSettings.getContext());
         } else {
-            api = new HybrisHandler(context);
+            api = new HybrisHandler(iapSettings.getContext());
         }
         return api;
     }
 
-    private void initHybrisDelegate(Context context, IAPSettings iapSettings, IAPDependencies iapDependencies) {
+    private void initHybrisDelegate(IAPSettings iapSettings, IAPDependencies iapDependencies) {
         int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(requestCode);
-        HybrisDelegate.getDelegateWithNetworkEssentials(context, essentials, iapDependencies);
+        HybrisDelegate.getDelegateWithNetworkEssentials(iapSettings.getContext(), essentials, iapDependencies);
     }
 
 
@@ -209,7 +204,7 @@ class IAPHandler {
     }
 
     private void setLangAndCountry() {
-        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        PILLocaleManager localeManager = new PILLocaleManager(mIAPSetting.getContext());
         String[] localeArray;
         String localeAsString = localeManager.getInputLocale();
         localeArray = localeAsString.split("_");
@@ -219,8 +214,8 @@ class IAPHandler {
         HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
     }
 
-    boolean isStoreInitialized() {
-        return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
+    boolean isStoreInitialized(Context pContext) {
+        return HybrisDelegate.getInstance(pContext).getStore().isStoreInitialized();
     }
 
     private int getIAPErrorCode(Message msg) {

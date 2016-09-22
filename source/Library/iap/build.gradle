@@ -39,7 +39,7 @@ buildscript {
 }
 
 apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 allprojects {
@@ -178,10 +178,10 @@ artifactory {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-            publishArtifacts = true
+//            publishPom = true
+//            publishIvy = false
+//            publishBuildInfo = true
+//            publishArtifacts = true
         }
     }
     resolve {

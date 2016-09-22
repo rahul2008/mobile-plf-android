@@ -31,14 +31,20 @@ public class NetworkController {
     protected StoreSpec store;
     protected OAuthHandler oAuthHandler;
     protected NetworkEssentials mNetworkEssentials;
+
     public NetworkController(Context context) {
         this(context, null, null);
+    }
+
+    public NetworkController(Context context, IAPDependencies iapDependencies) {
+        this.context = context;
+        initStore(this.context, iapDependencies);
     }
 
     public NetworkController(Context context, NetworkEssentials essentials, IAPDependencies iapDependencies) {
         this.context = context;
         mNetworkEssentials = essentials;
-        initStore(iapDependencies);
+        initStore(context, iapDependencies);
         oAuthHandler = essentials.getOAuthHandler();
         initHurlStack(context);
         hybrisVolleyCreateConnection(context);
@@ -48,7 +54,7 @@ public class NetworkController {
         mIapHurlStack = mNetworkEssentials.getHurlStack(context, oAuthHandler);
     }
 
-    void initStore(IAPDependencies iapDependencies) {
+    void initStore(Context context, IAPDependencies iapDependencies) {
         store = mNetworkEssentials.getStore(context, iapDependencies);
     }
 

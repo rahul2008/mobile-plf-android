@@ -14,7 +14,7 @@
         android:label="@string/demo_app_name"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup, android:label, android:icon">
+        tools:replace="android:allowBackup, android:label">
         <activity
             android:name=".DemoAppActivity"
             android:screenOrientation="portrait"
