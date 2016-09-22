@@ -7,16 +7,16 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
 
-/**
- * Created by 310190722 on 8/16/2016.
- */
+
 public class RegistrationSettingsURL extends RegistrationSettings {
 
     private String LOG_TAG = "RegistrationAPI";
@@ -57,6 +57,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
         jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
         jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
+
+       // Conditional change
         mProductRegisterUrl = EVAL_PRODUCT_REGISTER_URL;
         mProductRegisterListUrl = EVAL_PRODUCT_REGISTER_LIST_URL;
         mResendConsentUrl = EVAL_PRX_RESEND_CONSENT_URL;
@@ -90,30 +92,16 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             jumpConfig.captureAppId = "x7nftvwfz8e8vcutz49p8eknqp";
         }
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+       new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                initServiceDiscovery();
-                jumpConfig.captureLocale = locale;
-                mPreferredCountryCode = countryCode;
-                mPreferredLangCode = langCode;
-
-                try {
-                    Jump.reinitialize(mContext, jumpConfig);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    if (e instanceof RuntimeException) {
-                        mContext.deleteFile("jr_capture_flow");
-                        Jump.reinitialize(mContext, jumpConfig);
-                    }
-                }
-            }
+                initServiceDiscovery(locale);
+           }
         }, 2000);
 
     }
 
-    private void initServiceDiscovery() {
+    private void initServiceDiscovery(final String locale) {
 
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
@@ -123,14 +111,25 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             @Override
             public void onError(ERRORVALUES errorvalues, String error) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : refresh fail :" + error);
+
+                //NOtify initi failed
+                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+
             }
 
             @Override
             public void onSuccess() {
+
+                //Do in sequence
+
                 serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String error) {
                         RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.api :" + error);
+
+                        //NOtify failed
+                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+
                     }
 
                     @Override
@@ -138,53 +137,80 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         String janrainURL = url.toString().substring(8);
                         jumpConfig.captureDomain = janrainURL.toString();
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);
+
+                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.landing.emailverif", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                            @Override
+                            public void onError(ERRORVALUES errorvalues, String error) {
+                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.emailverif :" + error);
+                                //NOtify failed
+                                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+
+                            }
+
+                            @Override
+                            public void onSuccess(URL url) {
+                                jumpConfig.captureRedirectUri = url.toString() + "?loc=" + langCode + "_" + countryCode;
+                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :" + url.toString());
+                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :" + jumpConfig.captureRedirectUri);
+
+                                serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.landing.resetpass", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                                    @Override
+                                    public void onError(ERRORVALUES errorvalues, String error) {
+                                        RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.resetpass : " + error);
+                                        //NOtify failed
+                                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(URL url) {
+                                        //https://www.philips.co.in/c-w/reset-password.html?cl=mob
+                                        String modifiedUrl = url.toString().replaceAll("c-w","myphilips");
+                                        jumpConfig.captureRecoverUri = modifiedUrl + "&loc=" + langCode + "_" + countryCode;
+                                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + modifiedUrl);
+                                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
+
+                                        jumpConfig.captureLocale = locale;
+                                        mPreferredCountryCode = countryCode;
+                                        mPreferredLangCode = langCode;
+
+                                        try {
+                                            Jump.reinitialize(mContext, jumpConfig);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            //End of file exoeotion
+                                            if (e instanceof RuntimeException) {
+                                                mContext.deleteFile("jr_capture_flow");
+                                                Jump.reinitialize(mContext, jumpConfig);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
 
-                serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.landing.emailverif", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String error) {
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.emailverif :" + error);
-                    }
 
-                    @Override
-                    public void onSuccess(URL url) {
-                        jumpConfig.captureRedirectUri = url.toString() + "?loc=" + langCode + "_" + countryCode;
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :" + url.toString());
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :" + jumpConfig.captureRedirectUri);
-                    }
-                });
 
-                serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.landing.resetpass", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String error) {
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.resetpass : " + error);
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        //https://www.philips.co.in/c-w/reset-password.html?cl=mob
-                        String modifiedUrl = url.toString().replaceAll("c-w","myphilips");
-                        jumpConfig.captureRecoverUri = modifiedUrl + "&loc=" + langCode + "_" + countryCode;
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + modifiedUrl);
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
-                    }
-                });
-
-                serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+             /*tobe used in future
+              serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String error) {
                         RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
+                        //NOtify failed
                     }
 
                     @Override
                     public void onSuccess(URL url) {
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" + url.toString());
                     }
-                });
+                });*/
 
             }
         });
