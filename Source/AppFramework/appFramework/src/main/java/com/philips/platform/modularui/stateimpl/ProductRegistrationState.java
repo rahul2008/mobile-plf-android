@@ -31,7 +31,6 @@ import java.util.List;
 
 public class ProductRegistrationState extends UIState implements ProdRegUiListener {
 
-    private ArrayList<String> ctnList = null;
     private Context activityContext;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
@@ -44,7 +43,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
-        launchProductRegistration();
+        launchPR();
     }
 
     @Override
@@ -59,23 +58,6 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
         UappSettings uappSettings = new UappSettings(applicationContext);
         new PRInterface().init(prodRegDependencies, uappSettings);
-    }
-
-    // TODO : Create product model inside Data Model
-    private Product loadProduct() {
-        if (ctnList == null) {
-            ctnList = ((ProductRegistrationData)getUiStateData()).getCtnList();
-        }
-        String[] ctnList = new String[this.ctnList.size()];
-        for (int i = 0; i < this.ctnList.size(); i++) {
-            ctnList[i] = this.ctnList.get(i);
-        }
-        Product product = new Product(ctnList[0], Sector.B2C, Catalog.CONSUMER);
-        product.setSerialNumber("");
-        product.setPurchaseDate("");
-        product.setFriendlyName("");
-        product.sendEmail(false);
-        return product;
     }
 
     @Override
@@ -94,9 +76,9 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
     }
 
-    public void launchProductRegistration(){
+    public void launchPR(){
         ArrayList<Product> products = new ArrayList<>();
-        products.add(loadProduct());
+        products.add(((ProductRegistrationData)getUiStateData()).getProductData());
         PRLaunchInput prodRegLaunchInput;
         prodRegLaunchInput = new PRLaunchInput(products, false);
         prodRegLaunchInput.setProdRegUiListener(this);
@@ -116,5 +98,15 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         public void setCtnList(ArrayList<String> mCtnList) {
             this.mCtnList = mCtnList;
         }
+
+        public Product getProductData(){
+            Product product = new Product(((ProductRegistrationData)getUiStateData()).getCtnList().get(0), Sector.B2C, Catalog.CONSUMER);
+            product.setSerialNumber("");
+            product.setPurchaseDate("");
+            product.setFriendlyName("");
+            product.sendEmail(false);
+            return product;
+        }
+
     }
 }

@@ -103,11 +103,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         hamburgerUtil = null;
         drawerListView = null;
         loadSlideMenuItems();
-        setHamburgerAdaptor();
+        setHamburgerAdapter();
         drawerListView = (ListView) findViewById(R.id.hamburger_list);
         hamburgerUtil = new HamburgerUtil(this, drawerListView);
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
-        setDrawerAdaptor();
+        setDrawerAdapter();
         showNavigationDrawerItem(0);
         sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,0);
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,6 +117,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     adapter.setSelectedIndex(position);
                     adapter.notifyDataSetChanged();
                     sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
+                    hamburgerIcon.setTag(Constants.HAMBURGER_ICON_TAG);
                     showNavigationDrawerItem(position);
                 }
             }
@@ -186,7 +187,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         setSupportActionBar(toolbar);
     }
 
-    private void setDrawerAdaptor() {
+    private void setDrawerAdapter() {
         adapter = null;
         TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
         adapter = new HamburgerAdapter(this,
@@ -215,7 +216,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         philipsDrawerLayout.addDrawerListener(drawerToggle);
     }
 
-    private void setHamburgerAdaptor() {
+    private void setHamburgerAdapter() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i],null));
         }

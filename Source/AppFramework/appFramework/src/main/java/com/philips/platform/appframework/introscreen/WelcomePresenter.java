@@ -51,7 +51,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
                 fragmentLauncher = new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context);
                 uiState.setPresenter(this);
-                ((UserRegistrationState)uiState).registerForNextState(this);
+                ((UserRegistrationState)uiState).registerUIStateListener(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
                 break;
             case R.id.start_registration_button:
@@ -60,7 +60,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
                 fragmentLauncher = new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context);
                 uiState.setPresenter(this);
-                ((UserRegistrationState)uiState).registerForNextState(this);
+                ((UserRegistrationState)uiState).registerUIStateListener(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
                 break;
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
@@ -92,7 +92,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
             uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
             fragmentLauncher = new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context);
             uiState.setPresenter(this);
-            ((UserRegistrationState)uiState).registerForNextState(this);
+            ((UserRegistrationState)uiState).registerUIStateListener(this);
             appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
         } else {
             setState(UIState.UI_WELCOME_STATE);

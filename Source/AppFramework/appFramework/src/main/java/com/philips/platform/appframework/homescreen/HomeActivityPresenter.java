@@ -93,7 +93,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         }
         uiState.setPresenter(this);
         if(uiState instanceof SupportFragmentState){
-            ((SupportFragmentState)uiState).registerForNextState(this);
+            ((SupportFragmentState)uiState).registerUIStateListener(this);
         }
         appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
     }

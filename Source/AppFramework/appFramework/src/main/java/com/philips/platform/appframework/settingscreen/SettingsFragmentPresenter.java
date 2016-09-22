@@ -83,7 +83,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
         uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
         fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
         uiState.setPresenter(this);
-        ((UserRegistrationState)uiState).registerForNextState(this);
+        ((UserRegistrationState)uiState).registerUIStateListener(this);
         appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
     }
 

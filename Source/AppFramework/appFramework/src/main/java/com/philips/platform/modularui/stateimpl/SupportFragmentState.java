@@ -18,16 +18,15 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
 
 public class SupportFragmentState extends UIState implements CcListener {
-    private ArrayList<String> ctnList = null;
     private Context activityContext;
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
@@ -43,18 +42,14 @@ public class SupportFragmentState extends UIState implements CcListener {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         this.activityContext = fragmentLauncher.getFragmentActivity();
         DigitalCareConfigManager.getInstance().registerCcListener(this);
-        runCC();
+        launchCC();
     }
 
-    void runCC()
+    void launchCC()
     {
-        if (ctnList == null) {
-            ctnList = ((ConsumerCareData)getUiStateData()).getCtnList();
-        }
-        String[] ctnList = new String[this.ctnList.size()];
-        for (int i = 0; i < this.ctnList.size(); i++) {
-            ctnList[i] = this.ctnList.get(i);
-        }
+        String[] ctnList = new String[((ConsumerCareData)getUiStateData()).getCtnList().size()];
+        ctnList = ((ConsumerCareData)getUiStateData()).getCtnList().toArray(ctnList);
+
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
@@ -75,7 +70,7 @@ public class SupportFragmentState extends UIState implements CcListener {
     }
 
 
-    public void registerForNextState(UIStateListener setStateCallBack) {
+    public void registerUIStateListener(UIStateListener setStateCallBack) {
         this.supportListener = (UIStateListener) getPresenter();
     }
 

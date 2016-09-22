@@ -40,6 +40,10 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     private FragmentLauncher fragmentLauncher;
     private Context mApplicationContext;
 
+    public UserRegistrationState(@UIStateDef int stateID) {
+        super(stateID);
+    }
+    
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
 
@@ -72,12 +76,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         return userObject;
     }
 
-    public void registerForNextState(UIStateListener setStateCallBack){
+    public void registerUIStateListener(UIStateListener setStateCallBack){
         this.userRegistrationListener = (UIStateListener) getPresenter();
-    }
-
-    public UserRegistrationState(@UIStateDef int stateID) {
-        super(stateID);
     }
 
     @Override

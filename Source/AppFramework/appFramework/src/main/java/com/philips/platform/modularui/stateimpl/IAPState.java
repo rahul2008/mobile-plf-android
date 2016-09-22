@@ -44,7 +44,6 @@ public class IAPState extends UIState{
         return iapInterface;
     }
 
-    // TODO : Deepthi - M -swap the params for init and navigate further we may hv to inject dependencies and settings
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
