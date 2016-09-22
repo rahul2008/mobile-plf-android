@@ -75,6 +75,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.janrain.android.utils.LogUtils.loge;
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
 public class JRSession implements JRConnectionManagerDelegate {
@@ -728,39 +729,42 @@ public class JRSession implements JRConnectionManagerDelegate {
                     ConfigurationError.JSON_ERROR, ErrorType.CONFIGURATION_FAILED, e);
             return;
         }
+        try{
+            mRpBaseUrl = StringUtils.chomp(jsonDict.getAsString("baseurl", ""), "/");
+            PrefUtils.putString(PrefUtils.KEY_JR_RP_BASE_URL, mRpBaseUrl);
 
-        mRpBaseUrl = StringUtils.chomp(jsonDict.getAsString("baseurl", ""), "/");
-        PrefUtils.putString(PrefUtils.KEY_JR_RP_BASE_URL, mRpBaseUrl);
-
-        mProviders = new HashMap<String, JRProvider>();
-        JRDictionary providerInfo = jsonDict.getAsDictionary("provider_info", true);
-        for (String name : providerInfo.keySet()) {
-            JRProvider value = new JRProvider(name, providerInfo.getAsDictionary(name));
-            if (!mProviders.containsKey(name)) {
-                mProviders.put(name, value);
+            mProviders = new HashMap<String, JRProvider>();
+            JRDictionary providerInfo = jsonDict.getAsDictionary("provider_info", true);
+            for (String name : providerInfo.keySet()) {
+                JRProvider value = new JRProvider(name, providerInfo.getAsDictionary(name));
+                if (!mProviders.containsKey(name)) {
+                    mProviders.put(name, value);
+                }
             }
-        }
-        Archiver.asyncSave(ARCHIVE_ALL_PROVIDERS, mProviders);
+            Archiver.asyncSave(ARCHIVE_ALL_PROVIDERS, mProviders);
 
-        mAuthProviders = jsonDict.getAsListOfStrings("enabled_providers");
-        mSharingProviders = jsonDict.getAsListOfStrings("social_providers");
-        Archiver.asyncSave(ARCHIVE_AUTH_PROVIDERS, mAuthProviders);
-        Archiver.asyncSave(ARCHIVE_SHARING_PROVIDERS, mSharingProviders);
+            mAuthProviders = jsonDict.getAsListOfStrings("enabled_providers");
+            mSharingProviders = jsonDict.getAsListOfStrings("social_providers");
+            Archiver.asyncSave(ARCHIVE_AUTH_PROVIDERS, mAuthProviders);
+            Archiver.asyncSave(ARCHIVE_SHARING_PROVIDERS, mSharingProviders);
 
-        mHidePoweredBy = jsonDict.getAsBoolean("hide_tagline", false);
-        PrefUtils.putBoolean(PrefUtils.KEY_JR_HIDE_POWERED_BY, mHidePoweredBy);
+            mHidePoweredBy = jsonDict.getAsBoolean("hide_tagline", false);
+            PrefUtils.putBoolean(PrefUtils.KEY_JR_HIDE_POWERED_BY, mHidePoweredBy);
 
         /* Ensures that the returning auth and sharing providers,
          * if set, are members of the configured set of providers. */
-        setReturningAuthProvider(mReturningAuthProvider);
-        setReturningAuthProviderPermissions(mReturningAuthProviderPermissions);
-        setReturningSharingProvider(mReturningSharingProvider);
+            setReturningAuthProvider(mReturningAuthProvider);
+            setReturningAuthProviderPermissions(mReturningAuthProviderPermissions);
+            setReturningSharingProvider(mReturningSharingProvider);
 
-        PrefUtils.putString(PrefUtils.KEY_JR_CONFIGURATION_ETAG, mNewEtag);
-        PrefUtils.putString(PrefUtils.KEY_JR_ENGAGE_LIBRARY_VERSION, mUrlEncodedLibraryVersion);
+            PrefUtils.putString(PrefUtils.KEY_JR_CONFIGURATION_ETAG, mNewEtag);
+            PrefUtils.putString(PrefUtils.KEY_JR_ENGAGE_LIBRARY_VERSION, mUrlEncodedLibraryVersion);
 
-        mError = null;
-        triggerConfigDidFinish();
+            mError = null;
+            triggerConfigDidFinish();
+        }catch (Exception e){
+           loge(e.getMessage());
+        }
     }
 
     private void finishGetConfiguration(String dataStr, String eTag) {
