@@ -198,12 +198,13 @@ public class AppInfra implements AppInfraInterface {
             Log.v("APPINFRA INT", "ServiceDiscovery Intitialization Done");
             if (ai.getAppIdentity() != null) {
                 StringBuilder appInfraLogStatement = new StringBuilder();
-                appInfraLogStatement.append("AppInfra initialized for application \"");
-                appInfraLogStatement.append(ai.getAppIdentity().getAppName());
-                appInfraLogStatement.append("\" version \"");
-                appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
-                appInfraLogStatement.append("\" in state \"");
+
                 try {
+                    appInfraLogStatement.append("AppInfra initialized for application \"");
+                    appInfraLogStatement.append(ai.getAppIdentity().getAppName());
+                    appInfraLogStatement.append("\" version \"");
+                    appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
+                    appInfraLogStatement.append("\" in state \"");
                     appInfraLogStatement.append(ai.getAppIdentity().getAppState());
 
                 } catch (IllegalArgumentException e) {
