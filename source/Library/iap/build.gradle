@@ -156,7 +156,7 @@ dependencies {
     {
            transitive = true
     }
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.6', ext: 'aar')
+	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.7', ext: 'aar')
     {
            transitive = true
     }
