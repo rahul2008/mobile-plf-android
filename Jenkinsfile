@@ -18,7 +18,7 @@ node('Android') {
     step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibtestapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
 
     stage 'Reporting'
-    step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
+    step([$class: 'JacocoPublisher', execPattern: 'shinelib/**/*.exec', classPattern: '**/shinelib/**/classes', sourcePattern: '**/shinelib/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*,**/*Test.class'])
 
     if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master"){
         stage 'Publish'
