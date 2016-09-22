@@ -113,7 +113,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         }
 
         public Product getProductData(){
-            Product product = new Product(((ProductRegistrationData)getUiStateData()).getCtnList().get(0), Sector.B2C, Catalog.CONSUMER);
+            Product product = new Product(getCtnList().get(0), Sector.B2C, Catalog.CONSUMER);
             product.setSerialNumber("");
             product.setPurchaseDate("");
             product.setFriendlyName("");
