@@ -31,7 +31,7 @@ public class DemoListFragment extends Fragment implements AdapterView.OnItemClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.demo_main_listview, null);
+        View view = inflater.inflate(R.layout.demo_main_listview, container, false);
         listView = (ListView) view.findViewById(R.id.demo_list);
         setListItems();
         return view;

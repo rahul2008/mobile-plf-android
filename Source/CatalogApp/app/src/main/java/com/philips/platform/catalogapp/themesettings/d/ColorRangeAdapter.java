@@ -1,5 +1,6 @@
 package com.philips.platform.catalogapp.themesettings;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +21,17 @@ import butterknife.ButterKnife;
  * All rights reserved.
  */
 public class ColorRangeAdapter extends RecyclerView.Adapter<ColorRangeAdapter.ViewHolder> {
-    List<ColorRangeModel> colorRangeList;
+    private List<ColorRangeModel> colorRangeList;
     private com.philips.platform.catalogapp.themesettings.ColorRangChangedListener colorRangChangedListener;
     private int selectedPosition = 0;
 
-    public ColorRangeAdapter(final List<ColorRangeModel> colorRangeList, com.philips.platform.catalogapp.themesettings.ColorRangChangedListener colorRangChangedListener) {
+    public ColorRangeAdapter(@NonNull final List<ColorRangeModel> colorRangeList, @NonNull com.philips.platform.catalogapp.themesettings.ColorRangChangedListener colorRangChangedListener) {
         this.colorRangeList = colorRangeList;
         this.colorRangChangedListener = colorRangChangedListener;
     }
 
     @Override
-    public ColorRangeAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public ColorRangeAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, @NonNull final int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.theme_selector_list_item, parent, false);
         ColorRangeAdapter.ViewHolder viewHolder = new ViewHolder(view);
@@ -38,20 +39,20 @@ public class ColorRangeAdapter extends RecyclerView.Adapter<ColorRangeAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(final ColorRangeAdapter.ViewHolder holder, final int position) {
-        final int adapterPosition = holder.getAdapterPosition();
+    public void onBindViewHolder(@NonNull final ColorRangeAdapter.ViewHolder holder, @NonNull final int position) {
         final ColorRangeModel colorRangeModel = colorRangeList.get(position);
         holder.colorRangeTittleLabel.setText(colorRangeModel.getTitle());
-        holder.colorRangeSelectedCheckBox.setVisibility(adapterPosition == selectedPosition ? View.VISIBLE : View.GONE);
+        holder.colorRangeSelectedCheckBox.setVisibility(position == selectedPosition ? View.VISIBLE : View.GONE);
 
         holder.itemView.setBackgroundColor(holder.itemView.getResources().getColor(colorRangeModel.getColor()));
         holder.colorRangeContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                final int adapterPosition = holder.getAdapterPosition();
                 selectedPosition = adapterPosition;
                 notifyDataSetChanged();
                 if (colorRangChangedListener != null) {
-                    final ColorRangeModel colorRangeModel = colorRangeList.get(position);
+                    final ColorRangeModel colorRangeModel = colorRangeList.get(selectedPosition);
 
                     colorRangChangedListener.onColorRangeChanged(colorRangeModel.getName());
                 }
@@ -74,7 +75,7 @@ public class ColorRangeAdapter extends RecyclerView.Adapter<ColorRangeAdapter.Vi
         @Bind(R.id.colorRangeSelectedCheckbox)
         public ImageView colorRangeSelectedCheckBox;
 
-        public ViewHolder(View view) {
+        public ViewHolder(@NonNull View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
