@@ -28,6 +28,9 @@ public class Constants {
     public static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
     public static final String HAMBURGER_ICON_TAG = "HamburgerIcon";
     public static final String BACK_BUTTON_TAG = "BackButton";
+    public static final String IAP_PHILIPS_SHOP_FRAGMENT_TAG = "ProductCatalogFragment";
+    public static final String IAP_PURCHASE_HISTORY_FRAGMENT_TAG = "PurchaseHistoryFragment";
+    public static final String IAP_SHOPPING_CART_FRAGMENT_TAG = "ShoppingCartFragment";
 
     /**
      * WelcomeActivity constants

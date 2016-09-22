@@ -169,7 +169,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
-        cartCount.setVisibility(View.INVISIBLE);
+        cartCount.setVisibility(View.GONE);
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -329,15 +329,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     }
 
-    public void cartIconVisibility(boolean shouldShow) {
-        if(shouldShow){
-            cartIcon.setVisibility(View.VISIBLE);
-            userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-            if(userRegistrationState.getUserObject(this).isUserSignIn()) {
-                addIapCartCount();
-            }
-        }
-    }
     /**
      * Method for showing the hamburger Icon or Back key on home fragments
      */
@@ -365,14 +356,23 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
+    public void cartIconVisibility(boolean shouldShow) {
+        if(shouldShow){
+            cartIcon.setVisibility(View.VISIBLE);
+                if (cartItemCount > 0) {
+                        cartCount.setVisibility(View.VISIBLE);
+                        cartCount.setText(String.valueOf(cartItemCount));
+                }
+        } else {
+                cartIcon.setVisibility(View.GONE);
+                cartCount.setVisibility(View.GONE);
+        }
+    }
     @Override
     public void onGetCartCount(int count) {
         cartItemCount = count;
-        if (count > 0 && cartIcon.getVisibility() == View.VISIBLE) {
-            cartCount.setVisibility(View.VISIBLE);
-            cartCount.setText(String.valueOf(cartItemCount));
-        } else {
-            cartCount.setVisibility(View.GONE);
+        if(cartItemCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
+            cartIconVisibility(true);
         }
     }
 
@@ -385,17 +385,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
-        if (shouldShow) {
-            cartIcon.setVisibility(View.VISIBLE);
-
-            if(cartItemCount > 0) {
-                cartCount.setVisibility(View.VISIBLE);
-                cartCount.setText(String.valueOf(cartItemCount));
-            }
-        } else {
-            cartIcon.setVisibility(View.GONE);
-            cartCount.setVisibility(View.GONE);
-        }
+        cartIconVisibility(shouldShow);
     }
 
     @Override
@@ -434,7 +424,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();
             if (null != str) {
-                if (str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag)) || str.equalsIgnoreCase("Registration_fragment_tag")) {
+                if(str.contains(Constants.IAP_PHILIPS_SHOP_FRAGMENT_TAG) || str.contains(Constants.IAP_PURCHASE_HISTORY_FRAGMENT_TAG) || str.contains(Constants.IAP_SHOPPING_CART_FRAGMENT_TAG)){
+                    return;
+                } else {
                     cartIconVisibility(true);
                 }
             }

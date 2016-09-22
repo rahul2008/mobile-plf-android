@@ -29,7 +29,6 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
     public void onResume() {
         super.onResume();
         ((HomeActivity)getActivity()).updateActionBarIcon(false);
-        ((HomeActivity)getActivity()).cartIconVisibility(true);
     }
 
     @Override
