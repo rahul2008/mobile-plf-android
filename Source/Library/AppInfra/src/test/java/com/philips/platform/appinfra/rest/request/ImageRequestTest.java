@@ -1,31 +1,9 @@
-package com.philips.platform.appinfra.rest.request.rest.request;
-
-/**
- * Created by 310238114 on 9/19/2016.
- */
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+package com.philips.platform.appinfra.rest.request;
 import android.graphics.Bitmap.Config;
 import android.widget.ImageView.ScaleType;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
-import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
-import com.philips.platform.appinfra.rest.request.ImageRequest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -126,16 +104,16 @@ public class ImageRequestTest {
         assertEquals(expectedWidth, bitmap.getWidth());
         assertEquals(expectedHeight, bitmap.getHeight());*/
     }
-   /* @Test public void findBestSampleSize() {
-        // desired == actual == 1
-        assertEquals(1, ImageRequest.findBestSampleSize(100, 150, 100, 150));
-        // exactly half == 2
-        assertEquals(2, ImageRequest.findBestSampleSize(280, 160, 140, 80));
-        // just over half == 1
-        assertEquals(1, ImageRequest.findBestSampleSize(1000, 800, 501, 401));
-        // just under 1/4 == 4
-        assertEquals(4, ImageRequest.findBestSampleSize(100, 200, 24, 50));
-    }*/
+    /* @Test public void findBestSampleSize() {
+         // desired == actual == 1
+         assertEquals(1, ImageRequest.findBestSampleSize(100, 150, 100, 150));
+         // exactly half == 2
+         assertEquals(2, ImageRequest.findBestSampleSize(280, 160, 140, 80));
+         // just over half == 1
+         assertEquals(1, ImageRequest.findBestSampleSize(1000, 800, 501, 401));
+         // just under 1/4 == 4
+         assertEquals(4, ImageRequest.findBestSampleSize(100, 200, 24, 50));
+     }*/
     private static byte[] readInputStream(InputStream in) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -156,6 +134,6 @@ public class ImageRequestTest {
                 Response.ErrorListener.class));
         assertEquals(ImageRequest.DEFAULT_IMAGE_TIMEOUT_MS, 1000);
         assertEquals(ImageRequest.DEFAULT_IMAGE_MAX_RETRIES, 2);
-       // assertEquals(ImageRequest.DEFAULT_IMAGE_BACKOFF_MULT, 2f);
+        // assertEquals(ImageRequest.DEFAULT_IMAGE_BACKOFF_MULT, 2f);
     }
 }

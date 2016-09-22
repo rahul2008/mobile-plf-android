@@ -1,16 +1,13 @@
 package com.philips.platform.appinfra.rest;
 
-/**
- * Created by 310238114 on 9/16/2016.
- */
-
-
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 
 import com.android.volley.Cache;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.rest.DiskBasedCache.CacheHeader;
+
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,35 +15,33 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiskBasedCacheTest extends MockitoTestCase {
-   private Context context;
-   private AppInfra mAppInfra;
 
-   @Override
-   protected void setUp() throws Exception {
-      super.setUp();
-      context = getInstrumentation().getContext();
-      assertNotNull(context);
-      mAppInfra = new AppInfra.Builder().build(context);
+public class DiskBasedCacheTest extends InstrumentationTestCase {
 
-   }
+    private AppInfra mAppInfra;
 
-   public void testInitialize(){
-      Cache cache = new DiskBasedCache(getCacheDir(), 1024, mAppInfra); //
-      assertNotNull(cache);
-      cache.initialize();
-      Cache.Entry e = new Cache.Entry();
-      e.data="sample data".getBytes();
-      cache.put("key",e);
-      assertNotNull(cache.get("key").data);
-      cache.clear();
-      cache.remove("key");
-      assertNull(cache.get("key"));
-      //assertEquals(e.data,cache.get("key").data);
 
-   }
+
+    @Test
+    public void testInitialize(){
+        Context context = this.getInstrumentation().getTargetContext().getApplicationContext();
+        mAppInfra = new AppInfra.Builder().build(context);
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024, mAppInfra); //
+        assertNotNull(cache);
+        cache.initialize();
+        Cache.Entry e = new Cache.Entry();
+        e.data="sample data".getBytes();
+        cache.put("key",e);
+        assertNotNull(cache.get("key").data);
+        cache.clear();
+        cache.remove("key");
+        assertNull(cache.get("key"));
+        //assertEquals(e.data,cache.get("key").data);
+
+    }
     // Simple end-to-end serialize/deserialize test.
-     public void testCacheHeaderSerialization() throws Exception {
+    @Test
+    public void testCacheHeaderSerialization() throws Exception {
         Cache.Entry e = new Cache.Entry();
         e.data = new byte[8];
         e.serverDate = 1234567L;
@@ -61,7 +56,7 @@ public class DiskBasedCacheTest extends MockitoTestCase {
         first.writeHeader(baos);
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         CacheHeader second = CacheHeader.readHeader(bais);
-         assertEquals(first.key, second.key);
+        assertEquals(first.key, second.key);
         assertEquals(first.serverDate, second.serverDate);
         assertEquals(first.lastModified, second.lastModified);
         assertEquals(first.ttl, second.ttl);
@@ -69,7 +64,9 @@ public class DiskBasedCacheTest extends MockitoTestCase {
         assertEquals(first.etag, second.etag);
         assertEquals(first.responseHeaders, second.responseHeaders);
     }
-     public void testSerializeInt() throws Exception {
+
+    @Test
+    public void testSerializeInt() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DiskBasedCache.writeInt(baos, 0);
         DiskBasedCache.writeInt(baos, 19791214);
@@ -83,7 +80,9 @@ public class DiskBasedCacheTest extends MockitoTestCase {
         assertEquals(DiskBasedCache.readInt(bais), Integer.MIN_VALUE);
         assertEquals(DiskBasedCache.readInt(bais), Integer.MAX_VALUE);
     }
-     public void testSerializeLong() throws Exception {
+
+    @Test
+    public void testSerializeLong() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DiskBasedCache.writeLong(baos, 0);
         DiskBasedCache.writeLong(baos, 31337);
@@ -101,7 +100,9 @@ public class DiskBasedCacheTest extends MockitoTestCase {
         assertEquals(DiskBasedCache.readLong(bais), Long.MIN_VALUE);
         assertEquals(DiskBasedCache.readLong(bais), Long.MAX_VALUE);
     }
-     public void testSerializeString() throws Exception {
+
+    @Test
+    public void testSerializeString() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DiskBasedCache.writeString(baos, "");
         DiskBasedCache.writeString(baos, "This is a string.");
@@ -111,7 +112,9 @@ public class DiskBasedCacheTest extends MockitoTestCase {
         assertEquals(DiskBasedCache.readString(bais), "This is a string.");
         assertEquals(DiskBasedCache.readString(bais), "ファイカス");
     }
-     public void testSerializeMap() throws Exception {
+
+    @Test
+    public void testSerializeMap() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Map<String, String> empty = new HashMap<String, String>();
         DiskBasedCache.writeStringStringMap(empty, baos);
@@ -134,15 +137,16 @@ public class DiskBasedCacheTest extends MockitoTestCase {
         assertEquals(DiskBasedCache.readStringStringMap(bais), emptyValue);
     }
 
+    @Test
     public void testPublicMethods() throws Exception {
-       Cache cache = new DiskBasedCache(getCacheDir(), 1024, mAppInfra); //
-       assertNotNull(cache);
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024, mAppInfra); //
+        assertNotNull(cache);
        /* // Catch-all test to find API-breaking changes.
         assertNotNull(DiskBasedCache.class.getConstructor(File.class, int.class));
        // assertNotNull(DiskBasedCache.class.getConstructor(File.class));
         assertNotNull(DiskBasedCache.class.getMethod("getFileForKey", String.class));*/
     }
-   private File getCacheDir(){
-      return  mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
-   }
+    private File getCacheDir(){
+        return  mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
+    }
 }

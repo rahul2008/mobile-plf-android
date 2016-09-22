@@ -1,4 +1,10 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.rest.request;
+
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,9 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 
-/**
- * Created by 310238655 on 8/31/2016.
- */
 public class ImageRequest extends Request<Bitmap> {
     /** Socket timeout in milliseconds for image requests */
     public static final int DEFAULT_IMAGE_TIMEOUT_MS = 1000;

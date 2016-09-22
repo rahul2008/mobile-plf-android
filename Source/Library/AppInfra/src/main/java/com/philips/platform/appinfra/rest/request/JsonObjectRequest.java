@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.rest.request;
 
 import com.android.volley.Cache;
@@ -12,9 +17,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-/**
- * Created by 310238655 on 8/31/2016.
- */
+
 public class JsonObjectRequest extends JsonRequest<JSONObject> {
 
     /**
