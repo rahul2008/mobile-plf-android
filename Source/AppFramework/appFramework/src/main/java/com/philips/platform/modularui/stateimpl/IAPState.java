@@ -21,8 +21,6 @@ import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 
@@ -88,16 +86,17 @@ public class IAPState extends UIState{
         ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
-
     @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        mApplicationContext=uappSettings.getContext();
+    public void init(Context context) {
+        mApplicationContext=context;
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(mApplicationContext);
-        IAPDependencies iapDependencies = new IAPDependencies(uappDependencies.getAppInfra());
+        IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.gAppInfra);
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
+
     }
+
     /**
      * Data Model for CoCo is defined here to have minimal import files.
      */

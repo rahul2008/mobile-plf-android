@@ -11,8 +11,6 @@ import android.content.Intent;
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class WelcomeState extends UIState {
     /**
@@ -45,7 +43,7 @@ public class WelcomeState extends UIState {
 
     }
     @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+    public void init(Context context) {
 
     }
 }

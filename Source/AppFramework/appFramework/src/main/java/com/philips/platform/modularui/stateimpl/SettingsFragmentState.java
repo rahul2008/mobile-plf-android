@@ -12,8 +12,6 @@ import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class SettingsFragmentState extends UIState {
     /**
@@ -49,7 +47,7 @@ public class SettingsFragmentState extends UIState {
 
     }
     @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+    public void init(Context context) {
 
     }
 }

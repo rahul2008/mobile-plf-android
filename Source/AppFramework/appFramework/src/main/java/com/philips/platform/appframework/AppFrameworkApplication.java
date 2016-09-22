@@ -17,15 +17,13 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 /**
  * Application class has following initializations
  *  1. App infra object creation for initializion other cocos and Logging
  *  2. Initialise User Registration
- *  3. Initialise In App PuserRegistrationStatechase
+ *  3. Initialise In App Purchase
  *  4. Initialise Product Registration
  *
  */
@@ -34,12 +32,10 @@ public class AppFrameworkApplication extends Application {
     private static Context context;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
-    UserRegistrationState userRegistrationState;
+    UserRegistrationState ur;
     IAPState iap;
-    UappDependencies uappDependencies;
-    UappSettings uappSettings;
      /**
-     * @retuserRegistrationStaten instance of this class
+     * @return instance of this class
      */
 
 
@@ -56,14 +52,12 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        uappDependencies = new UappDependencies(gAppInfra);
-        uappSettings = new UappSettings(this);
-        userRegistrationState= new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-        userRegistrationState.init(uappDependencies,uappSettings);
+        ur= new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        ur.init(this);
         ProductRegistrationState pr= new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
-        pr.init(uappDependencies,uappSettings);
+        pr.init(this);
         iap = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
-        iap.init(uappDependencies,uappSettings);
+        iap.init(this);
     }
 
     public IAPState getIap(){

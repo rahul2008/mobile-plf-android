@@ -9,8 +9,6 @@ import android.content.Context;
 import android.support.annotation.IntDef;
 
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -89,11 +87,10 @@ abstract public class UIState {
 
     /**
      * For initialising the component
-     * @param uappDependencies
-     * @param uappSettings
+     * @param context
      */
 
-    public abstract void init(UappDependencies uappDependencies, UappSettings uappSettings);
+    public abstract void init(Context context);
 
     /**
      * implement this to inject the dependencies
