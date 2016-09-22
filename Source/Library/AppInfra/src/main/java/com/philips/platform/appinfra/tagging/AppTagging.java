@@ -41,7 +41,8 @@ public class AppTagging implements AppTaggingInterface {
             AppTaggingConstants.COMPONENT_ID,
             AppTaggingConstants.COMPONENT_VERSION,
 
-            AppTaggingConstants.UTC_TIMESTAMP_KEY
+            AppTaggingConstants.UTC_TIMESTAMP_KEY,
+            AppTaggingConstants.BUNDLE_ID
 
 
     };
@@ -87,6 +88,7 @@ public class AppTagging implements AppTaggingInterface {
         }
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
+        contextData.put(AppTaggingConstants.BUNDLE_ID, mAppInfra.getAppIdentity().getAppState());
         return contextData;
     }
 

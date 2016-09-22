@@ -25,6 +25,14 @@
 //import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 //import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 //import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
+//import com.philips.platform.appinfra.logging.LoggingInterface;
+//import com.philips.platform.appinfra.securestorage.SecureStorage;
+//import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+//import com.philips.platform.appinfra.servicediscovery.model.Config;
+//import com.philips.platform.appinfra.servicediscovery.model.Error;
+//import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
+//import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
+//import com.philips.platform.appinfra.servicediscovery.model.Tag;
 //
 //import org.json.JSONArray;
 //import org.json.JSONException;
@@ -81,6 +89,52 @@
 //                                        ssi.storeValueForKey("Country", mcountry, mSecureStorage);
 //                                        ssi.storeValueForKey("COUNTRY_SOURCE", "GEOIP", mSecureStorage);
 //                                        Log.i("Responce", "" + mcountry);
+//                                    }
+//                                }
+////                                else {
+//                                ////////////////start of parse///////////
+//                                mServiceDiscovery.setCountry(response.getJSONObject("payload").optString("country"));
+//
+//                                // START setting match by country
+//                                JSONObject payloadJSONObject = response.getJSONObject("payload");
+//                                mServiceDiscovery.setSuccess(response.optBoolean("success"));
+//                                if (mServiceDiscovery.isSuccess()) {
+//                                    mServiceDiscovery.setError(null); // set (if any) previous error to null
+//                                }
+//                                JSONObject matchByCountryJSONObject = payloadJSONObject.getJSONObject("matchByCountry");
+//                                MatchByCountryOrLanguage
+//                                        matchByCountry = new MatchByCountryOrLanguage();
+//                                matchByCountry.setAvailable(matchByCountryJSONObject.optBoolean("available"));
+//
+//                                JSONArray resultsJSONArray = matchByCountryJSONObject.optJSONArray("results");
+//                                if (null == resultsJSONArray) {
+//                                    resultsJSONArray = new JSONArray();
+//                                    resultsJSONArray.put(matchByCountryJSONObject.optJSONObject("results"));
+//                                }
+//                                ArrayList<Config> matchByCountryConfigs = new ArrayList<Config>();
+//
+//                                ArrayList<String> localeList = new ArrayList<String>();
+//                                JSONArray configCountryJSONArray = null;
+//                                Locale[] multiLocale = Locale.getAvailableLocales();
+//
+//                                if (resultsJSONArray.length() > 1) {
+//
+//                                    for (int i = 0; i < resultsJSONArray.length(); i++) {
+//                                        localeList.add(resultsJSONArray.getJSONObject(i).optString("locale"));
+//                                    }
+//
+//                                } else {
+//                                    matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
+//                                    configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+//                                    if (null == configCountryJSONArray) {
+//                                        configCountryJSONArray = new JSONArray();
+//                                        configCountryJSONArray.put(resultsJSONArray.getJSONObject(0).optJSONObject("configs"));
+//                                    }
+//
+//                                }
+//                                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface
+//                                                .LogLevel.ERROR,"SecureStorage",mcountry);
+//
 //                                    }
 //                                }
 ////                                else {
@@ -190,6 +244,53 @@
 //    private void setSSLSocketFactory() {
 //        if (this.isHttpsRequest) {
 //            SSLCertificateManager.disableAllServerCertificateChecking();
+//                                }
+//
+//                                if (configCountryJSONArray != null) {
+//
+//                                    for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
+//                                        Config config = new Config();
+//
+//                                        config.setMicrositeId(configCountryJSONArray.optJSONObject(configCount).optString("micrositeId"));
+//                                        HashMap<String, String> urlHashMap = new HashMap<String, String>();
+//                                        JSONObject urlJSONObject = configCountryJSONArray.optJSONObject(configCount).optJSONObject("urls");
+//                                        Iterator<String> iter = urlJSONObject.keys();
+//                                        while (iter.hasNext()) {
+//                                            String key = iter.next();
+//                                            String value = urlJSONObject.getString(key);
+//                                            urlHashMap.put(key, value);
+//                                        }
+//                                        config.setUrls(urlHashMap);
+//
+//                                        ArrayList<Tag> tagArrayList = new ArrayList<Tag>();
+//                                        JSONArray tagJSONArray = configCountryJSONArray.optJSONObject(configCount).optJSONArray("tags");
+//                                        for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
+//                                            Tag tag = new Tag();
+//                                            tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
+//                                            tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
+//                                            tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
+//                                            tagArrayList.add(tag);
+//                                        }
+//                                        config.setTags(tagArrayList);
+//                                        matchByCountryConfigs.add(config);
+//                                    }
+//                                }
+//
+//                                matchByCountry.setConfigs(matchByCountryConfigs);
+//                                mServiceDiscovery.setMatchByCountry(matchByCountry);
+//                                // END setting match by country
+//
+//
+//                                // START setting match by language
+//                                JSONObject matchByLanguageJSONObject = payloadJSONObject.getJSONObject("matchByLanguage");
+//                                MatchByCountryOrLanguage matchByLanguage = new MatchByCountryOrLanguage();
+//                                matchByLanguage.setAvailable(matchByLanguageJSONObject.optBoolean("available"));
+//
+//                                JSONArray resultsLanguageJSONArray = matchByLanguageJSONObject.optJSONArray("results");
+//                                if (null == resultsLanguageJSONArray) {
+//                                    resultsLanguageJSONArray = new JSONArray();
+//                                    resultsLanguageJSONArray.put(matchByLanguageJSONObject.optJSONObject("results"));
+//                                }
 //                                matchByLanguage.setLocale(resultsLanguageJSONArray.getJSONObject(0).optString("locale"));
 //                                ArrayList<Config> matchByLanguageConfigs = new ArrayList<Config>();
 //                                JSONArray configLanguageJSONArray = resultsLanguageJSONArray.getJSONObject(0).optJSONArray("configs");
@@ -235,6 +336,8 @@
 //                            ////////////////end of parse///////////
 //                        } catch (JSONException e) {
 //                            e.printStackTrace();
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+//                                    "Service Discovery",e.getMessage());
 //                        }
 //                    }
 //                }, new Response.ErrorListener() {
@@ -247,6 +350,9 @@
 //
 //                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT;
 //                            Log.i("TimeoutORNoConnection", "" + "TimeoutORNoConnection");
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+//                                    "Service Discovery",errorValue.toString());
+//
 //                            volleyError.setMessage("TimeoutORNoConnection");
 //                            volleyError.setErrorvalues(errorValue);
 //                        } else if (error instanceof NoConnectionError) {
@@ -279,6 +385,44 @@
 //                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
 //                            volleyError.setMessage("ServerError");
 //                            volleyError.setErrorvalues(errorValue);
+//                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK;
+//                            volleyError.setMessage("NoConnectionError");
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+//                                    "Service Discovery",errorValue.toString());
+//
+//                            volleyError.setErrorvalues(errorValue);
+//                        } else if (error instanceof AuthFailureError) {
+//
+//                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+//                            volleyError.setMessage("AuthFailureError");
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+//                                    "Service Discovery",errorValue.toString());
+//
+//                            volleyError.setErrorvalues(errorValue);
+//                        } else if (error instanceof ServerError) {
+//
+//                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+//                            volleyError.setMessage("ServerError");
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+//                                    "Service Discovery",errorValue.toString());
+//
+//                            volleyError.setErrorvalues(errorValue);
+//                        } else if (error instanceof NetworkError) {
+//
+//                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+//                            volleyError.setMessage("NetworkError");
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+//                                    "Service Discovery",errorValue.toString());
+//
+//                            volleyError.setErrorvalues(errorValue);
+//                        } else if (error instanceof ParseError) {
+//
+//                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
+//                            volleyError.setMessage("ServerError");
+//                            volleyError.setErrorvalues(errorValue);
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+//                                    "Service Discovery",errorValue.toString());
+//
 //                        }
 //                        ServiceDiscoveryManager.isDownloadInProgress = false;
 //                        mServiceDiscovery.setError(volleyError);
