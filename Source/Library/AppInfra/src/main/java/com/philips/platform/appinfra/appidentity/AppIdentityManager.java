@@ -52,7 +52,7 @@ public class AppIdentityManager implements AppIdentityInterface {
     }
 
 
-    private void validateAppVersion() throws IllegalArgumentException {
+    private void validateAppVersion()  {
         PackageInfo pInfo;
         try {
             pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -71,7 +71,7 @@ public class AppIdentityManager implements AppIdentityInterface {
     }
 
 
-    private void validateAppState() throws IllegalArgumentException {
+    private void validateAppState()  {
 
         String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.appState", "appinfra", configError);

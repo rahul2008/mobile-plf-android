@@ -28,18 +28,23 @@ public class LogFormatter extends Formatter {
 
     public LogFormatter(String ComponentName, String componentVersion, AppInfra mAppinfra) {
         mappInfra = mAppinfra;
-        if (null != ComponentName) {
-            mComponentName = ComponentName;
-        } else {
-            if (mAppinfra.getAppIdentity() != null)
-                mComponentName = mAppinfra.getAppIdentity().getAppName();
+        try {
+            if (null != ComponentName) {
+                mComponentName = ComponentName;
+            } else {
+                if (mAppinfra.getAppIdentity() != null)
+                    mComponentName = mAppinfra.getAppIdentity().getAppName();
+            }
+            if (null != componentVersion) {
+                mComponentVersion = componentVersion;
+            } else {
+                if (mAppinfra.getAppIdentity() != null)
+                    mComponentVersion = mAppinfra.getAppIdentity().getAppVersion();
+            }
+        } catch (IllegalArgumentException e) {
+            mAppinfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Logging", e.getMessage());
         }
-        if (null != componentVersion) {
-            mComponentVersion = componentVersion;
-        } else {
-            if (mAppinfra.getAppIdentity() != null)
-                mComponentVersion = mAppinfra.getAppIdentity().getAppVersion();
-        }
+
         componentNameAndVersion = mComponentName + " " + mComponentVersion;
     }
 
