@@ -28,7 +28,6 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -77,6 +76,13 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
         Bundle bundle = getArguments();
         mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
+
+        if (bundle.containsKey(IAPConstant.ADDRESS_LIST)) {
+            mAddresses = (List<Addresses>) bundle.getSerializable(IAPConstant.ADDRESS_LIST);
+        }
+        mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+        mAddressListView.setAdapter(mAdapter);
+
         return view;
     }
 
@@ -98,11 +104,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
-        if (isNetworkConnected()) {
-            getAddresses();
-        }
-        mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
-        mAddressListView.setAdapter(mAdapter);
     }
 
     public void registerEvents() {
@@ -130,14 +131,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         showFragment(ShoppingCartFragment.TAG);
     }
 
-    private void getAddresses() {
-        String msg = mContext.getString(R.string.iap_please_wait);
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, msg);
-            mAddressController.getAddresses();
-        }
-    }
-
     @Override
     public void onGetAddress(Message msg) {
         if (mIsAddressUpdateAfterDelivery) {
@@ -155,13 +148,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                     mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
                 mAdapter.notifyDataSetChanged();
-            } else if (isVisible()) {
-                if (msg.obj instanceof GetShippingAddressData) {
-                    GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-                    mAddresses = shippingAddresses.getAddresses();
-                    mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
-                    mAddressListView.setAdapter(mAdapter);
-                }
             }
         }
     }

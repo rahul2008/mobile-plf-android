@@ -179,14 +179,6 @@ public class CartModelContainer {
         return mProductCatalogData;
     }
 
-    public boolean isCartCreated() {
-        return mIsCartCreated;
-    }
-
-    public void setCartCreated(boolean mIsCartCreated) {
-        this.mIsCartCreated = mIsCartCreated;
-    }
-
     public String getLanguage() {
         return language;
     }

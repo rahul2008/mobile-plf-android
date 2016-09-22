@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,11 +40,8 @@ import com.philips.cdp.uikit.utils.RowItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements DeliveryModeDialog.DialogListener {
+public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements DeliveryModeDialog.DialogListener {
 
     private Context mContext;
     private Resources mResources;
@@ -238,34 +234,17 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         (String.format(mContext.getString(R.string.iap_including_vat),
                                 mContext.getString(R.string.iap_vat)));
 
-                if (!data.isVatInclusive()) {
-                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
-
-                    if (data.getVatValue() != null) {
-                        shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
-                        shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
-                        shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
-                    }
-                } else {
-                    shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
-                    shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
-
-                    if (data.getVatValue() != null) {
-                        shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-                        shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
-                        shoppingCartFooter.mVatValue.setText(data.getVatValue());
-                    }
-                }
-
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
                 if (null != data.getDeliveryMode()) {
+                    handleTax(data, shoppingCartFooter);
+
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
+
                     if (deliveryMethod != null) {
                         shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
                     } else {
@@ -284,11 +263,32 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     });
                 } else {
                     mIsFreeDelivery = true;
-                    //shoppingCartFooter.mDeliveryPrice.setText("0.0");
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryPrice.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryView.setVisibility(View.GONE);
                 }
+            }
+        }
+    }
+
+    private void handleTax(ShoppingCartData data, FooterShoppingCartViewHolder shoppingCartFooter){
+        if (!data.isVatInclusive()) {
+            shoppingCartFooter.mVatValue.setVisibility(View.GONE);
+            shoppingCartFooter.mVAT.setVisibility(View.GONE);
+
+            if (data.getVatValue() != null) {
+                shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
+                shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
+                shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
+            }
+        } else {
+            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
+            shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
+
+            if (data.getVatValue() != null) {
+                shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
+                shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
+                shoppingCartFooter.mVatValue.setText(data.getVatValue());
             }
         }
     }

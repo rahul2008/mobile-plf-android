@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.store;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.utils.IAPLog;
