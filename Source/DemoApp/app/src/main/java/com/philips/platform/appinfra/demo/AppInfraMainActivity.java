@@ -46,17 +46,17 @@ public class AppInfraMainActivity extends AppCompatActivity {
         });
 
         final ArrayList arryaLsit = new ArrayList();
-        arryaLsit.add("userreg.janrain.api");
-        arryaLsit.add("userreg.janrain.cdn");
-        arryaLsit.add("userreg.landing.emailverif");
-        arryaLsit.add("userreg.landing.resetpass");
+        arryaLsit.add("appinfra.testing.service");
+//        arryaLsit.add("userreg.janrain.cdn");
+//        arryaLsit.add("userreg.landing.emailverif");
+//        arryaLsit.add("userreg.landing.resetpass");
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
-                    Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+                    Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
                 }
             }
 
@@ -70,7 +70,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
-                    Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+                    Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
                 }
             }
 
