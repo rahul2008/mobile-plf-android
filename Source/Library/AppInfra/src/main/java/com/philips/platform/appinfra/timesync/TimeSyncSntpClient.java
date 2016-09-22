@@ -19,9 +19,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
@@ -50,7 +47,7 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     public TimeSyncSntpClient(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
-        mRefreshInProgressLock = new ReentrantLock(); // primer: http://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/
+        mRefreshInProgressLock = new ReentrantLock();
         init();
         refreshTime();
         registerReciever();
@@ -125,6 +122,8 @@ public class TimeSyncSntpClient implements TimeInterface {
             mRefreshInProgressLock.unlock();
         } else {
             // another refresh is already in progress
+            throw new IllegalArgumentException("TimeSync--another refresh is already in progress");
+
         }
     }
 
@@ -136,7 +135,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             date = new Date(getOffset() + System.currentTimeMillis());
             return date;
         } catch (Exception e) {
-            mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError", e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError", e.getMessage());
         }
         return null;
     }
@@ -147,13 +146,19 @@ public class TimeSyncSntpClient implements TimeInterface {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (isOnline()) {
-                        refreshOffset();
-                    } else {
-//                        mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
-//                                "Network connectivity not found");
+                    try {
+                        if (isOnline()) {
+                            refreshOffset();
+                        } else {
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+//                                    "Network connectivity not found");
 
-                        Log.e("TimeSyncError" , "Network connectivity not found");
+                            Log.e("TimeSyncError", "Network connectivity not found");
+                        }
+
+                    } catch (IllegalArgumentException e) {
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+                                e.getMessage());
                     }
                 }
             }).start();
@@ -187,6 +192,4 @@ public class TimeSyncSntpClient implements TimeInterface {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
-
-
 }

@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.securestorage;
 /**
  * The interface Secure storage interface.
  */
-public  interface SecureStorageInterface {
+public interface SecureStorageInterface {
 
 
     /**
@@ -17,9 +17,9 @@ public  interface SecureStorageInterface {
      * @param userKey            the user key
      * @param valueToBeEncrypted the value to be encrypted
      * @param secureStorageError the secure storage error
-     * @return  denote store operation success or failure
+     * @return denote store operation success or failure
      */
-    public boolean storeValueForKey(String userKey, String valueToBeEncrypted,  SecureStorageError secureStorageError);
+    public boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
      * Fetch value for key .
@@ -34,29 +34,32 @@ public  interface SecureStorageInterface {
      * Remove value for given key .
      *
      * @param userKey the user key
-     * @return  denote delete operation success or failure
+     * @return denote delete operation success or failure
      */
     public boolean removeValueForKey(String userKey);
 
     /**
      * encrypt Data .
      *
-     * @param  dataToBeEncrypted Plain Byte array
-     * @return  Encrypted Byte array
+     * @param dataToBeEncrypted Plain Byte array
+     * @return Encrypted Byte array
      */
     public byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
      * decrypt Data .
      *
-     * @param  dataToBeDecrypted Encrypted Byte array
-     * @return  Decrypted/Plain Byte array
+     * @param dataToBeDecrypted Encrypted Byte array
+     * @return Decrypted/Plain Byte array
      */
     public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 
     public class SecureStorageError {
-        public  enum  secureStorageError {AccessKeyFailure, UnknownKey , EncryptionError, DecryptionError, StoreError   , NoDataFoundForKey, NullData };
+        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError, NoDataFoundForKey, NullData}
+
+        ;
         private secureStorageError errorCode = null;
+
         public secureStorageError getErrorCode() {
             return errorCode;
         }
@@ -64,7 +67,6 @@ public  interface SecureStorageInterface {
         void setErrorCode(secureStorageError errorCode) {
             this.errorCode = errorCode;
         }
-
 
 
     }

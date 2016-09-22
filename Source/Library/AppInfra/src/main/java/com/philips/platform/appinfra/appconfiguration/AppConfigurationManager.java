@@ -99,7 +99,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     @Override
-    public Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException {
+    public Object getPropertyForKey(String key, String group, AppConfigurationError configError)
+            throws IllegalArgumentException {
         Object object = null;
         if (null == group || null == key || group.isEmpty() || key.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") || !key.matches("[a-zA-Z0-9_.-]+")) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
@@ -119,7 +120,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     @Override
-    public boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError) throws IllegalArgumentException {
+    public boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError
+            configError) throws IllegalArgumentException {
         boolean setOperation = false;
         if (null == key || null == group || group.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") ||
                 !key.matches("[a-zA-Z0-9_.-]+")) {

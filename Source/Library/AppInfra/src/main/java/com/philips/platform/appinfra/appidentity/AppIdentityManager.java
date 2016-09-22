@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.appidentity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
@@ -53,27 +52,26 @@ public class AppIdentityManager implements AppIdentityInterface {
     }
 
 
-    private void validateAppVersion() {
+    private void validateAppVersion() throws IllegalArgumentException {
+        PackageInfo pInfo;
         try {
-            PackageInfo pInfo;
             pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             mAppVersion = String.valueOf(pInfo.versionName);
-            if (mAppVersion != null && !mAppVersion.isEmpty()) {
-                if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_-].*)?")) {
-                    throw new IllegalArgumentException("AppVersion should in this format " +
-                            "\" [0-9]+\\\\.[0-9]+\\\\.[0-9]+([_-].*)?]\" ");
-                }
-            } else {
-                throw new IllegalArgumentException("Appversion cannot be null");
+        } catch (PackageManager.NameNotFoundException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+        }
+        if (mAppVersion != null && !mAppVersion.isEmpty()) {
+            if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_-].*)?")) {
+                throw new IllegalArgumentException("AppVersion should in this format " +
+                        "\" [0-9]+\\\\.[0-9]+\\\\.[0-9]+([_-].*)?]\" ");
             }
-        } catch (PackageManager.NameNotFoundException | IllegalArgumentException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(e));
+        } else {
+            throw new IllegalArgumentException("Appversion cannot be null");
         }
     }
 
 
-    private void validateAppState() {
+    private void validateAppState() throws IllegalArgumentException {
 
         String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.appState", "appinfra", configError);
@@ -89,39 +87,30 @@ public class AppIdentityManager implements AppIdentityInterface {
             }
         }
 
+        Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+        set.addAll(mAppStateValues);
 
-        Set<String> set;
-
-        try {
-            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-            if (mAppState != null && !mAppState.isEmpty()) {
-                set.addAll(mAppStateValues);
-                if (!set.contains(mAppState)) {
-                    mAppState = defAppState;
-//                    throw new IllegalArgumentException("\"App State in appIdentityConfig  file must" +
-//                            " match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
-//                            "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
-                }
-            } else {
-                throw new IllegalArgumentException("AppState cannot be empty in appIdentityConfig json file");
+        if (mAppState != null && !mAppState.isEmpty()) {
+            if (!set.contains(mAppState)) {
+                mAppState = defAppState;
             }
-
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
+        } else {
+            throw new IllegalArgumentException("AppState cannot be empty in appIdentityConfig json file");
         }
+
     }
 
     private void validateServiceDiscoveryEnv() {
         String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
 
-        if(defSevicediscoveryEnv != null) {
+        if (defSevicediscoveryEnv != null) {
             if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
                 mServiceDiscoveryEnvironment = defSevicediscoveryEnv;
             else {
                 Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
-                        .getPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
+                        .getPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra",
+                                configError);
                 if (dynServiceDiscoveryEnvironment != null)
                     mServiceDiscoveryEnvironment = dynServiceDiscoveryEnvironment.toString();
                 else
@@ -129,25 +118,17 @@ public class AppIdentityManager implements AppIdentityInterface {
             }
 
         }
+        Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+        set.addAll(mServiceDiscoveryEnv);
 
-        Set<String> set;
-        try {
-            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-            if (mServiceDiscoveryEnvironment != null && !mServiceDiscoveryEnvironment.isEmpty()) {
-                set.addAll(mServiceDiscoveryEnv);
-                if (!set.contains(mServiceDiscoveryEnvironment)) {
-                    mServiceDiscoveryEnvironment = defSevicediscoveryEnv;
-                    throw new IllegalArgumentException("\"servicediscoveryENV in appIdentityConfig " +
-                            " file must match \" +\n" +
-                            "\"one of the following values \\n TEST,\\n STAGING, \\n ACCEPTANCE, \\n PRODUCTION\"");
-                }
-            } else {
-                throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty" +
-                        " in appIdentityConfig json file");
+
+        if (mServiceDiscoveryEnvironment != null && !mServiceDiscoveryEnvironment.isEmpty()) {
+            if (!set.contains(mServiceDiscoveryEnvironment)) {
+                mServiceDiscoveryEnvironment = defSevicediscoveryEnv;
             }
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
+        } else {
+            throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty" +
+                    " in appIdentityConfig json file");
         }
     }
 
@@ -155,48 +136,36 @@ public class AppIdentityManager implements AppIdentityInterface {
         sector = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.sector", "appinfra", configError);
 
-        Set<String> set;
-        try {
-            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-            if (sector != null && !sector.isEmpty()) {
-                set.addAll(mSectorValues);
-                if (!set.contains(sector)) {
-                    sector = null;
-                    throw new IllegalArgumentException("\"Sector in appIdentityConfig  file" +
-                            " must match one of the following values\" +\n" +
-                            " \" \\\\n b2b,\\\\n b2c,\\\\n b2b_Li, \\\\n b2b_HC\"");
+        Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+        set.addAll(mSectorValues);
+        if (sector != null && !sector.isEmpty()) {
+            if (!set.contains(sector)) {
+                sector = null;
+                throw new IllegalArgumentException("\"Sector in appIdentityConfig  file" +
+                        " must match one of the following values\" +\n" +
+                        " \" \\\\n b2b,\\\\n b2c,\\\\n b2b_Li, \\\\n b2b_HC\"");
 
-                }
-            } else {
-                throw new IllegalArgumentException("\"App Sector cannot be empty in" +
-                        " appIdentityConfig json file\"");
             }
-
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
+        } else {
+            throw new IllegalArgumentException("\"App Sector cannot be empty in" +
+                    " appIdentityConfig json file\"");
         }
+
     }
 
     private void validateMicrositeId() {
         micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.micrositeId", "appinfra", configError);
-        try {
-            if (micrositeId != null && !micrositeId.isEmpty()) {
-                if (!micrositeId.matches("[a-zA-Z0-9_.-]+")) {
-                    micrositeId = null;
-                    throw new IllegalArgumentException("micrositeId must not contain special " +
-                            "charectors in appIdentityConfig json file");
-                }
-            } else {
-                throw new IllegalArgumentException("micrositeId cannot be empty in appIdentityConfig" +
-                        "  file");
+        if (micrositeId != null && !micrositeId.isEmpty()) {
+            if (!micrositeId.matches("[a-zA-Z0-9]+")) {
+                micrositeId = null;
+                throw new IllegalArgumentException("micrositeId must not contain special " +
+                        "charectors in appIdentityConfig json file");
             }
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
+        } else {
+            throw new IllegalArgumentException("micrositeId cannot be empty in appIdentityConfig" +
+                    "  file");
         }
-
     }
 
     @Override
@@ -220,18 +189,18 @@ public class AppIdentityManager implements AppIdentityInterface {
         if (mAppState != null) {
             if (mAppState.equalsIgnoreCase("DEVELOPMENT")) {
                 mAppStateEnum = AppState.DEVELOPMENT;
-            }
-            if (mAppState.equalsIgnoreCase("TEST")) {
+            } else if (mAppState.equalsIgnoreCase("TEST")) {
                 mAppStateEnum = AppState.TEST;
-            }
-            if (mAppState.equalsIgnoreCase("STAGING")) {
+            } else if (mAppState.equalsIgnoreCase("STAGING")) {
                 mAppStateEnum = AppState.STAGING;
-            }
-            if (mAppState.equalsIgnoreCase("ACCEPTANCE")) {
+            } else if (mAppState.equalsIgnoreCase("ACCEPTANCE")) {
                 mAppStateEnum = AppState.ACCEPTANCE;
-            }
-            if (mAppState.equalsIgnoreCase("PRODUCTION")) {
+            } else if (mAppState.equalsIgnoreCase("PRODUCTION")) {
                 mAppStateEnum = AppState.PRODUCTION;
+            } else {
+                throw new IllegalArgumentException("\"App State in appIdentityConfig  file must" +
+                        " match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
+                        "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
             }
         }
 
@@ -245,6 +214,22 @@ public class AppIdentityManager implements AppIdentityInterface {
     @Override
     public String getServiceDiscoveryEnvironment() {
         validateServiceDiscoveryEnv();
+        if (mServiceDiscoveryEnvironment != null) {
+            if (mServiceDiscoveryEnvironment.equalsIgnoreCase("TEST")) {
+                mServiceDiscoveryEnvironment = "TEST";
+            } else if (mServiceDiscoveryEnvironment.equalsIgnoreCase("STAGING")) {
+                mServiceDiscoveryEnvironment = "STAGING";
+            } else if (mServiceDiscoveryEnvironment.equalsIgnoreCase("ACCEPTANCE")) {
+                mServiceDiscoveryEnvironment = "ACCEPTANCE";
+            } else if (mServiceDiscoveryEnvironment.equalsIgnoreCase("PRODUCTION")) {
+                mServiceDiscoveryEnvironment = "PRODUCTION";
+            } else {
+                throw new IllegalArgumentException("\"servicediscoveryENV in appIdentityConfig " +
+                        " file must match \" +\n" +
+                        "\"one of the following values \\n TEST,\\n STAGING, \\n ACCEPTANCE, \\n PRODUCTION\"");
+            }
+        }
+
         return mServiceDiscoveryEnvironment;
     }
 
@@ -262,6 +247,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     @Override
     public String getMicrositeId() {
+
         validateMicrositeId();
         return micrositeId;
     }

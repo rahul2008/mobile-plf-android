@@ -203,7 +203,12 @@ public class AppInfra implements AppInfraInterface {
                 appInfraLogStatement.append("\" version \"");
                 appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
                 appInfraLogStatement.append("\" in state \"");
-                appInfraLogStatement.append(ai.getAppIdentity().getAppState());
+                try {
+                    appInfraLogStatement.append(ai.getAppIdentity().getAppState());
+
+                } catch (IllegalArgumentException e) {
+                    Log.v("APPINFRA INT", e.getMessage());
+                }
                 appInfraLogStatement.append("\"");
                 ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppInfra initialized", appInfraLogStatement.toString());
             }

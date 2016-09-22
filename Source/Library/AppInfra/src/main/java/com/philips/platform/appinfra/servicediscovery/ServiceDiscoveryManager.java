@@ -114,56 +114,63 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final AppIdentityManager identityManager = new AppIdentityManager(mAppInfra);
         final InternationalizationManager localManager = new InternationalizationManager(mAppInfra);
         localManager.getUILocale();
-        final AppIdentityInterface.AppState state = identityManager.getAppState();
-        String service_environment = identityManager.getServiceDiscoveryEnvironment();
-        String tags = null;
-        String environment = null;
-        if (state != null && service_environment != null) {
-            switch (state) {
-                case DEVELOPMENT:
-                    tags = "apps%2b%2benv%2bdev";
-                    break;
-                case STAGING:
-                    tags = "apps%2b%2benv%2bstage";
-                    break;
-                case ACCEPTANCE:
-                    tags = "apps%2b%2benv%2bacc";
-                    break;
-                case TEST:
-                    tags = "apps%2b%2benv%2btest";
-                    break;
-                case PRODUCTION:
-                    tags = "apps%2b%2benv%2bprod";
-                    break;
+        try {
+            final AppIdentityInterface.AppState state = identityManager.getAppState();
+
+            String service_environment = identityManager.getServiceDiscoveryEnvironment();
+            String tags = null;
+            String environment = null;
+            if (state != null && service_environment != null) {
+                switch (state) {
+                    case DEVELOPMENT:
+                        tags = "apps%2b%2benv%2bdev";
+                        break;
+                    case STAGING:
+                        tags = "apps%2b%2benv%2bstage";
+                        break;
+                    case ACCEPTANCE:
+                        tags = "apps%2b%2benv%2bacc";
+                        break;
+                    case TEST:
+                        tags = "apps%2b%2benv%2btest";
+                        break;
+                    case PRODUCTION:
+                        tags = "apps%2b%2benv%2bprod";
+                        break;
+                }
+
+                if (service_environment.equalsIgnoreCase("PRODUCTION")) {
+                    environment = "www.philips.com";
+                } else if (service_environment.equalsIgnoreCase("TEST")) {
+                    environment = "tst.philips.com";
+                } else if (service_environment.equalsIgnoreCase("STAGING")) {
+                    environment = "dev.philips.com";
+                } else if (service_environment.equalsIgnoreCase("ACCEPTANCE")) {
+                    environment = "acc.philips.com";
+                }
             }
 
-            if (service_environment.equalsIgnoreCase("PRODUCTION")) {
-                environment = "www.philips.com";
-            } else if (service_environment.equalsIgnoreCase("TEST")) {
-                environment = "tst.philips.com";
-            } else if (service_environment.equalsIgnoreCase("STAGING")) {
-                environment = "dev.philips.com";
-            } else if (service_environment.equalsIgnoreCase("ACCEPTANCE")) {
-                environment = "acc.philips.com";
-            }
-        }
-
-        if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
-                localManager.getUILocale() != null && tags != null && environment != null) {
-            if (country == null) {
-                mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags;
+            if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
+                    localManager.getUILocale() != null && tags != null && environment != null) {
+                if (country == null) {
+                    mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev";
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        "Service Discovery", mUrl);
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                            "Service Discovery", mUrl);
 
-            }
-            if (country != null) {
-                mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags + "&country=" + country;
+                }
+                if (country != null) {
+                    mUrl = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags + "&country=" + country;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev&country=US";
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        "Service Discovery", mUrl);
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                            "Service Discovery", mUrl);
+                }
             }
+        } catch (IllegalArgumentException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    "Service Discovery", e.getMessage());
         }
+
         return mUrl;
     }
 
@@ -394,7 +401,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    "Service Discovery","no data found");
+                    "Service Discovery", "no data found");
 
         }
 
@@ -414,7 +421,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
                 } catch (MalformedURLException e) {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                            "Service Discovery",e.getMessage());
+                            "Service Discovery", e.getMessage());
                     onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 }
 
@@ -422,14 +429,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             } else if (onGetServiceUrlListener == null) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        "Service Discovery","null interface found");
+                        "Service Discovery", "null interface found");
 
             }
         } else if (onGetServiceUrlListener != null) {
             onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    "Service Discovery","no data found");
+                    "Service Discovery", "no data found");
 
         }
 
@@ -445,13 +452,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             } else if (onGetServiceUrlMapListener == null) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        "Service Discovery","null interface found");
+                        "Service Discovery", "null interface found");
             }
         } else if (onGetServiceUrlMapListener != null) {
             onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    "Service Discovery","no data found");
+                    "Service Discovery", "no data found");
         }
 
     }
@@ -502,14 +509,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 }
             } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        "Service Discovery","null interface found");
+                        "Service Discovery", "null interface found");
 
             }
         } else if (onGetServiceLocaleListener != null) {
             onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    "Service Discovery","no data found");
+                    "Service Discovery", "no data found");
 
         }
 
@@ -526,13 +533,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 }
             } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        "Service Discovery","null interface found");
+                        "Service Discovery", "null interface found");
             }
         } else if (onGetServiceLocaleListener != null) {
             onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    "Service Discovery","no data found");
+                    "Service Discovery", "no data found");
 
         }
 
@@ -629,7 +636,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 }
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        "Service Discovery",e.getMessage());
+                        "Service Discovery", e.getMessage());
 
             }
         }
