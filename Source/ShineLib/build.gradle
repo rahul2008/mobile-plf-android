@@ -12,12 +12,11 @@ buildscript {
         }
     }
     dependencies {
-
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.2.0'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.1.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath('com.terrafolio:gradle-jenkins-plugin:1.2.3') {
             exclude group: 'asm', module: 'asm-tree'
@@ -29,7 +28,6 @@ buildscript {
 apply from: 'extra/jenkins.gradle'
 
 allprojects {
-
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }

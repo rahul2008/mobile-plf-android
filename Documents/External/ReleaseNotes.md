@@ -1,5 +1,13 @@
 BlueLib(/ShineLib) for Android - Release Notes
 
+Version 2.0.2
+-------------
+### New features:
+* Added data types: IR light, Lux value (For Moonlight/Circadian)
+
+### Known issues:
+* [BG-234] Google backup might restore previously associated devices
+
 Version 2.0.1
 -------------
 ### New features:

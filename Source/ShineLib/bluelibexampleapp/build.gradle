@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.example.cdpp.bluelibexampleapp"
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
+        versionCode 1
+        versionName "0.2.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+
+    // Revert to Artifactory deps as soon as CON-17 is fixed
+    compile(name: 'appcompat-v7-24.2.0', ext: 'aar')
+    compile(name: 'design-24.2.0', ext: 'aar')
+    compile(name: 'recyclerview-v7-24.2.0', ext: 'aar')
+    compile(name: 'support-annotations-24.2.0', ext: 'jar')
+    compile(name: 'support-compat-24.2.0', ext: 'aar')
+    compile(name: 'support-core-ui-24.2.0', ext: 'aar')
+    compile(name: 'support-core-utils-24.2.0', ext: 'aar')
+    compile(name: 'support-fragment-24.2.0', ext: 'aar')
+    compile(name: 'support-v4-24.2.0', ext: 'aar')
+    compile(name: 'support-vector-drawable-24.2.0', ext: 'aar')
+
+    compile 'com.google.code.gson:gson:2.7'
+    //noinspection GradleDynamicVersion
+    compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
+    // Device definitions
+    compile project(':pluginreferenceboard')
+    //noinspection GradleDynamicVersion
+    compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
+    compile project(':shinelib')
+}
+
