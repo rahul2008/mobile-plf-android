@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -62,6 +63,13 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private String mJanRainEmail;
 
     private DeliveryModes mDeliveryMode;
+    private boolean mIsFromOnCreate = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mIsFromOnCreate = true;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -104,6 +112,22 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
+
+        if (mIsFromOnCreate) {
+            mIsFromOnCreate = false;
+        } else {
+            if (isNetworkConnected()) {
+                getAddresses();
+            }
+        }
+    }
+
+    private void getAddresses() {
+        String msg = mContext.getString(R.string.iap_please_wait);
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(mContext, msg);
+            mAddressController.getAddresses();
+        }
     }
 
     public void registerEvents() {
@@ -148,6 +172,12 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                     mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
                 mAdapter.notifyDataSetChanged();
+            } else if (isVisible()) {
+                if (msg.obj instanceof GetShippingAddressData) {
+                    GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
+                    mAddresses = shippingAddresses.getAddresses();
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }
     }
@@ -226,21 +256,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     @Override
-    public void onSetPaymentDetails(Message msg) {
-
-    }
-
-    @Override
-    public void onGetRegions(Message msg) {
-
-    }
-
-    @Override
-    public void onGetUser(Message msg) {
-
-    }
-
-    @Override
     public void onEventReceived(final String event) {
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
@@ -298,7 +313,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         addressHashMap.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
         addressHashMap.put(ModelConstants.TOWN, address.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
-        //  addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
         addressHashMap.put(ModelConstants.PHONE_1, address.getPhone1());
 
         if (address.getRegion() != null) {
@@ -354,5 +368,20 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
+    }
+
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+
     }
 }

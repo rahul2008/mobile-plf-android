@@ -66,8 +66,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private DeliveryModes mDeliveryMode;
     private DeliveryModeDialog mDialog;
 
-//    public boolean mIsDeliveryAddressSet;
-
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
     }
@@ -137,7 +135,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         int quantityStatus = getQuantityStatus(newCount, oldCount);
                         if (!Utility.isProgressDialogShowing()) {
                             Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-//                            mIsDeliveryAddressSet = true;
                             mPresenter.updateProductQuantity(mData.get(position), newCount, quantityStatus);
                         }
                     }
@@ -271,7 +268,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void handleTax(ShoppingCartData data, FooterShoppingCartViewHolder shoppingCartFooter){
+    private void handleTax(ShoppingCartData data, FooterShoppingCartViewHolder shoppingCartFooter) {
         if (!data.isVatInclusive()) {
             shoppingCartFooter.mVatValue.setVisibility(View.GONE);
             shoppingCartFooter.mVAT.setVisibility(View.GONE);
@@ -361,11 +358,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mDeliveryMode = deliveryModes.get(position);
 
     }
-/*
-    @Override
-    public long getItemId(final int position) {
-        return position;
-    }*/
 
     private class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
         NetworkImageView mNetworkImage;
@@ -421,9 +413,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void tagProducts() {
         StringBuilder products = new StringBuilder();
-        //  CartsEntity cart = mCartData.getCarts().get(0);
         for (int i = 0; i < mData.size(); i++) {
-            //EntriesEntity entriesEntity = cart.getEntries().get(i);
             if (i > 0) {
                 products = products.append(",");
             }
@@ -434,9 +424,4 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
     }
-
-    /*public void setDeliveryAddress(boolean isDeliveryAddressSet) {
-        mIsDeliveryAddressSet = isDeliveryAddressSet;
-    }*/
-
 }

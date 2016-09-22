@@ -5,7 +5,11 @@
 
 package com.philips.cdp.di.iap.response.addresses;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable{
+    private static final long serialVersionUID = 3239898965381617362L;
+    
     private String isocode;
     private String name;
 

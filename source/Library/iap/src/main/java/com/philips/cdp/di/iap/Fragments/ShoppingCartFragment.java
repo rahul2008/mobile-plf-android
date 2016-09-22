@@ -19,7 +19,6 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -239,11 +238,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onGetUser(Message msg) {
-
-    }
-
-    @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
         if (mCheckoutBtn == null) return;
         if (isOutOfStockReached) {
@@ -279,6 +273,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+        //NOP
     }
 
     @Override
