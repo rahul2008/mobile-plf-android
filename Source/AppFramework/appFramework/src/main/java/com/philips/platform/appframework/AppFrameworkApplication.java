@@ -64,7 +64,7 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableFileLog(true);
         setLocale();
 
-        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
         initializeProductRegistrationLibrary();
         initializeIAP();
     }
