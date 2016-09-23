@@ -34,11 +34,13 @@ public class RegistrationSettingsURLTest extends InstrumentationTestCase{
             try{
                 RegistrationHelper.getInstance().
                         setAppInfraInstance(new AppInfra.Builder().build(mContext));
-            }catch(Exception e){System.out.println(e);}
+            }catch(Exception e){
+                System.out.println(e);}
         }
         RLog.initForTesting(mContext);
-        try{registrationSettingsURL.initialiseConfigParameters("en-US");}
-        catch(NullPointerException e){
+        try{
+            registrationSettingsURL.initialiseConfigParameters("en-US");}
+        catch(Exception e){
 
         }
 
