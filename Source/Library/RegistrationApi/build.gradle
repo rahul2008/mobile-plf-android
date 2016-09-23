@@ -159,7 +159,7 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.0.0-rc.3', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.0.0-rc.4', ext: 'aar')
             {
                 transitive = true
             }
