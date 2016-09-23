@@ -119,6 +119,9 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             if (isNetworkConnected()) {
                 getAddresses();
             }
+            mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+            mAddressListView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -176,9 +179,11 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 if (msg.obj instanceof GetShippingAddressData) {
                     GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                     mAddresses = shippingAddresses.getAddresses();
-                    mAdapter.notifyDataSetChanged();
                 }
             }
+            mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+            mAddressListView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
