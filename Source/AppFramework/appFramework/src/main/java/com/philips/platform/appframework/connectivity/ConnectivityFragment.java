@@ -152,6 +152,11 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
             public void onFailedToConnect(SHNDevice shnDevice, SHNResult shnResult) {
                 connectionState.setText(shnDevice.getState().toString() + shnResult);
             }
+
+            @Override
+            public void onReadRSSI(final int rssi) {
+
+            }
         };
         shineDevice = shnCentral.createSHNDeviceForAddressAndDefinition("06:05:04:03:02:AB", shnDeviceDefinitionInfo);
         shineDevice.registerSHNDeviceListener(shineDeviceListener);
