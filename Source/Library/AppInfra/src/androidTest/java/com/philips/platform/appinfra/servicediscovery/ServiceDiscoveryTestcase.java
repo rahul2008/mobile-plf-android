@@ -273,6 +273,40 @@
 //                }
 //            }});
 //
+////    public void testsaveToSecureStore() {
+////        Method method = null;
+////        try {
+////            method = ServiceDiscoveryManager.class.getDeclaredMethod("saveToSecureStore", new Class[]{String.class, boolean.class});
+////            method.setAccessible(true);
+////            method.invoke(mServiceDiscoveryManager, new Object[]{"test", true});
+////
+////            method = ServiceDiscoveryManager.class.getDeclaredMethod("fetchFromSecureStorage", boolean.class);
+////            method.setAccessible(true);
+////            method.invoke(mServiceDiscoveryManager, true);
+////        } catch (NoSuchMethodException e) {
+////            e.printStackTrace();
+////        } catch (InvocationTargetException e) {
+////            e.printStackTrace();
+////        } catch (IllegalAccessException e) {
+////            e.printStackTrace();
+////        }
+////    }
+//
+//    public void testgetServiceUrlWithLanguagePreference() {
+//        Method method = null;
+//        try {
+//            method = ServiceDiscoveryManager.class.getDeclaredMethod("getServiceUrlWithLanguagePreference", new Class[]{String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class});
+//            method.setAccessible(true);
+//            method.invoke(mServiceDiscoveryManager, new Object[]{"test", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+//                @Override
+//                public void onSuccess(URL url) {
+//                }
+//
+//                @Override
+//                public void onError(ERRORVALUES error, String message) {
+//                }
+//            }});
+//
 //        } catch (NoSuchMethodException e) {
 //            e.printStackTrace();
 //        } catch (InvocationTargetException e) {
@@ -352,6 +386,48 @@
 //<<<<<<< HEAD
 ////        mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
 //=======
+////
+////            @Override
+////            public void onSuccess(URL url) {
+////                assertNotNull(url.toString());
+////            }
+////        });
+////    }
+//
+////    public void testgetServicesWithCountryMapUrl() throws Exception {
+////        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+////        mServiceDiscoveryInterface.getServicesWithCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+////            @Override
+////            public void onSuccess(Map urlMap) {
+////                assertNotNull(urlMap);
+////                assertFalse(urlMap.size() < 0);
+////            }
+////
+////            @Override
+////            public void onError(ERRORVALUES error, String message) {
+////                assertNotNull(message);
+////            }
+////        });
+////    }
+//
+////    public void testgetServiceLocaleWithCountryPreference() throws Exception {
+////        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+////        mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+////
+////            @Override
+////            public void onError(ERRORVALUES error, String message) {
+////                assertNotNull(message);
+////            }
+////
+////            @Override
+////            public void onSuccess(String locale) {
+////                assertNotNull(locale);
+////            }
+////        });
+////    }
+//
+////    public void testgetServiceLocaleWithLanguagePreference() throws Exception {
+////        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
 ////        mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
 ////
 ////
@@ -1169,3 +1245,13 @@
 ////            @Override
 ////            public void onSuccess() {
 ////                assertNotNull("Test");
+////            @Override
+////            public void onError(ERRORVALUES error, String message) {
+////                assertNotNull(error);
+////                assertNotNull(message);
+////            }
+////        });
+////    }
+//
+//
+//}
