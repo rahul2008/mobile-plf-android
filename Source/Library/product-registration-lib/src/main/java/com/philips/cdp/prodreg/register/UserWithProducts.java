@@ -33,6 +33,9 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import java.util.List;
 
+/**
+ * Responsible to register and fetch products
+ */
 public class UserWithProducts {
 
     public static final int PRODUCT_REGISTRATION = 0;

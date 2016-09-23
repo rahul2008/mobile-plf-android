@@ -12,6 +12,10 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  */
 public class PRInterface implements UappInterface {
 
+    /**
+     * @param uappDependencies - App dependencies
+     * @param uappSettings     - App settings
+     */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         getInstance().init(uappDependencies, uappSettings);
@@ -21,6 +25,9 @@ public class PRInterface implements UappInterface {
         return PRUiHelper.getInstance();
     }
 
+    /**
+     * @param uiLauncher - Launcher to differentiate activity or fragment
+     */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         getInstance().launch(uiLauncher, uappLaunchInput);

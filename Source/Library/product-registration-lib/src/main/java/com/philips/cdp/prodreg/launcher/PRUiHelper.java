@@ -34,7 +34,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
-import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -47,7 +46,7 @@ import java.util.ArrayList;
 /**
  * Product registration helper class used to invoke product registration
  */
-public class PRUiHelper implements UappInterface {
+public class PRUiHelper {
 
     private static PRUiHelper prodRegHelper;
     private static LoggingInterface loggingInterface;
@@ -176,20 +175,14 @@ public class PRUiHelper implements UappInterface {
         return loggingInterface;
     }
 
-    @Override
-    public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
+    protected void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         this.appInfra = (AppInfra) uappDependencies.getAppInfra();
         new ProdRegHelper().init(context);
         ProdRegTagging.init(appInfra);
     }
 
-
-    /**
-     * @param uiLauncher   - Launcher to differentiate activity or fragment
-     */
-    @Override
-    public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+    protected void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         this.mUiLauncher = uiLauncher;
 
         final PRLaunchInput PRLaunchInput = (PRLaunchInput) uappLaunchInput;

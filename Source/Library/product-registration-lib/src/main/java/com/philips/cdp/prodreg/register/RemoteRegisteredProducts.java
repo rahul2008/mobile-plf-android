@@ -30,7 +30,7 @@ public class RemoteRegisteredProducts {
                 RegisteredResponseData[] results = registeredDataResponse.getResults();
                 Gson gson = getGson();
                 RegisteredProduct[] registeredProducts = userWithProducts.getRegisteredProductsFromResponse(results, gson);
-                localRegisteredProducts.syncLocalCache(registeredProducts);
+                localRegisteredProducts.migrateLegacyCache(registeredProducts);
                 registeredProductsListener.getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), userWithProducts.getTimeStamp());
             }
 

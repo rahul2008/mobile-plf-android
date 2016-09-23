@@ -204,10 +204,10 @@ public class ProdRegRegistrationController {
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        final ProdRegSuccessFragment successFragment = getSuccessFragment();
+                        final ProdRegConnectionFragment prodRegConnectionFragment = getConnectionFragment();
                         updateRegisteredProductsList(registeredProduct);
-                        successFragment.setArguments(dependencyBundle);
-                        registerControllerCallBacks.showFragment(successFragment);
+                        prodRegConnectionFragment.setArguments(dependencyBundle);
+                        registerControllerCallBacks.showFragment(prodRegConnectionFragment);
                     }
                 }
             }
