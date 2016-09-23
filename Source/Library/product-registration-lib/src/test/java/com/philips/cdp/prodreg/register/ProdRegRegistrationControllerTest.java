@@ -148,7 +148,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
-        verify(registerControllerCallBacksMock).tagEvents("ProdRegRegistrationScreen", "specialEvents", "extendWarrantyOption");
+        verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
         verify(registerControllerCallBacksMock).showLoadingDialog();
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Registering product with product details as CTN::" + registeredProductMock.getCtn());
         verify(userWithProductsMock).registerProduct(registeredProductMock);
