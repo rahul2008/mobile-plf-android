@@ -30,7 +30,8 @@ public class AboutScreenState  extends UIState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showFragment( new AboutScreenFragment(), AboutScreenFragment.TAG);
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
+                showFragment( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentAddState());
     }
 
     /**

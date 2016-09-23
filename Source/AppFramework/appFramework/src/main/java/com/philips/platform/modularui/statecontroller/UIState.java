@@ -15,7 +15,8 @@ import java.lang.annotation.RetentionPolicy;
 
 abstract public class UIState {
 
-    UIBasePresenter uiBasePresenter;
+    private UIBasePresenter uiBasePresenter;
+    private UIStateData uiStateData;
     /**  This class defines constants for each state ,
      * Any new state should be added here and its constant should be defined here
      * Constants for each state,Values for the states start from 1001 and continues further.
@@ -117,5 +118,4 @@ abstract public class UIState {
         this.uiStateData = uiStateData;
     }
 
-    private UIStateData uiStateData;
 }

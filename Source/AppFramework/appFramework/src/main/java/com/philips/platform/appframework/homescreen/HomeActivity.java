@@ -26,11 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -40,7 +38,6 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -230,56 +227,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void onBackPressed() {
-        if(null != hamburgerIcon) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
-            boolean backState = false;
-            if (hamburgerIcon.getTag().equals(Constants.HAMBURGER_ICON_TAG)) {
-                if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                    philipsDrawerLayout.closeDrawer(Gravity.LEFT);
-                    return;
-                }
-                if (currentFrag instanceof HomeFragment) {
-                    finishAffinity();
-                } else if (fragmentManager.getBackStackEntryCount() == 1) {
-                    showNavigationDrawerItem(0);
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof RegistrationFragment) {
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                        fragmentManager.popBackStack();
-                    }
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof InAppBaseFragment) {
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                        popBackTillHomeFragment();
-                    }
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase(getResources().getString(R.string.af_digital_care))) {
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                        popBackTillHomeFragment();
-                    }
-                } else {
-                    AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
-                    UIFlowManager flowManager = applicationContext.getFlowManager();
-                    UIState currentState = flowManager.getCurrentState();
-                    currentState.handleBack(this);
-                }
-
-                /*
-                 If you go some screen other than HOME SCREEN and press handleBack then
-                 HOME SCREEN has to be selected. So manually r HOME as SELECTED.
-                */
-                adapter.setSelectedIndex(0);
-            } else if (hamburgerIcon.getTag().equals(Constants.BACK_BUTTON_TAG)) {
-
-               if (currentFrag != null && currentFrag instanceof BackEventListener){
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                       super.onBackPressed();
-                    }
-                }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+        boolean backState = false;
+        if(currentFrag instanceof BackEventListener){
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if (!backState) {
+                super.onBackPressed();
             }
+        }else if(fragmentManager.getBackStackEntryCount() == 1){
+            finishAffinity();
+        }else {
+            super.onBackPressed();
         }
+
     }
 
     @Override
@@ -421,6 +382,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
     @Override
     public void onBackStackChanged() {
+        Log.v("Count",""+getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();

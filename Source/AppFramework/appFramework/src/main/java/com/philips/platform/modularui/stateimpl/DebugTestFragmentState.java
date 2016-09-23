@@ -30,7 +30,8 @@ public class DebugTestFragmentState extends UIState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showFragment( new DebugTestFragment(), DebugTestFragment.TAG);
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
+                showFragment( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentAddState());
     }
 
     /**

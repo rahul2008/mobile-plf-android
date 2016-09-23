@@ -12,6 +12,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
@@ -56,16 +57,22 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         switch (componentID){
             case MENU_OPTION_HOME: uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
+                UIStateData homeStateData = new UIStateData();
+                homeStateData.setFragmentAddState(Constants.ADD_HOME_FRAGMENT);
+                uiState.setUiStateData(homeStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;
             case MENU_OPTION_SETTINGS: uiState = new SettingsFragmentState(UIState.UI_SETTINGS_FRAGMENT_STATE);
+                UIStateData settingsStateData = new UIStateData();
+                settingsStateData.setFragmentAddState(Constants.ADD_FROM_HAMBURGER);
+                uiState.setUiStateData(settingsStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;
             case MENU_OPTION_SHOP: uiState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
-                IAPState.InAppStateData uiStateData = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
-                uiStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
-                uiState.setUiStateData(uiStateData);
+                IAPState.InAppStateData iapStateData = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
+                iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
+                uiState.setUiStateData(iapStateData);
                 break;
             case MENU_OPTION_SUPPORT: uiState = new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
@@ -75,10 +82,16 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 break;
             case MENU_OPTION_ABOUT:
                 uiState=new AboutScreenState(UIState.UI_ABOUT_SCREEN_STATE);
+                UIStateData aboutStateData = new UIStateData();
+                aboutStateData.setFragmentAddState(Constants.ADD_FROM_HAMBURGER);
+                uiState.setUiStateData(aboutStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;
  			case MENU_OPTION_DEBUG:
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
+                UIStateData debugStateData = new UIStateData();
+                debugStateData.setFragmentAddState(Constants.ADD_FROM_HAMBURGER);
+                uiState.setUiStateData(debugStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:

@@ -17,6 +17,7 @@ import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.homescreen.HomeFragment;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
+import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
@@ -45,7 +46,28 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
                 e.printStackTrace();
             }
     }
-
+    public void showFragment(Fragment fragment, String fragmentTag, int fragmentAddState) {
+        int containerId = R.id.frame_container;
+        try {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (fragmentAddState){
+            case Constants.ADD_HOME_FRAGMENT:
+                fragmentTransaction.add(containerId, fragment, fragmentTag);
+                break;
+            case Constants.ADD_FROM_HAMBURGER:
+                getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
+                fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                break;
+            case Constants.ADD_FROM_CHILD_FRAGMENT:
+                fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                break;
+            }
+            fragmentTransaction.addToBackStack(fragmentTag);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
     public void popBackTillHomeFragment() {
         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
     }
