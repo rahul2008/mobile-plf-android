@@ -50,20 +50,17 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         int containerId = R.id.frame_container;
         try {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        switch (fragmentAddState){
-            case Constants.ADD_HOME_FRAGMENT:
-                fragmentTransaction.add(containerId, fragment, fragmentTag);
-                break;
-            case Constants.ADD_FROM_HAMBURGER:
-                getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
-                fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                break;
-            case Constants.ADD_FROM_CHILD_FRAGMENT:
-                fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                break;
-            }
-            fragmentTransaction.addToBackStack(fragmentTag);
-            fragmentTransaction.commitAllowingStateLoss();
+                switch (fragmentAddState) {
+                    case Constants.ADD_HOME_FRAGMENT:
+                        fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                        break;
+                    case Constants.ADD_FROM_HAMBURGER:
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                        fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                        break;
+                }
+                fragmentTransaction.addToBackStack(fragmentTag);
+                fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }

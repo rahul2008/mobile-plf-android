@@ -13,6 +13,7 @@ import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
@@ -55,6 +56,9 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
         switch (componentID){
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
+                UIStateData homeStateData = new UIStateData();
+                homeStateData.setFragmentAddState(Constants.ADD_HOME_FRAGMENT);
+                uiState.setUiStateData(homeStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context, R.id.frame_container,(HomeActivity)context);
                 uiState.setPresenter(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
