@@ -112,42 +112,8 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         super.onDestroy();
     }
 
-    protected boolean backstackFragment() {
-        fragmentManager.popBackStack();
-        return true;
-    }
-
-    private void removeCurrentFragment() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        Fragment currentFrag = fragmentManager
-                .findFragmentById(R.id.mainContainer);
-
-        if (currentFrag != null) {
-            transaction.remove(currentFrag);
-        }
-        transaction.commit();
-    }
-
-    public void removeFragmentByTag(String tag) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        Fragment currentFrag = fragmentManager
-                .findFragmentByTag(tag);
-
-        if (currentFrag != null) {
-            transaction.remove(currentFrag);
-        }
-        transaction.commit();
-    }
-
     public void finishActivity() {
         this.finishAffinity();
     }
 
-    protected boolean findFragmentByTag(String tag) {
-        Fragment currentFrag = getSupportFragmentManager().findFragmentByTag(tag);
-
-        return (currentFrag != null);
-    }
 }
