@@ -48,10 +48,10 @@ public class IAPState extends UIState{
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
+        ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentAddState());
         launchIAP();
     }
 
-    // TODO : Remove from UIconstants
     private int getIAPFlowType(int iapFlowType){
         switch (iapFlowType){
             case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;

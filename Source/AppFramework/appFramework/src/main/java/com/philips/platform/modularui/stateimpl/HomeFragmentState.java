@@ -31,7 +31,7 @@ public class HomeFragmentState extends UIState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showFragment( new HomeFragment(), HomeFragment.TAG,getUiStateData().getFragmentAddState());
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragment(), HomeFragment.TAG,getUiStateData().getFragmentAddState());
     }
 
     /**

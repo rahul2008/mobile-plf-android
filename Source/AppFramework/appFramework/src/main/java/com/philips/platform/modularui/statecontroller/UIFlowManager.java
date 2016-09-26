@@ -30,8 +30,6 @@ public class UIFlowManager {
         this.currentState = currentState;
     }
 
-    // TODO: Presenter should be represented as an interface
-
     /**
      * For naviating to next state
      * @param uiState requires Uistate object

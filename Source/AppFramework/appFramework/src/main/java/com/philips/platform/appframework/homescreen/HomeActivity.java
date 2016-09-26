@@ -114,7 +114,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                     adapter.setSelectedIndex(position);
                     adapter.notifyDataSetChanged();
                     sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
-                    hamburgerIcon.setTag(Constants.HAMBURGER_ICON_TAG);
                     showNavigationDrawerItem(position);
                 }
             }
@@ -152,7 +151,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 philipsDrawerLayout.openDrawer(navigationView);
             }
         });
-        hamburgerIcon.setTag(Constants.HAMBURGER_ICON_TAG);
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
         cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
@@ -230,14 +228,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
         boolean backState = false;
-        if(currentFrag instanceof BackEventListener){
+        if(fragmentManager.getBackStackEntryCount() == 1){
+            finishAffinity();
+        } else if(currentFrag instanceof BackEventListener){
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if (!backState) {
                 super.onBackPressed();
             }
-        }else if(fragmentManager.getBackStackEntryCount() == 1){
-            finishAffinity();
-        }else {
+        } else {
             super.onBackPressed();
         }
 
@@ -298,7 +296,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     {
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-            hamburgerIcon.setTag(Constants.BACK_BUTTON_TAG);
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -307,7 +304,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             });
         } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerIcon.setTag(Constants.HAMBURGER_ICON_TAG);
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -382,7 +378,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
     @Override
     public void onBackStackChanged() {
-        Log.v("Count",""+getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();

@@ -31,7 +31,7 @@ public class DebugTestFragmentState extends UIState {
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                showFragment( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentAddState());
+                handleFragmentBackStack( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentAddState());
     }
 
     /**

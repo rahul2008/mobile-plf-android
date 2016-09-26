@@ -34,7 +34,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         fragmentManager = getSupportFragmentManager();
     }
 
-    public void showFragment(Fragment fragment, String fragmentTag) {
+    public void handleFragmentBackStack(Fragment fragment, String fragmentTag) {
         int containerId = R.id.frame_container;
 
             try {
@@ -46,7 +46,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
                 e.printStackTrace();
             }
     }
-    public void showFragment(Fragment fragment, String fragmentTag, int fragmentAddState) {
+    public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
         int containerId = R.id.frame_container;
         try {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -57,6 +57,9 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
                     case Constants.ADD_FROM_HAMBURGER:
                         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
                         fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                        break;
+                    case Constants.CLEAR_TILL_HOME:
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
                         break;
                 }
                 fragmentTransaction.addToBackStack(fragmentTag);
