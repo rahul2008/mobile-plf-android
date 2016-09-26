@@ -115,6 +115,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 } else {
                     fetchProductListFromHybris();
                 }
+            }else{
+                fetchProductListFromHybris();
             }
         } else {
             fetchProductListFromHybris();
