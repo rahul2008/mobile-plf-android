@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/data_sync_fragment_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="4dp"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical"
+                android:background="#CACFD2">
+
+    <Button
+        android:id="@+id/delete"
+        android:text="@string/delete"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+    />
+
+    <Button
+        android:id="@+id/update"
+        android:text="@string/update"
+        android:layout_marginTop="3dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/delete"
+        android:layout_alignParentEnd="true"
+    />
+
+    <TextView
+        android:id="@+id/time_line_data"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="default"
+        android:gravity="left|bottom"
+        android:layout_toLeftOf="@+id/update"
+    />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_below="@+id/time_line_data"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_toLeftOf="@id/update"
+        android:background="@color/uikit_philips_dark_blue" />
+
+    <TextView
+        android:id="@+id/time_line_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="default"
+        android:gravity="left|bottom"
+        android:layout_below="@+id/divider"
+        android:layout_toLeftOf="@+id/delete"
+    />
+
+</RelativeLayout>
