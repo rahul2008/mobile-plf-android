@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name_data_sync">My DataSync DemoApp</string>
+    <!-- Data Sync related Strings-->
+    <string name="data_sync">Data Sync</string>
+    <string name="data_sync_title">Data Sync</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="registration">Registration</string>
+    <string name="phase">Time Of the Day</string>
+    <string name="temperature">Temperature</string>
+    <string name="temperature_hint">Temperature of the Baby</string>
+    <string name="location">Notes</string>
+    <string name="location_hint">Location Name</string>
+    <string name="save">Save</string>
+    <!--Fragment tag -->
+    <string name="af_digital_care">digitalcare</string>
+    <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
+
+</resources>

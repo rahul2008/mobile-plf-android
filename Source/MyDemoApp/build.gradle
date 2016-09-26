@@ -1,0 +1,92 @@
+
+buildscript {
+    repositories {
+       jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android'
+        }
+    }
+
+}
+
+
+allprojects {
+    ext.compileSdkVer = 23
+    ext.buildToolsVer = '23.0.3'
+    ext.minSdkVer = 19
+    ext.targetSdkVer = 22
+    ext.appVersion = '0.0.1'
+    ext.appVersionCode = 2
+   
+    //Support library
+    ext.supportLibraryVer = '24.1.1'
+    ext.multiDexVersion = '1.0.1'
+    ext.gsonVersion = '2.4'
+
+    //External lib
+    ext.butterKnifeVer = '7.0.1'
+    ext.gifDrawableVersion = '1.1.17'
+
+    //Common component
+    ext.digitalCareVersion = '5.2.0-rc.1'
+    ext.registrationVer = '7.1.0-SNAPSHOT'
+    ext.uikitVersion = '3.2.3'
+
+    ext.junitVer = '4.12'
+    ext.mockitoVer = '1.10.17'
+    ext.mockitoCoreVer = '1.10.19'
+    ext.robolectricVer = '3.0'
+    ext.shadowsSupportVer = '3.0'
+
+    ext.ormliteVer = '4.48'
+
+    ext.eventBusVer = '2.4.0'
+    ext.jodaTimeVer = '2.9.2'
+    ext.androidAssertJVer = '1.1.1'
+    ext.mavenAntTaskVer = '2.1.3'
+
+    ext.daggerVer = '2.0.2'
+    ext.stethoVer = '1.3.1'
+
+    ext.okhttpVer = '2.7.5'
+    ext.glideVer = '3.6.1'
+    ext.glideOkHttpIntegrationVer = '1.3.1'
+
+    ext.retrofitVer = '1.9.0'
+
+    ext.volleyVer = '1.0.0'
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
