@@ -81,6 +81,10 @@ public class ProductCatalogData {
         mStockLevel = stockLevel;
     }
 
+    public int getStockLevel() {
+        return mStockLevel;
+    }
+
     public String getFormattedTotalPriceWithTax() {
         return mFormattedTotalPriceWithTax;
     }

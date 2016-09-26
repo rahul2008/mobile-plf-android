@@ -72,7 +72,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     ArrayList<String> getProductCatalogDataFromStoredData() {
         ArrayList<String> catalogList = new ArrayList<>();
-        HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductList();
+        HashMap<String, ProductCatalogData> productCatalogDataSaved =
+                CartModelContainer.getInstance().getProductList();
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
                 catalogList.add(entry.getValue().getCtnNumber());
@@ -122,20 +123,16 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         return true;
     }
 
-    //TODO Need to check this
     @Override
-    public void getProductCategorizedProduct(ArrayList<String> productList) {
+    public void getCategorizedProductList(ArrayList<String> productList) {
         if (CartModelContainer.getInstance().getProductList() != null) {
             if (mLoadListener != null) {
-                mLoadListener.onLoadFinished(getCatalogItems(productList), null);
+                mLoadListener.onLoadFinished(getCategorisedProductCatalog(productList), null);
             }
-        } else {
-            ProductCatalogPresenter presenter = new ProductCatalogPresenter();
-            presenter.getProductCategorizedProduct(productList);
         }
     }
 
-    private ArrayList<ProductCatalogData> getCatalogItems(ArrayList<String> productList) {
+    private ArrayList<ProductCatalogData> getCategorisedProductCatalog(ArrayList<String> productList) {
         ArrayList<ProductCatalogData> catalogList = new ArrayList<>();
         CartModelContainer container = CartModelContainer.getInstance();
         for (String ctn : productList) {

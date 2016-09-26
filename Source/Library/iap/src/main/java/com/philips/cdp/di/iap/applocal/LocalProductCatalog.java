@@ -42,7 +42,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public void getProductCategorizedProduct(final ArrayList<String> productList) {
+    public void getCategorizedProductList(final ArrayList<String> productList) {
         if (productList != null) {
             mProductList = productList;
             mProductCatalogHelper.makePrxCall(productList, null);

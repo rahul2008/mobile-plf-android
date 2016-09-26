@@ -106,7 +106,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS)) {
-                onLoadFinished(getCategorisedProductList(), null);
+                displayCategorisedProductList();
             } else if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
                 if (CartModelContainer.getInstance().getProductList() != null &&
                         CartModelContainer.getInstance().getProductList().size() != 0) {
@@ -133,22 +133,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return mProductList;
     }
 
-    private ArrayList<ProductCatalogData> getCategorisedProductList() {
-        ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
+    private void displayCategorisedProductList() {
         ArrayList<String> categorisedProductList =
                 mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
-
-        if (categorisedProductList != null) {
-            for (String ctn : categorisedProductList) {
-                if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
-                    mProductList.add(CartModelContainer.getInstance().getProduct(ctn));
-                } else {
-                    mPresenter.getProductCategorizedProduct(categorisedProductList);
-                }
-            }
-        }
-
-        return mProductList;
+        mPresenter.getCategorizedProductList(categorisedProductList);
     }
 
     @Override
