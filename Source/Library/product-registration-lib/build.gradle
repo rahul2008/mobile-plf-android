@@ -170,9 +170,8 @@ dependencies {
     {
            transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.7', ext: 'aar')
-    {
-           transitive = true
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true) {
+        transitive = true
     }
 
     testCompile 'junit:junit:4.12'
