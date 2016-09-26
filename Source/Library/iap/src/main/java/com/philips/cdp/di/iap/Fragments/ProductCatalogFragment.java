@@ -105,7 +105,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS)) {
+            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) &&
+                    mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 displayCategorisedProductList();
             } else if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
                 if (CartModelContainer.getInstance().getProductList() != null &&
@@ -114,6 +115,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 } else {
                     fetchProductListFromHybris();
                 }
+            }else{
+                fetchProductListFromHybris();
             }
         } else {
             fetchProductListFromHybris();
@@ -136,7 +139,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private void displayCategorisedProductList() {
         ArrayList<String> categorisedProductList =
                 mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
-        mPresenter.getCategorizedProductList(categorisedProductList);
+        if (categorisedProductList.size() > 0)
+            mPresenter.getCategorizedProductList(categorisedProductList);
     }
 
     @Override
