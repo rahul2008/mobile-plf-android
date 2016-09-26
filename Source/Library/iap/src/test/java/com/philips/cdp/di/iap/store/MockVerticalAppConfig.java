@@ -1,11 +1,13 @@
-package com.philips.cdp.di.iap.store;
-
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+package com.philips.cdp.di.iap.store;
+
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+
 public class MockVerticalAppConfig extends VerticalAppConfig {
     private String mHostPort = "acc.occ.shop.philips.com";
     private String mProposition = "Tuscany2016";
@@ -26,6 +28,15 @@ public class MockVerticalAppConfig extends VerticalAppConfig {
 
     @Override
     void loadConfigurationFromAsset(IAPDependencies iapDependencies) {
-        //super.loadConfigurationFromAsset(iapDependencies);
+        AppConfigurationInterface.AppConfigurationError configError =
+                new AppConfigurationInterface.AppConfigurationError();
+
+        mHostPort = "acc.occ.shop.philips.com";
+        mProposition = "Tuscany2016";
+
+        if (configError.getErrorCode() != null) {
+            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " +
+                    configError.getErrorCode().toString());
+        }
     }
 }
