@@ -140,12 +140,12 @@ vectorDrawables.useSupportLibrary = true
         javaMaxHeapSize "4g" // 2g should be also OK
     }
     buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
+       // release {
+         //   minifyEnabled true
+           // shrinkResources true
+           // proguardFile 'proguard-rules.pro'
+            //signingConfig signingConfigs.release
+        //}
 
         debug {
             minifyEnabled false
