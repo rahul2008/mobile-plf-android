@@ -24,14 +24,12 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity{
-    private FragmentManager fragmentManager = null;
     public UIBasePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        fragmentManager = getSupportFragmentManager();
     }
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag) {
@@ -46,16 +44,21 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
                 e.printStackTrace();
             }
     }
+
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
         int containerId = R.id.frame_container;
         try {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 switch (fragmentAddState) {
                     case Constants.ADD_HOME_FRAGMENT:
-                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
-                        fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                        fragmentTransaction.addToBackStack(fragmentTag);
-                        fragmentTransaction.commitAllowingStateLoss();
+                        if(null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)){
+                            fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                            fragmentTransaction.addToBackStack(fragmentTag);
+                            fragmentTransaction.commitAllowingStateLoss();
+                        }
+                        else {
+                            getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                        }
                         break;
                     case Constants.ADD_FROM_HAMBURGER:
                         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
