@@ -43,10 +43,10 @@ public class PRXDataBuilder {
 
     public void preparePRXDataRequest(){
         for(String ctn: mCtns){
-            if (CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
+            if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
                 mProductUpdateCount++;
                 mProductPresentInPRX++;
-                mPRXProductData.put(ctn, CartModelContainer.getInstance().getProductData(ctn));
+                mPRXProductData.put(ctn, CartModelContainer.getInstance().getProductSummary(ctn));
             }else {
                 executeRequest(ctn,prepareSummaryRequest(ctn));
             }
@@ -69,7 +69,7 @@ public class PRXDataBuilder {
                 mProductPresentInPRX++;
                 SummaryModel summaryModel = (SummaryModel)responseData;
                 if(summaryModel.isSuccess()) {
-                    CartModelContainer.getInstance().addProductDataToList(ctn, summaryModel);
+                    CartModelContainer.getInstance().addProductSummary(ctn, summaryModel);
                 }
                 notifySuccess((SummaryModel) responseData);
             }

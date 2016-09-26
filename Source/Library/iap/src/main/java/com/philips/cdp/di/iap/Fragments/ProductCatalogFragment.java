@@ -101,29 +101,29 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
         String currentCountryCode = localeManager.getCountryCode();
-        String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+        String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
+                (mContext, IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS)
-                    && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS)) {
                 onLoadFinished(getCategorisedProductList(), null);
-            } else if (currentCountryCode.equals(countrySelectedByVertical)) {
-                if (CartModelContainer.getInstance().getProductCatalogData() != null
-                        && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
+            } else if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
+                if (CartModelContainer.getInstance().getProductList() != null &&
+                        CartModelContainer.getInstance().getProductList().size() != 0) {
                     onLoadFinished(getCachedProductList(), null);
                 } else {
                     fetchProductListFromHybris();
                 }
-            } else {
-                fetchProductListFromHybris();
             }
+        } else {
+            fetchProductListFromHybris();
         }
     }
 
     ArrayList<ProductCatalogData> getCachedProductList() {
         ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
         HashMap<String, ProductCatalogData> productCatalogDataSaved =
-                CartModelContainer.getInstance().getProductCatalogData();
+                CartModelContainer.getInstance().getProductList();
 
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
@@ -141,7 +141,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (categorisedProductList != null) {
             for (String ctn : categorisedProductList) {
                 if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
-                    mProductList.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
+                    mProductList.add(CartModelContainer.getInstance().getProduct(ctn));
                 } else {
                     mPresenter.getProductCategorizedProduct(categorisedProductList);
                 }

@@ -388,7 +388,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
         CartsEntity cartsEntity = mCurrentCartData;
         List<EntriesEntity> entries = cartsEntity.getEntries();
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ShoppingCartData> products = new ArrayList<>();
         String ctn;
         for (EntriesEntity entry : entries) {

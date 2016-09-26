@@ -62,8 +62,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     public void getCompleteProductList(final IAPListener iapListener) {
-        if (CartModelContainer.getInstance().getProductCatalogData() != null &&
-                CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
+        if (CartModelContainer.getInstance().getProductList() != null &&
+                CartModelContainer.getInstance().getProductList().size() != 0) {
             iapListener.onGetCompleteProductList(getProductCatalogDataFromStoredData());
         } else {
             getCatalogCount(iapListener);
@@ -72,7 +72,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     ArrayList<String> getProductCatalogDataFromStoredData() {
         ArrayList<String> catalogList = new ArrayList<>();
-        HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
+        HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductList();
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
                 catalogList.add(entry.getValue().getCtnNumber());
@@ -122,9 +122,10 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         return true;
     }
 
+    //TODO Need to check this
     @Override
     public void getProductCategorizedProduct(ArrayList<String> productList) {
-        if (CartModelContainer.getInstance().getProductCatalogData() != null) {
+        if (CartModelContainer.getInstance().getProductList() != null) {
             if (mLoadListener != null) {
                 mLoadListener.onLoadFinished(getCatalogItems(productList), null);
             }

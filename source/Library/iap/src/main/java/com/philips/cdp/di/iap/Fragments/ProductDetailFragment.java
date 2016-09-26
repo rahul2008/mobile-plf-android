@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -202,7 +200,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             builder.build();
         } else {
             final HashMap<String, ArrayList<String>> prxAssetObjects =
-                    CartModelContainer.getInstance().getPRXAssetObjects();
+                    CartModelContainer.getInstance().getPRXAssetList();
             for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mAsset = entry.getValue();
@@ -221,7 +219,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void makeSummaryRequest() {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add(mCTNValue);
-        if (!CartModelContainer.getInstance().isPRXDataPresent(mCTNValue)) {
+        if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
             if (!Utility.isProgressDialogShowing()) {
                 if (mContext == null) return;
                 Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
@@ -230,7 +228,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             builder.preparePRXDataRequest();
         } else {
             final HashMap<String, SummaryModel> prxAssetObjects =
-                    CartModelContainer.getInstance().getPRXDataObjects();
+                    CartModelContainer.getInstance().getPRXSummaryList();
             for (Map.Entry<String, SummaryModel> entry : prxAssetObjects.entrySet()) {
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mProductSummary = entry.getValue();
@@ -315,7 +313,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mContext == null) return;
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
-        CartModelContainer.getInstance().addAssetDataToList(mCTNValue, mAsset);
+        CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
         mAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
         mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
