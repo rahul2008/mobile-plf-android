@@ -104,9 +104,10 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         if (fragment == null) {
             if (getActivity() != null && getActivity() instanceof IAPActivity && !getActivity().isFinishing()) {
                 clearFragmentStack();
-                addFragment(ProductCatalogFragment.createInstance(new Bundle(),
-                        AnimationType.NONE), ProductCatalogFragment.TAG);
             }
+            addFragment(ProductCatalogFragment.createInstance(new Bundle(),
+                    AnimationType.NONE), ProductCatalogFragment.TAG);
+
         } else {
             getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
         }

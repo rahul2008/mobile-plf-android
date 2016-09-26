@@ -124,7 +124,7 @@ public class ProductCatalogHelper {
             CTN = entry.getCtnNumber();
             if (currentCountry.equalsIgnoreCase(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY))) {
                 if (!container.isProductCatalogDataPresent(CTN)) {
-                    container.addProductCatalogDataDataToList(CTN, entry);
+                    container.addProduct(CTN, entry);
                 }
             }else{
                 CartModelContainer.getInstance().clearCategorisedProductList();
@@ -134,7 +134,7 @@ public class ProductCatalogHelper {
     }
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanB(ArrayList<String> planBProductList, HashMap<String, SummaryModel> prxModel) {
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
         for (String planBProduct : planBProductList) {
@@ -167,7 +167,7 @@ public class ProductCatalogHelper {
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanA(Products productData, HashMap<String, SummaryModel> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
         if (entries != null)

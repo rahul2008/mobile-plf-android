@@ -114,7 +114,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
 
     public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {
 
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductData> products = new ArrayList<>();
         String ctn;
         for(OrderDetail detail : orderDetail)

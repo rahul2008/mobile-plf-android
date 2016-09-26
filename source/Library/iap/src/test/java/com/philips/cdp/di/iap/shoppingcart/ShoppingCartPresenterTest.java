@@ -106,19 +106,19 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductDataToList("HX9033/64", (SummaryModel) responseData);
+        CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
         obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
                 .class, "get_prx_success_response_HX9023_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductDataToList("HX9023/64", (SummaryModel) responseData);
+        CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
         obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
                 .class, "get_prx_success_response_HX9003_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductDataToList("HX9003/64", (SummaryModel) responseData);
+        CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
     }
 

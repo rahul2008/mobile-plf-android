@@ -101,29 +101,32 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
         String currentCountryCode = localeManager.getCountryCode();
-        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+        String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
+                (mContext, IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS)
-                    && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-                onLoadFinished(getProductCatalog(), null);
-            } else if (currentCountryCode.equals(savedCountry)) {
-                if (CartModelContainer.getInstance().getProductCatalogData() != null
-                        && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
-                    onLoadFinished(getProductCatalogDataFromStoredData(), null);
+            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) &&
+                    mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+                displayCategorisedProductList();
+            } else if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
+                if (CartModelContainer.getInstance().getProductList() != null &&
+                        CartModelContainer.getInstance().getProductList().size() != 0) {
+                    onLoadFinished(getCachedProductList(), null);
                 } else {
-                    loadProductCatalog();
+                    fetchProductListFromHybris();
                 }
-            } else {
-                loadProductCatalog();
+            }else{
+                fetchProductListFromHybris();
             }
+        } else {
+            fetchProductListFromHybris();
         }
     }
 
-    ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData() {
+    ArrayList<ProductCatalogData> getCachedProductList() {
         ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
         HashMap<String, ProductCatalogData> productCatalogDataSaved =
-                CartModelContainer.getInstance().getProductCatalogData();
+                CartModelContainer.getInstance().getProductList();
 
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
@@ -133,22 +136,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return mProductList;
     }
 
-    private ArrayList<ProductCatalogData> getProductCatalog() {
-        ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
+    private void displayCategorisedProductList() {
         ArrayList<String> categorisedProductList =
                 mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
-
-        if (categorisedProductList != null) {
-            for (String ctn : categorisedProductList) {
-                if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
-                    mProductList.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
-                } else {
-                    mPresenter.getProductCategorizedProduct(categorisedProductList);
-                }
-            }
-        }
-
-        return mProductList;
+        if (categorisedProductList.size() > 0)
+            mPresenter.getCategorizedProductList(categorisedProductList);
     }
 
     @Override
@@ -254,20 +246,19 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
     };
 
-    private void loadProductCatalog() {
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-        }
-        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
+    private void fetchProductListFromHybris() {
+        fetchProducts();
     }
 
     private void loadMoreItems() {
         if (mCurrentPage == mTotalPages) {
-            if (Utility.isProgressDialogShowing())
-                Utility.dismissProgressDialog();
+            dismissProgress();
             return;
         }
+        fetchProducts();
+    }
 
+    private void fetchProducts() {
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
@@ -285,8 +276,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter.notifyDataSetChanged();
         mAdapter.tagProducts();
 
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        dismissProgress();
 
         if (paginationEntity == null)
             return;
@@ -335,7 +325,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
                     NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         }
 
-        if (Utility.isProgressDialogShowing())
+        dismissProgress();
+    }
+
+    private void dismissProgress() {
+        if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
+        }
     }
 }
