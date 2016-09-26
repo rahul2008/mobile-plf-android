@@ -3,8 +3,8 @@ buildscript {
     repositories {
        //jcenter()
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+      //  mavenCentral()
+       // maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
     }
     dependencies {
@@ -19,7 +19,7 @@ buildscript {
 allprojects {
     repositories {
      //   jcenter()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        //maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
