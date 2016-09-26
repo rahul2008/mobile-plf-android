@@ -127,7 +127,7 @@ public class ProductCatalogHelper {
                     container.addProductCatalogDataDataToList(CTN, entry);
                 }
             }else{
-                CartModelContainer.getInstance().clearCategoriezedProductList();
+                CartModelContainer.getInstance().clearCategorisedProductList();
             }
         }
         Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());

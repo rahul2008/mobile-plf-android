@@ -16,6 +16,7 @@ import java.util.List;
 
 public class CartModelContainer {
     private static CartModelContainer container;
+
     private AddressFields mBillingAddress;
     private AddressFields mShippingAddressFields;
 
@@ -31,7 +32,6 @@ public class CartModelContainer {
     private List<DeliveryModes> mDeliveryModes;
 
     private boolean switchToBillingAddress;
-    private boolean mIsCartCreated;
 
     private String language;
     private String country;
@@ -100,12 +100,6 @@ public class CartModelContainer {
         return mOrderNumber;
     }
 
-    public void resetApplicationFields() {
-        mBillingAddress = null;
-        mShippingAddressFields = null;
-        mOrderNumber = null;
-    }
-
     public void setSwitchToBillingAddress(boolean switchToBillingAddress) {
         this.switchToBillingAddress = switchToBillingAddress;
     }
@@ -160,17 +154,6 @@ public class CartModelContainer {
         return mProductCatalogData.containsKey(ctn);
     }
 
-    public ProductCatalogData getProduct(String ctn) {
-        if (mProductCatalogData.containsKey(ctn)) {
-            return mProductCatalogData.get(ctn);
-        }
-        return null;
-    }
-
-    public void clearCategoriezedProductList() {
-        mProductCatalogData.clear();
-    }
-
     public HashMap<String, ArrayList<String>> getPRXAssetObjects() {
         return mPRXAssetObjects;
     }
@@ -193,5 +176,22 @@ public class CartModelContainer {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public ProductCatalogData getProduct(String ctn) {
+        if (mProductCatalogData.containsKey(ctn)) {
+            return mProductCatalogData.get(ctn);
+        }
+        return null;
+    }
+
+    public void clearCategorisedProductList() {
+        mProductCatalogData.clear();
+    }
+
+    public void resetApplicationFields() {
+        mBillingAddress = null;
+        mShippingAddressFields = null;
+        mOrderNumber = null;
     }
 }

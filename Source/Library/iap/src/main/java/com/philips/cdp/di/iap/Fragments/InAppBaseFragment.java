@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import java.net.InetAddress;
 import java.util.List;
 
 public abstract class InAppBaseFragment extends Fragment implements BackEventListener {
