@@ -1,1 +1,1 @@
-include ':app', ':dataServices'
+include ':datasync', ':dataServices'
