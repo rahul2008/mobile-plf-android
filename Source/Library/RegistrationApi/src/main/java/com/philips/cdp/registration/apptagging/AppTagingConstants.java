@@ -50,7 +50,7 @@ public class AppTagingConstants {
 
 	public static final String START_USER_REGISTRATION = "startUserRegistration";
 
-	public static final String LOGIN_START = "loginStart";
+	public static final String  LOGIN_START = "loginStart";
 
 	public static final String LOGIN_CHANNEL = "loginChannel";
 
@@ -104,10 +104,10 @@ public class AppTagingConstants {
 
 	public static final String SHOW_PASSWORD = "showPassword";
 
-	public static final String FIELD_CANNOT_EMPTY_NAME = "firsName : field can not be empty";
+	public static final String FIELD_CANNOT_EMPTY_NAME = "firsName : Field cannot be empty";
 
-	public static final String FIELD_CANNOT_EMPTY_EMAIL = "emailAddress : field can not be empty";
+	public static final String FIELD_CANNOT_EMPTY_EMAIL = "emailAddress : Field cannot be empty";
 
-	public static final String FIELD_CANNOT_EMPTY_PASSWORD = "password : field can not be empty";
+	public static final String FIELD_CANNOT_EMPTY_PASSWORD = "password : Field cannot be empty";
 
 }
