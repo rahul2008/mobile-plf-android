@@ -68,7 +68,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         final Button registerLater = (Button) view.findViewById(R.id.no_thanks_button);
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
-        ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "", "");
+        ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage", "ProductRegistrationOfferScreen");
         return view;
     }
 

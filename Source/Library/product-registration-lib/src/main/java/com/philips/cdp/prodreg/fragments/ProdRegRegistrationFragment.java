@@ -137,7 +137,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnClickListener(onClickPurchaseDate());
-        ProdRegTagging.getInstance().trackPage("RegistrationScreen", "", "");
+        ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
         return view;
     }
 
