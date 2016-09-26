@@ -139,14 +139,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private void reportStateUpdate(State oldExternalState, State newExternalState) {
         if (oldExternalState != newExternalState) {
             if (newExternalState == State.Disconnected && failedToConnectResult != SHNResult.SHNOk) {
-                if (shnDeviceListener != null) {
-                    shnDeviceListener.onFailedToConnect(this, failedToConnectResult);
-                }
+                notifyFailureToListener(failedToConnectResult);
                 failedToConnectResult = SHNResult.SHNOk;
             }
-            if (shnDeviceListener != null) {
-                shnDeviceListener.onStateUpdated(this);
-            }
+            notifyStateToListener();
         }
     }
 
@@ -178,7 +174,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
             SHNService shnService = getSHNService(bluetoothGattService.getUuid());
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
-
 
             if (discoveryListener != null) {
                 discoveryListener.onServiceDiscovered(bluetoothGattService.getUuid(), shnService);
@@ -318,26 +313,46 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
 
         if (shnCentral.isBluetoothAdapterEnabled()) {
-            if (internalState == InternalState.Disconnected) {
-                SHNLogger.i(TAG, "connect");
-                setInternalStateReportStateUpdateAndSetTimers(InternalState.GattConnecting);
-                shnCentral.registerBondStatusListenerForAddress(this, getAddress());
-                shnCentral.registerSHNCentralStatusListenerForAddress(this, getAddress());
-                if (withTimeout) {
-                    if (timeoutInMS > 0) {
-                        connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
+            switch (getState()) {
+                case Disconnected:
+                    SHNLogger.i(TAG, "connect");
+                    setInternalStateReportStateUpdateAndSetTimers(InternalState.GattConnecting);
+                    shnCentral.registerBondStatusListenerForAddress(this, getAddress());
+                    shnCentral.registerSHNCentralStatusListenerForAddress(this, getAddress());
+                    if (withTimeout) {
+                        if (timeoutInMS > 0) {
+                            connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
+                        }
+                        btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
+                    } else {
+                        btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), true, btGattCallback);
                     }
-                    btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
-                } else {
-                    btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), true, btGattCallback);
-                }
-            } else {
-                SHNLogger.i(TAG, "ignoring 'connect' call; not disconnected");
+                    break;
+                case Connecting:
+                    //just wait for callback
+                    break;
+                case Connected:
+                    notifyStateToListener();
+                    break;
+                case Disconnecting:
+                default:
+                    notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+                    break;
             }
         } else {
-            if (shnDeviceListener != null) {
-                shnDeviceListener.onStateUpdated(this);
-            }
+            notifyStateToListener();
+        }
+    }
+
+    private void notifyStateToListener() {
+        if (shnDeviceListener != null) {
+            shnDeviceListener.onStateUpdated(this);
+        }
+    }
+
+    private void notifyFailureToListener(SHNResult result) {
+        if (shnDeviceListener != null) {
+            shnDeviceListener.onFailedToConnect(this, result);
         }
     }
 
@@ -372,9 +387,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 btGatt.disconnect();
                 setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
                 break;
-            case Disconnected:
             case Disconnecting:
                 SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
+                break;
+            case Disconnected:
+                notifyStateToListener();
                 break;
             default:
                 if (BuildConfig.DEBUG) throw new AssertionError();
