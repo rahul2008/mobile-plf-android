@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/data_sync_create_pop_up"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:padding="10dp"
+>
+
+   <!-- <TextView
+        android:id="@+id/phase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/phase"
+    />
+
+    <EditText
+        android:id="@+id/phase_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/phase"
+        android:hint="@string/phase"
+        android:layout_alignBaseline="@id/phase"
+        android:layout_marginBottom="10dp"
+    />-->
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/temperature"
+    />
+
+    <EditText
+        android:id="@+id/temperature_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/temperature"
+        android:hint="@string/temperature"
+        android:layout_marginBottom="10dp"
+        android:inputType="number"
+        android:maxLength="3"
+    />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+        android:layout_below="@id/temperature_detail"
+    />
+
+    <EditText
+        android:id="@+id/location_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/location"
+        android:hint="@string/location_hint"
+        android:layout_below="@id/temperature_detail"
+        android:layout_marginBottom="10dp"
+    />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:layout_below="@id/location_detail"
+        android:layout_centerHorizontal="true"
+    />
+</RelativeLayout>
