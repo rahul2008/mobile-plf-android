@@ -42,24 +42,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductCatalogFragment extends InAppBaseFragment implements EventListener, ProductCatalogPresenter.LoadListener {
+public class ProductCatalogFragment extends InAppBaseFragment
+        implements EventListener, ProductCatalogPresenter.LoadListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
     private Context mContext;
+    private Bundle mBundle;
+
+    private TextView mEmptyCatalogText;
+
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
-    private TextView mEmptyCatalogText;
-    private int mTotalResults = 0;
-    private final int PAGE_SIZE = 20;
-    private int mCurrentPage = 0;
-    private int mRemainingProducts = 0;
-    private boolean mIsLoading = false;
-    private int mTotalPages = -1;
     private ProductCatalogAPI mPresenter;
     private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
-    private Bundle mBundle;
+
+    private final int PAGE_SIZE = 20;
+    private int mTotalResults = 0;
+    private int mCurrentPage = 0;
+    private int mRemainingProducts = 0;
+    private int mTotalPages = -1;
+
+    private boolean mIsLoading = false;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -69,7 +74,6 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
 
         @Override
         public void onFailure(final Message msg) {
-            IAPLog.i(ProductCatalogFragment.class.getName(), "Get Count Failed ");
             Utility.dismissProgressDialog();
         }
     };
@@ -100,10 +104,12 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
         String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS)
+                    && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 onLoadFinished(getProductCatalog(), null);
             } else if (currentCountryCode.equals(savedCountry)) {
-                if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
+                if (CartModelContainer.getInstance().getProductCatalogData() != null
+                        && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
                     onLoadFinished(getProductCatalogDataFromStoredData(), null);
                 } else {
                     loadProductCatalog();
@@ -115,45 +121,52 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
     }
 
     ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData() {
-        ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
-        HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
+        ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
+        HashMap<String, ProductCatalogData> productCatalogDataSaved =
+                CartModelContainer.getInstance().getProductCatalogData();
+
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
-                catalogDatas.add(entry.getValue());
+                mProductList.add(entry.getValue());
             }
         }
-        return catalogDatas;
+        return mProductList;
     }
 
     private ArrayList<ProductCatalogData> getProductCatalog() {
-        ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
-        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
+        ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
+        ArrayList<String> categorisedProductList =
+                mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
 
-        if (ctns != null) {
-            for (String ctn : ctns) {
+        if (categorisedProductList != null) {
+            for (String ctn : categorisedProductList) {
                 if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
-                    catalogDatas.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
+                    mProductList.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
                 } else {
-                    mPresenter.getProductCategorizedProduct(ctns);
+                    mPresenter.getProductCategorizedProduct(categorisedProductList);
                 }
             }
         }
 
-        return catalogDatas;
+        return mProductList;
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
+
         View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         mEmptyCatalogText = (TextView) rootView.findViewById(R.id.empty_product_catalog_txt);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
+
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
+
         return rootView;
     }
 
@@ -213,8 +226,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
     private RecyclerView.OnScrollListener
             mRecyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView,
-                                         int newState) {
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
         }
 
@@ -233,7 +245,9 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
                         && firstVisibleItemPosition >= 0
                         && mRemainingProducts > PAGE_SIZE) {
                     mIsLoading = true;
-                    IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", firstvisibleItemPistion " + firstVisibleItemPosition + "itemCount " + lay.getItemCount());
+                    IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", " +
+                            "firstvisibleItemPistion " + firstVisibleItemPosition +
+                            "itemCount " + lay.getItemCount());
                     loadMoreItems();
                 }
             }
@@ -255,17 +269,18 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
         }
 
         if (!Utility.isProgressDialogShowing()) {
-            IAPLog.i(TAG, "Loading Page = " + mCurrentPage + "Total Results = " + mTotalResults + "Size of Array = " + mProductCatalog.size());
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
 
         if (mPresenter == null)
-            mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(mContext, this, getFragmentManager());
+            mPresenter = ControllerFactory.getInstance().
+                    getProductCatalogPresenter(mContext, this, getFragmentManager());
         mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE, null);
     }
 
     @Override
-    public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched, PaginationEntity paginationEntity) {
+    public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched,
+                               PaginationEntity paginationEntity) {
         updateProductCatalogList(dataFetched);
         mAdapter.notifyDataSetChanged();
         mAdapter.tagProducts();
@@ -319,6 +334,7 @@ public class ProductCatalogFragment extends InAppBaseFragment implements EventLi
                     NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()),
                     NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         }
+
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
