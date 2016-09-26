@@ -101,26 +101,26 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
         String currentCountryCode = localeManager.getCountryCode();
-        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+        String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
 
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS)
                     && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-                onLoadFinished(getProductCatalog(), null);
-            } else if (currentCountryCode.equals(savedCountry)) {
+                onLoadFinished(getCategorisedProductList(), null);
+            } else if (currentCountryCode.equals(countrySelectedByVertical)) {
                 if (CartModelContainer.getInstance().getProductCatalogData() != null
                         && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
-                    onLoadFinished(getProductCatalogDataFromStoredData(), null);
+                    onLoadFinished(getCachedProductList(), null);
                 } else {
-                    loadProductCatalog();
+                    fetchProductListFromHybris();
                 }
             } else {
-                loadProductCatalog();
+                fetchProductListFromHybris();
             }
         }
     }
 
-    ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData() {
+    ArrayList<ProductCatalogData> getCachedProductList() {
         ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
         HashMap<String, ProductCatalogData> productCatalogDataSaved =
                 CartModelContainer.getInstance().getProductCatalogData();
@@ -133,7 +133,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return mProductList;
     }
 
-    private ArrayList<ProductCatalogData> getProductCatalog() {
+    private ArrayList<ProductCatalogData> getCategorisedProductList() {
         ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
         ArrayList<String> categorisedProductList =
                 mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
@@ -254,20 +254,19 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
     };
 
-    private void loadProductCatalog() {
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-        }
-        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
+    private void fetchProductListFromHybris() {
+        fetchProducts();
     }
 
     private void loadMoreItems() {
         if (mCurrentPage == mTotalPages) {
-            if (Utility.isProgressDialogShowing())
-                Utility.dismissProgressDialog();
+            dismissProgress();
             return;
         }
+        fetchProducts();
+    }
 
+    private void fetchProducts() {
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
@@ -285,8 +284,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter.notifyDataSetChanged();
         mAdapter.tagProducts();
 
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        dismissProgress();
 
         if (paginationEntity == null)
             return;
@@ -335,7 +333,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
                     NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         }
 
-        if (Utility.isProgressDialogShowing())
+        dismissProgress();
+    }
+
+    private void dismissProgress() {
+        if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
+        }
     }
 }
