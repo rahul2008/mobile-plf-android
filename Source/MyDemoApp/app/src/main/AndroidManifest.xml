@@ -11,7 +11,7 @@
         android:label="@string/app_name_data_sync"
         android:supportsRtl="true"
         android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
-        tools:replace="android:theme,android:label">
+        tools:replace="android:label">
 
         <activity android:name=".activity.DemoActivity" >
             <intent-filter>
