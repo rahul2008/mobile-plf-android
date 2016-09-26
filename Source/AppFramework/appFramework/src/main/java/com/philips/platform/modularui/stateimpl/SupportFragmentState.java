@@ -46,7 +46,7 @@ public class SupportFragmentState extends UIState implements CcListener {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         this.activityContext = fragmentLauncher.getFragmentActivity();
         DigitalCareConfigManager.getInstance().registerCcListener(this);
-        ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentAddState());
+        ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
         launchCC();
     }
 

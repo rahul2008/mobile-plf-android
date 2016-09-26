@@ -33,7 +33,7 @@ public class SettingsFragmentState extends UIState {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
             ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
                     handleFragmentBackStack(new SettingsFragment(), SettingsFragment.TAG,
-                            getUiStateData().getFragmentAddState());
+                            getUiStateData().getFragmentLaunchState());
 
     }
 

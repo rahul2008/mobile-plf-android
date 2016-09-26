@@ -378,9 +378,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
     @Override
     public void onBackStackChanged() {
+        Log.v("StackCount",""+getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();
+            Log.v("StackCount",""+str);
             if (null != str) {
                 if(str.contains(Constants.IAP_PHILIPS_SHOP_FRAGMENT_TAG) || str.contains(Constants.IAP_PURCHASE_HISTORY_FRAGMENT_TAG) || str.contains(Constants.IAP_SHOPPING_CART_FRAGMENT_TAG)){
                     return;

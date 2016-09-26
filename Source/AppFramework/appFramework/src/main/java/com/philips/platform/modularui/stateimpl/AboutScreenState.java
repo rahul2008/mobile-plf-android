@@ -31,7 +31,7 @@ public class AboutScreenState  extends UIState {
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentAddState());
+                handleFragmentBackStack( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     /**

@@ -4,11 +4,11 @@ public class UIStateData {
 
     private int fragmentAddState;
 
-    public int getFragmentAddState() {
+    public int getFragmentLaunchState() {
         return fragmentAddState;
     }
 
-    public void setFragmentAddState(int fragmentAddState) {
+    public void setFragmentLaunchType(int fragmentAddState) {
         this.fragmentAddState = fragmentAddState;
     }
 

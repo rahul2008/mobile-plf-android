@@ -52,18 +52,21 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 switch (fragmentAddState) {
                     case Constants.ADD_HOME_FRAGMENT:
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
                         fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                        fragmentTransaction.addToBackStack(fragmentTag);
+                        fragmentTransaction.commitAllowingStateLoss();
                         break;
                     case Constants.ADD_FROM_HAMBURGER:
                         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
                         fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                        fragmentTransaction.addToBackStack(fragmentTag);
+                        fragmentTransaction.commitAllowingStateLoss();
                         break;
                     case Constants.CLEAR_TILL_HOME:
                         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
                         break;
                 }
-                fragmentTransaction.addToBackStack(fragmentTag);
-                fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }

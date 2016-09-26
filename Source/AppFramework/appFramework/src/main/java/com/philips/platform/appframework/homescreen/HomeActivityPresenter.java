@@ -58,13 +58,13 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         switch (componentID){
             case MENU_OPTION_HOME: uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
                 UIStateData homeStateData = new UIStateData();
-                homeStateData.setFragmentAddState(Constants.ADD_HOME_FRAGMENT);
+                homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 uiState.setUiStateData(homeStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;
             case MENU_OPTION_SETTINGS: uiState = new SettingsFragmentState(UIState.UI_SETTINGS_FRAGMENT_STATE);
                 UIStateData settingsStateData = new UIStateData();
-                settingsStateData.setFragmentAddState(Constants.ADD_FROM_HAMBURGER);
+                settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(settingsStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;
@@ -72,27 +72,27 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 IAPState.InAppStateData iapStateData = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
-                iapStateData.setFragmentAddState(Constants.CLEAR_TILL_HOME);
+                iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 uiState.setUiStateData(iapStateData);
                 break;
             case MENU_OPTION_SUPPORT: uiState = new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 SupportFragmentState.ConsumerCareData supportStateData =  new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE).new ConsumerCareData();
                 supportStateData.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.productselection_ctnlist))));
-                supportStateData.setFragmentAddState(Constants.CLEAR_TILL_HOME);
+                supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 uiState.setUiStateData(supportStateData);
                 break;
             case MENU_OPTION_ABOUT:
                 uiState=new AboutScreenState(UIState.UI_ABOUT_SCREEN_STATE);
                 UIStateData aboutStateData = new UIStateData();
-                aboutStateData.setFragmentAddState(Constants.ADD_FROM_HAMBURGER);
+                aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(aboutStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;
  			case MENU_OPTION_DEBUG:
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
                 UIStateData debugStateData = new UIStateData();
-                debugStateData.setFragmentAddState(Constants.ADD_FROM_HAMBURGER);
+                debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(debugStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
                 break;

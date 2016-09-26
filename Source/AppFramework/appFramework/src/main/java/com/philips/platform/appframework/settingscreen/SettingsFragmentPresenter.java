@@ -57,7 +57,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeFragmentState(UIState.UI_HOME_FRAGMENT_STATE);
                 UIStateData homeStateData = new UIStateData();
-                homeStateData.setFragmentAddState(Constants.ADD_HOME_FRAGMENT);
+                homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 uiState.setUiStateData(homeStateData);
                 fragmentLauncher = new FragmentLauncher((HomeActivity)context, R.id.frame_container,(HomeActivity)context);
                 uiState.setPresenter(this);

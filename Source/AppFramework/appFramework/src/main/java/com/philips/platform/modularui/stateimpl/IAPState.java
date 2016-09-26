@@ -48,7 +48,7 @@ public class IAPState extends UIState{
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
-        ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentAddState());
+        ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
         launchIAP();
     }
 
