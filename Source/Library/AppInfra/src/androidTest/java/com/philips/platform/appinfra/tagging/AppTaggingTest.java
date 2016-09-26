@@ -135,5 +135,63 @@ public class AppTaggingTest extends MockitoTestCase {
     }
 
 
+    public void testEmumValues(){
+        assertEquals("facebook",AppTaggingInterface.SocialMedium.Facebook.toString());
+        assertEquals("twitter",AppTaggingInterface.SocialMedium.Twitter.toString());
+        assertEquals("mail",AppTaggingInterface.SocialMedium.Mail.toString());
+        assertEquals("airdrop",AppTaggingInterface.SocialMedium.AirDrop.toString());
+    }
+
+    public void testTrackVideoStart() {
+        doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                assertEquals(((String)args[0]),"Bindas");
+                return null;
+            }
+        }).when(mockAppTaggingInterface).trackVideoStart("Bindas");
+
+    }
+
+    public void testTrackVideoEnd() {
+        doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                assertEquals(((String)args[0]),"Bindas");
+                return null;
+            }
+        }).when(mockAppTaggingInterface).trackVideoEnd("Bindas");
+
+    }
+
+    public void testTrackSocialSharing() {
+        doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                assertEquals(((String)args[1]),"Bindas");
+                return null;
+            }
+        }).when(mockAppTaggingInterface).trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook,"Bindas");
+    }
+
+    public void testTrackLinkExternal() {
+        doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                assertEquals(((String)args[0]),"http://www.philips.co.in/");
+                return null;
+            }
+        }).when(mockAppTaggingInterface).trackLinkExternal("http://www.philips.co.in/");
+    }
+
+    public void testTrackFileDownload() {
+        doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                assertEquals(((String)args[0]),"Bindas");
+                return null;
+            }
+        }).when(mockAppTaggingInterface).trackFileDownload("Bindas");
+    }
 
 }

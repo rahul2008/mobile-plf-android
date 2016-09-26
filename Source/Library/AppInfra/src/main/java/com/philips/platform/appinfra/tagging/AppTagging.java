@@ -270,4 +270,33 @@ public class AppTagging implements AppTaggingInterface {
         Config.pauseCollectingLifecycleData();
     }
 
+    @Override
+    public void trackVideoStart(String videoName) {
+        trackActionWithInfo("videoStart", "videoName", videoName);
+    }
+
+    @Override
+    public void trackVideoEnd(String videoName) {
+        trackActionWithInfo("videoEnd", "videoName", videoName);
+    }
+
+    @Override
+    public void trackSocialSharing(SocialMedium medium, String sharedItem) {
+        Map<String, String> trackMap = new HashMap<String, String>();
+        trackMap.put("socialItem", sharedItem);
+        trackMap.put("socialType", medium.toString());
+        trackActionWithInfo("socialShare", trackMap);
+    }
+
+    @Override
+    public void trackLinkExternal(String url) {
+        trackActionWithInfo("sendData", "exitLinkName", url);
+    }
+
+    @Override
+    public void trackFileDownload(String filename) {
+        trackActionWithInfo("sendData", "fileName", filename);
+    }
+
+
 }
