@@ -1,4 +1,7 @@
 *.xml
-*.lock
 *.bin
+*.properties
+*.lock
 *.jar
+*.png
+*.iml
