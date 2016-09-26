@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -23,6 +24,9 @@ import com.philips.cdp.di.iap.model.DeleteCartRequest;
 import com.philips.cdp.di.iap.model.GetCartsRequest;
 import com.philips.cdp.di.iap.model.GetCurrentCartRequest;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
@@ -46,9 +50,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
-        implements AbstractModel.DataLoadListener {
+        implements AbstractModel.DataLoadListener, AddressController.AddressListener {
 
     private CartsEntity mCurrentCartData = null;
+    private AddressController mAddressController;
 
     public ShoppingCartPresenter() {
     }
@@ -156,7 +161,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                CartModelContainer.getInstance().setCartCreated(true);
+                mAddressController = new AddressController(context, ShoppingCartPresenter.this);
+                mAddressController.getUser();
+
                 if (isBuy) {
                     addProductToCart(context, ctnNumber, iapHandlerListener, true);
                 } else {
@@ -413,5 +420,58 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             products.add(cartItem);
         }
         return products;
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            return;
+        } else if (msg.obj instanceof GetUser) {
+            GetUser user = (GetUser) msg.obj;
+            if (user.getDefaultAddress() != null) {
+                mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
+            } else {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryAddress(Message msg) {
+        mAddressController.getDeliveryModes();
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+        if ((msg.obj instanceof IAPNetworkError)) {
+            return;
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            if (deliveryModeList.size() > 0) {
+                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            }
+        }
+    }
+
+    @Override
+    public void onSetDeliveryMode(Message msg) {
+        return;
     }
 }

@@ -92,7 +92,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
-
+        IAPLog.i("DemoActivity", "onCreate");
         mApplicationContext = (DemoApplication) getApplicationContext();
         addActionBar();
         setContentView(R.layout.demo_app_layout);
@@ -149,8 +149,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
 
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setIapListener(this);
+
         mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
@@ -159,6 +158,53 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mCategorizedProductList = new ArrayList<>();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IAPLog.i("DemoActivity", "onResume");
+        mIapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput.setIapListener(this);
+        /** Should be commented for debug builds */
+        final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
+        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
+            public boolean shouldAutoUploadCrashes() {
+                return !IAPLog.isLoggingEnabled();
+            }
+        });
+        init();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        IAPLog.i("DemoActivity", "onRestart");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        IAPLog.i("DemoActivity", "onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        IAPLog.i("DemoActivity", "onRestoreInstanceState");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IAPLog.i("DemoActivity", "onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        IAPLog.i("DemoActivity", "onStop");
     }
 
     private void addActionBar() {
@@ -199,19 +245,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         mTitleTextView.setText(title);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /** Should be commented for debug builds */
-        final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
-        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
-            public boolean shouldAutoUploadCrashes() {
-                return !IAPLog.isLoggingEnabled();
-            }
-        });
-        init();
     }
 
     private void init() {
@@ -417,6 +450,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                     0);
         }
     }
+
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);

@@ -48,7 +48,7 @@ public class MockNetworkController extends NetworkController {
     }
 
     @Override
-    void initStore(IAPDependencies iapDependencies) {
+    void initStore(Context context, IAPDependencies iapDependencies) {
         store = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(iapDependencies);
     }
 

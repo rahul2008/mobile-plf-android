@@ -63,6 +63,13 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private String mJanRainEmail;
 
     private DeliveryModes mDeliveryMode;
+    private boolean mIsFromOnCreate = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mIsFromOnCreate = true;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -77,6 +84,13 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
         Bundle bundle = getArguments();
         mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
+
+        if (bundle.containsKey(IAPConstant.ADDRESS_LIST)) {
+            mAddresses = (List<Addresses>) bundle.getSerializable(IAPConstant.ADDRESS_LIST);
+        }
+        mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+        mAddressListView.setAdapter(mAdapter);
+
         return view;
     }
 
@@ -98,11 +112,25 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
-        if (isNetworkConnected()) {
-            getAddresses();
+
+        if (mIsFromOnCreate) {
+            mIsFromOnCreate = false;
+        } else {
+            if (isNetworkConnected()) {
+                getAddresses();
+            }
+            mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+            mAddressListView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
-        mAddressListView.setAdapter(mAdapter);
+    }
+
+    private void getAddresses() {
+        String msg = mContext.getString(R.string.iap_please_wait);
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(mContext, msg);
+            mAddressController.getAddresses();
+        }
     }
 
     public void registerEvents() {
@@ -130,14 +158,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         showFragment(ShoppingCartFragment.TAG);
     }
 
-    private void getAddresses() {
-        String msg = mContext.getString(R.string.iap_please_wait);
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, msg);
-            mAddressController.getAddresses();
-        }
-    }
-
     @Override
     public void onGetAddress(Message msg) {
         if (mIsAddressUpdateAfterDelivery) {
@@ -159,10 +179,11 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 if (msg.obj instanceof GetShippingAddressData) {
                     GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                     mAddresses = shippingAddresses.getAddresses();
-                    mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
-                    mAddressListView.setAdapter(mAdapter);
                 }
             }
+            mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+            mAddressListView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -240,21 +261,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     @Override
-    public void onSetPaymentDetails(Message msg) {
-
-    }
-
-    @Override
-    public void onGetRegions(Message msg) {
-
-    }
-
-    @Override
-    public void onGetUser(Message msg) {
-
-    }
-
-    @Override
     public void onEventReceived(final String event) {
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
@@ -312,7 +318,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         addressHashMap.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
         addressHashMap.put(ModelConstants.TOWN, address.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
-        //  addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
         addressHashMap.put(ModelConstants.PHONE_1, address.getPhone1());
 
         if (address.getRegion() != null) {
@@ -368,5 +373,20 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
+    }
+
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+
     }
 }

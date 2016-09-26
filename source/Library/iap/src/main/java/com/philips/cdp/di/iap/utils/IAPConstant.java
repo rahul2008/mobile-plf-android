@@ -73,6 +73,7 @@ public class IAPConstant {
     public static final String ORDER_DETAIL = "ORDER_DETAIL";
 
     //Address selection screen
+    public static final String ADDRESS_LIST = "ADDRESS_LIST";
     public static final String ADD_NEW_ADDRESS = "ADD_NEW_ADDRESS";
     public static final String DELIVER_TO_THIS_ADDRESS = "DELIVER_TO_THIS_ADDRESS";
 

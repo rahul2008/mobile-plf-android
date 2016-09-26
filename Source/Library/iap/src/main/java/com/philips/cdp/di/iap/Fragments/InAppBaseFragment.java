@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -18,7 +19,6 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import java.net.InetAddress;
 import java.util.List;
 
 public abstract class InAppBaseFragment extends Fragment implements BackEventListener {
@@ -102,7 +102,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     public void showProductCatalogFragment() {
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null) {
-            if (getActivity() != null && !getActivity().isFinishing()) {
+            if (getActivity() != null && getActivity() instanceof IAPActivity && !getActivity().isFinishing()) {
                 clearFragmentStack();
                 addFragment(ProductCatalogFragment.createInstance(new Bundle(),
                         AnimationType.NONE), ProductCatalogFragment.TAG);
@@ -113,7 +113,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     public void clearFragmentStack() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
+        if (getActivity() != null && getActivity() instanceof IAPActivity && !getActivity().isFinishing()) {
             FragmentManager fragManager = getActivity().getSupportFragmentManager();
             int count = fragManager.getBackStackEntryCount();
             for (; count >= 0; count--) {
@@ -154,7 +154,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     protected void finishActivity() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
+        if (getActivity() != null && getActivity() instanceof IAPActivity && !getActivity().isFinishing()) {
             getActivity().finish();
         }
     }

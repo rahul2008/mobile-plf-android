@@ -32,38 +32,41 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private final ImageLoader mImageLoader;
     private Context mContext;
-    private ArrayList<ProductCatalogData> mData = new ArrayList<>();
-    private ProductCatalogData productCatalogDataForProductDetailPage;
+
+    private ArrayList<ProductCatalogData> mProductCatalogList = new ArrayList<>();
+    private ProductCatalogData mSelectedProduct;
 
     public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList) {
         mContext = pContext;
-        mData = pArrayList;
-        mImageLoader = NetworkImageLoader.getInstance(mContext)
-                .getImageLoader();
+        mProductCatalogList = pArrayList;
+        mImageLoader = NetworkImageLoader.getInstance(mContext).getImageLoader();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_product_catalog_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.iap_product_catalog_item, parent, false);
         return new ProductCatalogViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        ProductCatalogData productCatalogData = mData.get(position);
+        ProductCatalogData productCatalogData = mProductCatalogList.get(position);
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
+
         String imageURL = productCatalogData.getImageURL();
         String discountedPrice = productCatalogData.getDiscountedPrice();
-        String formatedPrice = productCatalogData.getFormattedPrice();
+        String formattedPrice = productCatalogData.getFormattedPrice();
 
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
-        productHolder.mPrice.setText(formatedPrice);
+        productHolder.mPrice.setText(formattedPrice);
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
+
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
             productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
-        } else if (formatedPrice != null && discountedPrice.equalsIgnoreCase(formatedPrice)) {
+        } else if (formattedPrice != null && discountedPrice.equalsIgnoreCase(formattedPrice)) {
             productHolder.mPrice.setVisibility(View.GONE);
             productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
             productHolder.mDiscountedPrice.setText(discountedPrice);
@@ -84,15 +87,16 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
-        productCatalogDataForProductDetailPage = mData.get(position);
+        mSelectedProduct = mProductCatalogList.get(position);
         EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG);
     }
 
     public ProductCatalogData getTheProductDataForDisplayingInProductDetailPage() {
-        return productCatalogDataForProductDetailPage;
+        return mSelectedProduct;
     }
 
-    private void getNetworkImage(final ProductCatalogViewHolder productCartProductHolder, final String imageURL) {
+    private void getNetworkImage(final ProductCatalogViewHolder productCartProductHolder,
+                                 final String imageURL) {
         mImageLoader.get(imageURL, ImageLoader.getImageListener(productCartProductHolder.mProductImage,
                 R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));
@@ -101,14 +105,14 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mProductCatalogList.size();
     }
 
     public void tagProducts() {
-        if (mData.size() != 0) {
+        if (mProductCatalogList.size() != 0) {
             StringBuilder products = new StringBuilder();
-            for (int i = 0; i < mData.size(); i++) {
-                ProductCatalogData catalogData = mData.get(i);
+            for (int i = 0; i < mProductCatalogList.size(); i++) {
+                ProductCatalogData catalogData = mProductCatalogList.get(i);
                 if (i > 0) {
                     products = products.append(",");
                 }

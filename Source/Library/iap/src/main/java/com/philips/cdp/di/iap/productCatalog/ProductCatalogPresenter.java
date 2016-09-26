@@ -23,8 +23,6 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -47,6 +45,12 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     final int PAGE_SIZE = 20;
     final int CURRENT_PAGE = 0;
+
+    public interface LoadListener {
+        void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
+
+        void onLoadError(IAPNetworkError error);
+    }
 
     public ProductCatalogPresenter() {
     }
@@ -156,7 +160,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     public void onModelDataLoadFinished(final Message msg) {
         if (msg.obj instanceof Products) {
             if (mLoadListener != null && ((Products) msg.obj).getPagination().getTotalResults() < 1) {
-                mLoadListener.onLoadError(createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
+                mLoadListener.onLoadError(createIAPErrorMessage
+                        (mContext.getString(R.string.iap_no_product_available)));
             }
         }
         if (processHybrisRequestForGetProductCatalogData(msg))
@@ -168,25 +173,18 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     @Override
     public void onModelDataError(final Message msg) {
-        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-
         if (mLoadListener != null) {
             if (msg.obj instanceof IAPNetworkError)
                 mLoadListener.onLoadError((IAPNetworkError) msg.obj);
             else {
-                mLoadListener.onLoadError(createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
+                mLoadListener.onLoadError(createIAPErrorMessage
+                        (mContext.getString(R.string.iap_no_product_available)));
             }
         }
+
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
-    }
-
-    public interface LoadListener {
-        void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
-
-        void onLoadError(IAPNetworkError error);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
