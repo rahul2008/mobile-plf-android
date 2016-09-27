@@ -20,8 +20,10 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.io.IOException;
 
+import static junit.framework.Assert.assertEquals;
+
 @RunWith(RobolectricTestRunner.class)
-public class VerticalAppConfigTest extends TestCase {
+public class VerticalAppConfigTest {
     MockIAPDependencies mIAPDependencies;
     MockVerticalAppConfig mMockVerticalAppConfig;
     @Mock
