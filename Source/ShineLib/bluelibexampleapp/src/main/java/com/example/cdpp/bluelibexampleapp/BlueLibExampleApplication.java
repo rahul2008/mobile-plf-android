@@ -6,6 +6,7 @@
 package com.example.cdpp.bluelibexampleapp;
 
 import android.app.Application;
+import android.os.Handler;
 
 import com.example.cdpp.bluelibexampleapp.device.DeviceScanner;
 import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
@@ -46,7 +47,7 @@ public class BlueLibExampleApplication extends Application {
         }
 
         // Create device scanner
-        mDeviceScanner = new DeviceScanner(mShnCentral);
+        mDeviceScanner = new DeviceScanner(mShnCentral, new Handler(getMainLooper()));
 
         setupDeviceDefinitions();
     }
@@ -64,13 +65,6 @@ public class BlueLibExampleApplication extends Application {
 
     public DeviceScanner getScanner() {
         return mDeviceScanner;
-    }
-
-    public boolean isDeviceAssociated(SHNDevice device) {
-        if (device == null) {
-            return false;
-        }
-        return mShnCentral.getShnDeviceAssociation().getAssociatedDevices().contains(device);
     }
 
     private void setupDeviceDefinitions() {
