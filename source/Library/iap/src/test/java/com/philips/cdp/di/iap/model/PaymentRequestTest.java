@@ -80,7 +80,8 @@ public class PaymentRequestTest {
         Mockito.when(mockBillingAddress.getPostalCode()).thenReturn("");
         Mockito.when(mockBillingAddress.getTown()).thenReturn("Delhi?");
         Mockito.when(mockBillingAddress.getPhoneNumber()).thenReturn("5417543010");
-
+        Mockito.when(mockBillingAddress.getEmail()).thenReturn("testinapp@mailinator.com");
+        Mockito.when(mockBillingAddress.getRegionName()).thenReturn("US");
         CartModelContainer.getInstance().setBillingAddress(mockBillingAddress);
         CartModelContainer.getInstance().setRegionIsoCode("US_NY");
         CartModelContainer.getInstance().setAddressId("8799470125079");

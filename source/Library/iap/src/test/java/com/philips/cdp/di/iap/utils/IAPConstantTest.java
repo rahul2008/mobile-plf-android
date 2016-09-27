@@ -1,13 +1,13 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.utils;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class IAPConstantTest extends TestCase {
 
     @Test

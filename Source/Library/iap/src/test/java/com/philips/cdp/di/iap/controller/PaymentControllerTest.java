@@ -62,6 +62,7 @@ public class PaymentControllerTest {
         setStoreAndDelegate();
         mPaymentController.setHybrisDelegate(null);
         mPaymentController.setStore(null);
+        mPaymentController.getPaymentDetails();
         JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "Payment.txt"));
         mNetworkController.sendSuccess(obj);
     }
@@ -212,6 +213,10 @@ public class PaymentControllerTest {
         address.setPostalCode("92821");
         address.setTown("California");
         address.setPhoneNumber("+1877-682-8207");
+        address.setEmail("testinapp@mailinator.com");
+        address.setRegionName("US");
+        address.clone();
+
         return address;
     }
 

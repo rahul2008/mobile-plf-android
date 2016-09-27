@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +27,8 @@ import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 public class PlaceOrderRequestTest {
-    @Mock
-    private StoreSpec mStore;
     private AbstractModel request;
+    StoreSpec mStore;
 
     @Before
     public void setUP() {
@@ -53,9 +51,17 @@ public class PlaceOrderRequestTest {
 
     @Test
     public void testQueryParamsHasBody() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(ModelConstants.SECURITY_CODE, "122");
         params.put(ModelConstants.CART_ID, "current");
+        assertEquals(request.requestBody(), params);
+    }
+
+    @Test
+    public void testQueryWithoutSecurityCode() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.CART_ID, "current");
+        request = new PlaceOrderRequest(mStore, params, null);
         assertEquals(request.requestBody(), params);
     }
 
