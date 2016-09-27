@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
@@ -37,11 +36,9 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import java.io.Serializable;
 import java.util.Locale;
 
 class IAPHandler {
-    private Context mContext;
     private IAPDependencies mIAPDependencies;
     private IAPSettings mIAPSetting;
 
@@ -77,23 +74,23 @@ class IAPHandler {
         delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                onSuccessOfInitilization(uiLauncher, pLaunchInput, iapListener);
+                onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
             }
 
             @Override
             public void onError(final Message msg) {
-                onFailureOfInitilization(msg, iapListener);
+                onFailureOfInitialization(msg, iapListener);
             }
         });
     }
 
-    protected void onFailureOfInitilization(Message msg, IAPListener iapListener) {
+    protected void onFailureOfInitialization(Message msg, IAPListener iapListener) {
         if (iapListener != null) {
             iapListener.onFailure(getIAPErrorCode(msg));
         }
     }
 
-    protected void onSuccessOfInitilization(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, IAPListener iapListener) {
+    protected void onSuccessOfInitialization(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, IAPListener iapListener) {
         if (uiLauncher instanceof ActivityLauncher) {
             launchActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
         } else {

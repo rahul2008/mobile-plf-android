@@ -1,24 +1,20 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.store;
 
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-
-/**
- * Created by indrajitkumar on 26/09/16.
- */
 public class MockIAPUser extends IAPUser{
-    private IAPUser mJanRainUser;
-    private final HybrisStore mHybrisStore;
-    private String mJanRainID = "bfhxdmje7wg3dm";
     private String mJanRainEmail = "testinapp12@mailinator.com";
     private boolean mTokenRefreshSuccessful;
 
     public MockIAPUser(HybrisStore store) {
-        mHybrisStore = store;
-        mJanRainUser = new IAPUser();
+        HybrisStore mHybrisStore = store;
+        IAPUser mJanRainUser = new IAPUser();
     }
 
-
     public String getJanRainID() {
+        String mJanRainID = "bfhxdmje7wg3dm";
         return mJanRainID;
     }
 

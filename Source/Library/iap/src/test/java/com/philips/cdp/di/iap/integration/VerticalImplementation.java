@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
@@ -13,12 +17,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 22/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
-public class VerticalImplemetaion extends MockIAPListener {
-    //  private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+public class VerticalImplementation extends MockIAPListener {
     private MockIAPDependencies mockIAPDependencies;
     private MockIAPSetting mockIAPSetting;
     private MockIAPInterface mockIAPInterface;

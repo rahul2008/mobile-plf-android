@@ -1,8 +1,10 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
-
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +30,6 @@ public class IAPUserTest {
         mIAPUser = new MockIAPUser(mHybrisStore);
     }
 
-
     @Test
     public void testGetJanrainIDShouldNotNull() {
         assertNotNull(mIAPUser.getJanRainID());
@@ -38,5 +39,4 @@ public class IAPUserTest {
     public void testGetJanrainEmailShouldNotNull() {
         assertNotNull(mIAPUser.getJanRainEmail());
     }
-
 }
