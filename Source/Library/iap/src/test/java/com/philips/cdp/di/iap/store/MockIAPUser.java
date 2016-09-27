@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 public class MockIAPUser extends IAPUser{
     private String mJanRainEmail = "testinapp12@mailinator.com";
-    private boolean mTokenRefreshSuccessful;
+    private boolean mTokenRefreshSuccessful = false;
 
     public MockIAPUser(HybrisStore store) {
         HybrisStore mHybrisStore = store;
