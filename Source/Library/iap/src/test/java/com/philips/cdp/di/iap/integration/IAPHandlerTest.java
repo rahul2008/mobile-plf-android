@@ -184,6 +184,18 @@ public class IAPHandlerTest {
 
     }
 
+    @Test
+    public void testWithNullIAPListener() throws Exception {
+        try {
+            IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+            iapLaunchInput.setIapListener(null);
+            iapLaunchInput.getIapListener();
+        } catch (RuntimeException exception) {
+            String message = "Set IAPListener in your vertical app ";
+            assertEquals(message, exception.getMessage());
+        }
+    }
+
     @Test(expected = NullPointerException.class)
     public void onSuccessOfInitForActivityLauncher() throws Exception {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();

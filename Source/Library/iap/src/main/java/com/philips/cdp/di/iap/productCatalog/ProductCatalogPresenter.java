@@ -132,7 +132,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         }
     }
 
-    private ArrayList<ProductCatalogData> getCategorisedProductCatalog(ArrayList<String> productList) {
+    protected ArrayList<ProductCatalogData> getCategorisedProductCatalog(ArrayList<String> productList) {
         ArrayList<ProductCatalogData> catalogList = new ArrayList<>();
         CartModelContainer container = CartModelContainer.getInstance();
         for (String ctn : productList) {
