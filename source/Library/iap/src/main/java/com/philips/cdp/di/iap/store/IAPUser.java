@@ -32,9 +32,7 @@ public class IAPUser implements UserRegistrationListener {
     }
 
     public IAPUser() {
-
     }
-
 
     public String getJanRainID() {
         return mJanRainUser.getAccessToken();

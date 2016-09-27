@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
@@ -8,10 +12,6 @@ import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-
-/**
- * Created by indrajitkumar on 22/09/16.
- */
 
 public class MockIAPHandler extends IAPHandler {
     IAPSettings mIAPSettings;

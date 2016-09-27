@@ -48,7 +48,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public static final String TAG = ProductCatalogFragment.class.getName();
 
     private Context mContext;
-    private Bundle mBundle;
 
     private TextView mEmptyCatalogText;
 
@@ -97,7 +96,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter(mContext, this, getFragmentManager());
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
-        mBundle = getArguments();
+        Bundle mBundle = getArguments();
 
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
         String currentCountryCode = localeManager.getCountryCode();
@@ -107,7 +106,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) &&
                     mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-                displayCategorisedProductList();
+                displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
             } else if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
                 if (CartModelContainer.getInstance().getProductList() != null &&
                         CartModelContainer.getInstance().getProductList().size() != 0) {
@@ -115,7 +114,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 } else {
                     fetchProductListFromHybris();
                 }
-            }else{
+            } else {
                 fetchProductListFromHybris();
             }
         } else {
@@ -136,9 +135,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return mProductList;
     }
 
-    private void displayCategorisedProductList() {
-        ArrayList<String> categorisedProductList =
-                mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
+    private void displayCategorisedProductList(ArrayList<String> categorisedProductList) {
         if (categorisedProductList.size() > 0)
             mPresenter.getCategorizedProductList(categorisedProductList);
     }

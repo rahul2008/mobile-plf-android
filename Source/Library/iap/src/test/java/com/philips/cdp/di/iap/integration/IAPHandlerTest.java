@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
@@ -27,16 +31,12 @@ import java.util.ArrayList;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-/**
- * Created by indrajitkumar on 26/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
 public class IAPHandlerTest {
     @Mock
     AppInfra mAppInfra;
     @Mock
     Context mContext;
-    private MockIAPDependencies mIAPDependencies;
     private MockIAPSetting mIAPSetting;
     private MockIAPHandler mockIAPHandler;
     private IAPHandler iapHandler;
@@ -44,7 +44,7 @@ public class IAPHandlerTest {
 
     @Before
     public void setUp() throws Exception {
-        mIAPDependencies = new MockIAPDependencies(mAppInfra);
+        MockIAPDependencies mIAPDependencies = new MockIAPDependencies(mAppInfra);
         mIAPSetting = new MockIAPSetting(mContext);
         mockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSetting);
         iapHandler = new IAPHandler(mIAPDependencies, mIAPSetting);
@@ -187,7 +187,7 @@ public class IAPHandlerTest {
     @Test(expected = NullPointerException.class)
     public void onSuccessOfInitForActivityLauncher() throws Exception {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        mockIAPHandler.onSuccessOfInitilization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
+        mockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
                 iapLaunchInput, iapListener);
         iapListener.onSuccess();
 
@@ -197,14 +197,14 @@ public class IAPHandlerTest {
     public void onSuccessOfInitForFragmentLauncher() throws Exception {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIapListener(iapListener);
-        mockIAPHandler.onSuccessOfInitilization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
+        mockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
                 iapLaunchInput, iapListener);
 
     }
 
     @Test
-    public void onFailureOfInitilization() throws Exception {
-        mockIAPHandler.onFailureOfInitilization(new Message(), iapListener);
+    public void onFailureOfInitialization() throws Exception {
+        mockIAPHandler.onFailureOfInitialization(new Message(), iapListener);
     }
 
     @Test
