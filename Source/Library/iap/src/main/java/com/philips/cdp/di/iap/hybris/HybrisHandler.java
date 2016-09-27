@@ -52,7 +52,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
         }
     }
 
-    private void getProductCount(final IAPListener iapListener) {
+    protected void getProductCount(final IAPListener iapListener) {
         ShoppingCartAPI presenter = new ShoppingCartPresenter();
         presenter.getProductCartCount(mContext, new IAPCartListener() {
             @Override
@@ -89,14 +89,14 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
         }
     }
 
-    private int getIAPErrorCode(Message msg) {
+    protected int getIAPErrorCode(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
             return ((IAPNetworkError) msg.obj).getIAPErrorCode();
         }
         return IAPConstant.IAP_ERROR_UNKNOWN;
     }
 
-    private boolean isStoreInitialized() {
+    protected boolean isStoreInitialized() {
         return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
     }
 }

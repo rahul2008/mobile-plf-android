@@ -39,6 +39,7 @@ import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogPresenterTest implements ProductCatalogPresenter.LoadListener, IAPListener {
@@ -219,7 +220,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         assert (paginationEntity != null);
         if (data.size() > 0) {
             assert (data.get(0) instanceof ProductCatalogData);
-//            assertEquals(mCTNS.size(), data.size());
+            assertEquals(mCTNS.size(), data.size());
         } else {
             assertFalse(false);
         }
