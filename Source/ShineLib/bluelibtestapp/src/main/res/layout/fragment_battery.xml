@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/textViewBatteryValue"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/unknown"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
