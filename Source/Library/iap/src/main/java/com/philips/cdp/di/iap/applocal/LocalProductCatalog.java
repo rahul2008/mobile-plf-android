@@ -72,7 +72,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     @Override
     public void onModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+       // IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
 
         if (msg.obj instanceof IAPNetworkError)
             mListener.onLoadError((IAPNetworkError) msg.obj);
