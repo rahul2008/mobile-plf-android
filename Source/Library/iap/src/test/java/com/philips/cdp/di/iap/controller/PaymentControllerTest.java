@@ -9,8 +9,8 @@ import android.os.Message;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.model.PaymentRequest;
-import com.philips.cdp.di.iap.response.payment.MakePaymentData;
+import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -48,6 +47,23 @@ public class PaymentControllerTest {
         MockitoAnnotations.initMocks(this);
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
+    }
+
+    @Test
+    public void testNullStoreAndDelegate() throws JSONException {
+        mPaymentController = new PaymentController(mContext, new MockPaymentListener() {
+            @Override
+            public void onGetPaymentDetails(Message msg) {
+                assertEquals(RequestCode.GET_PAYMENT_DETAILS, msg.what);
+                assertTrue(msg.obj instanceof PaymentMethods);
+            }
+        });
+
+        setStoreAndDelegate();
+        mPaymentController.setHybrisDelegate(null);
+        mPaymentController.setStore(null);
+        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "Payment.txt"));
+        mNetworkController.sendSuccess(obj);
     }
 
     @Test
@@ -152,6 +168,52 @@ public class PaymentControllerTest {
         mNetworkController.sendFailure(new VolleyError());
     }
 
+    @Test
+    public void testMakePaymentSuccessResponse() throws JSONException {
+        mPaymentController = new PaymentController(mContext, new MockMakePaymentListener() {
+            @Override
+            public void onMakePayment(Message msg) {
+                assertEquals(RequestCode.MAKE_PAYMENT, msg.what);
+            }
+        });
+        setStoreAndDelegate();
+
+        AddressFields address = new AddressFields();
+        CartModelContainer.getInstance().setBillingAddress(formAddressBodyParams(address));
+        mPaymentController.makPayment("34256");
+        JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testMakePaymentErrorResponse() throws JSONException {
+        mPaymentController = new PaymentController(mContext, new MockMakePaymentListener() {
+            @Override
+            public void onMakePayment(Message msg) {
+                assertEquals(RequestCode.MAKE_PAYMENT, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        AddressFields address = new AddressFields();
+        CartModelContainer.getInstance().setBillingAddress(formAddressBodyParams(address));
+        mPaymentController.makPayment("34256");
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    public AddressFields formAddressBodyParams(AddressFields address) {
+        address.setTitleCode("Mr");
+        address.setFirstName("Happy");
+        address.setLastName("User");
+        address.setCountryIsocode("US");
+        address.setRegionIsoCode("US-CA");
+        address.setLine1("Line1");
+        address.setLine2("Line2");
+        address.setPostalCode("92821");
+        address.setTown("California");
+        address.setPhoneNumber("+1877-682-8207");
+        return address;
+    }
 
     public void testErrorResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);
