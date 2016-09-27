@@ -22,7 +22,6 @@ spoon{
 android {
     compileSdkVersion 24
     buildToolsVersion '24'
-
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
         minSdkVersion 19
@@ -32,10 +31,21 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        TestPhilipsStore {
+            keyAlias 'philips'
+            keyPassword 'philips'
+            storeFile file('../UIT_GoogleBeta_KeyStore.jks')
+            storePassword 'philips'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
         }
 
         jenkins {
