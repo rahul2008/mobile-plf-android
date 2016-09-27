@@ -203,10 +203,10 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateDisconnectedTheDisconnectMethodIsCalledThenTheOnStateUpdatedDoesNOTGetCalled() {
+    public void whenInStateDisconnectedTheDisconnectMethodIsCalledThenListenerIsNotified() {
         shnDevice.disconnect();
 
-        verify(mockedSHNDeviceListener, never()).onStateUpdated(shnDevice);
+        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
     }
 
     @Test
@@ -617,12 +617,13 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateConnectedConnectIsCalledAndThenCallIsIgnored() {
+    public void whenInStateConnectedConnectIsCalledAndThenListenerIsNotified() {
         getDeviceInConnectedState();
         reset(mockedBTDevice, mockedSHNDeviceListener);
 
         shnDevice.connect();
 
+        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
         verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
@@ -719,13 +720,14 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateDisconnectingConnectMethodIsCalledThenThenCallIsIgnored() {
+    public void whenInStateDisconnectingConnectMethodIsCalledThenListenerIsNotifiedWithFailedToConnect() {
         getDeviceInConnectedState();
         shnDevice.disconnect();
         reset(mockedBTDevice, mockedSHNDeviceListener);
 
         shnDevice.connect();
 
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
         verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
