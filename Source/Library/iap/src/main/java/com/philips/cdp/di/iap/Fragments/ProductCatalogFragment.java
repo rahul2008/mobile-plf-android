@@ -209,7 +209,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             }
             finishActivity();
         }
-        return false;
+        return super.handleBackEvent();
     }
 
     private RecyclerView.OnScrollListener
