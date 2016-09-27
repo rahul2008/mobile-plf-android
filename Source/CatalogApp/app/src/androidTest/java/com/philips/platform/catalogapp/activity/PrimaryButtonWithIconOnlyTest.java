@@ -2,21 +2,26 @@ package com.philips.platform.catalogapp.activity;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uit.view.widget.ImageButton;
+import com.philips.platform.catalogapp.fragments.ButtonFragment;
+import com.philips.platform.catalogapp.matcher.FunctionDrawableMatchers;
+import com.philips.platform.catalogapp.matcher.ViewPropertiesMatchers;
+import com.philips.platform.catalogapp.utils.TestConstants;
+import com.philips.platform.catalogapp.utils.UITTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.Assert.assertEquals;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -24,23 +29,18 @@ import static junit.framework.Assert.assertEquals;
  */
 public class PrimaryButtonWithIconOnlyTest {
 
-    private ImageButton iconButton;
     private Resources testResources;
-    private Drawable iconDrawable;
-    private Context context;
+    private Context instrumentationContext;
+    private IdlingResource idlingResource;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
-    private int parseColorWhite;
 
     @Before
     public void setUp() {
-        iconButton = new ImageButton(mActivityTestRule.getActivity());
+        mActivityTestRule.getActivity().switchFragment(new ButtonFragment());
         testResources = getInstrumentation().getContext().getResources();
-        context = mActivityTestRule.getActivity();
-        iconButton.setImageDrawable(VectorDrawableCompat.create(context.getResources(), R.drawable.share, context.getTheme()));
-        iconDrawable = iconButton.getCompoundDrawables()[0];
-        final int parseColorWhite = Color.parseColor("#ffffff");
+        instrumentationContext = getInstrumentation().getContext();
     }
 
     /************************************************
@@ -48,72 +48,78 @@ public class PrimaryButtonWithIconOnlyTest {
      ************************************************/
 
     @Test
-    public void verifyButtonWithIconHeight() {
-        int expectedIconButtonHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_height);
-        assertEquals(expectedIconButtonHeight, iconButton.getMinimumHeight());
+    public void verifyButtonHeight() {
+        UITTestUtils.waitFor(testResources, 750);
+        int expectedHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_height);
+        getPrimaryButton()
+                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
+    }
+
+    private ViewInteraction getPrimaryButton() {
+        return onView(withId(R.id.demo_image_button));
     }
 
     @Test
-    public void verifyButtonWithIconWidth() {
-        int expectedIconButtonHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_height);
-        assertEquals(expectedIconButtonHeight, iconButton.getMinimumWidth());
+    public void verifyButtonWithIconWidth(){
+        UITTestUtils.waitFor(testResources, 750);
+        int expectedWidth = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_width);
+        getPrimaryButton()
+                .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
+
     }
 
+    // TODO: 9/27/2016
     @Test
-    public void verifyIconHeight() {
-        int expectedIconHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.icon_height);
-        final int bottom = iconDrawable.getBounds().bottom;
-        final int top = iconDrawable.getBounds().top;
-        int actualIconHeight = (bottom) - (top);
-        assertEquals(expectedIconHeight, actualIconHeight);
+    public void verifyIconHeight(){
+
     }
 
+    // TODO: 9/27/2016
     @Test
-    public void verifyIconWidth() {
-        int expectedIconHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.icon_height);
-        final int right = iconDrawable.getBounds().right;
-        final int left = iconDrawable.getBounds().left;
-        int actualIconHeight = (right) - (left);
+    public void verifyIconWidth(){
 
-        assertEquals(expectedIconHeight, actualIconHeight);
     }
+
 
     @Test
     public void verifyButtonWithIconLeftPadding() {
         int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_left_padding);
-        assertEquals(expectedLeftPadding, iconButton.getPaddingLeft());
-    }
+        getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
+            }
 
+    // TODO: 9/27/2016
     @Test
     public void verifyButtonWithIconRightPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_right_padding);
-        assertEquals(expectedLeftPadding, iconButton.getPaddingRight());
     }
+
 
     @Test
-    public void verifyCornerRadiusOfButtonWithIcon() {
-//        GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(iconDrawable);
-//        float radius = (float) Math.ceil(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_cornerradius));
-//        assertEquals(radius, stateColors.getCornerRadius()[0]);
-
+    public void verifyButtonCornerRadius() {
+        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
+        getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
+
 
     /************************************************
      * Theming
      ************************************************/
 
+    // TODO: 9/27/2016
     @Test
     public void verifyIconButtonDefaultIconColor() {
 
     }
 
+    // TODO: 9/27/2016
     @Test
     public void verifyIconButtonPressedIconColor() {
 
     }
 
+    // TODO: 9/27/2016
     @Test
     public void verifyIconButtonDisabledIconColor() {
 
     }
+
 }
