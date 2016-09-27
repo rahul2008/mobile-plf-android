@@ -51,11 +51,6 @@ public class HybrisNetworkEssentialsTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void getStoreShouldNotNull() throws Exception {
-        mHybrisNetworkEssentials.getStore(mContext, mockIAPDependencies);
-    }
-
-    @Test(expected = NullPointerException.class)
     public void getHurlStackShouldNotNull() throws Exception {
         mHybrisNetworkEssentials.getHurlStack(mContext, oAuthHandler);
     }
