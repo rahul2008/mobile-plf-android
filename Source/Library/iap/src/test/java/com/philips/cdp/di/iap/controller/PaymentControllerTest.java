@@ -62,6 +62,7 @@ public class PaymentControllerTest {
         setStoreAndDelegate();
         mPaymentController.setHybrisDelegate(null);
         mPaymentController.setStore(null);
+        mPaymentController.getPaymentDetails();
         JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "Payment.txt"));
         mNetworkController.sendSuccess(obj);
     }

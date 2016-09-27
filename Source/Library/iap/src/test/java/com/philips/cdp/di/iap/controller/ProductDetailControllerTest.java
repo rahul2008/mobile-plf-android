@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.products.ProductDetailEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -22,7 +21,6 @@ import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductDetailControllerTest {
@@ -40,6 +38,24 @@ public class ProductDetailControllerTest {
         MockitoAnnotations.initMocks(this);
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
+    }
+
+    @Test
+    public void testNullStoreAndDelegate() throws JSONException {
+        mProductDetailController = new ProductDetailController(mContext, new MockProductSearchListener() {
+            @Override
+            public void onGetProductDetail(Message msg) {
+                assertEquals(RequestCode.SEARCH_PRODUCT, msg.what);
+                assertTrue(msg.obj instanceof ProductDetailEntity);
+            }
+        });
+
+        setStoreAndDelegate();
+        mProductDetailController.setHybrisDelegate(null);
+        mProductDetailController.setStore(null);
+        mProductDetailController.getProductDetail(NetworkURLConstants.DUMMY_PRODUCT_ID);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductDetailControllerTest.class, "ProductSearch.txt"));
+        mNetworkController.sendSuccess(obj);
     }
 
     @Test
