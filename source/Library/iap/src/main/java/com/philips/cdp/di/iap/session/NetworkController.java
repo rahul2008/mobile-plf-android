@@ -36,11 +36,6 @@ public class NetworkController {
         this(context, null, null);
     }
 
-    public NetworkController(Context context, IAPDependencies iapDependencies) {
-        this.context = context;
-        initStore(this.context, iapDependencies);
-    }
-
     public NetworkController(Context context, NetworkEssentials essentials, IAPDependencies iapDependencies) {
         this.context = context;
         mNetworkEssentials = essentials;

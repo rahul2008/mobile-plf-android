@@ -31,6 +31,9 @@ public class IAPUser implements UserRegistrationListener {
         mJanRainUser = new User(context);
     }
 
+    public IAPUser() {
+    }
+
     public String getJanRainID() {
         return mJanRainUser.getAccessToken();
     }
@@ -72,7 +75,7 @@ public class IAPUser implements UserRegistrationListener {
         return mTokenRefreshSuccessful;
     }
 
-    private void unlockOAuthThread() {
+    protected void unlockOAuthThread() {
         mSemaphore.release();
     }
 

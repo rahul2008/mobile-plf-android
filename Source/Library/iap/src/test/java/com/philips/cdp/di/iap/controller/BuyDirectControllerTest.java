@@ -63,8 +63,95 @@ public class BuyDirectControllerTest {
         mBuyDirectController.setHybrisDelegate(null);
         mBuyDirectController.setStore(null);
         mBuyDirectController.getRegions();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "Region.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "Region.txt"));
         mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testCreateCartSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onCreateCart(Message msg) {
+                assertEquals(RequestCode.CREATE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.createCart();
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testCreateCartErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onCreateCart(Message msg) {
+                assertEquals(RequestCode.CREATE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.createCart();
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testDeleteCartSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onDeleteCart(Message msg) {
+                assertEquals(RequestCode.DELETE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.deleteCart();
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testDeleteCartErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onDeleteCart(Message msg) {
+                assertEquals(RequestCode.DELETE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.deleteCart();
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testAddToCartSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onAddToCart(Message msg) {
+                assertEquals(RequestCode.ADD_TO_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.addToCart("HX8071/10");
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "AddToCartResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testAddToCartErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onAddToCart(Message msg) {
+                assertEquals(RequestCode.ADD_TO_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.addToCart("HX8071/10");
+        mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test
@@ -79,7 +166,7 @@ public class BuyDirectControllerTest {
 
         setStoreAndDelegate();
         mBuyDirectController.getRegions();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "Region.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "Region.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -94,7 +181,7 @@ public class BuyDirectControllerTest {
 
         setStoreAndDelegate();
         mBuyDirectController.getRegions();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "EmptyResponse.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -124,7 +211,7 @@ public class BuyDirectControllerTest {
 
         setStoreAndDelegate();
         mBuyDirectController.getUser();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "GetUser.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "GetUser.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -139,7 +226,7 @@ public class BuyDirectControllerTest {
 
         setStoreAndDelegate();
         mBuyDirectController.getUser();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "EmptyResponse.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -168,7 +255,7 @@ public class BuyDirectControllerTest {
 
         setStoreAndDelegate();
         mBuyDirectController.setDeliveryAddress("8799470125079");
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "EmptyResponse.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -240,7 +327,7 @@ public class BuyDirectControllerTest {
 
         setStoreAndDelegate();
         mBuyDirectController.getDeliveryModes();
-        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "DeliveryModes.txt"));
+        JSONObject obj = new JSONObject(TestUtils.readFile(BuyDirectControllerTest.class, "DeliveryModes.txt"));
         mNetworkController.sendSuccess(obj);
     }
 

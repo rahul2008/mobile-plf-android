@@ -1,37 +1,28 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
 import android.content.Context;
 
-import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.BuildConfig;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 22/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
-public class VerticalImplemetaion extends MockIAPListener {
-  //  private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
-    MockIAPDependencies mockIAPDependencies;
-    MockIAPSetting mockIAPSetting;
-    MockIAPInterface mockIAPInterface;
-    MockIAPLaunchInput mockIAPLaunchInput;
-    MockIAPHandler mockIAPHandler;
+public class VerticalImplementation extends MockIAPListener {
+    private MockIAPDependencies mockIAPDependencies;
+    private MockIAPSetting mockIAPSetting;
+    private MockIAPInterface mockIAPInterface;
+    private MockIAPLaunchInput mockIAPLaunchInput;
     @Mock
     Context mContext;
     @Mock
@@ -45,7 +36,6 @@ public class VerticalImplemetaion extends MockIAPListener {
         mockIAPSetting = new MockIAPSetting(new Application());
         mockIAPInterface = new MockIAPInterface();
         mockIAPLaunchInput = new MockIAPLaunchInput();
-        mockIAPHandler = new MockIAPHandler(mockIAPDependencies, mockIAPSetting);
         mockIAPSetting.setUseLocalData(true);
         mockIAPInterface.init(mockIAPDependencies, mockIAPSetting);
     }
@@ -69,7 +59,9 @@ public class VerticalImplemetaion extends MockIAPListener {
 
     @Test
     public void setIsLocaleTrue() throws Exception {
-        boolean isLocalData = mockIAPSetting.isUseLocalData();
+        IAPSettings iapSettings = new IAPSettings(mContext);
+        iapSettings.setUseLocalData(false);
+        boolean isLocalData = iapSettings.isUseLocalData();
         Assert.assertFalse(isLocalData);
     }
 

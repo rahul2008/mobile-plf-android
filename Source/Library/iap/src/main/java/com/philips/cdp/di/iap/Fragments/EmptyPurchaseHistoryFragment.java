@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +44,15 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
+        } else {
+            getFragmentManager().popBackStack();
         }
         return false;
     }
+
 
     @Override
     public void onClick(View v) {
