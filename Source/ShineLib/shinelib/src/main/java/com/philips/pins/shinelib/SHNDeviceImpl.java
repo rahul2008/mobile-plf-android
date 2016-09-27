@@ -283,6 +283,15 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         return deviceTypeName;
     }
 
+    /**
+     * {@inheritDoc} This connect call guarantees the following callbacks:
+     * <ul>
+     * <li>In state Connected onStateUpdated callback will be issued.</li>
+     * <li>In state Connecting no callback.</li>
+     * <li>In state Disconnecting onFailedToConnect callback will be issued.</li>
+     * <li>In state Disconnected onStateUpdated callback will be issued.</li>
+     * </ul>
+     */
     @Override
     public void connect() {
         SHNLogger.d(TAG, "Connect call in state " + internalState);
@@ -290,6 +299,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         connect(true, -1L);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see SHNDeviceImpl#connect()
+     */
     @Override
     public void connect(long connectTimeOut) {
         SHNLogger.d(TAG, "Connect call in state " + internalState + " with timeOut: " + connectTimeOut);
