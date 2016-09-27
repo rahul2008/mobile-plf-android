@@ -146,14 +146,14 @@ public class AppTagingConstantsTest extends InstrumentationTestCase {
     }
 
     public void testFirstNameEmpty() throws Exception {
-        assertEquals("firsName : field can not be empty", appTagingConstants.FIELD_CANNOT_EMPTY_NAME);
+        assertEquals("firsName : Field cannot be empty", appTagingConstants.FIELD_CANNOT_EMPTY_NAME);
     }
 
     public void testEmailEmpty() throws Exception {
-        assertEquals("emailAddress : field can not be empty", appTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
+        assertEquals("emailAddress : Field cannot be empty", appTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
     }
 
     public void testPasswordEmpty() throws Exception {
-        assertEquals("password : field can not be empty", appTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
+        assertEquals("password : Field cannot be empty", appTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
     }
 }
