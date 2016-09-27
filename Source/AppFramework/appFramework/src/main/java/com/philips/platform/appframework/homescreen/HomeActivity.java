@@ -182,6 +182,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         setSupportActionBar(toolbar);
     }
 
+    public int getCartItemCount() {
+        return cartItemCount;
+    }
+
+    public void setCartItemCount(int cartItemCount) {
+        this.cartItemCount = cartItemCount;
+    }
+
     private void setDrawerAdapter() {
         adapter = null;
         TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
@@ -320,6 +328,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 if (cartItemCount > 0) {
                         cartCount.setVisibility(View.VISIBLE);
                         cartCount.setText(String.valueOf(cartItemCount));
+                }else {
+                    cartCount.setVisibility(View.GONE);
                 }
         } else {
                 cartIcon.setVisibility(View.GONE);
