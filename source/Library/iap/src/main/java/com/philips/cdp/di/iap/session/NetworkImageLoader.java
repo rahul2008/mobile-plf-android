@@ -22,9 +22,13 @@ public class NetworkImageLoader {
     private ImageLoader mImageLoader;
     private LruCache<String, Bitmap> mMemoryCache;
 
-    private NetworkImageLoader(Context context) {
+    public NetworkImageLoader(Context context) {
         mRequestQueue = getRequestQueue(context);
+        setUpCacheLoader();
 
+    }
+
+    protected void setUpCacheLoader() {
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
         // int in its constructor.
@@ -77,7 +81,7 @@ public class NetworkImageLoader {
         return mInstance;
     }
 
-    private RequestQueue getRequestQueue(final Context context) {
+    protected RequestQueue getRequestQueue(final Context context) {
         if (mRequestQueue == null) {
             Cache cache = new DiskBasedCache(context.getCacheDir(), 10 * 1024 * 1024);
             Network network = new BasicNetwork(new HurlStack());
