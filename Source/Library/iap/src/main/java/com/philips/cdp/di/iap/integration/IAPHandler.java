@@ -59,7 +59,7 @@ class IAPHandler {
     void initIAP() {
         initHybrisDelegate(mIAPSetting, mIAPDependencies);
         initControllerFactory(mIAPSetting);
-        setLangAndCountry();
+        setLangAndCountry(mIAPSetting);
     }
 
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
@@ -77,33 +77,41 @@ class IAPHandler {
         delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                if (uiLauncher instanceof ActivityLauncher) {
-                    launchActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
-                } else {
-                    launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
-                }
-
-                if (iapListener != null) {
-                    iapListener.onSuccess();
-                }
+                onSuccessOfInitilization(uiLauncher, pLaunchInput, iapListener);
             }
 
             @Override
             public void onError(final Message msg) {
-                if (iapListener != null) {
-                    iapListener.onFailure(getIAPErrorCode(msg));
-                }
+                onFailureOfInitilization(msg, iapListener);
             }
         });
     }
 
+    protected void onFailureOfInitilization(Message msg, IAPListener iapListener) {
+        if (iapListener != null) {
+            iapListener.onFailure(getIAPErrorCode(msg));
+        }
+    }
+
+    protected void onSuccessOfInitilization(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, IAPListener iapListener) {
+        if (uiLauncher instanceof ActivityLauncher) {
+            launchActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
+        } else {
+            launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
+        }
+
+        if (iapListener != null) {
+            iapListener.onSuccess();
+        }
+    }
+
     //IAPListener is necessary to inject for vertical.
-    private void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
+    protected void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
         InAppBaseFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher, iapLaunchInput.getIapListener());
     }
 
-    private InAppBaseFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
+    protected InAppBaseFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
         InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
         switch (screen) {
@@ -132,7 +140,7 @@ class IAPHandler {
         return fragment;
     }
 
-    private void launchActivity(Context pContext, IAPLaunchInput pLaunchInput,
+    protected void launchActivity(Context pContext, IAPLaunchInput pLaunchInput,
                                 ActivityLauncher activityLauncher) {
         Intent intent = new Intent(pContext, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -189,7 +197,7 @@ class IAPHandler {
     }
 
 
-    private int getNetworkEssentialReqeustCode(boolean useLocalData) {
+    protected int getNetworkEssentialReqeustCode(boolean useLocalData) {
         int requestCode = NetworkEssentialsFactory.LOAD_HYBRIS_DATA;
         if (useLocalData) {
             requestCode = NetworkEssentialsFactory.LOAD_LOCAL_DATA;
@@ -198,13 +206,13 @@ class IAPHandler {
         return requestCode;
     }
 
-    private void initControllerFactory(IAPSettings iapSettings) {
+    protected void initControllerFactory(IAPSettings iapSettings) {
         int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
         ControllerFactory.getInstance().init(requestCode);
     }
 
-    private void setLangAndCountry() {
-        PILLocaleManager localeManager = new PILLocaleManager(mIAPSetting.getContext());
+    protected void setLangAndCountry(IAPSettings pIAPSetting) {
+        PILLocaleManager localeManager = new PILLocaleManager(pIAPSetting.getContext());
         String[] localeArray;
         String localeAsString = localeManager.getInputLocale();
         localeArray = localeAsString.split("_");
@@ -214,11 +222,11 @@ class IAPHandler {
         HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
     }
 
-    boolean isStoreInitialized(Context pContext) {
+    protected boolean isStoreInitialized(Context pContext) {
         return HybrisDelegate.getInstance(pContext).getStore().isStoreInitialized();
     }
 
-    private int getIAPErrorCode(Message msg) {
+    protected int getIAPErrorCode(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
             return ((IAPNetworkError) msg.obj).getIAPErrorCode();
         }

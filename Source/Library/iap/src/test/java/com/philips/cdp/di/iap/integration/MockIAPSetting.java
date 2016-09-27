@@ -11,13 +11,21 @@ public class MockIAPSetting extends IAPSettings {
         super(applicationContext);
     }
 
-    @Override
-    public boolean isUseLocalData() {
-        return false;
-    }
+//    @Override
+//    public boolean isUseLocalData() {
+//        return false;
+//    }
 
     @Override
     public void setUseLocalData(boolean mUseLocalData) {
         super.setUseLocalData(mUseLocalData);
+    }
+
+    public boolean setPlanA() {
+        return true;
+    }
+
+    public boolean setPlanB() {
+        return true;
     }
 }
