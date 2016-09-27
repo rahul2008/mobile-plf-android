@@ -40,7 +40,7 @@
     <string name="upload_state">Upload State:</string>
     <string name="firmware_state">Firmware State:</string>
     <string name="firmware_option">Firmware Version:</string>
-    <string name="count">"Failed for %1$d times.\nSucceeded for %2$d times"</string>
+    <string name="count">"Failed: %1$d.\nSucceeded: %2$d"</string>
     <string name="time_out">time out in seconds</string>
     <string name="digit">%d</string>
     <string name="remove">Remove</string>

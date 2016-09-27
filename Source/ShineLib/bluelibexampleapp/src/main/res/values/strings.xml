@@ -33,9 +33,9 @@
     <string name="device_detail_rssi">"RSSI: %1$d dBm"</string>
     <string name="device_detail_title">Device detail</string>
     <string name="device_connected">"Device %1$s connected."</string>
-    <string name="device_connecting">Device connecting...</string>
+    <string name="device_connecting">Device connecting…</string>
     <string name="device_disconnected">Device disconnected.</string>
-    <string name="device_disconnecting">Device disconnecting...</string>
+    <string name="device_disconnecting">Device disconnecting…</string>
 
     <!-- Device Information values -->
     <string name="battery">Battery level</string>

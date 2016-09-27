@@ -102,9 +102,7 @@ public class DeviceDetailActivity extends AppCompatActivity {
         }
         mFab.setEnabled(SHNDevice.State.Disconnected.equals(state));
 
-        boolean isButtonVisible = mFab.isEnabled() && !BlueLibExampleApplication.get().isDeviceAssociated(mDevice);
-
-        mFab.setVisibility(isButtonVisible ? View.VISIBLE : View.INVISIBLE);
+        mFab.setVisibility(mFab.isEnabled() ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
