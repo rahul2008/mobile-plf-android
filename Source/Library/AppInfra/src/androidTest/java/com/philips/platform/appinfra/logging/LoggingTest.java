@@ -184,6 +184,18 @@ public class LoggingTest extends MockitoTestCase {
     }
 
     public void testLogwithFile() {
+        loggingInterface.enableFileLog(true);
+        loggingInterface.enableFileLog(false);
+        loggingInterface.enableFileLog(false);
+        loggingInterface.enableFileLog(true);
+        loggingInterface.enableFileLog(true);
+        for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
+            loggingInterface.log(logLevel, null,"message");
+            loggingInterface.log(logLevel, "Event","Message");
+
+        }
+
+
         loggingInterfaceMock.enableFileLog(true);
         loggingInterfaceMock.enableFileLog(false);
         loggingInterfaceMock.enableFileLog(true);

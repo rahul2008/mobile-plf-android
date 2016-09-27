@@ -35,8 +35,9 @@ import java.util.Map;
  */
 public class RestClientActivity extends AppCompatActivity {
     String[] requestTypeOption  ={"GET","POST","PUT","DELETE"};
-   // String url = "https://www.oldchaphome.nl/RCT/test.php?action=data&id=as";
-    String url = "https://www.oldchaphome.nl/RCT/test.php?action=data&id=aa";
+   // String url = "https://hashim.herokuapp.com/RCT/test.php?action=data&id=aa";
+   //String baseURL= "https://www.oldchaphome.nl";
+    String baseURL= "https://hashim.herokuapp.com";
 
     String accessToken;
     private Spinner requestTypeSpinner;
@@ -57,7 +58,7 @@ public class RestClientActivity extends AppCompatActivity {
         urlInput= (EditText)findViewById(R.id.editTextURL);
         loginStatus = (TextView) findViewById(R.id.textViewLogStatus);
         accessTokenTextView= (TextView) findViewById(R.id.textViewAccessToken);
-        urlInput.setText(url);
+        urlInput.setText(baseURL);
         Button setHeaders = (Button)findViewById(R.id.buttonSetHeaders);
         setHeaders.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +103,7 @@ public class RestClientActivity extends AppCompatActivity {
                 if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")) {
                     StringRequest putRequest = null;
                     try {
-                        putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim(),
+                        putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id=aa",
                                 new Response.Listener<String>()
                                 {
                                     @Override
@@ -154,7 +155,7 @@ public class RestClientActivity extends AppCompatActivity {
                 }else{
                     StringRequest mStringRequest = null;
                     try {
-                        mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim(), new Response.Listener<String>() {
+                        mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id=aa", new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 Log.i("LOG", "" + response);
@@ -175,6 +176,10 @@ public class RestClientActivity extends AppCompatActivity {
                     } catch (HttpForbiddenException e) {
                         Log.i("LOG", "" + e.toString());
                         showAlertDialog("HttpForbiddenException",e.toString());
+                    }
+                    if(mStringRequest.getCacheEntry()!=null){
+                        String cachedResponse = new String(mStringRequest.getCacheEntry().data);
+                        Log.i("CACHED DATA: ", "" + cachedResponse);
                     }
                     // mStringRequest.setShouldCache(false); // set false to disable cache
                     if(null!=mStringRequest) {
@@ -217,7 +222,7 @@ public class RestClientActivity extends AppCompatActivity {
             public void onClick(View v) {
                 StringRequest mStringRequest = null;
                 try {
-                    mStringRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authtoken", new Response.Listener<String>() {
+                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authtoken", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Log.i("LOG", "" + response);
@@ -263,7 +268,7 @@ public class RestClientActivity extends AppCompatActivity {
             public void onClick(View v) {
                 StringRequest mStringRequest = null;
                 try {
-                    mStringRequest = new StringRequest(Request.Method.GET, "https://www.oldchaphome.nl/RCT/test.php?action=authcheck",
+                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authcheck",
                             new Response.Listener<String>()
                             {
                                 @Override
