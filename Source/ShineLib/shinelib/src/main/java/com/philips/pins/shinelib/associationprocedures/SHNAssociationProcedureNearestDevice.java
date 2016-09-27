@@ -14,6 +14,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
+import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -51,7 +52,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     private void associateWithNearestDeviceIfPossible() {
         nearestDeviceIterationCount++;
         SHNDevice nearestDevice = discoveredDevices.isEmpty() ? null : discoveredDevices.get(discoveredDevices.lastKey());
-        SHNLogger.i(TAG, String.format("[ %d ] Nearest device: '%s'", nearestDeviceIterationCount, (nearestDevice != null) ? nearestDevice.getAddress() : "NONE"));
+        SHNLogger.i(TAG, String.format(Locale.US, "[ %d ] Nearest device: '%s'", nearestDeviceIterationCount, (nearestDevice != null) ? nearestDevice.getAddress() : "NONE"));
         discoveredDevices.clear();
         boolean finished = false;
 
@@ -141,7 +142,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
 
     @Override
     public void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo) {
-        SHNLogger.i(TAG, String.format("deviceDiscovered '%s'; rssi = %d", shnDevice.getAddress(), shnDeviceFoundInfo.getRssi()));
+        SHNLogger.i(TAG, String.format(Locale.US, "deviceDiscovered '%s'; rssi = %d", shnDevice.getAddress(), shnDeviceFoundInfo.getRssi()));
         if (shnDeviceFoundInfo.getRssi() != 0) {
             discoveredDevices.put(shnDeviceFoundInfo.getRssi(), shnDevice);
         } else {

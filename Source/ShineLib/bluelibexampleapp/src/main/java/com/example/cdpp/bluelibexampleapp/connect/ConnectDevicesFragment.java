@@ -27,8 +27,6 @@ import java.util.List;
 
 public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DeviceScanner.OnDeviceScanListener {
 
-    private static final String TAG = "ConnectDevicesFragment";
-
     private ConnectDeviceAdapter mConnectDeviceAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private DeviceScanner mDeviceScanner;

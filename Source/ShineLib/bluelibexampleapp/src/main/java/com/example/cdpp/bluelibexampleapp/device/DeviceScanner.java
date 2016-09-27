@@ -6,6 +6,7 @@
 package com.example.cdpp.bluelibexampleapp.device;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
@@ -33,9 +34,11 @@ public class DeviceScanner {
     private boolean mIsScanning;
     private SHNDeviceScanner mDeviceScanner;
     private Set<OnDeviceScanListener> mListeners = new HashSet<>();
+    private Handler mUIHandler;
 
-    public DeviceScanner(@NonNull SHNCentral shnCentral) {
+    public DeviceScanner(@NonNull SHNCentral shnCentral, Handler handler) {
         mDeviceScanner = shnCentral.getShnDeviceScanner();
+        mUIHandler = handler;
     }
 
     public void startScan() {
@@ -62,21 +65,36 @@ public class DeviceScanner {
     }
 
     private void notifyOnScanStarted() {
-        for (OnDeviceScanListener listener : mListeners) {
-            listener.onDeviceScanStarted();
-        }
+        mUIHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (OnDeviceScanListener listener : mListeners) {
+                    listener.onDeviceScanStarted();
+                }
+            }
+        });
     }
 
-    private void notifyOnDeviceFoundInfo(SHNDeviceFoundInfo deviceFoundInfo) {
-        for (OnDeviceScanListener listener : mListeners) {
-            listener.onDeviceFoundInfo(deviceFoundInfo);
-        }
+    private void notifyOnDeviceFoundInfo(final SHNDeviceFoundInfo deviceFoundInfo) {
+        mUIHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (OnDeviceScanListener listener : mListeners) {
+                    listener.onDeviceFoundInfo(deviceFoundInfo);
+                }
+            }
+        });
     }
 
     private void notifyOnScanFinished() {
-        for (OnDeviceScanListener listener : mListeners) {
-            listener.onDeviceScanFinished();
-        }
+        mUIHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (OnDeviceScanListener listener : mListeners) {
+                    listener.onDeviceScanFinished();
+                }
+            }
+        });
     }
 
     private class ScanTask extends AsyncTask<Long, Void, Void> implements SHNDeviceScanner.SHNDeviceScannerListener {
@@ -123,7 +141,7 @@ public class DeviceScanner {
         }
 
         @Override
-        public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
             SHNLogger.i(TAG, String.format("Device found: %s", shnDeviceFoundInfo.getDeviceName()));
 
             notifyOnDeviceFoundInfo(shnDeviceFoundInfo);
