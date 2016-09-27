@@ -68,6 +68,93 @@ public class BuyDirectControllerTest {
     }
 
     @Test
+    public void testCreateCartSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onCreateCart(Message msg) {
+                assertEquals(RequestCode.CREATE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.createCart();
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testCreateCartErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onCreateCart(Message msg) {
+                assertEquals(RequestCode.CREATE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.createCart();
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testDeleteCartSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onDeleteCart(Message msg) {
+                assertEquals(RequestCode.DELETE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.deleteCart();
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testDeleteCartErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onDeleteCart(Message msg) {
+                assertEquals(RequestCode.DELETE_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.deleteCart();
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testAddToCartSuccessResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onAddToCart(Message msg) {
+                assertEquals(RequestCode.ADD_TO_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.addToCart("HX8071/10");
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "AddToCartResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testAddToCartErrorResponse() throws JSONException {
+        mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
+            @Override
+            public void onAddToCart(Message msg) {
+                assertEquals(RequestCode.ADD_TO_CART, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mBuyDirectController.addToCart("HX8071/10");
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
     public void testGetRegionsSuccessResponseWithData() throws JSONException {
         mBuyDirectController = new BuyDirectController(mContext, new MockBuyDirectListener() {
             @Override
