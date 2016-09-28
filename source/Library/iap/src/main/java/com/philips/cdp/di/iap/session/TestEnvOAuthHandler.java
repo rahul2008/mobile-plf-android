@@ -65,7 +65,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         access_token = null;
     }
 
-    private void requestSyncOAuthToken(final RequestListener listener) {
+    protected void requestSyncOAuthToken(final RequestListener listener) {
         SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
         network.performRequest(createOAuthRequest(mOAuthRequest), new SynchronizedNetworkCallBack() {
             @Override
@@ -93,7 +93,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         });
     }
 
-    private void requestSyncRefreshToken(RefreshOAuthRequest requestModel, final RequestListener listener) {
+    protected void requestSyncRefreshToken(RefreshOAuthRequest requestModel, final RequestListener listener) {
         SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
         network.performRequest(createOAuthRequest(requestModel), new SynchronizedNetworkCallBack() {
             @Override
@@ -116,7 +116,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         });
     }
 
-    private void notifyErrorListener(final VolleyError volleyError, final RequestListener listener) {
+    protected void notifyErrorListener(final VolleyError volleyError, final RequestListener listener) {
         if(listener == null) return;
 
         Message msg = Message.obtain();
@@ -125,7 +125,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     }
 
     @SuppressWarnings("rawtypes")
-    private void notifySuccessListener(final Response response, final RequestListener listener) {
+    protected void notifySuccessListener(final Response response, final RequestListener listener) {
         if(listener == null) return;
 
         Message msg = Message.obtain();
@@ -133,13 +133,13 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         listener.onSuccess(msg);
     }
 
-    private IAPJsonRequest createOAuthRequest(final AbstractModel request) {
+    protected IAPJsonRequest createOAuthRequest(final AbstractModel request) {
         return new IAPJsonRequest(request.getMethod(), request.getUrl(),
                 request.requestBody(),null,null);
     }
 
     // Ideally it should never get exception, until we really get bad response or bad JSON resp
-    private boolean isInvalidGrantError(VolleyError volleyError) {
+    protected boolean isInvalidGrantError(VolleyError volleyError) {
         try {
             if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
                 ServerError response = (new Gson().fromJson(new String(volleyError

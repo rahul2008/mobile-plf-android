@@ -23,6 +23,7 @@ import java.util.ArrayList;
 @RunWith(RobolectricTestRunner.class)
 public class LocalProductCatalogTest {
     LocalProductCatalog mLocalProductCatalog;
+
     @Mock
     Context mContext;
     ProductCatalogPresenter.LoadListener listener = new ProductCatalogPresenter.LoadListener() {
@@ -43,6 +44,16 @@ public class LocalProductCatalogTest {
     }
 
     @Test
+    public void testgetCompleteProductList() throws Exception {
+        mLocalProductCatalog.getCompleteProductList(null);
+    }
+
+    @Test
+    public void getCatalogCount() throws Exception {
+        mLocalProductCatalog.getCatalogCount(null);
+    }
+
+    @Test
     public void testGetProductCategorizedProduct() throws Exception {
         mLocalProductCatalog.getCategorizedProductList(new ArrayList<String>());
     }
@@ -59,6 +70,12 @@ public class LocalProductCatalogTest {
         mLocalProductCatalog.onModelDataError(msg);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testOnModelDataErrorForNoProduct() throws Exception {
+        Message msg = new Message();
+        mLocalProductCatalog.onModelDataError(msg);
+    }
+
     @Test
     public void testCreateIAPErrorMessage() throws Exception {
         mLocalProductCatalog.createIAPErrorMessage("No product found in your Store.");
@@ -68,4 +85,5 @@ public class LocalProductCatalogTest {
     public void getProductCatalog() throws Exception {
         Assert.assertFalse(mLocalProductCatalog.getProductCatalog(0, 1, null));
     }
+
 }

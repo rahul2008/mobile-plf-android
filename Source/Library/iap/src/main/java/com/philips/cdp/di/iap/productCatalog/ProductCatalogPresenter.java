@@ -132,7 +132,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         }
     }
 
-    protected ArrayList<ProductCatalogData> getCategorisedProductCatalog(ArrayList<String> productList) {
+    public ArrayList<ProductCatalogData> getCategorisedProductCatalog(ArrayList<String> productList) {
         ArrayList<ProductCatalogData> catalogList = new ArrayList<>();
         CartModelContainer container = CartModelContainer.getInstance();
         for (String ctn : productList) {
@@ -157,16 +157,20 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     @Override
     public void onModelDataLoadFinished(final Message msg) {
         if (msg.obj instanceof Products) {
-            if (mLoadListener != null && ((Products) msg.obj).getPagination().getTotalResults() < 1) {
-                mLoadListener.onLoadError(createIAPErrorMessage
-                        (mContext.getString(R.string.iap_no_product_available)));
-            }
+            noProductInStore(msg);
         }
         if (processHybrisRequestForGetProductCatalogData(msg))
             return;
 
         if (mProductCatalogHelper.processPRXResponse(msg, null, mProductData, mIAPListener))
             return;
+    }
+
+    private void noProductInStore(Message msg) {
+        if (mLoadListener != null && ((Products) msg.obj).getPagination().getTotalResults() < 1) {
+            mLoadListener.onLoadError(createIAPErrorMessage
+                    (mContext.getString(R.string.iap_no_product_available)));
+        }
     }
 
     @Override
