@@ -14,13 +14,36 @@
         android:id="@+id/textView6" />
 
     <EditText
-        android:layout_marginTop="10dp"
+
         android:layout_gravity="center_horizontal"
         android:hint="Enter URL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextURL"
-        android:layout_marginBottom="10dp"
+
+        />
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="ID:"
+             />
+    <EditText
+
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="aa"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextID"
+
         />
 
     <Spinner
@@ -29,7 +52,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinnerRequestType"
         android:layout_gravity="center_horizontal" />
-
+    </LinearLayout>
 
     <Button
         android:layout_marginTop="10dp"
@@ -75,7 +98,7 @@
        >
 
         <Button
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login"
@@ -83,7 +106,7 @@
             android:id="@+id/buttonLogin" />
 
         <Button
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Check"
@@ -91,7 +114,7 @@
             android:id="@+id/buttonCheck" />
 
         <Button
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#ff0000"
@@ -101,7 +124,7 @@
 
     </LinearLayout>
     <TextView
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -110,10 +133,18 @@
         android:layout_gravity="center_horizontal" />
 
     <TextView
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewAccessToken"
         android:layout_gravity="center_horizontal" />
+    <TextView
+        android:layout_margin="5dp"
+        android:id="@+id/textViewURLfired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="url fired:"
+        />
 </LinearLayout>
