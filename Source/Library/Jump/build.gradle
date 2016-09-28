@@ -19,7 +19,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.1.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
@@ -49,20 +49,29 @@ version = "6.0.5-SNAPSHOT"
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+	contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
+            repoKey = "libs-snapshot-local-ios"
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
+          //  publishPom = true
+          //  publishIvy = false
+          //  publishBuildInfo = true
+        }
+				        defaults {
             publishIvy = false
-            publishBuildInfo = true
+            publishPom = true
+            publishArtifacts = true
         }
     }
+
     resolve {
         repository {
             repoKey = 'libs-release-local'
         }
     }
+	clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+	
 }
 
 
