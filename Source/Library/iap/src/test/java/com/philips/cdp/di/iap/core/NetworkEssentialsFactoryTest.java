@@ -26,4 +26,9 @@ public class NetworkEssentialsFactoryTest {
     public void getNetworkEssentialsForHybrisData() throws Exception{
         NetworkEssentialsFactory.getNetworkEssentials(1);
     }
+
+    @Test(expected = RuntimeException.class)
+    public void getNetworkEssentialsThrowException() throws Exception{
+        NetworkEssentialsFactory.getNetworkEssentials(2);
+    }
 }

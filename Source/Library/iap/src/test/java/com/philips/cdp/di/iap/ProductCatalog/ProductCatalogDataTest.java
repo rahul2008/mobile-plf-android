@@ -116,5 +116,8 @@ public class ProductCatalogDataTest extends TestCase{
     @Test
     public void testGetStockLevel() {
         productCatalogData.setStockLevel(4);
+        assertEquals(4, productCatalogData.getStockLevel());
     }
+
+
 }

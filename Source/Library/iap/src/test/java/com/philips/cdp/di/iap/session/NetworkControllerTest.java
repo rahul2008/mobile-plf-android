@@ -65,4 +65,8 @@ public class NetworkControllerTest {
     public void sendHybrisRequest() throws Exception {
         mNetworkController.sendHybrisRequest(1, null, null);
     }
+    @Test
+    public void addToVolleyQueue() throws Exception {
+        mNetworkController.addToVolleyQueue(new IAPJsonRequest(1,null,null,null,null));
+    }
 }

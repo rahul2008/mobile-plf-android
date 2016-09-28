@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
+import android.os.Message;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
@@ -39,7 +40,6 @@ import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogPresenterTest implements ProductCatalogPresenter.LoadListener, IAPListener {
@@ -214,10 +214,26 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         assert (isHybrisDelegateInstance);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void onModelDataErrorForNoProduct() throws Exception {
+        mProductCatalogPresenter.onModelDataError(new Message());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void onModelDataErrorForError() throws Exception {
+        Message msg = new Message();
+        msg.obj = new IAPNetworkError(null,0,null);
+        mProductCatalogPresenter.onModelDataError(msg);
+    }
+    @Test
+    public void getCategorisedProductCatalog() throws Exception {
+        mProductCatalogPresenter.getCategorisedProductCatalog(new ArrayList<String>());
+        mProductCatalogPresenter.getCategorizedProductList(mCTNS);
+    }
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> data, final PaginationEntity paginationEntity) {
         assert (data != null);
-        assert (paginationEntity != null);
+//        assert (paginationEntity != null);
         if (data.size() > 0) {
             assert (data.get(0) instanceof ProductCatalogData);
             assertEquals(mCTNS.size(), data.size());
