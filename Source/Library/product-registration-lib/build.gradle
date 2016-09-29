@@ -166,11 +166,11 @@ configurations.all {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0-rc.1', ext: 'aar')
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0', ext: 'aar')
     {
            transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.8', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.0.0', ext: 'aar')
     {
            transitive = true
     }
@@ -256,3 +256,7 @@ tasks.withType(Test) {
     }
 }
 
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.compile
+}
