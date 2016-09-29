@@ -67,8 +67,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
         mCTNS.add("HX9033/64");
-//        mCTNS.add("HX9023/64");
-//        mCTNS.add("HX9003/64");
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
     }
 
     @Test
@@ -290,10 +289,10 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     public void onLoadListenerError(final Message msg) {
         boolean isHybrisError = msg.obj instanceof IAPNetworkError;
         assert (isHybrisError);
-        assertEquals(((IAPNetworkError)msg.obj).getStatusCode(), ((IAPNetworkError)msg.obj).getIAPErrorCode());
-        assertEquals("Hybris", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getType());
-        assertEquals("Hybris Server Down", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getReason());
-        assertEquals("Hybris Error", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getSubject());
+        assertEquals(((IAPNetworkError) msg.obj).getStatusCode(), ((IAPNetworkError) msg.obj).getIAPErrorCode());
+        assertEquals("Hybris", ((IAPNetworkError) msg.obj).getServerError().getErrors().get(0).getType());
+        assertEquals("Hybris Server Down", ((IAPNetworkError) msg.obj).getServerError().getErrors().get(0).getReason());
+        assertEquals("Hybris Error", ((IAPNetworkError) msg.obj).getServerError().getErrors().get(0).getSubject());
     }
 
     @Override
@@ -301,4 +300,13 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         //NOP
     }
 
+    @Test
+    public void onSetDeliveryMode() throws Exception {
+        mShoppingCartPresenter.onSetDeliveryMode(new Message());
+    }
+
+    @Test
+    public void onGetDeliveryModes() throws Exception {
+        mShoppingCartPresenter.onGetDeliveryModes(new Message());
+    }
 }

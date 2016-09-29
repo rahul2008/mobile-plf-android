@@ -424,7 +424,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void onGetRegions(Message msg) {
-
+        //NOP
     }
 
     @Override
@@ -443,12 +443,12 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void onCreateAddress(Message msg) {
-
+        //NOP
     }
 
     @Override
     public void onGetAddress(Message msg) {
-
+        //NOP
     }
 
     @Override
