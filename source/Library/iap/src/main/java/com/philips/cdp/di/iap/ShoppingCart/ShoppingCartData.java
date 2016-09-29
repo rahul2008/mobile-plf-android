@@ -1,34 +1,41 @@
-package com.philips.cdp.di.iap.ShoppingCart;
-
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
-import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
-import com.philips.cdp.di.iap.response.carts.EntriesEntity;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+package com.philips.cdp.di.iap.ShoppingCart;
+
+import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
+import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
+import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+
 public class ShoppingCartData {
 
     private EntriesEntity mEntry;
+    private DeliveryModeEntity mDeliveryModeEntity;
+    private DeliveryAddressEntity mDeliveryAddressEntity;
+
+    private int mQuantity;
+    private int mTotalItems;
+    private int mEntryNumber;
+    private int mStockLevel;
+    private int mDeliveryItemsQuantity;
+
     private String mCtnNumber;
     private String mProductTitle;
     private String mImageURL;
-    private int mQuantity;
-
-    private int mTotalItems;
-    private int mEntryNumber;
-    private String mCartNumber;
-    private int mStockLevel;
-    private DeliveryModeEntity mDeliveryModeEntity;
-    private DeliveryAddressEntity mDeliveryAddressEntity;
-    private String mTotalPriceFormatedPrice;
-    private String mTotalPriceWithTaxFormatedPrice;
-    private String mFormatedPrice;
+    private String mFormattedTotalPrice;
+    private String mFormattedTotalPriceWithTax;
+    private String mFormattedPrice;
     private String mValuePrice;
     private String mVatValue;
     private String mVatActualValue;
+    private String mMarketingTextHeader;
+    private String mCategory;
+
+    private boolean mVatInclusive;
+
+    public ShoppingCartData() {
+    }
 
     public boolean isVatInclusive() {
         return mVatInclusive;
@@ -38,8 +45,6 @@ public class ShoppingCartData {
         this.mVatInclusive = mVatInclusive;
     }
 
-    private boolean mVatInclusive;
-
     public String getCategory() {
         return mCategory;
     }
@@ -47,8 +52,6 @@ public class ShoppingCartData {
     public void setCategory(final String mCategory) {
         this.mCategory = mCategory;
     }
-
-    private String mCategory;
 
     public String getValuePrice() {
         return mValuePrice;
@@ -66,20 +69,12 @@ public class ShoppingCartData {
         this.mDeliveryItemsQuantity = mDeliveryItemsQuantity;
     }
 
-    private int mDeliveryItemsQuantity;
-
     public String getMarketingTextHeader() {
         return mMarketingTextHeader;
     }
 
     public void setMarketingTextHeader(final String pMarketingTextHeader) {
         this.mMarketingTextHeader = pMarketingTextHeader;
-    }
-
-    private String mMarketingTextHeader;
-
-
-    public ShoppingCartData() {
     }
 
     public DeliveryAddressEntity getDeliveryAddressEntity() {
@@ -97,15 +92,6 @@ public class ShoppingCartData {
 
     public DeliveryModeEntity getDeliveryMode() {
         return mDeliveryModeEntity;
-    }
-
-    public String getCartNumber() {
-        return mCartNumber;
-    }
-
-    public void setCartNumber(String cartNumber) {
-        mCartNumber = cartNumber;
-        CartModelContainer.getInstance().setCartNumber(mCartNumber);
     }
 
     public int getEntryNumber() {
@@ -164,42 +150,28 @@ public class ShoppingCartData {
         return mEntry.getProduct().getStock().getStockLevel();
     }
 
-    @Override
-    public String toString() {
-        return "ShoppingCartData == " +
-                "CTN Number = " + mCtnNumber +
-                "Product title =" + mProductTitle +
-                "Image URL =" + mImageURL +
-                "Quantity = " + mQuantity +
-                "Total Item" + mTotalItems +
-                "EntryNumber =" + mEntryNumber +
-                "CartNumber =" + mCartNumber +
-                "StockLevel" + mStockLevel;
+    public String getFormattedTotalPriceWithTax() {
+        return mFormattedTotalPriceWithTax;
     }
 
-
-    public String getTotalPriceWithTaxFormatedPrice() {
-        return mTotalPriceWithTaxFormatedPrice;
+    public void setFormattedTotalPriceWithTax(String mFormattedTotalPriceWithTax) {
+        this.mFormattedTotalPriceWithTax = mFormattedTotalPriceWithTax;
     }
 
-    public void setTotalPriceWithTaxFormatedPrice(String mTotalPriceWithTaxFormatedPrice) {
-        this.mTotalPriceWithTaxFormatedPrice = mTotalPriceWithTaxFormatedPrice;
+    public String getFormattedPrice() {
+        return mFormattedPrice;
     }
 
-    public String getFormatedPrice() {
-        return mFormatedPrice;
+    public void setFormattedPrice(String mFormattedPrice) {
+        this.mFormattedPrice = mFormattedPrice;
     }
 
-    public void setFormatedPrice(String mFormatedPrice) {
-        this.mFormatedPrice = mFormatedPrice;
+    public String getFormattedTotalPrice() {
+        return mFormattedTotalPrice;
     }
 
-    public String getTotalPriceFormatedPrice() {
-        return mTotalPriceFormatedPrice;
-    }
-
-    public void setTotalPriceFormatedPrice(String mTotalPriceFormatedPrice) {
-        this.mTotalPriceFormatedPrice = mTotalPriceFormatedPrice;
+    public void setFormattedTotalPrice(String mFormattedTotalPrice) {
+        this.mFormattedTotalPrice = mFormattedTotalPrice;
     }
 
     public String getVatValue() {
@@ -216,5 +188,17 @@ public class ShoppingCartData {
 
     public void setVatActualValue(String mVatActualValue) {
         this.mVatActualValue = mVatActualValue;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCartData == " +
+                "CTN Number = " + mCtnNumber +
+                "Product title =" + mProductTitle +
+                "Image URL =" + mImageURL +
+                "Quantity = " + mQuantity +
+                "Total Item" + mTotalItems +
+                "EntryNumber =" + mEntryNumber +
+                "StockLevel" + mStockLevel;
     }
 }

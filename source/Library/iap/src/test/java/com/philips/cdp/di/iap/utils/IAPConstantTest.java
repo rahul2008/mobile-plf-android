@@ -12,7 +12,6 @@ public class IAPConstantTest extends TestCase {
 
     @Test
     public void testConstant() {
-        // assertEquals("Value is Same", true, IAPConstant.TEST_MODE);
         assertEquals("Value is Same", "EMPTY_CART_FRAGMENT_REPLACED", IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
         assertFalse(IAPConstant.BUTTON_STATE_CHANGED);
         assertEquals("Value is Same", 0, IAPConstant.IAP_SUCCESS);
@@ -25,7 +24,7 @@ public class IAPConstantTest extends TestCase {
         assertEquals("Value is Same", 7, IAPConstant.IAP_ERROR_UNKNOWN);
         assertEquals("Value is Same", "IAP_KEY_ACTIVITY_THEME", IAPConstant.IAP_KEY_ACTIVITY_THEME);
         assertEquals("Value is Same", "SHOPPING_CART_PRESENTER", IAPConstant.SHOPPING_CART_PRESENTER);
-        assertEquals("Value is Same", "SHIPPING_ADDRESS_FRAGMENT", IAPConstant.SHIPPING_ADDRESS_FRAGMENT);
+        assertEquals("Value is Same", "ADD_NEW_ADDRESS", IAPConstant.ADD_NEW_ADDRESS);
         assertEquals("Value is Same", "PRODUCT_DETAIL_FRAGMENT ", IAPConstant.PRODUCT_DETAIL_FRAGMENT);
         assertEquals("Value is Same", "PRODUCT_TITLE", IAPConstant.PRODUCT_TITLE);
         assertEquals("Value is Same", "PRODUCT_CTN", IAPConstant.PRODUCT_CTN );
@@ -33,13 +32,12 @@ public class IAPConstantTest extends TestCase {
         assertEquals("Value is Same", "PRODUCT_VALUE_PRICE", IAPConstant.PRODUCT_VALUE_PRICE );
         assertEquals("Value is Same", "PRODUCT_OVERVIEW", IAPConstant.PRODUCT_OVERVIEW);
         assertEquals("Value is Same",  "UPDATE_SHIPPING_ADDRESS_KEY", IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY );
-        assertEquals("Value is Same",  "MODEL_ALERT_BUTTON_TEXT", IAPConstant.MODEL_ALERT_BUTTON_TEXT );
-        assertEquals("Value is Same",  "MODEL_ALERT_ERROR_TEXT", IAPConstant.MODEL_ALERT_ERROR_TEXT );
-        assertEquals("Value is Same", "MODEL_ALERT_ERROR_DESCRIPTION", IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION );
-        assertEquals("Value is Same",  "MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE", IAPConstant.MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE );
+        assertEquals("Value is Same",  "SINGLE_BUTTON_DIALOG_TEXT", IAPConstant.SINGLE_BUTTON_DIALOG_TEXT);
+        assertEquals("Value is Same",  "SINGLE_BUTTON_DIALOG_TITLE", IAPConstant.SINGLE_BUTTON_DIALOG_TITLE);
+        assertEquals("Value is Same", "SINGLE_BUTTON_DIALOG_DESCRIPTION", IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION);
         assertEquals("Value is Same",  "IS_SECOND_USER", IAPConstant.IS_SECOND_USER );
         assertEquals("Value is Same",  "PAYMENT_METHOD_LIST", IAPConstant.PAYMENT_METHOD_LIST );
-        assertEquals("Value is Same",  "ADD_DELIVERY_ADDRESS", IAPConstant.ADD_DELIVERY_ADDRESS );
+        assertEquals("Value is Same",  "DELIVER_TO_THIS_ADDRESS", IAPConstant.DELIVER_TO_THIS_ADDRESS);
         assertEquals("Value is Same",  "ORDER_TRACK_URL", IAPConstant.ORDER_TRACK_URL );
         assertEquals("Value is Same",  "FROM_PAYMENT_SELECTION", IAPConstant.FROM_PAYMENT_SELECTION );
         assertEquals("Value is Same",  "BILLING_ADDRESS_FIELDS", IAPConstant.BILLING_ADDRESS_FIELDS );
@@ -48,7 +46,7 @@ public class IAPConstantTest extends TestCase {
         assertEquals("Value is Same",  "SELECTED_PAYMENT", IAPConstant.SELECTED_PAYMENT );
         assertEquals("Value is Same",  "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL", IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL );
         assertEquals("Value is Same",  "InsufficientStockLevelError", IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR );
-        assertEquals("Value is Same",  "IAP_IS_SHOPPING_CART_VIEW_SELECTED", IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED );
+        assertEquals("Value is Same",  "IAP_LANDING_SCREEN", IAPConstant.IAP_LANDING_SCREEN);
         assertEquals("Value is Same",  "IAP_PRODUCT_CATALOG_NUMBER", IAPConstant.IAP_PRODUCT_CATALOG_NUMBER );
         assertEquals("Value is Same",  "IS_PRODUCT_CATALOG", IAPConstant.IS_PRODUCT_CATALOG );
         assertEquals("Value is Same",  "PRODUCT_DETAIL_FRAGMENT_CATALOG", IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG );

@@ -8,8 +8,8 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -31,11 +31,11 @@ public class PlaceOrderRequestTest {
     @Mock
     private StoreSpec mStore;
     private AbstractModel request;
+
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "us", null);
-        CartModelContainer.getInstance().setCartNumber("3423423432");
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.SECURITY_CODE, "122");
         request = new PlaceOrderRequest(mStore, params, null);
@@ -53,11 +53,9 @@ public class PlaceOrderRequestTest {
 
     @Test
     public void testQueryParamsHasBody() {
-        String cartNumber = CartModelContainer.getInstance().getCartNumber();
         Map<String, String> params = new HashMap<String, String>();
-        params.put(ModelConstants.CART_ID, cartNumber);
         params.put(ModelConstants.SECURITY_CODE, "122");
-
+        params.put(ModelConstants.CART_ID, "current");
         assertEquals(request.requestBody(), params);
     }
 

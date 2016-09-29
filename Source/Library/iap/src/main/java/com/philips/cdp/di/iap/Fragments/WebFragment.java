@@ -6,7 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.annotation.TargetApi;
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +17,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
-public class WebFragment extends BaseAnimationSupportFragment {
+public abstract class WebFragment extends InAppBaseFragment {
 
     public static final String TAG = WebPaymentFragment.class.getName();
     protected WebView mWebView;
@@ -31,15 +30,17 @@ public class WebFragment extends BaseAnimationSupportFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
 
-        mWebView = (WebView) group.findViewById(R.id.wv_payment);
-        mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
-        mProgress.startAnimation(70);
+        mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
+
+        mProgress = (CircularLineProgressBar) viewGroup.findViewById(R.id.cl_progress);
+        mProgress.startAnimation(70);
+
         mUrl = getWebUrl();
-        return group;
+        return viewGroup;
     }
 
     @Override
@@ -60,16 +61,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
         mWebView.onPause();
     }
 
-    protected String getWebUrl() {
-        if (getArguments() == null) {
-            throw new RuntimeException("URL must be provided");
-        }
-        String string = getArguments().getString(IAPConstant.ORDER_TRACK_URL);
-        if (string == null) {
-            throw new RuntimeException("URL must be provided");
-        }
-        return string;
-    }
+    protected abstract String getWebUrl();
 
     protected boolean shouldOverrideUrlLoading(final String url) {
         return false;
@@ -85,17 +77,18 @@ public class WebFragment extends BaseAnimationSupportFragment {
     private class IAPWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-
             return WebFragment.this.shouldOverrideUrlLoading(url);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            mProgress.setVisibility(View.VISIBLE);
+            super.onPageStarted(view, url, favicon);
         }
 
         @SuppressWarnings("deprecation")
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            // Handle the error
-            if (isVisible()) {
-                if (isNetworkNotConnected()) return;
-            }
         }
 
         @TargetApi(android.os.Build.VERSION_CODES.M)

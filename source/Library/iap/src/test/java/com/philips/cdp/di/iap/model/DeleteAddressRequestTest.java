@@ -4,12 +4,11 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-
-import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,7 +25,7 @@ public class DeleteAddressRequestTest {
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "us", null);
     }
 
@@ -35,7 +34,7 @@ public class DeleteAddressRequestTest {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, query, null);
-        Assert.assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.EDIT_ADDRESS_URL, request.getUrl());
     }
 
     @Test(expected = RuntimeException.class)
@@ -43,7 +42,7 @@ public class DeleteAddressRequestTest {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
-        Assert.assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.EDIT_ADDRESS_URL, request.getUrl());
     }
 
     @Test

@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implements OrderController.OrderListener, EventListener, AbstractModel.DataLoadListener {
+public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderController.OrderListener, EventListener, AbstractModel.DataLoadListener {
 
     public static final String TAG = PurchaseHistoryFragment.class.getName();
     private OrderHistoryAdapter mAdapter;
@@ -63,7 +63,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
-        setTitle(R.string.iap_order_history);
+        setTitleAndBackButtonVisibility(R.string.iap_order_history, false);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         if (getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         }
@@ -127,7 +127,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                             Utility.dismissProgressDialog();
                         }
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
-                                BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
+                                InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
                     } else {
                         for (Orders order : orderData.getOrders())
                             mOrders.add(order);
@@ -183,8 +183,13 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
             Utility.dismissProgressDialog();
     }
 
+    @Override
+    public void onGetPhoneContact(Message msg) {
+
+    }
+
     private void startOrderDetailFragment() {
-        if (isNetworkNotConnected()) return;
+        if (!isNetworkConnected()) return;
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
         Bundle bundle = new Bundle();
@@ -204,7 +209,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     }
 
     public static PurchaseHistoryFragment createInstance
-            (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         PurchaseHistoryFragment fragment = new PurchaseHistoryFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

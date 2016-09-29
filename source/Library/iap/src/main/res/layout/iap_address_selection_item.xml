@@ -22,21 +22,22 @@
         android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/options_layout"
-        android:layout_width="@dimen/iap_selection_address_layout_margin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top"
-        android:clickable="true"
-        android:orientation="horizontal">
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:id="@+id/img_options"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginEnd="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginStart="@dimen/iap_shopping_cart_dots_margin_left"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_address"
@@ -59,7 +60,7 @@
         android:visibility="gone">
 
         <Button
-            android:id="@+id/btn_deliver"
+            android:id="@+id/btn_deliver_to_this_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_address"
@@ -70,12 +71,11 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/btn_new_address"
+            android:id="@+id/btn_add_new_address"
             style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btn_deliver"
-            android:layout_marginBottom="@dimen/iap_selection_address_layout_margin_bottom"
+            android:layout_below="@id/btn_deliver_to_this_address"
             android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
             android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
             android:layout_marginTop="@dimen/iap_selection_address_new_margin_top"

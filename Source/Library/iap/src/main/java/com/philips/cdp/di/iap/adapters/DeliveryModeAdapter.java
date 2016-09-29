@@ -1,12 +1,13 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.response.addresses.DeliveryCost;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 
 import java.util.List;
@@ -37,11 +38,18 @@ public class DeliveryModeAdapter extends ArrayAdapter<DeliveryModes> {
 
         DeliveryModes modes = mModes.get(position);
 
-        if(modes.getName() != null && !modes.getName().equals(""))
+        if (modes.getName() != null && !modes.getName().equals(""))
             mDeliveryModeName.setText(modes.getName());
         mDeliveryModeDate.setText(modes.getDescription());
-        mDelivertModePrice.setText(modes.getDeliveryCost().getFormattedValue());
 
+        //TODO :Cost is not in server response so value setting to 0.0.Report to Hybris.
+        DeliveryCost deliveryCost = modes.getDeliveryCost();
+        if (deliveryCost != null) {
+            String cost = deliveryCost.getFormattedValue();
+            mDelivertModePrice.setText(cost);
+        } else {
+            mDelivertModePrice.setText("0.0");
+        }
         return v;
     }
 }

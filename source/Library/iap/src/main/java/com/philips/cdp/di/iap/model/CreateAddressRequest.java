@@ -16,7 +16,8 @@ import java.util.Map;
 
 public class CreateAddressRequest extends AbstractModel {
 
-    public CreateAddressRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
+    public CreateAddressRequest(final StoreSpec store, final Map<String, String> query,
+                                DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 
@@ -49,7 +50,7 @@ public class CreateAddressRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getAddressDetailsUrl();
+        return store.getAddressesUrl();
     }
 
     private String getValue(String key) {

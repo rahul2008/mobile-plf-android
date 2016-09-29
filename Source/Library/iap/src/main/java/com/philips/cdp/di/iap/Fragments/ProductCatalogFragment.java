@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,16 +34,19 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.localematch.PILLocaleManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher, ProductCatalogPresenter.LoadListener {
+public class ProductCatalogFragment extends InAppBaseFragment implements EventListener, ProductCatalogPresenter.LoadListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
+    private Context mContext;
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
@@ -53,9 +57,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private int mRemainingProducts = 0;
     private boolean mIsLoading = false;
     private int mTotalPages = -1;
-    ProductCatalogAPI mPresenter;
-    ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
-    Bundle mBundle;
+    private ProductCatalogAPI mPresenter;
+    private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
+    private Bundle mBundle;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -70,7 +74,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         }
     };
 
-    public static ProductCatalogFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+    public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
@@ -78,27 +82,41 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = ControllerFactory.getInstance()
-                .getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
+                .getProductCatalogPresenter(mContext, this, getFragmentManager());
+        mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
         mBundle = getArguments();
 
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        String currentCountryCode = localeManager.getCountryCode();
+        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.PRODUCT_CTNS) != null) {
+            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 onLoadFinished(getProductCatalog(), null);
-            } else if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
-                onLoadFinished(getProductCatalogDataFromStoredData(), null);
+            } else if (currentCountryCode.equals(savedCountry)) {
+                if (CartModelContainer.getInstance().getProductCatalogData() != null && CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
+                    onLoadFinished(getProductCatalogDataFromStoredData(), null);
+                } else {
+                    loadProductCatalog();
+                }
             } else {
                 loadProductCatalog();
             }
         }
     }
 
-    ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData(){
+    ArrayList<ProductCatalogData> getProductCatalogDataFromStoredData() {
         ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
-         HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
+        HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
                 catalogDatas.add(entry.getValue());
@@ -106,15 +124,16 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         }
         return catalogDatas;
     }
+
     private ArrayList<ProductCatalogData> getProductCatalog() {
         ArrayList<ProductCatalogData> catalogDatas = new ArrayList<>();
-        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.PRODUCT_CTNS);
+        ArrayList<String> ctns = mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
 
-        if(ctns!=null) {
+        if (ctns != null) {
             for (String ctn : ctns) {
                 if (CartModelContainer.getInstance().isProductCatalogDataPresent(ctn)) {
                     catalogDatas.add(CartModelContainer.getInstance().getProductCatalogData(ctn));
-                }else{
+                } else {
                     mPresenter.getProductCategorizedProduct(ctns);
                 }
             }
@@ -142,11 +161,10 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
-        setCartIconVisibility(View.VISIBLE);
-        setTitle(R.string.iap_product_catalog);
-
+        setCartIconVisibility(true);
+        setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
         if (!ControllerFactory.getInstance().loadLocalData()) {
-            mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
+            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
         mAdapter.tagProducts();
     }
@@ -164,12 +182,12 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (productCatalogData != null) {
             bundle.putString(IAPConstant.PRODUCT_TITLE, productCatalogData.getProductTitle());
             bundle.putString(IAPConstant.PRODUCT_CTN, productCatalogData.getCtnNumber());
-            bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
+            bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormattedPrice());
             bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
-            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
         }
     }
 
@@ -180,7 +198,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         if (getActivity() != null && getActivity() instanceof IAPActivity) {
             int count = getFragmentManager().getBackStackEntryCount();
             IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
@@ -224,9 +242,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     private void loadProductCatalog() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
-        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE,null);
+        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
     }
 
     private void loadMoreItems() {
@@ -238,12 +256,12 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
         if (!Utility.isProgressDialogShowing()) {
             IAPLog.i(TAG, "Loading Page = " + mCurrentPage + "Total Results = " + mTotalResults + "Size of Array = " + mProductCatalog.size());
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
 
         if (mPresenter == null)
-            mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE,null);
+            mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(mContext, this, getFragmentManager());
+        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE, null);
     }
 
     @Override
@@ -285,7 +303,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public void onLoadError(IAPNetworkError error) {
-        if (error.getMessage() != null && error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
+        if (error.getMessage() != null
+                && error.getMessage().equalsIgnoreCase(mContext.getResources().getString(R.string.iap_no_product_available))) {
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);
@@ -295,6 +314,10 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mEmptyCatalogText.setVisibility(View.GONE);
             }
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                    mContext.getString(R.string.iap_ok),
+                    NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()),
+                    NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         }
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();

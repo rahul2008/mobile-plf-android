@@ -13,6 +13,7 @@ def coverageSourceDirs = [
 
 buildscript {
     repositories {
+        mavenCentral()
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
         }
@@ -30,7 +31,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.shamanland:fonticon:0.1.+'
-        classpath 'com.mcxiaoke.volley:library:1.0.+'
         classpath 'com.google.code.gson:gson:2.2.+'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2"
         classpath 'com.philips.cdp:cdpSCM:0.1.0'
@@ -61,6 +61,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
@@ -140,30 +141,29 @@ android {
 configurations {
     compile.exclude module: 'support-annotations'
 }
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    //Android support libraries
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
-
     //Coco
-    compile 'com.philips.cdp:uikitLib:3.2.3'
-    compile('com.philips.cdp:registrationApi:7.0.1') {
-        exclude group: 'com.android.support'
-        transitive = true
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0', ext: 'aar')
+    {
+           transitive = true
     }
-
+	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.0.0', ext: 'aar')
+    {
+           transitive = true
+    }
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.0'
-
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
@@ -270,4 +270,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         html.enabled = true
     }
 
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.compile
 }

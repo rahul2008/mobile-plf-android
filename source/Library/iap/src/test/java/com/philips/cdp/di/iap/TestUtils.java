@@ -7,12 +7,13 @@ package com.philips.cdp.di.iap;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkController;
+import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
-import com.philips.cdp.di.iap.store.HybrisStore;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,11 +28,11 @@ public class TestUtils {
     private static HybrisStore mockHybrisStore;
 
     public static HybrisDelegate getStubbedHybrisDelegate() {
-        if(delegate != null) {
+        if (delegate != null) {
             return delegate;
         }
         delegate = HybrisDelegate.getInstance();
-        NetworkController mockController = new MockNetworkController(mock(Context.class));
+        NetworkController mockController = new MockNetworkController(mock(Context.class), new MockIAPDependencies());
         try {
             //Set the controller
             Class<?> cls = delegate.getClass();
@@ -48,15 +49,15 @@ public class TestUtils {
     }
 
     public static StoreSpec getStubbedStore() {
-        if(mockHybrisStore != null) {
+        if (mockHybrisStore != null) {
             return mockHybrisStore;
         }
-        StoreSpec mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
-        mockStore.initStoreConfig("en","US", null);
+        StoreSpec mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
+        mockStore.initStoreConfig("en", "US", null);
         return mockStore;
     }
 
-    public static String readFile(Class<?>cls, String fileName) {
+    public static String readFile(Class<?> cls, String fileName) {
         BufferedReader br = null;
         String path = prepareCurrentPath(cls, fileName);
         try {
@@ -93,7 +94,7 @@ public class TestUtils {
         sb.append("src").append(File.separator);
         sb.append("test").append(File.separator);
         sb.append("java").append(File.separator);
-        for (int index = 0; index < paths.length-1; index++) {
+        for (int index = 0; index < paths.length - 1; index++) {
 
             sb.append(paths[index]).append(File.separator);
         }

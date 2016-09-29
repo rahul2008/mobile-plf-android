@@ -1,9 +1,7 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,13 +10,11 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.philips.cdp.di.iap.Fragments.WebBuyFromRetailers;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.shamanland.fonticon.FontIconTextView;
@@ -30,17 +26,22 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private ArrayList<StoreEntity> mStoreEntities;
     private FragmentManager mFragmentManager;
     private int mThemeBaseColor;
-    private int mContainerID;
     private final ImageLoader mImageLoader;
+    private BuyFromRetailersListener mBuyFromRetailersListener;
 
-    public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager, int id) {
+
+    public interface BuyFromRetailersListener { // create an interface
+        void onClickAtRetailer(String buyURL, String name); // create callback function
+    }
+
+    public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager, ArrayList<StoreEntity> storeEntities, BuyFromRetailersListener pBuyFromRetailersListener) {
         mContext = context;
-        mStoreEntities = storeEntities;
         mFragmentManager = fragmentManager;
+        mStoreEntities = storeEntities;
         mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
-        mContainerID = id;
+        mBuyFromRetailersListener = pBuyFromRetailersListener;
     }
 
 
@@ -74,7 +75,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                     return;
                 } else {
                     tagOnSelectRetailer(storeEntity);
-                    addWebBuyFromRetailers(buyURL, storeEntity.getName());
+                    mBuyFromRetailersListener.onClickAtRetailer(buyURL, storeEntity.getName());
                 }
             }
         });
@@ -85,18 +86,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private void tagOnSelectRetailer(StoreEntity storeEntity) {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
                 storeEntity.getName());
-    }
-
-    private void addWebBuyFromRetailers(String buyUrl, String storeName) {
-        Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_BUY_URL, buyUrl);
-        bundle.putString(IAPConstant.IAP_STORE_NAME, storeName);
-        WebBuyFromRetailers webBuyFromRetailers = new WebBuyFromRetailers();
-        webBuyFromRetailers.setArguments(bundle);
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(mContainerID, webBuyFromRetailers, WebBuyFromRetailers.class.getName());
-        transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
     }
 
     private void getNetworkImage(final RetailerViewHolder retailerHolder, final String imageURL) {
@@ -136,8 +125,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.RETAILER_SELECTED,
                         mStoreEntities.get(getAdapterPosition()).getName());
-                addWebBuyFromRetailers(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
+                mBuyFromRetailersListener.onClickAtRetailer(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
             }
         }
     }
+
 }

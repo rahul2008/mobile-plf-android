@@ -8,6 +8,8 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
@@ -30,11 +32,13 @@ public class SetDeliveryAddressRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
+    @Mock
+    IAPDependencies mIAPDependencies;
     private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "US", null);
         mModel = new SetDeliveryAddressRequest(mStore, null, null);
     }
@@ -47,14 +51,14 @@ public class SetDeliveryAddressRequestTest {
     @Test
     public void testQueryParamsIsNotNull() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
         assertNotNull(mockSetDeliveryAddressRequest.requestBody());
     }
 
     @Test
     public void testQueryParamsHasBody() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
         Map<String, String> params = new HashMap<String, String>();
         assertEquals(mockSetDeliveryAddressRequest.requestBody(), params);
     }
@@ -62,15 +66,15 @@ public class SetDeliveryAddressRequestTest {
     @Test
     public void testTestingUriIsNotNull() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
         assertNotNull(mockSetDeliveryAddressRequest.getUrl());
     }
 
     @Test
     public void testTestingUrilIsForSetDeliveryAddressRequest() {
         SetDeliveryAddressRequest mockSetDeliveryAddressRequest = Mockito.mock(SetDeliveryAddressRequest.class);
-        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
-        assertEquals(mockSetDeliveryAddressRequest.getUrl(), NetworkURLConstants.UPDATE_DELIVERY_ADDRESS_URL);
+        Mockito.when(mockSetDeliveryAddressRequest.getUrl()).thenReturn(NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
+        assertEquals(mockSetDeliveryAddressRequest.getUrl(), NetworkURLConstants.SET_DELIVERY_ADDRESS_URL);
     }
 
     @Test

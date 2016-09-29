@@ -8,22 +8,18 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.hybris.HybrisNetworkEssentials;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
-import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.StoreConfiguration;
 
 import org.json.JSONObject;
 import org.mockito.Mock;
 
-import java.lang.reflect.Field;
-
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class MockNetworkController extends NetworkController {
     private Context mMockedContext;
@@ -32,12 +28,16 @@ public class MockNetworkController extends NetworkController {
     IAPUser mIAPMockedUser;
     @Mock
     StoreConfiguration mStoreConfig;
+    @Mock
+    IAPDependencies mIAPDependencies;
     Context mContext;
+    private MockIAPDependencies mMockedIAPDependencies;
 
-    public MockNetworkController(final Context context) {
-        super(context, new HybrisNetworkEssentials());
+    public MockNetworkController(final Context context, final MockIAPDependencies iapDependencies) {
+        super(context, new HybrisNetworkEssentials(), iapDependencies);
         mContext = context;
         mMockedContext = mock(Context.class);
+        mMockedIAPDependencies = iapDependencies;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class MockNetworkController extends NetworkController {
     }
 
     @Override
-    void initStore() {
-        store = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+    void initStore(IAPDependencies iapDependencies) {
+        store = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(iapDependencies);
     }
 
     @Override

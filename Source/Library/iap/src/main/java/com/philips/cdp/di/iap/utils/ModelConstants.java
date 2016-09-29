@@ -1,19 +1,12 @@
 package com.philips.cdp.di.iap.utils;
 
-/**
- * Created by 310228564 on 2/17/2016.
- */
 public class ModelConstants {
-    /**
-     * Product Request parameters
-     */
     public final static String PRODUCT_CODE = "code";
     public final static String PRODUCT_QUANTITY = "qty";
     public final static String PRODUCT_ENTRYCODE = "entrycode";
     public final static String ENTRY_CODE = "entrynumber";
-    /**
-     * Address data
-     **/
+
+    //Address
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
     public static final String TITLE_CODE = "titleCode";
@@ -33,7 +26,7 @@ public class ModelConstants {
     public static final String DELIVERY_MODE_ID = "deliveryModeId";
 
     public static final String PAYMENT_DETAILS_ID = "paymentDetailsId";
-    public static final String WEBPAY_URL = "webpay_url";
+    public static final String WEB_PAY_URL = "webpay_url";
     public static final String ORDER_NUMBER = "order_number";
     public static final String CART_ID = "cartId";
     public static final String PAYMENT_SUCCESS_STATUS = "payment_success_status";
@@ -42,4 +35,6 @@ public class ModelConstants {
     public static final String CURRENT_PAGE = "currentPage";
     public static final String PAGE_SIZE = "PAGE_SIZE";
     public static final String SECURITY_CODE = "securityCode";
+
+    public static final String CATEGORY = "category";
 }

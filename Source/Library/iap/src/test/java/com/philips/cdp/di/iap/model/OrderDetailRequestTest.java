@@ -5,6 +5,8 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -28,13 +30,15 @@ public class OrderDetailRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
+    @Mock
+    IAPDependencies mIAPDependencies;
     private StoreSpec mStore;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
-        mStore = (new MockStore(mContext, mUser)).getStore();
-        mStore.initStoreConfig("en","US", null);
+        mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        mStore.initStoreConfig("en", "US", null);
         mModel = new OrderDetailRequest(mStore, null, null);
     }
 

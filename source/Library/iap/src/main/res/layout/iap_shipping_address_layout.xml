@@ -18,7 +18,7 @@
             style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
+            android:layout_marginBottom="@dimen/iap_selection_address_layout_margin"
             android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
             android:layout_marginTop="@dimen/iap_shipping_address_margin_top_bottom"
             android:gravity="center_horizontal"

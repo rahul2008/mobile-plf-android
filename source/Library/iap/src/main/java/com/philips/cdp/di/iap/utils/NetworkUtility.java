@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 public class NetworkUtility {
     private static NetworkUtility mNetworkUtility;
     private ErrorDialogFragment mModalAlertDemoFragment;
-    private boolean isOnline;
 
     public static NetworkUtility getInstance() {
         synchronized (NetworkUtility.class) {
@@ -53,9 +52,9 @@ public class NetworkUtility {
                 return;
             }
             Bundle bundle = new Bundle();
-            bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
-            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
-            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
+            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, pButtonText);
+            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE, pErrorString);
+            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION, pErrorDescription);
             try {
                 mModalAlertDemoFragment.setArguments(bundle);
                 mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
@@ -88,7 +87,7 @@ public class NetworkUtility {
         }
     }
 
-    private String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
+    public String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
         String errorMessage = null;
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
             errorMessage = context.getString(R.string.iap_you_are_offline);
@@ -98,7 +97,7 @@ public class NetworkUtility {
         return errorMessage;
     }
 
-    private String getErrorDescriptionMessageFromErrorCode(final Context context,
+    public String getErrorDescriptionMessageFromErrorCode(final Context context,
                                                            IAPNetworkError error) {
         if (error.getIAPErrorCode() != IAPConstant.IAP_ERROR_NO_CONNECTION
                 && !TextUtils.isEmpty(error.getMessage())) {

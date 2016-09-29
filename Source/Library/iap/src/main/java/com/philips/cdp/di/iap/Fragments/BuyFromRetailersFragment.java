@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,21 +22,27 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
-public class BuyFromRetailersFragment extends BaseAnimationSupportFragment {
+public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFromRetailersAdapter.BuyFromRetailersListener {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
 
-    RecyclerView mRecyclerView;
-    BuyFromRetailersAdapter mAdapter;
+    private Context mContext;
+    private RecyclerView mRecyclerView;
+    private BuyFromRetailersAdapter mAdapter;
     private ArrayList<StoreEntity> mStoreEntity;
 
-    public static BuyFromRetailersFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+    public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -60,11 +67,18 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment {
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
-        setTitle(R.string.iap_retailer_title);
+        setTitleAndBackButtonVisibility(R.string.iap_retailer_title, true);
         if (mStoreEntity != null) {
-            mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
+            mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
 
+    @Override
+    public void onClickAtRetailer(String buyURL, String name) {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.IAP_BUY_URL, buyURL);
+        bundle.putString(IAPConstant.IAP_STORE_NAME, name);
+        addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null);
+    }
 }

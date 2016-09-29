@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,20 +29,19 @@ import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
-import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartFragment extends BaseAnimationSupportFragment
+public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener<ShoppingCartData> {
 
@@ -56,7 +54,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private Context mContext;
     private ShoppingCartAPI mShoppingCartAPI;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
-    private boolean mIsDeliveryAddress;
+//    private boolean mIsDeliveryAddress;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -78,7 +76,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
-        IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
+
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
@@ -90,8 +88,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
-        mAddressController = new AddressController(getContext(), this);
+                .getShoppingCartPresenter(mContext, this, getFragmentManager());
+        mAddressController = new AddressController(mContext, this);
         return rootView;
     }
 
@@ -101,23 +99,25 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
-        setTitle(R.string.iap_shopping_cart);
-        if (!isNetworkNotConnected()) {
+        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
+        if (isNetworkConnected()) {
             updateCartOnResume();
         }
 
-        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
+        mAdapter = new ShoppingCartAdapter(mContext, mData, this, mShoppingCartAPI);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     private void updateCartOnResume() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
+
         if (CartModelContainer.getInstance().isCartCreated()) {
             mAddressController.getUser();
         } else {
             mAddressController.getDeliveryModes();
+//            mIsDeliveryAddress = true;
         }
     }
 
@@ -145,6 +145,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
+            if (CartModelContainer.getInstance().isCartCreated()) {
+                CartModelContainer.getInstance().setCartCreated(false);
+            }
+
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                 mAddressController.getRegions();
@@ -160,7 +164,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             }
         }
         if (v == mContinuesBtn) {
-            if (isNetworkNotConnected()) return;
+            if (!isNetworkConnected()) return;
 
             //Track continue shopping action
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
@@ -170,7 +174,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
@@ -190,7 +194,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             startProductDetailFragment();
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            launchProductCatalog();
+            showProductCatalogFragment();
         }
     }
 
@@ -199,7 +203,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
-        bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormatedPrice());
+        bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
@@ -209,11 +213,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             Bundle bundle = new Bundle();
             if (mAdapter.getDeliveryMode() != null)
-                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, (Parcelable) mAdapter.getDeliveryMode());
+                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mAdapter.getDeliveryMode());
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
                         ShippingAddressFragment.createInstance(bundle, AnimationType.NONE), ShippingAddressFragment.TAG);
@@ -231,18 +235,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            mIsDeliveryAddress = true;
-            mAddressController.getDeliveryModes();
-        } else {
-            Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-        }
+        mAddressController.getDeliveryModes();
     }
 
     @Override
     public void onSetDeliveryMode(final Message msg) {
-        //NOP
         updateCartDetails(mShoppingCartAPI);
     }
 
@@ -255,19 +252,20 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
+
         mAddressController.getAddresses();
     }
 
     @Override
     public void onGetUser(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
-            updateCartDetails(mShoppingCartAPI);
+            mAddressController.getDeliveryModes();
         } else if (msg.obj instanceof GetUser) {
             GetUser user = (GetUser) msg.obj;
             if (user.getDefaultAddress() != null) {
                 mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
             } else {
-                updateCartDetails(mShoppingCartAPI);
+                mAddressController.getDeliveryModes();
             }
         }
     }
@@ -275,18 +273,13 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetDeliveryModes(Message msg) {
         if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-            if (CartModelContainer.getInstance().isCartCreated()) {
-                CartModelContainer.getInstance().setCartCreated(false);
-                updateCartDetails(mShoppingCartAPI);
-            } else {
-                if (deliveryModeList.size() > 0) {
-                    mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-                }
+            if (deliveryModeList.size() > 0) {
+                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             }
         }
     }
@@ -306,11 +299,14 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (getActivity() == null) return;
         mData = data;
         onOutOfStock(false);
-        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
-        if (mIsDeliveryAddress) {
+        /*if (mAdapter.mIsDeliveryAddressSet) {
+            mIsDeliveryAddress = true;
+        }*/
+        mAdapter = new ShoppingCartAdapter(mContext, mData, this, mShoppingCartAPI);
+        /*if (mIsDeliveryAddress) {
             mAdapter.setDeliveryAddress(mIsDeliveryAddress);
             mIsDeliveryAddress = false;
-        }
+        }*/
         if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }
@@ -319,14 +315,18 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onLoadListenerError(IAPNetworkError error) {
+    public void onLoadListenerError(Message msg) {
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
-        if (isNetworkNotConnected()) {
-            return;
+        if (!isNetworkConnected()) return;
+
+        if (msg.obj instanceof IAPNetworkError) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
-        NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
     }
 
     @Override

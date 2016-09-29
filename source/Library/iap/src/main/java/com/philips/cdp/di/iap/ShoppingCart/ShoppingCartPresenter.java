@@ -17,9 +17,11 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
-import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
+import com.philips.cdp.di.iap.model.DeleteCartRequest;
+import com.philips.cdp.di.iap.model.GetCartsRequest;
+import com.philips.cdp.di.iap.model.GetCurrentCartRequest;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
@@ -43,18 +45,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingCartPresenter extends AbstractShoppingCartPresenter implements AbstractModel.DataLoadListener {
+public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
+        implements AbstractModel.DataLoadListener {
 
-    public interface ShoppingCartLauncher {
-        void launchShoppingCart();
-    }
-
-    Carts mCartData = null;
+    private CartsEntity mCurrentCartData = null;
 
     public ShoppingCartPresenter() {
     }
 
-    @SuppressWarnings({"rawtype","unchecked"})
+    @SuppressWarnings({"rawtype", "unchecked"})
     public ShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
         super(context, listener, fragmentManager);
     }
@@ -69,54 +68,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     @Override
     public void getCurrentCartDetails() {
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null, this);
+        GetCurrentCartRequest model = new GetCurrentCartRequest(getStore(), null, this);
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
-    }
-
-    private void notifyListChanged() {
-        ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
-        refreshList(products);
-        CartModelContainer.getInstance().setShoppingCartData(products);
-        dismissProgressDialog();
-    }
-
-    private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
-        CartsEntity cartsEntity = mCartData.getCarts().get(0);
-        List<EntriesEntity> entries = cartsEntity.getEntries();
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
-        ArrayList<ShoppingCartData> products = new ArrayList<>();
-        String ctn;
-        for (EntriesEntity entry : entries) {
-            ctn = entry.getProduct().getCode();
-            ShoppingCartData cartItem = new ShoppingCartData(entry, mCartData.getCarts().get(0).getDeliveryMode());
-            cartItem.setVatInclusive(cartsEntity.isNet());
-            Data data;
-            if (list.containsKey(ctn)) {
-                data = list.get(ctn).getData();
-            } else {
-                continue;
-            }
-            cartItem.setImageUrl(data.getImageURL());
-            cartItem.setProductTitle(data.getProductTitle());
-            cartItem.setCtnNumber(ctn);
-            cartItem.setCartNumber(cartsEntity.getCode());
-            cartItem.setQuantity(entry.getQuantity());
-            cartItem.setFormatedPrice(entry.getBasePrice().getFormattedValue());
-            cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
-            cartItem.setTotalPriceWithTaxFormatedPrice(cartsEntity.getTotalPriceWithTax().getFormattedValue());
-            cartItem.setTotalPriceFormatedPrice(entry.getTotalPrice().getFormattedValue());
-            cartItem.setTotalItems(cartsEntity.getTotalItems());
-            cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
-            cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
-            cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
-            cartItem.setVatActualValue(String.valueOf(((int)cartsEntity.getTotalTax().getValue())));
-            cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
-            //required for Tagging
-            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
-            products.add(cartItem);
-        }
-        return products;
     }
 
     @Override
@@ -168,16 +122,35 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
+                mLoadListener.onLoadListenerError(msg);
                 Utility.dismissProgressDialog();
             }
         });
         sendHybrisRequest(0, model, model);
     }
 
+    private void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
+        HybrisDelegate delegate = HybrisDelegate.getInstance(context);
+        DeleteCartRequest model = new DeleteCartRequest(delegate.getStore(), null, null);
+        delegate.sendRequest(RequestCode.DELETE_CART, model, new RequestListener() {
+            @Override
+            public void onSuccess(Message msg) {
+                if (iapHandlerListener != null) {
+                    getProductCartCount(context, iapHandlerListener);
+                }
+            }
+
+            @Override
+            public void onError(Message msg) {
+                if (iapHandlerListener != null) {
+                    iapHandlerListener.onFailure(msg);
+                }
+            }
+        });
+    }
+
     private void createCart(final Context context, final IAPCartListener iapHandlerListener,
-                            final String ctnNumber, final ShoppingCartLauncher mShoppingCartLauncher,
-                            final boolean isBuy) {
+                            final String ctnNumber, final boolean isBuy) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
@@ -185,7 +158,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             public void onSuccess(final Message msg) {
                 CartModelContainer.getInstance().setCartCreated(true);
                 if (isBuy) {
-                    addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
+                    addProductToCart(context, ctnNumber, iapHandlerListener, true);
                 } else {
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
@@ -204,7 +177,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     @Override
     public void addProductToCart(final Context context, String productCTN, final IAPCartListener
-            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher,
+            iapHandlerListener,
                                  final boolean isFromBuyNow) {
         if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();
@@ -215,7 +188,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             @Override
             public void onSuccess(final Message msg) {
                 if (isFromBuyNow) {
-                    mShoppingCartLauncher.launchShoppingCart();
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_SHOPPING_CART);
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
                     }
@@ -235,86 +208,90 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     @Override
     public void getProductCartCount(final Context context, final IAPCartListener
-            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
+            iapHandlerListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
+        GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         model.setContext(context);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
-            @Override
-            public void onSuccess(final Message msg) {
-                if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, null, mShoppingCartLauncher, false);
-                } else {
-                    Carts getCartData = (Carts) msg.obj;
-                    if (null != getCartData) {
-                        int quantity = 0;
-                        int totalItems = getCartData.getCarts().get(0).getTotalItems();
-                        List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
-                        if (totalItems != 0 && null != entries) {
-                            for (int i = 0; i < entries.size(); i++) {
-                                quantity = quantity + entries.get(i).getQuantity();
+                    @Override
+                    public void onSuccess(final Message msg) {
+                        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                            createCart(context, iapHandlerListener, null, false);
+                        } else {
+                            Carts carts = (Carts) msg.obj;
+                            if (carts != null && carts.getCarts() != null) {
+                                if (carts.getCarts().size() > 1) {
+                                    deleteCart(context, iapHandlerListener);
+                                } else {
+                                    int quantity = 0;
+                                    int totalItems = carts.getCarts().get(0).getTotalItems();
+                                    List<EntriesEntity> entries = carts.getCarts().get(0).getEntries();
+                                    if (totalItems != 0 && null != entries) {
+                                        for (int i = 0; i < entries.size(); i++) {
+                                            quantity = quantity + entries.get(i).getQuantity();
+                                        }
+                                    }
+                                    if (iapHandlerListener != null) {
+                                        iapHandlerListener.onSuccess(quantity);
+                                    }
+                                }
                             }
                         }
-                        if (iapHandlerListener != null) {
-                            iapHandlerListener.onSuccess(quantity);
-                        }
+                    }
+
+                    @Override
+                    public void onError(final Message msg) {
+                        handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, false);
                     }
                 }
-            }
 
-            @Override
-            public void onError(final Message msg) {
-                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, mShoppingCartLauncher,
-                        false);
-            }
-        });
+        );
     }
 
     @Override
     public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener
-            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
+            iapHandlerListener) {
         if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
+        GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         model.setContext(context);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, ctnNumber, mShoppingCartLauncher, true);
+                    createCart(context, iapHandlerListener, ctnNumber, true);
                 } else if (msg.obj instanceof Carts) {
-                    Carts getCartData = (Carts) msg.obj;
-                    if (null != getCartData) {
-                        int totalItems = getCartData.getCarts().get(0).getTotalItems();
-                        List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
+                    Carts getCarts = (Carts) msg.obj;
+                    if (null != getCarts) {
+                        int totalItems = getCarts.getCarts().get(0).getTotalItems();
+                        List<EntriesEntity> entries = getCarts.getCarts().get(0).getEntries();
                         if (totalItems != 0 && null != entries) {
                             boolean isProductAvailable = false;
                             for (int i = 0; i < entries.size(); i++) {
                                 if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
                                     isProductAvailable = true;
-                                    mShoppingCartLauncher.launchShoppingCart();
+                                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_SHOPPING_CART);
                                     break;
                                 }
                             }
                             if (!isProductAvailable)
-                                addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher,
-                                        true);
+                                addProductToCart(context, ctnNumber, iapHandlerListener, true);
                             if (iapHandlerListener != null) {
                                 iapHandlerListener.onSuccess(0);
                             }
                         } else {
-                            addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
+                            addProductToCart(context, ctnNumber, iapHandlerListener, true);
                         }
                     }
+                    // }
                 }
             }
 
             @Override
             public void onError(final Message msg) {
-                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, mShoppingCartLauncher,
-                        true);
+                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, true);
             }
         });
     }
@@ -322,10 +299,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     private void handleNoCartErrorOrNotifyError(final Message msg, final Context context,
                                                 final IAPCartListener iapHandlerListener,
                                                 final String ctnNumber,
-                                                final ShoppingCartLauncher mShoppingCartLauncher,
                                                 final boolean isBuy) {
         if (isNoCartError(msg)) {
-            createCart(context, iapHandlerListener, ctnNumber, mShoppingCartLauncher, isBuy);
+            createCart(context, iapHandlerListener, ctnNumber, isBuy);
         } else if (iapHandlerListener != null) {
             iapHandlerListener.onFailure(msg);
         }
@@ -374,19 +350,19 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     }
 
     private boolean processResponseFromHybrisForGetCart(final Message msg) {
-        if (msg.obj instanceof Carts) {
-            mCartData = (Carts) msg.obj;
-            if (null != mCartData.getCarts().get(0).getEntries()) {
-                makePrxCall(mCartData);
+        if (msg.obj instanceof CartsEntity) {
+            mCurrentCartData = (CartsEntity) msg.obj;
+            if (null != mCurrentCartData.getEntries()) {
+                makePrxCall(mCurrentCartData);
                 return true;
             }
         }
         return false;
     }
 
-    private void makePrxCall(final Carts mCarts) {
+    private void makePrxCall(final CartsEntity mCurrentCart) {
         ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
-        List<EntriesEntity> entries = mCarts.getCarts().get(0).getEntries();
+        List<EntriesEntity> entries = mCurrentCart.getEntries();
 
         for (EntriesEntity entry : entries) {
             ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
@@ -396,4 +372,46 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     }
 
+    private void notifyListChanged() {
+        ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
+        refreshList(products);
+        dismissProgressDialog();
+    }
+
+    private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
+        CartsEntity cartsEntity = mCurrentCartData;
+        List<EntriesEntity> entries = cartsEntity.getEntries();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        ArrayList<ShoppingCartData> products = new ArrayList<>();
+        String ctn;
+        for (EntriesEntity entry : entries) {
+            ctn = entry.getProduct().getCode();
+            ShoppingCartData cartItem = new ShoppingCartData(entry, mCurrentCartData.getDeliveryMode());
+            cartItem.setVatInclusive(cartsEntity.isNet());
+            Data data;
+            if (list.containsKey(ctn)) {
+                data = list.get(ctn).getData();
+            } else {
+                continue;
+            }
+            cartItem.setImageUrl(data.getImageURL());
+            cartItem.setProductTitle(data.getProductTitle());
+            cartItem.setCtnNumber(ctn);
+            cartItem.setQuantity(entry.getQuantity());
+            cartItem.setFormattedPrice(entry.getBasePrice().getFormattedValue());
+            cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
+            cartItem.setFormattedTotalPriceWithTax(cartsEntity.getTotalPriceWithTax().getFormattedValue());
+            cartItem.setFormattedTotalPrice(entry.getTotalPrice().getFormattedValue());
+            cartItem.setTotalItems(cartsEntity.getTotalItems());
+            cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
+            cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
+            cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
+            cartItem.setVatActualValue(String.valueOf(((int) cartsEntity.getTotalTax().getValue())));
+            cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
+            //required for Tagging
+            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
+            products.add(cartItem);
+        }
+        return products;
+    }
 }

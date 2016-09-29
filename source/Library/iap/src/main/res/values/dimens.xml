@@ -18,7 +18,7 @@
     <dimen name="iap_billing_toggle_margin_top">11dp</dimen>
     <dimen name="iap_billing_toggle_margin_right">31dp</dimen>
     <dimen name="iap_shipping_address_continue_button_height">44dp</dimen>
-    <dimen name="iap_shipping_address_continue_margin_bottom">6dp</dimen>
+    <dimen name="iap_shipping_address_continue_margin_bottom">7dp</dimen>
 
     <dimen name="iap_shipping_address_continue_margin_top">33dp</dimen>
     <dimen name="iap_shipping_address_cancel_button_height">44dp</dimen>
@@ -43,6 +43,7 @@
     <dimen name="iap_selection_address_cancel_margin_bottom">11dp</dimen>
 
     <dimen name="title">16sp</dimen>
+    <dimen name="header_title">19dp</dimen>
     <dimen name="quantity">14sp</dimen>
     <dimen name="header">20sp</dimen>
     <dimen name="network_image_width">85dp</dimen>

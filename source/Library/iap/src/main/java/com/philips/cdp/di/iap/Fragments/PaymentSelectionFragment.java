@@ -7,12 +7,14 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.PaymentMethodsAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -29,7 +31,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.List;
 
-public class PaymentSelectionFragment extends BaseAnimationSupportFragment
+public class PaymentSelectionFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, PaymentController.PaymentListener {
     public static final String TAG = PaymentSelectionFragment.class.getName();
     private Context mContext;
@@ -51,7 +53,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
             mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_METHOD_LIST);
         }
 
-        mPaymentMethodsAdapter = new PaymentMethodsAdapter(getContext(), mPaymentMethodList);
+        mPaymentMethodsAdapter = new PaymentMethodsAdapter(mContext, mPaymentMethodList);
         mPaymentMethodsRecyclerView.setAdapter(mPaymentMethodsAdapter);
 
         mPaymentController = new PaymentController(mContext, this);
@@ -78,7 +80,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
-        setTitle(R.string.iap_payment);
+        setTitleAndBackButtonVisibility(R.string.iap_payment, true);
     }
 
     @Override
@@ -98,7 +100,12 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(View v) {
         if (v == mBtnCancel) {
-            moveToFragment(ShoppingCartFragment.TAG);
+            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+            if (fragment != null) {
+                moveToVerticalAppByClearingStack();
+            } else {
+                showFragment(ShoppingCartFragment.TAG);
+            }
         }
     }
 
@@ -137,7 +144,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     public void onSetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());

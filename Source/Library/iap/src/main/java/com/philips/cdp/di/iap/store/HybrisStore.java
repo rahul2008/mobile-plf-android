@@ -2,102 +2,105 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
 import com.philips.cdp.di.iap.core.AbstractStoreSpec;
-import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
+import java.util.Locale;
+
 public class HybrisStore extends AbstractStoreSpec {
 
-    //Public since required by StoreConfiguration initialization
     public static final String HTTPS = "https://";
     public static final String WEB_ROOT = "pilcommercewebservices";
     public static final String V2 = "v2";
     public static final String SEPERATOR = "/";
-
     private static final String USER = "users";
+    private static final String LANG = "?fields=FULL&lang=";
+
+    //Region API
     private static final String METAINFO = "metainfo";
     private static final String REGIONS = "regions";
-    private static final String LANG = "?fields=FULL&lang=en";
-    private static final String LANG_GB = "?fields=FULL&lang=en_GB";
 
     //Oauth
     private static final String SUFFIX_OAUTH =
             "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret";
-
-    //Requests
-    private static final String SUFFIX_CURRENT_CART = "/carts/current";
-    private static final String SUFFIX_GET_CART = "?fields=FULL&lang=en";
-    private static final String SUFFIX_CART_CREATE = "/carts";
-    private static final String SUFFIX_CART_ENTRIES = "/entries";
-    private static final String SUFFIX_PRODUCT_MODIFY = "/entries/%s";
-
-    private static final String SUFFIX_PAYMENT_DETAILS = "/paymentdetails";
-    private static final String SUFFIX_SET_PAYMENT_DETAILS = "/paymentdetails";
-    private static final String SUFFIX_SET_PAYMENT_URL = "/orders/%s/pay";
-
-    private static final String SUFFIX_ADDRESSES_FULL = "/addresses";
-    private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
-
-    private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
-    //LANG to be added to delivery mode once hybris comes with the fix.
-    private static final String SUFFIX_GET_DELIVERY_MODE = "/deliverymodes";
-    private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
-
-    private static final String SUFFIX_PLACE_ORDER = "/orders";
-    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + "&lang=en"+"&currentPage=%s&pageSize=%s";
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
-    private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
-    private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
+    //Requests
+    private static final String SUFFIX_CARTS = "/carts";
+    private static final String SUFFIX_CURRENT = "/current";
+    private static final String SUFFIX_ENTRIES = "/entries";
 
-    private static final String SUFFIX_SEARCH_PRODUCT_URL = "products/%s";
-    private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s?fields=FULL&lang=en";
-    private static final String SUFFIX_CURRENT_PAGE="?fields=FULL&lang=en&currentPage=%s";
+    /*ToDO : using lang=en instead of locale as backend not support*/
+    private static final String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign"
+            + "&lang=en" + "&currentPage=%s&pageSize=%s";
+    private static final String SUFFIX_PRODUCTS = "products";
+    private static final String SUFFIX_CURRENT_PAGE = "&currentPage=%s";
+    private static final String SUFFIX_STRING_PARAM = "/%s";
+
+    private static final String SUFFIX_ADDRESSES = "/addresses";
+    private static final String SUFFIX_DELIVERY_ADDRESS = "/delivery";
+
+    private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
+    private static final String SUFFIX_DELIVERY_MODES = "/deliverymodes";
+
+    private static final String SUFFIX_PAYMENT_DETAILS = "/paymentdetails";
+    private static final String SUFFIX_ORDERS = "/orders";
+    private static final String SUFFIX_PAY = "/pay";
+    private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
+
+    private boolean mIsUserLoggedOut;
 
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
 
-    private String mModifyProductUrl;
-    private String mPaymentDetailsUrl;
-    private String mAddressDetailsUrl;
-    private String mRegionsUrl;
-    private String mAddressAlterUrl;
-    private String mDeliveryModeUrl;
-    private String mGetDeliveryModeUrl;
-    private String mDeliveryAddressUrl;
-    private String mSetPaymentDetails;
-    private String mSetPaymentUrl;
-    private String mPlaceOrderUrl;
-    private String mCreateCartUrl;
-    private String mAddToCartUrl;
-    protected String mBaseURl;
-    protected String mBaseURlForProductCatalog;
-    private String mCurrentCartUrl;
-    private String mGetRetailersUrl;
     private String mOauthUrl;
     private String mOauthRefreshUrl;
-    private String mGetCartUrl;
+
+    protected String mBaseURl;
+    protected String mBaseURlForProductCatalog;
+
     private String mGetProductCatalogUrl;
-    private boolean mUserLoggedout;
-    private String mRetailersAlter;
+    private String mSearchProductUrl;
+    private String mUpdateProductUrl;
+
+    private String mCreateCartUrl;
+    private String mGetCartsUrl;
+    private String mGetCurrentCartUrl;
+    private String mAddToCartUrl;
+    private String mDeleteCartUrl;
+
     private String mOrderHistoryUrl;
     private String mOrderDetailUrl;
-    private String mSearchProductUrl;
-    private String mGetUserUrl;
+    private String mGetPhoneContactUrl;
 
-    public HybrisStore(Context context) {
+    private String mRegionsUrl;
+    private String mGetUserUrl;
+    private String mAddressDetailsUrl;
+    private String mEditAddressUrl;
+    private String mDeliveryAddressUrl;
+
+    private String mDeliveryModeUrl;
+    private String mGetDeliveryModesUrl;
+
+    private String mGetPaymentDetailsUrl;
+    private String mSetPaymentDetailsUrl;
+
+    private String mMakePaymentUrl;
+    private String mPlaceOrderUrl;
+
+    public HybrisStore(Context context, IAPDependencies iapDependencies) {
         mIAPUser = initIAPUser(context);
-        mStoreConfig = getStoreConfig(context);
+        mStoreConfig = getStoreConfig(context, iapDependencies);
     }
 
     IAPUser initIAPUser(Context context) {
-        mUserLoggedout = false;
+        mIsUserLoggedOut = false;
         mIAPUser = new IAPUser(context, this);
         IAPLog.i(IAPLog.LOG, "initIAPUser = " + mIAPUser.getJanRainID());
         return mIAPUser;
@@ -109,8 +112,8 @@ public class HybrisStore extends AbstractStoreSpec {
         generateStoreUrls();
     }
 
-    StoreConfiguration getStoreConfig(final Context context) {
-        return new StoreConfiguration(context, this);
+    StoreConfiguration getStoreConfig(final Context context, IAPDependencies iapDependencies) {
+        return new StoreConfiguration(context, this, iapDependencies);
     }
 
     @Override
@@ -123,7 +126,6 @@ public class HybrisStore extends AbstractStoreSpec {
     void generateStoreUrls() {
         createBaseUrl();
         createBaseUrlForProductCatalog();
-        createBaseUrlForRetailers();
         createOauthUrl();
         generateGenericUrls();
     }
@@ -150,14 +152,6 @@ public class HybrisStore extends AbstractStoreSpec {
         mBaseURl = builder.toString();
     }
 
-    private void createBaseUrlForRetailers() {
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(PREFIX_RETAILERS).append(SEPERATOR);
-        builder.append(NetworkConstants.PRX_SECTOR_CODE).append(SEPERATOR);
-        builder.append(getLocale()).append(SEPERATOR);
-        mGetRetailersUrl = builder.toString();
-    }
-
     private void createOauthUrl() {
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
@@ -174,34 +168,53 @@ public class HybrisStore extends AbstractStoreSpec {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANG);//Check whether to pass "UK" / "GB"
+        builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
         return builder.toString();
     }
 
     protected void generateGenericUrls() {
-        String mCurrentCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART);
-        mGetCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART).concat(SUFFIX_GET_CART);
-        mCreateCartUrl = mBaseURl.concat(SUFFIX_CART_CREATE);
-        mAddToCartUrl = mCurrentCartUrl.concat(SUFFIX_CART_ENTRIES);
-        mPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS);
-        mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES_FULL);
-        mRegionsUrl = createRegionsUrl();
-        mAddressAlterUrl = mBaseURl.concat(SUFFIX_ADDRESSES_ALTER);
-        mSetPaymentUrl = mBaseURl.concat(SUFFIX_SET_PAYMENT_URL);
-        mPlaceOrderUrl = mBaseURl.concat(SUFFIX_PLACE_ORDER);
-        mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PPRODUCT_CATALOG);
-        mModifyProductUrl = mCurrentCartUrl.concat(SUFFIX_PRODUCT_MODIFY);
-        mDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_MODE);
-        mGetDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_GET_DELIVERY_MODE);
-        mDeliveryAddressUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_ADDRESS);
-        mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
-        mRetailersAlter = mGetRetailersUrl.concat(RETAILERS_ALTER);
+        //OAuth
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
+
+        //Carts
+        String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);
+        mGetCartsUrl = baseCartUrl.concat(LANG) + mStoreConfig.getLocale();
+        mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG) + mStoreConfig.getLocale();
+        mCreateCartUrl = baseCartUrl.concat(LANG) + mStoreConfig.getLocale();
+        mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT);
+        mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(LANG) + mStoreConfig.getLocale();
+
+        //Product
+        mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG);
+        mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCTS).concat(SUFFIX_STRING_PARAM);
+        mUpdateProductUrl = baseCartUrl.concat(SUFFIX_CURRENT).
+                concat(SUFFIX_ENTRIES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
+
+        //Address
+        mRegionsUrl = createRegionsUrl();
+        mGetUserUrl = mBaseURl.concat(LANG) + mStoreConfig.getLocale();
+        mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(LANG) + mStoreConfig.getLocale();
+        mEditAddressUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
+        mDeliveryAddressUrl = baseCartUrl.concat(SUFFIX_CURRENT).
+                concat(SUFFIX_ADDRESSES).concat(SUFFIX_DELIVERY_ADDRESS).concat(LANG) + mStoreConfig.getLocale();
+
+        //Delivery mode
+        mDeliveryModeUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODE).concat(LANG) + mStoreConfig.getLocale();
+        mGetDeliveryModesUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(LANG) + mStoreConfig.getLocale();
+
+        //Payment
+        mGetPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS).concat(LANG) + mStoreConfig.getLocale();
+        mSetPaymentDetailsUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_PAYMENT_DETAILS).concat(LANG) + mStoreConfig.getLocale();
+        mMakePaymentUrl = mBaseURl.concat(SUFFIX_ORDERS).
+                concat(SUFFIX_STRING_PARAM).concat(SUFFIX_PAY).concat(LANG) + mStoreConfig.getLocale();
+        mPlaceOrderUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(LANG) + mStoreConfig.getLocale();
+
+        //Orders
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
-        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
-        mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_SEARCH_PRODUCT_URL);
-        mGetUserUrl = mBaseURl.concat(LANG);
+        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG) + Locale.getDefault().getLanguage();
+        mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/" +
+                mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }
 
     @Override
@@ -224,16 +237,6 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     @Override
-    public String getOauthUrl() {
-        return mOauthUrl;
-    }
-
-    @Override
-    public String getOauthRefreshUrl() {
-        return mOauthRefreshUrl;
-    }
-
-    @Override
     public String getJanRainEmail() {
         return mIAPUser.getJanRainEmail();
     }
@@ -243,12 +246,33 @@ public class HybrisStore extends AbstractStoreSpec {
         return mIAPUser;
     }
 
-    //Request Urls
     @Override
-    public String getCurrentCartDetailsUrl() {
-        return mGetCartUrl;
+    public void refreshLoginSession() {
+        mIAPUser.refreshLoginSession();
     }
 
+    @Override
+    public void setUserLogout(boolean userLoggedout) {
+        this.mIsUserLoggedOut = userLoggedout;
+    }
+
+    @Override
+    public boolean isUserLoggedOut() {
+        return mIsUserLoggedOut;
+    }
+
+    //OAuth
+    @Override
+    public String getOauthUrl() {
+        return mOauthUrl;
+    }
+
+    @Override
+    public String getOauthRefreshUrl() {
+        return mOauthRefreshUrl;
+    }
+
+    //Product
     @Override
     public String getProductCatalogUrl(int currentPage, int pageSize) {
         if (mGetProductCatalogUrl != null)
@@ -257,8 +281,37 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     @Override
+    public String getUpdateProductUrl(String productID) {
+        if (mUpdateProductUrl != null && productID != null)
+            return String.format(mUpdateProductUrl, productID);
+        else
+            return null;
+    }
+
+    @Override
+    public String getSearchProductUrl(String ctnNumber) {
+        return String.format(mSearchProductUrl, ctnNumber);
+    }
+
+    //Carts
+    @Override
+    public String getCartsUrl() {
+        return mGetCartsUrl;
+    }
+
+    @Override
+    public String getCurrentCartUrl() {
+        return mGetCurrentCartUrl;
+    }
+
+    @Override
     public String getCreateCartUrl() {
         return mCreateCartUrl;
+    }
+
+    @Override
+    public String getDeleteCartUrl() {
+        return mDeleteCartUrl;
     }
 
     @Override
@@ -266,57 +319,57 @@ public class HybrisStore extends AbstractStoreSpec {
         return mAddToCartUrl;
     }
 
-    @Override
-    public String getModifyProductUrl(String productID) {
-        if (mModifyProductUrl != null && productID!=null)
-            return String.format(mModifyProductUrl, productID);
-        else
-            return null;
-    }
-
-    @Override
-    public String getPaymentDetailsUrl() {
-        return mPaymentDetailsUrl;
-    }
-
-    @Override
-    public String getAddressDetailsUrl() {
-        if (getCountry().equalsIgnoreCase("GB")) {
-            return mAddressDetailsUrl.concat(LANG);
-        } else if (getCountry().equalsIgnoreCase("US")) {
-            return mAddressDetailsUrl.concat(LANG);
-        }
-        return mAddressDetailsUrl;
-    }
-
+    //Address
     @Override
     public String getRegionsUrl() {
         return mRegionsUrl;
     }
 
     @Override
-    public String getAddressAlterUrl(String addressID) {
-        return String.format(mAddressAlterUrl, addressID);
+    public String getUserUrl() {
+        return mGetUserUrl;
     }
 
     @Override
-    public String getRetailersAlterUrl(String CTN) {
-        return String.format(mRetailersAlter, CTN);
+    public String getAddressesUrl() {
+        return mAddressDetailsUrl;
     }
 
     @Override
-    public String getUpdateDeliveryModeUrl() {
-        return mDeliveryModeUrl;
+    public String getEditAddressUrl(String addressID) {
+        return String.format(mEditAddressUrl, addressID);
     }
 
     @Override
-    public String getUpdateDeliveryAddressUrl() {
+    public String getSetDeliveryAddressUrl() {
         return mDeliveryAddressUrl;
     }
 
+    //Delivery mode
     @Override
-    public String getSetPaymentUrl(String id) {
-        return String.format(mSetPaymentUrl, id);
+    public String getDeliveryModesUrl() {
+        return mGetDeliveryModesUrl;
+    }
+
+    @Override
+    public String getSetDeliveryModeUrl() {
+        return mDeliveryModeUrl;
+    }
+
+    //Payment
+    @Override
+    public String getPaymentDetailsUrl() {
+        return mGetPaymentDetailsUrl;
+    }
+
+    @Override
+    public String getSetPaymentDetailsUrl() {
+        return mSetPaymentDetailsUrl;
+    }
+
+    @Override
+    public String getMakePaymentUrl(String id) {
+        return String.format(mMakePaymentUrl, id);
     }
 
     @Override
@@ -324,24 +377,10 @@ public class HybrisStore extends AbstractStoreSpec {
         return mPlaceOrderUrl;
     }
 
+    //Orders
     @Override
-    public String getSetPaymentDetailsUrl() {
-        return mSetPaymentDetails;
-    }
-
-    @Override
-    public void refreshLoginSession() {
-        mIAPUser.refreshLoginSession();
-    }
-
-    @Override
-    public void setUserLogout(boolean userLoggedout) {
-        this.mUserLoggedout = userLoggedout;
-    }
-
-    @Override
-    public boolean isUserLoggedOut() {
-        return mUserLoggedout;
+    public String getOrderHistoryUrl(String pageNumber) {
+        return String.format(mOrderHistoryUrl, pageNumber);
     }
 
     @Override
@@ -350,22 +389,7 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     @Override
-    public String getSearchProductUrl(String ctnNumber) {
-        return String.format(mSearchProductUrl, ctnNumber);
-    }
-
-    @Override
-    public String getOrderHistoryUrl(String pageNumber) {
-        return String.format(mOrderHistoryUrl, pageNumber);
-    }
-
-    @Override
-    public String getDeliveryModesUrl() {
-        return mGetDeliveryModeUrl;
-    }
-
-    @Override
-    public String getUserUrl() {
-        return mGetUserUrl;
+    public String getPhoneContactUrl(String category) {
+        return String.format(mGetPhoneContactUrl, category);
     }
 }

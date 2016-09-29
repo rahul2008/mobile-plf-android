@@ -33,7 +33,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final ImageLoader mImageLoader;
     private Context mContext;
     private ArrayList<ProductCatalogData> mData = new ArrayList<>();
-    ProductCatalogData productCatalogDataForProductDetailPage;
+    private ProductCatalogData productCatalogDataForProductDetailPage;
 
     public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList) {
         mContext = pContext;
@@ -54,13 +54,13 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();
         String discountedPrice = productCatalogData.getDiscountedPrice();
-        String formatedPrice = productCatalogData.getFormatedPrice();
+        String formatedPrice = productCatalogData.getFormattedPrice();
 
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formatedPrice);
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
-        if (discountedPrice == null || discountedPrice == "") {
+        if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
             productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
         } else if (formatedPrice != null && discountedPrice.equalsIgnoreCase(formatedPrice)) {
@@ -121,7 +121,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mProductImage;
         TextView mProductName;
         TextView mCTN;
@@ -129,7 +129,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         FontIconTextView mArrow;
         TextView mDiscountedPrice;
 
-        public ProductCatalogViewHolder(View itemView) {
+        ProductCatalogViewHolder(View itemView) {
             super(itemView);
             mProductImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mProductName = (TextView) itemView.findViewById(R.id.tv_product_name);

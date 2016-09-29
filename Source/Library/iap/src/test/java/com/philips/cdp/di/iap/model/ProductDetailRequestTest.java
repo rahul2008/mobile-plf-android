@@ -5,6 +5,8 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.products.ProductDetailEntity;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -20,7 +22,7 @@ import java.util.HashMap;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 public class ProductDetailRequestTest {
 
@@ -28,13 +30,15 @@ public class ProductDetailRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
+    @Mock
+    IAPDependencies mIAPDependencies;
     private StoreSpec mStore;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
-        mStore = (new MockStore(mContext, mUser)).getStore();
-        mStore.initStoreConfig("en","US", null);
+        mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        mStore.initStoreConfig("en", "US", null);
         mModel = new ProductDetailRequest(mStore, null, null);
     }
 

@@ -28,7 +28,7 @@ public class EventHelperTest extends TestCase {
     @Test
     public void testRegisterEventNotification() throws Exception {
         List<String> list = new ArrayList<>();
-        list.add(IAPConstant.ADD_DELIVERY_ADDRESS);
+        list.add(IAPConstant.DELIVER_TO_THIS_ADDRESS);
         list.add(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
         list.add(IAPConstant.BILLING_ADDRESS_FIELDS);
         eventHelper.registerEventNotification(list, listener);
@@ -38,19 +38,19 @@ public class EventHelperTest extends TestCase {
 
     @Test
     public void testRegisterEventNotification1() throws Exception {
-        eventHelper.registerEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, listener);
+        eventHelper.registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, listener);
         assertNotNull(listener);
     }
 
     @Test
     public void testUnregisterEventNotification() throws Exception {
-        eventHelper.unregisterEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, listener);
+        eventHelper.unregisterEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, listener);
         assertNotNull(listener);
     }
 
     @Test
     public void testNotifyEventOccurred() throws Exception {
-        eventHelper.notifyEventOccurred(IAPConstant.ADD_DELIVERY_ADDRESS);
+        eventHelper.notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);
         assertNotNull(eventHelper);
     }
 }

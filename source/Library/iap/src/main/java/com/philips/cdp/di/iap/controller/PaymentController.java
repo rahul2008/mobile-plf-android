@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.controller;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetPaymentDetailRequest;
@@ -65,10 +64,7 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     public void placeOrder(String pSecurityCode) {
         final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        String cartNumber = CartModelContainer.getInstance().getCartNumber();
-
         HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.CART_ID, cartNumber);
         if (pSecurityCode != null)
             query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
 

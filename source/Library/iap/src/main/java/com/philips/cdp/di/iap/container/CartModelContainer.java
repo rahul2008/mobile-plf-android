@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.container;
 
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.response.State.RegionsList;
@@ -18,21 +17,24 @@ import java.util.List;
 public class CartModelContainer {
     private static CartModelContainer container;
     private AddressFields mBillingAddress;
-    private boolean isOrderPlaced;
-    private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
-    private String cartNumber;
+
     private String regionIsoCode;
     private String mAddressId;
     private String mOrderNumber;
     private RegionsList mRegionList;
+
     private HashMap<String, SummaryModel> mPRXDataObjects;
     private HashMap<String, ProductCatalogData> mProductCatalogData;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
+
     private List<DeliveryModes> mDeliveryModes;
 
     private boolean switchToBillingAddress;
     private boolean mIsCartCreated;
+
+    private String language;
+    private String country;
 
     private CartModelContainer() {
         mPRXDataObjects = new HashMap<>();
@@ -66,22 +68,6 @@ public class CartModelContainer {
         this.regionIsoCode = regionIsoCode;
     }
 
-    public String getCartNumber() {
-        return cartNumber;
-    }
-
-    public void setCartNumber(final String cartNumber) {
-        this.cartNumber = cartNumber;
-    }
-
-    public ArrayList<ShoppingCartData> getShoppingCartData() {
-        return mShoppingCartData;
-    }
-
-    public void setShoppingCartData(final ArrayList<ShoppingCartData> mShoppingCartData) {
-        this.mShoppingCartData = mShoppingCartData;
-    }
-
     public List<DeliveryModes> getDeliveryModes() {
         return mDeliveryModes;
     }
@@ -106,10 +92,6 @@ public class CartModelContainer {
         return mBillingAddress;
     }
 
-    public void setOrderPlaced(final boolean pIsOrderPlaced) {
-        this.isOrderPlaced = pIsOrderPlaced;
-    }
-
     public void setOrderNumber(String orderNumber) {
         mOrderNumber = orderNumber;
     }
@@ -118,16 +100,8 @@ public class CartModelContainer {
         return mOrderNumber;
     }
 
-
-    public boolean isOrderPlaced() {
-        return isOrderPlaced;
-    }
-
     public void resetApplicationFields() {
-        setOrderPlaced(false);
-        cartNumber = null;
         mBillingAddress = null;
-        mShoppingCartData = null;
         mShippingAddressFields = null;
         mOrderNumber = null;
     }
@@ -177,18 +151,24 @@ public class CartModelContainer {
     }
 
     public void addProductCatalogDataDataToList(String ctn, ProductCatalogData data) {
-        mProductCatalogData.put(ctn, data);
+        if (!mProductCatalogData.containsKey(ctn)) {
+            mProductCatalogData.put(ctn, data);
+        }
     }
 
     public boolean isProductCatalogDataPresent(String ctn) {
         return mProductCatalogData.containsKey(ctn);
     }
 
-    public ProductCatalogData getProduct(String ctn){
-        if(mProductCatalogData.containsKey(ctn)){
+    public ProductCatalogData getProduct(String ctn) {
+        if (mProductCatalogData.containsKey(ctn)) {
             return mProductCatalogData.get(ctn);
         }
         return null;
+    }
+
+    public void clearCategoriezedProductList() {
+        mProductCatalogData.clear();
     }
 
     public HashMap<String, ArrayList<String>> getPRXAssetObjects() {
@@ -205,5 +185,21 @@ public class CartModelContainer {
 
     public void setCartCreated(boolean mIsCartCreated) {
         this.mIsCartCreated = mIsCartCreated;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

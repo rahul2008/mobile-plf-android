@@ -5,6 +5,8 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -24,11 +26,13 @@ public class NewOAuthRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
+    @Mock
+    IAPDependencies mIAPDependencies;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "US", null);
         mModel = new NewOAuthRequest(mStore, null);
     }
@@ -64,7 +68,7 @@ public class NewOAuthRequestTest {
     public void matchAccessTokenAfterParseResponse() {
         String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
-        assertEquals(((NewOAuthRequest)mModel).getAccessToken(), "afa814bf-ad4d-477c-9bed-a79f0e37b8dd");
+        assertEquals(((NewOAuthRequest) mModel).getAccessToken(), "afa814bf-ad4d-477c-9bed-a79f0e37b8dd");
     }
 
     @Test

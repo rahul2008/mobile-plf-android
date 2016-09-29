@@ -47,8 +47,8 @@ public class WebStoreConfigTest {
     @Test
     public void matchMockedPILLocaleIsReturned() {
         mWebsStoreConfig.mPILLocale = mock(PILLocale.class);
-        when(mWebsStoreConfig.mPILLocale.getLocaleCode()).thenReturn(NetworkURLConstants.LCOALE);
-        assertEquals(NetworkURLConstants.LCOALE, mWebsStoreConfig.getLocale());
+        when(mWebsStoreConfig.mPILLocale.getLocaleCode()).thenReturn(NetworkURLConstants.LOCALE);
+        assertEquals(NetworkURLConstants.LOCALE, mWebsStoreConfig.getLocale());
     }
 
  /*   @Test

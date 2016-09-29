@@ -4,10 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"
-        android:label="@string/app_name"
+        android:label="@string/iap_app_name"
         android:supportsRtl="true">
         <activity
             android:name=".activity.IAPActivity"

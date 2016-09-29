@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,7 +20,9 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public final class ProductDetailImageNavigationFragment extends BaseAnimationSupportFragment {
+public final class ProductDetailImageNavigationFragment extends InAppBaseFragment {
+
+    private Context mContext;
     private String mImageURL;
     private ImageLoader mImageLoader;
     private NetworkImageView mImageView;
@@ -27,6 +30,12 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
 
     public static ProductDetailImageNavigationFragment newInstance() {
         return new ProductDetailImageNavigationFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -48,7 +57,7 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
         layout.setGravity(Gravity.CENTER);
         layout.addView(mImageView);
         if(mLaunchedFromProductCatalog){
-            setCartIconVisibility(View.VISIBLE);
+            setCartIconVisibility(true);
         }
         return layout;
     }
@@ -57,14 +66,14 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     public void onResume() {
         super.onResume();
         if(mLaunchedFromProductCatalog){
-            setCartIconVisibility(View.VISIBLE);
+            setCartIconVisibility(true);
         }
     }
 
     private void bindImageToViewPager() {
         mImageView = new NetworkImageView(getActivity());
         // Instantiate the RequestQueue.
-        mImageLoader = NetworkImageLoader.getInstance(getContext())
+        mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
 
         mImageLoader.get(mImageURL, ImageLoader.getImageListener(mImageView,

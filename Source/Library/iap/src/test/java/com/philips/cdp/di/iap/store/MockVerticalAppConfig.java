@@ -1,26 +1,31 @@
 package com.philips.cdp.di.iap.store;
 
-import android.content.Context;
-
-import com.philips.cdp.di.iap.TestUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class MockVerticalAppConfig extends VerticalAppConfig {
-    MockVerticalAppConfig(final Context context) {
-        super(context);
+    private String mHostPort = "acc.occ.shop.philips.com";
+    private String mProposition = "Tuscany2016";
+
+    public MockVerticalAppConfig(IAPDependencies iapDependencies) {
+        super(iapDependencies);
     }
 
     @Override
-    public InputStream readJsonInputStream(final Context context) throws IOException {
-        String config = TestUtils.readFile(this.getClass(),"PhilipsInAppPurchaseConfiguration.json");
-        InputStream is = new ByteArrayInputStream(config.getBytes());
-        return is;
+    public String getHostPort() {
+        return mHostPort;
+    }
+
+    @Override
+    public String getProposition() {
+        return mProposition;
+    }
+
+    @Override
+    void loadConfigurationFromAsset(IAPDependencies iapDependencies) {
+        //super.loadConfigurationFromAsset(iapDependencies);
     }
 }

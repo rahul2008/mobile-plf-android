@@ -24,4 +24,9 @@ public class MockOrderListener implements OrderController.OrderListener {
     public void updateUiOnProductList() {
 
     }
+
+    @Override
+    public void onGetPhoneContact(Message msg) {
+
+    }
 }

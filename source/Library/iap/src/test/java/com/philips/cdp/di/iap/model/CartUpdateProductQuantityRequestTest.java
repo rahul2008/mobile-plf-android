@@ -5,13 +5,12 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.carts.UpdateCartData;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-
-import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,20 +25,20 @@ import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 
-public class CartUpdateProductQuantityRequestTest{
+public class CartUpdateProductQuantityRequestTest {
     @Mock
     private StoreSpec mStore;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "us", null);
     }
 
     @Test
     public void matchCartCreateRequestURL() {
         HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         query.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         query.put(ModelConstants.PRODUCT_QUANTITY, "2");
         CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, query, null);
@@ -81,7 +80,7 @@ public class CartUpdateProductQuantityRequestTest{
     }
 
     @Test(expected = RuntimeException.class)
-    public void testGetURLWhenParamsEqualToNull() throws Exception{
+    public void testGetURLWhenParamsEqualToNull() throws Exception {
         CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, null, null);
         assertNotEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }

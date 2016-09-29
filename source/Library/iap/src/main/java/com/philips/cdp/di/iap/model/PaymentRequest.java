@@ -18,7 +18,8 @@ import java.util.Map;
  */
 public class PaymentRequest extends AbstractModel {
 
-    public PaymentRequest(final StoreSpec store, final Map<String, String> query, final DataLoadListener listener) {
+    public PaymentRequest(final StoreSpec store, final Map<String, String> query,
+                          final DataLoadListener listener) {
         super(store, query, listener);
     }
 
@@ -40,30 +41,33 @@ public class PaymentRequest extends AbstractModel {
         if (!CartModelContainer.getInstance().isSwitchToBillingAddress()) {
             params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
             setBillingAddressParams(billingAddress, params);
-        } else
+        } else {
             setBillingAddressParams(billingAddress, params);
+        }
 
         return params;
     }
 
     private void setBillingAddressParams(AddressFields billingAddress, Map<String, String> params) {
+        params.put(ModelConstants.TITLE_CODE, billingAddress.getTitleCode().toLowerCase(Locale.getDefault()));
         params.put(ModelConstants.FIRST_NAME, billingAddress.getFirstName());
         params.put(ModelConstants.LAST_NAME, billingAddress.getLastName());
-        params.put(ModelConstants.TITLE_CODE, billingAddress.getTitleCode().toLowerCase(Locale.getDefault()));
-        params.put(ModelConstants.COUNTRY_ISOCODE, billingAddress.getCountryIsocode());
-        if (CartModelContainer.getInstance().getRegionIsoCode() != null) {
-            params.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
-        }
         params.put(ModelConstants.LINE_1, billingAddress.getLine1());
         params.put(ModelConstants.LINE_2, billingAddress.getLine2());
         params.put(ModelConstants.POSTAL_CODE, billingAddress.getPostalCode());
         params.put(ModelConstants.TOWN, billingAddress.getTown());
+        params.put(ModelConstants.COUNTRY_ISOCODE, billingAddress.getCountryIsocode());
+        if (CartModelContainer.getInstance().getRegionIsoCode() != null) {
+            params.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+        }else{
+            params.put(ModelConstants.REGION_ISOCODE, "");
+        }
         params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
         params.put(ModelConstants.PHONE_2, "");
     }
 
     @Override
     public String getUrl() {
-        return store.getSetPaymentUrl(params.get(ModelConstants.ORDER_NUMBER));
+        return store.getMakePaymentUrl(params.get(ModelConstants.ORDER_NUMBER));
     }
 }

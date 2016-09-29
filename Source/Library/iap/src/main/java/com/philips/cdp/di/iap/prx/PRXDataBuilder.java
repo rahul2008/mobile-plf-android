@@ -22,7 +22,6 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class PRXDataBuilder {
 
@@ -30,8 +29,9 @@ public class PRXDataBuilder {
     ArrayList<String> mCtns;
     AbstractModel.DataLoadListener mDataLoadListener;
     private HashMap<String,SummaryModel> mPRXProductData;
+
     //Handling error cases where Product is in Hybris but not in PRX store.
-    protected volatile int mProudctUpdateCount;
+    protected volatile int mProductUpdateCount;
     protected int mProductPresentInPRX;
 
     public PRXDataBuilder(Context context,ArrayList<String> ctns, AbstractModel.DataLoadListener listener) {
@@ -44,15 +44,15 @@ public class PRXDataBuilder {
     public void preparePRXDataRequest(){
         for(String ctn: mCtns){
             if (CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
-                mProudctUpdateCount++;
+                mProductUpdateCount++;
                 mProductPresentInPRX++;
                 mPRXProductData.put(ctn, CartModelContainer.getInstance().getProductData(ctn));
             }else {
                 executeRequest(ctn,prepareSummaryRequest(ctn));
             }
-
         }
-        if (mDataLoadListener != null && mProudctUpdateCount == mCtns.size()) {
+
+        if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
             Message result = Message.obtain();
             result.obj = mPRXProductData;
             mDataLoadListener.onModelDataLoadFinished(result);
@@ -65,15 +65,18 @@ public class PRXDataBuilder {
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                mProudctUpdateCount++;
+                mProductUpdateCount++;
                 mProductPresentInPRX++;
-                CartModelContainer.getInstance().addProductDataToList(ctn, (SummaryModel) responseData);
-                notifySucces((SummaryModel) responseData);
+                SummaryModel summaryModel = (SummaryModel)responseData;
+                if(summaryModel.isSuccess()) {
+                    CartModelContainer.getInstance().addProductDataToList(ctn, summaryModel);
+                }
+                notifySuccess((SummaryModel) responseData);
             }
 
             @Override
             public void onResponseError(final PrxError prxError) {
-                mProudctUpdateCount++;
+                mProductUpdateCount++;
                 notifyError(prxError.getDescription());
             }
         });
@@ -82,7 +85,7 @@ public class PRXDataBuilder {
     protected void notifyError(final String error) {
         Message result = Message.obtain();
         result.obj = error;
-        if (mDataLoadListener != null && mProudctUpdateCount == mCtns.size()) {
+        if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
             if (mProductPresentInPRX > 0) {
                 result.obj = mPRXProductData;
                 mDataLoadListener.onModelDataLoadFinished(result);
@@ -92,9 +95,9 @@ public class PRXDataBuilder {
         }
     }
 
-    protected void notifySucces(SummaryModel model) {
+    protected void notifySuccess(SummaryModel model) {
         mPRXProductData.put(model.getData().getCtn(),model);
-        if (mDataLoadListener != null && mProudctUpdateCount == mCtns.size()) {
+        if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
             Message result = Message.obtain();
             result.obj = mPRXProductData;
             mDataLoadListener.onModelDataLoadFinished(result);
@@ -103,7 +106,7 @@ public class PRXDataBuilder {
 
 
     private ProductSummaryRequest prepareSummaryRequest(final String code) {
-        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
+        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale(); //Check
 
         ProductSummaryRequest productSummaryRequest = new ProductSummaryRequest(code, null);
         productSummaryRequest.setSector(Sector.B2C);

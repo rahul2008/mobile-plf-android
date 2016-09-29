@@ -1,12 +1,14 @@
 package com.philips.cdp.di.iap.response.payment;
 
+import com.philips.cdp.di.iap.response.addresses.Addresses;
+
 import java.io.Serializable;
 
 public class PaymentMethod implements Serializable{
 
     private static final long serialVersionUID = 1083630169028052247L;
     private String accountHolderName;
-    private BillingAddress billingAddress;
+    private Addresses billingAddress;
     private String cardNumber;
     private CardType cardType;
     private boolean defaultPayment;
@@ -20,7 +22,7 @@ public class PaymentMethod implements Serializable{
         return accountHolderName;
     }
 
-    public BillingAddress getBillingAddress() {
+    public Addresses getBillingAddress() {
         return billingAddress;
     }
 

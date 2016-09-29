@@ -40,6 +40,6 @@ public class CartDeleteProductRequest extends AbstractModel {
             throw new RuntimeException("Cart ID and Entry Number has to be supplied");
         }
         int entryNumber = Integer.parseInt(params.get(ModelConstants.ENTRY_CODE));
-        return store.getModifyProductUrl(String.valueOf(entryNumber));
+        return store.getUpdateProductUrl(String.valueOf(entryNumber));
     }
 }

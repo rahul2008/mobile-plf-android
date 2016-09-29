@@ -13,6 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -20,21 +21,37 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 
-public class WebBuyFromRetailers extends WebFragment {
+public class WebBuyFromRetailers extends InAppBaseFragment {
     public static final String TAG = WebBuyFromRetailers.class.getName();
+    private CircularLineProgressBar mProgress;
+    private WebView mWebView;
+    private String mUrl;
 
     @Override
-    protected String getWebUrl() {
-        Bundle bundle = getArguments();
-        return bundle.getString(IAPConstant.IAP_BUY_URL);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
+
+        mWebView = (WebView) group.findViewById(R.id.wv_payment);
+        mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
+        mProgress.startAnimation(70);
+        mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
+        initializeWebView();
+        return group;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mWebView.loadUrl(mUrl);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE_NAME);
-        setTitle(getArguments().getString(IAPConstant.IAP_STORE_NAME));
-        initializeWebView();
+        setTitleAndBackButtonVisibility(title, true);
+        mWebView.onResume();
     }
 
     public static WebBuyFromRetailers createInstance(Bundle args, AnimationType animType) {
@@ -65,21 +82,24 @@ public class WebBuyFromRetailers extends WebFragment {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 webViewPreviousState = PAGE_STARTED;
+                if (mProgress != null) {
+                    mProgress.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                if (mWebView.canGoBack()) {
-                    onBackPressed();
+                if (mProgress != null) {
+                    mProgress.setVisibility(View.GONE);
                 }
+
             }
         });
     }
 
 
     @Override
-    public boolean onBackPressed() {
-        // hideKeyboard();
+    public boolean handleBackEvent() {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
             return true;

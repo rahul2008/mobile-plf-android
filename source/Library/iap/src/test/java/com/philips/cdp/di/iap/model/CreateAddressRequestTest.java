@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -30,11 +31,11 @@ public class CreateAddressRequestTest {
 
     @Before
     public void setUP() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "US", null);
 
         HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         query.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         query.put(ModelConstants.PRODUCT_QUANTITY, "2");
         mModel = new CreateAddressRequest(mStore, query, null);
@@ -42,7 +43,7 @@ public class CreateAddressRequestTest {
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.GET_ADDRESSES_URL, mModel.getUrl());
     }
 
 

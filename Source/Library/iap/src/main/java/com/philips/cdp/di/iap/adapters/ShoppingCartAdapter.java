@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,14 +52,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ShoppingCartAPI mPresenter;
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
-    private FragmentManager mFragmentManager;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
     private static final int DELETE = 0;
     private static final int INFO = 1;
     private Drawable mOptionsDrawable;
-    OutOfStockListener mOutOfStock;
+    private OutOfStockListener mOutOfStock;
 
     private Drawable mTrashDrawable;
     private Drawable mInfoDrawable;
@@ -71,25 +69,24 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private DeliveryModes mDeliveryMode;
     private DeliveryModeDialog mDialog;
 
-    private boolean mIsDeliveryAddressSet;
+//    public boolean mIsDeliveryAddressSet;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
     }
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
-                               FragmentManager fragmentManager, OutOfStockListener iOutOfStock, final ShoppingCartAPI shoppingCartAPI) {
+                               OutOfStockListener iOutOfStock, final ShoppingCartAPI shoppingCartAPI) {
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
         mPresenter = shoppingCartAPI;
-        mFragmentManager = fragmentManager;
         setCountArrow(context);
         initDrawables();
         mOutOfStock = iOutOfStock;
     }
 
-    void initDrawables() {
+    private void initDrawables() {
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
         mTrashDrawable = VectorDrawable.create(mContext, R.drawable.iap_trash_bin);
         mInfoDrawable = VectorDrawable.create(mContext, R.drawable.iap_info);
@@ -140,6 +137,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         int quantityStatus = getQuantityStatus(newCount, oldCount);
                         if (!Utility.isProgressDialogShowing()) {
                             Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+//                            mIsDeliveryAddressSet = true;
                             mPresenter.updateProductQuantity(mData.get(position), newCount, quantityStatus);
                         }
                     }
@@ -207,7 +205,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String imageURL = cartData.getImageURL();
             shoppingCartProductHolder.mTvProductTitle.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mIvOptions.setImageDrawable(mOptionsDrawable);
-            shoppingCartProductHolder.mTvPrice.setText(cartData.getTotalPriceFormatedPrice());
+            shoppingCartProductHolder.mTvPrice.setText(cartData.getFormattedTotalPrice());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
@@ -230,32 +228,29 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (mData.get(0) != null) {
                 data = mData.get(0);
 
-                shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+                shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total)
+                        + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+                shoppingCartFooter.mVatInclusiveValue.setText
+                        (String.format(mContext.getString(R.string.iap_including_vat),
+                                mContext.getString(R.string.iap_vat)));
 
                 if (!data.isVatInclusive()) {
+                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
+                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
+
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVatInclusiveValue.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
                     shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
-                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
                 } else {
-                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
                     shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
-                }
 
-                if (data.getVatActualValue().equalsIgnoreCase("0") && !mIsDeliveryAddressSet) {
-                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
-                } else {
                     shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatValue.setText(data.getVatValue());
                 }
 
-                shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
+                shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
                 if (null != data.getDeliveryMode()) {
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
@@ -269,12 +264,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
 
-                    shoppingCartFooter.mEditIcon.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mEditIconLayout.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
-                    shoppingCartFooter.mEditIcon.setOnClickListener(new View.OnClickListener() {
+                    shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mDialog = new DeliveryModeDialog(mContext, ShoppingCartAdapter.this, (AddressController.AddressListener)mOutOfStock);
+                            mDialog = new DeliveryModeDialog(mContext, ShoppingCartAdapter.this, (AddressController.AddressListener) mOutOfStock);
                             mDialog.showDialog();
 
                         }
@@ -355,7 +350,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return position;
     }*/
 
-    public class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
+    private class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
         NetworkImageView mNetworkImage;
         FrameLayout mDotsLayout;
         TextView mTvPrice;
@@ -365,7 +360,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTvQuantity;
         ImageView mIvOptions;
 
-        public ShoppingCartProductHolder(final View itemView) {
+        ShoppingCartProductHolder(final View itemView) {
             super(itemView);
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
@@ -378,7 +373,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
+    private class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
         TextView mDeliveryPrice;
         TextView mVatValue;
         TextView mVatInclusiveValue;
@@ -389,8 +384,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatValueUK;
         TextView mVAT;
         ImageView mEditIcon;
+        RelativeLayout mEditIconLayout;
 
-        public FooterShoppingCartViewHolder(View itemView) {
+        FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.iap_tv_delivery_price);
             mVatValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_value);
@@ -402,6 +398,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
             mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
+            mEditIconLayout = (RelativeLayout) itemView.findViewById(R.id.edit_icon_layout);
         }
     }
 
@@ -421,8 +418,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
     }
 
-    public void setDeliveryAddress(boolean isDeliveryAddressSet){
+    /*public void setDeliveryAddress(boolean isDeliveryAddressSet) {
         mIsDeliveryAddressSet = isDeliveryAddressSet;
-    }
+    }*/
 
 }
