@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Įveskite datą nuo 2000 m. iki šios dienos</string>
 <string name="PPR_Already_Registered_title">Gaminys užregistruotas</string>
 <string name="PPR_Already_Registered_ErrMsg">Gaminys jau užregistruotas</string>
+    <string name="PPR_Continue">Tęsti </string>
+    <string name="PPR_Missing_Ctn_Title">Nėra CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Įveskite CTN </string>
+    <string name="PPR_Register_Next">Registruoti kitą </string>
+    <string name="PPR_Back_To_List">Atgal į sąrašą </string>
+    <string name="PPR_OK">Gerai </string>
 </resources>

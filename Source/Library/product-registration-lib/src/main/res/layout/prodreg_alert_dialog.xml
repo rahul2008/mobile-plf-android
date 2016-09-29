@@ -4,49 +4,68 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/parent_id"
-        android:layout_width="@dimen/uikit_modal_alert_dialog_width"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        android:minHeight="300dp"
-        android:orientation="vertical">
+    <LinearLayout android:id="@+id/parent_id"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="@dimen/uikit_modal_alert_dialog_width"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:minHeight="@dimen/uikit_modal_alert_dialog_height"
+                  android:orientation="vertical">
 
         <TextView
             android:id="@+id/dialogTitle"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_text_top_margin"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_label_text_size"/>
 
         <TextView
             android:id="@+id/dialogDescription"
             fontPath="fonts/centralesansbook.ttf"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
-            android:layout_marginRight="@dimen/uikit_modal_alert_text_right_margin"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+            android:layout_weight="1"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
 
-        <Button
-            android:id="@+id/dialogButtonOK"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:minWidth="@dimen/uikit_modal_alert_button_width"
-            android:text="@string/PPR_OK"
-            android:textAllCaps="false"
-            android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
-    </RelativeLayout>
+            android:layout_marginBottom="@dimen/uikit_modal_alert_bottom_margin"
+            android:layout_marginLeft="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginRight="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_button_top_margin"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!--Make this button gone in case only one button is required.-->
+            <Button
+                android:id="@+id/dialogButtonCancel"
+                style="?attr/uikit_outlinedButtonStyle"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/uikit_modal_alert_button_left_margin"
+                android:layout_weight="1"
+                android:textSize="@dimen/uikit_modal_alert_message_text_size"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/dialogButtonOK"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/PPR_OK"
+                android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </FrameLayout>

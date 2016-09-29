@@ -13,7 +13,9 @@ import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+
 import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +48,7 @@ public class RegistrationRequest extends PrxRequest {
     }
 
     public String getServerInfo() {
-        String mConfiguration = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        String mConfiguration = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
         if (mConfiguration.equalsIgnoreCase("Development")) {
             mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Testing")) {
@@ -54,7 +56,7 @@ public class RegistrationRequest extends PrxRequest {
         } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
             mServerInfo = "https://acc.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-            mServerInfo = "https://dev.philips.com/prx/registration/";
+            mServerInfo = "https://acc.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/registration/";
         }

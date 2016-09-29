@@ -15,33 +15,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
 
-abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListener {
+abstract class ProdRegBaseFragment extends Fragment implements BackEventListener {
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
-    private static ActionbarUpdateListener mActionbarUpdateListener;
+    private static ActionBarListener mActionbarUpdateListener;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
 
+    public abstract int getActionbarTitleResId();
+
     public abstract String getActionbarTitle();
 
+    public abstract boolean getBackButtonState();
+
     public abstract List<RegisteredProduct> getRegisteredProducts();
+
+    public abstract void setImageBackground();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +71,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().setTitle(getActionbarTitle());
+        setImageBackground();
     }
 
     @Override
@@ -76,7 +83,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
                              int startAnimation, int endAnimation) {
         ProdRegLogger.i(TAG, "Product Registration Base Fragment -- Fragment Invoke");
         final FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
-        mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
+        mActionbarUpdateListener = fragmentLauncher.getActionbarListener();
         int containerId = fragmentLauncher.getParentContainerResourceID();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             initAnimation(startAnimation, endAnimation, fragmentActivity);
@@ -106,12 +113,14 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
      * seletion/creation.
      */
     private void setActionbarTitle() {
-        if (mActionbarUpdateListener != null)
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle());
+        if (mActionbarUpdateListener != null) {
+            mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(), getBackButtonState());
+        }
     }
 
-    private void handleCallBack(final boolean onBack) {
-        final ProdRegUiListener prodRegUiListener = ProdRegUiHelper.getInstance().getProdRegUiListener();
+    protected void handleCallBack(final boolean onBack) {
+        final ProdRegUiListener prodRegUiListener = PRUiHelper.getInstance().getProdRegUiListener();
         final UserWithProducts signedInUserWithProducts = new ProdRegHelper().getSignedInUserWithProducts();
         if (onBack && prodRegUiListener != null)
             prodRegUiListener.onProdRegBack(getRegisteredProducts(), signedInUserWithProducts);
@@ -159,19 +168,23 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     }
 
     protected void showAlertOnError(final int statusCode) {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
-            if (prev != null) {
-                ft.remove(prev);
-                ft.commitAllowingStateLoss();
+        try {
+            final FragmentActivity activity = getActivity();
+            if (activity != null && !activity.isFinishing()) {
+                final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                    ft.commitAllowingStateLoss();
+                }
+                // Create and show the dialog.
+                ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
+                newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
+                newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
             }
-            // Create and show the dialog.
-            ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
-            newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
-            newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
+        } catch (IllegalStateException e) {
+            ProdRegLogger.e(TAG, e.getMessage());
         }
     }
 
@@ -195,23 +208,25 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
         }
     }
 
-    public boolean clearFragmentStack(boolean onBack) {
+    public boolean clearFragmentStack() {
         final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            if (activity instanceof ProdRegBaseActivity) {
-                activity.finish();
-                handleCallBack(onBack);
-            } else {
-                FragmentManager fragManager = activity.getSupportFragmentManager();
-                handleCallBack(onBack);
-                return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        try {
+            if (activity != null && !activity.isFinishing()) {
+                if (activity instanceof ProdRegBaseActivity) {
+                    activity.finish();
+                } else {
+                    FragmentManager fragManager = activity.getSupportFragmentManager();
+                    return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
             }
+        } catch (IllegalStateException e) {
+            ProdRegLogger.e(TAG, e.getMessage());
         }
         return false;
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         return false;
     }
 

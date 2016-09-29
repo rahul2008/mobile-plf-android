@@ -4,7 +4,7 @@ apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
 def coverageSourceDirs = [
-        '../Library/product-registration-lib/src/androidTest/java/com/philips/cdp/prodreg'
+        '../product-registration-lib/src/main/java'
 ]
 buildscript {
     repositories {
@@ -15,12 +15,12 @@ buildscript {
                 username = "readonly"
                 password = "readonly"
             }
-        }
-        jcenter()
+        }        
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
@@ -60,14 +60,13 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-
+	    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
         flatDir {
             dirs 'libs'
-        }
-        jcenter()
+        }        
     }
 }
 
@@ -118,9 +117,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.1.1"
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
+        versionName "1.2.6"
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
@@ -162,23 +159,25 @@ android {
     }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.0.1', ext: 'aar') {
-        exclude group: 'com.android.support'
-        transitive = true
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0-rc.1', ext: 'aar')
+    {
+           transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.3', ext: 'aar') {
-        transitive = true
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-rc.8', ext: 'aar')
+    {
+           transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.1', ext: 'aar') {
-        transitive = true
-    }
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile "org.robolectric:robolectric:3.1.1"
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
@@ -224,10 +223,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             excludes: ['**/R.class',
                        '**/R$*.class',
                        '**/*$ViewInjector*.*',
-                       '**/model/*/*.class',
                        '**/listener/*.class',
-                       '**/prxrequest/*.class',
-                       '**/localcache/*.class',
                        '**/activity/*.class',
                        '**/adaptor/*.class',
                        '**/constants/*.class',
@@ -250,3 +246,13 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     }
 
 }
+tasks.withType(Test) {
+    maxHeapSize = '4g'
+    scanForTestClasses = false
+    include "**/*Test.class"
+    test {
+        // set JVM arguments for the test JVM(s)
+        jvmArgs '-noverify'
+    }
+}
+

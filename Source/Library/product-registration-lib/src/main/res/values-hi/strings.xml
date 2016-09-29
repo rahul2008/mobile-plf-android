@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">कृपया वर्ष 2000 से आज की दिनांक के बीच की दिनांक दर्ज करें</string>
 <string name="PPR_Already_Registered_title">उत्पाद पंजीकृत किया गया</string>
 <string name="PPR_Already_Registered_ErrMsg">उत्पाद पहले से ही पंजीकृत किया गया है</string>
+    <string name="PPR_Continue">जारी रखें </string>
+    <string name="PPR_Missing_Ctn_Title">गुम CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">कृपया CTN दर्ज करें </string>
+    <string name="PPR_Register_Next">अगला उत्पाद पंजीकृत करें </string>
+    <string name="PPR_Back_To_List">सूची पर वापस जाएँ </string>
+    <string name="PPR_OK">ठीक </string>
 </resources>

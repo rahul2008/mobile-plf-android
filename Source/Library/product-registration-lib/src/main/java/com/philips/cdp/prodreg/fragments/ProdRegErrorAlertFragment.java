@@ -73,4 +73,8 @@ public class ProdRegErrorAlertFragment extends BlurDialogFragment {
             getDialog().setDismissMessage(null);
         super.onDestroyView();
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
 }

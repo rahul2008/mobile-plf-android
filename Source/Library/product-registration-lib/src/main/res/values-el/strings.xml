@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Επιλέξτε μια ημερομηνία από το 2000 έως σήμερα.</string>
 <string name="PPR_Already_Registered_title">Το προϊόν δηλώθηκε.</string>
 <string name="PPR_Already_Registered_ErrMsg">Το προϊόν έχει ήδη δηλωθεί.</string>
+    <string name="PPR_Continue">Συνέχεια </string>
+    <string name="PPR_Missing_Ctn_Title">Ελλιπές CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Εισαγάγετε CTN </string>
+    <string name="PPR_Register_Next">Εγγραφή επόμενου </string>
+    <string name="PPR_Back_To_List">Πίσω στη λίστα </string>
+    <string name="PPR_OK">ΟΚ </string>
 </resources>

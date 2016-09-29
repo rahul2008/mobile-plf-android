@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Ве молиме внесете датум помеѓу годината 2000 до денес</string>
 <string name="PPR_Already_Registered_title">Производот е регистриран</string>
 <string name="PPR_Already_Registered_ErrMsg">Производот е веќе регистриран</string>
+    <string name="PPR_Continue">Продолжи </string>
+    <string name="PPR_Missing_Ctn_Title">Недостасува CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Ве молиме внесете CTN </string>
+    <string name="PPR_Register_Next">Регистрирај следно </string>
+    <string name="PPR_Back_To_List">Назад кон листата </string>
+    <string name="PPR_OK">OK </string>
 </resources>

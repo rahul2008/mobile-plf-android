@@ -1,35 +1,39 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.prodreg.util;
 
 import android.text.TextUtils;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ProdRegUtil {
     private static final String TAG = ProdRegUtil.class.getSimpleName();
 
-    public static boolean isValidDate(final String date) {
+    public boolean isValidDate(final String date) {
         if (date != null) {
             String[] dates = date.split("-");
             return dates.length > 1 && Integer.parseInt(dates[0]) > 1999 && !isFutureDate(date);
         } else return false;
     }
 
-    public static boolean isFutureDate(String date) {
+    @SuppressWarnings("SimpleDateFormat")
+    public boolean isFutureDate(String date) {
+        try {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         final String mGetDeviceDate = dateFormat.format(calendar.getTime());
-        try {
             final Date mDisplayDate = dateFormat.parse(date);
             final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
             return mDisplayDate.after(mDeviceDate);
@@ -39,8 +43,7 @@ public class ProdRegUtil {
         return false;
     }
 
-
-    public static boolean isValidSerialNumber(final boolean isRequired, final String regularExpression, final String serialNumber) {
+    public boolean isValidSerialNumber(final boolean isRequired, final String regularExpression, final String serialNumber) {
         if (isRequired) {
             if (TextUtils.isEmpty(serialNumber)) {
                 return false;
@@ -56,9 +59,9 @@ public class ProdRegUtil {
     /**
      * Return min date for date picker
      *
-     * @return
+     * @return - Return min date for date picker
      */
-    public static long getMinDate() {
+    public long getMinDate() {
         Calendar cal = Calendar.getInstance();
         cal.set(ProdRegConstants.START_DATE_YEAR, ProdRegConstants.START_DATE_MONTH, ProdRegConstants.START_DATE_DAY);
         cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
@@ -68,12 +71,24 @@ public class ProdRegUtil {
         return cal.getTimeInMillis();
     }
 
-    public static void storeProdRegTaggingMeasuresCount(final ProdRegCache prodRegCache, final String key, final int count) {
-        final int intData = prodRegCache.getIntData(key);
-        prodRegCache.storeIntData(key, (intData + count));
+    /**
+     * Return max date for date picker
+     *
+     * @return - Return max date for date picker
+     */
+    public long getMaxDate() {
+        final TimeInterface serverTime = PRUiHelper.getInstance().getServerTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(serverTime.getUTCTime());
+        return calendar.getTimeInMillis();
     }
 
-    public static String getValidatedString(final int value) {
+    public void storeProdRegTaggingMeasuresCount(final ProdRegCache prodRegCache, final String key, final int count) {
+        final int intData = prodRegCache.getIntData(key);
+        prodRegCache.storeStringData(key, String.valueOf(intData + count));
+    }
+
+    public String getValidatedString(final int value) {
         final String valueString;
         if (value < 10) {
             valueString = "0" + value;

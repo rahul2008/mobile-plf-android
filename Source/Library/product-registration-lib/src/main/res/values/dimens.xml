@@ -32,4 +32,6 @@
     <dimen name="pr_right_padding_sm">33dp</dimen>
     <dimen name="pr_top_padding_sm">33dp</dimen>
     <dimen name="pr_bottom_padding_sm">33dp</dimen>
+    <dimen name="pr_all_button_top_margin">33dp</dimen>
+    <dimen name="pr_modal_alert_dialog_width">296dp</dimen>
 </resources>

@@ -8,30 +8,57 @@ package com.philips.cdp.prodreg.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.User;
+
 import java.util.List;
 
 public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     public static final String TAG = ProdRegFirstLaunchFragment.class.getName();
     private List<RegisteredProduct> registeredProducts;
+    private int resId;
+    private Bundle dependencies;
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.PPR_NavBar_Title;
+    }
+
     @Override
     public String getActionbarTitle() {
-        return getActivity().getString(R.string.PPR_NavBar_Title);
+        return getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return false;
     }
 
     @Override
     public List<RegisteredProduct> getRegisteredProducts() {
         return registeredProducts;
+    }
+
+    @Override
+    public void setImageBackground() {
+        if (getView() != null) {
+            //TODO        getView().setBackgroundResource(resId);
+        }
     }
 
     @Override
@@ -41,15 +68,18 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         final Button registerLater = (Button) view.findViewById(R.id.no_thanks_button);
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
+        ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "", "");
         return view;
     }
 
+    @SuppressWarnings("noinspection unchecked")
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            registeredProducts = bundle.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+        dependencies = getArguments();
+        if (dependencies != null) {
+            registeredProducts = (List<RegisteredProduct>) dependencies.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            resId = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
         }
     }
 
@@ -58,7 +88,8 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                clearFragmentStack(true);
+                clearFragmentStack();
+                handleCallBack(true);
             }
         };
     }
@@ -68,13 +99,23 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
-                processFragment.setArguments(getArguments());
-                ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegFirstLaunchScreen", "specialEvents", "productregistrationOptin");
-                final ProdRegCache prodRegCache = new ProdRegCache(getActivity());
-                ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
-                ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegFirstLaunchScreen", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
-                showFragment(processFragment);
+                final FragmentActivity activity = getActivity();
+                final User user = new User(activity);
+                if (user.isUserSignIn()) {
+                    final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
+                    processFragment.setArguments(dependencies);
+                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "specialEvents", "productregistrationOptin");
+                    final ProdRegCache prodRegCache = new ProdRegCache();
+                    new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
+                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
+                    showFragment(processFragment);
+                } else {
+                    clearFragmentStack();
+                    PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
+                    if (activity != null && !activity.isFinishing() && activity instanceof ProdRegBaseActivity) {
+                        activity.finish();
+                    }
+                }
             }
         };
     }

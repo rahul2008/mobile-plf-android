@@ -13,6 +13,7 @@ buildscript {
 }
 
 allprojects {
+	apply plugin: 'jacoco'
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
@@ -23,7 +24,17 @@ allprojects {
         }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }        
+        }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }        
+    }
+	tasks.withType(Test) {
+        maxHeapSize = '4g'
+        scanForTestClasses = false
+        include "**/*Test.class"
+        test {
+            // set JVM arguments for the test JVM(s)
+            jvmArgs '-noverify'
+        }
     }
 }
 

@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Lūdzu, ievadiet datumu no 2000. gada līdz šodienas datumam</string>
 <string name="PPR_Already_Registered_title">Produkts reģistrēts</string>
 <string name="PPR_Already_Registered_ErrMsg">Produkts jau ir reģistrēts</string>
+    <string name="PPR_Continue">Turpināt </string>
+    <string name="PPR_Missing_Ctn_Title">Trūkst CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Lūdzu, ievadiet CTN </string>
+    <string name="PPR_Register_Next">Reģistrēt nākamo </string>
+    <string name="PPR_Back_To_List">Atpakaļ uz sarakstu </string>
+    <string name="PPR_OK">Labi </string>
 </resources>

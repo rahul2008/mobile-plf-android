@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:id="@+id/parent_id"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -49,7 +50,7 @@
             android:id="@+id/continueButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/continue_text"
+            android:text="@string/PPR_Continue"
             android:textAllCaps="false"/>
 
         <Button
@@ -57,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_c_value_tablet"
-            android:text="@string/register_next"
+            android:text="@string/PPR_Register_Next"
             android:textAllCaps="false"
             android:visibility="gone"/>
 
@@ -66,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_c_value_tablet"
-            android:text="@string/back_to_list"
+            android:text="@string/PPR_Back_To_List"
             android:textAllCaps="false"
             android:visibility="gone"/>
     </LinearLayout>

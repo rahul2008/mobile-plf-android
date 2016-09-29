@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">請輸入由 2000 年至今之間的日期</string>
 <string name="PPR_Already_Registered_title">產品已註冊</string>
 <string name="PPR_Already_Registered_ErrMsg">產品經已註冊</string>
+    <string name="PPR_Continue">繼續 </string>
+    <string name="PPR_Missing_Ctn_Title">缺少 CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">請輸入 CTN </string>
+    <string name="PPR_Register_Next">登記下一個 </string>
+    <string name="PPR_Back_To_List">返回清單 </string>
+    <string name="PPR_OK">確定 </string>
 </resources>

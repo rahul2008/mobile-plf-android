@@ -22,25 +22,44 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.EnhancedLinkMovementMethod;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
+
 import java.util.List;
 
-public class ProdRegConnectionFragment extends ProdRegBaseFragment implements ProdRegBackListener {
+public class ProdRegConnectionFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegConnectionFragment.class.getName();
     private List<RegisteredProduct> registeredProducts;
+    private int resId;
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.PPR_NavBar_Title;
+    }
 
     @Override
     public String getActionbarTitle() {
-        return getActivity().getString(R.string.PPR_NavBar_Title);
+        return getString(R.string.PPR_NavBar_Title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
     }
 
     @Override
     public List<RegisteredProduct> getRegisteredProducts() {
         return registeredProducts;
+    }
+
+    @Override
+    public void setImageBackground() {
+        if (getView() != null) {
+//TODO            getView().setBackgroundResource(resId);
+        }
     }
 
     @Override
@@ -56,7 +75,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onBackPressed();
+                handleBackEvent();
             }
         });
         TextView tv = (TextView) view.findViewById(R.id.link_tv);
@@ -77,23 +96,29 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
         // Make sure the TextView supports clicking on Links
         tv.setMovementMethod(EnhancedLinkMovementMethod.getInstance());
         tv.setText(spannable, TextView.BufferType.SPANNABLE);
+        ProdRegTagging.getInstance().trackPage("AllProductsRegisteredScreen", "trackPage", "All products registered");
         return view;
     }
 
+    @SuppressWarnings("noinspection unchecked")
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ProdRegTagging.getInstance().trackAction("AllProductsRegisteredEvent", "specialEvents", "All products under this user registered");
         Bundle bundle = getArguments();
         if (bundle != null) {
-            registeredProducts = bundle.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            registeredProducts = (List<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            resId = bundle.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
         }
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean handleBackEvent() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            return clearFragmentStack(true);
+            final boolean fragmentStack = clearFragmentStack();
+            handleCallBack(true);
+            return fragmentStack;
         }
         return true;
     }

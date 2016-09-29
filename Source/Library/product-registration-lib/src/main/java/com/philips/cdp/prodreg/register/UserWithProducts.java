@@ -7,6 +7,7 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
@@ -32,6 +33,9 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import java.util.List;
 
+/**
+ * Responsible to register and fetch products
+ */
 public class UserWithProducts {
 
     public static final int PRODUCT_REGISTRATION = 0;
@@ -108,11 +112,10 @@ public class UserWithProducts {
         final RegistrationState registrationState = registeredProduct.getRegistrationState();
         final boolean failedOnInvalidInput = isFailedOnInvalidInput(registeredProduct);
         if (!failedOnInvalidInput && (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) && getUuid().equals(registeredProduct.getUserUUid())) {
-            ProdRegLogger.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
             if (!getUserProduct().isUserSignedIn(mContext)) {
                 getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
                 sendErrorCallBack(registeredProduct);
-            } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !ProdRegUtil.isValidDate(registeredProduct.getPurchaseDate())) {
+            } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !new ProdRegUtil().isValidDate(registeredProduct.getPurchaseDate())) {
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
@@ -245,7 +248,7 @@ public class UserWithProducts {
 
 
     private void updateWithCallBack(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
-        getUserProduct().updateLocaleCache(registeredProduct, prodRegError, registrationState);
+        updateLocaleCache(registeredProduct, prodRegError, registrationState);
         sendErrorCallBack(registeredProduct);
     }
 
@@ -264,7 +267,7 @@ public class UserWithProducts {
 
     protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
         final boolean requiredSerialNumber = data != null && data.getRequiresSerialNumber().equalsIgnoreCase("true");
-        final boolean isValidSerialNumber = ProdRegUtil.isValidSerialNumber(requiredSerialNumber, data.getSerialNumberFormat(), registeredProduct.getSerialNumber());
+        final boolean isValidSerialNumber = new ProdRegUtil().isValidSerialNumber(requiredSerialNumber, data.getSerialNumberFormat(), registeredProduct.getSerialNumber());
         return isValidSerialNumber;
     }
 
@@ -273,12 +276,17 @@ public class UserWithProducts {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
-        final String MICRO_SITE_ID = "MS";
-        registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        registrationRequest.setRegistrationChannel(getUserProduct().getRegistrationChannel());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
         return registrationRequest;
+    }
+
+    @NonNull
+    protected String getRegistrationChannel() {
+        final String MICRO_SITE_ID = "MS";
+        return MICRO_SITE_ID + RegistrationConfiguration.getInstance().getMicrositeId();
     }
 
     /**
@@ -301,7 +309,6 @@ public class UserWithProducts {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int error) {
-                ProdRegLogger.d(TAG, "error in refreshing session");
                 if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
@@ -376,7 +383,7 @@ public class UserWithProducts {
         registeredProduct.setContractNumber(data.getContractNumber());
     }
 
-    public void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct) {
+    protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct) {
         setRequestType(PRODUCT_REGISTRATION);
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
         RequestManager mRequestManager = getRequestManager(mContext);

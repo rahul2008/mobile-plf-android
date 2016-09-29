@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Lütfen 2000 ile bugünün tarihi arasında bir tarih girin</string>
 <string name="PPR_Already_Registered_title">Ürün kaydedildi</string>
 <string name="PPR_Already_Registered_ErrMsg">Ürün zaten kayıtlı</string>
+    <string name="PPR_Continue">Devam et </string>
+    <string name="PPR_Missing_Ctn_Title">Eksik CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Lütfen CTN\'yi girin </string>
+    <string name="PPR_Register_Next">Bir sonraki ürünü kaydet </string>
+    <string name="PPR_Back_To_List">Listeye geri dön </string>
+    <string name="PPR_OK">OK </string>
 </resources>

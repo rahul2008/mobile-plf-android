@@ -10,12 +10,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.listener.ProdRegListener;
-import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 
 /**
  * <b> Helper class used to process product registration backend calls</b>
@@ -23,12 +23,12 @@ import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 public class ProdRegHelper {
 
     private static Context context;
-    private static UserRegistrationListener userRegistrationListener;
+    private static UserRegistrationUIEventListener userRegistrationListener;
     private ProdRegListener prodRegListener;
 
     @NonNull
-    private static UserRegistrationListener getUserRegistrationListener() {
-        userRegistrationListener = new UserRegistrationListener() {
+    private static UserRegistrationUIEventListener getUserRegistrationListener() {
+        userRegistrationListener = new UserRegistrationUIEventListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
                 if (activity != null && activity instanceof RegistrationActivity) {
@@ -50,22 +50,12 @@ public class ProdRegHelper {
 
             @Override
             public void onPrivacyPolicyClick(final Activity activity) {
+
             }
 
             @Override
             public void onTermsAndConditionClick(final Activity activity) {
-            }
 
-            @Override
-            public void onUserLogoutSuccess() {
-            }
-
-            @Override
-            public void onUserLogoutFailure() {
-            }
-
-            @Override
-            public void onUserLogoutSuccessWithInvalidAccessToken() {
             }
         };
         return userRegistrationListener;
@@ -86,7 +76,6 @@ public class ProdRegHelper {
     public void init(Context context) {
         ProdRegHelper.context = context;
         UserRegistrationObserver.registerListerOnUserSignIn();
-        ProdRegTagging.init();
     }
 
     /**
@@ -99,7 +88,7 @@ public class ProdRegHelper {
     }
 
     public void removeProductRegistrationListener(final ProdRegListener prodRegListener) {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
+//        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
     }
 
     /**
@@ -123,7 +112,10 @@ public class ProdRegHelper {
 
     private static class UserRegistrationObserver {
         protected static void registerListerOnUserSignIn() {
-            RegistrationHelper.getInstance().registerUserRegistrationListener(getUserRegistrationListener());
+            final URLaunchInput urLaunchInput = new URLaunchInput();
+            urLaunchInput.setAccountSettings(true);
+            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+            urLaunchInput.setUserRegistrationUIEventListener(getUserRegistrationListener());
         }
     }
 }

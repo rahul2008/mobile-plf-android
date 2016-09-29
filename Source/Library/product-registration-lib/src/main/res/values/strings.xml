@@ -6,10 +6,10 @@
     <string name="PPR_ReceiveUpdates_Lbltxt">- Receive important updates about your products</string>
     <string name="PPR_Yes_Btntxt">Yes</string>
     <string name="PPR_RegLater_Btntxt">No thanks, register later</string>
-    <string name="PPR_AllProducts_Registered_Lbltxt">All the products that are currently connceted to this app have been registered successfully!</string>
+    <string name="PPR_AllProducts_Registered_Lbltxt">All the products that are currently connected to this app have been registered successfully!</string>
     <string name="PPR_Do_You_Want_To_Reg_Lbltxt">Do you want to register another product?</string>
-    <string name="PPR_Connect_Your_Product_Lbltxt">If it is a connected Philips product, make sure you have connected the product to this app</string>
-    <string name="PPR_Reg_In_Web_Lbltxt">Or register your product in the web version at www.philips.com</string>
+    <string name="PPR_Connect_Your_Product_Lbltxt">- If it is a connected Philips product, make sure you have connected the product to this app</string>
+    <string name="PPR_Reg_In_Web_Lbltxt">- Or register your product in the web version at www.philips.com</string>
     <string name="PPR_Back_Btntxt">Back</string>
     <string name="PPR_Connect_Product_Btntxt">Connect a product</string>
     <string name="PPR_RegSuccess_Lbltxt">Successfully registered!</string>
@@ -38,9 +38,15 @@
     <string name="PPR_Date_Of_Purchase_Lbltxt">Date of purchase:</string>
     <string name="PPR_Please_Enter_Date_Lbltxt">Please enter purchase date</string>
     <string name="PPR_SerialNum_Lbltxt">SerialNumber:</string>
-    <string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Please enter serial number</string>
+    <string name="PPR_Please_Enter_SerialNum_Txtfldtxt">Please enter serial  number</string>
     <string name="PPR_Register_Btntxt">Register</string>
     <string name="PPR_Invalid_Date_ErrMsg">Please enter date between year 2000 to today\'s date</string>
     <string name="PPR_Already_Registered_title">Product registered</string>
     <string name="PPR_Already_Registered_ErrMsg">Product already registered</string>
+    <string name="PPR_Continue">Continue </string>
+    <string name="PPR_Missing_Ctn_Title">Missing CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Please enter CTN </string>
+    <string name="PPR_Register_Next">Register next </string>
+    <string name="PPR_Back_To_List">Back to list </string>
+    <string name="PPR_OK">OK </string>
 </resources>

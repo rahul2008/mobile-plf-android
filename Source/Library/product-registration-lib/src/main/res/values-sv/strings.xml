@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Ange ett datum mellan år 2000 och dagens datum</string>
 <string name="PPR_Already_Registered_title">Produkten registrerad</string>
 <string name="PPR_Already_Registered_ErrMsg">Produkten redan registrerad</string>
+    <string name="PPR_Continue">Fortsätt </string>
+    <string name="PPR_Missing_Ctn_Title">CTN saknas. </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Ange CTN </string>
+    <string name="PPR_Register_Next">Registrera nästa </string>
+    <string name="PPR_Back_To_List">Tillbaka till listan </string>
+    <string name="PPR_OK">OK </string>
 </resources>

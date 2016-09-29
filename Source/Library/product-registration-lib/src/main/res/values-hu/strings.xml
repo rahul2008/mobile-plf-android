@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Adja meg a dátumot a 2000-es év és a jelenlegi dátum között</string>
 <string name="PPR_Already_Registered_title">A termék regisztrálva</string>
 <string name="PPR_Already_Registered_ErrMsg">A termék már regisztrálva van</string>
+    <string name="PPR_Continue">Folytatás </string>
+    <string name="PPR_Missing_Ctn_Title">Hiányzó CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Adja meg a CTN értéket </string>
+    <string name="PPR_Register_Next">A következő regisztrálása </string>
+    <string name="PPR_Back_To_List">Vissza a listához </string>
+    <string name="PPR_OK">OK </string>
 </resources>

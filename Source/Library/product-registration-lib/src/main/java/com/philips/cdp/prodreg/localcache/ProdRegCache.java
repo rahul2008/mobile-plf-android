@@ -5,49 +5,43 @@
 */
 package com.philips.cdp.prodreg.localcache;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import android.support.annotation.NonNull;
+
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 public class ProdRegCache {
 
-    private Context context;
+    private String TAG = ProdRegCache.class.getSimpleName();
 
-    public ProdRegCache(Context context) {
-        this.context = context;
-    }
-
-    public void storeStringData(String key, String value) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(key, value);
-            editor.commit();
-        }
-    }
-
-    public void storeIntData(String key, int value) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(key, value);
-            editor.commit();
-        }
+    public boolean storeStringData(String key, String value) {
+        SecureStorageInterface ssInterface = getAppInfraSecureStorageInterface();
+        SecureStorageInterface.SecureStorageError ssError = getSecureStorageError();
+        return ssInterface.storeValueForKey(key, value, ssError);
     }
 
     public String getStringData(String key) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            return sharedPreferences.getString(key, null);
-        }
+        SecureStorageInterface ssInterface = getAppInfraSecureStorageInterface();
+        SecureStorageInterface.SecureStorageError ssError = getSecureStorageError();
+        if (ssInterface != null)
+            return ssInterface.fetchValueForKey(key, ssError);
+
         return null;
     }
 
+    @NonNull
+    public SecureStorageInterface.SecureStorageError getSecureStorageError() {
+        return new SecureStorageInterface.SecureStorageError();
+    }
+
     public int getIntData(String key) {
-        if (context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(ProdRegConstants.PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-            return sharedPreferences.getInt(key, 0);
-        }
-        return 0;
+        String decryptedData = getStringData(key);
+        if (decryptedData != null)
+            return Integer.parseInt(decryptedData);
+        else return 0;
+    }
+
+    public SecureStorageInterface getAppInfraSecureStorageInterface() {
+        return PRUiHelper.getInstance().getAppInfraSecureStorageInterface();
     }
 }

@@ -6,13 +6,16 @@
 package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
+
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+
 import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
@@ -32,7 +35,7 @@ public class ProductMetadataRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        String mConfiguration = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        String mConfiguration = getRegistrationEnvironment();
         if (mConfiguration.equalsIgnoreCase("Development")) {
             mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Testing")) {
@@ -40,11 +43,15 @@ public class ProductMetadataRequest extends PrxRequest {
         } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
             mServerInfo = "https://acc.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-            mServerInfo = "https://dev.philips.com/prx/registration/";
+            mServerInfo = "https://acc.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/registration/";
         }
         return mServerInfo;
+    }
+
+    protected String getRegistrationEnvironment() {
+        return RegistrationConfiguration.getInstance().getRegistrationEnvironment();
     }
 
     @Override

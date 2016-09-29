@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Insira uma data entre 2000 e a data de hoje</string>
 <string name="PPR_Already_Registered_title">Produto registrado</string>
 <string name="PPR_Already_Registered_ErrMsg">Produto já registrado</string>
+    <string name="PPR_Continue">Continuar </string>
+    <string name="PPR_Missing_Ctn_Title">Sem CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Insira CTN </string>
+    <string name="PPR_Register_Next">Registre o próximo produto </string>
+    <string name="PPR_Back_To_List">Voltar à lista </string>
+    <string name="PPR_OK">OK </string>
 </resources>

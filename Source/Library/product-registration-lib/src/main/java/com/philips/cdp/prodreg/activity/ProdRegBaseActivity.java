@@ -11,6 +11,7 @@ package com.philips.cdp.prodreg.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -20,17 +21,19 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
-import com.philips.cdp.prodreg.launcher.ProdRegConfig;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.launcher.PRInterface;
+import com.philips.cdp.prodreg.launcher.PRLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
     private TextView mTitleTextView;
     private Handler mSiteCatListHandler = new Handler();
+    private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
 
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -70,8 +74,10 @@ public class ProdRegBaseActivity extends UiKitActivity {
     private void setUiKitThemeIfRequired() {
         final Bundle extras = getIntent().getExtras();
         int theme = extras.getInt(ProdRegConstants.UI_KIT_THEME);
-        if (theme != 0)
-            setTheme(theme);
+        if (theme <= 0)
+            theme = DEFAULT_THEME;
+
+        setTheme(theme);
     }
 
     @Override
@@ -86,27 +92,36 @@ public class ProdRegBaseActivity extends UiKitActivity {
         super.onResume();
     }
 
+    @SuppressWarnings("noinspection unchecked")
     protected void showFragment() {
         try {
             boolean isFirstLaunch = false;
+            int imageResID = 0;
             ArrayList<Product> regProdList = null;
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-                //noinspection unchecked
                 regProdList = (ArrayList<Product>) extras.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+                imageResID = extras.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             }
             FragmentLauncher fragLauncher = new FragmentLauncher(
-                    this, R.id.mainContainer, new ActionbarUpdateListener() {
+                    this, R.id.mainContainer, new ActionBarListener() {
                 @Override
-                public void updateActionbar(final String var1) {
-                    setTitle(var1);
+                public void updateActionBar(@StringRes final int resId, final boolean enableBack) {
+                    setTitle(resId);
+                }
+
+                @Override
+                public void updateActionBar(final String s, final boolean b) {
+
                 }
             });
-            fragLauncher.setAnimation(0, 0);
-            final ProdRegUiHelper prodRegUiHelper = ProdRegUiHelper.getInstance();
-            final ProdRegConfig prodRegConfig = new ProdRegConfig(regProdList, isFirstLaunch);
-            prodRegUiHelper.invokeProductRegistration(fragLauncher, prodRegConfig, prodRegUiHelper.getProdRegUiListener());
+            fragLauncher.setCustomAnimation(0, 0);
+            final PRUiHelper prUiHelper = PRUiHelper.getInstance();
+            final PRLaunchInput prLaunchInput = new PRLaunchInput(regProdList, isFirstLaunch);
+            prLaunchInput.setProdRegUiListener(prUiHelper.getProdRegUiListener());
+//            prLaunchInput.setFirstScreenImageResourceId(imageResID);
+            new PRInterface().launch(fragLauncher, prLaunchInput);
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }
@@ -172,7 +187,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 .findFragmentById(R.id.mainContainer);
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
-        } else if (currentFrag != null && currentFrag instanceof ProdRegBackListener && !((ProdRegBackListener) currentFrag).onBackPressed()) {
+        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
         }
     }
@@ -184,8 +199,10 @@ public class ProdRegBaseActivity extends UiKitActivity {
     }
 
     @Override
-    public void setTitle(final CharSequence title) {
-        super.setTitle(title);
-        mTitleTextView.setText(title);
+    public void setTitle(int titleId) {
+        if (mTitleTextView != null)
+            mTitleTextView.setText(titleId);
+        else
+            super.setTitle(titleId);
     }
 }

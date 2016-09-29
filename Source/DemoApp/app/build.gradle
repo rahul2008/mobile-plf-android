@@ -11,12 +11,11 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 3
-        versionName "1.1.1"
-        testApplicationId "com.philips.cdp.demo.androidTest"
+        versionName "1.2.6"
+        testApplicationId "com.philips.cdp.demo.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
-        generatedDensities = []
         multiDexEnabled true
     }
     configurations.all {
@@ -55,13 +54,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.demo'
-            versionCode 2
-            versionName "1.1.1"
+            versionCode 3
+            versionName "1.2.6"
         }
         device {
             applicationId 'com.philips.cdp.demo'
-            versionCode 2
-            versionName "1.1.1"
+            versionCode 3
+            versionName "1.2.6"
         }
     }
 

@@ -7,6 +7,7 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.listener.MetadataListener;
@@ -19,10 +20,12 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+
 import java.io.Serializable;
 
 public class Product implements Serializable {
 
+    private static final long serialVersionUID = 4081810711321162900L;
     protected String productModelNumber;
     protected String productSerialNumber;
     protected String purchaseDate;

@@ -16,14 +16,12 @@ import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,54 +31,38 @@ public class ProdRegProcessController {
     public interface ProcessControllerCallBacks {
         void dismissLoadingDialog();
         void exitProductRegistration();
-
         void showLoadingDialog();
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
     }
 
+    private int resId = 0;
     private RegisteredProduct currentProduct;
     private ProcessControllerCallBacks processControllerCallBacks;
     private Bundle dependencyBundle;
     private boolean launchedRegistration = false;
     private boolean isApiCallingProgress = false;
     private FragmentActivity fragmentActivity;
-    private User user;
     private ArrayList<RegisteredProduct> registeredProducts;
-
     public ProdRegProcessController(final ProcessControllerCallBacks processControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.processControllerCallBacks = processControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
-        this.user = new User(fragmentActivity);
-        dependencyBundle = new Bundle();
     }
 
+    @SuppressWarnings("noinspection unchecked")
     public void process(final Bundle arguments) {
         if (arguments != null) {
-            registeredProducts = arguments.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            dependencyBundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
+            registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            dependencyBundle = arguments;
+            resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             if (registeredProducts != null) {
                 currentProduct = registeredProducts.get(0);
-                if (getUser().isUserSignIn()) {
-                    //Signed in case
-                    if (!isApiCallingProgress) {
-                        getRemoteRegisteredProducts();
-                    }
-                } else {
-                    //Not signed in
-                    if (launchedRegistration) {
-                        //Registration page has already launched
-                        processControllerCallBacks.dismissLoadingDialog();
-                        processControllerCallBacks.exitProductRegistration();
-                    } else {
-                        //Registration is not yet launched.
-                        launchedRegistration = true;
-                        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                        RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
-                    }
+                if (!isApiCallingProgress) {
+                    getRemoteRegisteredProducts();
                 }
             } else {
                 processControllerCallBacks.exitProductRegistration();
+                PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.PRODUCTS_NOT_FOUND);
             }
         }
     }
@@ -115,7 +97,8 @@ public class ProdRegProcessController {
                     processControllerCallBacks.dismissLoadingDialog();
                     final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
+                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
+                    bundle.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, resId);
                     connectionFragment.setArguments(bundle);
                     processControllerCallBacks.showFragment(connectionFragment);
                 }
@@ -149,7 +132,7 @@ public class ProdRegProcessController {
 
     private void doSummaryRequest() {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
-            dependencyBundle.putParcelable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
+            dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
             currentProduct.getProductSummary(fragmentActivity, currentProduct, getSummaryListener());
         }
     }
@@ -202,10 +185,6 @@ public class ProdRegProcessController {
 
     public boolean isApiCallingProgress() {
         return isApiCallingProgress;
-    }
-
-    protected User getUser() {
-        return user;
     }
 
     public List<RegisteredProduct> getRegisteredProductsList() {

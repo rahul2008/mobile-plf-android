@@ -8,17 +8,17 @@ package com.philips.cdp.prodreg.register;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.cdp.prodreg.model.metadata.MetadataSerNumbSampleContent;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
-import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.User;
 
@@ -27,26 +27,31 @@ import java.util.List;
 
 public class ProdRegRegistrationController {
 
+    public static final String TAG = ProdRegRegistrationController.class.getSimpleName();
+
     public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
         void isValidDate(boolean validDate);
 
-        void isValidSerialNumber(boolean validSerialNumber, String format);
+        void isValidSerialNumber(boolean validSerialNumber, String format, String example);
 
         void setSummaryView(Data summaryData);
 
         void setProductView(RegisteredProduct registeredProduct);
 
         void requireFields(boolean requireDate, boolean requireSerialNumber);
+
+        void logEvents(String tag, String data);
+
+        void tagEvents(String event, String key, String value);
     }
-
-    private static final String TAG = ProdRegRegistrationController.class.getSimpleName();
-
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
     private FragmentActivity fragmentActivity;
     private User user;
     private ArrayList<RegisteredProduct> registeredProducts;
+    private ProdRegUtil prodRegUtil = new ProdRegUtil();
+    private Bundle dependencyBundle;
 
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
@@ -56,12 +61,10 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
-            final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
+            final ProdRegSuccessFragment successFragment = getSuccessFragment();
             updateRegisteredProductsList(registeredProduct);
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-            connectionFragment.setArguments(bundle);
-            registerControllerCallBacks.showFragment(connectionFragment);
+            successFragment.setArguments(dependencyBundle);
+            registerControllerCallBacks.showFragment(successFragment);
         }
     }
 
@@ -75,10 +78,12 @@ public class ProdRegRegistrationController {
         return new LocalRegisteredProducts(fragmentActivity, user);
     }
 
+    @SuppressWarnings("noinspection unchecked")
     public void init(final Bundle bundle) {
         if (bundle != null) {
-            registeredProducts = bundle.getParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            registeredProduct = bundle.getParcelable(ProdRegConstants.PROD_REG_PRODUCT);
+            this.dependencyBundle = bundle;
+            registeredProducts = (ArrayList<RegisteredProduct>) bundle.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            registeredProduct = (RegisteredProduct) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
             updateSummaryView(summaryData);
@@ -102,7 +107,7 @@ public class ProdRegRegistrationController {
     private void handleRequiredFieldState(RegisteredProduct registeredProduct) {
         if (productMetadataResponseData != null) {
             final boolean requiredSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
-            final boolean isValidSerialNumber = ProdRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), registeredProduct.getSerialNumber());
+            final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), registeredProduct.getSerialNumber());
             final boolean requireSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true") & !isValidSerialNumber;
             registerControllerCallBacks.requireFields(productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true"), requireSerialNumber);
         }
@@ -111,13 +116,17 @@ public class ProdRegRegistrationController {
     public boolean isValidSerialNumber(final String serialNumber) {
         final String serialNumberFormat = productMetadataResponseData.getSerialNumberFormat();
         final boolean requiredSerialNumber = productMetadataResponseData != null && productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
-        final boolean isValidSerialNumber = ProdRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), serialNumber);
-        registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat);
+        final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), serialNumber);
+        final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
+        if (serialNumberSampleContent != null)
+            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat, serialNumberSampleContent.getSnExample());
+        else
+            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat, null);
         return isValidSerialNumber;
     }
 
     public boolean isValidDate(final String text) {
-        final boolean validDate = ProdRegUtil.isValidDate(text);
+        final boolean validDate = prodRegUtil.isValidDate(text);
         registerControllerCallBacks.isValidDate(validDate);
         return validDate;
     }
@@ -126,16 +135,16 @@ public class ProdRegRegistrationController {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = validateSerialNumber(serialNumber);
         if (validDate && validSerialNumber) {
-            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "extendWarrantyOption");
+            registerControllerCallBacks.tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
             registerControllerCallBacks.showLoadingDialog();
-            ProdRegLogger.v(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
+            registerControllerCallBacks.logEvents(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
             getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
             ProdRegHelper prodRegHelper = getProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             final ProdRegCache prodRegCache = getProdRegCache();
-            ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_START_COUNT, 1);
-            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)));
+            prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_START_COUNT, 1);
+            registerControllerCallBacks.tagEvents("RegistrationEvent", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)));
             prodRegHelper.getSignedInUserWithProducts().registerProduct(getRegisteredProduct());
         }
     }
@@ -147,7 +156,7 @@ public class ProdRegRegistrationController {
 
     @NonNull
     protected ProdRegCache getProdRegCache() {
-        return new ProdRegCache(fragmentActivity);
+        return new ProdRegCache();
     }
 
     private boolean validateSerialNumber(final String serialNumber) {
@@ -171,38 +180,34 @@ public class ProdRegRegistrationController {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                ProdRegLogger.v(TAG, "Product registered successfully");
+                registerControllerCallBacks.logEvents(TAG, "Product registered successfully");
+
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
                     registerControllerCallBacks.dismissLoadingDialog();
                     final ProdRegCache prodRegCache = getProdRegCache();
-                    ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
-                    ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
+                    prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
+                    registerControllerCallBacks.tagEvents("RegistrationSuccessEvent", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
                     updateRegisteredProductsList(registeredProduct);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
-                    bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-                    fragment.setArguments(bundle);
+                    fragment.setArguments(dependencyBundle);
                     registerControllerCallBacks.showFragment(fragment);
                 }
             }
 
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                ProdRegLogger.v(TAG, "Product registration failed");
+                registerControllerCallBacks.logEvents(TAG, "Product registration failed");
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
                     registerControllerCallBacks.dismissLoadingDialog();
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
+                        final ProdRegConnectionFragment prodRegConnectionFragment = getConnectionFragment();
                         updateRegisteredProductsList(registeredProduct);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-                        connectionFragment.setArguments(bundle);
-                        registerControllerCallBacks.showFragment(connectionFragment);
+                        prodRegConnectionFragment.setArguments(dependencyBundle);
+                        registerControllerCallBacks.showFragment(prodRegConnectionFragment);
                     }
                 }
             }

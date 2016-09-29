@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -15,22 +16,25 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
-import com.philips.cdp.prodreg.launcher.ActivityLauncher;
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
-import com.philips.cdp.prodreg.launcher.ProdRegConfig;
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.activity.MainActivity;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.launcher.PRInterface;
+import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -148,6 +152,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 break;
             case R.id.edt_purchase_date:
                 onClickPurchaseDate();
+                break;
             default:
                 break;
         }
@@ -173,8 +178,9 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         }
         DatePickerDialog datePickerDialog = new DatePickerDialog(fragmentActivity, myDateListener, mYear, mMonthInt, mDay);
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        datePickerDialog.getDatePicker().setMinDate(ProdRegUtil.getMinDate());
+        final ProdRegUtil prodRegUtil = new ProdRegUtil();
+        datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
+        datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
         datePickerDialog.show();
     }
 
@@ -190,31 +196,40 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
-        ProdRegConfig prodRegConfig;
+        PRLaunchInput prLaunchInput;
         if (!isActivity) {
             FragmentLauncher fragLauncher = new FragmentLauncher(
-                    fragmentActivity, R.id.parent_layout, new ActionbarUpdateListener() {
+                    fragmentActivity, R.id.parent_layout, new ActionBarListener() {
                 @Override
-                public void updateActionbar(final String var1) {
-                    if (getActivity() != null && getActivity().getActionBar() != null)
-                        getActivity().getActionBar().setTitle(var1);
+                public void updateActionBar(@StringRes final int i, final boolean b) {
+                    MainActivity mainActivity = (MainActivity) fragmentActivity;
+                    mainActivity.setTitle(i);
+                }
+
+                @Override
+                public void updateActionBar(final String s, final boolean b) {
+
                 }
             });
-            fragLauncher.setAnimation(0, 0);
+            fragLauncher.setCustomAnimation(0, 0);
             if (type.equalsIgnoreCase("app_flow")) {
-                prodRegConfig = new ProdRegConfig(products, true);
+                prLaunchInput = new PRLaunchInput(products, true);
             } else {
-                prodRegConfig = new ProdRegConfig(products, false);
+                prLaunchInput = new PRLaunchInput(products, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, prodRegConfig, getProdRegUiListener());
+            prLaunchInput.setProdRegUiListener(getProdRegUiListener());
+//            prLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
+            new PRInterface().launch(fragLauncher, prLaunchInput);
         } else {
-            ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
+            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {
-                prodRegConfig = new ProdRegConfig(products, true);
+                prLaunchInput = new PRLaunchInput(products, true);
             } else {
-                prodRegConfig = new ProdRegConfig(products, false);
+                prLaunchInput = new PRLaunchInput(products, false);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, prodRegConfig, getProdRegUiListener());
+            prLaunchInput.setProdRegUiListener(getProdRegUiListener());
+//            prLaunchInput.setFirstScreenImageResourceId(R.drawable.pr_config1);
+            new PRInterface().launch(activityLauncher, prLaunchInput);
         }
     }
 
@@ -229,6 +244,14 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             @Override
             public void onProdRegBack(final List<RegisteredProduct> registeredProduct, final UserWithProducts userWithProduct) {
                 ProdRegLogger.v(TAG, registeredProduct.get(0).getProdRegError() + "");
+            }
+
+            @Override
+            public void onProdRegFailed(final ProdRegError prodRegError) {
+                ProdRegLogger.v(TAG, prodRegError.getDescription() + "");
+                if (prodRegError == ProdRegError.USER_NOT_SIGNED_IN) {
+                    Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
+                }
             }
         };
     }

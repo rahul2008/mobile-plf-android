@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Harap masukkan tanggal antara tahun 2000 hingga tanggal hari ini</string>
 <string name="PPR_Already_Registered_title">Produk terdaftar</string>
 <string name="PPR_Already_Registered_ErrMsg">Produk yang sudah didaftarkan</string>
+    <string name="PPR_Continue">Lanjutkan </string>
+    <string name="PPR_Missing_Ctn_Title">CTN Tidak Ditemukan </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Silakan masukkan CTN </string>
+    <string name="PPR_Register_Next">Daftarkan produk berikutnya </string>
+    <string name="PPR_Back_To_List">Kembali ke daftar </string>
+    <string name="PPR_OK">OK </string>
 </resources>

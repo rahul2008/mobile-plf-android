@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">날짜를 2000년에서 오늘 날짜 사이로 입력하십시오.</string>
 <string name="PPR_Already_Registered_title">등록된 제품</string>
 <string name="PPR_Already_Registered_ErrMsg">이미 등록된 제품입니다.</string>
+    <string name="PPR_Continue">계속 </string>
+    <string name="PPR_Missing_Ctn_Title">누락된 CTN </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">CTN을 입력하십시오 </string>
+    <string name="PPR_Register_Next">다음 등록하기 </string>
+    <string name="PPR_Back_To_List">목록으로 돌아가기 </string>
+    <string name="PPR_OK">확인 </string>
 </resources>

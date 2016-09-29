@@ -5,7 +5,7 @@
 */
 package com.philips.cdp.prodreg.logging;
 
-import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.io.PrintWriter;
@@ -19,44 +19,44 @@ public class ProdRegLogger {
     }
 
     public static void v(String tag, String msg) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
     }
 
     public static void v(String tag, String msg, Throwable tr) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void d(String tag, String msg) {
 
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg);
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg);
     }
 
     public static void d(String tag, String msg, Throwable tr) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void i(String tag, String msg) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg);
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg);
     }
 
     public static void i(String tag, String msg, Throwable tr) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void w(String tag, String msg) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg);
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg);
     }
 
     public static void w(String tag, String msg, Throwable tr) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void e(String tag, String msg) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg);
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg);
     }
 
     public static void e(String tag, String msg, Throwable tr) {
-        ProdRegUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
+        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static String getStackTraceString(Throwable tr) {

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/pr_single_product_scrollview"
+<ScrollView android:id="@+id/parent_id"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-    >
+            android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="@dimen/pr_bottom_padding_sm"
         android:paddingTop="@dimen/pr_top_padding_sm">
 
@@ -17,8 +16,8 @@
             style="@style/ProductRegistrationProductHeaderTitleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/pr_left_padding_sm"
-            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginEnd="@dimen/pr_right_padding_sm"
+            android:layout_marginStart="@dimen/pr_left_padding_sm"
             android:visibility="gone"/>
 
         <TextView
@@ -27,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/friendly_name"
-            android:layout_marginLeft="@dimen/pr_left_padding_sm"
-            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginEnd="@dimen/pr_right_padding_sm"
+            android:layout_marginStart="@dimen/pr_left_padding_sm"
             android:visibility="gone"/>
 
         <TextView
@@ -37,8 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_title"
-            android:layout_marginLeft="@dimen/pr_left_padding_sm"
-            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginEnd="@dimen/pr_right_padding_sm"
+            android:layout_marginStart="@dimen/pr_left_padding_sm"
             android:layout_marginTop="@dimen/pr_a_value_sm"
             android:visibility="gone"/>
 
@@ -49,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_ctn"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/pr_left_padding_sm"
-            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginEnd="@dimen/pr_right_padding_sm"
+            android:layout_marginStart="@dimen/pr_left_padding_sm"
             android:layout_marginTop="@dimen/pr_c_value_sm"
             android:minHeight="120dp"
             android:minWidth="120dp"
@@ -75,8 +74,7 @@
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/pr_left_padding_sm"
+                    android:layout_marginStart="@dimen/pr_left_padding_sm"
                     android:layout_weight="1"
                     android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
                     android:textColor="?attr/uikit_baseColor"
@@ -87,11 +85,10 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="@dimen/pr_right_padding_sm"
+                    android:layout_marginEnd="@dimen/pr_right_padding_sm"
+                    android:layout_marginStart="0dp"
                     android:layout_weight="1.5"
                     android:ellipsize="end"
-                    android:gravity="right"
                     android:hint="@string/PPR_Please_Enter_Date_Lbltxt"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -119,10 +116,8 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/pr_left_padding_sm"
+                    android:layout_marginStart="@dimen/pr_left_padding_sm"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:text="@string/PPR_SerialNum_Lbltxt"
                     android:textColor="?attr/uikit_baseColor"
                     android:textSize="14sp"/>
@@ -133,11 +128,10 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="@dimen/pr_right_padding_sm"
+                    android:layout_marginEnd="@dimen/pr_right_padding_sm"
+                    android:layout_marginStart="0dp"
                     android:layout_weight="1.5"
                     android:ellipsize="end"
-                    android:gravity="right"
                     android:hint="@string/PPR_Please_Enter_SerialNum_Txtfldtxt"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -154,8 +148,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/InlineForms_serial_number"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/pr_left_padding_sm"
-            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginEnd="@dimen/pr_right_padding_sm"
+            android:layout_marginStart="@dimen/pr_left_padding_sm"
             android:layout_marginTop="33dp"
             android:text="@string/PPR_Register_Btntxt"
             android:textAllCaps="false"/>

@@ -43,4 +43,10 @@
 <string name="PPR_Invalid_Date_ErrMsg">Введите дату, начиная с 2000 года и по сегодняшний день</string>
 <string name="PPR_Already_Registered_title">Продукт зарегистрирован</string>
 <string name="PPR_Already_Registered_ErrMsg">Продукт уже зарегистрирован</string>
+    <string name="PPR_Continue">Продолжить </string>
+    <string name="PPR_Missing_Ctn_Title">Код CTN не указан </string>
+    <string name="PPR_Missing_Ctn_ErrMsg">Введите код CTN </string>
+    <string name="PPR_Register_Next">Зарегистрировать другой продукт </string>
+    <string name="PPR_Back_To_List">Вернуться к списку </string>
+    <string name="PPR_OK">Oк </string>
 </resources>
