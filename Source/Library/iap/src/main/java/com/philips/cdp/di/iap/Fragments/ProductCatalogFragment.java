@@ -263,7 +263,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (mPresenter == null)
             mPresenter = ControllerFactory.getInstance().
                     getProductCatalogPresenter(mContext, this, getFragmentManager());
-        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE, null);
+        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
     }
 
     @Override
