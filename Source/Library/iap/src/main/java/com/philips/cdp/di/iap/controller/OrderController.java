@@ -129,18 +129,22 @@ public class OrderController implements AbstractModel.DataLoadListener {
                 } else {
                     continue;
                 }
-                productItem.setImageURL(data.getImageURL());
-                productItem.setProductTitle(data.getProductTitle());
-                productItem.setQuantity(entry.getQuantity());
-                productItem.setFormatedPrice(String.valueOf(entry.getTotalPrice().getFormattedValue()));
-                productItem.setCtnNumber(entry.getProduct().getCode());
-                productItem.setOrderCode(detail.getCode());
-                productItem.setSubCategory(data.getSubcategory());
-                products.add(productItem);
+                setProductData(products, detail, entry, productItem, data);
             }
         }
 
         return products;
+    }
+
+    public void setProductData(ArrayList<ProductData> products, OrderDetail detail, Entries entry, ProductData productItem, Data data) {
+        productItem.setImageURL(data.getImageURL());
+        productItem.setProductTitle(data.getProductTitle());
+        productItem.setQuantity(entry.getQuantity());
+        productItem.setFormatedPrice(String.valueOf(entry.getTotalPrice().getFormattedValue()));
+        productItem.setCtnNumber(entry.getProduct().getCode());
+        productItem.setOrderCode(detail.getCode());
+        productItem.setSubCategory(data.getSubcategory());
+        products.add(productItem);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {

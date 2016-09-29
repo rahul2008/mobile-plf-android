@@ -14,14 +14,19 @@ import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXDataBuilder;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
+import com.philips.cdp.di.iap.response.orders.Cost;
+import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
+import com.philips.cdp.di.iap.response.orders.Product;
+import com.philips.cdp.di.iap.response.orders.ProductData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
@@ -33,6 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -49,7 +55,12 @@ public class OrderControllerTest {
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     private MockPRXDataBuilder mMockPRXDataBuilder;
-
+    @Mock
+    ProductData productData;
+    @Mock
+    Entries entries;
+    @Mock
+    OrderDetail orderDetail;
     @Mock
     private OrderController mOrderController;
     @Mock
@@ -92,7 +103,7 @@ public class OrderControllerTest {
                 assertEquals(RequestCode.GET_ORDER_DETAIL, msg.what);
                 assertTrue(msg.obj instanceof OrderDetail);
                 final ArrayList<OrderDetail> detail = new ArrayList<>();
-                detail.add((OrderDetail)msg.obj);
+                detail.add((OrderDetail) msg.obj);
                 mOrderController.requestPrxData(detail, new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(Message msg) {
@@ -166,7 +177,7 @@ public class OrderControllerTest {
                 .class, "EmptyResponse.txt"));
         mNetworkController.sendSuccess(obj);
     }
-    
+
     private void makePRXData() throws JSONException {
         PrxRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
 
@@ -239,5 +250,18 @@ public class OrderControllerTest {
     public void setStoreAndDelegate() {
         mOrderController.setHybrisDelegate(mHybrisDelegate);
         mOrderController.setStore(TestUtils.getStubbedStore());
+    }
+
+    @Test
+    public void setProductData() {
+        Mockito.when(productData.getImageURL()).thenReturn("www.google.com/images");
+        Mockito.when(productData.getProductTitle()).thenReturn("Saver");
+        Mockito.when(productData.getSubCategory()).thenReturn("Saver");
+        Mockito.when(entries.getQuantity()).thenReturn(20);
+        Mockito.when(entries.getTotalPrice()).thenReturn(new Cost());
+        Mockito.when(entries.getProduct()).thenReturn(new Product());
+        Mockito.when(orderDetail.getCode()).thenReturn("65756");
+        OrderController orderController = new OrderController(mContext, null);
+        orderController.setProductData(new ArrayList<ProductData>(), orderDetail, entries, productData, new Data());
     }
 }
