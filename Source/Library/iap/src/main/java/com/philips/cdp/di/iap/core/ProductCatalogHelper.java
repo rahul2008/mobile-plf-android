@@ -47,7 +47,7 @@ public class ProductCatalogHelper {
 
             ArrayList<ProductCatalogData> products = mergeResponsesFromHybrisAndPRX(planBProductCTNs, productData, prxModel);
             PaginationEntity pagination = null;
-            if (productData != null && products.size()!=0)
+            if (productData != null && products.size() != 0)
                 pagination = productData.getPagination();
             refreshList(products, pagination, listener);
 
@@ -72,7 +72,6 @@ public class ProductCatalogHelper {
     }
 
     public void makePrxCall(ArrayList<String> planBProductList, Products productData) {
-        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
         ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
         if (planBProductList != null && productData == null) {
@@ -93,7 +92,6 @@ public class ProductCatalogHelper {
         PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
                 mGetProductCatalogListener);
         builder.preparePRXDataRequest();
-        //prxRequest(planBProductList, productData, ctnsToBeRequestedForPRX, productsToBeShown);
     }
 
 
@@ -126,7 +124,7 @@ public class ProductCatalogHelper {
                 if (!container.isProductCatalogDataPresent(CTN)) {
                     container.addProduct(CTN, entry);
                 }
-            }else{
+            } else {
                 CartModelContainer.getInstance().clearCategorisedProductList();
             }
         }
