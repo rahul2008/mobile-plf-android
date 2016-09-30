@@ -103,17 +103,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
         String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
 
-        if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.CATEGORISED_PRODUCT_CTNS) &&
-                    mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+        if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
+            if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
-            } else if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
-                if (CartModelContainer.getInstance().getProductList() != null &&
-                        CartModelContainer.getInstance().getProductList().size() != 0) {
-                    onLoadFinished(getCachedProductList(), null);
-                } else {
-                    fetchProductListFromHybris();
-                }
+            } else if (CartModelContainer.getInstance().getProductList() != null
+                    && CartModelContainer.getInstance().getProductList().size() != 0) {
+                onLoadFinished(getCachedProductList(), null);
             } else {
                 fetchProductListFromHybris();
             }

@@ -249,7 +249,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void init() {
         User user = new User(this);
-        // mCategorizedProductList.clear();
+        mCategorizedProductList.clear();
         if (user.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0) {

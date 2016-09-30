@@ -23,8 +23,10 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.localematch.PILLocaleManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,10 +64,19 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     public void getCompleteProductList(final IAPListener iapListener) {
-        if (CartModelContainer.getInstance().getProductList() != null &&
-                CartModelContainer.getInstance().getProductList().size() != 0) {
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        String currentCountryCode = localeManager.getCountryCode();
+        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+        completeProductList(iapListener, currentCountryCode, savedCountry);
+    }
+
+    public void completeProductList(IAPListener iapListener, String currentCountryCode, String savedCountry) {
+        if (currentCountryCode.equalsIgnoreCase(savedCountry)
+                && CartModelContainer.getInstance().getProductList() != null
+                && CartModelContainer.getInstance().getProductList().size() != 0) {
             iapListener.onGetCompleteProductList(getProductCatalogDataFromStoredData());
         } else {
+            CartModelContainer.getInstance().clearCategorisedProductList();
             getCatalogCount(iapListener);
         }
     }
@@ -99,7 +110,12 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             public void onSuccess(final Message msg) {
                 Products products = (Products) msg.obj;
                 int totalProduct = products.getPagination().getTotalResults();
-                getProductCatalog(CURRENT_PAGE, totalProduct, iapListener);
+                if (totalProduct == 0) {
+                    iapListener.onSuccess();
+                    iapListener.onGetCompleteProductList(null);
+                } else
+                    getProductCatalog(CURRENT_PAGE, totalProduct, iapListener);
+
             }
 
             @Override
