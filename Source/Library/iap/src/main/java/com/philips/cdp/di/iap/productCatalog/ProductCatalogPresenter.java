@@ -26,7 +26,6 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.localematch.PILLocaleManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,8 +63,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     public void getCompleteProductList(final IAPListener iapListener) {
-        PILLocaleManager localeManager = new PILLocaleManager(mContext);
-        String currentCountryCode = localeManager.getCountryCode();
+        String currentCountryCode = HybrisDelegate.getInstance().getStore().getLocale();
         String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
         completeProductList(iapListener, currentCountryCode, savedCountry);
     }
