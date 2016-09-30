@@ -170,7 +170,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         mNetworkController.sendFailure(error);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void getProductCompleteListHybrisFailPageSize20() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter();
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
@@ -186,7 +186,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         mNetworkController.sendFailure(error);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void getProductCompleteListHybrisFailForPage1() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter();
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
