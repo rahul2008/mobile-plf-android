@@ -1,5 +1,5 @@
 <resources>
-    <string name="af_app_name">AppFramework</string>
+    <string name="af_app_name">ReferenceApp</string>
     <string name="app_home_title">Mobile App Home</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
