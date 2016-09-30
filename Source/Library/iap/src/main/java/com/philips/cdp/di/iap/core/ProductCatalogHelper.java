@@ -72,7 +72,6 @@ public class ProductCatalogHelper {
     }
 
     public void makePrxCall(ArrayList<String> planBProductList, Products productData) {
-        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
         ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
         if (planBProductList != null && productData == null) {
