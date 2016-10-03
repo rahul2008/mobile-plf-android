@@ -100,31 +100,27 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':cloudcontroller')
     compile 'com.google.code.gson:gson:2.3'
-
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile "com.squareup.assertj:assertj-android:1.1.1"
-
-    testCompile("org.robolectric:robolectric:3.0") {
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile('org.robolectric:robolectric:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile("org.robolectric:shadows-support-v4:3.0") {
+    testCompile('org.robolectric:shadows-support-v4:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
-
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile "com.squareup.assertj:assertj-android:1.1.1"
-
+    androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
 task sourceJar(type: Jar) {

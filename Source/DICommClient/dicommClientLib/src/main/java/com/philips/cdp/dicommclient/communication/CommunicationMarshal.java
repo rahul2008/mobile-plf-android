@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient.communication;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
@@ -21,7 +21,7 @@ public class CommunicationMarshal extends CommunicationStrategy {
 
     public CommunicationMarshal(DISecurity diSecurity, final NetworkNode networkNode) {
         mLocalStrategy = new LocalStrategy(diSecurity, networkNode);
-        mRemoteStrategy = new RemoteStrategy(networkNode, CppController.getInstance());
+        mRemoteStrategy = new RemoteStrategy(networkNode, DefaultCppController.getInstance());
         mNullStrategy = new NullStrategy();
     }
 

@@ -8,6 +8,7 @@ package com.philips.cdp.dicommclient.communication;
 import java.util.Map;
 
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
@@ -134,7 +135,7 @@ public class RemoteStrategy extends CommunicationStrategy {
     };
 
     private void startDcsIfNecessary() {
-        if (mCppController.getState() != CppController.ICP_CLIENT_DCS_STATE.STARTED && !isDSCRequestOnGoing) {
+        if (mCppController.getState() != DefaultCppController.ICP_CLIENT_DCS_STATE.STARTED && !isDSCRequestOnGoing) {
             StartDcsRequest startRequest = createStartDcsRequest(responseHandler);
             isDSCRequestOnGoing = true;
             mRequestQueue.addRequestInFrontOfQueue(startRequest);

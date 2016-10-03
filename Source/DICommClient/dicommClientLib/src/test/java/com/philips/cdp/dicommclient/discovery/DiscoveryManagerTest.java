@@ -10,6 +10,7 @@ import android.os.Handler;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -55,7 +56,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mMockedCppController = mock(CppController.class);
+        mMockedCppController = mock(DefaultCppController.class);
         mTestApplianceFactory = new TestApplianceFactory();
         mMockedApplianceDatabase = mock(DICommApplianceDatabase.class);
         mMockedNetworkMonitor = mock(NetworkMonitor.class);

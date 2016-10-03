@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclient.request;
 
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 
 public class StartDcsRequest extends Request {
 
@@ -22,7 +23,7 @@ public class StartDcsRequest extends Request {
 
     }
 
-    private final CppController.DCSStartListener dcsStartListener = new CppController.DCSStartListener() {
+    private final DefaultCppController.DCSStartListener dcsStartListener = new DefaultCppController.DCSStartListener() {
         @Override
         public void onResponseReceived() {
             synchronized (lock) {
@@ -39,7 +40,7 @@ public class StartDcsRequest extends Request {
             try {
                 lock.wait(TIME_OUT);
 
-                if (cppController.getState() != CppController.ICP_CLIENT_DCS_STATE.STARTED) {
+                if (cppController.getState() != DefaultCppController.ICP_CLIENT_DCS_STATE.STARTED) {
                     return new Response(null, Error.REQUESTFAILED, mResponseHandler);
                 }
             } catch (InterruptedException e) {

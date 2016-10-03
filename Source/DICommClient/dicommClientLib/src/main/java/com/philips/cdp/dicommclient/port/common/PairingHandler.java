@@ -7,6 +7,7 @@ package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 import com.philips.cdp.dicommclient.cpp.ICPCallbackHandler;
 import com.philips.cdp.dicommclient.cpp.ICPEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
@@ -89,7 +90,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         this.pairingListener = pairingListener;
         callbackHandler = new ICPCallbackHandler();
         callbackHandler.setHandler(this);
-        cppController = CppController.getInstance();
+        cppController = DefaultCppController.getInstance();
     }
 
     /**
@@ -183,7 +184,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                     port.removePortListener(this);
                 }
             });
-            pairingPort.triggerPairing(CppController.getInstance().getAppType(), appEui64, secretKey);
+            pairingPort.triggerPairing(DefaultCppController.getInstance().getAppType(), appEui64, secretKey);
         } else {
             currentRelationshipType = relationshipType;
             addRelationship(relationshipType, null);
@@ -291,7 +292,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         PairingEntitiyReference pairingTrustor = new PairingEntitiyReference();
         pairingTrustor.entityRefId = cppController.getAppCppId();
         pairingTrustor.entityRefProvider = PAIRING_REFERENCEPROVIDER;
-        pairingTrustor.entityRefType = CppController.getInstance().getAppType();
+        pairingTrustor.entityRefType = DefaultCppController.getInstance().getAppType();
         pairingTrustor.entityRefCredentials = null;
 
         DICommLog.i(DICommLog.PAIRING, "app entityRefId" + pairingTrustor.entityRefId);

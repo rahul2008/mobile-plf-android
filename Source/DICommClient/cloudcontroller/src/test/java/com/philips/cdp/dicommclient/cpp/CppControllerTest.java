@@ -9,11 +9,10 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
-import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.Provision;
@@ -42,7 +41,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EventSubscription.class, SignOn.class})
+@PrepareForTest({EventSubscription.class, SignOn.class, Log.class})
 public class CppControllerTest extends RobolectricTest {
 
     @Mock
@@ -52,7 +51,7 @@ public class CppControllerTest extends RobolectricTest {
     EventSubscription eventSubscriptionMock;
 
     @Mock
-    private CppController.DCSStartListener startedListener;
+    private DefaultCppController.DCSStartListener startedListener;
 
     @Mock
     private SignOn signOnMock;
@@ -74,7 +73,7 @@ public class CppControllerTest extends RobolectricTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DICommLog.disableLogging();
+        mockStatic(Log.class);
 
         mockStatic(EventSubscription.class);
         when(EventSubscription.getInstance(any(CallbackHandler.class), anyInt())).thenReturn(eventSubscriptionMock);
@@ -136,7 +135,7 @@ public class CppControllerTest extends RobolectricTest {
 
     private CppController createCppControllerWithListeners(String cppId,
                                                            DcsEventListener dcsListener) {
-        CppController controller = CppController.getCppControllerForTesting();
+        CppController controller = DefaultCppController.getCppControllerForTesting();
         controller.addDCSEventListener(cppId, dcsListener);
         return controller;
     }
@@ -176,7 +175,7 @@ public class CppControllerTest extends RobolectricTest {
 
         cppController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
 
-        assertEquals(CppController.ICP_CLIENT_DCS_STATE.STARTED, cppController.getState());
+        assertEquals(DefaultCppController.ICP_CLIENT_DCS_STATE.STARTED, cppController.getState());
     }
 
     @Test
@@ -230,7 +229,7 @@ public class CppControllerTest extends RobolectricTest {
 
         cppController.startDCSService(startedListener);
 
-        assertEquals(CppController.ICP_CLIENT_DCS_STATE.STOPPED, cppController.getState());
+        assertEquals(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED, cppController.getState());
     }
 
     @Test
@@ -240,7 +239,7 @@ public class CppControllerTest extends RobolectricTest {
 
         cppController.startDCSService(startedListener);
 
-        assertEquals(CppController.ICP_CLIENT_DCS_STATE.STARTING, cppController.getState());
+        assertEquals(DefaultCppController.ICP_CLIENT_DCS_STATE.STARTING, cppController.getState());
     }
 
     @Test
@@ -258,7 +257,7 @@ public class CppControllerTest extends RobolectricTest {
 
         cppController.stopDCSService();
 
-        assertEquals(CppController.ICP_CLIENT_DCS_STATE.STOPPING, cppController.getState());
+        assertEquals(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPING, cppController.getState());
     }
 
     @Test
@@ -268,7 +267,7 @@ public class CppControllerTest extends RobolectricTest {
         when(eventSubscriptionMock.getState()).thenReturn(EventSubscription.SUBSCRIBE_EVENTS_STOPPED);
         cppController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
 
-        assertEquals(CppController.ICP_CLIENT_DCS_STATE.STOPPED, cppController.getState());
+        assertEquals(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED, cppController.getState());
     }
 
     @Test
@@ -279,7 +278,7 @@ public class CppControllerTest extends RobolectricTest {
         packageInfo.versionCode = 1;
         when(packageManagerMock.getPackageInfo("com.philips.cdp.dicommclient.cpp.testing", 0)).thenReturn(packageInfo);
 
-        cppController = new CppController(contextMock, kpsConfigurationInfoMock);
+        cppController = new DefaultCppController(contextMock, kpsConfigurationInfoMock);
 
         verify(kpsConfigurationInfoMock).getRelationshipId();
     }

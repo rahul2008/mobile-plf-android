@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclient.subscription;
 
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
@@ -45,7 +46,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         super.setUp();
 
         mSubscriptionEventListener = mock(SubscriptionEventListener.class);
-        mMockCppController = mock(CppController.class);
+        mMockCppController = mock(DefaultCppController.class);
         mMockNetworkNode = mock(NetworkNode.class);
         when(mMockNetworkNode.getIpAddress()).thenReturn(APPLIANCE_IP);
         when(mMockNetworkNode.getCppId()).thenReturn(APPLIANCE_CPPID);

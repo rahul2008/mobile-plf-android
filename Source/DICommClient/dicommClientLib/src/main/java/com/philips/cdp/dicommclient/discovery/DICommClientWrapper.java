@@ -12,6 +12,7 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 
 import java.util.Random;
 
@@ -46,10 +47,10 @@ public class DICommClientWrapper {
     }
 
     public static String getAppId() {
-        return isCppAppIdAvailable() ? CppController.getInstance().getAppCppId() : mTemporaryAppId;
+        return isCppAppIdAvailable() ? DefaultCppController.getInstance().getAppCppId() : mTemporaryAppId;
     }
 
     public static boolean isCppAppIdAvailable() {
-        return CppController.getInstance() != null && CppController.getInstance().getAppCppId() != null;
+        return DefaultCppController.getInstance() != null && DefaultCppController.getInstance().getAppCppId() != null;
     }
 }

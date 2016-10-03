@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.cpp.listener.AppUpdateListener;
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
@@ -18,7 +19,7 @@ import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.cpp.listener.SendNotificationRegistrationIdListener;
 import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
-import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.LogConstants;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
@@ -26,7 +27,6 @@ import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.FileDownload;
 import com.philips.icpinterface.GlobalStore;
 import com.philips.icpinterface.ICPClient;
-import com.philips.icpinterface.ICPClientToAppInterface;
 import com.philips.icpinterface.Provision;
 import com.philips.icpinterface.SignOn;
 import com.philips.icpinterface.ThirdPartyNotification;
@@ -48,17 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CppController implements ICPClientToAppInterface, ICPEventListener {
-
-    public enum ICP_CLIENT_DCS_STATE {
-        STARTED, STARTING, STOPPED, STOPPING
-    }
-
-    public enum SignonState {
-        NOT_SIGON,
-        SIGNING,
-        SIGNED_ON
-    }
+public class DefaultCppController implements CppController {
 
     private enum APP_REQUESTED_STATE {
         NONE, START, STOP
@@ -70,8 +60,6 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         PROVISIONED
     }
 
-    public static final String NOTIFICATION_SERVICE_TAG = "3pns";
-    public static final String NOTIFICATION_PROTOCOL = "push";
     private static final String CERTIFICATE_EXTENSION = ".cer";
 
     private static CppController sInstance;
@@ -119,18 +107,18 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         if (kpsConfigurationInfo == null || context == null) {
             throw new RuntimeException("CPPController cannot be initialized without context and kpsConfigurationInfo");
         }
-        sInstance = new CppController(context, kpsConfigurationInfo);
+        sInstance = new DefaultCppController(context, kpsConfigurationInfo);
         return sInstance;
     }
 
     public static synchronized CppController getInstance() {
-        DICommLog.i(DICommLog.ICPCLIENT, "GetInstance: " + sInstance);
+        Log.i(LogConstants.ICPCLIENT, "GetInstance: " + sInstance);
         // TODO:DICOMM Refactor, need generic mechanism to update this locale information whenever the language changes.
         setLocale();
         return sInstance;
     }
 
-    protected CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+    protected DefaultCppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
 
         this.mContext = context;
         mKpsConfigurationInfo = kpsConfigurationInfo;
@@ -147,19 +135,20 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     }
 
     // Only used for testing
-    private CppController() {
+    private DefaultCppController() {
         mSignon = null;
         mSignOnListeners = new ArrayList<>();
         mDcsResponseListeners = null;
         mPublishEventListeners = null;
     }
 
+    @Override
     public void signOnWithProvisioning() {
         if (getKeyProvisioningState() == KeyProvision.NOT_PROVISIONED) {
-            DICommLog.i(DICommLog.ICPCLIENT, "startprovisioning on network change if not provisioned");
+            Log.i(LogConstants.ICPCLIENT, "startprovisioning on network change if not provisioned");
             startKeyProvisioning();
         } else if (getKeyProvisioningState() == KeyProvision.PROVISIONED && !isSignOn()) {
-            DICommLog.i(DICommLog.ICPCLIENT, "start signon on network change if not signed on");
+            Log.i(LogConstants.ICPCLIENT, "start signon on network change if not signed on");
             signOn();
         }
     }
@@ -171,7 +160,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     }
 
     private void startKeyProvisioning() {
-        DICommLog.i(DICommLog.KPS, "Start provision");
+        Log.i(LogConstants.KPS, "Start provision");
         mKeyProvisioningState = KeyProvision.PROVISIONING;
         String appVersion = null;
 
@@ -190,12 +179,12 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             throw new KeyProvisioningException(e);
         }
 
-        DICommLog.i(DICommLog.KPS, relationshipId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
+        Log.i(LogConstants.KPS, relationshipId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
         provision.setApplicationInfo(createIdentityInformation(appVersion, relationshipId));
 
         int commandResult = provision.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {
-            DICommLog.i(DICommLog.KPS, "PROVISION-FAILED");
+            Log.i(LogConstants.KPS, "PROVISION-FAILED");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -216,11 +205,12 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return identityInformation;
     }
 
+    @Override
     public boolean isSignOn() {
         if (mSignon == null) {
             mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
         }
-        DICommLog.i(DICommLog.CPPCONTROLLER, "isSign " + mSignon.getSignOnStatus());
+        Log.i(LogConstants.CPPCONTROLLER, "isSign " + mSignon.getSignOnStatus());
         return mSignon.getSignOnStatus();
     }
 
@@ -243,7 +233,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         if (commandResult == Errors.SUCCESS) {
             startKeyProvisioning();
         } else {
-            DICommLog.e(DICommLog.CPPCONTROLLER, "init failed " + commandResult);
+            Log.e(LogConstants.CPPCONTROLLER, "init failed " + commandResult);
         }
     }
 
@@ -253,7 +243,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
      */
     private void signOn() {
         if (!mIsSignOn) {
-            DICommLog.i(DICommLog.ICPCLIENT, "onSignOn");
+            Log.i(LogConstants.ICPCLIENT, "onSignOn");
             mIsSignOn = true;
             mSignonState = SignonState.SIGNING;
 
@@ -263,7 +253,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             }
 
             mSignon.setIsFirstTime(true);
-            DICommLog.i(DICommLog.ICPCLIENT, "Version: " + mSignon.clientVersion());
+            Log.i(LogConstants.ICPCLIENT, "Version: " + mSignon.clientVersion());
             int commandResult = mSignon.executeCommand();
             if (commandResult != Errors.REQUEST_PENDING) {
                 mIsSignOn = false;
@@ -272,38 +262,44 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    @Override
     public void addSignOnListener(SignonListener signOnListener) {
         synchronized (mSignOnListeners) {
             if (!mSignOnListeners.contains(signOnListener)) {
                 mSignOnListeners.add(signOnListener);
-                DICommLog.v(DICommLog.CPPCONTROLLER, "Added signOn listener - " + signOnListener.hashCode());
+                Log.v(LogConstants.CPPCONTROLLER, "Added signOn listener - " + signOnListener.hashCode());
             }
         }
     }
 
+    @Override
     public void removeSignOnListener(SignonListener signOnListener) {
         synchronized (mSignOnListeners) {
             if (mSignOnListeners.contains(signOnListener)) {
                 mSignOnListeners.remove(signOnListener);
-                DICommLog.v(DICommLog.CPPCONTROLLER, "Removed signOn listener - " + signOnListener.hashCode());
+                Log.v(LogConstants.CPPCONTROLLER, "Removed signOn listener - " + signOnListener.hashCode());
             }
         }
     }
 
+    @Override
     public void setNotificationListener(SendNotificationRegistrationIdListener listener) {
         mNotificationListener = listener;
     }
 
+    @Override
     public void setDownloadDataListener(ICPDownloadListener downloadDataListener) {
-        DICommLog.i(DICommLog.INDOOR_RDCP, "setDownloadDataListener");
+        Log.i(LogConstants.INDOOR_RDCP, "setDownloadDataListener");
         this.mDownloadDataListener = downloadDataListener;
     }
 
+    @Override
     public void removeDownloadDataListener() {
-        DICommLog.i(DICommLog.INDOOR_RDCP, "setDownloadDataListener");
+        Log.i(LogConstants.INDOOR_RDCP, "setDownloadDataListener");
         this.mDownloadDataListener = null;
     }
 
+    @Override
     public void addDCSEventListener(String cppId, DcsEventListener dcsEventListener) {
         //DI-Comm change. Checking the listener before adding it to the map
         if (mDcsEventListenersMap != null && !mDcsEventListenersMap.containsKey(cppId)) {
@@ -312,6 +308,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     }
 
     //DI-Comm change. Added one more method to disable remote subscription
+    @Override
     public void removeDCSEventListener(String cppId) {
         if (mDcsEventListenersMap != null) {
             mDcsEventListenersMap.remove(cppId);
@@ -322,10 +319,12 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return mDcsEventListenersMap.get(cppId);
     }
 
+    @Override
     public void setDCSDiscoverEventListener(DcsEventListener mCppDiscoverEventListener) {
         this.mCppDiscoverEventListener = mCppDiscoverEventListener;
     }
 
+    @Override
     public void addDCSResponseListener(DcsResponseListener dcsResponseListener) {
         synchronized (mDcsResponseListeners) {
             if (!mDcsResponseListeners.contains(dcsResponseListener)) {
@@ -334,6 +333,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    @Override
     public void removeDCSResponseListener(DcsResponseListener dcsResponseListener) {
         synchronized (mDcsResponseListeners) {
             if (mDcsResponseListeners.contains(dcsResponseListener)) {
@@ -342,6 +342,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    @Override
     public void addPublishEventListener(PublishEventListener publishEventListener) {
         synchronized (mPublishEventListeners) {
             if (!mPublishEventListeners.contains(publishEventListener)) {
@@ -350,6 +351,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    @Override
     public void removePublishEventListener(PublishEventListener publishEventListener) {
         synchronized (mPublishEventListeners) {
             if (mPublishEventListeners.contains(publishEventListener)) {
@@ -358,21 +360,18 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
-    public interface DCSStartListener {
-        void onResponseReceived();
-    }
-
     /**
      * This method will subscribe to events
      */
+    @Override
     public void startDCSService(DCSStartListener dcsStartListener) {
-        DICommLog.d(DICommLog.CPPCONTROLLER, "Start DCS: isSIgnOn " + mIsSignOn + " DCS state: " + mDcsState);
+        Log.d(LogConstants.CPPCONTROLLER, "Start DCS: isSIgnOn " + mIsSignOn + " DCS state: " + mDcsState);
 
         if (mDcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
             this.dcsStartListener = dcsStartListener;
             mAppDcsRequestState = APP_REQUESTED_STATE.NONE;
             if (isSignOn()) {
-                DICommLog.i(DICommLog.CPPCONTROLLER, "Starting DCS - Already Signed On");
+                Log.i(LogConstants.CPPCONTROLLER, "Starting DCS - Already Signed On");
                 int numberOfEvents = 1;
                 mEventSubscription = EventSubscription.getInstance(mICPCallbackHandler,
                         numberOfEvents);
@@ -380,7 +379,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
                 mEventSubscription.setServiceTag("");
 
                 int commandResult = mEventSubscription.executeCommand();
-                DICommLog.i(DICommLog.ICPCLIENT, "executeCommand commandResult " + commandResult);
+                Log.i(LogConstants.ICPCLIENT, "executeCommand commandResult " + commandResult);
                 if (commandResult == Errors.REQUEST_PENDING) {
                     mDcsState = ICP_CLIENT_DCS_STATE.STARTING;
                 } else {
@@ -388,7 +387,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
                 }
             } else {
                 mAppDcsRequestState = APP_REQUESTED_STATE.START;
-                DICommLog.i(DICommLog.CPPCONTROLLER, "Failed to start DCS - not signed on");
+                Log.i(LogConstants.CPPCONTROLLER, "Failed to start DCS - not signed on");
                 signOnWithProvisioning();
             }
         } else {
@@ -399,12 +398,13 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     /**
      * Stop the DCS service
      */
+    @Override
     public void stopDCSService() {
         if (isSignOn() && mEventSubscription != null) {
             if (mDcsState == ICP_CLIENT_DCS_STATE.STARTED) {
                 mDcsState = ICP_CLIENT_DCS_STATE.STOPPING;
                 mAppDcsRequestState = APP_REQUESTED_STATE.NONE;
-                DICommLog.i(DICommLog.SUBSCRIPTION, "Stop DCS service");
+                Log.i(LogConstants.SUBSCRIPTION, "Stop DCS service");
                 mEventSubscription.stopCommand();
             } else {
                 mAppDcsRequestState = APP_REQUESTED_STATE.STOP;
@@ -429,6 +429,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    @Override
     public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
         if (action == null) return;
         if (action.equalsIgnoreCase("RESPONSE")) {
@@ -453,12 +454,13 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
      * This method will be used to publish the events from App to Air Purifier
      * via CPP
      */
+    @Override
     public int publishEvent(String eventData, String eventType,
                             String actionName, String conversationId, int priority,
                             int ttl, String purifierEui64) {
         EventPublisher mEventPublisher = new EventPublisher(mICPCallbackHandler);
         int messageID = -1;
-        DICommLog.i(DICommLog.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
+        Log.i(LogConstants.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
                 + eventType + " Action Name: " + actionName +
                 " replyTo: " + mAppCppId + " + isSignOn " + mIsSignOn);
         if (mIsSignOn) {
@@ -477,13 +479,14 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return messageID;
     }
 
+    @Override
     public boolean sendNotificationRegistrationId(String gcmRegistrationId, String provider) {
-        if (!CppController.getInstance().isSignOn()) {
-            DICommLog.e(DICommLog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
+        if (!DefaultCppController.getInstance().isSignOn()) {
+            Log.e(LogConstants.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
             return false;
         }
 
-        DICommLog.i(DICommLog.CPPCONTROLLER, "CPPController sendNotificationRegistrationId provider : " + provider
+        Log.i(LogConstants.CPPCONTROLLER, "CPPController sendNotificationRegistrationId provider : " + provider
                 + "------------RegId : " + gcmRegistrationId);
 
         ThirdPartyNotification thirdParty = new ThirdPartyNotification(
@@ -492,7 +495,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
         int commandResult = thirdParty.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {
-            DICommLog.e(DICommLog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
+            Log.e(LogConstants.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
             return false;
         }
         return true;
@@ -503,8 +506,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
      * buffer size callback from the download will happen in
      * onICPCallbackEventOccurred
      */
+    @Override
     public void downloadDataFromCPP(String query, int bufferSize) {
-        DICommLog.i(DICommLog.CPPCONTROLLER, "downloadDataFromCPP query: " + query + ", isSignOn: " + mIsSignOn + ", state: " + mSignonState);
+        Log.i(LogConstants.CPPCONTROLLER, "downloadDataFromCPP query: " + query + ", isSignOn: " + mIsSignOn + ", state: " + mSignonState);
         try {
             DownloadData mDownloadData = new DownloadData(mICPCallbackHandler);
             mDownloadData.setDownloadDataDetails(query, 2048, 0, 0);
@@ -515,11 +519,13 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    @Override
     public void setDefaultDcsState() {
         mDcsState = ICP_CLIENT_DCS_STATE.STOPPED;
         mAppDcsRequestState = APP_REQUESTED_STATE.NONE;
     }
 
+    @Override
     public void setAppUpdateNotificationListener(AppUpdateListener listener) {
         this.mAppUpdateListener = listener;
     }
@@ -531,23 +537,23 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     @Override
     public void onICPCallbackEventOccurred(int eventType, int status,
                                            ICPClient icpClient) {
-        DICommLog.i(DICommLog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + CppCommand.fromCommandCode(eventType) + " status " + CppError.fromErrorCode(status));
+        Log.i(LogConstants.ICPCLIENT, "onICPCallbackEventOccurred eventType " + CppCommand.fromCommandCode(eventType) + " status " + CppError.fromErrorCode(status));
         switch (eventType) {
 
             case Commands.SIGNON:
                 if (status == Errors.SUCCESS) {
-                    DICommLog.i(DICommLog.ICPCLIENT, "SIGNON-SUCCESSFUL");
+                    Log.i(LogConstants.ICPCLIENT, "SIGNON-SUCCESSFUL");
                     mIsSignOn = true;
                     mSignonState = SignonState.SIGNED_ON;
                     notifySignOnListeners(true);
 
                     if (mAppDcsRequestState == APP_REQUESTED_STATE.START) {
-                        DICommLog.i(DICommLog.CPPCONTROLLER, "Starting DCS after sign on");
+                        Log.i(LogConstants.CPPCONTROLLER, "Starting DCS after sign on");
                         startDCSService(dcsStartListener);
                     }
 
                 } else {
-                    DICommLog.e(DICommLog.ICPCLIENT, "SIGNON-FAILED");
+                    Log.e(LogConstants.ICPCLIENT, "SIGNON-FAILED");
                     mIsSignOn = false;
                     mSignonState = SignonState.NOT_SIGON;
                     notifySignOnListeners(false);
@@ -563,7 +569,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
                 keyProvisionEvent(status, icpClient);
                 break;
             case Commands.EVENT_NOTIFICATION:
-                DICommLog.i(DICommLog.ICPCLIENT, "Event Notification: " + status);
+                Log.i(LogConstants.ICPCLIENT, "Event Notification: " + status);
                 if (status == Errors.SUCCESS) {
                     if (mAppUpdateListener != null) {
                         mAppUpdateListener.onAppUpdateAvailable();
@@ -592,14 +598,14 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     private void keyProvisionEvent(int status, ICPClient icpClient) {
         if (status == Errors.SUCCESS) {
-            DICommLog.i(DICommLog.KPS, "PROVISION-SUCCESS");
+            Log.i(LogConstants.KPS, "PROVISION-SUCCESS");
             mKeyProvisioningState = KeyProvision.PROVISIONED;
             Provision provision = (Provision) icpClient;
-            DICommLog.i(DICommLog.KPS, "EUI64(APP-KEY): " + provision.getEUI64());
+            Log.i(LogConstants.KPS, "EUI64(APP-KEY): " + provision.getEUI64());
             mAppCppId = provision.getEUI64();
             signOn();
         } else {
-            DICommLog.e(DICommLog.KPS, "PROVISION-FAILED");
+            Log.e(LogConstants.KPS, "PROVISION-FAILED");
             mKeyProvisioningState = KeyProvision.NOT_PROVISIONED;
         }
     }
@@ -607,10 +613,10 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     // TODO:DICOMM Refactor, check if this also can be moved to appupdater then onfiledownloadFailed callback can be removed
     private void componentDetailsEvent(int status, ICPClient icpClient) {
         if (status == Errors.SUCCESS) {
-            DICommLog.i(DICommLog.CPPCONTROLLER, "ICPCallback FetchComponentDetails success");
+            Log.i(LogConstants.CPPCONTROLLER, "ICPCallback FetchComponentDetails success");
             ComponentDetails componentDetails = (ComponentDetails) icpClient;
             int numberOfComponents = componentDetails.getNumberOfComponentReturned();
-            DICommLog.i(DICommLog.ICPCLIENT, "Number of components: " + numberOfComponents);
+            Log.i(LogConstants.ICPCLIENT, "Number of components: " + numberOfComponents);
             for (int index = 0; index < numberOfComponents; index++) {
                 if (componentDetails.getComponentInfo(index).id.equals(mKpsConfigurationInfo.getComponentId())) {
                     // Start software download
@@ -625,7 +631,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         } else {
             //downloadFailed() ;
             mAppUpdateListener.onAppUpdateDownloadFailed();
-            DICommLog.e(DICommLog.CPPCONTROLLER, "ICPCallback FetchComponentDetails failed: " + status);
+            Log.e(LogConstants.CPPCONTROLLER, "ICPCallback FetchComponentDetails failed: " + status);
         }
     }
 
@@ -633,7 +639,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         //TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED
         if (status == Errors.SUCCESS) {
             mDcsState = ICP_CLIENT_DCS_STATE.STARTED;
-            DICommLog.i(DICommLog.ICPCLIENT, "State: " + mEventSubscription.getState());
+            Log.i(LogConstants.ICPCLIENT, "State: " + mEventSubscription.getState());
 
             switch (mEventSubscription.getState()) {
                 case EventSubscription.SUBSCRIBE_EVENTS_STOPPED:
@@ -666,8 +672,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             String fromEui64 = eventSubscription.getReplyTo(i);
             String action = eventSubscription.getAction(i);
 
-            DICommLog.d(DICommLog.ICPCLIENT, "DCS event received from: " + fromEui64 + "    action: " + action);
-            DICommLog.d(DICommLog.ICPCLIENT, "DCS event received: " + dcsEvents);
+            Log.d(LogConstants.ICPCLIENT, "DCS event received from: " + fromEui64 + "    action: " + action);
+            Log.d(LogConstants.ICPCLIENT, "DCS event received: " + dcsEvents);
 
             if (notifyListeners) {
                 notifyDCSListener(dcsEvents, fromEui64, action, mEventSubscription.getConversationId(i));
@@ -678,10 +684,10 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private void thirdPartyRegisterProtocolAddressEvent(int status, ICPClient icpClient) {
         ThirdPartyNotification tpns = (ThirdPartyNotification) icpClient;
         if (status == Errors.SUCCESS && tpns.getRegistrationStatus()) {
-            DICommLog.i(DICommLog.CPPCONTROLLER, "Successfully registered with CPP");
+            Log.i(LogConstants.CPPCONTROLLER, "Successfully registered with CPP");
             notifyNotificationListener(true);
         } else {
-            DICommLog.i(DICommLog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);
+            Log.i(LogConstants.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);
             notifyNotificationListener(false);
         }
     }
@@ -705,7 +711,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
             mDownloadDataBuilder.append(new String(buffer, Charset.defaultCharset()));
 
             if (downloadData.getIsDownloadComplete()) {
-                DICommLog.d(DICommLog.CPPCONTROLLER, "Download complete");
+                Log.d(LogConstants.CPPCONTROLLER, "Download complete");
                 if (mDownloadDataListener != null) {
                     String downloadedData = mDownloadDataBuilder.toString();
                     mDownloadDataBuilder.setLength(0);
@@ -723,6 +729,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         }
     }
 
+    @Override
     public void startNewAppUpdateDownload() {
         FileDownload fileDownload = new FileDownload(mICPCallbackHandler);
 
@@ -736,14 +743,14 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
         int commandResult = fileDownload.executeCommand();
         if (commandResult == Errors.REQUEST_PENDING) {
-            DICommLog.i(DICommLog.ICPCLIENT, "File download parameters are correct");
+            Log.i(LogConstants.ICPCLIENT, "File download parameters are correct");
         }
     }
 
     private boolean isUpgradeAvailable(int versionAvailableInCPP) {
-        DICommLog.i(DICommLog.ICPCLIENT, "Version at CPP:" + versionAvailableInCPP);
+        Log.i(LogConstants.ICPCLIENT, "Version at CPP:" + versionAvailableInCPP);
         if (getAppVersion() < versionAvailableInCPP) {
-            DICommLog.i(DICommLog.ICPCLIENT, "Version:" + getAppVersion());
+            Log.i(LogConstants.ICPCLIENT, "Version:" + getAppVersion());
             return true;
         }
         return false;
@@ -774,7 +781,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
                 }
             }
         } catch (IOException e) {
-            DICommLog.e(DICommLog.CPPCONTROLLER, "Error: " + e.getMessage());
+            Log.e(LogConstants.CPPCONTROLLER, "Error: " + e.getMessage());
         }
         return gs.getNumberOfCertificates() > 0;
     }
@@ -798,6 +805,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     /*
      * Returns ICPClient version
      */
+    @Override
     public String getICPClientVersion() {
         if (mSignon == null) {
             mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
@@ -806,9 +814,10 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     }
 
     static CppController getCppControllerForTesting() {
-        return new CppController();
+        return new DefaultCppController();
     }
 
+    @Override
     public void fetchICPComponents(String appComponentId) {
         ComponentInfo[] componentInfo = new ComponentInfo[1];
 
@@ -820,10 +829,10 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
         int commandResult = componentDetails.executeCommand();
         if (commandResult == Errors.REQUEST_PENDING) {
-            DICommLog.i(DICommLog.CPPCONTROLLER, "fetchICPComponentDetails success");
+            Log.i(LogConstants.CPPCONTROLLER, "fetchICPComponentDetails success");
         } else {
             mAppUpdateListener.onAppUpdateDownloadFailed();
-            DICommLog.e(DICommLog.CPPCONTROLLER, "fetchICPComponentDetails failed");
+            Log.e(LogConstants.CPPCONTROLLER, "fetchICPComponentDetails failed");
         }
     }
 
@@ -908,7 +917,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     private int getAppVersion() {
         try {
             PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-            DICommLog.i(DICommLog.CPPCONTROLLER, "Application version: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")");
+            Log.i(LogConstants.CPPCONTROLLER, "Application version: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")");
             return packageInfo.versionCode;
         } catch (NameNotFoundException e) {
             // should never happen
@@ -918,23 +927,27 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
     private static void setLocale() {
         if (mKpsConfigurationInfo != null && mSignon != null) {
-            DICommLog.i(DICommLog.CPPCONTROLLER, "setLocale is called, Country = " + mKpsConfigurationInfo.getCountryCode() + "Language = " + mKpsConfigurationInfo.getLanguageCode());
+            Log.i(LogConstants.CPPCONTROLLER, "setLocale is called, Country = " + mKpsConfigurationInfo.getCountryCode() + "Language = " + mKpsConfigurationInfo.getLanguageCode());
             mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
         }
     }
 
+    @Override
     public String getAppType() {
         return mKpsConfigurationInfo.getAppType();
     }
 
+    @Override
     public String getAppCppId() {
         return mAppCppId;
     }
 
+    @Override
     public SignonState getSignOnState() {
         return mSignonState;
     }
 
+    @Override
     public ICP_CLIENT_DCS_STATE getState() {
         return mDcsState;
     }

@@ -1,1 +1,1 @@
-include ':dicommClientLib'
+include ':dicommClientLib', ':cloudcontroller'
