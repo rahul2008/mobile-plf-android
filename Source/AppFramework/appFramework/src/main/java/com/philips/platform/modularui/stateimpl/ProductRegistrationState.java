@@ -61,7 +61,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
     @Override
     public void init(Context context) {
         applicationContext = context;
-        PRDependencies prodRegDependencies = new PRDependencies(AppFrameworkApplication.gAppInfra);
+        PRDependencies prodRegDependencies = new PRDependencies(AppFrameworkApplication.appInfra);
 
         UappSettings uappSettings = new UappSettings(applicationContext);
         new PRInterface().init(prodRegDependencies, uappSettings);

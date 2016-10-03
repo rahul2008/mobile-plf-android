@@ -88,7 +88,7 @@ public class IAPState extends UIState{
         applicationContext=context;
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(applicationContext);
-        IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.gAppInfra);
+        IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
 
