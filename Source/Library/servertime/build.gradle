@@ -16,7 +16,7 @@ buildscript {
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
@@ -31,35 +31,43 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = "1.0.3"
+version = "1.0.3-SNAPSHOT"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+	contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
+            repoKey = "libs-snapshot-local-ios"
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
+           // publishPom = true
+           // publishIvy = false
+           // publishBuildInfo = true
+        }
+				        defaults {
             publishIvy = false
-            publishBuildInfo = true
+            publishPom = true
+            publishArtifacts = true
         }
     }
+
     resolve {
         repository {
             repoKey = 'libs-release-local'
         }
     }
+	clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName version
     }
@@ -78,7 +86,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'/*
+    compile 'com.android.support:appcompat-v7:24.2.1'/*
     androidTestCompile project(':dexmaker-mockito-1.4')
     androidTestCompile project(':dexmaker-1.4')
     androidTestCompile project(':dexmaker-dx-1.4')
