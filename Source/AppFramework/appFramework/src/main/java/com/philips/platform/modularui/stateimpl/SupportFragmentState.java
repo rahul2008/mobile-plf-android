@@ -71,7 +71,7 @@ public class SupportFragmentState extends UIState implements CcListener {
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
-        CcDependencies ccDependencies = new CcDependencies(AppFrameworkApplication.gAppInfra);
+        CcDependencies ccDependencies = new CcDependencies(AppFrameworkApplication.appInfra);
 
         ccInterface.init(ccDependencies, ccSettings);
         ccInterface.launch(fragmentLauncher, ccLaunchInput);
@@ -79,9 +79,9 @@ public class SupportFragmentState extends UIState implements CcListener {
 
     /**
      * Registering for UIStateListener callbacks
-     * @param setStateCallBack
+     * @param uiStateListener
      */
-    public void registerUIStateListener(UIStateListener setStateCallBack) {
+    public void registerUIStateListener(UIStateListener uiStateListener) {
         this.supportListener = (UIStateListener) getPresenter();
     }
 

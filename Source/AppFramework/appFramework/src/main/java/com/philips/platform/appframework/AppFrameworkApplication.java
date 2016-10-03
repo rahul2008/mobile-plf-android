@@ -25,10 +25,11 @@ import java.util.Locale;
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;
     private static Context context;
-    public static AppInfraInterface gAppInfra;
+    public static AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
-    UserRegistrationState ur;
-    IAPState iap;
+    UserRegistrationState userRegistrationState;
+    IAPState iapState;
+    ProductRegistrationState productRegistrationState;
      /**
      * @return instance of this class
      */
@@ -42,21 +43,21 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         flowManager = new UIFlowManager();
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
+        appInfra = new AppInfra.Builder().build(getApplicationContext());
+        loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        ur= new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-        ur.init(this);
-        ProductRegistrationState pr= new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
-        pr.init(this);
-        iap = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
-        iap.init(this);
+        userRegistrationState= new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        userRegistrationState.init(this);
+        productRegistrationState= new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
+        productRegistrationState.init(this);
+        iapState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+        iapState.init(this);
     }
 
     public IAPState getIap(){
-        return iap;
+        return iapState;
     }
 /**
  * Method for initializing IAP
