@@ -102,26 +102,6 @@ android {
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-            maven = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local'
-        }
-    }
-}
-
 def Properties props = new Properties()
 def propFile = new File('signing.properties')
 if (propFile.canRead()){
@@ -147,7 +127,7 @@ dependencies {
     compile project(':HockeySDK-3.0.2')
 }
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
