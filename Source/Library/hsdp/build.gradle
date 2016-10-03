@@ -63,13 +63,13 @@ artifactory {
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 21
-        versionName "1.0.4"
+        targetSdkVersion 24
+        versionName "1.0.5"
         testApplicationId "com.philips.dhpclient.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 
