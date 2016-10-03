@@ -34,15 +34,6 @@ public class AboutScreenState  extends UIState {
                 handleFragmentBackStack( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
-    /**
-     * To handle handleBack pressed
-     * @param context requires context
-     */
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
-    }
-
     @Override
     public void init(Context context) {
 

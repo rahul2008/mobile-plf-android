@@ -53,11 +53,6 @@ public class SupportFragmentState extends UIState implements CcListener {
     }
 
     @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity) context).popBackTillHomeFragment();
-    }
-
-    @Override
     public void init(Context context) {
 
     }

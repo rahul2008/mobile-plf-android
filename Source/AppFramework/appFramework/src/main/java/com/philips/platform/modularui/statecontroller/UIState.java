@@ -78,14 +78,6 @@ abstract public class UIState {
      * @param uiLauncher requires the UiLauncher object
      */
     public abstract void navigate(UiLauncher uiLauncher);
-
-    /**
-     * For going handleBack to last state
-     * @param context requires context
-     */
-
-    public abstract void handleBack(Context context);
-
     /**
      * For initialising the component
      * @param context

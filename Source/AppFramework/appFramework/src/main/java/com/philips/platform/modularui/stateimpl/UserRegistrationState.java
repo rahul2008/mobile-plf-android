@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.StringRes;
+
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.User;
@@ -21,14 +22,14 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+
 import java.util.ArrayList;
 import java.util.Locale;
 /**
@@ -57,11 +58,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         launchUR();
-    }
-
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBack();
     }
 
     @Override

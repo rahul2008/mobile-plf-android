@@ -49,7 +49,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
 
 /**
  * This methods handles all click events done on hamburger menu
- * Any changes for hamburger menu options shuld be made here
+ * Any changes for hamburger menu options should be made here
  */
     @Override
     public void onClick(int componentID, Context context) {

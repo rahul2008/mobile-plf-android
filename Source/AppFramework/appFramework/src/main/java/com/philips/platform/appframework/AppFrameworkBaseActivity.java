@@ -5,18 +5,13 @@
 */
 package com.philips.platform.appframework;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
-import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.homescreen.HomeFragment;
-import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
@@ -30,19 +25,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-    }
-
-    public void handleFragmentBackStack(Fragment fragment, String fragmentTag) {
-        int containerId = R.id.frame_container;
-
-            try {
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                fragmentTransaction.addToBackStack(fragmentTag);
-                fragmentTransaction.commitAllowingStateLoss();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            }
     }
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
@@ -74,52 +56,4 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
             e.printStackTrace();
         }
     }
-    public void popBackTillHomeFragment() {
-        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
-    }
-
-    /*
-     * Add all the drawer fragments here
-     */
-    boolean isLaunchedFromHamburgerMenu(String tag){
-        if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(AboutScreenFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
-            return true;
-        }
-        return false;
-    }
-
-    public void popBack(){
-        FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
-        String str=backEntry.getName();
-        if(str!=null && isLaunchedFromHamburgerMenu(str)){
-            popBackTillHomeFragment();
-        }else {
-            getSupportFragmentManager().popBackStack();
-        }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    public void finishActivity() {
-        this.finishAffinity();
-    }
-
 }

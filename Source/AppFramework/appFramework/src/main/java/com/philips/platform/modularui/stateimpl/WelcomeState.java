@@ -34,14 +34,6 @@ public class WelcomeState extends UIState {
         fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), WelcomeActivity.class));
     }
 
-    /**
-     * handles handleBack pressed
-     * @param context requires context
-     */
-    @Override
-    public void handleBack(final Context context) {
-    }
-
     @Override
     public void init(Context context) {
 

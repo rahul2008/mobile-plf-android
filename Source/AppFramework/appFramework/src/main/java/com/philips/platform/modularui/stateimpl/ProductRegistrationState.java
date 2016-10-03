@@ -19,7 +19,6 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -51,11 +50,6 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         launchPR();
-    }
-
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
     @Override

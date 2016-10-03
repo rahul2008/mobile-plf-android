@@ -37,16 +37,6 @@ public class DebugTestFragmentState extends UIState {
                 handleFragmentBackStack( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
-    /**
-     * to handle handleBack key
-     * @param context requires context
-     */
-
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
-    }
-
     @Override
     public void init(Context context) {
 

@@ -34,14 +34,6 @@ public class HomeActivityState extends UIState {
         fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), HomeActivity.class));
     }
 
-    /**
-     * to handle handleBack
-     * @param context requires context
-     */
-    @Override
-    public void handleBack(final Context context) {
-    }
-
     @Override
     public void init(Context context) {
 

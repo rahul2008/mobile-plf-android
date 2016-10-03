@@ -37,15 +37,6 @@ public class SettingsFragmentState extends UIState {
 
     }
 
-    /**
-     * to handle handleBack
-     * @param context requires context
-     */
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
-    }
-
     @Override
     public void init(Context context) {
 

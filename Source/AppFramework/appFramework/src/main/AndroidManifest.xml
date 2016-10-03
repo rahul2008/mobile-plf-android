@@ -21,33 +21,20 @@
         tools:replace="android:theme,android:label">
 
         <activity
-            android:name=".splash.SplashActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection">
+            android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".introscreen.WelcomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name=".homescreen.HomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"
-            />
-        <!--<receiver-->
-            <!--android:name="NetworkReceiver"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter android:priority="999">-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
-
+        <activity android:name=".introscreen.WelcomeActivity"/>
+        <activity android:name=".homescreen.HomeActivity"/>
         <!--Credentials For LocatePhilips Near you feature(Google Map)-->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <!-- AIzaSyCMHfSC_TqL_PNqJX7pbaIyl154VnFrhec-->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyABLxPKwgjrCBnnLvP55yAYnhpAHZmhLvY" />

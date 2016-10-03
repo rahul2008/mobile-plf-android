@@ -8,7 +8,6 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -33,15 +32,6 @@ public class WelcomeRegistrationState extends UIState {
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), WelcomeActivity.class));
-    }
-
-    /**
-     * to handle handleBack events
-     * @param context requires context
-     */
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
     }
 
     @Override

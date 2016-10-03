@@ -34,15 +34,6 @@ public class HomeFragmentState extends UIState {
         ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragment(), HomeFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
-    /**
-     * to handle handleBack
-     * @param context requires context
-     */
-    @Override
-    public void handleBack(final Context context) {
-        ((AppFrameworkBaseActivity)context).finishActivity();
-    }
-
     @Override
     public void init(Context context) {
 
