@@ -48,7 +48,7 @@ import java.util.ArrayList;
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
- * ActionbarListner is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
+ * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
 public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
     private static String TAG = HomeActivity.class.getSimpleName();

@@ -29,6 +29,9 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains all initialization & Launching details of Product Registration
+ */
 public class ProductRegistrationState extends UIState implements ProdRegUiListener {
 
     private Context activityContext;

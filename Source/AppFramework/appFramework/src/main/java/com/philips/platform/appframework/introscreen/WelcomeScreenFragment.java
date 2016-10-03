@@ -29,67 +29,7 @@ import com.shamanland.fonticon.FontIconView;
  * <p/>
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
- * method in the ViewPager's addOnPageChangeListener.To add a new screen, add another case statement in the onPageSelected method in the Viewpager's
- * addOnPageChangeListener.
  *
- * /&gt;</pre><br>
- *
- * <b>Sample Code:</b>
- * <pre>
- *            @Override
- * public void onPageSelected(int position) {
- * switch (position) {
- * case 0:
- * appframework_leftarrow.setVisibility(FontIconView.GONE);
- * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
- * startRegistrationScreenButton.setVisibility(TextView.GONE);
- * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
- * break;
- * case 1:
- * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
- * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
- * startRegistrationScreenButton.setVisibility(TextView.GONE);
- * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
- * break;
- * case 2:
- * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
- * appframework_rightarrow.setVisibility(FontIconView.GONE);
- * startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
- * appframeworkSkipButton.setVisibility(TextView.GONE);
- * break;
- * default:
- * }
- * }
- *        </pre>
- * <p/>
- * <p/>
- * <b>To change text in each Welcome Screen/Fragment please use the strings file:</b>
- * <br>
- * <b>To modify a screen/fragment use the Fragments onCreateView method's switch statement, choose the screen to be modified and
- * make the necessary changes. Sample code below:
- * </b>
- * <pre>
- *         switch (page) {
- * case PAGE_ONE:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
- * break;
- * case PAGE_TWO:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_center_page_bg));
- * smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
- * break;
- * case PAGE_THREE:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_end_page_bg));
- * smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
- * break;
- * default:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
- * smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
- * }
- *        </pre>
  */
 public class WelcomeScreenFragment extends Fragment implements View.OnClickListener {
 

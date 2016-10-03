@@ -13,6 +13,9 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+/**
+ * This class if used for dynamic configuration of Environment of User registration
+ */
 public class DebugTestFragmentState extends UIState {
     private FragmentLauncher fragmentLauncher;
     /**

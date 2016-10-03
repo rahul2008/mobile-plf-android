@@ -25,7 +25,9 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
-
+/**
+ * This class contains all initialization & Launching details of Consumer Care
+ */
 public class SupportFragmentState extends UIState implements CcListener {
     private Context activityContext;
     private CcSettings ccSettings;
@@ -88,10 +90,6 @@ public class SupportFragmentState extends UIState implements CcListener {
         this.supportListener = (UIStateListener) getPresenter();
     }
 
-    public void unloadCoCo() {
-        DigitalCareConfigManager.getInstance().unRegisterCcListener(this);
-
-    }
 
     /**
      * CcListener interface implementation methods

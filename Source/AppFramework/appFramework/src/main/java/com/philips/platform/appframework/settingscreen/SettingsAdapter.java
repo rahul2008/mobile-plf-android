@@ -36,16 +36,6 @@ import java.util.ArrayList;
 /**
  * Adapter for setting List items
  * The following fields needs to be populated for the list
- * These are standar items but they can e changed according to the vertical requirements
- *
- * name = (TextView) vi.findViewById(R.id.ifo);
- * value = (PuiSwitch) vi.findViewById(R.id.switch_button);
- * number = (TextView) vi.findViewById(R.id.numberwithouticon);
- * on_off = (TextView) vi.findViewById(R.id.medium);
- * arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
- * description = (TextView) vi.findViewById(R.id.text_description_without_icons);
- * type = settingsItemList.get(position).type;
-
  */
 
 public class SettingsAdapter extends BaseAdapter{

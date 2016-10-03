@@ -31,7 +31,10 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.ArrayList;
 import java.util.Locale;
-
+/**
+ * This class contains all initialization & Launching details of UR
+ * Setting configuration using App infra
+ */
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
 
     private Context activityContext;

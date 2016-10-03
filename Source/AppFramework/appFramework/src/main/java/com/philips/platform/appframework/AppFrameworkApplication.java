@@ -20,12 +20,7 @@ import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
 import java.util.Locale;
 /**
- * Application class has following initializations
- *  1. App infra object creation for initializion other cocos and Logging
- *  2. Initialise User Registration
- *  3. Initialise In App Purchase
- *  4. Initialise Product Registration
- *
+ * Application class is used for initialization
  */
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;

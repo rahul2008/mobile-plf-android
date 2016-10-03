@@ -27,29 +27,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  * <p>
  * UIKit provides 3 basic templates that can be filled via target activity.<br>
  * By default themed gradient background is applied.<br>
- * To change default background following code can be used
- * <pre>
- *          ViewGroup group = (ViewGroup) findViewById(<font color="red">R.id.splash_layout</font>);
- *          group.setBackgroundResource(R.drawable.splashscreen_background);
- *     </pre>
- * <p/>
- * </p>
- * <H5>With Philips logo</H5>
- * Inflate <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_top</pre> or
- * <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_bottom</pre> or
- * <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_center_tb</pre>
- * as per the requirement.
- *
- * <p>
- * <H3>Modifying title</H3>
- * <br>
- * Update TextView with id <pre><font color="red"> R.id.splash_title </font></pre> to update the desired
- * text.
- * </p>
- *
- *
- * SplashActivity is class which will appear at the very start when user
- * opens the app.
+ * SplashActivity is class which will appear at the very start when user opens the app.
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;

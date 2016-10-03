@@ -23,6 +23,9 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
 
+/**
+ * This class contains all initialization & Launching details of IAP
+ */
 public class IAPState extends UIState{
 
     private Context activityContext;
