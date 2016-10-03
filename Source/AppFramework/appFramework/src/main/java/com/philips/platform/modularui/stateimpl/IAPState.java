@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class IAPState extends UIState{
 
     private Context activityContext;
-    private Context mApplicationContext;
+    private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
     /**
@@ -82,9 +82,9 @@ public class IAPState extends UIState{
 
     @Override
     public void init(Context context) {
-        mApplicationContext=context;
+        applicationContext=context;
         iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(mApplicationContext);
+        IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.gAppInfra);
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
@@ -97,14 +97,14 @@ public class IAPState extends UIState{
     public class InAppStateData extends UIStateData {
 
         private int iapFlow;
-        private ArrayList<String> mCtnList = null;
+        private ArrayList<String> ctnList = null;
 
         public ArrayList<String> getCtnList() {
-            return mCtnList;
+            return ctnList;
         }
 
-        public void setCtnList(ArrayList<String> mCtnList) {
-            this.mCtnList = mCtnList;
+        public void setCtnList(ArrayList<String> ctnList) {
+            this.ctnList = ctnList;
         }
 
         public int getIapFlow() {

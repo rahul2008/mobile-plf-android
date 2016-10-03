@@ -121,14 +121,14 @@ public class SupportFragmentState extends UIState implements CcListener {
      * Data Model for CoCo is defined here to have minimal import files.
      */
     public class ConsumerCareData extends UIStateData {
-        private ArrayList<String> mCtnList = null;
+        private ArrayList<String> ctnList = null;
 
         public ArrayList<String> getCtnList() {
-            return mCtnList;
+            return ctnList;
         }
 
-        public void setCtnList(ArrayList<String> mCtnList) {
-            this.mCtnList = mCtnList;
+        public void setCtnList(ArrayList<String> ctnList) {
+            this.ctnList = ctnList;
         }
     }
 }

@@ -38,7 +38,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     private User userObject;
     private UIStateListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
-    private Context mApplicationContext;
+    private Context applicationContext;
     final String AI = "appinfra";
 
     public UserRegistrationState(@UIStateDef int stateID) {
@@ -63,7 +63,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     @Override
     public void init(Context context) {
-        this.mApplicationContext = context;
+        this.applicationContext = context;
         initializeUserRegistrationLibrary(Configuration.PRODUCTION);
 
     }
@@ -245,7 +245,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 configError);
 
 
-        SharedPreferences.Editor editor = mApplicationContext.getSharedPreferences("reg_dynamic_config", mApplicationContext.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = applicationContext.getSharedPreferences("reg_dynamic_config", applicationContext.MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
 
@@ -253,12 +253,12 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 
-        PILLocaleManager localeManager = new PILLocaleManager(mApplicationContext);
+        PILLocaleManager localeManager = new PILLocaleManager(applicationContext);
         localeManager.setInputLocale(languageCode, countryCode);
 
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(AppFrameworkApplication.gAppInfra);
-        URSettings urSettings = new URSettings(mApplicationContext);
+        URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
 

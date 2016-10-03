@@ -102,14 +102,14 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
      * Data Model for CoCo is defined here to have minimal import files.
      */
     public class ProductRegistrationData extends UIStateData {
-        private ArrayList<String> mCtnList = null;
+        private ArrayList<String> ctnList = null;
 
         public ArrayList<String> getCtnList() {
-            return mCtnList;
+            return ctnList;
         }
 
-        public void setCtnList(ArrayList<String> mCtnList) {
-            this.mCtnList = mCtnList;
+        public void setCtnList(ArrayList<String> ctnList) {
+            this.ctnList = ctnList;
         }
 
         public Product getProductData(){
