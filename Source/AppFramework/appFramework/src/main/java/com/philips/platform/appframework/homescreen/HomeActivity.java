@@ -70,7 +70,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private ImageView cartIcon;
     private TextView cartCount;
     private int cartItemCount = 0;
-    IAPState iap;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -131,12 +130,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     /**
      * To set the actionbar
-     * @param mActionBar : Requires the actionbar obejct
+     * @param actionBar : Requires the actionbar obejct
      */
-    private void setActionBar(ActionBar mActionBar) {
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowCustomEnabled(true);
+    private void setActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -166,7 +165,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
         cartCount.setVisibility(View.GONE);
-        mActionBar.setCustomView(mCustomView, params);
+        actionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
     }

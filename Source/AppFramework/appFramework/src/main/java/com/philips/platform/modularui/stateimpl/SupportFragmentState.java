@@ -84,9 +84,9 @@ public class SupportFragmentState extends UIState implements CcListener {
 
     /**
      * Registering for UIStateListener callbacks
-     * @param setStateCallBack
+     * @param uiStateListener
      */
-    public void registerUIStateListener(UIStateListener setStateCallBack) {
+    public void registerUIStateListener(UIStateListener uiStateListener) {
         this.supportListener = (UIStateListener) getPresenter();
     }
 

@@ -133,9 +133,9 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     /**
      * Registering for UIStateListener callbacks
-     * @param setStateCallBack
+     * @param uiStateListener
      */
-    public void registerUIStateListener(UIStateListener setStateCallBack){
+    public void registerUIStateListener(UIStateListener uiStateListener){
         this.userRegistrationListener = (UIStateListener) getPresenter();
     }
 
