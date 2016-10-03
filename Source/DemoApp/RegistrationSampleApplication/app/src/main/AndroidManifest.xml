@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.philips.cdp.registration.sample.RegistrationFragmentActivity"></activity>
     </application>
 
 </manifest>

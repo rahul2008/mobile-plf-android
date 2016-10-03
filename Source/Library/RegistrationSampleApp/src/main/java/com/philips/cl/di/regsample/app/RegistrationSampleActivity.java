@@ -69,6 +69,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     private RadioGroup mRadioGroup;
     private CheckBox mCheckBox;
+    private User mUser;
 
 
     @Override
@@ -97,8 +98,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
         }
 
-        user = new User(mContext);
-        user.registerUserRegistrationListener(this);
+        mUser = new User(mContext);
+        mUser.registerUserRegistrationListener(this);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
 
@@ -147,7 +148,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 //Resetn
                 UserRegistrationInitializer.getInstance().resetInitializationState();
-                //Logout user
+                //Logout mUser
                 clearData();
 
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
@@ -255,7 +256,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onDestroy() {
-         user.unRegisterUserRegistrationListener(this);
+         mUser.unRegisterUserRegistrationListener(this);
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity unregister : RegisterUserRegistrationListener");
         super.onDestroy();
 
@@ -412,12 +413,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         });
     }
 
-    User user;
+
 
     @Override
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity Access token: " + user.getHsdpAccessToken());
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity Access token: " + mUser.getHsdpAccessToken());
         showToast("Success to refresh hsdp access token");
     }
 
