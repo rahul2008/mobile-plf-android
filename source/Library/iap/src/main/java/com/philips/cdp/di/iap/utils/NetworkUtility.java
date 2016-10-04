@@ -9,6 +9,8 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -123,5 +125,12 @@ public class NetworkUtility {
                 = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
+        VolleyError volleyError = new ServerError();
+        IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
+        error.setCustomErrorMessage(errorMessage);
+        return error;
     }
 }

@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.core;
 import android.content.Context;
 import android.os.Message;
 
-import com.android.volley.ServerError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
@@ -18,6 +17,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -74,13 +74,13 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                             webResults = (WebResults) msg.obj;
                         }
                         if(webResults==null){
-                            mLoadListener.onRetailerError(createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
+                            mLoadListener.onRetailerError(NetworkUtility.getInstance().createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             return;
                         }
                         if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
                             dismissProgressDialog();
                             if (mLoadListener != null) {
-                                mLoadListener.onRetailerError(createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
+                                mLoadListener.onRetailerError(NetworkUtility.getInstance().createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             }
                             return;
                         }
@@ -137,10 +137,4 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         return mStore;
     }
 
-    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
-        ServerError volleyError = new ServerError();
-        IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
-        error.setCustomErrorMessage(errorMessage);
-        return error;
-    }
 }

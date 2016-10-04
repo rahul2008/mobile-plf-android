@@ -11,6 +11,7 @@ import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -79,7 +80,7 @@ public class LocalProductCatalogTest {
 
     @Test
     public void testCreateIAPErrorMessage() throws Exception {
-        mLocalProductCatalog.createIAPErrorMessage("No product found in your Store.");
+        NetworkUtility.getInstance().createIAPErrorMessage("No product found in your Store.");
     }
 
     @Test
