@@ -67,12 +67,12 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
         mCTNS.add("HX9033/64");
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
     }
 
     @Test
     public void getCurrentCartDetailsVerifySuccess() throws JSONException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mShoppingCartPresenter);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getCurrentCartDetails();
@@ -86,7 +86,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     @Test
     public void getCurrentCartDetailsVerifyHybrisFail() throws JSONException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getCurrentCartDetails();
 
@@ -123,7 +123,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     @Test
     public void DeleteCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         EntriesEntity entriesEntity = new EntriesEntity();
         Field entry = entriesEntity.getClass().getDeclaredField("entryNumber");
@@ -135,7 +135,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     @Test
     public void UpdateCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         EntriesEntity entriesEntity = new EntriesEntity();
         Field entry = entriesEntity.getClass().getDeclaredField("entryNumber");
@@ -172,7 +172,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
             }
         };
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter();
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
@@ -195,7 +195,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
             }
         };
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter();
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
@@ -218,7 +218,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
             }
         };
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest

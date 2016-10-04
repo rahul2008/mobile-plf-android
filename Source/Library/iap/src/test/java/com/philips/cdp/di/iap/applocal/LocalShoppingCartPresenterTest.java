@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.applocal;
 
 import org.junit.Before;
@@ -5,16 +9,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
 public class LocalShoppingCartPresenterTest {
     LocalShoppingCartPresenter mLocalShoppingCartPresenter;
 
     @Before
     public void setUp() throws Exception {
-        mLocalShoppingCartPresenter = new LocalShoppingCartPresenter(null, null, null);
+        mLocalShoppingCartPresenter = new LocalShoppingCartPresenter(null, null);
     }
 
     @Test

@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.core;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.applocal.LocalProductCatalog;
@@ -37,15 +36,14 @@ public class ControllerFactory {
 
     @SuppressWarnings({"rawtype","unchecked"})
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
-                                                    ShoppingCartPresenter.LoadListener listener,
-                                                    FragmentManager fragmentManager) {
+                                                    ShoppingCartPresenter.LoadListener listener) {
         ShoppingCartAPI api;
         boolean isLocalData = loadLocalData();
         if (isLocalData) {
-            api = new LocalShoppingCartPresenter(context, listener, fragmentManager);
+            api = new LocalShoppingCartPresenter(context, listener);
         }
         else {
-            api = new ShoppingCartPresenter(context, listener, fragmentManager);
+            api = new ShoppingCartPresenter(context, listener);
         }
         return api;
     }

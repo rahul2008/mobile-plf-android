@@ -148,7 +148,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
 
-        mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
+        mShoppingCartAPI = new ShoppingCartPresenter();
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;

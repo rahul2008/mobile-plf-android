@@ -88,7 +88,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(mContext, this, getFragmentManager());
+                .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         return rootView;
     }
