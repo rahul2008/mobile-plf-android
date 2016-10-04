@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
 
+import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.uit.view.widget.Button;
 
 import org.junit.Before;
@@ -22,7 +23,7 @@ public class PrimaryButtonWithTextAndIconTest {
     private Drawable backgroundDrawable;
 
     @Rule
-    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
     public void setUp(){
