@@ -11,12 +11,13 @@ import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.icpinterface.data.Errors;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+
+import static com.philips.cdp.dicommclient.cpp.CppError.SUCCESS;
 
 public class RemoteRequest extends Request implements DcsResponseListener, PublishEventListener {
 
@@ -111,7 +112,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     public void onPublishEventReceived(int status, int messageId, String conversationId) {
         if (mMessageId == messageId) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from the right request - status: " + status);
-            if (status == Errors.SUCCESS) {
+            if (status == SUCCESS.errorCode) {
                 mConversationId = conversationId;
             } else {
                 synchronized (this) {

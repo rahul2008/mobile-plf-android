@@ -2,7 +2,7 @@ package com.philips.cdp.dicommclient.cpp;
 
 import com.philips.icpinterface.data.Errors;
 
-enum CppError {
+public enum CppError {
     SUCCESS(Errors.SUCCESS),
     INVALID_PARAM(Errors.INVALID_PARAM),
     PLATFORM_OS(Errors.PLATFORM_OS),
