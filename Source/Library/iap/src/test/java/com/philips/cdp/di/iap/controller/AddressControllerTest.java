@@ -12,9 +12,11 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.addresses.Region;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -29,6 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -38,11 +41,12 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-public class AddressControllerTest{
+public class AddressControllerTest {
 
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
-
+    @Mock
+    Addresses mAddresses;
     @Mock
     private AddressController mAddressController;
     @Mock
@@ -56,7 +60,7 @@ public class AddressControllerTest{
     }
 
     @Test
-    public void testNullStoreAndDelegate() throws JSONException{
+    public void testNullStoreAndDelegate() throws JSONException {
         mAddressController = new AddressController(mContext, new MockAddressListener() {
             @Override
             public void onGetRegions(Message msg) {
@@ -420,6 +424,36 @@ public class AddressControllerTest{
         return address;
     }
 
+    @Test
+    public void setDefaultAddress() throws Exception {
+        Mockito.when(mAddresses.getTitleCode()).thenReturn("Mr");
+        Mockito.when(mAddresses.getFirstName()).thenReturn("Happy");
+        Mockito.when(mAddresses.getLastName()).thenReturn("User");
+        Mockito.when(mAddresses.getCountry()).thenReturn(new Country());
+        Mockito.when(mAddresses.getLine1()).thenReturn("Line1");
+        Mockito.when(mAddresses.getLine2()).thenReturn("Line2");
+        Mockito.when(mAddresses.getPostalCode()).thenReturn("92821");
+        Mockito.when(mAddresses.getTown()).thenReturn("California");
+        Mockito.when(mAddresses.getPhone1()).thenReturn("+1877-682-8207");
+        AddressController addressController = new AddressController(mContext, null);
+        addressController.setDefaultAddress(mAddresses);
+    }
+
+    @Test
+    public void setDefaultAddressWitRegion() throws Exception {
+        Mockito.when(mAddresses.getTitleCode()).thenReturn("Mr");
+        Mockito.when(mAddresses.getFirstName()).thenReturn("Happy");
+        Mockito.when(mAddresses.getLastName()).thenReturn("User");
+        Mockito.when(mAddresses.getCountry()).thenReturn(new Country());
+        Mockito.when(mAddresses.getLine1()).thenReturn("Line1");
+        Mockito.when(mAddresses.getLine2()).thenReturn("Line2");
+        Mockito.when(mAddresses.getPostalCode()).thenReturn("92821");
+        Mockito.when(mAddresses.getTown()).thenReturn("California");
+        Mockito.when(mAddresses.getPhone1()).thenReturn("+1877-682-8207");
+        Mockito.when(mAddresses.getRegion()).thenReturn(new Region());
+        AddressController addressController = new AddressController(mContext, null);
+        addressController.setDefaultAddress(mAddresses);
+    }
     public void testErrorResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);
         assertTrue(msg.obj instanceof IAPNetworkError);

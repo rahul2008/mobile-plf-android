@@ -1,93 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ratingtheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
-                android:paddingRight="@dimen/network_margin_left_right"
-                android:paddingLeft="@dimen/network_margin_left_right"
-    >
+    android:id="@+id/product_catalog_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="4dp"
+    android:paddingLeft="@dimen/network_margin_left_right"
+    android:paddingRight="@dimen/network_margin_left_right">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/image"
         android:layout_width="@dimen/network_image_width"
         android:layout_height="@dimen/network_image_height"
         android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_right"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:paddingLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:src="@drawable/no_icon"
-        />
+        android:src="@drawable/no_icon" />
 
-    <LinearLayout android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/price_container"
-                  android:layout_toLeftOf="@id/arrow"
-                  android:layout_alignParentRight="true"
-                  android:layout_marginLeft="@dimen/iap_image_bottom_margin"
-                  android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-                  android:orientation="vertical"
-        >
-
-    <TextView
-        android:id="@+id/tv_discounted_price"
+    <LinearLayout
+        android:id="@+id/price_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="$90"
-        android:textColor="?attr/uikit_baseColor"
-        fontPath="fonts/centralesansbold.ttf"
-        android:textSize="16sp"
-        android:visibility="gone"
-        />
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/iap_image_bottom_margin"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_toLeftOf="@id/arrow"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$90"
-        android:textColor="@color/uikit_enricher4"
-        fontPath="fonts/centralesansbold.ttf"
-        android:textSize="16sp"
-        />
+        <TextView
+            android:id="@+id/tv_discounted_price"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/uikit_enricher4"
+            android:textSize="16sp" />
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/tv_product_name"
+        fontPath="fonts/centralesansbold.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DiamondClean"
-        android:layout_toRightOf="@id/image"
-        android:textColor="?attr/uikit_baseColor"
         android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-        fontPath="fonts/centralesansbold.ttf"
-        android:textSize="16sp"
-        android:layout_toLeftOf="@id/price_container"
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-        />
+        android:layout_toLeftOf="@id/price_container"
+        android:layout_toRightOf="@id/image"
+        android:text="DiamondClean"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_ctn"
+        fontPath="fonts/centralesansbook.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HX677/01"
-        android:layout_toRightOf="@id/image"
         android:layout_below="@id/tv_product_name"
-        android:textColor="?attr/uikit_baseColor"
-        fontPath="fonts/centralesansbook.ttf"
-        android:textSize="16sp"
         android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-        />
-
-
+        android:layout_toRightOf="@id/image"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="16sp" />
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"
-        android:layout_alignBaseline="@id/tv_ctn"
         style="@style/iap_right_arrow_product_catalog"
-        />
-
-
+        android:layout_alignBaseline="@id/tv_ctn" />
 
     <View
         android:id="@+id/divider"

@@ -6,9 +6,7 @@ package com.philips.cdp.di.iap.core;
 
 import android.content.Context;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 
-import com.android.volley.ServerError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
@@ -16,10 +14,10 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -38,7 +36,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
 
    // private final static String PHILIPS_STORE_YES = "Y";
 
-    protected FragmentManager mFragmentManager;
     protected Context mContext;
     protected ArrayList<StoreEntity> mStoreEntities;
     protected StoreSpec mStore;
@@ -48,10 +45,9 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     public AbstractShoppingCartPresenter() {
     }
 
-    public AbstractShoppingCartPresenter(final Context context, final LoadListener listener, final FragmentManager fragmentManager) {
+    public AbstractShoppingCartPresenter(final Context context, final LoadListener listener) {
         mContext = context;
         mLoadListener = listener;
-        mFragmentManager = fragmentManager;
     }
 
     protected void handleModelDataError(final Message msg) {
@@ -78,13 +74,13 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                             webResults = (WebResults) msg.obj;
                         }
                         if(webResults==null){
-                            mLoadListener.onRetailerError(createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
+                            mLoadListener.onRetailerError(NetworkUtility.getInstance().createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             return;
                         }
                         if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
                             dismissProgressDialog();
                             if (mLoadListener != null) {
-                                mLoadListener.onRetailerError(createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
+                                mLoadListener.onRetailerError(NetworkUtility.getInstance().createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             }
                             return;
                         }
@@ -101,7 +97,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                     }
                 });
         model.setContext(mContext);
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
     }
 
   /*  private void filterOutPhilipsStore() {
@@ -141,14 +137,4 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         return mStore;
     }
 
-    protected void sendHybrisRequest(int code, AbstractModel model, RequestListener listener) {
-        getHybrisDelegate().sendRequest(code, model, model);
-    }
-
-    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
-        ServerError volleyError = new ServerError();
-        IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
-        error.setCustomErrorMessage(errorMessage);
-        return error;
-    }
 }

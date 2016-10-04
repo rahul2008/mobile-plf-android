@@ -16,6 +16,7 @@ import java.util.List;
 
 public class CartModelContainer {
     private static CartModelContainer container;
+
     private AddressFields mBillingAddress;
     private AddressFields mShippingAddressFields;
 
@@ -24,22 +25,21 @@ public class CartModelContainer {
     private String mOrderNumber;
     private RegionsList mRegionList;
 
-    private HashMap<String, SummaryModel> mPRXDataObjects;
-    private HashMap<String, ProductCatalogData> mProductCatalogData;
+    private HashMap<String, ProductCatalogData> mProductList;
+    private HashMap<String, SummaryModel> mPRXSummaryObjects;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
 
     private List<DeliveryModes> mDeliveryModes;
 
     private boolean switchToBillingAddress;
-    private boolean mIsCartCreated;
 
     private String language;
     private String country;
 
     private CartModelContainer() {
-        mPRXDataObjects = new HashMap<>();
+        mPRXSummaryObjects = new HashMap<>();
         mPRXAssetObjects = new HashMap<>();
-        mProductCatalogData = new HashMap<>();
+        mProductList = new HashMap<>();
     }
 
     public static CartModelContainer getInstance() {
@@ -100,12 +100,6 @@ public class CartModelContainer {
         return mOrderNumber;
     }
 
-    public void resetApplicationFields() {
-        mBillingAddress = null;
-        mShippingAddressFields = null;
-        mOrderNumber = null;
-    }
-
     public void setSwitchToBillingAddress(boolean switchToBillingAddress) {
         this.switchToBillingAddress = switchToBillingAddress;
     }
@@ -122,71 +116,6 @@ public class CartModelContainer {
         return mRegionList;
     }
 
-    public SummaryModel getProductData(String ctn) {
-        return mPRXDataObjects.get(ctn);
-    }
-
-    public ProductCatalogData getProductCatalogData(String ctn) {
-        return mProductCatalogData.get(ctn);
-    }
-
-    public boolean isPRXDataPresent(String ctn) {
-        return mPRXDataObjects.containsKey(ctn);
-    }
-
-    public void addProductDataToList(String ctn, SummaryModel model) {
-        mPRXDataObjects.put(ctn, model);
-    }
-
-    public HashMap<String, SummaryModel> getPRXDataObjects() {
-        return mPRXDataObjects;
-    }
-
-    public boolean isPRXAssetPresent(String ctn) {
-        return mPRXAssetObjects.containsKey(ctn);
-    }
-
-    public void addAssetDataToList(String ctn, ArrayList<String> assets) {
-        mPRXAssetObjects.put(ctn, assets);
-    }
-
-    public void addProductCatalogDataDataToList(String ctn, ProductCatalogData data) {
-        if (!mProductCatalogData.containsKey(ctn)) {
-            mProductCatalogData.put(ctn, data);
-        }
-    }
-
-    public boolean isProductCatalogDataPresent(String ctn) {
-        return mProductCatalogData.containsKey(ctn);
-    }
-
-    public ProductCatalogData getProduct(String ctn) {
-        if (mProductCatalogData.containsKey(ctn)) {
-            return mProductCatalogData.get(ctn);
-        }
-        return null;
-    }
-
-    public void clearCategoriezedProductList() {
-        mProductCatalogData.clear();
-    }
-
-    public HashMap<String, ArrayList<String>> getPRXAssetObjects() {
-        return mPRXAssetObjects;
-    }
-
-    public HashMap<String, ProductCatalogData> getProductCatalogData() {
-        return mProductCatalogData;
-    }
-
-    public boolean isCartCreated() {
-        return mIsCartCreated;
-    }
-
-    public void setCartCreated(boolean mIsCartCreated) {
-        this.mIsCartCreated = mIsCartCreated;
-    }
-
     public String getLanguage() {
         return language;
     }
@@ -201,5 +130,67 @@ public class CartModelContainer {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    //PRX Summary
+    public boolean isPRXSummaryPresent(String ctn) {
+        return mPRXSummaryObjects.containsKey(ctn);
+    }
+
+    public SummaryModel getProductSummary(String ctn) {
+        return mPRXSummaryObjects.get(ctn);
+    }
+
+    public void addProductSummary(String ctn, SummaryModel model) {
+        mPRXSummaryObjects.put(ctn, model);
+    }
+
+    public HashMap<String, SummaryModel> getPRXSummaryList() {
+        return mPRXSummaryObjects;
+    }
+
+    //PRX Assets
+    public boolean isPRXAssetPresent(String ctn) {
+        return mPRXAssetObjects.containsKey(ctn);
+    }
+
+    public void addProductAsset(String ctn, ArrayList<String> assets) {
+        mPRXAssetObjects.put(ctn, assets);
+    }
+
+    public HashMap<String, ArrayList<String>> getPRXAssetList() {
+        return mPRXAssetObjects;
+    }
+
+    //Product Data
+    public boolean isProductCatalogDataPresent(String ctn) {
+        return mProductList.containsKey(ctn);
+    }
+
+    public void addProduct(String ctn, ProductCatalogData data) {
+        if (!mProductList.containsKey(ctn)) {
+            mProductList.put(ctn, data);
+        }
+    }
+
+    public ProductCatalogData getProduct(String ctn) {
+        if (mProductList.containsKey(ctn)) {
+            return mProductList.get(ctn);
+        }
+        return null;
+    }
+
+    public HashMap<String, ProductCatalogData> getProductList() {
+        return mProductList;
+    }
+
+    public void clearCategorisedProductList() {
+        mProductList.clear();
+    }
+
+    public void resetApplicationFields() {
+        mBillingAddress = null;
+        mShippingAddressFields = null;
+        mOrderNumber = null;
     }
 }

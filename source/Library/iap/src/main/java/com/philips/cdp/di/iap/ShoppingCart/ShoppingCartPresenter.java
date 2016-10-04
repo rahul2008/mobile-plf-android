@@ -2,16 +2,15 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -23,6 +22,9 @@ import com.philips.cdp.di.iap.model.DeleteCartRequest;
 import com.philips.cdp.di.iap.model.GetCartsRequest;
 import com.philips.cdp.di.iap.model.GetCurrentCartRequest;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
@@ -46,20 +48,17 @@ import java.util.List;
 import java.util.Map;
 
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
-        implements AbstractModel.DataLoadListener {
+        implements AbstractModel.DataLoadListener, AddressController.AddressListener {
 
     private CartsEntity mCurrentCartData = null;
+    private AddressController mAddressController;
 
     public ShoppingCartPresenter() {
     }
 
     @SuppressWarnings({"rawtype", "unchecked"})
-    public ShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
-        super(context, listener, fragmentManager);
-    }
-
-    public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager) {
-        mFragmentManager = pFragmentManager;
+    public ShoppingCartPresenter(Context context, LoadListener listener) {
+        super(context, listener);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -70,7 +69,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void getCurrentCartDetails() {
         GetCurrentCartRequest model = new GetCurrentCartRequest(getStore(), null, this);
         model.setContext(mContext);
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
     }
 
     @Override
@@ -93,7 +92,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                         getCurrentCartDetails();
                     }
                 });
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
     }
 
     @Override
@@ -126,7 +125,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                 Utility.dismissProgressDialog();
             }
         });
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
     }
 
     private void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
@@ -156,7 +155,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                CartModelContainer.getInstance().setCartCreated(true);
+                mAddressController = new AddressController(context, ShoppingCartPresenter.this);
+                mAddressController.getUser();
+
                 if (isBuy) {
                     addProductToCart(context, ctnNumber, iapHandlerListener, true);
                 } else {
@@ -208,7 +209,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void getProductCartCount(final Context context, final IAPCartListener
-            iapHandlerListener) {
+            iapCartListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         model.setContext(context);
@@ -217,12 +218,12 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                     @Override
                     public void onSuccess(final Message msg) {
                         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                            createCart(context, iapHandlerListener, null, false);
+                            createCart(context, iapCartListener, null, false);
                         } else {
                             Carts carts = (Carts) msg.obj;
                             if (carts != null && carts.getCarts() != null) {
                                 if (carts.getCarts().size() > 1) {
-                                    deleteCart(context, iapHandlerListener);
+                                    deleteCart(context, iapCartListener);
                                 } else {
                                     int quantity = 0;
                                     int totalItems = carts.getCarts().get(0).getTotalItems();
@@ -232,8 +233,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                                             quantity = quantity + entries.get(i).getQuantity();
                                         }
                                     }
-                                    if (iapHandlerListener != null) {
-                                        iapHandlerListener.onSuccess(quantity);
+                                    if (iapCartListener != null) {
+                                        iapCartListener.onSuccess(quantity);
                                     }
                                 }
                             }
@@ -242,7 +243,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
                     @Override
                     public void onError(final Message msg) {
-                        handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, false);
+                        handleNoCartErrorOrNotifyError(msg, context, iapCartListener, null, false);
                     }
                 }
 
@@ -381,7 +382,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
         CartsEntity cartsEntity = mCurrentCartData;
         List<EntriesEntity> entries = cartsEntity.getEntries();
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ShoppingCartData> products = new ArrayList<>();
         String ctn;
         for (EntriesEntity entry : entries) {
@@ -413,5 +414,58 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             products.add(cartItem);
         }
         return products;
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            return;
+        } else if (msg.obj instanceof GetUser) {
+            GetUser user = (GetUser) msg.obj;
+            if (user.getDefaultAddress() != null) {
+                mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
+            } else {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onGetAddress(Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onSetDeliveryAddress(Message msg) {
+        mAddressController.getDeliveryModes();
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+        if ((msg.obj instanceof IAPNetworkError)) {
+            return;
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            if (deliveryModeList.size() > 0) {
+                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            }
+        }
+    }
+
+    @Override
+    public void onSetDeliveryMode(Message msg) {
+        return;
     }
 }

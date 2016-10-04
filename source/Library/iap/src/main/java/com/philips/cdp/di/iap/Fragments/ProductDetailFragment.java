@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -61,23 +59,25 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public static final String TAG = ProductDetailFragment.class.getName();
 
     private Context mContext;
-    SummaryModel mProductSummary;
-    ImageAdapter mAdapter;
-    ViewPager mPager;
-    Bundle mBundle;
+    private Bundle mBundle;
+
+    private SummaryModel mProductSummary;
     private ShoppingCartAPI mShoppingCartAPI;
     private ProductDetailEntity mProductDetail;
+    private ImageAdapter mImageAdapter;
+    private ViewPager mViewPager;
+
     private TextView mEmptyCatalogText;
     private TextView mProductDiscountedPrice;
-    TextView mProductDescription;
-    TextView mCTN;
-    TextView mPrice;
-    TextView mProductOverview;
-    Button mAddToCart;
-    Button mBuyFromRetailors;
-    ScrollView mDetailLayout;
+    private TextView mProductDescription;
+    private TextView mCTN;
+    private TextView mPrice;
+    private TextView mProductOverview;
+    private Button mAddToCart;
+    private Button mBuyFromRetailers;
+    private ScrollView mDetailLayout;
 
-    ArrayList<String> mAsset;
+    private ArrayList<String> mAsset;
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
@@ -85,7 +85,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
-            //Added to cart tracking
             tagItemAddedToCart();
             if (mIapListener != null) {
                 mIapListener.onUpdateCartCount();
@@ -96,6 +95,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         public void onFailure(final Message msg) {
             if (Utility.isProgressDialogShowing())
                 Utility.dismissProgressDialog();
+
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
@@ -121,7 +121,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         super.onAttach(context);
         mContext = context;
         mShoppingCartAPI = ControllerFactory.
-                getInstance().getShoppingCartPresenter(mContext, null, getFragmentManager());
+                getInstance().getShoppingCartPresenter(mContext, null);
     }
 
     @Override
@@ -136,19 +136,19 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mPrice = (TextView) rootView.findViewById(R.id.individual_price);
         mProductOverview = (TextView) rootView.findViewById(R.id.product_overview);
         mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
-        mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
+        mBuyFromRetailers = (Button) rootView.findViewById(R.id.buy_from_retailor);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
-        mPager = (ViewPager) rootView.findViewById(R.id.pager);
+        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
-        mAdapter = new ImageAdapter(mContext, getFragmentManager(),
+        mImageAdapter = new ImageAdapter(mContext, getFragmentManager(),
                 mLaunchedFromProductCatalog, new ArrayList<String>());
-        mPager.setAdapter(mAdapter);
-        indicator.setViewPager(mPager);
+        mViewPager.setAdapter(mImageAdapter);
+        indicator.setViewPager(mViewPager);
 
         if (ControllerFactory.getInstance().loadLocalData()) {
-            mBuyFromRetailors.setText(R.string.iap_buy_now);
+            mBuyFromRetailers.setText(R.string.iap_buy_now);
         } else {
-            mBuyFromRetailors.setText(R.string.iap_buy_from_retailers);
+            mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
         }
 
         mBundle = getArguments();
@@ -202,17 +202,17 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             builder.build();
         } else {
             final HashMap<String, ArrayList<String>> prxAssetObjects =
-                    CartModelContainer.getInstance().getPRXAssetObjects();
+                    CartModelContainer.getInstance().getPRXAssetList();
             for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mAsset = entry.getValue();
                     break;
                 }
             }
-            mAdapter = new ImageAdapter(mContext, getFragmentManager(),
+            mImageAdapter = new ImageAdapter(mContext, getFragmentManager(),
                     mLaunchedFromProductCatalog, mAsset);
-            mPager.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
+            mViewPager.setAdapter(mImageAdapter);
+            mImageAdapter.notifyDataSetChanged();
             if (Utility.isProgressDialogShowing())
                 Utility.dismissProgressDialog();
         }
@@ -221,7 +221,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void makeSummaryRequest() {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add(mCTNValue);
-        if (!CartModelContainer.getInstance().isPRXDataPresent(mCTNValue)) {
+        if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
             if (!Utility.isProgressDialogShowing()) {
                 if (mContext == null) return;
                 Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
@@ -230,7 +230,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             builder.preparePRXDataRequest();
         } else {
             final HashMap<String, SummaryModel> prxAssetObjects =
-                    CartModelContainer.getInstance().getPRXDataObjects();
+                    CartModelContainer.getInstance().getPRXSummaryList();
             for (Map.Entry<String, SummaryModel> entry : prxAssetObjects.entrySet()) {
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mProductSummary = entry.getValue();
@@ -251,8 +251,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                     setButtonState();
                     setCartIconVisibility(true);
-                    mBuyFromRetailors.setOnClickListener(this);
-                    mBuyFromRetailors.setVisibility(View.VISIBLE);
+                    mBuyFromRetailers.setOnClickListener(this);
+                    mBuyFromRetailers.setVisibility(View.VISIBLE);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     setTitleAndBackButtonVisibility(mProductTitle, true);
                 } else {
@@ -263,8 +263,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             } else {
                 setTitleAndBackButtonVisibility(mProductTitle, true);
                 setButtonState();
-                mBuyFromRetailors.setVisibility(View.VISIBLE);
-                mBuyFromRetailors.setOnClickListener(this);
+                mBuyFromRetailers.setVisibility(View.VISIBLE);
+                mBuyFromRetailers.setOnClickListener(this);
             }
         }
         makeAssetRequest();
@@ -279,9 +279,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void setButtonState() {
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
             mAddToCart.setVisibility(View.GONE);
-            mBuyFromRetailors.setVisibility(View.GONE);
+            mBuyFromRetailers.setVisibility(View.GONE);
         } else {
-            mBuyFromRetailors.setVisibility(View.VISIBLE);
+            mBuyFromRetailers.setVisibility(View.VISIBLE);
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
             Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
@@ -291,7 +291,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void getRetailersInformation() {
         ShoppingCartAPI presenter = ControllerFactory.
-                getInstance().getShoppingCartPresenter(mContext, this, getFragmentManager());
+                getInstance().getShoppingCartPresenter(mContext, this);
 
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
@@ -315,10 +315,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mContext == null) return;
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
-        CartModelContainer.getInstance().addAssetDataToList(mCTNValue, mAsset);
-        mAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
-        mPager.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+        CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
+        mImageAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+        mViewPager.setAdapter(mImageAdapter);
+        mImageAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
@@ -353,7 +353,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (v == mAddToCart) {
             buyProduct(mCTNValue);
         }
-        if (v == mBuyFromRetailors) {
+        if (v == mBuyFromRetailers) {
             getRetailersInformation();
         }
     }

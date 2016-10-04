@@ -9,6 +9,8 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPInfo;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -21,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class DemoApplication extends Application {
-    final String AI = "appinfra";
     public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
+    final String AI = "appinfra";
+    final String UR = "UserRegistration";
     private AppInfra mAppInfra;
 
     @Override
@@ -30,7 +33,7 @@ public class DemoApplication extends Application {
         super.onCreate();
         initAppInfra();
         initIAP();
-        initRegistration(Configuration.PRODUCTION);
+        initRegistration(Configuration.STAGING);
     }
 
     public void initAppInfra() {
@@ -47,8 +50,6 @@ public class DemoApplication extends Application {
     public AppInfra getAppInfra() {
         return mAppInfra;
     }
-
-    final String UR = "UserRegistration";
 
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -78,6 +79,14 @@ public class DemoApplication extends Application {
                 , UR,
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
+
+      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
+        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
+        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
+        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
+        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
+
+*/
         getAppInfra().getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "MicrositeID",
                 UR,
@@ -88,6 +97,9 @@ public class DemoApplication extends Application {
                 UR,
                 configuration.getValue(),
                 configError);
+       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
+        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+*/
         getAppInfra().
                 getConfigInterface().setPropertyForKey("Flow." +
                         "EmailVerificationRequired",
@@ -100,6 +112,9 @@ public class DemoApplication extends Application {
                 UR,
                 "" + true,
                 configError);
+       /* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
+        System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
+*/
         String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
         getAppInfra().
                 getConfigInterface().setPropertyForKey("Flow." +
@@ -107,11 +122,14 @@ public class DemoApplication extends Application {
                 UR,
                 minAge,
                 configError);
+      /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
+        System.out.println("GB age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("GB"));
+        System.out.println("default age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("default"));
+        System.out.println("unknown age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("unknown"));
+*/
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
-        providers.add("sinaweibo");
-        providers.add("qq");
         getAppInfra().
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "NL",
@@ -133,11 +151,14 @@ public class DemoApplication extends Application {
                 providers,
                 configError);
 
-        //Store current environment
+       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
+        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
+        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
+        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
+        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
+*/
 
-        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
-        editor.putString("reg_environment", configuration.getValue());
-        editor.commit();
+        initHSDP(configuration);
 
 
         String languageCode = Locale.getDefault().getLanguage();
@@ -151,6 +172,127 @@ public class DemoApplication extends Application {
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
+
+    }
+
+    public void initHSDP(Configuration configuration) {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        //store hsdp last envoronment
+        HSDPInfo hsdpInfo;
+        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+        switch (configuration) {
+            case EVALUATION:
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        UR,
+                        "uGrow",
+                        configError);
+
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        UR,
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        UR,
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        UR,
+                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        configError);
+
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+                break;
+            case DEVELOPMENT:
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        UR,
+                        "uGrow",
+                        configError);
+
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        UR,
+                        "c623685e-f02c-11e5-9ce9-5e5517507c66",
+                        configError);
+
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        UR,
+                        "c62362a0-f02c-11e5-9ce9-5e5517507c66",
+                        configError);
+
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        UR,
+                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        configError);
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+
+                break;
+            case PRODUCTION:
+                SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
+                break;
+            case STAGING:
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        UR,
+                        "uGrow",
+                        configError);
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        UR,
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        UR,
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+                getAppInfra().
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        UR,
+                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        configError);
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+
+                break;
+            case TESTING:
+                prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
+                break;
+        }
+
+        HSDPInfo hsdpInfo1 = RegistrationConfiguration.getInstance().getHSDPInfo();
+        if (hsdpInfo1 != null) {
+            System.out.println("HSDP: " + hsdpInfo1.getApplicationName());
+            System.out.println("HSDP: " + hsdpInfo1.getSecreteId());
+            System.out.println("HSDP: " + hsdpInfo1.getSharedId());
+            System.out.println("HSDP: " + hsdpInfo1.getBaseURL());
+        }
+
 
     }
 
@@ -249,4 +391,5 @@ public class DemoApplication extends Application {
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
     }
+
 }

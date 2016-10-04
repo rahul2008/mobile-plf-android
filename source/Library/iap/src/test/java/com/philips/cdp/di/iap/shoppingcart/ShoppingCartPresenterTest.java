@@ -67,13 +67,12 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
         mCTNS.add("HX9033/64");
-//        mCTNS.add("HX9023/64");
-//        mCTNS.add("HX9003/64");
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
     }
 
     @Test
     public void getCurrentCartDetailsVerifySuccess() throws JSONException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mShoppingCartPresenter);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getCurrentCartDetails();
@@ -87,7 +86,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     @Test
     public void getCurrentCartDetailsVerifyHybrisFail() throws JSONException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getCurrentCartDetails();
 
@@ -106,25 +105,25 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductDataToList("HX9033/64", (SummaryModel) responseData);
+        CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
         obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
                 .class, "get_prx_success_response_HX9023_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductDataToList("HX9023/64", (SummaryModel) responseData);
+        CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
         obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
                 .class, "get_prx_success_response_HX9003_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductDataToList("HX9003/64", (SummaryModel) responseData);
+        CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
     }
 
     @Test
     public void DeleteCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         EntriesEntity entriesEntity = new EntriesEntity();
         Field entry = entriesEntity.getClass().getDeclaredField("entryNumber");
@@ -136,7 +135,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     @Test
     public void UpdateCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         EntriesEntity entriesEntity = new EntriesEntity();
         Field entry = entriesEntity.getClass().getDeclaredField("entryNumber");
@@ -173,7 +172,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
             }
         };
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter();
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
@@ -196,7 +195,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
             }
         };
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter();
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
@@ -219,7 +218,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
             }
         };
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this, mFragmentManager);
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
@@ -290,10 +289,10 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     public void onLoadListenerError(final Message msg) {
         boolean isHybrisError = msg.obj instanceof IAPNetworkError;
         assert (isHybrisError);
-        assertEquals(((IAPNetworkError)msg.obj).getStatusCode(), ((IAPNetworkError)msg.obj).getIAPErrorCode());
-        assertEquals("Hybris", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getType());
-        assertEquals("Hybris Server Down", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getReason());
-        assertEquals("Hybris Error", ((IAPNetworkError)msg.obj).getServerError().getErrors().get(0).getSubject());
+        assertEquals(((IAPNetworkError) msg.obj).getStatusCode(), ((IAPNetworkError) msg.obj).getIAPErrorCode());
+        assertEquals("Hybris", ((IAPNetworkError) msg.obj).getServerError().getErrors().get(0).getType());
+        assertEquals("Hybris Server Down", ((IAPNetworkError) msg.obj).getServerError().getErrors().get(0).getReason());
+        assertEquals("Hybris Error", ((IAPNetworkError) msg.obj).getServerError().getErrors().get(0).getSubject());
     }
 
     @Override
@@ -301,4 +300,13 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
         //NOP
     }
 
+    @Test
+    public void onSetDeliveryMode() throws Exception {
+        mShoppingCartPresenter.onSetDeliveryMode(new Message());
+    }
+
+    @Test
+    public void onGetDeliveryModes() throws Exception {
+        mShoppingCartPresenter.onGetDeliveryModes(new Message());
+    }
 }

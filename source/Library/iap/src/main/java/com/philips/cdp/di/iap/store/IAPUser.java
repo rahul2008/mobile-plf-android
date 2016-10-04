@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.store;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -30,6 +29,9 @@ public class IAPUser implements UserRegistrationListener {
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mStore = store;
         mJanRainUser = new User(context);
+    }
+
+    public IAPUser() {
     }
 
     public String getJanRainID() {
@@ -73,7 +75,7 @@ public class IAPUser implements UserRegistrationListener {
         return mTokenRefreshSuccessful;
     }
 
-    private void unlockOAuthThread() {
+    protected void unlockOAuthThread() {
         mSemaphore.release();
     }
 

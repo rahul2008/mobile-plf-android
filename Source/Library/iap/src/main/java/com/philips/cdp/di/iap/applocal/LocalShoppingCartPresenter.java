@@ -19,8 +19,8 @@ import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
     @SuppressWarnings("rawtypes")
-    public LocalShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
-        super(context, listener, fragmentManager);
+    public LocalShoppingCartPresenter(Context context, LoadListener listener) {
+        super(context, listener);
     }
 
     @Override

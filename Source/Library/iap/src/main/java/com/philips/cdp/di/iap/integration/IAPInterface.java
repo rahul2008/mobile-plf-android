@@ -14,10 +14,10 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class IAPInterface implements UappInterface, IAPExposedAPI {
-    private IAPExposedAPI mImplementationHandler;
-    private IAPHandler iapHandler;
+    protected IAPExposedAPI mImplementationHandler;
+    protected IAPHandler iapHandler;
     private User mUser;
-    private IAPSettings mIapSettings;
+    protected IAPSettings mIapSettings;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -26,7 +26,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         iapHandler = new IAPHandler(mIAPDependencies, mIapSettings);
         iapHandler.initTaggingLogging();
         iapHandler.initIAP();
-        mImplementationHandler = iapHandler.getExposedAPIImplementor();
+        mImplementationHandler = iapHandler.getExposedAPIImplementor(mIapSettings);
     }
 
     @Override
@@ -42,9 +42,9 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         }
     }
 
-    private void launchHybris(UiLauncher uiLauncher, IAPLaunchInput uappLaunchInput) {
+    protected void launchHybris(UiLauncher uiLauncher, IAPLaunchInput uappLaunchInput) {
         IAPLaunchInput mLaunchInput = uappLaunchInput;
-        if (iapHandler.isStoreInitialized()) iapHandler.launchIAP(uiLauncher, mLaunchInput);
+        if (iapHandler.isStoreInitialized(mIapSettings.getContext())) iapHandler.launchIAP(uiLauncher, mLaunchInput);
         else
             iapHandler.initIAP(uiLauncher, mLaunchInput);
     }

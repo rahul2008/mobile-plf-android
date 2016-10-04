@@ -31,13 +31,11 @@ public class MockNetworkController extends NetworkController {
     @Mock
     IAPDependencies mIAPDependencies;
     Context mContext;
-    private MockIAPDependencies mMockedIAPDependencies;
 
     public MockNetworkController(final Context context, final MockIAPDependencies iapDependencies) {
         super(context, new HybrisNetworkEssentials(), iapDependencies);
         mContext = context;
         mMockedContext = mock(Context.class);
-        mMockedIAPDependencies = iapDependencies;
     }
 
     @Override
@@ -48,7 +46,7 @@ public class MockNetworkController extends NetworkController {
     }
 
     @Override
-    void initStore(IAPDependencies iapDependencies) {
+    void initStore(Context context, IAPDependencies iapDependencies) {
         store = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(iapDependencies);
     }
 

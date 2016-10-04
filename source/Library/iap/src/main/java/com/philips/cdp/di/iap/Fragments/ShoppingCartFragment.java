@@ -29,15 +29,15 @@ import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
-import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private Context mContext;
     private ShoppingCartAPI mShoppingCartAPI;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
-//    private boolean mIsDeliveryAddress;
+    private List<Addresses> mAddresses = new ArrayList<>();
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -88,7 +88,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(mContext, this, getFragmentManager());
+                .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         return rootView;
     }
@@ -112,13 +112,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
-
-        if (CartModelContainer.getInstance().isCartCreated()) {
-            mAddressController.getUser();
-        } else {
-            mAddressController.getDeliveryModes();
-//            mIsDeliveryAddress = true;
-        }
+        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -145,14 +139,12 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
-            if (CartModelContainer.getInstance().isCartCreated()) {
-                CartModelContainer.getInstance().setCartCreated(false);
-            }
-
             if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
+                Utility.showProgressDialog(mContext,
+                        mContext.getResources().getString(R.string.iap_please_wait));
                 mAddressController.getRegions();
             }
+
             //Track checkout action
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
@@ -218,29 +210,18 @@ public class ShoppingCartFragment extends InAppBaseFragment
             Bundle bundle = new Bundle();
             if (mAdapter.getDeliveryMode() != null)
                 bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mAdapter.getDeliveryMode());
+
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                addFragment(
-                        ShippingAddressFragment.createInstance(bundle, AnimationType.NONE), ShippingAddressFragment.TAG);
-            } else {
-                addFragment(
-                        AddressSelectionFragment.createInstance(bundle, AnimationType.NONE), AddressSelectionFragment.TAG);
+                addFragment(ShippingAddressFragment.createInstance(bundle, AnimationType.NONE),
+                        ShippingAddressFragment.TAG);
+            } else if (msg.obj instanceof GetShippingAddressData){
+                GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
+                mAddresses = shippingAddresses.getAddresses();
+                bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
+                addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
+                        AddressSelectionFragment.TAG);
             }
         }
-    }
-
-    @Override
-    public void onCreateAddress(Message msg) {
-        //NOP
-    }
-
-    @Override
-    public void onSetDeliveryAddress(final Message msg) {
-        mAddressController.getDeliveryModes();
-    }
-
-    @Override
-    public void onSetDeliveryMode(final Message msg) {
-        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -254,34 +235,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
 
         mAddressController.getAddresses();
-    }
-
-    @Override
-    public void onGetUser(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            mAddressController.getDeliveryModes();
-        } else if (msg.obj instanceof GetUser) {
-            GetUser user = (GetUser) msg.obj;
-            if (user.getDefaultAddress() != null) {
-                mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
-            } else {
-                mAddressController.getDeliveryModes();
-            }
-        }
-    }
-
-    @Override
-    public void onGetDeliveryModes(Message msg) {
-        if ((msg.obj instanceof IAPNetworkError)) {
-            updateCartDetails(mShoppingCartAPI);
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
-            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-            if (deliveryModeList.size() > 0) {
-                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-            }
-        }
     }
 
     @Override
@@ -299,14 +252,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (getActivity() == null) return;
         mData = data;
         onOutOfStock(false);
-        /*if (mAdapter.mIsDeliveryAddressSet) {
-            mIsDeliveryAddress = true;
-        }*/
         mAdapter = new ShoppingCartAdapter(mContext, mData, this, mShoppingCartAPI);
-        /*if (mIsDeliveryAddress) {
-            mAdapter.setDeliveryAddress(mIsDeliveryAddress);
-            mIsDeliveryAddress = false;
-        }*/
         if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }
@@ -327,6 +273,31 @@ public class ShoppingCartFragment extends InAppBaseFragment
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onSetDeliveryAddress(Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onSetDeliveryMode(Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+        //NOP
     }
 
     @Override

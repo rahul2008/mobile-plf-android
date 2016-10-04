@@ -5,8 +5,6 @@
 
 package com.philips.cdp.di.iap.model;
 
-import android.os.Message;
-
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
@@ -20,16 +18,6 @@ public class GetProductCatalogRequest extends AbstractModel{
     public GetProductCatalogRequest(StoreSpec store, Map<String, String> query,
                                     DataLoadListener listener) {
         super(store, query, listener);
-    }
-
-    @Override
-    protected void onPostSuccess(Message msg) {
-        mDataloadListener.onModelDataLoadFinished(msg);
-    }
-
-    @Override
-    protected void onPostError(Message msg) {
-        mDataloadListener.onModelDataError(msg);
     }
 
     @Override
@@ -52,8 +40,8 @@ public class GetProductCatalogRequest extends AbstractModel{
         if (params == null) {
             throw new RuntimeException("Page size not specified");
         }
-        //IAPLog.d(ProductCatalogFragment.TAG, store.getProductCatalogUrl(Integer.parseInt(params.get(ModelConstants.CURRENT_PAGE)), Integer.parseInt(params.get(ModelConstants.PAGE_SIZE))));
-        return  store.getProductCatalogUrl(Integer.parseInt(params.get(ModelConstants.CURRENT_PAGE)), Integer.parseInt(params.get(ModelConstants.PAGE_SIZE)));
+        return store.getProductCatalogUrl(Integer.parseInt(params.get(ModelConstants.CURRENT_PAGE)),
+                Integer.parseInt(params.get(ModelConstants.PAGE_SIZE)));
 
     }
 

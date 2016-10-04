@@ -8,8 +8,6 @@ package com.philips.cdp.di.iap.productCatalog;
 import android.content.Context;
 import android.os.Message;
 
-import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
@@ -24,8 +22,8 @@ import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -39,36 +37,48 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private HybrisDelegate mHybrisDelegate;
     private StoreSpec mStore;
 
-    Products mProductData = null;
+    Products mProducts;
     ProductCatalogHelper mProductCatalogHelper;
 
-    private LoadListener mLoadListener;
+    protected ProductCatalogListener mProductCatalogListener;
     IAPListener mIAPListener;
 
     final int PAGE_SIZE = 20;
     final int CURRENT_PAGE = 0;
 
-    public ProductCatalogPresenter() {
+    public interface ProductCatalogListener {
+        void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
+
+        void onLoadError(IAPNetworkError error);
     }
 
-    public ProductCatalogPresenter(Context context, LoadListener listener) {
+    public ProductCatalogPresenter(Context context, ProductCatalogListener productCatalogListener) {
         mContext = context;
-        mLoadListener = listener;
-        mProductCatalogHelper = new ProductCatalogHelper(mContext, mLoadListener, this);
+        mProductCatalogListener = productCatalogListener;
+        mProductCatalogHelper = new ProductCatalogHelper(mContext, mProductCatalogListener, this);
     }
 
     public void getCompleteProductList(final IAPListener iapListener) {
-        if (CartModelContainer.getInstance().getProductCatalogData() != null &&
-                CartModelContainer.getInstance().getProductCatalogData().size() != 0) {
+        String currentCountryCode = HybrisDelegate.getInstance().getStore().getCountry();
+        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+        completeProductList(iapListener, currentCountryCode, savedCountry);
+    }
+
+    public void completeProductList(IAPListener iapListener, String currentCountryCode, String savedCountry) {
+        if (currentCountryCode.equalsIgnoreCase(savedCountry)
+                && CartModelContainer.getInstance().getProductList() != null
+                && CartModelContainer.getInstance().getProductList().size() != 0) {
             iapListener.onGetCompleteProductList(getProductCatalogDataFromStoredData());
         } else {
+            CartModelContainer.getInstance().clearCategorisedProductList();
             getCatalogCount(iapListener);
         }
     }
 
     ArrayList<String> getProductCatalogDataFromStoredData() {
         ArrayList<String> catalogList = new ArrayList<>();
-        HashMap<String, ProductCatalogData> productCatalogDataSaved = CartModelContainer.getInstance().getProductCatalogData();
+        HashMap<String, ProductCatalogData> productCatalogDataSaved =
+                CartModelContainer.getInstance().getProductList();
         for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
             if (entry != null) {
                 catalogList.add(entry.getValue().getCtnNumber());
@@ -94,7 +104,12 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             public void onSuccess(final Message msg) {
                 Products products = (Products) msg.obj;
                 int totalProduct = products.getPagination().getTotalResults();
-                getProductCatalog(CURRENT_PAGE, totalProduct, iapListener);
+                if (totalProduct == 0) {
+                    iapListener.onSuccess();
+                    iapListener.onGetCompleteProductList(null);
+                } else
+                    getProductCatalog(CURRENT_PAGE, totalProduct, iapListener);
+
             }
 
             @Override
@@ -113,80 +128,48 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         query.put(ModelConstants.PAGE_SIZE, String.valueOf(pageSize));
 
         GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), query, this);
-        model.setContext(mContext);
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
         return true;
     }
 
     @Override
-    public void getProductCategorizedProduct(ArrayList<String> productList) {
-        if (CartModelContainer.getInstance().getProductCatalogData() != null) {
-            if (mLoadListener != null) {
-                mLoadListener.onLoadFinished(getCatalogItems(productList), null);
+    public void getCategorizedProductList(ArrayList<String> ctnList) {
+        if (CartModelContainer.getInstance().getProductList() != null) {
+            ArrayList<ProductCatalogData> productCatalogList = new ArrayList<>();
+            CartModelContainer container = CartModelContainer.getInstance();
+            for (String ctn : ctnList) {
+                if (container.isProductCatalogDataPresent(ctn)) {
+                    productCatalogList.add(container.getProduct(ctn));
+                }
             }
-        } else {
-            ProductCatalogPresenter presenter = new ProductCatalogPresenter();
-            presenter.getProductCategorizedProduct(productList);
+            mProductCatalogListener.onLoadFinished(productCatalogList, null);
         }
-    }
-
-    private ArrayList<ProductCatalogData> getCatalogItems(ArrayList<String> productList) {
-        ArrayList<ProductCatalogData> catalogList = new ArrayList<>();
-        CartModelContainer container = CartModelContainer.getInstance();
-        for (String ctn : productList) {
-            if (container.isProductCatalogDataPresent(ctn)) {
-                catalogList.add(container.getProduct(ctn));
-            }
-        }
-        return catalogList;
-    }
-
-    public boolean processHybrisRequestForGetProductCatalogData(final Message msg) {
-        if (msg.obj instanceof Products) {
-            mProductData = (Products) msg.obj;
-            if (mProductData != null) {
-                mProductCatalogHelper.makePrxCall(null, mProductData);
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
         if (msg.obj instanceof Products) {
-            if (mLoadListener != null && ((Products) msg.obj).getPagination().getTotalResults() < 1) {
-                mLoadListener.onLoadError(createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
-            }
-        }
-        if (processHybrisRequestForGetProductCatalogData(msg))
-            return;
+            mProducts = (Products) msg.obj;
 
-        if (mProductCatalogHelper.processPRXResponse(msg, null, mProductData, mIAPListener))
-            return;
+            if (mProducts.getPagination().getTotalResults() < 1) {
+                mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                        (mContext.getString(R.string.iap_no_product_available)));
+            } else {
+                mProductCatalogHelper.sendPRXRequest(null, mProducts);
+            }
+        } else if (msg.obj instanceof HashMap) {
+            mProductCatalogHelper.processPRXResponse(msg, null, mProducts, mIAPListener);
+        }
     }
 
     @Override
     public void onModelDataError(final Message msg) {
-        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-
-        if (mLoadListener != null) {
-            if (msg.obj instanceof IAPNetworkError)
-                mLoadListener.onLoadError((IAPNetworkError) msg.obj);
-            else {
-                mLoadListener.onLoadError(createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
-            }
+        if (msg.obj instanceof IAPNetworkError)
+            mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
+        else {
+            mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                    (mContext.getString(R.string.iap_no_product_available)));
         }
-        if (Utility.isProgressDialogShowing()) {
-            Utility.dismissProgressDialog();
-        }
-    }
-
-    public interface LoadListener {
-        void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
-
-        void onLoadError(IAPNetworkError error);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -207,14 +190,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         return mStore;
     }
 
-    private void sendHybrisRequest(int code, AbstractModel model, RequestListener listener) {
-        getHybrisDelegate().sendRequest(code, model, model);
+    public void setStore(StoreSpec store) {
+        mStore = store;
     }
 
-    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
-        VolleyError volleyError = new ServerError();
-        IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
-        error.setCustomErrorMessage(errorMessage);
-        return error;
-    }
 }
