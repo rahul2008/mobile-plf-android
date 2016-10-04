@@ -8,8 +8,6 @@ package com.philips.cdp.di.iap.productCatalog;
 import android.content.Context;
 import android.os.Message;
 
-import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
@@ -25,6 +23,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -153,7 +152,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             mProducts = (Products) msg.obj;
 
             if (mProducts.getPagination().getTotalResults() < 1) {
-                mProductCatalogListener.onLoadError(createIAPErrorMessage
+                mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                         (mContext.getString(R.string.iap_no_product_available)));
             } else {
                 mProductCatalogHelper.sendPRXRequest(null, mProducts);
@@ -168,7 +167,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (msg.obj instanceof IAPNetworkError)
             mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
         else {
-            mProductCatalogListener.onLoadError(createIAPErrorMessage
+            mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                     (mContext.getString(R.string.iap_no_product_available)));
         }
     }
@@ -195,10 +194,4 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         mStore = store;
     }
 
-    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
-        VolleyError volleyError = new ServerError();
-        IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
-        error.setCustomErrorMessage(errorMessage);
-        return error;
-    }
 }

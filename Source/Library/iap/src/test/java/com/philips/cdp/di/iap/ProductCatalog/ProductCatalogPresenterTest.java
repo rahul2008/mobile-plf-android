@@ -22,6 +22,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
@@ -95,9 +96,8 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
 
     @Test
-    public void TestcreateIAPErrorMessage() {
-        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-        IAPNetworkError error = mProductCatalogPresenter.createIAPErrorMessage("Appologies");
+    public void testCreateIAPErrorMessage() {
+        IAPNetworkError error = NetworkUtility.getInstance().createIAPErrorMessage("Apologies");
         boolean isIAPNetworkError = error instanceof IAPNetworkError;
         assert (isIAPNetworkError);
     }
