@@ -137,7 +137,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
+        EventHelper.getInstance().registerEventNotification
+                (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
 
         View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
@@ -167,12 +168,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG))) {
-            startProductDetailFragment();
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL))) {
+            launchProductDetailFragment();
         }
     }
 
-    private void startProductDetailFragment() {
+    private void launchProductDetailFragment() {
         ProductCatalogData productCatalogData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
         if (productCatalogData != null) {
@@ -181,8 +182,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormattedPrice());
             bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
-            bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
+            bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
         }
     }
@@ -190,7 +191,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
+        EventHelper.getInstance().unregisterEventNotification
+                (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
     }
 
     @Override
@@ -207,18 +209,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     private void fetchProductListFromHybris() {
-        fetchProducts();
-    }
-
-    private void loadMoreItems() {
-        if (mCurrentPage == mTotalPages) {
-            dismissProgress();
-            return;
-        }
-        fetchProducts();
-    }
-
-    private void fetchProducts() {
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
@@ -227,6 +217,14 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mPresenter = ControllerFactory.getInstance().
                     getProductCatalogPresenter(mContext, this);
         mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
+    }
+
+    private void loadMoreItems() {
+        if (mCurrentPage == mTotalPages) {
+            dismissProgress();
+            return;
+        }
+        fetchProductListFromHybris();
     }
 
     @Override

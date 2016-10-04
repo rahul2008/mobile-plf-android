@@ -49,7 +49,7 @@ public class IAPConstantTest extends TestCase {
         assertEquals("Value is Same",  "IAP_LANDING_SCREEN", IAPConstant.IAP_LANDING_SCREEN);
         assertEquals("Value is Same",  "IAP_PRODUCT_CATALOG_NUMBER", IAPConstant.IAP_PRODUCT_CATALOG_NUMBER );
         assertEquals("Value is Same",  "IS_PRODUCT_CATALOG", IAPConstant.IS_PRODUCT_CATALOG );
-        assertEquals("Value is Same",  "PRODUCT_DETAIL_FRAGMENT_CATALOG", IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG );
+        assertEquals("Value is Same",  "IAP_LAUNCH_PRODUCT_DETAIL", IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL);
         assertEquals("Value is Same",  "IAP_LAUNCH_PRODUCT_CATALOG", IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG );
         assertEquals("Value is Same",  "IAP_PRODUCT_DISCOUNTED_PRICE", IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE );
         assertEquals("Value is Same",  "IAP_FRAGMENT_STATE_KEY", IAPConstant.IAP_FRAGMENT_STATE_KEY );
