@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.core;
 
 import android.content.Context;
@@ -8,9 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
 public class ControllerFactoryTest {
     @Mock
@@ -25,12 +26,12 @@ public class ControllerFactoryTest {
     @Test
     public void createObjectForLocalShoppingCartPresenter() throws Exception {
         ControllerFactory.getInstance().init(0);
-        Assert.assertNotNull(ControllerFactory.getInstance().getShoppingCartPresenter(mContext, null, null));
+        Assert.assertNotNull(ControllerFactory.getInstance().getShoppingCartPresenter(mContext, null));
     }
     @Test
     public void createObjectForShoppingCartPresenter() throws Exception {
         ControllerFactory.getInstance().init(1);
-        Assert.assertNotNull(ControllerFactory.getInstance().getShoppingCartPresenter(mContext, null, null));
+        Assert.assertNotNull(ControllerFactory.getInstance().getShoppingCartPresenter(mContext, null));
     }
 
     @Test

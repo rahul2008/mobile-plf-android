@@ -64,7 +64,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
         @Override
         public void onFailure(final Message msg) {
-            IAPLog.i(ProductCatalogFragment.class.getName(), "Get Count Failed ");
             Utility.dismissProgressDialog();
         }
     };

@@ -91,7 +91,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
 
     private void updateCartOnResume() {
         ShoppingCartAPI presenter = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(mContext, mAdapter, getFragmentManager());
+                .getShoppingCartPresenter(mContext, mAdapter);
         if (!Utility.isProgressDialogShowing())
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         updateCartDetails(presenter);

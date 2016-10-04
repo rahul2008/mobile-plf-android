@@ -2,12 +2,10 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -59,12 +57,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @SuppressWarnings({"rawtype", "unchecked"})
-    public ShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
-        super(context, listener, fragmentManager);
-    }
-
-    public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager) {
-        mFragmentManager = pFragmentManager;
+    public ShoppingCartPresenter(Context context, LoadListener listener) {
+        super(context, listener);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -75,7 +69,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void getCurrentCartDetails() {
         GetCurrentCartRequest model = new GetCurrentCartRequest(getStore(), null, this);
         model.setContext(mContext);
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
     }
 
     @Override
@@ -98,7 +92,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                         getCurrentCartDetails();
                     }
                 });
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
     }
 
     @Override
@@ -131,7 +125,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                 Utility.dismissProgressDialog();
             }
         });
-        sendHybrisRequest(0, model, model);
+        getHybrisDelegate().sendRequest(0, model, model);
     }
 
     private void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
@@ -215,7 +209,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void getProductCartCount(final Context context, final IAPCartListener
-            iapHandlerListener) {
+            iapCartListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         model.setContext(context);
@@ -224,12 +218,12 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                     @Override
                     public void onSuccess(final Message msg) {
                         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                            createCart(context, iapHandlerListener, null, false);
+                            createCart(context, iapCartListener, null, false);
                         } else {
                             Carts carts = (Carts) msg.obj;
                             if (carts != null && carts.getCarts() != null) {
                                 if (carts.getCarts().size() > 1) {
-                                    deleteCart(context, iapHandlerListener);
+                                    deleteCart(context, iapCartListener);
                                 } else {
                                     int quantity = 0;
                                     int totalItems = carts.getCarts().get(0).getTotalItems();
@@ -239,8 +233,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                                             quantity = quantity + entries.get(i).getQuantity();
                                         }
                                     }
-                                    if (iapHandlerListener != null) {
-                                        iapHandlerListener.onSuccess(quantity);
+                                    if (iapCartListener != null) {
+                                        iapCartListener.onSuccess(quantity);
                                     }
                                 }
                             }
@@ -249,7 +243,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
                     @Override
                     public void onError(final Message msg) {
-                        handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, false);
+                        handleNoCartErrorOrNotifyError(msg, context, iapCartListener, null, false);
                     }
                 }
 
