@@ -495,7 +495,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mCountText.setVisibility(View.GONE);
         }
         dismissProgressDialog();
-//        mIapInterface.getCompleteProductList(this);
+        mIapInterface.getCompleteProductList(this);
     }
 
     @Override

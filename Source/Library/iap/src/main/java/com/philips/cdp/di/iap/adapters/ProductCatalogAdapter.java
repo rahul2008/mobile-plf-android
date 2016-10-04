@@ -88,7 +88,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
         mSelectedProduct = mProductCatalogList.get(position);
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG);
+        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL);
     }
 
     public ProductCatalogData getTheProductDataForDisplayingInProductDetailPage() {

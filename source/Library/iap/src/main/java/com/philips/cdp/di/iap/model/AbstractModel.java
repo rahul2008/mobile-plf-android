@@ -9,11 +9,11 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import java.util.Map;
 
 public abstract class AbstractModel implements RequestListener {
+    Context mContext;
 
     final protected StoreSpec store;
     protected Map<String, String> params;
-    Context mContext;
-    protected DataLoadListener mDataloadListener;
+    protected DataLoadListener mDataLoadListener;
 
     public interface DataLoadListener {
         void onModelDataLoadFinished(Message msg);
@@ -27,7 +27,7 @@ public abstract class AbstractModel implements RequestListener {
     public AbstractModel(StoreSpec store, Map<String, String> query, DataLoadListener listener) {
         this.store = store;
         this.params = query;
-        mDataloadListener = listener;
+        mDataLoadListener = listener;
     }
 
     public void setContext(Context context) {
@@ -45,14 +45,14 @@ public abstract class AbstractModel implements RequestListener {
     }
 
     protected void onPostSuccess(Message msg) {
-        if (mDataloadListener != null) {
-            mDataloadListener.onModelDataLoadFinished(msg);
+        if (mDataLoadListener != null) {
+            mDataLoadListener.onModelDataLoadFinished(msg);
         }
     }
 
     protected void onPostError(Message msg) {
-        if (mDataloadListener != null) {
-            mDataloadListener.onModelDataError(msg);
+        if (mDataLoadListener != null) {
+            mDataLoadListener.onModelDataError(msg);
         }
     }
 

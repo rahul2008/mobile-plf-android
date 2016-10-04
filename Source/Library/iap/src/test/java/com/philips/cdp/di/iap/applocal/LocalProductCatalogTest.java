@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.applocal;
 
 import android.content.Context;
@@ -17,16 +21,13 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
-/**
- * Created by 310228564 on 9/19/2016.
- */
 @RunWith(RobolectricTestRunner.class)
 public class LocalProductCatalogTest {
     LocalProductCatalog mLocalProductCatalog;
 
     @Mock
     Context mContext;
-    ProductCatalogPresenter.LoadListener listener = new ProductCatalogPresenter.LoadListener() {
+    ProductCatalogPresenter.ProductCatalogListener listener = new ProductCatalogPresenter.ProductCatalogListener() {
         @Override
         public void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
 
