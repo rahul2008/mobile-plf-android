@@ -66,7 +66,7 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_email_exist"
                     style="@style/reg_text_description"
-                    android:text="@string/EmailAlreadyUsedErrorMsg_LabelTxt"
+                    android:text="@string/reg_EmailAlreadyUsedErrorMsg_LabelTxt"
                     android:visibility="gone"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
@@ -95,7 +95,7 @@
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="0dip"
                     android:gravity="center|left"
-                    android:text="@string/TermsAndConditionsAcceptanceText"
+                    android:text="@string/reg_TermsAndConditionsAcceptanceText"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -135,7 +135,7 @@
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="0dip"
                     android:gravity="center|left"
-                    android:text="@string/Receive_Philips_News_lbltxt"
+                    android:text="@string/reg_Receive_Philips_News_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -156,7 +156,7 @@
                     android:id="@+id/btn_reg_register"
                     style="@style/reg_style_btn"
                     android:enabled="false"
-                    android:text="@string/Create_Account_CreateMyPhilips_btntxt"
+                    android:text="@string/reg_Create_Account_CreateMyPhilips_btntxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <ProgressBar

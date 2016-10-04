@@ -172,7 +172,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
 
     @Override
     public int getTitleResourceId() {
-        return R.string.RegCreateAccount_NavTitle;
+        return R.string.reg_RegCreateAccount_NavTitle;
     }
 
     private void updateUiStatus() {
@@ -205,7 +205,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
             }
             mBtnVerify.setEnabled(true);
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mBtnVerify.setEnabled(false);
         }

@@ -34,7 +34,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:gravity="left"
-                    android:text="@string/TraditionalSignIn_SignInWithMyPhilips_lbltxt"
+                    android:text="@string/reg_TraditionalSignIn_SignInWithMyPhilips_lbltxt"
                     android:textSize="@dimen/reg_title_text_size"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
@@ -71,7 +71,7 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_resend_details"
                     style="@style/reg_text_description"
-                    android:text="@string/VerifyEmail_ResendErrorMsg_lbltxt"
+                    android:text="@string/reg_VerifyEmail_ResendErrorMsg_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -104,7 +104,7 @@
                         android:id="@+id/btn_reg_sign_in"
                         style="@style/reg_style_btn"
                         android:enabled="false"
-                        android:text="@string/SigIn_TitleTxt"
+                        android:text="@string/reg_SigIn_TitleTxt"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
@@ -128,7 +128,7 @@
                         style="@style/reg_forgot_password"
                         android:layout_height="@dimen/reg_btn_height"
                         android:background="@drawable/reg_btn_forgot_selector"
-                        android:text="@string/TraditionalSignIn_ForgotPwd_btntxt"
+                        android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
@@ -167,7 +167,7 @@
                         style="@style/reg_forgot_password"
                         android:layout_height="@dimen/reg_btn_height"
                         android:background="@drawable/reg_btn_forgot_selector"
-                        android:text="@string/Resend_btntxt"
+                        android:text="@string/reg_Resend_btntxt"
                         android:visibility="gone"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 

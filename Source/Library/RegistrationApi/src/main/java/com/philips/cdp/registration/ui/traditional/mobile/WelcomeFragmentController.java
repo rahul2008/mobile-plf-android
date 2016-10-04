@@ -32,6 +32,8 @@ public class WelcomeFragmentController implements View.OnClickListener, LogoutHa
             onLogoutSuccess();
         } else if (id == R.id.btn_reg_continue) {
          mWelcomeFragment.getContinue();
+
+
             RLog.d(RLog.ONCLICK, "Continue  : Continue");
         }
     }

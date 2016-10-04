@@ -200,7 +200,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
             showValidEmailAlert();
         } else {
             if (mEtVerify.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
                 setErrDescription(getResources().getString(R.string.InvalidVerify_ErrorMsg));
             }
@@ -213,7 +213,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
             showValidEmailAlert();
         } else {
             if (mEtVerify.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
                 setErrDescription(getResources().getString(R.string.InvalidVerify_ErrorMsg));
             }

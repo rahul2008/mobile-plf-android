@@ -176,18 +176,11 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
 
-<<<<<<< HEAD
-        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
-        mUserDetails = getString(R.string.InitialSignedIn_SigninEmailText);
-        mUserDetails = String.format(mUserDetails, mUser.getEmail());
 
-
-=======
         mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
         String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
         email = String.format(email, mUser.getEmail());
->>>>>>> develop
         String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);

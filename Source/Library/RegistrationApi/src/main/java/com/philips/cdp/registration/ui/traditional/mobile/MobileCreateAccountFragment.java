@@ -214,14 +214,14 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
                 if (mCbAcceptTerms.isChecked()) {
                     getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
-                if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
                         register();
                     } else {
-                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                     }
                 } else {
                     register();
@@ -275,7 +275,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
         mViewLine = view.findViewById(R.id.reg_accept_terms_line);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
-        mEtPassword.setHint(mContext.getResources().getString(R.string.Create_Account_ChoosePwd_PlaceHolder_txtField));
+        mEtPassword.setHint(mContext.getResources().getString(R.string.reg_Create_Account_ChoosePwd_PlaceHolder_txtField));
         handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);
@@ -314,7 +314,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
         } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (mCbAcceptTerms.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             } else {
@@ -338,14 +338,14 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
 
             mRegError.hideError();
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
     private void handleUiAcceptTerms() {
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
             mViewLine.setVisibility(View.VISIBLE);
         } else {
@@ -366,14 +366,14 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
 
     private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             RegPreferenceUtility.storePreference(mContext, mPhoneNum, true);
         }
         hideSpinner();
         trackCheckMarketing();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             launchAccountActivateFragment();
         } else {
             launchWelcomeFragment();
@@ -422,7 +422,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            mPhoneNumber.setErrDescription(mContext.getResources().getString(R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            mPhoneNumber.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
             scrollViewAutomatically(mPhoneNumber, mSvRootLayout);
             mPasswordHintView.setVisibility(View.GONE);
             mTvEmailExist.setVisibility(View.VISIBLE);
@@ -432,7 +432,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
         if (userRegistrationFailureInfo.getErrorCode() == -1) {
-            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         mPbSpinner.setVisibility(View.INVISIBLE);
@@ -441,7 +441,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
 
     @Override
     public int getTitleResourceId() {
-        return R.string.RegCreateAccount_NavTitle;
+        return R.string.reg_RegCreateAccount_NavTitle;
     }
 
     @Override
@@ -493,7 +493,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
     }

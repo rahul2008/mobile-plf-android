@@ -189,9 +189,9 @@ public class MobileLogoutFragment extends RegistrationBaseFragment {
         RegUtility.linkifyMobilePhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
         RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
-        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " +/* mUser.getGivenName()*/"Kiran");
+        mTvWelcome.setText(getString(R.string.reg_Signin_Success_Hello_lbltxt) + " " +/* mUser.getGivenName()*/"Kiran");
 
-        String email = getString(R.string.InitialSignedIn_SigninEmailText);
+        String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
         email = String.format(email, /*mUser.getEmail()*/"Kiran");
         mTvSignInEmail.setText(email);
     }
@@ -199,7 +199,7 @@ public class MobileLogoutFragment extends RegistrationBaseFragment {
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Account_Setting_Titletxt;
+        return R.string.reg_Account_Setting_Titletxt;
     }
 
     private ClickableSpan mPhilipsSettingLinkClick = new ClickableSpan() {
@@ -235,7 +235,7 @@ public class MobileLogoutFragment extends RegistrationBaseFragment {
             }
             mBtnLogOut.setEnabled(true);
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mBtnLogOut.setEnabled(false);
         }

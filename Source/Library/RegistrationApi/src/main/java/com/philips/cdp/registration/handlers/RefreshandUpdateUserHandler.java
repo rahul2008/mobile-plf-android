@@ -22,11 +22,12 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecurityHelper;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 /**
  * Created by 310202337 on 4/27/2016.
@@ -39,19 +40,20 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     private String password;
     private RefreshUserHandler refreshUserHandler;
 
-    public RefreshandUpdateUserHandler(UpdateUserRecordHandler updateUserRecordHandler, Context context) {
+    public RefreshandUpdateUserHandler(UpdateUserRecordHandler updateUserRecordHandler, Context context){
         mUpdateUserRecordHandler = updateUserRecordHandler;
         mContext = context;
     }
 
 
-    public void refreshAndUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
+
+    public void refreshAndUpdateUser( final RefreshUserHandler handler, final User user, final String password){
         refreshUserHandler = handler;
         this.user = user;
         this.password = password;
-        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        } else {
+        }else{
             refreshUpdateUser(handler, user, password);
             return;
         }
@@ -138,14 +140,22 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     private DIUserProfile getDIUserProfileFromDisk() {
         DIUserProfile diUserProfile = null;
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        diUserProfile = (DIUserProfile) SecurityHelper.stringToObject(secureStorageInterface.fetchValueForKey(RegConstants.DI_PROFILE_FILE));
+        try {
+            FileInputStream fis = mContext.openFileInput(RegConstants.DI_PROFILE_FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            byte[] enctText = (byte[]) ois.readObject();
+            byte[] decrtext = SecureStorage.decrypt(enctText);
+            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return diUserProfile;
     }
-
     @Override
     public void onFlowDownloadSuccess() {
-        refreshAndUpdateUser(refreshUserHandler, user, password);
+        refreshAndUpdateUser(refreshUserHandler,user,password);
 
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 

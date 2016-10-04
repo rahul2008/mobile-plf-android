@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/reg_error_mapping_pdding"
             android:padding="@dimen/reg_edit_fields_padding"
-            android:text="@string/EmptyField_ErrorMsg"
+            android:text="@string/reg_EmptyField_ErrorMsg"
             android:textColor="@color/reg_error_box_color"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
 

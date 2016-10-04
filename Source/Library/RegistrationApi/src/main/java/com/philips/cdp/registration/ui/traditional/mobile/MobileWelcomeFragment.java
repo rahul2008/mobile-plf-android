@@ -155,7 +155,7 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
 
-        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + /*mUser.getGivenName()*/"Kiran");
+        mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + /*mUser.getGivenName()*/"Kiran");
         mUserDetails = getString(R.string.InitialSignedIn_china_SigninNumberText);
         mUserDetails = String.format(mUserDetails, "1339 9999 9999");
         mTvSignInEmail.setText(mUserDetails);
@@ -163,22 +163,9 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
-    public void getLogout() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                getRegistrationFragment().replaceWithHomeFragment();
-            }
-        });
-    }
-
-    public void getContinue() {
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
-    }
     public void networkUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
@@ -189,10 +176,23 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
             mBtnSignOut.setEnabled(true);
             mBtnContinue.setEnabled(true);
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mBtnSignOut.setEnabled(false);
             mBtnContinue.setEnabled(false);
         }
     }
+    public void getContinue(){
+        RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
+        if(RegistrationHelper.getInstance().getUserRegistrationUIEventListener() !=null){
+            RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                    onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+        }
+    }
+    public void getLogout(){
+        RegistrationHelper.getInstance().getUserRegistrationListener()
+                .notifyOnUserLogoutSuccess();
+    }
+
+
 }

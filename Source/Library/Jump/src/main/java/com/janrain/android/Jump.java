@@ -56,8 +56,8 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.BuildConfig;
 
 import org.json.JSONObject;
 
@@ -121,7 +121,7 @@ public class Jump {
         /*package*/ String captureResendEmailVerificationFormName;
         /*package*/ String userAgent;
         /*package*/ String accessToken;
-        
+
         //Added
         String captureRedirectUri;
         String captureRecoverUri;
@@ -370,13 +370,13 @@ public class Jump {
      * @param providerName the name of the provider to show the sign-in flow for. May be null.
      *                     If null, a list of providers (and a traditional sign-in form) is displayed to the
      *                     end-user.
-     * @param permissions  the Permissions/Scopes from the JumpConfig 
+     * @param permissions  the Permissions/Scopes from the JumpConfig
      *                     Used for Native Authentication of Facebook and Google+
      * @param handler your result handler, called upon completion on the UI thread
      * @param mergeToken an Engage auth_info token retrieved from an EMAIL_ADDRESS_IN_USE Capture API error,
      *                   or null for none.
      */
-    public static void showSignInDialog(Activity fromActivity, String providerName, String[] permissions, 
+    public static void showSignInDialog(Activity fromActivity, String providerName, String[] permissions,
                                         SignInResultHandler handler, final String mergeToken) {
         if (state.jrEngage == null || state.captureDomain == null) {
             handler.onFailure(new SignInError(JUMP_NOT_INITIALIZED, null, null));
@@ -742,7 +742,7 @@ public class Jump {
      */
     public interface FacebookRevokedHandler {
         /**
-         * Called when Facebook closeAndClearTokenInformation has succeeded. 
+         * Called when Facebook closeAndClearTokenInformation has succeeded.
          */
         void onSuccess();
 
@@ -840,8 +840,35 @@ public class Jump {
     }
 
     private static void loadRefreshSecretFromDiskInternal(Context context) {
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(state.context).getSecureStorage();
-        state.refreshSecret = secureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET);
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = state.context.openFileInput(Capture.JR_REFRESH_SECRET);
+            ois = new ObjectInputStream(fis);
+            byte[] encryptedText = (byte[])ois.readObject();
+            byte[] decrtext = SecureStorage.decrypt(encryptedText);
+            //  state.refreshSecret = (String) ois.readObject();
+            state.refreshSecret = new String(decrtext);
+        } catch (ClassCastException e) {
+            throwDebugException(e);
+        } catch (FileNotFoundException ignore) {
+        } catch (StreamCorruptedException e) {
+            throwDebugException(new RuntimeException(e));
+        } catch (IOException e) {
+            throwDebugException(new RuntimeException(e));
+        } catch (ClassNotFoundException e) {
+            throwDebugException(new RuntimeException(e));
+        } finally {
+            try {
+                if (fis != null) fis.close();
+            } catch (IOException ignore) {
+            }
+
+            try {
+                if (ois != null) ois.close();
+            } catch (IOException ignore) {
+            }
+        }
     }
 
     private static void loadFlow() {
@@ -931,8 +958,28 @@ public class Jump {
     private static void saveToken(final String token, final String tokenType) {
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
-                SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(state.context).getSecureStorage();
-                secureStorageInterface.storeValueForKey(tokenType,token);
+                FileOutputStream fos = null;
+                ObjectOutputStream oos = null;
+
+                try {
+                    fos = state.context.openFileOutput(tokenType, Context.MODE_PRIVATE);
+                    oos = new ObjectOutputStream(fos);
+                    oos.writeObject(SecureStorage.encrypt(token));
+                } catch (FileNotFoundException e) {
+                    throwDebugException(new RuntimeException(e));
+                } catch (IOException e) {
+                    throwDebugException(new RuntimeException(e));
+                } finally {
+                    try {
+                        if (oos != null) oos.close();
+                    } catch (IOException ignore) {
+                    }
+
+                    try {
+                        if (fos != null) fos.close();
+                    } catch (IOException ignore) {
+                    }
+                }
             }
         });
     }
@@ -981,7 +1028,7 @@ public class Jump {
             tempExistingProvider = "googleplus";
         }
         final String existingProvider = tempExistingProvider;
-        
+
         String conflictingIdentityProvider = error.captureApiError.getConflictingIdentityProvider();
         String conflictingIdpNameLocalized = JRProvider.getLocalizedName(conflictingIdentityProvider);
         String existingIdpNameLocalized = JRProvider.getLocalizedName(existingProvider);
@@ -1002,7 +1049,7 @@ public class Jump {
                                 //
                                 // ... instead of showSignInDialog if you wish to present your own dialog
                                 // and then use the headless API to perform the traditional sign-in.
-                                
+
                                 // For the Merge Account workflow it is recommended to use the standard 
                                 // web based (non-native) authentication dialog.  This allows the end 
                                 // user to manually enter the social account that "owns" the Janrain user 
@@ -1052,7 +1099,7 @@ public class Jump {
             public final CaptureApiError captureApiError;
 
             /*package*/
-             ForgetPasswordError(FailureReason reason, CaptureApiError captureApiError) {
+            ForgetPasswordError(FailureReason reason, CaptureApiError captureApiError) {
                 this.reason = reason;
                 this.captureApiError = captureApiError;
             }
@@ -1126,12 +1173,12 @@ public class Jump {
     }
 
 
-   /**
-    * Resend email verification
-    *
-    * @param emailAddress the email address to verify
-    * @param callback a Capture Api Request Callback
-    */
+    /**
+     * Resend email verification
+     *
+     * @param emailAddress the email address to verify
+     * @param callback a Capture Api Request Callback
+     */
     public static void resendEmailVerification(String emailAddress,
                                                final Capture.CaptureApiRequestCallback callback) {
         Capture.resendEmailVerification(emailAddress, callback);
@@ -1153,7 +1200,7 @@ public class Jump {
         state.jrEngage.showAuthenticationDialog(fromActivity, null, providerName, null, linkAccount);
         state.jrEngage.addDelegate(mDelegate);
     }
-    
+
     /**
      * Starts the Engage account linking flow. <p/> If the providerName parameter is not null and is a valid
      * provider name string then authentication begins directly with that provider. <p/> If providerName is
@@ -1166,7 +1213,7 @@ public class Jump {
      * @param mDelegate    an Engage Delegate to handle the JRSession response.
      */
 
-    public static void showSocialSignInDialog(Activity fromActivity, String providerName, String[] permissions, 
+    public static void showSocialSignInDialog(Activity fromActivity, String providerName, String[] permissions,
                                               boolean linkAccount, JREngageDelegate mDelegate) {
 
         state.jrEngage.showAuthenticationDialog(fromActivity, null, providerName, null, linkAccount);
@@ -1265,7 +1312,7 @@ public class Jump {
             handler_.onSuccess(response);
         }
     }
-    
+
     /*Added */
     public static void reinitialize(Context context, JumpConfig jumpConfig) {
         state.initCalled = false;

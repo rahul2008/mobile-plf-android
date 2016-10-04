@@ -251,7 +251,7 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     public void signIn() {
@@ -275,7 +275,7 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment
             mRegError.hideError();
         } else {
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
-            mRegError.setError(getString(R.string.NoNetworkConnection));
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
@@ -315,12 +315,12 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment
 
         if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR){
-            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         }else {
             if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
                 //HSDP related error description
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                mRegError.setError(mContext.getResources().getString(R.string.Generic_Network_Error));
+                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
                 trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
@@ -558,11 +558,11 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment
         mBtnResend.setEnabled(true);
         mRegError.hideError();
 
-        if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.getStoredState(mContext, mEmail)) {
                 launchWelcomeFragment();
             } else {
-                if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     launchAlmostDoneScreenForTermsAcceptance();
                 } else {
 
@@ -570,7 +570,7 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment
                 }
             }
         } else {
-            mPhoneNumber.setErrDescription(mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
+            mPhoneNumber.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
             mPhoneNumber.showInvalidAlert();
             mPhoneNumber.showErrPopUp();
             mBtnSignInAccount.setEnabled(false);

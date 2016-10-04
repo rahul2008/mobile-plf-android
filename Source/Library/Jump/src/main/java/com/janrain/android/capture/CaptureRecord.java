@@ -41,14 +41,19 @@ import com.janrain.android.Jump;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.servertime.constants.ServerTimeConstants;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -71,12 +76,9 @@ import static com.janrain.android.utils.JsonUtils.copyJsonVal;
 import static com.janrain.android.utils.JsonUtils.unsafeJsonObjectToString;
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
-//import com.philips.cdp.security.SecurityHelper;
-
 public class CaptureRecord extends JSONObject {
     private static final SimpleDateFormat CAPTURE_API_SIGNATURE_DATE_FORMAT;
     private static final String JR_CAPTURE_SIGNED_IN_USER_FILENAME = "jr_capture_signed_in_user";
-
 
     static {
         CAPTURE_API_SIGNATURE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -87,18 +89,16 @@ public class CaptureRecord extends JSONObject {
 
     /*package*/ String accessToken;
 
-    private CaptureRecord() {
-    }
+    private CaptureRecord(){}
 
     /**
      * Instantiates a new CaptureRecord model from a JSON representation of the record
-     *
-     * @param jo          a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
+     * @param jo a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
      * @param accessToken the access token returned from the sign-on or registration
      */
     /*package*/ CaptureRecord(JSONObject jo, String accessToken) {
         super();
-        if (jo != null && jo.optString("password") != null) {
+        if(jo!= null && jo.optString("password") != null) {
             jo.remove("password");
         }
         original = (JSONObject) copyJsonVal(jo);
@@ -107,8 +107,10 @@ public class CaptureRecord extends JSONObject {
     }
 
     /**
+     * @deprecated
+     *
+     * Instantiates a new CaptureRecord model from a JSON representation of the record
      * @param jo a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
-     * @deprecated Instantiates a new CaptureRecord model from a JSON representation of the record
      */
     /*package*/ CaptureRecord(JSONObject jo, String accessToken, String refreshSecret) {
         this(jo, accessToken);
@@ -116,20 +118,35 @@ public class CaptureRecord extends JSONObject {
 
     /**
      * Loads a Capture user from a well-known filename on disk.
-     *
      * @param applicationContext the context from which to interact with the disk
      * @return the loaded record, or null
      */
     public static CaptureRecord loadFromDisk(Context applicationContext) {
         String fileContents = null;
+        FileInputStream fis = null;
         try {
-            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(applicationContext).getSecureStorage();
-            fileContents = secureStorageInterface.fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-            if (null != fileContents)
-                return inflateCaptureRecord(fileContents);
+            fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            byte[] enctText = (byte[]) ois.readObject();
+            byte[] decrtext = SecureStorage.decrypt(enctText);
+            fileContents = new String(decrtext);
+            fis = null;
+            return inflateCaptureRecord(fileContents);
+        } catch (FileNotFoundException ignore) {
+        } catch (NullPointerException ignore){
         } catch (JSONException ignore) {
             throwDebugException(new RuntimeException("Bad CaptureRecord file contents:\n" + fileContents,
                     ignore));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) try {
+                fis.close();
+            } catch (IOException e) {
+                throwDebugException(new RuntimeException(e));
+            }
         }
         return null;
     }
@@ -145,37 +162,45 @@ public class CaptureRecord extends JSONObject {
 
     /**
      * Saves the Capture record to a well-known private file on disk.
-     *
      * @param applicationContext the context to use to write to disk
      */
     public void saveToDisk(Context applicationContext) {
+        FileOutputStream fos = null;
         try {
-            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(applicationContext).getSecureStorage();
-            secureStorageInterface.storeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME, deflateCaptureRecord());
+            fos = applicationContext.openFileOutput(JR_CAPTURE_SIGNED_IN_USER_FILENAME, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(deflateCaptureRecord());
+            oos.close();
+            fos.close();
         } catch (JSONException e) {
-            e.printStackTrace();
+            throwDebugException(new RuntimeException("Unexpected", e));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            throwDebugException(new RuntimeException("Unexpected", e));
+        } catch (IOException e) {
+            throwDebugException(new RuntimeException("Unexpected", e));
+        } finally {
+            if (fos != null) try {
+                fos.close();
+            } catch (IOException e) {
+                throwDebugException(new RuntimeException("Unexpected", e));
+            }
         }
     }
 
-    private String deflateCaptureRecord() throws JSONException, UnsupportedEncodingException {
+    private byte[] deflateCaptureRecord() throws JSONException, UnsupportedEncodingException {
         JSONObject serializedVersion = new JSONObject();
         serializedVersion.put("original", original);
         serializedVersion.put("accessToken", accessToken);
         serializedVersion.put("this", this);
-        return serializedVersion.toString();
+        return SecureStorage.encrypt(serializedVersion.toString());
     }
 
     /**
      * Deletes the record saved to disk
-     *
      * @param applicationContext the context with which to delete the saved record
      */
     public static void deleteFromDisk(Context applicationContext) {
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(applicationContext).getSecureStorage();
-        secureStorageInterface.removeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-        secureStorageInterface.removeValueForKey(Capture.JR_REFRESH_SECRET);
+        applicationContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
     }
 
     private String getRefreshSignature(String date) {
@@ -204,7 +229,6 @@ public class CaptureRecord extends JSONObject {
     /**
      * Synchronizes the Capture record with the Capture service
      * Note that this sends any local changes to the service, but does not retrieve updates from the service.
-     *
      * @param callback your callback handler
      * @throws InvalidApidChangeException
      */
@@ -246,8 +270,7 @@ public class CaptureRecord extends JSONObject {
                     LogUtils.logd("Capture", unsafeJsonObjectToString(content, 2));
                     fireNextChange(changeList.subList(1, changeList.size()), callback);
                 } else {
-                    if (callback != null)
-                        callback.onFailure(new CaptureApiError(content, null, null));
+                    if (callback != null) callback.onFailure(new CaptureApiError(content, null, null));
                 }
             }
         };
@@ -333,9 +356,8 @@ public class CaptureRecord extends JSONObject {
         return collapseApidChanges(CaptureJsonUtils.compileChangeSet(originalUserInfo, this));
     }
 
-    /*package*/
-    static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
-                                                       Map<String, Object> flow) {
+    /*package*/ static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
+                                                                   Map<String, Object> flow) {
         Map<String, Object> preregAttributes = new HashMap<String, Object>();
         for (Map.Entry<String, Object> entry : prefilledFields.entrySet()) {
             if (entry.getValue() == null) continue;
@@ -356,12 +378,11 @@ System.out.println("UTC time " +utcTime);
 }*/
 
     private String getUTCdatetimeAsString() {
-        return ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+        return  ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
     }
 
     /**
      * Uses the refresh secret to refresh the access token
-     *
      * @param callback your handler, invoked upon completion
      */
     public void refreshAccessToken(final CaptureApiRequestCallback callback) {
@@ -399,7 +420,8 @@ System.out.println("UTC time " +utcTime);
     }
 
 
-    public void refreshAccessToken(final CaptureApiRequestCallback callback, final Context context) {
+
+    public void refreshAccessToken(final CaptureApiRequestCallback callback,final Context context) {
         String date = getUTCdatetimeAsString();
         String signature = getRefreshSignature(date);
 
@@ -471,7 +493,7 @@ System.out.println("UTC time " +utcTime);
         public abstract void onFailure(CaptureApiError error);
     }
 
-    public String getAccessToken() {
+    public String getAccessToken(){
         return accessToken;
     }
 
