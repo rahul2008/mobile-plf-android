@@ -18,23 +18,23 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.security.SecurityHelper;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 
 /**
- * Created by 310190722 on 9/15/2015.
+ * class hsdp user
  */
 public class HsdpUser {
 
@@ -48,82 +48,46 @@ public class HsdpUser {
 
     private final String HSDP_RECORD_FILE = "hsdpRecord";
 
+    /**
+     * Class constructor
+     * @param context
+     */
     public HsdpUser(Context context) {
         this.mContext = context;
     }
 
-    public void login(final String email, final String password,final String refreshSecret, final TraditionalLoginHandler loginHandler) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            final Handler handler = new Handler();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    DhpAuthenticationManagementClient authenticationManagementClient = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.authenticate(email, password,refreshSecret );
-                    if (dhpAuthenticationResponse == null) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                handleServerConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                            }
-                        });
-                        return;
-                    }
 
-                    if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
-                        final Map<String, Object> rawResponse = dhpAuthenticationResponse.rawResponse;
-                        mHsdpUserRecord = new HsdpUserRecord(mContext);
-                        mHsdpUserRecord = mHsdpUserRecord.parseHsdpUserInfo(rawResponse);
-                        mHsdpUserRecord.setRefreshSecret(refreshSecret);
-                        saveToDisk(new UserFileWriteListener() {
-                            @Override
-                            public void onFileWriteSuccess() {
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        RLog.i(RLog.HSDP, "onHsdpLoginSuccess : response :" + rawResponse.toString());
-                                        loginHandler.onLoginSuccess();
-                                    }
-                                });
-                            }
 
-                            @Override
-                            public void onFileWriteFailure() {
-                                handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
-                            }
-                        });
+//    /**
+//     * handle server connection failed
+//     * @param loginHandler login handler
+//     * @param errorCode error code
+//     * @param message message
+//     */
+//    private void handleServerConnectionFailed(TraditionalLoginHandler loginHandler, int errorCode, String message) {
+//        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+//        userRegistrationFailureInfo.setErrorCode(errorCode);
+//        userRegistrationFailureInfo.setErrorDescription(message);
+//        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+//    }
+//
+//    /**
+//     * Handle hsdp failure
+//     * @param loginHandler login handler
+//     * @param errorCode error code
+//     * @param message message
+//     */
+//    private void handleHsdpFailure(TraditionalLoginHandler loginHandler, int errorCode, String message) {
+//        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+//        userRegistrationFailureInfo.setErrorCode(errorCode);
+//        userRegistrationFailureInfo.setErrorDescription(message);
+//        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+//    }
 
-                    } else {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                RLog.i(RLog.HSDP, "onHsdpLoginFailure :  responseCode : " + dhpAuthenticationResponse.responseCode +
-                                        " message : " + dhpAuthenticationResponse.message);
-                                handleServerConnectionFailed(loginHandler, Integer.parseInt(dhpAuthenticationResponse.responseCode) + RegConstants.HSDP_LOWER_ERROR_BOUND, dhpAuthenticationResponse.message);
-                            }
-                        });
-                    }
-                }
-            }).start();
-        } else {
-            handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
-        }
-    }
-
-    private void handleServerConnectionFailed(TraditionalLoginHandler loginHandler, int errorCode, String message) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setErrorCode(errorCode);
-        userRegistrationFailureInfo.setErrorDescription(message);
-        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-    }
-
-    private void handleHsdpFailure(TraditionalLoginHandler loginHandler, int errorCode, String message) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setErrorCode(errorCode);
-        userRegistrationFailureInfo.setErrorDescription(message);
-        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-    }
-
+    /**
+     * Logout
+     * @param logoutHandler logout handler
+     */
     public void logOut(final LogoutHandler logoutHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler();
@@ -139,7 +103,7 @@ public class HsdpUser {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.JanRain_Server_Connection_Failed));
+                                logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
                             }
                         });
                     } else if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
@@ -168,10 +132,14 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+            logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
         }
     }
 
+    /**
+     * Refresh token
+     * @param refreshHandler refresh handler
+     */
     public void refreshToken(final RefreshLoginSessionHandler refreshHandler) {
         final Handler handler = new Handler();
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -244,10 +212,15 @@ public class HsdpUser {
         }
     }
 
+    /**
+     * get dhp api client configuration
+     * @return DhpApiClientConfiguration object
+     * {@link DhpApiClientConfiguration}
+     */
     private DhpApiClientConfiguration getDhpApiClientConfiguration() {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
-        String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
-        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHsdpConfiguration().getHSDPInfo(RegUtility.getConfiguration(environment));
+        String environment = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
+        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHSDPInfo();
         if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 
@@ -257,31 +230,60 @@ public class HsdpUser {
         return dhpApiClientConfiguration;
     }
 
+    /**
+     * Save to disk
+     * @param userFileWriteListener user file write listener
+     */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
-            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-            boolean isWrittenToFile = secureStorageInterface.storeValueForKey(HSDP_RECORD_FILE, SecurityHelper.objectToString(mHsdpUserRecord));
-            if (isWrittenToFile){
-                userFileWriteListener.onFileWriteSuccess();
-            }else{
-                userFileWriteListener.onFileWriteFailure();
-            }
+        try {
+            FileOutputStream fos = mContext.openFileOutput(HSDP_RECORD_FILE, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            String objectPlainString = SecureStorage.objectToString(mHsdpUserRecord);
+            byte[] ectext = SecureStorage.encrypt(objectPlainString);
+            oos.writeObject(ectext);
+            oos.close();
+            fos.close();
+            userFileWriteListener.onFileWriteSuccess();
+        } catch (Exception e) {
+            userFileWriteListener.onFileWriteFailure();
+        }
     }
 
+    /**
+     * Get hsdp user record
+     * @return HsdpUserRecord object
+     * {@link HsdpUserRecord}
+     */
     public HsdpUserRecord getHsdpUserRecord() {
         if(mHsdpUserRecord!=null){
             return mHsdpUserRecord;
         }
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        mHsdpUserRecord = (HsdpUserRecord) SecurityHelper.stringToObject(secureStorageInterface.fetchValueForKey(HSDP_RECORD_FILE));
+        try {
+            FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+           byte[] enctText = (byte[]) ois.readObject();
+           byte[] decrtext = SecureStorage.decrypt(enctText);
+           mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(new String(decrtext));
+        } catch (Exception e) {
+        }
         return mHsdpUserRecord;
     }
 
+    /**
+     * Delete From disk
+     *
+     */
     public void deleteFromDisk() {
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        secureStorageInterface.removeValueForKey(HSDP_RECORD_FILE);
+        mContext.deleteFile(HSDP_RECORD_FILE);
         mHsdpUserRecord = null;
     }
 
+    /**
+     * Social login
+     * @param email email
+     * @param accessToken acess token
+     * @param loginHandler login handler
+     */
     public void socialLogin(final String email, final String accessToken, final SocialLoginHandler loginHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler();
@@ -294,7 +296,7 @@ public class HsdpUser {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                handleSocialConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.JanRain_Server_Connection_Failed));
+                                handleSocialConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
                             }
                         });
                         return;
@@ -321,7 +323,7 @@ public class HsdpUser {
 
                             @Override
                             public void onFileWriteFailure() {
-                                handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+                                handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
                             }
                         });
 
@@ -338,10 +340,16 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+            handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
         }
     }
 
+    /**
+     * handle social connection failed
+     * @param loginHandler login handler
+     * @param errorCode error code
+     * @param string string
+     */
     private void handleSocialConnectionFailed(SocialLoginHandler loginHandler, int errorCode, String string) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
@@ -349,6 +357,12 @@ public class HsdpUser {
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
     }
 
+    /**
+     * handle social hsdp failure
+     * @param loginHandler login handler
+     * @param errorCode error code
+     * @param string string
+     */
     private void handleSocialHsdpFailure(SocialLoginHandler loginHandler, int errorCode, String string) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
@@ -356,11 +370,18 @@ public class HsdpUser {
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
     }
 
+    /**
+     * User file write listener interface
+     */
     private interface UserFileWriteListener {
         void onFileWriteSuccess();
         void onFileWriteFailure();
     }
 
+    /**
+     * Hspd user signed in
+     * @return true if hsdp user signed in else false
+     */
     public boolean isHsdpUserSignedIn(){
         HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
         if(hsdpUserRecord != null && (hsdpUserRecord.getAccessCredential().getRefreshToken()!=null || hsdpUserRecord.getRefreshSecret()!=null) && hsdpUserRecord.getUserUUID()!=null

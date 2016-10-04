@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -44,7 +43,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler, XCheckBox.OnCheckedChangeListener {
+        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler,
+        XCheckBox.OnCheckedChangeListener {
 
     private TextView mTvWelcome;
 
@@ -66,7 +66,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private ProgressBar mPbWelcomeCheck;
 
-    private ScrollView mSvRootLayout;
+    private ScrollView mSvLayout;
 
     private TextView mAccessAccountSettingsLink;
 
@@ -83,60 +83,62 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
-        View view = inflater.inflate(R.layout.fragment_logout, null);
+        View view = inflater.inflate(R.layout.reg_fragment_logout, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-        init(view);
-        handleUiState();
+        mSvLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        initUi(view);
+        handleUiStates();
         handleOrientation(view);
         return view;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onActivityCreated");
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStart");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onStart");
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onResume");
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onActivityCreated");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onPause");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onPause");
     }
-
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStop");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onStop");
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " LogoutFragment : onResume");
+    }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         hideLogoutSpinner();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroyView");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " Logout Fragment : onDestroyView");
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " Logout Fragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         super.onDestroy();
     }
@@ -144,7 +146,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     @Override
     public void onDetach() {
         super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDetach");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " Logout Fragment : onDetach");
     }
 
     @Override
@@ -171,13 +173,14 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         handleOrientationOnView(view);
     }
 
-    private void init(View view) {
+    private void initUi(View view) {
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
         mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
-        mCbTerms.setVisibility(view.VISIBLE);
+        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(),
+                mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
+        mCbTerms.setVisibility(View.VISIBLE);
         mCbTerms.setChecked(mUser.getReceiveMarketingEmail());
         mCbTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -195,13 +198,16 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         mAccessAccountSettingsLink = (TextView) view.findViewById(R.id.tv_reg_more_account_Setting);
 
-        mFlReceivePhilipsNewsContainer = (FrameLayout) view.findViewById(R.id.fl_reg_receive_philips_news);
-        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
-        RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
+        mFlReceivePhilipsNewsContainer = (FrameLayout) view.
+                findViewById(R.id.fl_reg_receive_philips_news);
+        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView,
+                getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
+        RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink,
+                getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
-        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
+        mTvWelcome.setText(getString(R.string.reg_Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
 
-        String email = getString(R.string.InitialSignedIn_SigninEmailText);
+        String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
         email = String.format(email, mUser.getEmail());
         mTvSignInEmail.setText(email);
     }
@@ -231,8 +237,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             mCbTerms.setOnCheckedChangeListener(null);
             mCbTerms.setChecked(!mCbTerms.isChecked());
             mCbTerms.setOnCheckedChangeListener(this);
-            mRegError.setError(getString(R.string.NoNetworkConnection));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            scrollViewAutomatically(mRegError, mSvLayout);
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
@@ -246,6 +252,33 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private void updateUser() {
         mUser.updateReceiveMarketingEmail(this, mCbTerms.isChecked());
+
+        User user = new User(getContext());
+        //Make enable
+        user.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+            @Override
+            public void onUpdateReceiveMarketingEmailSuccess() {
+                //Successfully updated
+            }
+
+            @Override
+            public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
+                //Updation failed
+            }
+        },true);
+
+        //Make disable
+        user.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+            @Override
+            public void onUpdateReceiveMarketingEmailSuccess() {
+                //Successfully updated
+            }
+
+            @Override
+            public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
+                //Updation failed
+            }
+        },false);
     }
 
     @Override
@@ -290,7 +323,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             return;
         }
         if (error == -1 || error == BAD_RESPONSE_ERROR_CODE) {
-            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
         }
         mCbTerms.setOnCheckedChangeListener(null);
@@ -300,12 +333,12 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        handleUiState();
+        handleUiStates();
     }
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Account_Setting_Titletxt;
+        return R.string.reg_Account_Setting_Titletxt;
     }
 
     @Override
@@ -352,7 +385,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mCbTerms.setEnabled(true);
     }
 
-    private void handleUiState() {
+    private void handleUiStates() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
@@ -360,7 +393,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 mRegError.hideError();
             }
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
@@ -369,7 +402,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         @Override
         public void onClick(View widget) {
             RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(RegConstants.PHILIPS_LOGIN_URL));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(RegConstants.PHILIPS_LOGIN_URL));
             startActivity(browserIntent);
         }
     };

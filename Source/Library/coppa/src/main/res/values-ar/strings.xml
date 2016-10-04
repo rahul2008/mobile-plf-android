@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">للاستفادة إلى أقصى حد من التطبيق، تطلب شركة Philips موافقتك لجمع معلومات حول استخدام طفلك لفرشاة Sonicare من Philips‏ والتطبيق.\n\nستتضمن هذه المعلومات، التي يتم جمعها من مقبض الفرشاة والتطبيق، وقت تنظيف الأسنان وعدد مرات التنظيف ومدة كل منها.\n\nتسمح لك هذه المعلومات بمراقبة عادات طفلك لتنظيف الأسنان وتشجيعه، وبتلقي معلومات مخصصة حول تنظيف الأسنان بالإضافة إلى إعلامات عندما يحين وقت استبدال رأس الفرشاة.\n\nلن نجمع أي معلومات شخصية حول الطفل أو نستخدمها في حال لم تمنحنا موافقتك.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">في حال الموافقة، ستتلقى طلبًا للتأكيد على الموافقة عند الدخول إلى القسم المخصص للأهالي من جديد بعد فترة لا تقل عن 24 ساعة من الآن.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">اقرأ %s لمزيد من المعلومات.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">تأكيد الموافقة</string>
-<string name="Coppa_Confirm_Approval_Content_txt">شكرًا للموافقة على تخزين المعلومات حول طفلك.تُعتبر هذه الرسالة بمثابة موافقة ثانية للتأكيد على موافقتك.\n\nوللاستفادة إلى أقصى حد من التطبيق، يرجى منحنا الموافقة الأبوية للسماح لشركة Philips بجمع معلومات حول استخدام طفلك لفرشاة Sonicare من Philips والتطبيق.n\nستتضمن هذه المعلومات، التي يتم جمعها من مقبض الفرشاة والتطبيق، وقت تنظيف الأسنان وعدد مرات التنظيف ومدة كل منها.n\nتسمح لك هذه المعلومات بمراقبة عادات طفلك لتنظيف الأسنان وتشجيعه، وبتلقي معلومات مخصصة حول تنظيف الأسنان بالإضافة إلى إعلامات عندما يحين وقت استبدال رأس الفرشاة.\n\nلن نجمع أي معلومات شخصية حول الطفل أو نستخدمها في حال لم تمنحنا موافقتك.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">تؤمن شركة Koninklijke Philips N.V.‎ والشركات التابعة لها (\"Philips\") بقوة حماية خصوصية البيانات الشخصية التي تشاركها معنا. ونؤمن أيضًا بأهمية إطلاعك على الطريقة التي سنستخدم بها بياناتك الشخصية مع منحك خيارات حول الطريقة التي ستُستخدم بها. ولذلك، نشجعك على قراءة إشعار الخصوصية هذا بدقة قبل أن تحدد خياراتك وتمنحنا الحق في استخدام معلوماتك. إن هذا المستند هو إشعار حول ممارسات الخصوصية لشركة Philips وليس اتصالاً ولا اتفاقية.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">إشعار خصوصية التطبيق</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">إشعار الخصوصية</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">الموافقة</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">الوصول الأبوي</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">عمري أقل من %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">عمري أكثر من %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">إن هذا المستند مخصص للأشخاص الذين يفوق عمرهم %d. يرجى الطلب من أهلك ملئه بالنيابة عنك.</string>
-<string name="Ok_Btn_Txt">موافق</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">سنة الولادة</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">كم تبلغ من العمر؟</string>
-<string name="Coppa_Age_Verification_Alert_Title">إن العمر وسنة الولادة غير متطابقَين</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">لا يتطابق العمر الذي زوّدتنا به مع سنة الولادة. يرجى التأكد من أن العمر وسنة الولادة صحيحان.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">أنت تحاول الوصول إلى قسم مخصص للأهالي.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">أوافق</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">لا أوافق</string>
+<string name="reg_Coppa_Give_Approval_txt">للاستفادة إلى أقصى حد من التطبيق، تطلب شركة Philips موافقتك لجمع معلومات حول استخدام طفلك لفرشاة Sonicare من Philips‏ والتطبيق.\n\nستتضمن هذه المعلومات، التي يتم جمعها من مقبض الفرشاة والتطبيق، وقت تنظيف الأسنان وعدد مرات التنظيف ومدة كل منها.\n\nتسمح لك هذه المعلومات بمراقبة عادات طفلك لتنظيف الأسنان وتشجيعه، وبتلقي معلومات مخصصة حول تنظيف الأسنان بالإضافة إلى إعلامات عندما يحين وقت استبدال رأس الفرشاة.\n\nلن نجمع أي معلومات شخصية حول الطفل أو نستخدمها في حال لم تمنحنا موافقتك.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">في حال الموافقة، ستتلقى طلبًا للتأكيد على الموافقة عند الدخول إلى القسم المخصص للأهالي من جديد بعد فترة لا تقل عن 24 ساعة من الآن.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">اقرأ %s لمزيد من المعلومات.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">تأكيد الموافقة</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">شكرًا للموافقة على تخزين المعلومات حول طفلك.تُعتبر هذه الرسالة بمثابة موافقة ثانية للتأكيد على موافقتك.\n\nوللاستفادة إلى أقصى حد من التطبيق، يرجى منحنا الموافقة الأبوية للسماح لشركة Philips بجمع معلومات حول استخدام طفلك لفرشاة Sonicare من Philips والتطبيق.n\nستتضمن هذه المعلومات، التي يتم جمعها من مقبض الفرشاة والتطبيق، وقت تنظيف الأسنان وعدد مرات التنظيف ومدة كل منها.n\nتسمح لك هذه المعلومات بمراقبة عادات طفلك لتنظيف الأسنان وتشجيعه، وبتلقي معلومات مخصصة حول تنظيف الأسنان بالإضافة إلى إعلامات عندما يحين وقت استبدال رأس الفرشاة.\n\nلن نجمع أي معلومات شخصية حول الطفل أو نستخدمها في حال لم تمنحنا موافقتك.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">تؤمن شركة Koninklijke Philips N.V.‎ والشركات التابعة لها (\"Philips\") بقوة حماية خصوصية البيانات الشخصية التي تشاركها معنا. ونؤمن أيضًا بأهمية إطلاعك على الطريقة التي سنستخدم بها بياناتك الشخصية مع منحك خيارات حول الطريقة التي ستُستخدم بها. ولذلك، نشجعك على قراءة إشعار الخصوصية هذا بدقة قبل أن تحدد خياراتك وتمنحنا الحق في استخدام معلوماتك. إن هذا المستند هو إشعار حول ممارسات الخصوصية لشركة Philips وليس اتصالاً ولا اتفاقية.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">إشعار خصوصية التطبيق</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">إشعار الخصوصية</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">الموافقة</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">الوصول الأبوي</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">عمري أقل من %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">عمري أكثر من %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">إن هذا المستند مخصص للأشخاص الذين يفوق عمرهم %d. يرجى الطلب من أهلك ملئه بالنيابة عنك.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">سنة الولادة</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">كم تبلغ من العمر؟</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">إن العمر وسنة الولادة غير متطابقَين</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">لا يتطابق العمر الذي زوّدتنا به مع سنة الولادة. يرجى التأكد من أن العمر وسنة الولادة صحيحان.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">أنت تحاول الوصول إلى قسم مخصص للأهالي.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">أوافق</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">لا أوافق</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">شكرًا لمنح الموافقة الأبوية </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">ستتلقى طلبًا للتأكيد على الموافقة عند الدخول إلى القسم المخصص للأهالي من جديد بعد فترة لا تقل عن 24 ساعة من الآن.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">شكرًا لاهتمامك وللمشاركة!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">لقد منحت الموافقة الأبوية لشركة Philips لتتمكّن من جمع المعلومات حول وقت تنظيف الأسنان بواسطة الفرشاة والمدة والوتيرة من مقبض الفرشاة والتطبيق. \n \n تأخذ شركة Philips خصوصيتك وبياناتك الشخصية على محمل الجد. ولن نستخدم هذه البيانات لأي أغراض أخرى باستثناء تحسين تجربة استخدام Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">سبق أن تم منح الموافقة الأبوية لشركة Philips لتتمكّن من جمع بعض المعلومات من تطبيق Philips Sonicare Kids واستخدامها.\n\n تتوخى شركة Philips الحذر الشديد لحماية خصوصيتك. وبهدف التأكد من هويتك، يرجى إعادة التأكيد.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">نعم، أنا أؤكد من جديد</string>
+<string name="reg_Coppa_Reject_Button_Txt">لا، أنا أرفض</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">نعم، أمنح موافقتي</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">لا، لا أمنح موافقتي</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">إعادة تأكيد الموافقة الأبوية</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">الموافقة الأبوية</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">هل تمنح موافقتك الأبوية؟</string>
 </resources>

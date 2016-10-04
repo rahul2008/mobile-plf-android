@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">برای بهره‌مندی کامل از برنامه، Philips از شما می‌خواهد با جمع‌آوری و استفاده از اطلاعات مربوط به استفاده کودک شما از Philips Sonicare و برنامه موافقت کنید.\n\nاین اطلاعات شامل زمان، طول مدت و تعداد دفعات مسواک زدن است که در دستهٔ مسواک و برنامه جمع‌آوری می‌شود.\n\nاین اطلاعات به شما امکان می‌دهد بر عادت مسواک زدن فرزند خود نظارت داشته باشید و او را تشویق به مسواک زدن کنید، اطلاعات مسواک زدن او را دریافت نمایید و هر زمان وقت تعویض سر مسواک فرا رسید، به شما اطلاع داده شود.\n\nچنانچه رضایت خود را در این خصوص اعلام نکنید، ما اطلاعات شخصی کودک شما را جمع‌آوری نکرده و از آنها استفاده نمی‌کنیم.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">اگر موافق هستید، چنانچه از هم اکنون، حداقل تا 24 ساعت دیگر وارد قسمت والدین شوید، یک درخواست رضایت تأییدی دریافت خواهید کرد.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">برای اطلاعات بیشتر، %s را مطالعه کنید.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">تأیید موافقت</string>
-<string name="Coppa_Confirm_Approval_Content_txt">از اینکه موافقت کردید که اطلاعات فرزندتان جمع‌آوری و ذخیره شود متشکریم. این دومین درخواست رضایت برای تأیید موافقت شما می‌باشد.\n\nبرای بهره‌مندی کامل از برنامه، Philips از شما می‌خواهد با جمع‌آوری و استفاده از اطلاعات مربوط به استفاده کودک شما از Philips Sonicare و برنامه موافقت کنید. این اطلاعات شامل زمان، طول مدت و تعداد دفعات مسواک زدن است که در دستهٔ مسواک و برنامه جمع‌آوری می‌شود.\n\nاین اطلاعات به شما امکان می‌دهد بر عادت مسواک زدن فرزند خود نظارت داشته باشید و او را تشویق به مسواک زدن کنید، اطلاعات مسواک زدن او را دریافت نمایید و هر زمان وقت تعویض سر مسواک فرا رسید، به شما اطلاع داده شود.\n\nچنانچه رضایت خود را در این خصوص اعلام نکنید، ما اطلاعات شخصی کودک شما را جمع‌آوری نکرده و از آنها استفاده نمی‌کنیم.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V.‎ و شرکت‌ها وابسته به آن (\"Philips\") بر حفاظت از حریم خصوصی اطلاعاتی که با ما به اشتراک می‌گذارید تأکید دارند. ما شما را از نحوه استفاده از اطلاعاتتان نیز مطلع خواهیم کرد و به شما این حق داده می‌شود که نحوه استفاده از آن اطلاعات را انتخاب کنید. بنابراین، توصیه می‌کنیم قبل از تصمیم‌گیری و اعلام رضایت برای استفاده از اطلاعاتتان، با دقت این اطلاعیه حریم خصوصی را مطالعه کنید. این متن در واقع اطلاعیه‌ای درباره اصول حریم خصوصی Philips بوده و یک قرارداد یا توافق‌نامه محسوب نمی‌شود.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">اطلاعیه حریم خصوصی برنامه</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">اطلاعیه حریم خصوصی</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">تأییدیه</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">دسترسی والدین</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">سن من کمتر از %d سال است</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">سن من بالاتر از %d سال است</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">این اطلاعیه مربوط به افراد بالاتر از %d سال است. لطفا از ولی خود بخواهید آن را برای شما انجام دهد. </string>
-<string name="Ok_Btn_Txt">تایید</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">سال تولد</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">چند سال دارید؟</string>
-<string name="Coppa_Age_Verification_Alert_Title">سن و سال تولد مطابقت ندارند</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">سن ارائه شده با سال تولد شما مطابقت ندارد. بررسی کنید سن و سال تولدتان صحیح باشد.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">سعی دارید به بخشی دسترسی پیدا کنید که مختص والدین شما است.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">موافقم</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">مخالفم</string>
+<string name="reg_Coppa_Give_Approval_txt">برای بهره‌مندی کامل از برنامه، Philips از شما می‌خواهد با جمع‌آوری و استفاده از اطلاعات مربوط به استفاده کودک شما از Philips Sonicare و برنامه موافقت کنید.\n\nاین اطلاعات شامل زمان، طول مدت و تعداد دفعات مسواک زدن است که در دستهٔ مسواک و برنامه جمع‌آوری می‌شود.\n\nاین اطلاعات به شما امکان می‌دهد بر عادت مسواک زدن فرزند خود نظارت داشته باشید و او را تشویق به مسواک زدن کنید، اطلاعات مسواک زدن او را دریافت نمایید و هر زمان وقت تعویض سر مسواک فرا رسید، به شما اطلاع داده شود.\n\nچنانچه رضایت خود را در این خصوص اعلام نکنید، ما اطلاعات شخصی کودک شما را جمع‌آوری نکرده و از آنها استفاده نمی‌کنیم.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">اگر موافق هستید، چنانچه از هم اکنون، حداقل تا 24 ساعت دیگر وارد قسمت والدین شوید، یک درخواست رضایت تأییدی دریافت خواهید کرد.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">برای اطلاعات بیشتر، %s را مطالعه کنید.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">تأیید موافقت</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">از اینکه موافقت کردید که اطلاعات فرزندتان جمع‌آوری و ذخیره شود متشکریم. این دومین درخواست رضایت برای تأیید موافقت شما می‌باشد.\n\nبرای بهره‌مندی کامل از برنامه، Philips از شما می‌خواهد با جمع‌آوری و استفاده از اطلاعات مربوط به استفاده کودک شما از Philips Sonicare و برنامه موافقت کنید. این اطلاعات شامل زمان، طول مدت و تعداد دفعات مسواک زدن است که در دستهٔ مسواک و برنامه جمع‌آوری می‌شود.\n\nاین اطلاعات به شما امکان می‌دهد بر عادت مسواک زدن فرزند خود نظارت داشته باشید و او را تشویق به مسواک زدن کنید، اطلاعات مسواک زدن او را دریافت نمایید و هر زمان وقت تعویض سر مسواک فرا رسید، به شما اطلاع داده شود.\n\nچنانچه رضایت خود را در این خصوص اعلام نکنید، ما اطلاعات شخصی کودک شما را جمع‌آوری نکرده و از آنها استفاده نمی‌کنیم.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V.‎ و شرکت‌ها وابسته به آن (\"Philips\") بر حفاظت از حریم خصوصی اطلاعاتی که با ما به اشتراک می‌گذارید تأکید دارند. ما شما را از نحوه استفاده از اطلاعاتتان نیز مطلع خواهیم کرد و به شما این حق داده می‌شود که نحوه استفاده از آن اطلاعات را انتخاب کنید. بنابراین، توصیه می‌کنیم قبل از تصمیم‌گیری و اعلام رضایت برای استفاده از اطلاعاتتان، با دقت این اطلاعیه حریم خصوصی را مطالعه کنید. این متن در واقع اطلاعیه‌ای درباره اصول حریم خصوصی Philips بوده و یک قرارداد یا توافق‌نامه محسوب نمی‌شود.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">اطلاعیه حریم خصوصی برنامه</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">اطلاعیه حریم خصوصی</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">تأییدیه</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">دسترسی والدین</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">سن من کمتر از %d سال است</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">سن من بالاتر از %d سال است</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">این اطلاعیه مربوط به افراد بالاتر از %d سال است. لطفا از ولی خود بخواهید آن را برای شما انجام دهد. </string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">سال تولد</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">چند سال دارید؟</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">سن و سال تولد مطابقت ندارند</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">سن ارائه شده با سال تولد شما مطابقت ندارد. بررسی کنید سن و سال تولدتان صحیح باشد.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">سعی دارید به بخشی دسترسی پیدا کنید که مختص والدین شما است.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">موافقم</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">مخالفم</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">از شما به خاطر رضایت والدین سپاسگزاریم </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">چنانچه از هم اکنون، حداقل تا 24 ساعت دیگر وارد قسمت والدین شوید، یک درخواست رضایت تأییدی دریافت خواهید کرد.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">از توجه شما و تبادل اطلاعات متشکریم!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">شما به Philips اجازه داده‌اید که اطلاعات مربوط به زمان، طول مدت و تعداد دفعات مسواک زدن را از برنامه و دسته مسواک جمع‌آوری نماید. \n \n Philips به طور جدی به حریم خصوصی و اطلاعات شخصی شما اهمیت می‌دهد. ما هرگز از این اطلاعات برای هدفی به جز بهبود تجربه کودکان در استفاده از عملکرد Sonicare استفاده نخواهیم کرد. </string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">رضایت والدین شما قبلاً برای Philips ارسال شده است تا بتواند اطلاعات خاصی را از برنامه Philips Sonicare Kids App جمع‌آوری کرده و از این اطلاعات استفاده کند.\n\nPhilips نهایت دقت را برای حفاظت از حریم خصوصی شما به کار می‌گیرد. برای اطمینان از این که رضایت توسط شخص شما صورت گرفته است، لطفا دوباره این مورد را تأیید کنید.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">بله دوباره تأیید می‌کنم</string>
+<string name="reg_Coppa_Reject_Button_Txt">خیر رد می‌کنم</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">بله رضایت دارم</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">خیر رضایت ندارم</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">تأیید مجدد رضایت والدین</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">رضایت والدین</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">آیا رضایت والدین را ارائه کرده‌اید؟</string>
 </resources>

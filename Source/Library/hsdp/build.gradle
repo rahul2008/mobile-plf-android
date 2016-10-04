@@ -31,7 +31,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = "1.0.3"
+version = "1.0.4"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -61,7 +61,7 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 21
-        versionName "1.0.2"
+        versionName "1.0.4"
         testApplicationId "com.philips.dhpclient.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 
@@ -100,8 +100,13 @@ dependencies {
     compile(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.6.1')
     compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.6.1')
     compile project (':servertime')
-    androidTestCompile project(':dexmaker-mockito-1.4')
-    androidTestCompile project(':dexmaker-1.4')
-    androidTestCompile project(':dexmaker-dx-1.4')
-    androidTestCompile project(':mockito-all-1.10.19')
+    /*   androidTestCompile project(':dexmaker-mockito-1.4')
+       androidTestCompile project(':dexmaker-1.4')
+       androidTestCompile project(':dexmaker-dx-1.4')
+       androidTestCompile project(':mockito-all-1.10.19')*/
+
+    androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 }

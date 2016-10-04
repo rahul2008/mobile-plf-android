@@ -11,10 +11,6 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import com.janrain.android.capture.CaptureApiError;
@@ -26,9 +22,13 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFlowDownloadStatusListener {
 
-	private ResendVerificationEmailHandler mResendVerificationEmail;
+	public ResendVerificationEmailHandler mResendVerificationEmail;
 	private Context mContext;
 	private String mEmailAddress;
 	public ResendVerificationEmail(final Context context, final ResendVerificationEmailHandler resendVerificationEmail) {
@@ -126,7 +126,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	public void onFlowDownloadFailure() {
 		if(mResendVerificationEmail != null) {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
 			userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
 			mResendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
 		}

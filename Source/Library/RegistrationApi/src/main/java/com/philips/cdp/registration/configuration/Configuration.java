@@ -11,10 +11,10 @@ package com.philips.cdp.registration.configuration;
 
 public enum Configuration {
 
-    STAGING("Staging"),
-    EVALUATION("Evaluation"), DEVELOPMENT("Development"),
-    TESTING("Testing"),
-    PRODUCTION("Production");
+    STAGING("STAGING"),
+    EVALUATION("EVALUATION"), DEVELOPMENT("DEVELOPMENT"),
+    TESTING("TESTING"),
+    PRODUCTION("PRODUCTION");
 
     private String value;
 

@@ -4,7 +4,8 @@
  *  * in whole or in part is prohibited without the prior written
  *  * consent of the copyright holder.
  * /
- */
+ *//*
+
 
 package com.philips.dhpclient.test;
 
@@ -25,9 +26,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+*/
 /**
  * Created by 310190722 on 9/8/2015.
- */
+ *//*
+
 public class RefreshSecretTest extends InstrumentationTestCase {
 
     private DhpAuthenticationManagementClient authenticationManagementClient;
@@ -142,3 +145,4 @@ public class RefreshSecretTest extends InstrumentationTestCase {
         return dhpAuthenticationResponse;
     }
 }
+*/

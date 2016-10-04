@@ -16,8 +16,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -25,6 +27,9 @@ import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.Locale;
 
@@ -155,29 +160,8 @@ public class UserRegistrationInitializer {
 
 
     public void initializeConfiguredEnvironment(Context context, Configuration registrationType, String initLocale) {
-
-        switch (registrationType) {
-            case EVALUATION:
-                mRegistrationSettings = new EvalRegistrationSettings();
-                break;
-            case DEVELOPMENT:
-                mRegistrationSettings = new DevRegistrationSettings();
-                break;
-            case PRODUCTION:
-                mRegistrationSettings = new ProdRegistrationSettings();
-                break;
-            case STAGING:
-                mRegistrationSettings = new StaginglRegistrationSettings();
-                break;
-            case TESTING:
-                mRegistrationSettings = new TestingRegistrationSettings();
-                break;
-        }
-
-
-        mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getJanRainConfiguration().getClientId(registrationType), initLocale);
-
-
+        mRegistrationSettings = new RegistrationSettingsURL();
+        mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
     }
 
 
@@ -202,10 +186,10 @@ public class UserRegistrationInitializer {
         registerJumpInitializationListener(context);
 
 
-        RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getMicrositeId());
 
         String mRegistrationType = RegistrationConfiguration.getInstance()
-                .getPilConfiguration().getRegistrationEnvironment();
+                .getRegistrationEnvironment();
         RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
 
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
@@ -213,7 +197,6 @@ public class UserRegistrationInitializer {
 
         UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, RegUtility.getConfiguration(mRegistrationType), locale.toString());
     }
-
 
     private void registerJumpInitializationListener(Context context) {
         IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
@@ -244,6 +227,4 @@ public class UserRegistrationInitializer {
     public void setRefreshUserSessionInProgress(boolean refreshUserSessionInProgress) {
         isRefreshUserSessionInProgress = refreshUserSessionInProgress;
     }
-
-
 }

@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -30,24 +29,23 @@ import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Calendar;
 
-public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
+public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
+        implements OnClickListener {
 
     private static final int MAX_AGE_VAL = 116;
     private static final int MIN_AGE_VAL = 0;
-    private int MAX_YEAR_VAL ;
-    private int MIN_YEAR_VAL ;
+    private int MAX_YEAR_VAL;
+    private int MIN_YEAR_VAL;
     private Button mBtnContinue;
     private RelativeLayout mRlBtnContinueContainer;
     private TextView mTvSelectedAge;
     private TextView mTvSelectedYear;
     private LinearLayout mLlSelectAgeContainer;
     private LinearLayout mLlSelectYearContainer;
-    private LinearLayout mLlSelectAgeSelector;
-    private LinearLayout mLlSelectYearSelector;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,14 +53,15 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         super.onCreate(savedInstanceState);
 
         MAX_YEAR_VAL = Calendar.getInstance().get(Calendar.YEAR);
-        MIN_YEAR_VAL = MAX_YEAR_VAL - MAX_AGE_VAL+1;
+        MIN_YEAR_VAL = MAX_YEAR_VAL - MAX_AGE_VAL + 1;
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessConfirmFragment : onCreateView");
-        View view = inflater.inflate(R.layout.fragment_reg_coppa_parental_access_confirm, null);
+        View view = inflater.inflate(R.layout.reg_fragment_coppa_parental_access_confirm, null);
         initUi(view);
         handleOrientation(view);
         return view;
@@ -119,7 +118,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessConfirmFragment : onConfigurationChanged");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessConfirmFragment :" +
+                " onConfigurationChanged");
         setCustomParams(config);
     }
 
@@ -131,6 +131,16 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
     protected void handleOrientation(View view) {
         handleOrientationOnView(view);
     }
@@ -139,17 +149,22 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         consumeTouch(view);
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
         mBtnContinue.setOnClickListener(this);
-        mRlBtnContinueContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_continue_container);
+        mRlBtnContinueContainer = (RelativeLayout) view.findViewById
+                (R.id.rl_reg_continue_container);
         mTvSelectedAge = (TextView) view.findViewById(R.id.tv_reg_selected_age);
         mTvSelectedYear = (TextView) view.findViewById(R.id.tv_reg_selected_birth_year);
-        mLlSelectAgeContainer = (LinearLayout) view.findViewById(R.id.ll_reg_age_select_container);
+        mLlSelectAgeContainer = (LinearLayout) view.
+                findViewById(R.id.ll_reg_age_select_container);
 
-        mLlSelectAgeSelector = (LinearLayout) view.findViewById(R.id.ll_reg_age_selector);
+        LinearLayout mLlSelectAgeSelector = (LinearLayout) view.
+                findViewById(R.id.ll_reg_age_selector);
         mLlSelectAgeSelector.setOnClickListener(this);
 
-        mLlSelectYearContainer = (LinearLayout) view.findViewById(R.id.ll_reg_age_year_container);
+        mLlSelectYearContainer = (LinearLayout) view.findViewById
+                (R.id.ll_reg_age_year_container);
 
-        mLlSelectYearSelector = (LinearLayout) view.findViewById(R.id.ll_reg_age_year_selector);
+        LinearLayout mLlSelectYearSelector = (LinearLayout) view.
+                findViewById(R.id.ll_reg_age_year_selector);
         mLlSelectYearSelector.setOnClickListener(this);
     }
 
@@ -161,7 +176,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
             mBtnContinue.setEnabled(false);
             validateInputs();
 
-        } else if ( id == R.id.ll_reg_age_selector) {
+        } else if (id == R.id.ll_reg_age_selector) {
 
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
                 @Override
@@ -170,9 +185,10 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
                     updateUI();
                 }
             });
-            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), MIN_AGE_VAL, MAX_AGE_VAL);
+            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(),
+                    MIN_AGE_VAL, MAX_AGE_VAL);
             dialogCoppaAgeVerification.setInitialValue(MIN_AGE_VAL);
-        } else if (id== R.id.ll_reg_age_year_selector) {
+        } else if (id == R.id.ll_reg_age_year_selector) {
 
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
                 @Override
@@ -181,7 +197,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
                     updateUI();
                 }
             });
-            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), MIN_YEAR_VAL, MAX_YEAR_VAL);
+            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(),
+                    MIN_YEAR_VAL, MAX_YEAR_VAL);
         }
     }
 
@@ -193,7 +210,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         int caluculateAge = currentYear - selectedYear;
         int howMuchOld = Integer.parseInt(mTvSelectedAge.getText().toString().trim());
 
-        int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
+        int minAge = RegistrationConfiguration.getInstance().
+                getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
 
         if (howMuchOld < minAge) {
             showParentalAccessDailog(minAge);
@@ -201,22 +219,27 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         }
 
         if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
-            Tagging.setLaunchingPageName("coppa:ageverification");
+
+            AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.
+                    getInstance().getAppTaggingInterface();
+            aiAppTaggingInterface.setPreviousPage("coppa:ageverification");
             getRegistrationFragment().launchRegistrationFragment();
             mBtnContinue.setEnabled(true);
             return;
         }
-        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.Coppa_Age_Verification_Alert_Title),
-                getActivity().getString(R.string.Coppa_Age_Verification_Age_Mismatch_Alert_Message), getActivity(), mOkBtnClick);
+        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.reg_Coppa_Age_Verification_Alert_Title),
+                getActivity().getString(R.string.reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message), getActivity(),
+                mOkBtnClick);
 
     }
 
     private void showParentalAccessDailog(int minAge) {
-        String minAgeLimitTest = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Alert_Txt);
+        String minAgeLimitTest = getActivity().getString(R.string.reg_Coppa_Age_Verification_UnderAge_Alert_Txt);
         minAgeLimitTest = String.format(minAgeLimitTest, minAge);
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppCoppaTaggingConstants.MIN_AGE_LIMIT_WARNING);
-        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.Coppa_Age_Verification_Screen_Title_txt), minAgeLimitTest, getActivity(), mOkBtnClick);
+        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.reg_Coppa_Age_Verification_Screen_Title_txt), minAgeLimitTest, getActivity(),
+                mOkBtnClick);
     }
 
 
@@ -230,7 +253,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Age_Verification_Screen_Title_txt;
+        return R.string.reg_Coppa_Age_Verification_Screen_Title_txt;
     }
 
     private View.OnClickListener mOkBtnClick = new View.OnClickListener() {

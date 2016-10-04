@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
@@ -31,13 +32,13 @@ public class XPasswordHintRow extends RelativeLayout {
     public XPasswordHintRow(Context context) {
         super(context);
         this.mContext = context;
-        initUi(R.layout.x_password_hint_row);
+        initUi(R.layout.reg_password_hint_row);
     }
 
     public XPasswordHintRow(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        initUi(R.layout.x_password_hint_row);
+        initUi(R.layout.reg_password_hint_row);
     }
 
     private final void initUi(int resourceId) {
@@ -54,12 +55,14 @@ public class XPasswordHintRow extends RelativeLayout {
     }
 
     public void showCorrectIcon() {
-        mTvIconText.setTextColor(mContext.getResources().getColor(R.color.reg_password_hint_correct_ic_color));
+        mTvIconText.setTextColor(
+                ContextCompat.getColor(mContext,R.color.reg_password_hint_correct_ic_color));
         mTvIconText.setText(R.string.ic_reg_check);
     }
 
     public void showInCorrectIcon() {
-        mTvIconText.setTextColor(mContext.getResources().getColor(R.color.reg_password_hint_incorrect_ic_color));
+        mTvIconText.setTextColor(ContextCompat.getColor(mContext,
+                R.color.reg_password_hint_incorrect_ic_color));
         mTvIconText.setText(R.string.ic_reg_close);
     }
 

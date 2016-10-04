@@ -11,6 +11,8 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,11 +23,15 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
+import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
+import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
+import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
+public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener, NetworStateListener {
 
     private LinearLayout mLlRootContainer;
     private Button mBtnDashboard;
@@ -33,6 +39,13 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     private Context mContext;
     private TextView mTextContantTitle;
     private String mCoppaStatus;
+    private ClickableSpan privacyLinkClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                    onPrivacyPolicyClick(getActivity());
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +61,8 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
 
-        View view = inflater.inflate(R.layout.fragment_reg_coppa_thank_you_parental_consent, null);
+        View view = inflater.inflate(R.layout.reg_fragment_coppa_thank_you_parental_consent, null);
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
         mContext = getParentFragment().getActivity().getApplicationContext();
         initUi(view);
         handleOrientation(view);
@@ -131,10 +145,15 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         RLog.d(RegConstants.COPPA_STATUS, "Status : " + mCoppaStatus);
         if (mCoppaStatus == CoppaStatus.kDICOPPAConfirmationPending.toString()) {
             mTextDetailsContant.setText(getUsText());
-            mTextContantTitle.setText(getResources().getString(R.string.Coppa_Privacy_Parent_Consent_Txt));
+            mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_US_Parental_Access_Thank_You_Txt));
+            if(getActivity()!=null){
+                RegCoppaUtility.linkifyTermAndPolicy(mTextDetailsContant, getActivity(), privacyLinkClick);
+            }
+            trackPage(AppTaggingCoppaPages.COPPA_THANK_AFTER_FIRST_CONSENT);
         } else if (mCoppaStatus == CoppaStatus.kDICOPPAConfirmationGiven.toString()) {
             mTextDetailsContant.setText(getAlreadyUsText());
-            mTextContantTitle.setText(getResources().getString(R.string.Coppa_Thanks_Parent_Consent_Txt));
+            mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt));
+            trackPage(AppTaggingCoppaPages.COPPA_CONSENT_PROCESS_COMPLETED);
         }
     }
 
@@ -143,24 +162,38 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         int id = v.getId();
         if (id == R.id.coppa_reg_btn_dashboard) {
             RLog.d("Dash Board ", "Clicked : *******");
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(getActivity());
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                        onUserRegistrationComplete(getActivity());
             }
         }
     }
 
     private String getUsText() {
-        return mContext.getString(R.string.Coppa_Parental_Thank_Consent_Txt) +
-                "\n\n" + mContext.getString(R.string.Coppa_Parental_Thank_Consent_Privacy_Txt);
+        return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Content_Txt) +
+                "\n\n" + String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
+    }
+    private String getAlreadyUsText() {
+        return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt);
     }
 
-    private String getAlreadyUsText() {
-        return mContext.getString(R.string.Coppa_Parental_Consent_Txt) +
-                "\n\n" + mContext.getString(R.string.Coppa_Parental_Consent_Privacy_Txt);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Parental_Consent_Screen_Title_txt;
+        return R.string.reg_Coppa_Age_Confirmation_Screen_Title_txt;
+    }
+
+    @Override
+    public void onNetWorkStateReceived(final boolean isOnline) {
+
     }
 }

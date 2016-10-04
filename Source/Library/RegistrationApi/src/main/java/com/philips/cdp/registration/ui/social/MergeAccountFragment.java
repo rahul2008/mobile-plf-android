@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -40,6 +39,7 @@ import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -82,11 +82,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     private ScrollView mSvRootLayout;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +96,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-        View view = inflater.inflate(R.layout.fragment_social_merge_account, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
         RLog.i(RLog.EVENT_LISTENERS,
                 "MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mUser = new User(mContext);
@@ -192,6 +187,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_btn_container);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        ((RegistrationFragment) getParentFragment()).showKeyBoard();
+        mEtPassword.requestFocus();
         mEtPassword.setOnUpdateListener(this);
         mEtPassword.isValidatePassword(false);
 
@@ -207,12 +204,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
         mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
 
-        mEtPassword.setHint(mContext.getResources().getString(R.string.Account_Merge_EnterPassword_Placeholder_txtFiled));
+        mEtPassword.setHint(mContext.getResources().getString(R.string.reg_Account_Merge_EnterPassword_Placeholder_txtFiled));
 
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
 
-        String usedEmail = getString(R.string.Account_Merge_UsedEmail_Error_lbltxt);
+        String usedEmail = getString(R.string.reg_Account_Merge_UsedEmail_Error_lbltxt);
         usedEmail = String.format(usedEmail, mEmailId);
         mTvUsedEmail.setText(usedEmail);
     }
@@ -239,7 +236,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
             mUser.mergeToTraditionalAccount(mEmailId, mEtPassword.getPassword(), mMergeToken, this);
             showMergeSpinner();
         } else {
-            mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
+            mRegError.setError(getString(R.string.reg_JanRain_Error_Check_Internet));
         }
     }
 
@@ -256,7 +253,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
                 }
 
             } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         }
     }
@@ -286,10 +283,10 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         } else {
-            mRegError.setError(getString(R.string.NoNetworkConnection));
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
@@ -342,7 +339,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     @Override
@@ -406,8 +403,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
             @Override
             public void run() {
                 RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
-                RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg_Title),
-                        mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+                RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
+                        mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                         AppTagingConstants.RESET_PASSWORD_SUCCESS);
                 hideForgotPasswordSpinner();

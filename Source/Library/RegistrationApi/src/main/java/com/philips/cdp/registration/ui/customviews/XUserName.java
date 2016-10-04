@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -10,6 +9,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -51,13 +51,13 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	public XUserName(Context context) {
 		super(context);
 		this.mContext = context;
-		initUi(R.layout.x_user_name);
+		initUi(R.layout.reg_user_name);
 	}
 
 	public XUserName(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
-		initUi(R.layout.x_user_name);
+		initUi(R.layout.reg_user_name);
 	}
 
 	public final void initUi(int resourceId) {
@@ -92,7 +92,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	}
 
 	private void showInvalidUserNameAlert() {
-		mEtUserName.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+		mEtUserName.setTextColor( ContextCompat.getColor(mContext,R.color.reg_error_box_color));
 		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_error);
 		mFlInvaliFielddAlert.setVisibility(View.VISIBLE);
 		mTvErrDescriptionView.setVisibility(VISIBLE);
@@ -147,7 +147,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
-		mEtUserName.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+		mEtUserName.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
 		if (v.getId() == R.id.et_reg_fname) {
 			handleName(hasFocus);
 			raiseUpdateUIEvent();
@@ -167,7 +167,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 			showValidUserNameAlert();
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
 			}
 		}
 	}
@@ -178,7 +178,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
 				AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_NAME);
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
 				showInvalidUserNameAlert();
 			}
 

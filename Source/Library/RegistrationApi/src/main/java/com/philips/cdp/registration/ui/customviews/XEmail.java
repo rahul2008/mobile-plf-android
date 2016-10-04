@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -10,6 +9,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -44,16 +44,18 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private FrameLayout mFlInvalidFieldAlert;
 
+    private String mSavedEmaillError;
+
     public XEmail(Context context) {
         super(context);
         this.mContext = context;
-        initUi(R.layout.x_email);
+        initUi(R.layout.reg_email);
     }
 
     public XEmail(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        initUi(R.layout.x_email);
+        initUi(R.layout.reg_email);
     }
 
     public final void initUi(int resourceId) {
@@ -95,6 +97,11 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     public void setErrDescription(String mErrDescription) {
         mTvErrDescriptionView.setText(mErrDescription);
+        mSavedEmaillError = mErrDescription;
+    }
+
+    public String getSavedEmailErrDescription(){
+        return mSavedEmaillError;
     }
 
     private void handleEmail(boolean hasFocus) {
@@ -114,30 +121,22 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
     }
 
-   /* public void showEmailInvalidAlert() {
-        mIvEmailErrAlert.setVisibility(VISIBLE);
-    }
-
-    public void hideEmailInvalidAlert() {
-        mIvEmailErrAlert.setVisibility(GONE);
-    }*/
-
     private void showEmailIsInvalidAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_error_box_color));
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
         mTvErrDescriptionView.setVisibility(VISIBLE);
     }
 
     private void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
 
     public void showInvalidAlert() {
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mEtEmail.setTextColor( ContextCompat.getColor(mContext,R.color.reg_error_box_color));
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
     }
@@ -154,7 +153,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         if (v.getId() == R.id.et_reg_email) {
             handleEmail(hasFocus);
             raiseUpdateUIEvent();
@@ -172,6 +171,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mTvErrDescriptionView.setVisibility(View.VISIBLE);
     }
 
+    public boolean isEmailErrorVisible(){
+        if(mTvErrDescriptionView.getVisibility() == View.VISIBLE){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -183,9 +189,9 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             showValidEmailAlert();
         } else {
             if (mEtEmail.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
             }
         }
     }
@@ -197,11 +203,14 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             mValidEmail = true;
         } else {
             if (mEtEmail.getText().toString().trim().length() == 0) {
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ALERT, AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ALERT,
+                        AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
-                setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
+                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
             }
             showEmailIsInvalidAlert();
         }

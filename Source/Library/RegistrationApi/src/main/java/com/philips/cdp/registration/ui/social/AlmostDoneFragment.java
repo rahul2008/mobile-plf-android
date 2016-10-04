@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -103,11 +102,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isForTermsAccepatance;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onAttach");
-        super.onAttach(activity);
-    }
+    private boolean isSavedCBTermsChecked;
+
+    private boolean isSavedCbAcceptTermsChecked;
+
+    private boolean isTermsAndConditionVisible;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,7 +125,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         parseRegistrationInfo();
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        View view = inflater.inflate(R.layout.fragment_social_almost_done, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         updateUiStatus();
@@ -183,6 +184,51 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onDetach() {
         super.onDetach();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDetach");
+    }
+
+    private Bundle mSavedBundle;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mSavedBundle = outState;
+        super.onSaveInstanceState(mSavedBundle);
+        if(mCbAcceptTerms!=null){
+            if(mCbTerms.isChecked()){
+                isSavedCBTermsChecked = true;
+                mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
+                mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
+        }
+        if(mCbAcceptTerms!=null){
+            if(mCbAcceptTerms.isChecked()){
+                isSavedCbAcceptTermsChecked = true;
+                mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
+                mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
+        }
+        if(mRegAccptTermsError!=null){
+            if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+                isTermsAndConditionVisible = true;
+                mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
+                mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
+                mCbTerms.setChecked(true);
+            }
+            if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
+                mCbAcceptTerms.setChecked(true);
+            }
+            if(savedInstanceState.getString("saveTermsAndConditionErrText")!=null && savedInstanceState.getBoolean("isTermsAndConditionVisible")){
+                mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
+            }
+        }
+        mSavedBundle = null;
     }
 
     @Override
@@ -334,7 +380,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     };
 
     private void handleUiAcceptTerms(View view) {
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (isEmailExist && RegPreferenceUtility.getStoredState(mContext, mEmail)) {
                 View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
                 acceptTermsLine.setVisibility(View.GONE);
@@ -360,7 +406,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -373,7 +419,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             }else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -415,23 +461,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
             if (mBundle == null) {
-                if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
                         storeEmailInPreference();
                         launchWelcomeFragment();
                     } else {
-                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                     }
                 } else {
                     launchWelcomeFragment();
                 }
                 return;
             }
-            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && mLlAcceptTermsContainer.getVisibility() == View.VISIBLE) {
+            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && mLlAcceptTermsContainer.getVisibility() == View.VISIBLE) {
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
                 register();
@@ -475,7 +521,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (mCbAcceptTerms.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             } else {
@@ -486,7 +532,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     @Override
@@ -641,7 +687,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     //called on click of back
     public void clearUserData() {
-        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() &&
+                RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             User user = new User(mContext);
             user.logout(null);
         }
@@ -654,7 +701,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
     }

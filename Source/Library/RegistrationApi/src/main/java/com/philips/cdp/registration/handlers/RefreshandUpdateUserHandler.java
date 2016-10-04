@@ -33,7 +33,7 @@ import org.json.JSONObject;
  */
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
 
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
+    public UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;
     private User user;
     private String password;
@@ -72,7 +72,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             @Override
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
-                if (!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     return;
                 }

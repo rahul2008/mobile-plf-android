@@ -13,7 +13,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
@@ -46,18 +45,26 @@ import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.security.SecurityHelper;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
+/**
+ * {@code User} class represents information related to a logged in user of User Registration component.
+ * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
+ */
 public class User {
 
     private boolean mEmailVerified;
@@ -102,14 +109,22 @@ public class User {
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-
+    /**
+     * @param context
+     */
     public User(Context context) {
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }
 
 
-    // For Traditional SignIn
+    /**
+     * {@code loginUsingTraditional} method logs in a user with a traditional account.
+     *
+     * @param emailAddress
+     * @param password
+     * @param traditionalLoginHandler
+     */
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
@@ -120,16 +135,32 @@ public class User {
                 new TraditionalLoginHandler() {
                     @Override
                     public void onLoginSuccess() {
-
                         DIUserProfile diUserProfile = getUserInstance();
-                        diUserProfile.setPassword(password);
-                        saveDIUserProfileToDisk(diUserProfile);
-                        traditionalLoginHandler.onLoginSuccess();
+                        if (diUserProfile != null && traditionalLoginHandler != null) {
+                            diUserProfile.setPassword(password);
+                            saveDIUserProfileToDisk(diUserProfile);
+                            traditionalLoginHandler.onLoginSuccess();
+                        } else {
+                            if (traditionalLoginHandler != null) {
+                                UserRegistrationFailureInfo
+                                        userRegistrationFailureInfo =
+                                        new UserRegistrationFailureInfo();
+                                userRegistrationFailureInfo.
+                                        setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+                                traditionalLoginHandler.
+                                        onLoginFailedWithError(userRegistrationFailureInfo
+                                        );
+                            }
+                        }
                     }
 
                     @Override
-                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                        traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    public void onLoginFailedWithError(UserRegistrationFailureInfo
+                                                               userRegistrationFailureInfo) {
+                        if (traditionalLoginHandler != null) {
+                            traditionalLoginHandler.
+                                    onLoginFailedWithError(userRegistrationFailureInfo);
+                        }
                     }
                 }, mContext, mUpdateUserRecordHandler, emailAddress,
                 password);
@@ -139,7 +170,14 @@ public class User {
     }
 
 
-    // For Social SignIn Using Provider
+    /**
+     * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
+     *
+     * @param activity
+     * @param providerName
+     * @param socialLoginHandler
+     * @param mergeToken
+     */
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler, final String mergeToken) {
 
@@ -157,8 +195,16 @@ public class User {
 
     }
 
-    // moved app logic to set user info (traditional login) in diuserprofile to
-    // framework.
+    /**
+     * {@code registerUserInfoForTraditional} method creates a user account.
+     *
+     * @param mGivenName
+     * @param mUserEmail
+     * @param password
+     * @param olderThanAgeLimit
+     * @param isReceiveMarketingEmail
+     * @param traditionalRegisterHandler
+     */
     public void registerUserInfoForTraditional(String mGivenName, String mUserEmail,
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
@@ -171,8 +217,12 @@ public class User {
     }
 
 
-    // For Forgot password
-
+    /**
+     * {@code forgotPassword} method retrieves a lost password.
+     *
+     * @param emailAddress
+     * @param forgotPasswordHandler
+     */
     public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
         if (emailAddress != null) {
             ForgotPassword forgotPasswordResultHandler = new ForgotPassword(mContext, forgotPasswordHandler);
@@ -185,14 +235,23 @@ public class User {
         }
     }
 
-    // For Refresh login Session
+    /**
+     * {@code refreshLoginSession} method refreshes the session of an already logged in user.
+     *
+     * @param refreshLoginSessionHandler
+     */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
         refreshUserSession.refreshUserSession();
     }
 
 
-    // For Resend verification emails
+    /**
+     * {@code resendVerificationEmail} method sends a verification mail in case an already sent mail is not received.
+     *
+     * @param emailAddress
+     * @param resendVerificationEmail
+     */
     public void resendVerificationMail(final String emailAddress,
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
 
@@ -224,7 +283,14 @@ public class User {
 
     }
 
-    // For handling merge scenario
+    /**
+     * {@code mergeToTraditionalAccount} method merges a traditional account to other existing account
+     *
+     * @param emailAddress
+     * @param password
+     * @param mergeToken
+     * @param traditionalLoginHandler
+     */
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                           final TraditionalLoginHandler traditionalLoginHandler) {
         mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
@@ -232,8 +298,18 @@ public class User {
 
     }
 
-    // moved app logic to set user info ( social sign in ) in diuserprofile to
-    // framework.
+    /**
+     * {@code registerUserInfoForSocial} methods creates a new account using social provider.
+     *
+     * @param givenName
+     * @param displayName
+     * @param familyName
+     * @param userEmail
+     * @param olderThanAgeLimit
+     * @param isReceiveMarketingEmail
+     * @param socialProviderLoginHandler
+     * @param socialRegistrationToken
+     */
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
                                           final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
@@ -302,7 +378,11 @@ public class User {
         return mEmailVerified;
     }
 
-
+    /**
+     * {@code isUserSignIn} method checks if a user is logged in
+     *
+     * @return boolean
+     */
     public boolean isUserSignIn() {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
@@ -313,24 +393,25 @@ public class User {
         }
 
         boolean signedIn = true;
-        if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
         }
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-            if (!RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
+            if (!RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
                 throw new RuntimeException("Please set emailVerificationRequired field as true");
             }
             HsdpUser hsdpUser = new HsdpUser(mContext);
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
         }
-        if (RegistrationConfiguration.getInstance().getJanRainConfiguration() != null) {
+        if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.getConfiguration(
+                RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
         }
 
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext,getEmail());
-            if(!isTermAccepted){
-                signedIn=false;
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            if (!isTermAccepted) {
+                signedIn = false;
                 clearData();
             }
         }
@@ -338,13 +419,13 @@ public class User {
         return signedIn;
     }
 
-    private boolean isJanrainUserRecord() {
-        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-        if (captured != null) {
-            return true;
-        }
-        return false;
-    }
+//    private boolean isJanrainUserRecord() {
+//        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+//        if (captured != null) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     // check merge flow error for capture
     public boolean handleMergeFlowError(String existingProvider) {
@@ -411,7 +492,7 @@ public class User {
         CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
         JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
         mConsumerInterestArray = new JSONArray();
-        ConsumerArray consumer = ConsumerArray.getInstance();
+        ConsumerArray consumer = consumerArray;
 
         if (consumer != null) {
             for (ConsumerInterest diConsumerInterest : consumer.getConsumerArraylist()) {
@@ -453,10 +534,14 @@ public class User {
 
     }
 
-    // For Log out
+    /**
+     * {@code logout} method logs out a logged in user.
+     *
+     * @param logoutHandler
+     */
     public void logout(LogoutHandler logoutHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
             clearData();
@@ -480,81 +565,81 @@ public class User {
         return captureRecord.getAccessToken();
     }
 
-    private void refreshandUpdateUser(final RefreshUserHandler handler) {
-
-        if (Jump.getSignedInUser() == null) {
-            handler.onRefreshUserFailed(0);
-            return;
-        }
-        Jump.performFetchCaptureData(new CaptureApiResultHandler() {
-
-            @Override
-            public void onSuccess(JSONObject response) {
-                Jump.saveToDisk(mContext);
-                if (!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-                    handler.onRefreshUserSuccess();
-                    return;
-                }
-
-                if (getEmailVerificationStatus()) {
-                    DIUserProfile userProfile = getDIUserProfileFromDisk();
-                    HsdpUser hsdpUser = new HsdpUser(mContext);
-                    HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-                    if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
-                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
-                            @Override
-                            public void onLoginSuccess() {
-                                ABCD.getInstance().setmP(null);
-                                handler.onRefreshUserSuccess();
-                            }
-
-                            @Override
-                            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
-                            }
-                        }, mContext, mUpdateUserRecordHandler, userProfile.getEmail(), ABCD.getInstance().getmP());
-                        loginTraditional.loginIntoHsdp();
-                    } else {
-                        handler.onRefreshUserSuccess();
-                    }
-                } else {
-                    handler.onRefreshUserSuccess();
-                }
-            }
-
-            @Override
-            public void onFailure(CaptureAPIError failureParam) {
-
-                System.out.println("Error " + failureParam.captureApiError);
-                System.out.println("Error code" + failureParam.captureApiError.code);
-                System.out.println("Error error " + failureParam.captureApiError.error);
-
-                if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
-                    //refresh login session
-
-                    refreshLoginSession(new RefreshLoginSessionHandler() {
-                        @Override
-                        public void onRefreshLoginSessionSuccess() {
-                            handler.onRefreshUserSuccess();
-                            return;
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionFailedWithError(int error) {
-                            handler.onRefreshUserFailed(error);
-                            return;
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionInProgress(String message) {
-
-                        }
-                    });
-                }
-                handler.onRefreshUserFailed(0);
-            }
-        });
-    }
+//    private void refreshandUpdateUser(final RefreshUserHandler handler) {
+//
+//        if (Jump.getSignedInUser() == null) {
+//            handler.onRefreshUserFailed(0);
+//            return;
+//        }
+//        Jump.performFetchCaptureData(new CaptureApiResultHandler() {
+//
+//            @Override
+//            public void onSuccess(JSONObject response) {
+//                Jump.saveToDisk(mContext);
+//                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
+//                    handler.onRefreshUserSuccess();
+//                    return;
+//                }
+//
+//                if (getEmailVerificationStatus()) {
+//                    DIUserProfile userProfile = getDIUserProfileFromDisk();
+//                    HsdpUser hsdpUser = new HsdpUser(mContext);
+//                    HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+//                    if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
+//                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
+//                            @Override
+//                            public void onLoginSuccess() {
+//                                ABCD.getInstance().setmP(null);
+//                                handler.onRefreshUserSuccess();
+//                            }
+//
+//                            @Override
+//                            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
+//                            }
+//                        }, mContext, mUpdateUserRecordHandler, userProfile.getEmail(), ABCD.getInstance().getmP());
+//                        loginTraditional.loginIntoHsdp();
+//                    } else {
+//                        handler.onRefreshUserSuccess();
+//                    }
+//                } else {
+//                    handler.onRefreshUserSuccess();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(CaptureAPIError failureParam) {
+//
+//                System.out.println("Error " + failureParam.captureApiError);
+//                System.out.println("Error code" + failureParam.captureApiError.code);
+//                System.out.println("Error error " + failureParam.captureApiError.error);
+//
+//                if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
+//                    //refresh login session
+//
+//                    refreshLoginSession(new RefreshLoginSessionHandler() {
+//                        @Override
+//                        public void onRefreshLoginSessionSuccess() {
+//                            handler.onRefreshUserSuccess();
+//                            return;
+//                        }
+//
+//                        @Override
+//                        public void onRefreshLoginSessionFailedWithError(int error) {
+//                            handler.onRefreshUserFailed(error);
+//                            return;
+//                        }
+//
+//                        @Override
+//                        public void onRefreshLoginSessionInProgress(String message) {
+//
+//                        }
+//                    });
+//                }
+//                handler.onRefreshUserFailed(0);
+//            }
+//        });
+//    }
 
     /**
      * Refresh User object and align with Server
@@ -562,10 +647,10 @@ public class User {
      * @param handler Callback mHandler
      */
     public void refreshUser(final RefreshUserHandler handler) {
-        if(NetworkUtility.isNetworkAvailable(mContext)) {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
             //ABCD.getInstance().setmP(null);
-        }else{
+        } else {
             handler.onRefreshUserFailed(-1);
         }
         //refreshandUpdateUser(handler);
@@ -607,7 +692,11 @@ public class User {
         });
     }
 
-
+    /**
+     * {@code getEmail} method returns the email address of a logged in user.
+     *
+     * @return String
+     */
     public String getEmail() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -625,7 +714,11 @@ public class User {
         return diUserProfile.getPassword();
     }
 
-
+    /**
+     * {@code getGivenName} method returns the given name of a logged in user.
+     *
+     * @return String
+     */
     public String getGivenName() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -643,7 +736,11 @@ public class User {
         return diUserProfile.getOlderThanAgeLimit();
     }
 
-
+    /**
+     * {@code getReceiveMarketingEmail} method checks if the user has subscribed to receive marketing email.
+     *
+     * @return boolean
+     */
     public boolean getReceiveMarketingEmail() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -652,7 +749,11 @@ public class User {
         return diUserProfile.getReceiveMarketingEmail();
     }
 
-
+    /**
+     * {@code getGivenName} method returns the display name of a logged in user.
+     *
+     * @return String
+     */
     public String getDisplayName() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -661,7 +762,11 @@ public class User {
         return diUserProfile.getDisplayName();
     }
 
-
+    /**
+     * {@code getFamilyName} method returns the family name of a logged in user.
+     *
+     * @return String
+     */
     public String getFamilyName() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -670,7 +775,11 @@ public class User {
         return diUserProfile.getFamilyName();
     }
 
-
+    /**
+     * {@code getJanrainUUID} method returns the Janrain UUID of a logged in user.
+     *
+     * @return String
+     */
     public String getJanrainUUID() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -679,7 +788,11 @@ public class User {
         return diUserProfile.getJanrainUUID();
     }
 
-
+    /**
+     * {@code getHsdpUUID} method returns the HSDP UUID of a logged in user.
+     *
+     * @return String
+     */
     public String getHsdpUUID() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -689,7 +802,11 @@ public class User {
 
     }
 
-
+    /**
+     * {@code getHsdpAccessToken} method returns the access token for a logged in user.
+     *
+     * @return String
+     */
     public String getHsdpAccessToken() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -698,7 +815,11 @@ public class User {
         return diUserProfile.getHsdpAccessToken();
     }
 
-
+    /**
+     * {@code getLanguageCode} method returns the language code for a logged in user
+     *
+     * @return String
+     */
     public String getLanguageCode() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -707,7 +828,11 @@ public class User {
         return diUserProfile.getLanguageCode();
     }
 
-
+    /**
+     * {@code getCountryCode} method returns country code for a logged in user.
+     *
+     * @return String
+     */
     public String getCountryCode() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -718,29 +843,58 @@ public class User {
 
 
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
+        try {
             diUserProfile.setPassword(null);
-            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-            secureStorageInterface.storeValueForKey(RegConstants.DI_PROFILE_FILE, SecurityHelper.objectToString(diUserProfile));
+            FileOutputStream fos = mContext.openFileOutput(RegConstants.DI_PROFILE_FILE, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            String objectPlainString = SecureStorage.objectToString(diUserProfile);
+            byte[] ectext = SecureStorage.encrypt(objectPlainString);
+            oos.writeObject(ectext);
+            oos.close();
+            fos.close();
+        } catch (Exception e) {
+            RLog.d("Expetion :", e.getMessage());
+        }
     }
 
 
-    private DIUserProfile getDIUserProfileFromDisk() {
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        DIUserProfile diUserProfile = (DIUserProfile) SecurityHelper.stringToObject(secureStorageInterface.fetchValueForKey(RegConstants.DI_PROFILE_FILE));
-        return diUserProfile;
-    }
+//    private DIUserProfile getDIUserProfileFromDisk() {
+//        DIUserProfile diUserProfile = null;
+//        try {
+//            FileInputStream fis = mContext.openFileInput(RegConstants.DI_PROFILE_FILE);
+//            ObjectInputStream ois = new ObjectInputStream(fis);
+//            byte[] enctText = (byte[]) ois.readObject();
+//            byte[] decrtext = SecureStorage.decrypt(enctText);
+//            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
+//            fis.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return diUserProfile;
+//    }
 
 
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        secureStorageInterface.removeValueForKey(RegConstants.DI_PROFILE_FILE);
+        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
         Jump.signOutCaptureUser(mContext);
 
+    }
+
+    public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener)
+    {
+        RegistrationHelper.getInstance().registerUserRegistrationListener(userRegistrationListener);
+    }
+
+    public void unRegisterUserRegistrationListener(UserRegistrationListener
+                                                           userRegistrationListener) {
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(
+                userRegistrationListener);
     }
 
 }

@@ -96,9 +96,6 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 dependencies {
-    compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.5.1')
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0-rc.4', ext: 'aar')
 }
 
 android {
@@ -154,11 +151,11 @@ android {
     }
 
     productFlavors {
-        simulator {
+      /*  simulator {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
             versionName objcdp.getVersionWithHash()
-        }
+        }*/
         device {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
@@ -196,7 +193,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/simulator/debug/com/philips/')
+    classes = fileTree('build/intermediates/classes/device/debug/com/philips/')
     source = fileTree('src/main/java')
     classpath = files()
 

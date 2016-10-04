@@ -43,7 +43,7 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
 
-        View view = inflater.inflate(R.layout.fragment_reg_coppa_parental_access, null);
+        View view = inflater.inflate(R.layout.reg_fragment_coppa_parental_access, null);
         initUi(view);
         handleOrientation(view);
         mBtnUnderAge.setOnClickListener(this);
@@ -123,12 +123,12 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
         mBtnOverAge = (Button) view.findViewById(R.id.btn_reg_over_age);
         mLlRootContainer = (LinearLayout) view.findViewById(R.id.ll_reg_parent_access_container);
 
-        String underAge = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Txt);
-        int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
+        String underAge = getActivity().getString(R.string.reg_Coppa_Age_Verification_UnderAge_Txt);
+        int minAge = RegistrationConfiguration.getInstance().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         underAge = String.format(underAge, minAge);
         mBtnUnderAge.setText(underAge);
 
-        String overAge = getActivity().getString(R.string.Coppa_Age_Verification_OverAge_Txt);
+        String overAge = getActivity().getString(R.string.reg_Coppa_Age_Verification_OverAge_Txt);
         overAge = String.format(overAge, minAge);
         mBtnOverAge.setText(overAge);
     }
@@ -145,25 +145,27 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
     }
 
     private void showParentalAccessDailog() {
-        String minAgeLimitTest = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Alert_Txt);
-        int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
+        mBtnUnderAge.setEnabled(false);
+        String minAgeLimitTest = getActivity().getString(R.string.reg_Coppa_Age_Verification_UnderAge_Alert_Txt);
+        int minAge = RegistrationConfiguration.getInstance().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         minAgeLimitTest = String.format(minAgeLimitTest, minAge);
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppCoppaTaggingConstants.MIN_AGE_LIMIT_WARNING);
-        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.Coppa_Age_Verification_Screen_Title_txt),minAgeLimitTest,getActivity(), mOkBtnClick);
+        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.reg_Coppa_Age_Verification_Screen_Title_txt),minAgeLimitTest,getActivity(), mOkBtnClick);
     }
 
     private OnClickListener mOkBtnClick = new OnClickListener() {
 
         @Override
         public void onClick(View view) {
+            mBtnUnderAge.setEnabled(true);
             RegCoppaAlertDialog.dismissDialog();
         }
     };
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Age_Verification_Screen_Title_txt;
+        return R.string.reg_Coppa_Age_Verification_Screen_Title_txt;
     }
 
 }

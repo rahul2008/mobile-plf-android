@@ -9,12 +9,18 @@
 
 package com.philips.cdp.registration.events;
 
+/**
+ * Social provider
+ */
 public interface SocialProvider {
 
+    /* Facebook*/
 	String FACEBOOK = "facebook";
 
+    /* Twitter */
 	String TWITTER = "twitter";
 
+    /* Google plus */
 	String GOOGLE_PLUS = "googleplus";
 
 }

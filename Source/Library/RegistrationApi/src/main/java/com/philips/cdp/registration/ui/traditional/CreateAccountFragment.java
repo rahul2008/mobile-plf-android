@@ -93,6 +93,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private long mTrackCreateAccountTime;
 
+    private boolean isTermsAndConditionVisible;
+
+    private boolean isSavedEmailErr;
+
+    private boolean isSavedCBTermsChecked;
+
+    private boolean isSavedCbAcceptTermsChecked;
+
+    private boolean isSavedPasswordErr;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
@@ -109,7 +119,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-        View view = inflater.inflate(R.layout.fragment_create_account, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 
         initUI(view);
@@ -173,6 +183,64 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDetach");
     }
 
+    private Bundle mBundle;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mBundle = outState;
+        super.onSaveInstanceState(mBundle);
+        if(mEtEmail.isEmailErrorVisible()){
+            isSavedEmailErr = true;
+            mBundle.putBoolean("isSavedEmailErr", isSavedEmailErr);
+            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
+        }
+        if(mEtPassword.isPasswordErrorVisible()){
+            isSavedPasswordErr = true;
+            mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
+            mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
+        }
+        if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+            isTermsAndConditionVisible = true;
+            mBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
+            mBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+        if(mCbTerms.isChecked()){
+            isSavedCBTermsChecked = true;
+            mBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
+            mBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+        if(mCbAcceptTerms.isChecked()){
+            isSavedCbAcceptTermsChecked = true;
+            mBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
+            mBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getBoolean("isSavedEmailErr")){
+                mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
+                mEtEmail.showInvalidAlert();
+                mEtEmail.showErrPopUp();
+            }
+            if(savedInstanceState.getString("savedPasswordErr")!=null && savedInstanceState.getBoolean("isSavedPasswordErr")){
+                mEtPassword.setErrDescription(savedInstanceState.getString("savedPasswordErr"));
+                mEtPassword.showInvalidPasswordAlert();
+            }
+            if(savedInstanceState.getString("saveTermsAndConditionErrText")!=null && savedInstanceState.getBoolean("isTermsAndConditionVisible")){
+                mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
+            }
+            if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
+                mCbTerms.setChecked(true);
+            }
+            if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
+                mCbAcceptTerms.setChecked(true);
+            }
+        }
+        mBundle = null;
+    }
+
     @Override
     public void onConfigurationChanged(Configuration config) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
@@ -201,11 +269,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         if (v.getId() == R.id.btn_reg_register) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
-            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
                 register();
@@ -242,6 +310,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mBtnCreateAccount.setOnClickListener(this);
         mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
+        ((RegistrationFragment) getParentFragment()).showKeyBoard();
+        mEtName.requestFocus();
         mEtName.setOnUpdateListener(this);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
@@ -253,7 +323,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mViewLine = view.findViewById(R.id.reg_accept_terms_line);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
-        mEtPassword.setHint(mContext.getResources().getString(R.string.Create_Account_ChoosePwd_PlaceHolder_txtField));
+        mEtPassword.setHint(mContext.getResources().getString(R.string.reg_Create_Account_ChoosePwd_PlaceHolder_txtField));
         handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);
@@ -293,7 +363,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if(mCbAcceptTerms.isChecked()){
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             }else{
@@ -318,14 +388,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mRegError.hideError();
 
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
     private void handleUiAcceptTerms() {
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
             mViewLine.setVisibility(View.VISIBLE);
         } else {
@@ -346,14 +416,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
-        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
         }
         hideSpinner();
         trackCheckMarketing();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             launchAccountActivateFragment();
         } else {
             launchWelcomeFragment();
@@ -393,7 +463,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
@@ -405,7 +475,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
         if(userRegistrationFailureInfo.getErrorCode() == -1 ){
-            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         mPbSpinner.setVisibility(View.INVISIBLE);
@@ -414,7 +484,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public int getTitleResourceId() {
-        return R.string.RegCreateAccount_NavTitle;
+        return R.string.reg_RegCreateAccount_NavTitle;
     }
 
     @Override
@@ -466,8 +536,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
     }
 }
+

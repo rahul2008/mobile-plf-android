@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -11,25 +10,30 @@ package com.philips.cdp.registration.settings;
 
 import android.content.Context;
 
+import com.philips.cdp.localematch.BuildConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
-import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecurityHelper;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
+/**
+ * {@code RegistrationHelper} class represents the entry point for User Registration component.
+ * It exposes APIs to be used when User Registration is intended to be integrated by any application.
+ */
 public class RegistrationHelper {
+
 
     private Context mContext;
 
@@ -41,10 +45,33 @@ public class RegistrationHelper {
 
     private Locale mLocale;
 
+    public UappSettings getUrSettings() {
+        return urSettings;
+    }
+
+    public void setUrSettings(UappSettings urSettings) {
+        this.urSettings = urSettings;
+    }
+
+    private UappSettings urSettings;
+
     private RegistrationHelper() {
     }
 
+    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationUIEventListener;
+    }
 
+    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener userRegistrationUIEventListener) {
+        this.userRegistrationUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private UserRegistrationUIEventListener userRegistrationUIEventListener;
+
+
+    /**
+     * @return instance of this class
+     */
     public synchronized static RegistrationHelper getInstance() {
         if (mRegistrationHelper == null) {
             synchronized (RegistrationHelper.class) {
@@ -57,15 +84,38 @@ public class RegistrationHelper {
         return mRegistrationHelper;
     }
 
+    private AppInfraInterface appInfra ;
+
+    public void setAppInfraInstance(AppInfraInterface appInfra) {
+        this.appInfra =appInfra;
+    }
+
+    public AppInfraInterface getAppInfraInstance() {
+        return appInfra;
+    }
+
+    private AppTaggingInterface mAppTaggingInterface;
+
+    public AppTaggingInterface getAppTaggingInterface() {
+        if (mAppTaggingInterface == null) {
+            mAppTaggingInterface = getAppInfraInstance().getTagging().
+                    createInstanceForComponent("Philips Registration", getRegistrationApiVersion());
+            mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        }
+        return mAppTaggingInterface;
+    }
+
+
     /*
      * Initialize Janrain
-     * @param isInitialized true for initialize and false for reinitialize
-     * Janrain
+     * {code @initializeUserRegistration} method represents endpoint for integrating
+     * applications. It must be called
+      * to initialize User Registration component and use its features.
+     *
      */
     public synchronized void initializeUserRegistration(final Context context) {
-
+        RLog.init(context);
         PILLocaleManager localeManager = new PILLocaleManager(context);
-
         if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
             mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());
         }
@@ -76,9 +126,6 @@ public class RegistrationHelper {
         mContext = context.getApplicationContext();
         countryCode = mLocale.getCountry();
 
-        if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
-            throw new RuntimeException("Please set appid for tagging before you invoke registration");
-        }
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         generateKeyAndMigrateData();
@@ -87,36 +134,34 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-                if (!isJsonRead) {
-                    isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
-                }
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
                     refreshNTPOffset();
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, mLocale);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(
+                            mContext, mLocale);
                 } else {
-                    if (UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener() != null) {
-                        UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
+                    if (UserRegistrationInitializer.getInstance().
+                            getJumpFlowDownloadStatusListener() != null) {
+                        UserRegistrationInitializer.getInstance().
+                                getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
                     }
                 }
             }
         };
         Thread thread = new Thread(new Runnable() {
             public void run() {
-                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
+                android.os.Process.setThreadPriority(android.os.Process.
+                        THREAD_PRIORITY_MORE_FAVORABLE);
                 runnable.run();
             }
         });
         thread.start();
-
-
     }
 
 
     private void generateKeyAndMigrateData() {
-        SecurityHelper.init(mContext);
-        SecurityHelper.generateSecretKey();
+        SecureStorage.init(mContext);
+        SecureStorage.generateSecretKey();
         new DataMigration(mContext).checkFileEncryptionStatus();
     }
 
@@ -130,17 +175,45 @@ public class RegistrationHelper {
         return countryCode;
     }
 
-
-    public synchronized void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+    /**
+     * {@code registerUserRegistrationListener} method registers a listener in order to listen
+     * the callbacks returned by User Registration component. It must be called by
+     * integrating applications
+     * to be able to listen to User Registration events.
+     *
+     * @param userRegistrationListener
+     */
+    public synchronized void registerUserRegistrationListener(
+            UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().registerEventNotification(userRegistrationListener);
     }
 
-    public synchronized void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+    /**
+     * {@code unRegisterUserRegistrationListener} method unregisters the listener registered via
+     * {@code registerUserRegistrationListener} method. This will make integrating applications
+     * to stop listening to User Registration events.
+     *
+     * @param userRegistrationListener
+     */
+    public synchronized void unRegisterUserRegistrationListener(
+            UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
     }
 
     public synchronized UserRegistrationHelper getUserRegistrationListener() {
         return UserRegistrationHelper.getInstance();
+    }
+
+
+    private UserRegistrationListener userRegistrationListener;
+
+    public synchronized UserRegistrationListener getUserRegistrationEventListener() {
+        return userRegistrationListener;
+    }
+
+    public synchronized UserRegistrationListener setUserRegistrationEventListener
+            (UserRegistrationListener userRegistrationListener) {
+        return this.userRegistrationListener = userRegistrationListener;
     }
 
 

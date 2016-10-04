@@ -9,23 +9,32 @@
 
 package com.philips.cdp.registration.events;
 
-import android.app.Activity;
-
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Class User Registration helper
+ */
 public class UserRegistrationHelper {
 
+    /* User registration helper*/
     private static volatile UserRegistrationHelper eventHelper;
 
+    /* User registration listeners */
     private CopyOnWriteArrayList<UserRegistrationListener> userRegistrationListeners;
 
+    /**
+     * Class constructor
+     */
     private UserRegistrationHelper() {
         userRegistrationListeners = new CopyOnWriteArrayList<UserRegistrationListener>();
     }
 
-
+    /**
+     * {@code UserRegistrationHelper} method for User registration helper get instance
+     * @return eventHelper UserRegistratinHelper object
+     */
     public static synchronized UserRegistrationHelper getInstance() {
         if (eventHelper == null) {
             synchronized (UserRegistrationHelper.class) {
@@ -38,6 +47,10 @@ public class UserRegistrationHelper {
         return eventHelper;
     }
 
+    /**
+     * {@code registerEventNotification} method to registration event notification
+     * @param observer UserRegistrationListener object
+     */
     public synchronized void registerEventNotification(UserRegistrationListener observer) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null && observer != null) {
@@ -52,6 +65,10 @@ public class UserRegistrationHelper {
         }
     }
 
+    /**
+     * {@code unregisterEventNotification} method to unregister event notification
+     * @param observer UserRegistrationListener object
+     */
     public synchronized void unregisterEventNotification(UserRegistrationListener observer) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null && observer != null) {
@@ -65,6 +82,13 @@ public class UserRegistrationHelper {
         }
     }
 
+/*
+    */
+/**
+     * {@code notifyonUserRegistrationCompleteEventOccurred} method to Notify on user registration complete event occurred
+     * @param activity
+     *//*
+
     public synchronized void notifyonUserRegistrationCompleteEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -76,6 +100,14 @@ public class UserRegistrationHelper {
             }
         }
     }
+*/
+
+/*
+    */
+/**
+     * {@code notifyOnPrivacyPolicyClickEventOccurred} method to notify on privace policy click event occurred
+     * @param activity
+     *//*
 
     public synchronized void notifyOnPrivacyPolicyClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
@@ -88,7 +120,12 @@ public class UserRegistrationHelper {
             }
         }
     }
-
+*/
+/*
+    *//**
+     * {@code notifyOnTermsAndConditionClickEventOccurred} method to notify on terms and condition click event occurred
+     * @param activity
+     *//*
     public synchronized void notifyOnTermsAndConditionClickEventOccurred(Activity activity) {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -99,9 +136,11 @@ public class UserRegistrationHelper {
                 }
             }
         }
-    }
+    }*/
 
-
+    /**
+     * {@code notifyOnUserLogoutSuccess} method to notify on user logout success
+     */
     public synchronized void notifyOnUserLogoutSuccess() {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -114,6 +153,9 @@ public class UserRegistrationHelper {
         }
     }
 
+    /**
+     * {@code notifyOnUserLogoutFailure} method to notify on user logout failure
+     */
     public synchronized void notifyOnUserLogoutFailure() {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {
@@ -126,6 +168,9 @@ public class UserRegistrationHelper {
         }
     }
 
+    /**
+     * {@code notifyOnLogoutSuccessWithInvalidAccessToken} method to notify on logout success with invalid access token
+     */
     public synchronized void notifyOnLogoutSuccessWithInvalidAccessToken() {
         synchronized (userRegistrationListeners) {
             if (userRegistrationListeners != null) {

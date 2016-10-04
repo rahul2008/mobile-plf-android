@@ -68,14 +68,19 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFailure(SignInError error) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setError(error.captureApiError);
-        if (error.captureApiError.code == -1) {
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+        try{
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setError(error.captureApiError);
+            if (error.captureApiError.code == -1) {
+                userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            }
+            handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
+            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+            mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
+        }catch (Exception e){
+            Log.e("Exception :","SignInError :"+e.getMessage());
         }
-        handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
-        userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-        mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
+
     }
 
     private void handleInvalidInputs(CaptureApiError error,
@@ -175,7 +180,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
         }
     }
@@ -196,7 +201,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
         if (mTraditionalRegisterHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_TRADITIONAL_FAILED_SERVER_ERROR);
             mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
         }

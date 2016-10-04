@@ -107,7 +107,7 @@ public class CaptureApiError {
      * Indicates an API response that could not be parsed. Has no meaningful fields values.
      */
 
-    private CaptureApiError() {
+     public CaptureApiError() {
         error = "INVALID_API_RESPONSE";
         code = -1;
         error_description = null;

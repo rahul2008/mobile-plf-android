@@ -123,7 +123,7 @@
     <color name="transparent">#00000000</color>
 
     <!-- Coppa confirm approval title color -->
-    <color name="reg_coppa_confirm_title_color">#252525</color>
+    <color name="reg_coppa_confirm_title_color">#003478</color>
 
     <!-- shadow color -->
     <color name="reg_shadow_color">#E4EAFD</color>

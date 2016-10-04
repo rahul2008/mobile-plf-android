@@ -18,41 +18,66 @@ import com.philips.cdp.registration.R;
 
 public class XRegError extends RelativeLayout {
 
-	private Context mContext;
+    private Context mContext;
 
-	private TextView mTvError;
+    private TextView mTvError;
 
-	public XRegError(Context context) {
-		super(context);
-		mContext = context;
-		initUi(R.layout.error_mapping);
-	}
+    private String mSigninErrMsg;
 
-	public XRegError(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		mContext = context;
-		initUi(R.layout.error_mapping);
-	}
+    public XRegError(Context context) {
+        super(context);
+        mContext = context;
+        initUi(R.layout.reg_error_mapping);
+    }
 
-	private void initUi(int resourceId) {
+    public XRegError(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mContext = context;
+        initUi(R.layout.reg_error_mapping);
+    }
 
-		/** inflate amount layout */
-		LayoutInflater li = LayoutInflater.from(mContext);
-		li.inflate(resourceId, this, true);
 
-		mTvError = (XTextView) findViewById(R.id.tv_reg_error_message);
-	}
+    private void initUi(int resourceId) {
 
-	public void setError(String errorMsg) {
-		if (null == errorMsg) {
-			return;
-		}
-		mTvError.setText(errorMsg);
-		setVisibility(VISIBLE);
-	}
+        /** inflate amount layout */
+        LayoutInflater li = LayoutInflater.from(mContext);
+        li.inflate(resourceId, this, true);
+        mTvError = (XTextView) findViewById(R.id.tv_reg_error_message);
+    }
 
-	public void hideError() {
-		setVisibility(GONE);
-	}
+    public void setError(String errorMsg) {
+        if (null == errorMsg) {
+            return;
+        }
+        mSigninErrMsg = errorMsg;
+        mTvError.setText(errorMsg);
+        setVisibility(VISIBLE);
+    }
+
+    public String getErrorMsg() {
+        return mSigninErrMsg;
+    }
+
+/*
+    public String getSigninErrorMsg() {
+        System.out.println("*************** GET mErrMsg : "+mErrMsg);
+        return mErrMsg;
+    }
+
+
+    public void setSavedErrMsg(String errorMsg){
+        System.out.println("*************** SET mErrMsg : "+mErrMsg);
+        mErrMsg = errorMsg;
+    }
+
+    public String getErrorMsg() {
+        System.out.println("*************** GET mErrMsg : "+mErrMsg);
+       return mErrMsg;
+    }
+*/
+
+    public void hideError() {
+        setVisibility(GONE);
+    }
 
 }

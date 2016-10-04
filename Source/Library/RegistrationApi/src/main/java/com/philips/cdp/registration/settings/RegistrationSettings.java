@@ -99,7 +99,7 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
     protected void storeMicrositeId(Context context) {
         SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString(MICROSITE_ID, RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        editor.putString(MICROSITE_ID, RegistrationConfiguration.getInstance().getMicrositeId());
         editor.commit();
     }
 

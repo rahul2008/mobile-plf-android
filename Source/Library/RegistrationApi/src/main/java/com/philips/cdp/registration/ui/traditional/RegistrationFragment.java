@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -29,7 +28,6 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -41,21 +39,23 @@ import com.philips.cdp.registration.ui.traditional.mobile.MobileWelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import org.json.JSONObject;
 
-public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
 
+public class RegistrationFragment extends Fragment implements NetworStateListener,
+        OnClickListener,BackEventListener {
 
-    private final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
     private FragmentManager mFragmentManager;
 
     private Activity mActivity;
 
-    private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
+    private ActionBarListener mActionBarListener;
 
     private int titleResourceID = -99;
 
@@ -66,29 +66,33 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreate");
         RLog.i(RLog.VERSION, "Jump Version :" + Jump.getJumpVersion());
         RLog.i(RLog.VERSION, "LocaleMatch Version :" + PILLocaleManager.getLacaleMatchVersion());
-        RLog.i(RLog.VERSION, "Registration Version :" + RegistrationHelper.getRegistrationApiVersion());
+        RLog.i(RLog.VERSION, "Registration Version :" +
+                RegistrationHelper.getRegistrationApiVersion());
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
-        Tagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
-        Tagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
         if (bunble != null) {
             isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         }
+
         RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         mActivity = getActivity();
-        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworStateListener");
         mFragmentManager = getChildFragmentManager();
-        loadFirstFragment();
+        if(mFragmentManager.getBackStackEntryCount() < 1){
+            loadFirstFragment();
+        }
+
         return view;
     }
 
@@ -129,10 +133,20 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         super.onDestroy();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
 
     private void setPrevTiltle() {
         if (mPreviousResourceId != -99)
-            mRegistrationUpdateTitleListener.updateRegistrationTitle(getPreviousResourceId());
+            mActionBarListener.updateActionBar(getPreviousResourceId(),true);
+            //mActionBarListener.updateRegistrationTitle(getPreviousResourceId());
     }
 
 
@@ -143,26 +157,29 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     private boolean handleBackStack() {
-        int count = mFragmentManager.getBackStackEntryCount();
-        if (count == 0) {
-            return true;
-        }
-        Fragment fragment = mFragmentManager.getFragments().get(count);
-        if (fragment instanceof WelcomeFragment) {
-            navigateToHome();
-            trackPage(AppTaggingPages.HOME);
-        } else if (fragment instanceof MobileWelcomeFragment) {
-            navigateToHome();
-            trackPage(AppTaggingPages.HOME);
-        }else {
-            if (fragment instanceof AlmostDoneFragment) {
-                ((AlmostDoneFragment) (fragment)).clearUserData();
+
+        if(mFragmentManager!=null){
+            int count = mFragmentManager.getBackStackEntryCount();
+            if (count == 0) {
+                return true;
             }
-            trackHandler();
-            mFragmentManager.popBackStack();
-        }
-        if (fragment instanceof AccountActivationFragment) {
-            RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
+            Fragment fragment = mFragmentManager.getFragments().get(count);
+            if (fragment instanceof WelcomeFragment || fragment instanceof MobileWelcomeFragment) {
+                navigateToHome();
+                trackPage(AppTaggingPages.HOME);
+            }
+            else {
+                if (fragment instanceof AlmostDoneFragment) {
+                    ((AlmostDoneFragment) (fragment)).clearUserData();
+                }
+                trackHandler();
+                mFragmentManager.popBackStack();
+            }
+            if (fragment instanceof AccountActivationFragment) {
+                RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
+            }
+        }else{
+            getActivity().finish();
         }
         return false;
     }
@@ -212,8 +229,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         }
     }
 
-
-    public void loadFirstFragment() {
+    private void loadFirstFragment() {
         try {
             handleUserLoginStateFragments();
         } catch (IllegalStateException e) {
@@ -234,13 +250,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 replaceWithLogoutFragment();
             } else {
                 if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                    Tagging.setLaunchingPageName("demoapp:home");
+                    AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                            getAppInfraInstance().getTagging();
+                    aiAppTaggingInterface.setPreviousPage("demoapp:home");
                     AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                     replaceWithLogoutFragment();
                     return;
                 }
 
-                if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+                if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().
+                        isEmailVerificationRequired()) {
                     AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                     replaceWithLogoutFragment();
                     return;
@@ -250,14 +269,17 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             }
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                Tagging.setLaunchingPageName("demoapp:home");
+                AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                        getAppInfraInstance().getTagging();
+                aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 // replaceWithLogoutFragment();
                 //replace with welcome
                 replaceWithWelcomeFragment();
                 return;
             }
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().
+                    isEmailVerificationRequired()) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;
@@ -304,7 +326,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         navigateToHome();
         try {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, AppTaggingPages.WELCOME);
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment,
+                    AppTaggingPages.WELCOME);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -352,20 +375,22 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void replaceWithWelcomeFragment() {
         try {
+
             if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
                 MobileWelcomeFragment welcomeFragment = new MobileWelcomeFragment();
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment, AppTaggingPages.WELCOME);
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment,
+                        AppTaggingPages.WELCOME);
                 fragmentTransaction.commitAllowingStateLoss();
 
             }else {
                 WelcomeFragment welcomeFragment = new WelcomeFragment();
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment, AppTaggingPages.WELCOME);
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment,
+                        AppTaggingPages.WELCOME);
                 fragmentTransaction.commitAllowingStateLoss();
-
             }
-          } catch (IllegalStateException e) {
+          }  catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
@@ -437,7 +462,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void addMergeSocialAccountFragment(Bundle bundle) {
-        MergeSocialToSocialAccountFragment mergeAccountFragment = new MergeSocialToSocialAccountFragment();
+        MergeSocialToSocialAccountFragment mergeAccountFragment
+                = new MergeSocialToSocialAccountFragment();
         mergeAccountFragment.setArguments(bundle);
         addFragment(mergeAccountFragment);
     }
@@ -457,13 +483,23 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) mActivity
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (mActivity.getWindow() != null && mActivity.getWindow().getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
+        if(mActivity!=null){
+            InputMethodManager imm = (InputMethodManager) mActivity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (mActivity.getWindow() != null && mActivity.getWindow().getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(mActivity.getWindow().
+                        getCurrentFocus().getWindowToken(), 0);
+            }
         }
     }
 
+    public void showKeyBoard() {
+        if(mActivity!=null){
+            InputMethodManager inputMethodManager = (InputMethodManager)
+                    mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        }
+    }
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_reg_back) {
@@ -476,7 +512,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
-        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() && !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
+        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
+                !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
@@ -498,12 +535,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         return fragmentCount;
     }
 
-    public RegistrationTitleBarListener getUpdateTitleListener() {
-        return mRegistrationUpdateTitleListener;
+    public ActionBarListener getUpdateTitleListener() {
+        return mActionBarListener;
     }
 
-    public void setOnUpdateTitleListener(RegistrationTitleBarListener listener) {
-        this.mRegistrationUpdateTitleListener = listener;
+    public void setOnUpdateTitleListener(ActionBarListener listener) {
+        this.mActionBarListener = listener;
     }
 
     public void setResourceID(int titleResourceId) {
@@ -534,4 +571,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         return currentTitleResource;
 
     }
+
+    @Override
+    public boolean handleBackEvent() {
+        return !(onBackPressed());
+    }
+
+
 }

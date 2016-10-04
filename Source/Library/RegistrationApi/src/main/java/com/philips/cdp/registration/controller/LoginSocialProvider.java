@@ -50,7 +50,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     public void onSuccess() {
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
 

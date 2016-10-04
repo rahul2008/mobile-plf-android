@@ -27,7 +27,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class UpdateReceiveMarketingEmail implements CaptureApiRequestCallback {
 
-	private UpdateReceiveMarketingEmailHandler mUpdateReceiveMarketingEmailHandler;
+	public UpdateReceiveMarketingEmailHandler mUpdateReceiveMarketingEmailHandler;
 
 	private Context mContext;
 

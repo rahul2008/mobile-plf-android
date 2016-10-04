@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -44,7 +45,7 @@ public class XProviderButton extends RelativeLayout {
     public XProviderButton(Context context) {
         super(context);
         mContext = context;
-        initUi(R.layout.x_provider_btn);
+        initUi(R.layout.reg_provider_btn);
     }
 
     public XProviderButton(Context context, AttributeSet attrs) {
@@ -58,7 +59,7 @@ public class XProviderButton extends RelativeLayout {
                 "providerBackground", 0);
         mProviderTextColorID = attrs.getAttributeResourceValue(XProviderButton.XMLNS,
                 "providerTextColor", 0);
-        initUi(R.layout.x_provider_btn);
+        initUi(R.layout.reg_provider_btn);
     }
 
     private void initUi(int resourceId) {
@@ -80,9 +81,8 @@ public class XProviderButton extends RelativeLayout {
             mFlProvider.setBackgroundResource(mProviderBackgroundID);
         }
 
-        if (mProviderTextColorID != -1) {
-            mTvProvider.setTextColor(mContext.getResources().getColor(mProviderTextColorID));
-        }
+        if (mProviderTextColorID != -1) mTvProvider.setTextColor(
+                ContextCompat.getColor(mContext, mProviderTextColorID));
     }
 
     public void showProgressBar() {
@@ -103,10 +103,9 @@ public class XProviderButton extends RelativeLayout {
 
     public void setProviderLogoID(int providerLogoID) {
         mIvProviderLogo.setText(providerLogoID);
-        //mIvProviderLogo.setTextColor(Color.parseColor("#bdbdbd"));
     }
 
     public void setProviderTextColor(int providerTextColorID) {
-        mTvProvider.setTextColor(mContext.getResources().getColor(providerTextColorID));
+        mTvProvider.setTextColor(ContextCompat.getColor(mContext,providerTextColorID));
     }
 }

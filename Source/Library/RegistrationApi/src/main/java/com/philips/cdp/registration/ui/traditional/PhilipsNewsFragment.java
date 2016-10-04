@@ -38,7 +38,7 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onCreateView");
-        View view = inflater.inflate(R.layout.fragment_philips_news, null);
+        View view = inflater.inflate(R.layout.reg_fragment_philips_news, null);
         initUI(view);
         handleOrientation(view);
         return view;
@@ -53,12 +53,12 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
 
 
         TextView tvFirstDesc = (TextView) view.findViewById(R.id.tv_first_desc);
-        String s = " <i>" + getString(R.string.Philips_News_Description_First_Bulleted_Description_lbltxt) + "</i>";
+        String s = " <i>" + getString(R.string.reg_Philips_News_Description_First_Bulleted_Description_lbltxt) + "</i>";
         tvFirstDesc.setText(Html.fromHtml(s));
 
 
         TextView tvSecondDesc = (TextView) view.findViewById(R.id.tv_second_desc);
-        s = " <i>" + getString(R.string.Philips_News_Description_Second_Bulleted_Description_lbltxt) + "</i>";
+        s = " <i>" + getString(R.string.reg_Philips_News_Description_Second_Bulleted_Description_lbltxt) + "</i>";
         tvSecondDesc.setText(Html.fromHtml(s));
 
     }
@@ -141,6 +141,6 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Philips_News_Title;
+        return R.string.reg_Philips_News_Title;
     }
 }

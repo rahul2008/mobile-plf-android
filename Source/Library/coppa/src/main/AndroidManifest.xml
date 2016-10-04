@@ -1,10 +1,10 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.cdp.registration.coppa">
+<manifest package="com.philips.cdp.registration.coppa"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <application android:allowBackup="true">
         <activity
-            android:name="com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity"
+            android:name=".ui.activity.RegistrationCoppaActivity"
             android:configChanges="orientation|screenSize"/>
     </application>
 

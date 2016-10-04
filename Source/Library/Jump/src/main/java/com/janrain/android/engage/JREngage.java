@@ -72,6 +72,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -843,11 +844,16 @@ public class JREngage {
                 i.putExtra(JRFragmentHostActivity.JR_UI_CUSTOMIZATION_CLASS, uiCustomization.getName());
             }
         }
-
         i.putExtra(JRUiFragment.JR_FRAGMENT_FLOW_MODE, JRUiFragment.JR_FRAGMENT_FLOW_AUTH);
         fromActivity.startActivity(i);
     }
 
+   /* protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+    }
+*/
     /**
      * @param jrActivity See the undeprecated method
      * @deprecated use showSocialPublishingDialog(Activity fromActivity, JRActivityObject activity) instead

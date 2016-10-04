@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Nhằm tận dụng triệt để Ứng dụng, Philips đòi hỏi sự chấp thuận của bạn để thu thập và sử dụng thông tin về cách con bạn dùng Philips Sonicare và Ứng dụng.\n\nThông tin này sẽ bao gồm thời điểm đánh răng, tần suất và thời gian đánh bao lâu được thu thập từ tay cầm bàn chải và Ứng dụng.\n\nThông tin này cho phép bạn giám sát và khuyến khích thói quen đánh răng của con, đồng thời nhận được thông tin đánh răng đúng cách cho từng cá nhân và các chỉ báo nhắc bạn cần phải thay đầu bàn chải.\n\nChúng tôi sẽ không thu thập hoặc sử dụng bất kỳ thông tin cá nhân nào từ con của bạn nếu bạn không cho phép.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Nếu đồng ý, bạn sẽ nhận được một yêu cầu xác nhận chấp thuận khi bạn truy cập vào mục dành cho cha mẹ lần nữa sau khoảng thời gian ít nhất là 24 giờ tính từ lúc này.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Đọc %s để biết thêm thông tin.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Xác nhận đồng ý</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Cám ơn bạn đã chấp thuận việc lưu trữ thông tin của con bạn. Đây là lần chấp thuận thứ hai nhằm xác nhận sự đồng ý của bạn.\n\nĐể tận dụng triệt để ứng dụng, vui lòng xác nhận sự chấp thuận của cha mẹ cho phép Philips thu thập và sử dụng thông tin về cách con bạn dùng Philips Sonicare và Ứng dụng. Thông tin này sẽ bao gồm thời điểm đánh răng, tần suất và thời gian đánh bao lâu được thu thập từ tay cầm bàn chải và Ứng dụng.\n\nThông tin này cho phép bạn giám sát và khuyến khích thói quen đánh răng của con, đồng thời nhận được thông tin đánh răng đúng cách cho từng cá nhân và các chỉ báo nhắc bạn cần phải thay đầu bàn chải.\n\nChúng tôi sẽ không thu thập hoặc sử dụng bất kỳ thông tin cá nhân nào từ con của bạn nếu bạn không cho phép.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. và các công ty con (\"Philips\") hết sức tin tưởng vào việc bảo vệ quyền riêng tư của dữ liệu mà bạn chia sẻ với chúng tôi. Chúng tôi cũng tin rằng việc thông báo cho bạn biết chúng tôi sẽ sử dụng dữ liệu của bạn như thế nào và cung cấp cho bạn các quyền lựa chọn cách dữ liệu đó được dùng ra sao có vai trò rất quan trọng. Vì vậy, chúng tôi khuyến khích bạn nên đọc kỹ Thông báo về quyền riêng tư này trước khi lựa chọn và cấp cho chúng tôi quyền sử dụng thông tin của bạn. Đây là thông báo về các thông lệ quyền riêng tư của Philips, không phải là hợp đồng hay thỏa thuận.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Thông báo về quyền riêng tư đối với ứng dụng</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Thông báo về quyền riêng tư</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Sự đồng ý</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Truy cập dành cho cha mẹ</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Tôi dưới %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Tôi trên %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Mục này được thiết kế dành cho người trên %d. Vui lòng nhờ cha mẹ giúp bạn thực hiện.</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Năm sinh</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Bạn bao nhiêu tuổi?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Số tuổi và năm sinh không khớp</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Số tuổi đã cung cấp không khớp với năm sinh. Vui lòng chắc rằng số tuổi và năm sinh của bạn là chính xác.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Bạn đang cố gắng truy cập vào một mục dành riêng cho cha mẹ.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Tôi đồng ý</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Không đồng ý</string>
+<string name="reg_Coppa_Give_Approval_txt">Nhằm tận dụng triệt để Ứng dụng, Philips đòi hỏi sự chấp thuận của bạn để thu thập và sử dụng thông tin về cách con bạn dùng Philips Sonicare và Ứng dụng.\n\nThông tin này sẽ bao gồm thời điểm đánh răng, tần suất và thời gian đánh bao lâu được thu thập từ tay cầm bàn chải và Ứng dụng.\n\nThông tin này cho phép bạn giám sát và khuyến khích thói quen đánh răng của con, đồng thời nhận được thông tin đánh răng đúng cách cho từng cá nhân và các chỉ báo nhắc bạn cần phải thay đầu bàn chải.\n\nChúng tôi sẽ không thu thập hoặc sử dụng bất kỳ thông tin cá nhân nào từ con của bạn nếu bạn không cho phép.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Nếu đồng ý, bạn sẽ nhận được một yêu cầu xác nhận chấp thuận khi bạn truy cập vào mục dành cho cha mẹ lần nữa sau khoảng thời gian ít nhất là 24 giờ tính từ lúc này.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Đọc %s để biết thêm thông tin.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Xác nhận đồng ý</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Cám ơn bạn đã chấp thuận việc lưu trữ thông tin của con bạn. Đây là lần chấp thuận thứ hai nhằm xác nhận sự đồng ý của bạn.\n\nĐể tận dụng triệt để ứng dụng, vui lòng xác nhận sự chấp thuận của cha mẹ cho phép Philips thu thập và sử dụng thông tin về cách con bạn dùng Philips Sonicare và Ứng dụng. Thông tin này sẽ bao gồm thời điểm đánh răng, tần suất và thời gian đánh bao lâu được thu thập từ tay cầm bàn chải và Ứng dụng.\n\nThông tin này cho phép bạn giám sát và khuyến khích thói quen đánh răng của con, đồng thời nhận được thông tin đánh răng đúng cách cho từng cá nhân và các chỉ báo nhắc bạn cần phải thay đầu bàn chải.\n\nChúng tôi sẽ không thu thập hoặc sử dụng bất kỳ thông tin cá nhân nào từ con của bạn nếu bạn không cho phép.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. và các công ty con (\"Philips\") hết sức tin tưởng vào việc bảo vệ quyền riêng tư của dữ liệu mà bạn chia sẻ với chúng tôi. Chúng tôi cũng tin rằng việc thông báo cho bạn biết chúng tôi sẽ sử dụng dữ liệu của bạn như thế nào và cung cấp cho bạn các quyền lựa chọn cách dữ liệu đó được dùng ra sao có vai trò rất quan trọng. Vì vậy, chúng tôi khuyến khích bạn nên đọc kỹ Thông báo về quyền riêng tư này trước khi lựa chọn và cấp cho chúng tôi quyền sử dụng thông tin của bạn. Đây là thông báo về các thông lệ quyền riêng tư của Philips, không phải là hợp đồng hay thỏa thuận.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Thông báo về quyền riêng tư đối với ứng dụng</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Thông báo về quyền riêng tư</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Sự đồng ý</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Truy cập dành cho cha mẹ</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Tôi dưới %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Tôi trên %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Mục này được thiết kế dành cho người trên %d. Vui lòng nhờ cha mẹ giúp bạn thực hiện.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Năm sinh</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Bạn bao nhiêu tuổi?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Số tuổi và năm sinh không khớp</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Số tuổi đã cung cấp không khớp với năm sinh. Vui lòng chắc rằng số tuổi và năm sinh của bạn là chính xác.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Bạn đang cố gắng truy cập vào một mục dành riêng cho cha mẹ.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Tôi đồng ý</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Không đồng ý</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Cảm ơn sự chấp thuận của cha mẹ </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Bạn sẽ nhận được một yêu cầu xác nhận chấp thuận khi bạn truy cập vào mục dành cho cha mẹ lần nữa sau khoảng thời gian ít nhất là 24 giờ tính từ lúc này.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Cảm ơn sự quan tâm và chia sẻ của bạn!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Bạn vừa chấp thuận cho phép Philips thu thập thông tin về thời điểm đánh răng, tần suất và thời gian đánh bao lâu được lấy từ tay cầm bàn chải và Ứng dụng. \n \n Philips rất coi trọng quyền riêng tư và dữ liệu của bạn. Chúng tôi sẽ không bao giờ sử dụng dữ liệu này cho bất kỳ mục đích nào khác ngoài việc cải thiện trải nghiệm Sonicare dành cho trẻ em.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Bạn vừa gửi sự chấp thuận của cha mẹ đến Philips cho phép thu thập và sử dụng thông tin nhất định từ Ứng dụng Philips Sonicare Kids.\n\nPhilips rất quan tâm đến việc bảo vệ quyền riêng tư của bạn. Để đảm bảo đây chính là bạn, vui lòng xác nhận lại.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Đúng, tôi xác nhận lại</string>
+<string name="reg_Coppa_Reject_Button_Txt">Không, tôi từ chối</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Có, tôi chấp thuận</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Không, tôi từ chối</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Xác nhận lại sự chấp thuận của cha mẹ</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Sự chấp thuận của cha mẹ</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Bạn có cung cấp sự chấp thuận của cha mẹ không?</string>
 </resources>

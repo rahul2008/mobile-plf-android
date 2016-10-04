@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">For at du kan få mest muligt ud af appen, beder Philips om din tilladelse til at indsamle og bruge oplysninger om dit barns brug af Philips Sonicare og appen.\n\nDisse oplysninger er bl.a. børstetid, periode og hyppighed, som indsamles fra børstehåndtaget og appen.\n\nDu kan bruge disse oplysninger til at registrere dit barns tandbørstning og opmuntre dit barn til gode børstevaner samt til at modtage personligt tilpassede oplysninger og meddelelser, når det er tid til at udskifte børstehovedet.\n\nVi indsamler eller bruger ikke personlige oplysninger, hvis du ikke giver denne tilladelse.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Hvis du accepterer, modtager du en bekræftende samtykkeanmodning, når du går ind i forældredelen igen om mindst 24 timer fra nu.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Læs %s for at få mere at vide.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Bekræft godkendelse</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Tak for din tilladelse til at gemme dit barns oplysninger. Dette er anden samtykkeanmodning for at bekræfte din godkendelse.\n\nFor at du kan få mest muligt ud af appen, bedes du bekræfte din tilladelse til, at Philips må indsamle og bruge oplysninger om dit barns brug af Philips Sonicare og appen. Disse oplysninger er bl.a. børstetid, periode og hyppighed, som indsamles fra børstehåndtaget og appen.\n\nDu kan bruge disse oplysninger til at registrere dit barns tandbørstning og opmuntre dit barn til gode børstevaner samt til at modtage personligt tilpassede oplysninger og meddelelser, når det er tid til at udskifte børstehovedet.\n\nVi indsamler eller bruger ikke personlige oplysninger, hvis du ikke giver denne tilladelse.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. og dets datterselskaber (\"Philips\") bestræber sig fuldt ud på at beskytte de oplysninger, du deler med os. Vi mener også, at det er vigtigt at informere dig om, hvordan vi vil bruge dine oplysninger, og at give dig mulighed for at vælge, hvordan disse oplysninger skal anvendes. Derfor opfordrer vi dig til at læse denne meddelelse om beskyttelse af personlige oplysninger, inden du foretager dine valg og giver os ret til at bruge dine oplysninger. Dette er en meddelelse om Philips\' praksis i forbindelse med beskyttelsen af personlige oplysninger, ikke en kontrakt eller aftale.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Meddelelse om beskyttelse af personlige oplysninger i appen</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Meddelelse om beskyttelse af personlige oplysninger</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Godkendelse</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Forældreadgang</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Jeg er under %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Jeg er over %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Dette er tiltænkt personer over %d. Bed en af dine forældre om at gøre det for dig.</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Fødselsår</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Hvor gammel er du?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Alder og fødselsår stemmer ikke overens</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Den angivne alder stemmer ikke overens med fødselsåret. Sørg for, at din alder og dit fødselsår er angivet korrekt.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Du forsøger at komme ind i den del, der er beregnet til forældre.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Jeg accepterer</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Jeg accepterer ikke</string>
+<string name="reg_Coppa_Give_Approval_txt">For at du kan få mest muligt ud af appen, beder Philips om din tilladelse til at indsamle og bruge oplysninger om dit barns brug af Philips Sonicare og appen.\n\nDisse oplysninger er bl.a. børstetid, periode og hyppighed, som indsamles fra børstehåndtaget og appen.\n\nDu kan bruge disse oplysninger til at registrere dit barns tandbørstning og opmuntre dit barn til gode børstevaner samt til at modtage personligt tilpassede oplysninger og meddelelser, når det er tid til at udskifte børstehovedet.\n\nVi indsamler eller bruger ikke personlige oplysninger, hvis du ikke giver denne tilladelse.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Hvis du accepterer, modtager du en bekræftende samtykkeanmodning, når du går ind i forældredelen igen om mindst 24 timer fra nu.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Læs %s for at få mere at vide.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Bekræft godkendelse</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Tak for din tilladelse til at gemme dit barns oplysninger. Dette er anden samtykkeanmodning for at bekræfte din godkendelse.\n\nFor at du kan få mest muligt ud af appen, bedes du bekræfte din tilladelse til, at Philips må indsamle og bruge oplysninger om dit barns brug af Philips Sonicare og appen. Disse oplysninger er bl.a. børstetid, periode og hyppighed, som indsamles fra børstehåndtaget og appen.\n\nDu kan bruge disse oplysninger til at registrere dit barns tandbørstning og opmuntre dit barn til gode børstevaner samt til at modtage personligt tilpassede oplysninger og meddelelser, når det er tid til at udskifte børstehovedet.\n\nVi indsamler eller bruger ikke personlige oplysninger, hvis du ikke giver denne tilladelse.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. og dets datterselskaber (\"Philips\") bestræber sig fuldt ud på at beskytte de oplysninger, du deler med os. Vi mener også, at det er vigtigt at informere dig om, hvordan vi vil bruge dine oplysninger, og at give dig mulighed for at vælge, hvordan disse oplysninger skal anvendes. Derfor opfordrer vi dig til at læse denne meddelelse om beskyttelse af personlige oplysninger, inden du foretager dine valg og giver os ret til at bruge dine oplysninger. Dette er en meddelelse om Philips\' praksis i forbindelse med beskyttelsen af personlige oplysninger, ikke en kontrakt eller aftale.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Meddelelse om beskyttelse af personlige oplysninger i appen</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Meddelelse om beskyttelse af personlige oplysninger</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Godkendelse</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Forældreadgang</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Jeg er under %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Jeg er over %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Dette er tiltænkt personer over %d. Bed en af dine forældre om at gøre det for dig.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Fødselsår</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Hvor gammel er du?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Alder og fødselsår stemmer ikke overens</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Den angivne alder stemmer ikke overens med fødselsåret. Sørg for, at din alder og dit fødselsår er angivet korrekt.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Du forsøger at komme ind i den del, der er beregnet til forældre.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Jeg accepterer</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Jeg accepterer ikke</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Tak for dit forældresamtykke </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Du modtager en bekræftelse på din samtykkeanmodning, når du går ind i forældredelen igen om mindst 24 timer fra nu.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Tak for din forståelse og deling!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Du har givet Philips tilladelse til at indsamle oplysninger om tandbørstning, varighed og hyppighed, hvilket sker via børstehåndtaget og appen. \n \n Philips tager dit privatliv og dine personlige oplysninger meget alvorligt. Vi vil aldrig bruge disse oplysninger til andre formål end forbedring af oplevelsen med Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Du har allerede givet Philips dit forældresamtykke til at indsamle og bruge visse oplysninger fra Philips Sonicare Kids-appen.\n\nPhilips beskytter dit privatliv med den største omhu. Du bedes bekræfte for at sikre, at det virkelig var dig.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Jeg bekræfter</string>
+<string name="reg_Coppa_Reject_Button_Txt">Jeg afviser</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Jeg giver samtykke</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Jeg giver ikke samtykke</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Bekræft dit forældresamtykke igen</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Forældresamtykke</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Vil du give dit forældresamtykke?</string>
 </resources>

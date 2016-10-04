@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Para aproveitar a aplicação ao máximo, a Philips necessita do seu consentimento para recolher e utilizar informações sobre a utilização da Philips Sonicare e da aplicação pela sua criança.\n\nEstas informações incluem a duração, o período e a frequência de escovagem, e são recolhidas da pega da escova e da aplicação.\n\nEstas informações permitem-lhe monitorizar e fomentar os hábitos de escovagem da sua criança e receber informações de escovagem personalizadas e notificações sobre quando necessita de substituir a cabeça da escova.\n\nNão recolhemos nem utilizamos quaisquer informações pessoais da criança no caso de não nos fornecer o seu consentimento.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Se concordar, receberá um pedido de consentimento de confirmação quando aceder novamente à secção parental após um período mínimo de 24 horas a partir deste momento.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Leia a %s para obter mais informações.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Confirmar a aprovação</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Obrigado por concordar com o armazenamento das informações da sua criança. Este é um segundo consentimento para confirmar a sua autorização.\n\nPara aproveitar a aplicação ao máximo, confirme o seu consentimento parental para autorizar a Philips a recolher e utilizar informações sobre a utilização da Philips Sonicare e da aplicação pela sua criança. Estas informações incluem a duração, o período e a frequência de escovagem, e são recolhidas da pega da escova e da aplicação.\n\nEstas informações permitem-lhe monitorizar e fomentar os hábitos de escovagem da sua criança e receber informações de escovagem personalizadas e notificações sobre quando necessita de substituir a cabeça da escova.\n\nNão recolhemos nem utilizamos quaisquer informações pessoais da criança no caso de não nos fornecer o seu consentimento.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">A Koninklijke Philips N. V. e suas subsidiárias (\"Philips\") preocupam-se com a protecção da privacidade dos dados que partilha connosco. Acreditamos também que é importante informá-lo sobre como utilizaremos os seus dados e apresentar-lhe as escolhas relativas à forma como estes dados serão utilizados. Por isso, encorajamo-lo a ler cuidadosamente esta Declaração de privacidade antes de fazer as suas escolhas e nos conceder o direito a utilizar as suas informações. Este documento constitui uma declaração das políticas de privacidade da Philips; não se trata de um contrato ou acordo.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Declaração de privacidade da aplicação</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Declaração de privacidade</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Aprovação</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Acesso parental</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Tenho menos de %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Tenho mais de %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Isto destina-se a pessoas com mais de %d. Pede ajuda aos teus pais.</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Ano de nascimento</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Idade?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Idade e ano de nascimento não correspondem</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">A idade indicada não corresponde ao ano de nascimento. Assegure-se de que a idade e o ano de nascimento estão correctos.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Estás a tentar aceder a uma secção destinada aos pais.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Concordo</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Não concordo</string>
+<string name="reg_Coppa_Give_Approval_txt">Para aproveitar a aplicação ao máximo, a Philips necessita do seu consentimento para recolher e utilizar informações sobre a utilização da Philips Sonicare e da aplicação pela sua criança.\n\nEstas informações incluem a duração, o período e a frequência de escovagem, e são recolhidas da pega da escova e da aplicação.\n\nEstas informações permitem-lhe monitorizar e fomentar os hábitos de escovagem da sua criança e receber informações de escovagem personalizadas e notificações sobre quando necessita de substituir a cabeça da escova.\n\nNão recolhemos nem utilizamos quaisquer informações pessoais da criança no caso de não nos fornecer o seu consentimento.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Se concordar, receberá um pedido de consentimento de confirmação quando aceder novamente à secção parental após um período mínimo de 24 horas a partir deste momento.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Leia a %s para obter mais informações.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Confirmar a aprovação</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Obrigado por concordar com o armazenamento das informações da sua criança. Este é um segundo consentimento para confirmar a sua autorização.\n\nPara aproveitar a aplicação ao máximo, confirme o seu consentimento parental para autorizar a Philips a recolher e utilizar informações sobre a utilização da Philips Sonicare e da aplicação pela sua criança. Estas informações incluem a duração, o período e a frequência de escovagem, e são recolhidas da pega da escova e da aplicação.\n\nEstas informações permitem-lhe monitorizar e fomentar os hábitos de escovagem da sua criança e receber informações de escovagem personalizadas e notificações sobre quando necessita de substituir a cabeça da escova.\n\nNão recolhemos nem utilizamos quaisquer informações pessoais da criança no caso de não nos fornecer o seu consentimento.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">A Koninklijke Philips N. V. e suas subsidiárias (\"Philips\") preocupam-se com a protecção da privacidade dos dados que partilha connosco. Acreditamos também que é importante informá-lo sobre como utilizaremos os seus dados e apresentar-lhe as escolhas relativas à forma como estes dados serão utilizados. Por isso, encorajamo-lo a ler cuidadosamente esta Declaração de privacidade antes de fazer as suas escolhas e nos conceder o direito a utilizar as suas informações. Este documento constitui uma declaração das políticas de privacidade da Philips; não se trata de um contrato ou acordo.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Declaração de privacidade da aplicação</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Declaração de privacidade</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Aprovação</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Acesso parental</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Tenho menos de %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Tenho mais de %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Isto destina-se a pessoas com mais de %d. Pede ajuda aos teus pais.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Ano de nascimento</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Idade?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Idade e ano de nascimento não correspondem</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">A idade indicada não corresponde ao ano de nascimento. Assegure-se de que a idade e o ano de nascimento estão correctos.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Estás a tentar aceder a uma secção destinada aos pais.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Concordo</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Não concordo</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Agradecemos o seu consentimento parental </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Receberá um pedido de consentimento de confirmação quando aceder novamente à secção parental após um período mínimo de 24 horas a partir deste momento.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Agradecemos o seu cuidado e partilha!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Deu consentimento para que a Philips obtenha informações da pega da escova e da aplicação sobre o tempo, o período e a frequência de escovagem. \n \n A Philips considera a sua privacidade e os seus dados pessoais muito importantes. Nunca utilizaremos estes dados para outros fins além da melhoria da experiência Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Já deu o seu consentimento parental à Philips para a recolha e utilização de determinadas informações da aplicação Philips Sonicare Kids.\n\nA Philips exerce o máximo cuidado na protecção da sua privacidade. Para confirmar a sua identidade, confirme novamente.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Sim, confirmo</string>
+<string name="reg_Coppa_Reject_Button_Txt">Não, rejeito</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Sim, dou consentimento</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Não, não dou consentimento</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Volte a confirmar o seu consentimento parental</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Consentimento parental</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Dá o seu consentimento parental?</string>
 </resources>

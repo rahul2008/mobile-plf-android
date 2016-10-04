@@ -10,10 +10,7 @@ package com.philips.cdp.registration.coppa.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 
 /**
  * Created by 310202337 on 3/28/2016.

@@ -12,6 +12,7 @@ package com.philips.cdp.registration.coppa.utils;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.coppa.event.UserRegistrationCoppaHelper;
 import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
+import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaUIEventListener;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 
@@ -23,6 +24,18 @@ public class RegistrationCoppaHelper {
 
     private RegistrationCoppaHelper() {
     }
+
+
+    public UserRegistrationCoppaUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationUIEventListener;
+    }
+
+    public void setUserRegistrationUIEventListener(UserRegistrationCoppaUIEventListener userRegistrationUIEventListener) {
+        this.userRegistrationUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private UserRegistrationCoppaUIEventListener userRegistrationUIEventListener;
+
 
 
     public synchronized static RegistrationCoppaHelper getInstance() {
@@ -45,7 +58,7 @@ public class RegistrationCoppaHelper {
 
     public synchronized void unRegisterUserRegistrationListener(UserRegistrationCoppaListener userRegistrationListener) {
         UserRegistrationCoppaHelper.getInstance().unregisterEventNotification(userRegistrationListener);
-        UserRegistrationHelper.getInstance().registerEventNotification(RegistrationCoppaFragment.getUserRegistrationListener());
+        UserRegistrationHelper.getInstance().unregisterEventNotification(RegistrationCoppaFragment.getUserRegistrationListener());
     }
 
     public synchronized UserRegistrationCoppaHelper getUserRegistrationListener() {

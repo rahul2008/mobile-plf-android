@@ -33,7 +33,7 @@ public class FieldsValidator {
         if (email.contains(" "))
             return false;
 
-        String emailPattern ="^(?!.\\-\\_{2,}.)(?!.*?[._-]{2})[a-zA-Z0-9][a-zA-Z0-9._%+-]{0,61}[^`~,.<>;':\"\\/\\[\\]\\|{}()=" +
+        String emailPattern = "^(?!.\\-\\_{2,}.)(?!.*?[._-]{2})[a-zA-Z0-9][a-zA-Z0-9._%+-]{0,61}[^`~,.<>;':\"\\/\\[\\]\\|{}()=" +
                 "_+\\?*&\\^%$#@!\\\\-]@((?!.\\-\\_{2,}.)(?!.*?[._-]{2})[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+\\?*&\\^%$#@!\\\\-][-a-zA-Z0-9_.]+" +
                 "[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+\\?*&\\^%$#@!\\\\-]{0,}\\.[a-zA-z]+(?!.*?[0-9])[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+" +
                 "\\?*&\\^%$#@!\\\\-])$";
@@ -46,7 +46,7 @@ public class FieldsValidator {
         if (password == null)
             return false;
 
-        if (!isPasswordLengthMeets(password)){
+        if (!isPasswordLengthMeets(password)) {
             return false;
         }
 
@@ -86,7 +86,7 @@ public class FieldsValidator {
             return false;
         }
 
-        if (length < 8 || length>=32) {
+        if (length < 8 || length > 32) {
             return false;
         }
 

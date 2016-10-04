@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -80,11 +79,15 @@ public abstract class RegistrationBaseFragment extends Fragment {
         Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
         Configuration config = new Configuration();
         config.locale = RegistrationHelper.getInstance().getLocale(getContext());
-        getActivity().getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
+        if(isAdded()) {
+            getActivity().getResources().updateConfiguration(config,
+                    getActivity().getResources().getDisplayMetrics());
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -103,13 +106,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onResume() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
-
         super.onResume();
-
-
         setCurrentTitle();
-
-
     }
 
     @Override
@@ -143,11 +141,15 @@ public abstract class RegistrationBaseFragment extends Fragment {
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
             if (fragment.getFragmentCount() > 2) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                        mPrevTitleResourceId);
+                fragment.getUpdateTitleListener().updateActionBar(
+                        mPrevTitleResourceId,true);
+               /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                        mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             } else {
-                fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
+                fragment.getUpdateTitleListener().updateActionBar(
+                        mPrevTitleResourceId,false);
+             /*   fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
@@ -173,24 +175,36 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 && -99 != fragment.getResourceID()) {
             mPrevTitleResourceId = fragment.getResourceID();
         }
-        if (fragment.getFragmentCount() > 1) {
-            if (this instanceof WelcomeFragment) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
 
-            }
-            else if (this instanceof MobileWelcomeFragment) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
-            }
-            else if (this instanceof HomeFragment) {
-                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+        if(null != fragment) {
+            if (fragment.getFragmentCount() > 1) {
+                if ((this instanceof WelcomeFragment || this instanceof MobileWelcomeFragment)
+                        && null!=fragment.getUpdateTitleListener()) {
+                    fragment.getUpdateTitleListener().updateActionBar(
+                            getTitleResourceId(),false);
+                  /*  fragment.getUpdateTitleListener().
+                            updateRegistrationTitleWithOutBack(getTitleResourceId());*/
+                } else if (this instanceof HomeFragment && null!=fragment.
+                        getUpdateTitleListener()) {
+                    fragment.getUpdateTitleListener().updateActionBar(
+                            getTitleResourceId(),false);
+                   /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
+                } else {
+                    if(null!=fragment.getUpdateTitleListener())
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(),true);
+               /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                            getTitleResourceId());*/
+                }
             } else {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+                if(null!=fragment.getUpdateTitleListener())
+                    fragment.getUpdateTitleListener().updateActionBar(
+                            getTitleResourceId(),false);
+                /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }
-        } else {
-            fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+            fragment.setResourceID(getTitleResourceId());
+            fragment.setCurrentTitleResource(getTitleResourceId());
         }
-        fragment.setResourceID(getTitleResourceId());
-        fragment.setCurrentTitleResource(getTitleResourceId());
     }
 
     public RegistrationFragment getRegistrationFragment() {
@@ -227,7 +241,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
             if (getResources().getBoolean(R.bool.isTablet)) {
                 mParams.leftMargin = mParams.rightMargin = (int) (((width / 6) * (1.75)));
             } else {
-                mParams.leftMargin = mParams.rightMargin = (int) ((width) / 6);
+                mParams.leftMargin = mParams.rightMargin =  ((width) / 6);
             }
         }
         view.setLayoutParams(mParams);
@@ -266,20 +280,20 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void trackMultipleActionsRegistration() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.REGISTRATION_CHANNEL, AppTagingConstants.MY_PHILIPS);
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
     protected void trackMultipleActionsLogin(String providerName) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
-    protected void trackMultipleActionsMap(String state, HashMap map) {
+    protected void trackMultipleActionsMap(String state, HashMap<String, String> map) {
         AppTagging.trackMultipleActions(state, map);
     }
 
@@ -289,31 +303,36 @@ public abstract class RegistrationBaseFragment extends Fragment {
         }
         if (mWidth == 0 && mHeight == 0) {
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @SuppressWarnings("deprecation")
                 @Override
                 public void onGlobalLayout() {
-                    Configuration config = getResources().getConfiguration();
-                    if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        mWidth = view.getWidth();
-                        mHeight = view.getHeight();
-                    } else {
-                        mWidth = view.getHeight();
-                        mHeight = view.getWidth();
-                    }
+                    if(isAdded()) {
+                        Configuration config = getResources().getConfiguration();
+                        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            mWidth = view.getWidth();
+                            mHeight = view.getHeight();
+                        } else {
+                            mWidth = view.getHeight();
+                            mHeight = view.getWidth();
+                        }
 
-                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    } else {
-                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                        setViewParams(getResources().getConfiguration(), view.getWidth());
                     }
-                    setViewParams(getResources().getConfiguration(), view.getWidth());
                 }
             });
         } else {
-            Configuration config = getResources().getConfiguration();
-            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                setViewParams(getResources().getConfiguration(), mWidth);
-            } else {
-                setViewParams(getResources().getConfiguration(), mHeight);
+            if(isAdded()) {
+                Configuration config = getResources().getConfiguration();
+                if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setViewParams(getResources().getConfiguration(), mWidth);
+                } else {
+                    setViewParams(getResources().getConfiguration(), mHeight);
+                }
             }
 
         }
@@ -332,25 +351,25 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-
         super.onConfigurationChanged(newConfig);
-
         setCustomLocale();
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
         view.requestFocus();
-      /* scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.scrollTo(0, view.getTop());
-            }
-        });*/
-
         scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
+            @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
                 new Handler().post(new Runnable() {

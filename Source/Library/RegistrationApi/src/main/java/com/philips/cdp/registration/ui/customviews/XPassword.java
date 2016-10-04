@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -51,17 +52,18 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private boolean isValidatePassword = true;
 
+    private String mSavedPasswordError;
 
     public XPassword(Context context) {
         super(context);
         this.mContext = context;
-        initUi(R.layout.x_password);
+        initUi(R.layout.reg_password);
     }
 
     public XPassword(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        initUi(R.layout.x_password);
+        initUi(R.layout.reg_password);
     }
 
     public final void initUi(int resourceId) {
@@ -110,9 +112,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
     public void setErrDescription(String mErrDescription) {
+        mSavedPasswordError = mErrDescription;
         mTvErrDescriptionView.setText(mErrDescription);
     }
 
+    public String getmSavedPasswordErrDescription(){
+        return mSavedPasswordError;
+    }
 
     private boolean validatePassword() {
         if (!FieldsValidator.isValidPassword(mEtPassword.getText().toString().trim())) {
@@ -146,7 +152,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         if (v.getId() == R.id.et_reg_password) {
             handlePassword(hasFocus);
             fireUpdateStatusEvent();
@@ -161,14 +167,11 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     }
 
-    private void showErrPopUp() {
-        mTvErrDescriptionView.setVisibility(View.VISIBLE);
-        mFlInvaliFielddAlert.setVisibility(View.VISIBLE);
-    }
-
-    private void hideErrPopUp() {
-        mTvErrDescriptionView.setVisibility(View.GONE);
-        mFlInvaliFielddAlert.setVisibility(View.GONE);
+    public boolean isPasswordErrorVisible(){
+        if(mTvErrDescriptionView.getVisibility() == View.VISIBLE){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -202,9 +205,9 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (validatePassword()) {
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_InValid_PwdErrorMsg));
             }
         }
     }
@@ -213,7 +216,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (validatePasswordWithoutPattern()) {
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             }
         }
     }
@@ -225,10 +228,10 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.WRONG_PASSWORD);
-                setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_InValid_PwdErrorMsg));
             }
             showInvalidPasswordAlert();
         }
@@ -240,14 +243,14 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             }
             showInvalidPasswordAlert();
         }
     }
 
-    private void showInvalidPasswordAlert() {
-        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+    public void showInvalidPasswordAlert() {
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_error_box_color));
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_error);
         mFlInvaliFielddAlert.setVisibility(VISIBLE);
         mTvErrDescriptionView.setVisibility(VISIBLE);
@@ -255,7 +258,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private void showValidPasswordAlert() {
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         mFlInvaliFielddAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
@@ -289,12 +292,12 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
 
     public void enableMaskPassword() {
-        mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_enable_ic_color));
+        mTvMaskPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_password_mask_enable_ic_color));
         mTvMaskPassword.setOnClickListener(mMaskPasswordOnclickListener);
     }
 
     public void disableMaskPassoword() {
-        mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_disable_ic_color));
+        mTvMaskPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_password_mask_disable_ic_color));
         mTvMaskPassword.setOnClickListener(null);
     }
 
@@ -308,13 +311,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     private void togglePasswordMask() {
         if(mEtPassword.getInputType()!=(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)){
-            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,true);
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,"true");
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
             mEtPassword.setSelection(mEtPassword.getText().length());
         }else{
-            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,false);
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,"false");
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD);
             mEtPassword.setSelection(mEtPassword.getText().length());

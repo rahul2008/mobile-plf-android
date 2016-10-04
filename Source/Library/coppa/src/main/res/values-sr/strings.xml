@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Da biste na najbolji način iskoristili aplikaciju, kompanija Philips od vas traži da date pristanak za prikupljanje i korišćenje informacija o upotrebi aparata Philips Sonicare i aplikacije od strane vašeg deteta.\n\nTe informacije obuhvataju trajanje pranja zuba, period i učestanost preuzete sa četkice ili iz aplikacije.\n\nTe informacije vam omogućavaju da pratite i unapređujete detetove navike u vezi sa pranjem zuba, kao i da dobijate personalizovane informacije o pranju zuba i obaveštenja kada dođe vreme za zamenu glave četkice.\n\nNećemo prikupljati niti koristiti nikakve lične informacije o detetu ako ne date pristanak.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Ako date pristanak, kada pristupite odeljku za roditelje nakon najmanje 24 sata dobićete zahtev za potvrdu pristanka.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Pročitajte %s za više informacija.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Potvrda pristanka</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Hvala vam što ste dali pristanak za čuvanje informacija vašeg deteta. Ovo je drugi pristanak kao potvrda.\n\nDa biste na najbolji način iskoristili aplikaciju, potvrdite roditeljski pristanak kako bi kompanija Philips mogla da prikuplja i koristi informacije o upotrebi aparata Philips Sonicare i aplikacije od strane vašeg deteta. Te informacije obuhvataju trajanje pranja zuba, period i učestanost preuzete sa četkice ili iz aplikacije.\n\nTe informacije vam omogućavaju da pratite i unapređujete detetove navike u vezi sa pranjem zuba, kao i da dobijate personalizovane informacije o pranju zuba i obaveštenja kada dođe vreme za zamenu glave četkice.\n\nNećemo prikupljati niti koristiti nikakve lične informacije o detetu ako ne date pristanak.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Kompanija Koninklijke Philips N.V. i njene podružnice („Philips“) čvrsto veruju u zaštitu privatnosti podataka koje delite sa nama. Takođe smatramo da je važno da vas obavestimo o načinu na koji ćemo koristiti vaše podatke i da vam ponudimo izbor u vezi sa načinom upotrebe tih podataka. Stoga vas podstičemo da pažljivo pročitate ovo obaveštenje o privatnosti pre nego što donesete odluku da nam omogućite korišćenje vaših informacija. Ovo je obaveštenje o politici privatnosti kompanije Philips, a ne ugovor ili dogovor.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Obaveštenje o privatnosti za aplikaciju</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Obaveštenje o privatnosti</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Odobrenje</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Roditeljski pristup</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Imam manje od %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Imam više od %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Ovo je namenjeno za osobe koje imaju više od %d. Zamolite nekog od roditelja da to obavi umesto vas.</string>
-<string name="Ok_Btn_Txt">U redu</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Godina rođenja</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Koliko imate godina?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Starost i godina rođenja se ne poklapaju</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Navedena starost ne odgovara vašoj godini rođenja. Proverite da li ste uneli ispravnu starost i godinu rođenja.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Pokušavate da pristupite odeljku namenjenom roditeljima.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Slažem se</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Ne slažem se</string>
+<string name="reg_Coppa_Give_Approval_txt">Da biste na najbolji način iskoristili aplikaciju, kompanija Philips od vas traži da date pristanak za prikupljanje i korišćenje informacija o upotrebi aparata Philips Sonicare i aplikacije od strane vašeg deteta.\n\nTe informacije obuhvataju trajanje pranja zuba, period i učestanost preuzete sa četkice ili iz aplikacije.\n\nTe informacije vam omogućavaju da pratite i unapređujete detetove navike u vezi sa pranjem zuba, kao i da dobijate personalizovane informacije o pranju zuba i obaveštenja kada dođe vreme za zamenu glave četkice.\n\nNećemo prikupljati niti koristiti nikakve lične informacije o detetu ako ne date pristanak.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Ako date pristanak, kada pristupite odeljku za roditelje nakon najmanje 24 sata dobićete zahtev za potvrdu pristanka.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Pročitajte %s za više informacija.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Potvrda pristanka</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Hvala vam što ste dali pristanak za čuvanje informacija vašeg deteta. Ovo je drugi pristanak kao potvrda.\n\nDa biste na najbolji način iskoristili aplikaciju, potvrdite roditeljski pristanak kako bi kompanija Philips mogla da prikuplja i koristi informacije o upotrebi aparata Philips Sonicare i aplikacije od strane vašeg deteta. Te informacije obuhvataju trajanje pranja zuba, period i učestanost preuzete sa četkice ili iz aplikacije.\n\nTe informacije vam omogućavaju da pratite i unapređujete detetove navike u vezi sa pranjem zuba, kao i da dobijate personalizovane informacije o pranju zuba i obaveštenja kada dođe vreme za zamenu glave četkice.\n\nNećemo prikupljati niti koristiti nikakve lične informacije o detetu ako ne date pristanak.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Kompanija Koninklijke Philips N.V. i njene podružnice („Philips“) čvrsto veruju u zaštitu privatnosti podataka koje delite sa nama. Takođe smatramo da je važno da vas obavestimo o načinu na koji ćemo koristiti vaše podatke i da vam ponudimo izbor u vezi sa načinom upotrebe tih podataka. Stoga vas podstičemo da pažljivo pročitate ovo obaveštenje o privatnosti pre nego što donesete odluku da nam omogućite korišćenje vaših informacija. Ovo je obaveštenje o politici privatnosti kompanije Philips, a ne ugovor ili dogovor.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Obaveštenje o privatnosti za aplikaciju</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Obaveštenje o privatnosti</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Odobrenje</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Roditeljski pristup</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Imam manje od %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Imam više od %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Ovo je namenjeno za osobe koje imaju više od %d. Zamolite nekog od roditelja da to obavi umesto vas.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Godina rođenja</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Koliko imate godina?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Starost i godina rođenja se ne poklapaju</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Navedena starost ne odgovara vašoj godini rođenja. Proverite da li ste uneli ispravnu starost i godinu rođenja.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Pokušavate da pristupite odeljku namenjenom roditeljima.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Slažem se</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ne slažem se</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Hvala vam što dajete roditeljski pristanak </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Kada ponovo pristupite odeljku za roditelje, nakon najmanje 24 sata dobićete zahtev za potvrdu pristanka.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Hvala vam na brizi i spremnosti da delite informacije!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Dali ste pristanak kompaniji Philips da prikuplja informacije o trajanju, periodu i učestalosti pranja zuba, preuzete sa četkice ili iz aplikacije. \n \n Kompanija Philips veoma ozbiljno pristupa privatnosti i vašim ličnim podacima. Nikada nećemo upotrebiti te podatke ni u koje druge svrhe osim za potrebe unapređenja doživljaja korišćenja četkice Sonicare For Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Već ste dali roditeljski pristanak kako bi kompanija Philips mogla da prikuplja i koristi informacije dobijene putem aplikacije Philips Sonicare Kids.\n\nKompanija Philips maksimalno vodi računa o tome da zaštiti vašu privatnost. Da bismo bili sigurni u vaš identitet, potvrdite ponovo.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Da, potvrđujem ponovo</string>
+<string name="reg_Coppa_Reject_Button_Txt">Ne, odbijam</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Da, dajem pristanak</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ne, ne dajem pristanak</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Ponovna potvrda roditeljskog pristanka</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Roditeljski pristanak</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Da li dajete roditeljski pristanak?</string>
 </resources>

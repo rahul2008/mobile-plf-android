@@ -1,14 +1,13 @@
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ *
  */
 
 package com.philips.cdp.registration.coppa.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,9 +32,8 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-import org.w3c.dom.Text;
-
-public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements NetworStateListener {
+public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements
+        NetworStateListener {
 
     private LinearLayout mLlConfirmApprovalParent;
     private TextView mTvConfirmApprovalDesc;
@@ -44,7 +42,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private Button mBtnAgree;
     private Button mBtnDisAgree;
     private ParentalApprovalFragmentController mParentalApprovalFragmentController;
-    private ProgressDialog mProgressDialog;
+
     private Context mContext;
     private XRegError mRegError;
     private ScrollView mSvRootLayout;
@@ -52,7 +50,8 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnPrivacyPolicyClickEventOccurred(getActivity());
+            RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                    onPrivacyPolicyClick(getActivity());
         }
     };
 
@@ -65,15 +64,15 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ParentalApprovalFragment : onCreateView");
-        View view;
+        View view = null;
         if (getResources().getBoolean(R.bool.isTablet)) {
-            view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval_tablet, null);
+            view = inflater.inflate(R.layout.reg_fragment_coppa_parental_approval_tablet, null);
         } else {
-            view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval_phone, null);
+            view = inflater.inflate(R.layout.reg_fragment_coppa_parental_approval_phone, null);
         }
-
 
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         mContext = getParentFragment().getActivity().getApplicationContext();
@@ -106,12 +105,15 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     private void checkApprovalStatus() {
-        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
+        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus()
+                .equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
             return;
         } else {
-            if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentPending) {
+            if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus()
+                    == CoppaStatus.kDICOPPAConsentPending) {
                 trackPage(AppTaggingCoppaPages.COPPA_FIRST_CONSENT);
-            } else if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending) {
+            } else if (mParentalApprovalFragmentController.getCoppaExtension().
+                    getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending) {
                 trackPage(AppTaggingCoppaPages.COPPA_SECOND_CONSENT);
             }
         }
@@ -139,17 +141,21 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        hideRefreshProgress();
+        getRegistrationFragment();
+        RegistrationCoppaFragment.hideRefreshProgress();
         super.onDestroy();
-        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
-                && mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)) {
+        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus()
+                != null
+                && mParentalApprovalFragmentController.getCoppaExtension().
+                getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)) {
             trackPage(AppTaggingPages.WELCOME);
             return;
         }
-        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
-                && !mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
+        if (mParentalApprovalFragmentController.getCoppaExtension().
+                getCoppaEmailConsentStatus() != null
+                && !mParentalApprovalFragmentController.getCoppaExtension().
+                getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
             trackPage(AppTaggingPages.WELCOME);
-            return;
         }
     }
 
@@ -181,48 +187,57 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     private void initUi(View view) {
         consumeTouch(view);
-        mLlConfirmApprovalParent = (LinearLayout) view.findViewById(R.id.ll_reg_confirm_root_container);
+        mLlConfirmApprovalParent = (LinearLayout) view.findViewById(
+                R.id.ll_reg_confirm_root_container);
         mTvConfirmApprovalDesc = (TextView) view.findViewById(R.id.tv_reg_confirm_approval_details);
         mTvRegConfirmApproval = (TextView) view.findViewById(R.id.tv_reg_confirm_approval);
-        mTVRegConfirmApprovalTitle = (TextView) view.findViewById(R.id.tv_reg_confirm_approval_title);
+        mTVRegConfirmApprovalTitle = (TextView) view.findViewById(
+                R.id.tv_reg_confirm_approval_title);
         mBtnAgree = (Button) view.findViewById(R.id.reg_btn_agree);
         mBtnAgree.setOnClickListener(mParentalApprovalFragmentController);
         mBtnDisAgree = (Button) view.findViewById(R.id.reg_btn_dis_agree);
         mBtnDisAgree.setOnClickListener(mParentalApprovalFragmentController);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-        mShadowLineView = (View) view.findViewById(R.id.reg_view_shadow_line);
+        mShadowLineView = view.findViewById(R.id.reg_view_shadow_line);
         handleUiState();
     }
 
     public void setConfirmApproval() {
         mTvConfirmApprovalDesc.setText(getNonUsText());
-        if (mParentalApprovalFragmentController.isCountryUS()) {
+        if (mParentalApprovalFragmentController.isCountryUs()) {
             mTvConfirmApprovalDesc.setText(getUsText());
         }
-        RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
+        if (getActivity() != null) {
+            RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(),
+                    privacyLinkClick);
+        }
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
+        mTVRegConfirmApprovalTitle.setVisibility(View.VISIBLE);
         if (mShadowLineView != null)
             mShadowLineView.setVisibility(View.VISIBLE);
     }
 
     private String getUsText() {
-        return mContext.getString(R.string.Coppa_Give_Approval_txt) +
-                "\n" + mContext.getString(R.string.Coppa_Give_Approval_US_txt) +
-                String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyNoticeText));
+        return mContext.getString(R.string.reg_Coppa_Give_Approval_txt) +
+                String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     private String getNonUsText() {
-        return mContext.getString(R.string.Coppa_Give_Approval_txt)
-                + String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyNoticeText));
+        return mContext.getString(R.string.reg_Coppa_Give_Approval_txt)
+                + String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     public void setIsUSRegionCode() {
         mTvRegConfirmApproval.setVisibility(View.VISIBLE);
-        mTvConfirmApprovalDesc.setText(String.format(mContext.getString(R.string.Coppa_Confirm_Approval_Content_txt) + mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.Coppa_Privacy_Notice_Screen_Title_txt)));
-        RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
+        mTvConfirmApprovalDesc.setText(String.format(
+                mContext.getString(R.string.reg_Coppa_Confirm_Approval_Content_txt) +
+                        mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_Coppa_Privacy_Notice_Screen_Title_txt)));
+        if (getActivity() != null)
+            RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc,
+                    getActivity(), privacyLinkClick);
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
@@ -232,37 +247,19 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Consent_Approval_Screen_Title_txt;
-    }
-
-    public void showRefreshProgress() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-
-        } else {
-            mProgressDialog.show();
-        }
-    }
-
-    public void hideRefreshProgress() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
+        return R.string.reg_Coppa_Age_Confirmation_Screen_Title_txt;
     }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "ParentalApprovalFragment :onNetWorkStateReceived state :" + isOnline);
+        RLog.i(RLog.NETWORK_STATE, "ParentalApprovalFragment :onNetWorkStateReceived state :"
+                + isOnline);
 
         handleUiState();
     }
 
     private void handleUiState() {
-        handleOnUIThread(new Runnable() {
+        handleOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -274,7 +271,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
                         mBtnDisAgree.setEnabled(true);
                 } else {
                     if (mRegError != null)
-                        mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+                        mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
                     if (mRegError != null && mSvRootLayout != null)
                         scrollViewAutomatically(mRegError, mSvRootLayout);
                     if (mBtnAgree != null)
@@ -287,7 +284,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     public void showContent() {
-        handleOnUIThread(new Runnable() {
+        handleOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mSvRootLayout != null)
@@ -296,11 +293,10 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
                     mShadowLineView.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
     public void hideContent() {
-        handleOnUIThread(new Runnable() {
+        handleOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mSvRootLayout != null)
@@ -310,5 +306,4 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
             }
         });
     }
-
 }

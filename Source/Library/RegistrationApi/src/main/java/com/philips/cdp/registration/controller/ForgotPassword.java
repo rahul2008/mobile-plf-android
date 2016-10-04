@@ -11,10 +11,6 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
@@ -24,6 +20,10 @@ import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFlowDownloadStatusListener{
 
@@ -124,7 +124,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 	public void onFlowDownloadFailure() {
 		if (mForgotPaswordHandler != null) {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
 			userRegistrationFailureInfo.setErrorCode(RegConstants.FORGOT_PASSWORD_FAILED_SERVER_ERROR);
 			mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
 		}

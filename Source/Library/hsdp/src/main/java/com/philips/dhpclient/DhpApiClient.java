@@ -83,10 +83,10 @@ public class DhpApiClient {
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
 
-        HsdpLog.d("Social Hsdp URI : ",""+uri.toString());
-        HsdpLog.d("Social Hsdp httpMethod type : ",""+httpMethod);
-        HsdpLog.d("Social Hsdp headers : ",""+headers);
-        HsdpLog.d("Social Hsdp headers body : ",""+body);
+        HsdpLog.d("Hsdp URI : ",""+uri.toString());
+        HsdpLog.d("Hsdp httpMethod type : ",""+httpMethod);
+        HsdpLog.d("Hsdp headers : ",""+headers);
+        HsdpLog.d("Hsdp headers body : ",""+body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 

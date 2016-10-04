@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -13,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,7 +69,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
-        View view = inflater.inflate(R.layout.fragment_welcome, null);
+        View view = inflater.inflate(R.layout.reg_fragment_welcome, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
         init(view);
@@ -129,6 +129,16 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
@@ -166,11 +176,18 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
 
+<<<<<<< HEAD
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
         mUserDetails = getString(R.string.InitialSignedIn_SigninEmailText);
         mUserDetails = String.format(mUserDetails, mUser.getEmail());
 
 
+=======
+        mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
+
+        String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
+        email = String.format(email, mUser.getEmail());
+>>>>>>> develop
         String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
@@ -186,8 +203,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
             handleLogout();
         } else if (id == R.id.btn_reg_continue) {
             RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
-            RegistrationHelper.getInstance().getUserRegistrationListener()
-                    .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
+            if(RegistrationHelper.getInstance().getUserRegistrationUIEventListener() !=null){
+                RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+                        onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+            }
         }
     }
 
@@ -205,7 +224,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     @Override
@@ -241,7 +260,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
                 mRegError.hideError();
             }
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
@@ -256,7 +275,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
-        mBtnSignOut.setEnabled(true);
+        if (mBtnSignOut != null) {
+            mBtnSignOut.setEnabled(true);
+        }
     }
 
 }

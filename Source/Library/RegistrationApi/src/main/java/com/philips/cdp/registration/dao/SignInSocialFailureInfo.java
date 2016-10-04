@@ -11,54 +11,99 @@ package com.philips.cdp.registration.dao;
 
 import com.janrain.android.Jump.SignInResultHandler.SignInError;
 
+/**
+ *  Class Sign in social failure info
+ */
 public class SignInSocialFailureInfo {
 
-	private int errorCode;
 
-	private String emailErrorMessage;
+	/* Error code */
+	private int mErrorCode;
 
-	private SignInError error;
+	/* Email error code */
+	private String mEmailErrorMessage;
 
-	private String displayNameErrorMessage;
+	/* Error */
+	private SignInError mError;
 
+	/* Display name error message */
+	private String mDisplayNameErrorMessage;
+
+	/**
+	 * {@code getDisplayNameErrorMessage } method to get dispaly name error message
+	 * @return mDispalyNameErrorMessage display error message
+     */
 	public String getDisplayNameErrorMessage() {
-		return displayNameErrorMessage;
+		return mDisplayNameErrorMessage;
 	}
 
-	public void setDisplayNameErrorMessage(String displayNameErrorMessage) {
-		this.displayNameErrorMessage = displayNameErrorMessage;
+	/**
+	 *{@code setDisplayNameErrorMessage} method to set display name error message
+	 * @param displayNameErrorMessage    display name error message
+     */
+    public void setDisplayNameErrorMessage(String displayNameErrorMessage) {
+		this.mDisplayNameErrorMessage = displayNameErrorMessage;
 	}
 
+	/**
+	 *  {@code getError} method to get sign in error
+	 *  {@link SignInError}
+	 * @return mError error
+     */
 	public SignInError getError() {
-		return error;
+		return mError;
 	}
 
+	/**
+	 * {@code setError} method to set error
+	 * @param error error
+     */
 	public void setError(SignInError error) {
-		this.error = error;
+		this.mError = error;
 	}
 
+	/**
+	 * {@code getErrorDescription}method to get error description
+	 * @return error_description error description if available else null
+	 */
 	public String getErrorDescription() {
-		if (null != error && null != error.captureApiError) {
-			return error.captureApiError.error_description;
+		if (null != mError && null != mError.captureApiError) {
+			return mError.captureApiError.error_description;
 		}
 
 		return null;
 	}
 
+	/**
+	 * {@code getEmailErrorMessage} method to Get email error message
+	 * @return mEmailErrorMessage Email error message
+     */
 	public String getEmailErrorMessage() {
-		return emailErrorMessage;
+		return mEmailErrorMessage;
 	}
 
+	/**
+	 * {@code setEmailErrorMessage }method to set email error message
+	 * @param emailErrorMessage Email error message
+     */
 	public void setEmailErrorMessage(String emailErrorMessage) {
-		this.emailErrorMessage = emailErrorMessage;
+		this.mEmailErrorMessage = emailErrorMessage;
 	}
 
+	/**
+	 * {@code getErrorCode} method to get error code
+	 * @return mErrorCode error code
+     */
 	public int getErrorCode() {
-		return errorCode;
+		return mErrorCode;
 	}
 
+	/**
+	 * {@code setErrorCode} method to set error code
+	 * @param errorCode Error code
+     */
 	public void setErrorCode(int errorCode) {
-		this.errorCode = errorCode;
+		this.mErrorCode = errorCode;
 	}
 
 }

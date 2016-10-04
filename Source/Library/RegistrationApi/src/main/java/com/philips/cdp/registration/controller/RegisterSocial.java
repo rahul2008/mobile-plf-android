@@ -55,7 +55,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		User user = new User(mContext);
 		mUpdateUserRecordHandler.updateUserRecordRegister();
 
-		if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
+		if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
 			HsdpUser hsdpUser = new HsdpUser(mContext);
 			hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
 
@@ -150,7 +150,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 	public void onFlowDownloadFailure() {
 		if (mSocialProviderLoginHandler != null) {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
 			userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_SOCIAL_FAILED_SERVER_ERROR);
 			mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 		}
@@ -242,7 +242,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		} else {
 			isEmailVerified = true;
 		}
-		if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && isEmailVerified) {
+		if (RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
 
 			HsdpUser hsdpUser = new HsdpUser(mContext);
 			try {

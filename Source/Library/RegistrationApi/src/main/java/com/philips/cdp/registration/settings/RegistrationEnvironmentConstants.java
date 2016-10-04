@@ -9,7 +9,7 @@
 package com.philips.cdp.registration.settings;
 
 /**
- * Created by 310165193 on 10/13/2015.
+ * {@code RegistrationEnvironmentConstants} holds the string constants representing configuration environment
  */
 public class RegistrationEnvironmentConstants {
 
