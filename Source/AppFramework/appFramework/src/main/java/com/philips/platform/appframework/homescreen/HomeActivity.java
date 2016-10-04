@@ -38,9 +38,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
@@ -68,7 +66,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     private SharedPreferenceUtility sharedPreferenceUtility;
     private ImageView cartIcon;
     private TextView cartCount;
-    private int cartItemCount = 0;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -178,14 +175,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         int resID = com.philips.cdp.uikit.R.drawable.uikit_philips_logo;
         footerView.setImageDrawable(VectorDrawable.create(this, resID));
         setSupportActionBar(toolbar);
-    }
-
-    public int getCartItemCount() {
-        return cartItemCount;
-    }
-
-    public void setCartItemCount(int cartItemCount) {
-        this.cartItemCount = cartItemCount;
     }
 
     private void setDrawerAdapter() {
@@ -321,9 +310,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     public void cartIconVisibility(boolean shouldShow) {
         if(shouldShow){
             cartIcon.setVisibility(View.VISIBLE);
-                if (cartItemCount > 0) {
+            int cartItemsCount = getCartItemCount();
+                if (cartItemsCount > 0) {
                         cartCount.setVisibility(View.VISIBLE);
-                        cartCount.setText(String.valueOf(cartItemCount));
+                        cartCount.setText(String.valueOf(cartItemsCount));
                 }else {
                     cartCount.setVisibility(View.GONE);
                 }
@@ -333,9 +323,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         }
     }
     @Override
-    public void onGetCartCount(int count) {
-        cartItemCount = count;
-        if(cartItemCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
+    public void onGetCartCount(int cartCount) {
+        setCartItemCount(cartCount);
+        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
             cartIconVisibility(true);
         }
     }

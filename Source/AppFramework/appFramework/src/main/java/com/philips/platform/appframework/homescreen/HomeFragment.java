@@ -28,7 +28,6 @@ public class HomeFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        ((HomeActivity)getActivity()).updateActionBarIcon(false);
         ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 

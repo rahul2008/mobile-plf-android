@@ -8,6 +8,7 @@ package com.philips.platform.appframework.homescreen;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -60,23 +61,23 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 uiState.setUiStateData(homeStateData);
-                fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
+                fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)context,R.id.frame_container,(AppFrameworkBaseActivity)context);
                 break;
             case MENU_OPTION_SETTINGS: uiState = new SettingsFragmentState(UIState.UI_SETTINGS_FRAGMENT_STATE);
                 UIStateData settingsStateData = new UIStateData();
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(settingsStateData);
-                fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
+                fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)context,R.id.frame_container,(AppFrameworkBaseActivity)context);
                 break;
             case MENU_OPTION_SHOP: uiState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
-                fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
+                fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)context,R.id.frame_container,(AppFrameworkBaseActivity)context);
                 IAPState.InAppStateData iapStateData = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 uiState.setUiStateData(iapStateData);
                 break;
             case MENU_OPTION_SUPPORT: uiState = new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE);
-                fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
+                fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)context,R.id.frame_container,(AppFrameworkBaseActivity)context);
                 SupportFragmentState.ConsumerCareData supportStateData =  new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE).new ConsumerCareData();
                 supportStateData.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.productselection_ctnlist))));
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
@@ -87,18 +88,18 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(aboutStateData);
-                fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
+                fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)context,R.id.frame_container,(AppFrameworkBaseActivity)context);
                 break;
  			case MENU_OPTION_DEBUG:
                 uiState = new DebugTestFragmentState(UIState.UI_DEBUG_FRAGMENT_STATE);
                 UIStateData debugStateData = new UIStateData();
                 debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(debugStateData);
-                fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
+                fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)context,R.id.frame_container,(AppFrameworkBaseActivity)context);
                 break;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 uiState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
-                fragmentLauncher = new FragmentLauncher((HomeActivity)context,R.id.frame_container,(HomeActivity)context);
+                fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)context,R.id.frame_container,(AppFrameworkBaseActivity)context);
                 IAPState.InAppStateData uiStateDataModel = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE).new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
@@ -122,7 +123,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
         this.uiState = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
-        fragmentLauncher = new FragmentLauncher((HomeActivity)activityContext,R.id.frame_container,(HomeActivity)activityContext);
+        fragmentLauncher = new FragmentLauncher((AppFrameworkBaseActivity)activityContext,R.id.frame_container,(AppFrameworkBaseActivity)activityContext);
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE).new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist))));
         this.uiState.setUiStateData(uiStateDataModel);
