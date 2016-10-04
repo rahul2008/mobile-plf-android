@@ -4,7 +4,7 @@
 
     <application
         android:name=".CatalogApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/catalog_app_name"
