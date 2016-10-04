@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.philips.platform.uit.thememanager.UITHelper;
 
-public class CatalogApplication extends Application{
+public class CatalogApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

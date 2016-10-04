@@ -1,10 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
-apply plugin: 'jacoco'
 
-spoon {
-    className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'
-    methodName = 'verifyToggleSwitchOrientationChange'
+buildscript {
+    repositories {
+        maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
+
+        jcenter()
+
+    }
+
 }
 
 android {
@@ -18,18 +22,31 @@ android {
         versionCode 1
         versionName "0.1.0"
 
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         generatedDensities = []
     }
+
+    signingConfigs {
+        TestPhilipsStore {
+            keyAlias 'philips'
+            keyPassword 'philips'
+            storeFile file('../UIT_GoogleBeta_KeyStore.jks')
+            storePassword 'philips'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
         }
 
         jenkins {
             testCoverageEnabled true
         }
+
     }
 
     packagingOptions {
@@ -48,36 +65,8 @@ android {
     }
 }
 
-def coverageSourceDirs = ['src/main/java']
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(dir: 'build/intermediates/classes/jenkins',
-            excludes: ['**/R.class',
-                       '**/R$*.class'])
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testJenkinsUnitTest.exec')
-
-    doFirst {
-        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
-    }
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile("com.android.support:appcompat-v7:${supportLibraryVer}")
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}")
@@ -94,9 +83,4 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
-
-}
-
-configurations.all {
-    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
 }

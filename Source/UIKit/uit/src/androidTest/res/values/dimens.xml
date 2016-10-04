@@ -1,0 +1,30 @@
+<resources>
+	<!-- Padding in button test layout. We can remove this dependency later -->
+	<dimen name="button_layout_padding">30dp</dimen>
+    <dimen name="edge_left_spacing">10dp</dimen>
+    <dimen name="component_bottom_spacing">10dp</dimen>
+    <dimen name="category_divider_width">40dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="switch_togglebutton_width">48dp</dimen>
+    <dimen name="switch_togglebutton_height">24dp</dimen>
+    <dimen name="switch_togglebutton_thumbdiameter">24dp</dimen>
+    <dimen name="switch_togglebutton_cornerradius">12dp</dimen>
+    <dimen name="switch_togglebutton_strokewidth">1dp</dimen>
+
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_left_padding">24dp</dimen>
+    <dimen name="button_right_padding">24dp</dimen>
+    <dimen name="button_font_size">16sp</dimen>
+    <dimen name="button_cornerradius">2dp</dimen>
+
+    <dimen name="iconbutton_height">40dp</dimen>
+    <dimen name="iconbutton_width">40dp</dimen>
+    <dimen name="icon_height">24dp</dimen>
+    <dimen name="icon_width">24dp</dimen>
+    <dimen name="iconbutton_left_padding">8dp</dimen>
+    <dimen name="iconbutton_right_padding">8dp</dimen>
+    <dimen name="iconbutton_cornerradius">2dp</dimen>
+
+
+</resources>

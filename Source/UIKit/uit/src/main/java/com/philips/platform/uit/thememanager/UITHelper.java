@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uit.thememanager;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.uit.R;
@@ -20,8 +21,9 @@ public class UITHelper {
     }
 
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
-        themeConfiguration.colorRange.injectColorRange(themeConfiguration.context.getTheme());
-
-        themeConfiguration.tonalRange.injectTonalRange(themeConfiguration.context.getTheme());
+        Resources.Theme theme = themeConfiguration.context.getTheme();
+        themeConfiguration.colorRange.injectColorRange(theme);
+        themeConfiguration.tonalRange.injectTonalRange(theme);
+        themeConfiguration.controlType.injectPrimaryControlColors(theme);
     }
 }

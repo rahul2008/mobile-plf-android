@@ -9,4 +9,8 @@
     <string name="forDimText">For Dim</string>
     <string name="accentColorRangeText">Accent color range</string>
     <string name="warningText">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
+    <string name="buttons_with_icons">Buttons with icon</string>
+    <string name="individual_buttons_label">Individual Buttons</string>
+    <string name="alternate_primary_label">Alternate Primary Button</string>
+    <string name="secondary_button_label">Secondary Button</string>
 </resources>
