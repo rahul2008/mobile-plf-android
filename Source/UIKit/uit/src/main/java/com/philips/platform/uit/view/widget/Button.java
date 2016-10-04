@@ -9,7 +9,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -18,10 +17,6 @@ import android.util.AttributeSet;
 
 import com.philips.platform.uit.R;
 import com.philips.platform.uit.thememanager.ThemeUtils;
-
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 
 public class Button extends AppCompatButton {
 
@@ -67,19 +62,8 @@ public class Button extends AppCompatButton {
         }
     }
 
-    // TODO: 22/09/16 Switch back to ThemeUtils once we update sdk to 24.
     private ColorStateList getColorStateList(final int backgroundColorStateID, final @NonNull Resources.Theme theme) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return ColorStateList.createFromXml(getResources(), getResources().getXml(backgroundColorStateID), theme);
-                //ThemeUtils.buildColorStateList(getContext().getResources(), theme, backgroundColorStateID);
-            }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return ThemeUtils.buildColorStateList(getContext().getResources(), theme, backgroundColorStateID);
     }
 
     /**

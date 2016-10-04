@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'spoon'
 
 buildscript {
     repositories {
@@ -8,15 +9,6 @@ buildscript {
 
     }
 
-    dependencies {
-        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
-    }
-}
-apply plugin: 'spoon'
-
-spoon{
-//    className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'
-//    methodName = 'verifyToggleSwitchOrientationChange'
 }
 
 android {
@@ -76,46 +68,13 @@ android {
     }
 }
 
-def coverageSourceDirs = ['src/main/java']
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(dir: 'build/intermediates/classes/jenkins',
-            excludes: ['**/R.class',
-                       '**/R$*.class'])
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testJenkinsUnitTest.exec')
-
-    doFirst {
-        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
-    }
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
+
+    compile("com.android.support:recyclerview-v7:24.2.1") {
+        exclude module: "com.android.support"
+    }
 
     compile project(':uit')
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
-}
-
-configurations.all {
-    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
 }
