@@ -3,6 +3,7 @@ package com.philips.platform.uit.matcher;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 
 import com.philips.platform.uit.utils.UITTestUtils;
@@ -30,14 +31,22 @@ public class FunctionDrawableMatchers {
     }
 
     public static Matcher<View> isSameRadius(final String funcName, final int index, final float expectedValue) {
+        return isSameRadius(funcName, index,expectedValue, -1);
+    }
+
+    public static Matcher<View> isSameRadius(final String funcName, final int index, final float expectedValue, final int drawableID) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                return DrawableMatcher.isSameRadius(index, expectedValue).matches(UITTestUtils.getDrawableWithReflection(view, funcName));
+                Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
+                if(drawable instanceof LayerDrawable) {
+                    drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
+                }
+
+                return DrawableMatcher.isSameRadius(index, expectedValue).matches(drawable);
             }
         };
     }
-
     /**
      * Must be operated on drawables. If the target is ColorStateList, use another function instead.
      *

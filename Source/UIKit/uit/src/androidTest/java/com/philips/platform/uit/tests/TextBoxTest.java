@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
+import com.philips.platform.uit.R;
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.utils.TestConstants;
@@ -40,9 +41,15 @@ public class TextBoxTest {
     }
 
     @Test
-    public void verifyTextEditBoxRadius() {
+    public void verifyTextEditBoxStrokeBackgroundRadius() {
         float expectedRadius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius);
-        getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius)));
+        getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_stroke_drawable)));
+    }
+
+    @Test
+    public void verifyTextEditBoxFillBackgroundRadius() {
+        float expectedRadius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius);
+        getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_fill_drawable)));
     }
 
     private ViewInteraction getTextBox() {
