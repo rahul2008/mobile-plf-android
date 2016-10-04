@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.uit.activity;
 
 import android.content.Context;
@@ -6,13 +10,10 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
-import com.philips.platform.catalogapp.MainActivity;
-import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.fragments.ButtonFragment;
-import com.philips.platform.catalogapp.matcher.FunctionDrawableMatchers;
-import com.philips.platform.catalogapp.matcher.ViewPropertiesMatchers;
-import com.philips.platform.catalogapp.utils.TestConstants;
-import com.philips.platform.catalogapp.utils.UITTestUtils;
+import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uit.utils.TestConstants;
+import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,11 +23,9 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.platform.uit.utils.UITTestUtils.*;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class PrimaryButtonWithIconOnlyTest {
 
     private Resources testResources;
@@ -34,11 +33,11 @@ public class PrimaryButtonWithIconOnlyTest {
     private IdlingResource idlingResource;
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
     public void setUp() {
-        mActivityTestRule.getActivity().switchFragment(new ButtonFragment());
+        mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
     }
@@ -49,20 +48,20 @@ public class PrimaryButtonWithIconOnlyTest {
 
     @Test
     public void verifyButtonHeight() {
-        UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_height);
+        waitFor(testResources, 750);
+        int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_height);
         getPrimaryButton()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
 
     private ViewInteraction getPrimaryButton() {
-        return onView(withId(R.id.demo_image_button));
+        return onView(withId(com.philips.platform.uit.test.R.id.demo_image_button));
     }
 
     @Test
     public void verifyButtonWithIconWidth(){
-        UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_width);
+        waitFor(testResources, 750);
+        int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_width);
         getPrimaryButton()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
 
@@ -86,10 +85,9 @@ public class PrimaryButtonWithIconOnlyTest {
 
     }
 
-
     @Test
     public void verifyButtonWithIconLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.iconbutton_left_padding);
+        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
             }
 
@@ -101,7 +99,7 @@ public class PrimaryButtonWithIconOnlyTest {
 
     @Test
     public void verifyButtonCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
+        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 

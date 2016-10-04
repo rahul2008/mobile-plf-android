@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uit.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -13,14 +14,13 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
-import com.philips.platform.catalogapp.MainActivity;
-import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.fragments.ButtonFragment;
-import com.philips.platform.catalogapp.matcher.FunctionDrawableMatchers;
-import com.philips.platform.catalogapp.matcher.TextViewPropertiesMatchers;
-import com.philips.platform.catalogapp.matcher.ViewPropertiesMatchers;
-import com.philips.platform.catalogapp.utils.TestConstants;
-import com.philips.platform.catalogapp.utils.UITTestUtils;
+
+import com.philips.platform.uit.R;
+import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
+import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uit.utils.TestConstants;
+import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -31,22 +31,27 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.catalogapp.test.R.color.GroupBlue35;
-import static com.philips.platform.catalogapp.test.R.color.GroupBlue75;
-import static com.philips.platform.catalogapp.utils.UITTestUtils.modulateColorAlpha;
+import static com.philips.platform.uit.test.R.color.GroupBlue35;
+import static com.philips.platform.uit.test.R.color.GroupBlue75;
+import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class AlternativePrimaryButtonWithTextOnlyTest {
 
     private Resources testResources;
     private Context instrumentationContext;
-    private IdlingResource idlingResource;
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
     public void setUp() {
-        mActivityTestRule.getActivity().switchFragment(new ButtonFragment());
+        final Activity activity = mActivityTestRule.getActivity();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.setContentView(com.philips.platform.uit.test.R.layout.layout_buttons);
+            }
+        });
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
     }
@@ -58,26 +63,26 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
     @Test
     public void verifyAltButtonHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_height);
+        int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_height);
         getPrimaryButton()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
 
     @Test
     public void verifyAltButtonLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_left_padding);
+        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyAltButtonRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_right_padding);
+        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_right_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyAltButtonCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_cornerradius));
+        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
@@ -91,7 +96,7 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyAltButtonFontSize() {
-        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.catalogapp.test.R.dimen.button_font_size));
+        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
@@ -144,11 +149,10 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
     }
 
     private ViewInteraction getPrimaryButton() {
-        return onView(withId(R.id.alt_primary_button));
+        return onView(withId(com.philips.platform.uit.test.R.id.alt_primary_button));
     }
 
     private void disableAllViews() {
-        onView(withId(R.id.disable_switch)).perform(ViewActions.click());
+        onView(withId(com.philips.platform.uit.test.R.id.disable_switch)).perform(ViewActions.click());
     }
 }
-
