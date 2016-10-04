@@ -1,6 +1,6 @@
 <resources>
-	<!-- Padding in button test layout. We can remove this dependency later -->
-	<dimen name="button_layout_padding">30dp</dimen>
+    <!-- Padding in button test layout. We can remove this dependency later -->
+    <dimen name="button_layout_padding">30dp</dimen>
     <dimen name="edge_left_spacing">10dp</dimen>
     <dimen name="component_bottom_spacing">10dp</dimen>
     <dimen name="category_divider_width">40dp</dimen>

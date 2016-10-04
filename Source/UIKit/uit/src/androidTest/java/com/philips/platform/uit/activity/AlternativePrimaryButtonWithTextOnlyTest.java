@@ -8,14 +8,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
-
-import com.philips.platform.uit.R;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
@@ -86,8 +83,6 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
-
-
     // TODO: 9/14/2016
     @Ignore
     public void verifyAltButtonFontType() {
@@ -99,8 +94,6 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
         int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
-
-
 
     /*******************************************************
      * Theming

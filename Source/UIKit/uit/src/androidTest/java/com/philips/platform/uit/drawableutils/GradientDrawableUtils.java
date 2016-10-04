@@ -28,7 +28,7 @@ public class GradientDrawableUtils {
         int version = Build.VERSION.SDK_INT;
         StateColors impl;
         if (d instanceof DrawableWrapper) {
-            impl = new DrawableWrapperStateColor(d);
+            impl = new DrawableStateColorsWrapper(d);
         } else if (version >= 23) {
             impl = new MarshmallowStateColor(d);
         } else if (version >= 21) {
@@ -44,7 +44,6 @@ public class GradientDrawableUtils {
             Field field = getTintField(state.getClass(), fieldName);
             field.setAccessible(true);
             return field.get(state);
-
         } catch (IllegalAccessException | NullPointerException e) {
             e.printStackTrace();
         }

@@ -12,7 +12,6 @@ public class LollipopStateColor extends KitKatStateColors {
     private static final String COLOR_STATE_LIST = "mColorStateList";
     private static final String STROKE_COLOR_STATE_LIST = "mStrokeColorStateList";
 
-
     public LollipopStateColor(Drawable d) {
         super(d);
     }

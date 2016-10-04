@@ -25,7 +25,7 @@ public class PrimaryButtonWithTextAndIconTest {
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         button = new Button(mActivityTestRule.getActivity());
         backgroundDrawable = button.getBackground();
         testResources = getInstrumentation().getContext().getResources();
@@ -33,11 +33,6 @@ public class PrimaryButtonWithTextAndIconTest {
 
     /************************************************Layout************************************************/
 
-
     /************************************************Theming************************************************/
 
-
-
-
-
-        }
+}

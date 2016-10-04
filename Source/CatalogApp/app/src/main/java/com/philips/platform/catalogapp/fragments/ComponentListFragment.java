@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.MainActivity;
 
 import java.util.Comparator;
 import java.util.HashMap;

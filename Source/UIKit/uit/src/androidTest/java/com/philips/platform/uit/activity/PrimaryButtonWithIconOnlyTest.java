@@ -13,7 +13,6 @@ import android.support.test.rule.ActivityTestRule;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,8 +22,7 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uit.utils.UITTestUtils.*;
-
+import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
 public class PrimaryButtonWithIconOnlyTest {
 
@@ -59,29 +57,28 @@ public class PrimaryButtonWithIconOnlyTest {
     }
 
     @Test
-    public void verifyButtonWithIconWidth(){
+    public void verifyButtonWithIconWidth() {
         waitFor(testResources, 750);
         int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_width);
         getPrimaryButton()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
+    }
+
+    // TODO: 9/27/2016
+    @Test
+    public void verifyIconHeight() {
 
     }
 
     // TODO: 9/27/2016
     @Test
-    public void verifyIconHeight(){
+    public void verifyIconWidth() {
 
     }
 
     // TODO: 9/27/2016
     @Test
-    public void verifyIconWidth(){
-
-    }
-
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconContainer(){
+    public void verifyIconContainer() {
 
     }
 
@@ -89,20 +86,18 @@ public class PrimaryButtonWithIconOnlyTest {
     public void verifyButtonWithIconLeftPadding() {
         int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
-            }
+    }
 
     // TODO: 9/27/2016
     @Test
     public void verifyButtonWithIconRightPadding() {
     }
 
-
     @Test
     public void verifyButtonCornerRadius() {
         float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
-
 
     /************************************************
      * Theming
@@ -125,5 +120,4 @@ public class PrimaryButtonWithIconOnlyTest {
     public void verifyIconButtonDisabledIconColor() {
 
     }
-
 }

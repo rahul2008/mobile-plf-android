@@ -20,7 +20,6 @@ public class UITTestUtils {
         if (typedArray != null) {
             color = typedArray.getColor(0, Color.WHITE);
             typedArray.recycle();
-
         }
         return color;
     }
@@ -39,7 +38,6 @@ public class UITTestUtils {
         return drawable;
     }
 
-
     public static ColorStateList getColorStateListWithReflection(Object object, String funcName) {
         ColorStateList colorList;
         try {
@@ -53,6 +51,7 @@ public class UITTestUtils {
     /**
      * Avoid using until really necessary to call it.
      * We can't avoid waiting in few situations, where we need actual view must be drawn before we start asserting.
+     *
      * @param object
      * @param milliSecs
      */

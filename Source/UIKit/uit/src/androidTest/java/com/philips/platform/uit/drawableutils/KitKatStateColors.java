@@ -6,7 +6,7 @@ package com.philips.platform.uit.drawableutils;
 
 import android.graphics.drawable.Drawable;
 
-public class KitKatStateColors extends BaseStateColorsImpl {
+public class KitKatStateColors extends BaseColorStateImpl {
     private final static String GRADIENT_SOLID_COLOR = "mSolidColor";
     private final static String STROKE_SOLID_COLOR = "mStrokeColor";
 
@@ -21,12 +21,12 @@ public class KitKatStateColors extends BaseStateColorsImpl {
 
     @Override
     public int getGradientSolidColor() {
-        return (int) GradientDrawableCompat.getField(constantState, GRADIENT_SOLID_COLOR);
+        return (int) GradientDrawableUtils.getField(constantState, GRADIENT_SOLID_COLOR);
     }
 
     @Override
     public int getStrokeSolidColor() {
-        return (int) GradientDrawableCompat.getField(constantState, STROKE_SOLID_COLOR);
+        return (int) GradientDrawableUtils.getField(constantState, STROKE_SOLID_COLOR);
     }
 
     @Override

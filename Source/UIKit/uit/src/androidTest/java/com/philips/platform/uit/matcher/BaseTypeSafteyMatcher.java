@@ -9,6 +9,7 @@ import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Helps to minimize code writing in child classes by avoiding to over write below method
+ *
  * @param <T>
  */
 public abstract class BaseTypeSafteyMatcher<T> extends TypeSafeMatcher<T> {

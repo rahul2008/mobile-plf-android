@@ -55,7 +55,6 @@ public class FunctionDrawableMatchers {
         };
     }
 
-
     /**
      * Must be operated on ColorStateList. If the target is Drawable, use another function instead.
      *

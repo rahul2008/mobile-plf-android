@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initDemoListFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.main_container, new ComponentListFragment());
+        transaction.add(R.id.mainContainer, new ComponentListFragment());
         transaction.commit();
     }
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_container, fragment);
+        transaction.replace(R.id.mainContainer, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

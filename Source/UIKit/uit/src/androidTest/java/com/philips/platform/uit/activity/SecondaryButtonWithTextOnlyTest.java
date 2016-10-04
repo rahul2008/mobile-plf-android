@@ -79,8 +79,6 @@ public class SecondaryButtonWithTextOnlyTest {
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
-
-
     // TODO: 9/14/2016
     @Ignore
     public void verifyAltButtonFontType() {
@@ -92,8 +90,6 @@ public class SecondaryButtonWithTextOnlyTest {
         int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
-
-
 
     /*******************************************************
      * Theming

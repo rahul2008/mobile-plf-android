@@ -13,8 +13,6 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
-
-import com.philips.platform.uit.R;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
@@ -80,8 +78,6 @@ public class PrimaryButtonWithTextOnlyTest {
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
-
-
     // TODO: 9/14/2016
     @Ignore
     public void verifyButtonFontType() {
@@ -93,8 +89,6 @@ public class PrimaryButtonWithTextOnlyTest {
         int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
-
-
 
     /*******************************************************
      * Theming

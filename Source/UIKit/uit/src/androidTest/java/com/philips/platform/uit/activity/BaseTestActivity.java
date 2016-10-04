@@ -13,7 +13,6 @@ import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.TonalRange;
 import com.philips.platform.uit.thememanager.UITHelper;
 
-
 public class BaseTestActivity extends AppCompatActivity {
 
     @Override

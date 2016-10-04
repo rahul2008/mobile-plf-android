@@ -18,14 +18,14 @@ import java.util.Locale;
 public class ThemeColorHelper {
     public int[] getColorRangeArray() {
         return new int[]{
-                R.color.uikit_group_blue_level_45,
-                R.color.uikit_blue_level_45,
-                R.color.uikit_aqua_level_45,
-                R.color.uikit_green_level_45,
-                R.color.uikit_orange_level_45,
-                R.color.uikit_pink_level_45,
-                R.color.uikit_purple_level_45,
-                R.color.uikit_gray_level_45};
+                R.color.uit_group_blue_level_45,
+                R.color.uit_blue_level_45,
+                R.color.uit_aqua_level_45,
+                R.color.uit_green_level_45,
+                R.color.uit_orange_level_45,
+                R.color.uit_pink_level_45,
+                R.color.uit_purple_level_45,
+                R.color.uit_gray_level_45};
     }
 
     public int[] getTonalColors(final Resources resources, final String colorRangeResourceName, final String packageName) {
@@ -34,12 +34,12 @@ public class ThemeColorHelper {
                 getColorResourceId(resources, colorRangeResourceName, "50", packageName),
                 getColorResourceId(resources, colorRangeResourceName, "35", packageName),
                 getColorResourceId(resources, colorRangeResourceName, "20", packageName),
-                R.color.uikitColorWhite
+                R.color.uitColorWhite
         };
     }
 
     private int getColorResourceId(final Resources resources, final String basecolor, final String level, final String packageName) {
-        return resources.getIdentifier(String.format(Locale.getDefault(), "uikit_%s_level_%s", basecolor, level), "color", packageName);
+        return resources.getIdentifier(String.format(Locale.getDefault(), "uit_%s_level_%s", basecolor, level), "color", packageName);
     }
 
     List<ColorModel> getTonalRangeItemsList(final String changedColorRange, final Context context) {
@@ -86,7 +86,7 @@ public class ThemeColorHelper {
                 getColorResourceId(resources, colorResourcePlaceHolder, "40", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "20", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "05", packageName),
-                R.color.uikitColorWhite
+                R.color.uitColorWhite
         };
     }
 
