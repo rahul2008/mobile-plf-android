@@ -41,7 +41,8 @@ public class AppTagging implements AppTaggingInterface {
             AppTaggingConstants.COMPONENT_ID,
             AppTaggingConstants.COMPONENT_VERSION,
 
-            AppTaggingConstants.UTC_TIMESTAMP_KEY
+            AppTaggingConstants.UTC_TIMESTAMP_KEY,
+            AppTaggingConstants.BUNDLE_ID
 
 
     };
@@ -87,6 +88,7 @@ public class AppTagging implements AppTaggingInterface {
         }
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
+//        contextData.put(AppTaggingConstants.BUNDLE_ID, mAppInfra.getAppIdentity().getAppState());
         return contextData;
     }
 
@@ -267,5 +269,34 @@ public class AppTagging implements AppTaggingInterface {
     public void pauseLifecycleInfo() {
         Config.pauseCollectingLifecycleData();
     }
+
+    @Override
+    public void trackVideoStart(String videoName) {
+        trackActionWithInfo("videoStart", "videoName", videoName);
+    }
+
+    @Override
+    public void trackVideoEnd(String videoName) {
+        trackActionWithInfo("videoEnd", "videoName", videoName);
+    }
+
+    @Override
+    public void trackSocialSharing(SocialMedium medium, String sharedItem) {
+        Map<String, String> trackMap = new HashMap<String, String>();
+        trackMap.put("socialItem", sharedItem);
+        trackMap.put("socialType", medium.toString());
+        trackActionWithInfo("socialShare", trackMap);
+    }
+
+    @Override
+    public void trackLinkExternal(String url) {
+        trackActionWithInfo("sendData", "exitLinkName", url);
+    }
+
+    @Override
+    public void trackFileDownload(String filename) {
+        trackActionWithInfo("sendData", "fileName", filename);
+    }
+
 
 }

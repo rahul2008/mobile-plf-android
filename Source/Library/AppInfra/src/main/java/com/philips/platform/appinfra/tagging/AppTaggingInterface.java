@@ -22,7 +22,20 @@ public interface AppTaggingInterface {
         OPTIN, OPTOUT, UNKNOWN
     }
 
-    ;
+
+    enum SocialMedium {
+        Facebook("facebook"),
+        Twitter("twitter"),
+        Mail("mail"),
+        AirDrop("airdrop");
+        private final String socialMedium;
+        SocialMedium(String socialMedium) {
+            this.socialMedium = socialMedium;
+        }
+        public String toString() {
+            return this.socialMedium;
+        }
+    }
 
 
     /**
@@ -33,7 +46,8 @@ public interface AppTaggingInterface {
      * @param componentVersion the component version
      * @return the appinfra app tagging interface
      */
-    public AppTaggingInterface createInstanceForComponent(String componentId, String componentVersion);
+    public AppTaggingInterface createInstanceForComponent(String componentId,
+                                                          String componentVersion);
 
     /**
      * Sets privacy consent.
@@ -109,6 +123,43 @@ public interface AppTaggingInterface {
      * Pause LifeCycle info.
      */
     public void pauseLifecycleInfo();
+
+    /**
+     * Track Video started with a videoName.
+     *
+     * @param videoName user friendly name of video being played.
+     */
+    void trackVideoStart(String videoName);
+
+    /**
+     * Track Video End with a videoName.
+     *
+     * @param videoName user friendly name of video being ended.
+     */
+    void trackVideoEnd(String videoName);
+
+    /**
+     * Track social sharing with social media like facebook, twitter, mail etc…
+     *
+     * @param medium     SocialMedium=enum:{Facebook, Twitter, Mail, AirDrop}
+     * @param sharedItem sharedItem is the object being shared
+     */
+    void trackSocialSharing(SocialMedium medium, String sharedItem);
+
+    /**
+     * Track URL destination
+     *
+     * @param url url destination.
+     */
+    void trackLinkExternal(String url);
+
+    /**
+     * Track file being downloaded.
+     *
+     * @param filename String filename.
+     */
+    void trackFileDownload(String filename);
+
 
 }
 

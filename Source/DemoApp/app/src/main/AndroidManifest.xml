@@ -50,11 +50,7 @@
             android:label="Log Test"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".LocalMatchActivity"
-            android:label="Log Test"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".AppIndentityDemoPage"
             android:label="AppIndentityDemoPage"

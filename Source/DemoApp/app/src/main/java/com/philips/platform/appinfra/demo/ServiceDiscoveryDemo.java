@@ -34,6 +34,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
     TextView resultView;
     EditText idEditText;
+    EditText idEditTextCountry;
     String editTextData;
 
     @Override
@@ -51,15 +52,28 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         idEditText = (EditText) findViewById(R.id.serviceid_editText);
         Button localeByLang = (Button) findViewById(R.id.getlocal_by_lang_button);
         Button localeByCountry = (Button) findViewById(R.id.getlocal_by_country_butn);
-        Button urlbyLang = (Button) findViewById(R.id.geturl_by_country_btn);
-        Button urlbyCountry = (Button) findViewById(R.id.geturl_by_lang_buttn);
+        Button urlbyLang = (Button) findViewById(R.id.geturl_by_lang_buttn);
+        Button urlbyCountry = (Button) findViewById(R.id.geturl_by_country_btn);
         Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
         Button geturlbyCountry_ServiceIDs = (Button) findViewById(R.id.getul_country_btn);
         Button geturlbyLanguage_ServiceIds = (Button) findViewById(R.id.getul_language_btn);
+        Button setHomeCountry = (Button) findViewById(R.id.button2);
+        idEditTextCountry = (EditText) findViewById(R.id.contry_edittext);
 
         editTextData = idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2);
+
+        setHomeCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String country = idEditTextCountry.getText().toString();
+                if(country.length() == 2){
+                    mServiceDiscoveryInterface.setHomeCountry(country.toUpperCase());
+                }
+
+            }
+        });
 
         localeByLang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,8 +167,10 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         String configUrl= null ;
         Iterator it = urlMap.entrySet().iterator();
         Map mMap= new HashMap<String,Map>();
-        Map dataMap = new HashMap<String,String >();
+
         while (it.hasNext()) {
+
+            Map dataMap = new HashMap<String,String >();
             Map.Entry pair = (Map.Entry)it.next();
             System.out.println(pair.getKey() + " = " + pair.getValue());
             key = pair.getKey().toString();
@@ -164,9 +180,14 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
             dataMap.put(locale, configUrl);
             mMap.put(key, dataMap);
-
             it.remove(); // avoids a ConcurrentModificationException
         }
+
+//        for (int i = 0; i < urlMap.size(); i++)
+//        {
+//            Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+//            Log.i("SD", ""+urlMap.get(i).getConfigUrls());
+//        }
         resultView.setText(" URL Model   : " +mMap);
 
     }

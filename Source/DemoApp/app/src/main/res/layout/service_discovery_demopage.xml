@@ -54,6 +54,20 @@
             android:text="Get Home country" />
 
 
+        <EditText
+            android:id="@+id/contry_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Two Digit Country code"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:text="SetHomeCountry"
+            android:layout_gravity="center_horizontal" />
+
         <Button
             android:id="@+id/getul_country_btn"
             android:layout_width="300dp"

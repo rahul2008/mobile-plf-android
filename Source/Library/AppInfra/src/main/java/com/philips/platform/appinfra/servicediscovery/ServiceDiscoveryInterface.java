@@ -196,4 +196,5 @@ public interface ServiceDiscoveryInterface {
      *                 or returns onError the error code when retrieval failed.
      */
     void refresh(OnRefreshListener listener);
+    void refresh(OnRefreshListener listener, boolean forceRefresh);
 }

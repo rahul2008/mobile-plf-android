@@ -5,13 +5,15 @@
  */
 package com.philips.platform.appinfra.servicediscovery.model;
 
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
 /**
  * Created by 310238114 on 6/7/2016.
  */
 public class ServiceDiscovery {
 
 
-    boolean success;
+    boolean success = false;
     String httpStatus;
     String country;
     MatchByCountryOrLanguage matchByCountry;
@@ -19,6 +21,30 @@ public class ServiceDiscovery {
 
 
     Error error = null;
+
+    public static class Error {
+        private String message ;
+        private ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalue = null;
+
+        public Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES e, String m) {
+            errorvalue = e;
+            message = m;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES getErrorvalue() {
+            return errorvalue;
+        }
+        public void setErrorvalue(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues) {
+            this.errorvalue = errorvalues;
+        }
+    }
 
 
     public boolean isSuccess() {

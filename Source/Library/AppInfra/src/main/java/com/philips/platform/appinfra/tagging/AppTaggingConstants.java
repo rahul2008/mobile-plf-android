@@ -17,6 +17,8 @@ public class AppTaggingConstants {
 
 //    public static final String OS_KEY = "app.os";
 
+    public static final String BUNDLE_ID = "bundleId";
+
     public static final String LANGUAGE_KEY = "language";
 
     public static final String APPSID_KEY = "appsId";
