@@ -16,7 +16,7 @@ import com.philips.icpinterface.data.NVMComponentInfo;
  * configuration parameters set by the application.
  * Set the necessary parameters, as per the request.
  */
-public class KeyProvisioningHelper extends KeyProvisioningConfiguration {
+class KeyProvisioningHelper extends KeyProvisioningConfiguration {
 
     private final KpsConfigurationInfo mKpsConfigurationInfo;
 

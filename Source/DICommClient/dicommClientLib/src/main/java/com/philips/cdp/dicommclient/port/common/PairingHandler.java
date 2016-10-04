@@ -16,6 +16,7 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
@@ -50,7 +51,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
     public static final List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
 
-    private ICPCallbackHandler callbackHandler;
+    private CallbackHandler callbackHandler;
     private String currentRelationshipType;
     private PairingListener<T> pairingListener;
     private String secretKey;
@@ -84,8 +85,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         if (appliance == null) return;
         this.mAppliance = appliance;
         this.pairingListener = pairingListener;
-        callbackHandler = new ICPCallbackHandler();
-        callbackHandler.setHandler(this);
+        callbackHandler = new ICPCallbackHandler(this);
     }
 
     /**

@@ -119,8 +119,7 @@ public class DefaultCppController implements CppController {
         mKpsConfigurationInfo = kpsConfigurationInfo;
         mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
 
-        mICPCallbackHandler = new ICPCallbackHandler();
-        mICPCallbackHandler.setHandler(this);
+        mICPCallbackHandler = new ICPCallbackHandler(this);
 
         mSignOnListeners = new ArrayList<>();
         mPublishEventListeners = new ArrayList<>();
@@ -235,8 +234,7 @@ public class DefaultCppController implements CppController {
             mSignonState = SignonState.SIGNING;
 
             if (mICPCallbackHandler == null) {
-                mICPCallbackHandler = new ICPCallbackHandler();
-                mICPCallbackHandler.setHandler(this);
+                mICPCallbackHandler = new ICPCallbackHandler(this);
             }
 
             mSignon.setIsFirstTime(true);

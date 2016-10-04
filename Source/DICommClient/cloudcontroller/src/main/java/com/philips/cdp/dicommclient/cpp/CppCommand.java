@@ -2,7 +2,7 @@ package com.philips.cdp.dicommclient.cpp;
 
 import com.philips.icpinterface.data.Commands;
 
-public enum CppCommand {
+enum CppCommand {
     SIGNON(Commands.SIGNON),
     GET_SERVICE_URL(Commands.GET_SERVICE_URL),
     GET_DATETIME(Commands.GET_DATETIME),
