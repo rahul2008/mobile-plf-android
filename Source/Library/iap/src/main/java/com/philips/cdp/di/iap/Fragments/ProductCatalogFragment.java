@@ -37,14 +37,13 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.localematch.PILLocaleManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, ProductCatalogPresenter.LoadListener {
+        implements EventListener, ProductCatalogPresenter.ProductCatalogListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -95,11 +94,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = ControllerFactory.getInstance()
-                .getProductCatalogPresenter(mContext, this, getFragmentManager());
+                .getProductCatalogPresenter(mContext, this);
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
         Bundle mBundle = getArguments();
 
-        String currentCountryCode = HybrisDelegate.getInstance().getStore().getLocale();
+        String currentCountryCode = HybrisDelegate.getInstance().getStore().getCountry();
         String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
 
@@ -207,6 +206,88 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return super.handleBackEvent();
     }
 
+    private void fetchProductListFromHybris() {
+        fetchProducts();
+    }
+
+    private void loadMoreItems() {
+        if (mCurrentPage == mTotalPages) {
+            dismissProgress();
+            return;
+        }
+        fetchProducts();
+    }
+
+    private void fetchProducts() {
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        }
+
+        if (mPresenter == null)
+            mPresenter = ControllerFactory.getInstance().
+                    getProductCatalogPresenter(mContext, this);
+        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
+    }
+
+    @Override
+    public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched,
+                               PaginationEntity paginationEntity) {
+        updateProductCatalogList(dataFetched);
+        mAdapter.notifyDataSetChanged();
+        mAdapter.tagProducts();
+
+        dismissProgress();
+
+        if (paginationEntity == null)
+            return;
+
+        if (mTotalResults == 0)
+            mRemainingProducts = paginationEntity.getTotalResults();
+
+        mTotalResults = paginationEntity.getTotalResults();
+        mCurrentPage = paginationEntity.getCurrentPage();
+        mTotalPages = paginationEntity.getTotalPages();
+        mIsLoading = false;
+    }
+
+    @Override
+    public void onLoadError(IAPNetworkError error) {
+        if (error.getMessage() != null
+                && error.getMessage().equalsIgnoreCase(mContext.getResources().getString(R.string.iap_no_product_available))) {
+            if (mRecyclerView != null && mEmptyCatalogText != null) {
+                mRecyclerView.setVisibility(View.GONE);
+                mEmptyCatalogText.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (mRecyclerView != null && mEmptyCatalogText != null) {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mEmptyCatalogText.setVisibility(View.GONE);
+            }
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                    mContext.getString(R.string.iap_ok),
+                    NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()),
+                    NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
+        }
+
+        dismissProgress();
+    }
+
+    private void updateProductCatalogList(final ArrayList<ProductCatalogData> dataFetched) {
+        for (ProductCatalogData data : dataFetched) {
+            if (!checkIfEntryExists(data))
+                mProductCatalog.add(data);
+        }
+    }
+
+    private boolean checkIfEntryExists(final ProductCatalogData data) {
+        for (ProductCatalogData entry : mProductCatalog) {
+            if (entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private RecyclerView.OnScrollListener
             mRecyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -237,88 +318,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
             }
         }
     };
-
-    private void fetchProductListFromHybris() {
-        fetchProducts();
-    }
-
-    private void loadMoreItems() {
-        if (mCurrentPage == mTotalPages) {
-            dismissProgress();
-            return;
-        }
-        fetchProducts();
-    }
-
-    private void fetchProducts() {
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-        }
-
-        if (mPresenter == null)
-            mPresenter = ControllerFactory.getInstance().
-                    getProductCatalogPresenter(mContext, this, getFragmentManager());
-        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null);
-    }
-
-    @Override
-    public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched,
-                               PaginationEntity paginationEntity) {
-        updateProductCatalogList(dataFetched);
-        mAdapter.notifyDataSetChanged();
-        mAdapter.tagProducts();
-
-        dismissProgress();
-
-        if (paginationEntity == null)
-            return;
-
-        if (mTotalResults == 0)
-            mRemainingProducts = paginationEntity.getTotalResults();
-
-        mTotalResults = paginationEntity.getTotalResults();
-        mCurrentPage = paginationEntity.getCurrentPage();
-        mTotalPages = paginationEntity.getTotalPages();
-        mIsLoading = false;
-    }
-
-    private void updateProductCatalogList(final ArrayList<ProductCatalogData> dataFetched) {
-        for (ProductCatalogData data : dataFetched) {
-            if (!checkIfEntryExists(data))
-                mProductCatalog.add(data);
-        }
-    }
-
-    private boolean checkIfEntryExists(final ProductCatalogData data) {
-        for (ProductCatalogData entry : mProductCatalog) {
-            if (entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onLoadError(IAPNetworkError error) {
-        if (error.getMessage() != null
-                && error.getMessage().equalsIgnoreCase(mContext.getResources().getString(R.string.iap_no_product_available))) {
-            if (mRecyclerView != null && mEmptyCatalogText != null) {
-                mRecyclerView.setVisibility(View.GONE);
-                mEmptyCatalogText.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (mRecyclerView != null && mEmptyCatalogText != null) {
-                mRecyclerView.setVisibility(View.VISIBLE);
-                mEmptyCatalogText.setVisibility(View.GONE);
-            }
-            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                    mContext.getString(R.string.iap_ok),
-                    NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()),
-                    NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
-        }
-
-        dismissProgress();
-    }
 
     private void dismissProgress() {
         if (Utility.isProgressDialogShowing()) {

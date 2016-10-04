@@ -28,17 +28,44 @@ import java.util.List;
 
 public class ProductCatalogHelper {
     Context mContext;
-    ProductCatalogPresenter.LoadListener mLoadListener;
+    ProductCatalogPresenter.ProductCatalogListener mProductCatalogListener;
     AbstractModel.DataLoadListener mGetProductCatalogListener;
 
-    public ProductCatalogHelper(Context context, ProductCatalogPresenter.LoadListener listener, AbstractModel.DataLoadListener productlistener) {
+    public ProductCatalogHelper(Context context, ProductCatalogPresenter.ProductCatalogListener productCatalogListener,
+                                AbstractModel.DataLoadListener productListener) {
         mContext = context;
-        mLoadListener = listener;
-        mGetProductCatalogListener = productlistener;
+        mProductCatalogListener = productCatalogListener;
+        mGetProductCatalogListener = productListener;
+    }
+
+    public void sendPRXRequest(ArrayList<String> planBProductList, Products productData) {
+        ArrayList<String> productsToBeShown = new ArrayList<>();
+        String ctn;
+
+        if (planBProductList != null && productData == null) {
+            for (String product : planBProductList) {
+                ctn = product;
+                productsToBeShown.add(ctn);
+            }
+        } else {
+            if (productData != null) {
+                final List<ProductsEntity> productsEntities = productData.getProducts();
+                if (productsEntities != null)
+                    for (ProductsEntity entry : productsEntities) {
+                        ctn = entry.getCode();
+                        productsToBeShown.add(ctn);
+                    }
+            }
+        }
+
+        PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
+                mGetProductCatalogListener);
+        builder.preparePRXDataRequest();
     }
 
     @SuppressWarnings("unchecked")
-    public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs, Products productData, IAPListener listener) {
+    public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs,
+                                      Products productData, IAPListener listener) {
         if (msg.obj instanceof HashMap) {
             HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
 
@@ -57,81 +84,18 @@ public class ProductCatalogHelper {
         return false;
     }
 
-    private void notifyEmptyCartFragment() {
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
-    }
-
-    private boolean checkForEmptyCart(final HashMap<String, SummaryModel> prxModel) {
-        if (prxModel == null || prxModel.size() == 0) {
-            notifyEmptyCartFragment();
-            return true;
-        }
-        return false;
-    }
-
-    public void makePrxCall(ArrayList<String> planBProductList, Products productData) {
-        ArrayList<String> productsToBeShown = new ArrayList<>();
-        String ctn;
-        if (planBProductList != null && productData == null) {
-            for (String product : planBProductList) {
-                ctn = product;
-                productsToBeShown.add(ctn);
-            }
+    private ArrayList<ProductCatalogData> mergeResponsesFromHybrisAndPRX(ArrayList<String> planBProductList,
+                                                                         final Products productData,
+                                                                         final HashMap<String, SummaryModel> prxModel) {
+        if (planBProductList != null) {
+            return mergeHybrisAndPRXPlanB(planBProductList, prxModel);
         } else {
-            if (productData != null) {
-                final List<ProductsEntity> productsEntities = productData.getProducts();
-                if (productsEntities != null)
-                    for (ProductsEntity entry : productsEntities) {
-                        ctn = entry.getCode();
-                        productsToBeShown.add(ctn);
-                    }
-            }
+            return mergeHybrisAndPRXPlanA(productData, prxModel);
         }
-        PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
-                mGetProductCatalogListener);
-        builder.preparePRXDataRequest();
     }
 
-
-    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, IAPListener listener) {
-        if (mLoadListener != null) {
-            mLoadListener.onLoadFinished(data, paginationEntity);
-        }
-        if (listener != null) {
-            listener.onGetCompleteProductList(getProductCTNs(data));
-        }
-        storeData(data);
-    }
-
-    private ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
-        ArrayList<String> ctns = new ArrayList<>();
-        for (ProductCatalogData entry : data) {
-            ctns.add(entry.getCtnNumber());
-        }
-        return ctns;
-    }
-
-    private void storeData(final ArrayList<ProductCatalogData> data) {
-        CartModelContainer container = CartModelContainer.getInstance();
-
-        String currentCountry = container.getCountry();
-        String CTN;
-        for (ProductCatalogData entry : data) {
-            CTN = entry.getCtnNumber();
-            if (currentCountry.equalsIgnoreCase(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY))) {
-                if (!container.isProductCatalogDataPresent(CTN)) {
-                    container.addProduct(CTN, entry);
-                }
-            } else {
-                CartModelContainer.getInstance().clearCategorisedProductList();
-            }
-        }
-        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());
-    }
-
-    private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanB(ArrayList<String> planBProductList, HashMap<String, SummaryModel> prxModel) {
+    private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanB(ArrayList<String> planBProductList,
+                                                                 HashMap<String, SummaryModel> prxModel) {
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
@@ -155,15 +119,8 @@ public class ProductCatalogHelper {
         return products;
     }
 
-    private ArrayList<ProductCatalogData> mergeResponsesFromHybrisAndPRX(ArrayList<String> planBProductList, final Products productData, final HashMap<String, SummaryModel> prxModel) {
-        if (planBProductList != null) {
-            return mergeHybrisAndPRXPlanB(planBProductList, prxModel);
-        } else {
-            return mergeHybrisAndPRXPlanA(productData, prxModel);
-        }
-    }
-
-    private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanA(Products productData, HashMap<String, SummaryModel> prxModel) {
+    private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanA(Products productData,
+                                                                 HashMap<String, SummaryModel> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
@@ -199,5 +156,55 @@ public class ProductCatalogHelper {
                 && !entry.getDiscountPrice().getFormattedValue().isEmpty()) {
             productItem.setDiscountedPrice(entry.getDiscountPrice().getFormattedValue());
         }
+    }
+
+    private void notifyEmptyCartFragment() {
+        EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
+    }
+
+    private boolean checkForEmptyCart(final HashMap<String, SummaryModel> prxModel) {
+        if (prxModel == null || prxModel.size() == 0) {
+            notifyEmptyCartFragment();
+            return true;
+        }
+        return false;
+    }
+
+    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, IAPListener listener) {
+        if (mProductCatalogListener != null) {
+            mProductCatalogListener.onLoadFinished(data, paginationEntity);
+        }
+        if (listener != null) {
+            listener.onGetCompleteProductList(getProductCTNs(data));
+        }
+        storeData(data);
+    }
+
+    private ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
+        ArrayList<String> ctns = new ArrayList<>();
+        for (ProductCatalogData entry : data) {
+            ctns.add(entry.getCtnNumber());
+        }
+        return ctns;
+    }
+
+    private void storeData(final ArrayList<ProductCatalogData> data) {
+        CartModelContainer container = CartModelContainer.getInstance();
+
+        String currentCountry = container.getCountry();
+        String CTN;
+        for (ProductCatalogData entry : data) {
+            CTN = entry.getCtnNumber();
+            if (currentCountry.equalsIgnoreCase(Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY))) {
+                if (!container.isProductCatalogDataPresent(CTN)) {
+                    container.addProduct(CTN, entry);
+                }
+            } else {
+                CartModelContainer.getInstance().clearCategorisedProductList();
+            }
+        }
+        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());
     }
 }

@@ -70,7 +70,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
     @Override
     public void getCompleteProductList(final IAPListener iapListener) {
         final ProductCatalogAPI presenter =
-                ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null, null);
+                ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null);
         if (isStoreInitialized()) {
             presenter.getCompleteProductList(iapListener);
         } else {

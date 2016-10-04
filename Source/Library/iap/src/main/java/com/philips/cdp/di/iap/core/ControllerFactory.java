@@ -37,7 +37,8 @@ public class ControllerFactory {
 
     @SuppressWarnings({"rawtype","unchecked"})
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
-                                                    ShoppingCartPresenter.LoadListener listener, FragmentManager fragmentManager) {
+                                                    ShoppingCartPresenter.LoadListener listener,
+                                                    FragmentManager fragmentManager) {
         ShoppingCartAPI api;
         boolean isLocalData = loadLocalData();
         if (isLocalData) {
@@ -49,8 +50,8 @@ public class ControllerFactory {
         return api;
     }
 
-    public ProductCatalogAPI getProductCatalogPresenter(Context context, ProductCatalogPresenter.LoadListener listener,
-                                                        FragmentManager fragmentManager) {
+    public ProductCatalogAPI getProductCatalogPresenter(Context context,
+                                                        ProductCatalogPresenter.ProductCatalogListener listener) {
         ProductCatalogAPI api;
         if (loadLocalData())
             api = new LocalProductCatalog(context, listener);

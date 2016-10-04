@@ -43,7 +43,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-public class ProductCatalogPresenterTest implements ProductCatalogPresenter.LoadListener, IAPListener {
+public class ProductCatalogPresenterTest implements ProductCatalogPresenter.ProductCatalogListener, IAPListener {
 
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
@@ -156,7 +156,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
 
     @Test
     public void getProductCatalogVerifyHybrisFail() throws JSONException {
-        mProductCatalogPresenter = new ProductCatalogPresenter();
+        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getProductCatalog(0, 20, null);
@@ -166,13 +166,12 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(), null, true, 1222L);
 
         VolleyError error = new ServerError(networkResponse);
-
         mNetworkController.sendFailure(error);
     }
 
     @Test
     public void getProductCompleteListHybrisFailPageSize20() throws JSONException {
-        mProductCatalogPresenter = new ProductCatalogPresenter();
+        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getCompleteProductList(this);
@@ -182,13 +181,12 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(), null, true, 1222L);
 
         VolleyError error = new ServerError(networkResponse);
-
         mNetworkController.sendFailure(error);
     }
 
     @Test
     public void getProductCompleteListHybrisFailForPage1() throws JSONException {
-        mProductCatalogPresenter = new ProductCatalogPresenter();
+        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
 
@@ -203,13 +201,12 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Load
         NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(), null, true, 1222L);
 
         VolleyError error = new ServerError(networkResponse);
-
         mNetworkController.sendFailure(error);
     }
 
     @Test
     public void getHybrisDelegateTest() {
-        mProductCatalogPresenter = new ProductCatalogPresenter();
+        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         HybrisDelegate delegate = mProductCatalogPresenter.getHybrisDelegate();
         boolean isHybrisDelegateInstance = delegate instanceof HybrisDelegate;
         assert (isHybrisDelegateInstance);

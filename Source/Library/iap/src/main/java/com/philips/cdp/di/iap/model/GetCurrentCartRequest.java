@@ -4,8 +4,6 @@
  */
 package com.philips.cdp.di.iap.model;
 
-import android.os.Message;
-
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
@@ -18,11 +16,6 @@ public class GetCurrentCartRequest extends AbstractModel{
     public GetCurrentCartRequest(StoreSpec store, Map<String, String> query,
                            DataLoadListener listener) {
         super(store, query, listener);
-    }
-
-    @Override
-    protected void onPostSuccess(Message msg) {
-        mDataloadListener.onModelDataLoadFinished(msg);
     }
 
     @Override
