@@ -79,12 +79,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.google.code.gson:gson:2.2.4'
-	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.5.0-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
     }
 
-	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '0.1.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.1.0-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
     }	    
