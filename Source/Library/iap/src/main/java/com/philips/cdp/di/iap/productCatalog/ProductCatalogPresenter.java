@@ -134,21 +134,17 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     @Override
-    public void getCategorizedProductList(ArrayList<String> productList) {
+    public void getCategorizedProductList(ArrayList<String> ctnList) {
         if (CartModelContainer.getInstance().getProductList() != null) {
-            mProductCatalogListener.onLoadFinished(getCategorisedProductCatalog(productList), null);
-        }
-    }
-
-    public ArrayList<ProductCatalogData> getCategorisedProductCatalog(ArrayList<String> productList) {
-        ArrayList<ProductCatalogData> catalogList = new ArrayList<>();
-        CartModelContainer container = CartModelContainer.getInstance();
-        for (String ctn : productList) {
-            if (container.isProductCatalogDataPresent(ctn)) {
-                catalogList.add(container.getProduct(ctn));
+            ArrayList<ProductCatalogData> productCatalogList = new ArrayList<>();
+            CartModelContainer container = CartModelContainer.getInstance();
+            for (String ctn : ctnList) {
+                if (container.isProductCatalogDataPresent(ctn)) {
+                    productCatalogList.add(container.getProduct(ctn));
+                }
             }
+            mProductCatalogListener.onLoadFinished(productCatalogList, null);
         }
-        return catalogList;
     }
 
     @Override

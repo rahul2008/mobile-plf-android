@@ -226,7 +226,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
     @Test
     public void getCategorisedProductCatalog() throws Exception {
-        mProductCatalogPresenter.getCategorisedProductCatalog(new ArrayList<String>());
         mProductCatalogPresenter.getCategorizedProductList(mCTNS);
     }
 
