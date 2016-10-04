@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'spoon'
 
 buildscript {
     repositories {
@@ -8,11 +9,8 @@ buildscript {
 
     }
 
-    dependencies {
-        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
-    }
 }
-apply plugin: 'spoon'
+
 
 spoon{
 //    className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'

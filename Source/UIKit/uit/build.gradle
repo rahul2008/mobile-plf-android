@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'spoon'
 
 android {
     compileSdkVersion 24
@@ -11,48 +12,19 @@ android {
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary = true
-
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        jenkins {
-            testCoverageEnabled = true
+        debug {
+            testCoverageEnabled true
         }
     }
     testOptions {
         unitTests.returnDefaultValues = true
-    }
-}
-
-def coverageSourceDirs = ['src/main/java']
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(dir: 'build/intermediates/classes/jenkins',
-            excludes: ['**/R.class',
-                       '**/R$*.class'])
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testJenkinsUnitTest.exec')
-
-    doFirst {
-        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
-    }
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
     }
 }
 
@@ -61,4 +33,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+
+    //test
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
 }

@@ -1,0 +1,8 @@
+<resources>
+    <string name="catalog_app_name">Catalog App DLS</string>
+    <string name="demo_primary_button">Primary button</string>
+    <string name="buttons_with_icons">Buttons with icon</string>
+    <string name="individual_buttons_label">Individual Buttons</string>
+    <string name="alternate_primary_label">Alternate Primary Button</string>
+    <string name="secondary_button_label">Secondary Button</string>
+</resources>
