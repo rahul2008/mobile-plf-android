@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/product_catalog_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -68,6 +69,32 @@
         android:layout_toRightOf="@id/image"
         android:textColor="?attr/uikit_baseColor"
         android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/rating_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_ctn"
+        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_toRightOf="@id/image"
+        android:orientation="horizontal">
+
+        <com.philips.cdp.uikit.customviews.UIKitRatingBar
+            android:id="@+id/tv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:uikit_isratingbarbig="false"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_review"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/uikit_baseColor"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"

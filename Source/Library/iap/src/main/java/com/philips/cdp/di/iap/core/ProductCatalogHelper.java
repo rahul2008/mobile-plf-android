@@ -184,6 +184,7 @@ public class ProductCatalogHelper {
                 productItem.setProductTitle(data.getProductTitle());
                 productItem.setCtnNumber(ctn);
                 productItem.setMarketingTextHeader(data.getMarketingTextHeader());
+                productItem.setReviewStatistics(data.getReviewStatistics());
                 fillEntryBaseData(entry, productItem);
                 products.add(productItem);
             }
