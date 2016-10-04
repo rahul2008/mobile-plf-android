@@ -26,5 +26,7 @@
     <dimen name="iconbutton_right_padding">8dp</dimen>
     <dimen name="iconbutton_cornerradius">2dp</dimen>
 
+    <!--TextEditBox dimens-->
+    <dimen name="texteditbox_corner_radius">2dp</dimen>
 
 </resources>

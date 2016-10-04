@@ -26,4 +26,7 @@
     <dimen name="uit_imagebutton_padding">8dp</dimen>
     <dimen name="uit_image_text_button_padding_left">32dp</dimen>
 
+    <!--TextBox-->
+    <dimen name="uit_text_editbox_corner_radius">2dp</dimen>
+
 </resources>

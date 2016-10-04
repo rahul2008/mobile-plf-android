@@ -8,16 +8,16 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
-public class TextBox extends AppCompatEditText {
-    public TextBox(final Context context) {
+public class TextEditBox extends AppCompatEditText {
+    public TextEditBox(final Context context) {
         super(context, null);
     }
 
-    public TextBox(final Context context, final AttributeSet attrs) {
+    public TextEditBox(final Context context, final AttributeSet attrs) {
         super(context, attrs, android.support.v7.appcompat.R.attr.editTextStyle);
     }
 
-    public TextBox(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public TextEditBox(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 }
