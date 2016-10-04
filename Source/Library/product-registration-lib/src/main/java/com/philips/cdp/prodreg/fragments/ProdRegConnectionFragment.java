@@ -96,7 +96,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
         // Make sure the TextView supports clicking on Links
         tv.setMovementMethod(EnhancedLinkMovementMethod.getInstance());
         tv.setText(spannable, TextView.BufferType.SPANNABLE);
-        ProdRegTagging.getInstance().trackPage("AllProductsRegisteredScreen", "", "");
+        ProdRegTagging.getInstance().trackPage("AllProductsRegisteredScreen", "trackPage", "All products registered");
         return view;
     }
 

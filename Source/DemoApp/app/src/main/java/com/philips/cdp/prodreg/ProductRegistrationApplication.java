@@ -35,7 +35,7 @@ public class ProductRegistrationApplication extends Application {
         initAppInfra();
         setLocale();
         initProductRegistration();
-        initRegistration(Configuration.PRODUCTION);
+        initRegistration(Configuration.STAGING);
     }
 
     private void initProductRegistration() {

@@ -92,10 +92,10 @@ public class LocalRegisteredProductsTest extends TestCase {
         RegisteredProduct product = new RegisteredProduct("ABC", Sector.B2C, Catalog.CONSUMER);
         product.setRegistrationState(RegistrationState.REGISTERED);
         when(prodRegCache.getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY)).thenReturn("");
-        localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{product});
+        localRegisteredProducts.migrateLegacyCache(new RegisteredProduct[]{product});
         assertEquals(registeredProducts.size(), 4);
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
-        localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProduct});
+        localRegisteredProducts.migrateLegacyCache(new RegisteredProduct[]{registeredProduct});
         assertEquals(registeredProducts.size(), 3);
     }
 
