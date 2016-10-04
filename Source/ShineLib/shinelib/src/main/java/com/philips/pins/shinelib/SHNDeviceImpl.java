@@ -482,9 +482,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
         if (internalState == InternalState.InitializingServices) {
-            if (areAllRegisteredServicesReady()) {
+            // if (areAllRegisteredServicesReady()) {
                 setInternalStateReportStateUpdateAndSetTimers(InternalState.Ready);
-            }
+            // }
         }
         if (state == SHNService.State.Error) {
             disconnect();
