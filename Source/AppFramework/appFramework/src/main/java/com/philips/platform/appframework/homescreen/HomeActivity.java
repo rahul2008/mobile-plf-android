@@ -15,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +49,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener,FragmentManager.OnBackStackChangedListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -245,7 +244,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         } else {
             super.onBackPressed();
         }
-
     }
 
     @Override
@@ -260,7 +258,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
             iapInterface.getProductCartCount(this);
         }catch (RuntimeException e){
-            Log.e(""+TAG,"Exception caught"+e);
         }
     }
     @Override
