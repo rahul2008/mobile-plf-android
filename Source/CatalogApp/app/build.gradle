@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'spoon'
 
 buildscript {
     repositories {
@@ -9,8 +8,11 @@ buildscript {
 
     }
 
+    dependencies {
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
+    }
 }
-
+apply plugin: 'spoon'
 
 spoon{
 //    className = 'com.philips.cdp.ui.catalogdls.activity.ToggleSwitchTest'
@@ -20,12 +22,14 @@ spoon{
 android {
     compileSdkVersion 24
     buildToolsVersion '24'
+
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
         versionName "0.1.0"
+
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -102,9 +106,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testJenkinsUnitTest") {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
+
     compile project(':uit')
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
 }

@@ -13,8 +13,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.4.3'
-        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -25,7 +24,7 @@ allprojects {
     apply plugin: 'jacoco'
 
     jacoco {
-        toolVersion = '0.7.1.201405082137'
+        toolVersion = '0.7.5.201505241946'
     }
 
     tasks.withType(Test) {

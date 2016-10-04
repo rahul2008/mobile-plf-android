@@ -1,5 +1,6 @@
 package com.philips.platform.catalogapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,8 @@ import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.TonalRange;
 import com.philips.platform.uit.thememanager.UITHelper;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -18,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
         UITHelper.init(getThemeConfig());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initDemoListFragment();
+        if (savedInstanceState == null)
+            initDemoListFragment();
     }
 
     private void initDemoListFragment() {
@@ -36,5 +40,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    protected void attachBaseContext(final Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
