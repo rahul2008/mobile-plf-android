@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
@@ -23,6 +24,7 @@ import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
+import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -115,10 +117,14 @@ public class ConsentHandler implements RefreshUserHandler {
                                             onUserRegistrationComplete(mParentalApprovalFragment.
                                                     getActivity());
                                 }
+                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                        AppCoppaTaggingConstants.FIRST_LEVEL_CONSENT, "Yes");
                             }
 
                             @Override
                             public void onRefreshUserFailed(final int error) {
+                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                        AppCoppaTaggingConstants.FIRST_LEVEL_CONSENT, "No");
                                 mParentalApprovalFragment.getRegistrationFragment();
                                 RegistrationCoppaFragment.
                                         hideRefreshProgress();
@@ -133,6 +139,9 @@ public class ConsentHandler implements RefreshUserHandler {
 
                     @Override
                     public void onFailure(int errorCode) {
+                        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                AppCoppaTaggingConstants.FIRST_LEVEL_CONSENT, "No");
+
                         mParentalApprovalFragment.getRegistrationFragment();
                         RegistrationCoppaFragment.hideRefreshProgress();
                         if (errorCode == -1) {
@@ -193,7 +202,8 @@ public class ConsentHandler implements RefreshUserHandler {
 
     @Override
     public void onRefreshUserFailed(int error) {
-        AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                AppCoppaTaggingConstants.FIRST_LEVEL_CONSENT, "No");
         handleFailure();
     }
 

@@ -7,11 +7,11 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -20,7 +20,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 public class RegistrationSampleActivity extends Activity implements OnClickListener, UserRegistrationUIEventListener,UserRegistrationListener {
 
     private Button mBtnRegistration;
-
+    private User mUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onCreate");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.activity_registration_sample);
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+        mUser = new User(this);
+        mUser.registerUserRegistrationListener(this);
         mBtnRegistration = (Button) findViewById(R.id.btn_registration);
         mBtnRegistration.setOnClickListener(this);
 
@@ -62,7 +63,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+        mUser.unRegisterUserRegistrationListener(this);
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity unregister : RegisterUserRegistrationListener");
         super.onDestroy();
 

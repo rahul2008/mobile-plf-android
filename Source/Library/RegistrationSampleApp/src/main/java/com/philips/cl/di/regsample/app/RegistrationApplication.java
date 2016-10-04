@@ -51,7 +51,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.DEVELOPMENT);
+            initRegistration(Configuration.STAGING);
         }
     }
 
@@ -59,6 +59,9 @@ public class RegistrationApplication extends Application {
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.DEVELOPMENT
                 , UR,
@@ -185,6 +188,9 @@ public class RegistrationApplication extends Application {
     }
 
     public void initHSDP(Configuration configuration) {
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         //store hsdp last envoronment

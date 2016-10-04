@@ -1,18 +1,17 @@
 package com.philips.cdp.registration.sample;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -21,8 +20,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 public class RegistrationSampleActivity extends Activity implements OnClickListener, UserRegistrationUIEventListener,UserRegistrationListener {
 
     private Button mBtnRegistration;
-    private Button mBtnRegistrationFragment;
-
+    private User mUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +28,10 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onCreate");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.activity_registration_sample);
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+        mUser = new User(this);
+        mUser.registerUserRegistrationListener(this);
         mBtnRegistration = (Button) findViewById(R.id.btn_registration);
         mBtnRegistration.setOnClickListener(this);
-        mBtnRegistrationFragment = (Button) findViewById(R.id.btn_registration_fargement);
-        mBtnRegistrationFragment.setOnClickListener(this);
 
     }
 
@@ -66,7 +63,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+        mUser.unRegisterUserRegistrationListener(this);
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity unregister : RegisterUserRegistrationListener");
         super.onDestroy();
 
@@ -81,7 +78,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setAccountSettings(true);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
-                urLaunchInput.enableAddtoBackStack(true);
                 ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 
@@ -90,9 +86,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 break;
 
-            case R.id.btn_registration_fargement:
-                startActivity(new Intent(this,RegistrationFragmentActivity.class));
-                break;
             default:
                 break;
         }

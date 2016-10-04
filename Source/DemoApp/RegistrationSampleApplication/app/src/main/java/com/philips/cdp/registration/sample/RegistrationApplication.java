@@ -1,4 +1,3 @@
-
 package com.philips.cdp.registration.sample;
 
 import android.app.Application;
@@ -7,6 +6,8 @@ import android.util.Log;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPInfo;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -19,46 +20,47 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class RegistrationApplication extends Application {
-    private AppInfraInterface mAppInfraInterface;
 
+
+    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
+
+    private AppInfraInterface mAppInfraInterface;
     @Override
     public void onCreate() {
         super.onCreate();
-
         mAppInfraInterface = new AppInfra.Builder().build(this);
-
         initRegistration(Configuration.STAGING);
-
     }
 
-
-    final String UR = "UserRegistration";
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.DEVELOPMENT
-                , UR,
+                , "UserRegistration",
                 "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
                 configError);
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.TESTING
-                , UR,
+                , "UserRegistration",
                 "g52bfma28yjbd24hyjcswudwedcmqy7c",
                 configError);
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.EVALUATION
-                , UR,
+                , "UserRegistration",
                 "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
                 configError);
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.STAGING
-                , UR,
+                , "UserRegistration",
                 "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
                 configError);
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.PRODUCTION
-                , UR,
+                , "UserRegistration",
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
 
@@ -71,12 +73,12 @@ public class RegistrationApplication extends Application {
 */
         mAppInfraInterface.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "MicrositeID",
-                UR,
+                "UserRegistration",
                 "77000",
                 configError);
         mAppInfraInterface.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "RegistrationEnvironment",
-                UR,
+                "UserRegistration",
                 configuration.getValue(),
                 configError);
        /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
@@ -85,13 +87,13 @@ public class RegistrationApplication extends Application {
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "EmailVerificationRequired",
-                UR,
+                "UserRegistration",
                 "" + true,
                 configError);
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "TermsAndConditionsAcceptanceRequired",
-                UR,
+                "UserRegistration",
                 "" + true,
                 configError);
        /* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
@@ -101,7 +103,7 @@ public class RegistrationApplication extends Application {
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "MinimumAgeLimit",
-                UR,
+                "UserRegistration",
                 minAge,
                 configError);
       /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
@@ -112,26 +114,24 @@ public class RegistrationApplication extends Application {
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
-        providers.add("sinaweibo");
-        providers.add("qq");
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "NL",
-                UR,
+                "UserRegistration",
                 providers,
                 configError);
 
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "US",
-                UR,
+                "UserRegistration",
                 providers,
                 configError);
 
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "default",
-                UR,
+                "UserRegistration",
                 providers,
                 configError);
 
@@ -143,7 +143,10 @@ public class RegistrationApplication extends Application {
 */
 
 
+        //HSDP configuration
+        //initHSDP(configuration);
 
+        initAppIdentity(configuration);
 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
@@ -151,7 +154,6 @@ public class RegistrationApplication extends Application {
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
@@ -159,8 +161,116 @@ public class RegistrationApplication extends Application {
 
     }
 
-    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
-    final String AI = "appinfra";
+    public void initHSDP(Configuration configuration) {
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        switch (configuration) {
+            case EVALUATION:
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        "UserRegistration",
+                        "uGrow",
+                        configError);
+
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        "UserRegistration",
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        "UserRegistration",
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        "UserRegistration",
+                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        configError);
+
+                break;
+            case DEVELOPMENT:
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        "UserRegistration",
+                        "uGrow",
+                        configError);
+
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        "UserRegistration",
+                        "c623685e-f02c-11e5-9ce9-5e5517507c66",
+                        configError);
+
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        "UserRegistration",
+                        "c62362a0-f02c-11e5-9ce9-5e5517507c66",
+                        configError);
+
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        "UserRegistration",
+                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        configError);
+
+                break;
+            case PRODUCTION:
+                break;
+            case STAGING:
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        "UserRegistration",
+                        "uGrow",
+                        configError);
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        "UserRegistration",
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        "UserRegistration",
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+                mAppInfraInterface.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        "UserRegistration",
+                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        configError);
+
+                break;
+            case TESTING:
+                break;
+        }
+
+        HSDPInfo hsdpInfo1 = RegistrationConfiguration.getInstance().getHSDPInfo();
+        if(hsdpInfo1!=null) {
+            System.out.println("HSDP: " + hsdpInfo1.getApplicationName());
+            System.out.println("HSDP: " + hsdpInfo1.getSecreteId());
+            System.out.println("HSDP: " + hsdpInfo1.getSharedId());
+            System.out.println("HSDP: " + hsdpInfo1.getBaseURL());
+        }
+
+
+    }
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = mAppInfraInterface.getAppIdentity();
@@ -174,21 +284,21 @@ public class RegistrationApplication extends Application {
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.micrositeId",
-                AI,
+                "appinfra",
                 "77000",
                 configError);
 
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.sector",
-                AI,
+                "appinfra",
                 "b2c",
                 configError);
 
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.serviceDiscoveryEnvironment",
-                AI,
+                "appinfra",
                 "Production",
                 configError);
 
@@ -198,7 +308,7 @@ public class RegistrationApplication extends Application {
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
-                        AI,
+                        "appinfra",
                         "ACCEPTANCE",
                         configError);
                 break;
@@ -206,7 +316,7 @@ public class RegistrationApplication extends Application {
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
-                        AI,
+                        "appinfra",
                         "DEVELOPMENT",
                         configError);
 
@@ -215,7 +325,7 @@ public class RegistrationApplication extends Application {
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
-                        AI,
+                        "appinfra",
                         "PRODUCTION",
                         configError);
                 break;
@@ -223,7 +333,7 @@ public class RegistrationApplication extends Application {
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
-                        AI,
+                        "appinfra",
                         "STAGING",
                         configError);
 
@@ -232,7 +342,7 @@ public class RegistrationApplication extends Application {
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
-                        AI,
+                        "appinfra",
                         "TEST",
                         configError);
                 break;

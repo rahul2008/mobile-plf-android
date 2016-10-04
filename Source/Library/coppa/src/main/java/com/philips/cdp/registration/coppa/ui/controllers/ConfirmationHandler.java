@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
+import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -72,6 +74,8 @@ public class ConfirmationHandler implements RefreshUserHandler {
                                                     onUserRegistrationComplete(
                                                             mParentalConsentFragment.getActivity());
                                         }
+                                        AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
+                                        mParentalConsentFragment.hideRefreshProgress();
                                     }
 
                                     @Override
@@ -80,8 +84,7 @@ public class ConfirmationHandler implements RefreshUserHandler {
                                         handleFailure();
                                     }
                                 });
-                                AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
-                                mParentalConsentFragment.hideRefreshProgress();
+
                             }
 
                             @Override
@@ -130,10 +133,15 @@ public class ConfirmationHandler implements RefreshUserHandler {
                                             onUserRegistrationComplete(
                                                     mParentalConsentFragment.getActivity());
                                 }
+                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                        AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, "Yes");
+
                             }
 
                             @Override
                             public void onFailure(int errorCode) {
+                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                        AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, "No");
                                 mParentalConsentFragment.hideRefreshProgress();
                                 if (errorCode == -1) {
                                     Toast.makeText(mParentalConsentFragment.getContext(),
@@ -186,7 +194,8 @@ public class ConfirmationHandler implements RefreshUserHandler {
 
     @Override
     public void onRefreshUserFailed(int error) {
-        AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, "No");
         handleFailure();
     }
 
