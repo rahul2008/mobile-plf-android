@@ -22,7 +22,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
     }
@@ -30,6 +30,7 @@ buildscript {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
@@ -44,6 +45,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
+        }
+        defaults {
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
@@ -64,7 +67,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
@@ -121,6 +124,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    compile 'com.android.support:support-annotations:23.1.0'
 }
 
 task sourceJar(type: Jar) {

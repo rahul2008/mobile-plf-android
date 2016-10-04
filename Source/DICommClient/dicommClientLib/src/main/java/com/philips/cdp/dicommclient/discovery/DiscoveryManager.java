@@ -7,6 +7,7 @@ package com.philips.cdp.dicommclient.discovery;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
@@ -78,11 +79,11 @@ public class DiscoveryManager<T extends DICommAppliance> {
         }
     };
 
-    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
+    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, @NonNull DICommApplianceFactory<U> applianceFactory) {
         return createSharedInstance(applicationContext, cppController, applianceFactory, new NullApplianceDatabase<U>());
     }
 
-    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
         if (mInstance != null) {
             throw new RuntimeException("DiscoveryManager can only be initialized once");
         }

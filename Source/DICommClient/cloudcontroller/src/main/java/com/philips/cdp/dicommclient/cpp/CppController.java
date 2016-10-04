@@ -57,13 +57,10 @@ public interface CppController extends ICPClientToAppInterface, ICPEventListener
 
     void downloadDataFromCPP(String query, int bufferSize);
 
-    void setDefaultDcsState();
-
     void setAppUpdateNotificationListener(AppUpdateListener listener);
 
     @Override
-    void onICPCallbackEventOccurred(int eventType, int status,
-                                    ICPClient icpClient);
+    void onICPCallbackEventOccurred(int eventType, int status, ICPClient icpClient);
 
     void startNewAppUpdateDownload();
 

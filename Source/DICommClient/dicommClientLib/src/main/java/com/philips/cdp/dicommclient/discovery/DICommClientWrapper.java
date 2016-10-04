@@ -6,36 +6,45 @@
 package com.philips.cdp.dicommclient.discovery;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.BuildConfig;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 
 import java.util.Random;
 
-public class DICommClientWrapper {
+public final class DICommClientWrapper {
 
-    private static Context mContext;
-    private static String mTemporaryAppId;
+    private static Context sContext;
+    private static String sTemporaryAppId;
+    private static CppController sCloudControllerInstance;
 
-    public static synchronized <U extends DICommAppliance> void initializeDICommLibrary(Context context, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase, CppController cppController) {
-        mContext = context;
-        mTemporaryAppId = generateTemporaryAppId();
-        if (mContext == null) {
-            throw new RuntimeException("Please call initializeDICommLibrary() before you get discoverymanager");
-        }
-        if (applianceDatabase != null) {
-            DiscoveryManager.createSharedInstance(mContext, cppController, applianceFactory, applianceDatabase);
+    private DICommClientWrapper() {
+        // Utility class
+    }
+
+    public static synchronized <U extends DICommAppliance> void initializeDICommLibrary(@NonNull Context context, @NonNull DICommApplianceFactory<U> applianceFactory, @Nullable DICommApplianceDatabase<U> applianceDatabase, @NonNull CppController cloudController) {
+        if (context == null) throw new IllegalArgumentException("Context is null");
+        if (applianceFactory== null) throw new IllegalArgumentException("ApplicanceFactory is null");
+        if (cloudController == null) throw new IllegalArgumentException("CloudController is null.");
+
+        sContext = context;
+        sTemporaryAppId = generateTemporaryAppId();
+        sCloudControllerInstance = cloudController;
+
+        if (applianceDatabase == null) {
+            DiscoveryManager.createSharedInstance(sContext, cloudController, applianceFactory);
         } else {
-            DiscoveryManager.createSharedInstance(mContext, cppController, applianceFactory);
+            DiscoveryManager.createSharedInstance(sContext, cloudController, applianceFactory, applianceDatabase);
         }
     }
 
     public static synchronized Context getContext() {
-        return mContext;
+        return sContext;
     }
 
     private static String generateTemporaryAppId() {
@@ -47,10 +56,14 @@ public class DICommClientWrapper {
     }
 
     public static String getAppId() {
-        return isCppAppIdAvailable() ? DefaultCppController.getInstance().getAppCppId() : mTemporaryAppId;
+        return isCppAppIdAvailable() ? getCloudController().getAppCppId() : sTemporaryAppId;
     }
 
     public static boolean isCppAppIdAvailable() {
-        return DefaultCppController.getInstance() != null && DefaultCppController.getInstance().getAppCppId() != null;
+        return getCloudController() != null && getCloudController().getAppCppId() != null;
+    }
+
+    public static CppController getCloudController() {
+        return sCloudControllerInstance;
     }
 }

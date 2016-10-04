@@ -100,7 +100,7 @@ public class DefaultCppController implements CppController {
     private int mPercentage;
     private int mByteOffset = 0;
 
-    public static synchronized CppController createSharedInstance(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+    public static synchronized CppController getInstance(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
         if (sInstance != null) {
             throw new RuntimeException("CPPController can only be initialized once");
         }
@@ -108,17 +108,12 @@ public class DefaultCppController implements CppController {
             throw new RuntimeException("CPPController cannot be initialized without context and kpsConfigurationInfo");
         }
         sInstance = new DefaultCppController(context, kpsConfigurationInfo);
-        return sInstance;
-    }
-
-    public static synchronized CppController getInstance() {
-        Log.i(LogConstants.ICPCLIENT, "GetInstance: " + sInstance);
         // TODO:DICOMM Refactor, need generic mechanism to update this locale information whenever the language changes.
         setLocale();
         return sInstance;
     }
 
-    protected DefaultCppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+    public DefaultCppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
 
         this.mContext = context;
         mKpsConfigurationInfo = kpsConfigurationInfo;
@@ -131,7 +126,18 @@ public class DefaultCppController implements CppController {
         mPublishEventListeners = new ArrayList<>();
         mDcsResponseListeners = new ArrayList<>();
 
-        init();
+        if (mSignon == null) {
+            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
+        }
+
+        mSignon.setInterfaceAndContextObject(this, mContext);
+
+        int commandResult = mSignon.init();
+        if (commandResult == Errors.SUCCESS) {
+            startKeyProvisioning();
+        } else {
+            Log.e(LogConstants.CPPCONTROLLER, "init failed " + commandResult);
+        }
     }
 
     // Only used for testing
@@ -216,25 +222,6 @@ public class DefaultCppController implements CppController {
 
     private KeyProvision getKeyProvisioningState() {
         return mKeyProvisioningState;
-    }
-
-    /**
-     * Method to inialize
-     */
-    private void init() {
-
-        if (mSignon == null) {
-            mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
-        }
-
-        mSignon.setInterfaceAndContextObject(this, mContext);
-
-        int commandResult = mSignon.init();
-        if (commandResult == Errors.SUCCESS) {
-            startKeyProvisioning();
-        } else {
-            Log.e(LogConstants.CPPCONTROLLER, "init failed " + commandResult);
-        }
     }
 
     /**
@@ -481,7 +468,7 @@ public class DefaultCppController implements CppController {
 
     @Override
     public boolean sendNotificationRegistrationId(String gcmRegistrationId, String provider) {
-        if (!DefaultCppController.getInstance().isSignOn()) {
+        if (!isSignOn()) {
             Log.e(LogConstants.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
             return false;
         }
@@ -517,12 +504,6 @@ public class DefaultCppController implements CppController {
             notifyDownloadDataListener(Errors.GENERAL_ERROR, null);
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void setDefaultDcsState() {
-        mDcsState = ICP_CLIENT_DCS_STATE.STOPPED;
-        mAppDcsRequestState = APP_REQUESTED_STATE.NONE;
     }
 
     @Override

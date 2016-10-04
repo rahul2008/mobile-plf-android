@@ -6,10 +6,9 @@
 package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 import com.philips.cdp.dicommclient.cpp.ICPCallbackHandler;
 import com.philips.cdp.dicommclient.cpp.ICPEventListener;
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -57,14 +56,11 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     private String secretKey;
 
     private PermissionListener permissionListener = null;
-    private CppController cppController;
     private static HashMap<String, Integer> attemptsCount = new HashMap<String, Integer>();
 
     private enum ENTITY {
         PURIFIER, APP, DATAACCESS
     }
-
-    ;
 
     private ENTITY entity_state;
     private T mAppliance;
@@ -90,7 +86,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         this.pairingListener = pairingListener;
         callbackHandler = new ICPCallbackHandler();
         callbackHandler.setHandler(this);
-        cppController = DefaultCppController.getInstance();
     }
 
     /**
@@ -127,7 +122,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     private void getRelationship(String relationshipType) {
         DICommLog.i(DICommLog.PAIRING, "Requesting existing relationships");
 
-        if (!cppController.isSignOn()) return;
+        if (!DICommClientWrapper.getCloudController().isSignOn()) return;
 
         DICommLog.i(DICommLog.PAIRING, "signOn is success");
         boolean bincludeIncoming = true;
@@ -165,7 +160,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         if (relationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)) {
             if (mAppliance == null) return;
             secretKey = generateRandomSecretKey();
-            String appEui64 = cppController.getAppCppId();
+            String appEui64 = DICommClientWrapper.getCloudController().getAppCppId();
 
             PairingPort pairingPort = mAppliance.getPairingPort();
             pairingPort.addPortListener(new DICommPortListener() {
@@ -184,7 +179,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                     port.removePortListener(this);
                 }
             });
-            pairingPort.triggerPairing(DefaultCppController.getInstance().getAppType(), appEui64, secretKey);
+            pairingPort.triggerPairing(DICommClientWrapper.getCloudController().getAppType(), appEui64, secretKey);
         } else {
             currentRelationshipType = relationshipType;
             addRelationship(relationshipType, null);
@@ -193,7 +188,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
 
     private void addRelationship(String relationshipType, String secretKey) {
 
-        if (!cppController.isSignOn()) return;
+        if (!DICommClientWrapper.getCloudController().isSignOn()) return;
         int status;
         PairingService addPSRelation = new PairingService(callbackHandler);
 
@@ -228,7 +223,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      */
     private void removeRelationship(PairingEntitiyReference trustor,
                                     PairingEntitiyReference trustee, String relationType) {
-        if (!cppController.isSignOn())
+        if (!DICommClientWrapper.getCloudController().isSignOn())
             return;
         PairingService removeRelationship = new PairingService(callbackHandler);
         int retStatus;
@@ -290,9 +285,9 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      */
     private PairingEntitiyReference getAppEntity() {
         PairingEntitiyReference pairingTrustor = new PairingEntitiyReference();
-        pairingTrustor.entityRefId = cppController.getAppCppId();
+        pairingTrustor.entityRefId = DICommClientWrapper.getCloudController().getAppCppId();
         pairingTrustor.entityRefProvider = PAIRING_REFERENCEPROVIDER;
-        pairingTrustor.entityRefType = DefaultCppController.getInstance().getAppType();
+        pairingTrustor.entityRefType = DICommClientWrapper.getCloudController().getAppType();
         pairingTrustor.entityRefCredentials = null;
 
         DICommLog.i(DICommLog.PAIRING, "app entityRefId" + pairingTrustor.entityRefId);
@@ -541,7 +536,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      * @param permission   String[]
      */
     public void addPermission(String relationType, String[] permission) {
-        if (!cppController.isSignOn())
+        if (!DICommClientWrapper.getCloudController().isSignOn())
             return;
         PairingService addPermission = new PairingService(callbackHandler);
         int retStatus = addPermission.addPermissionsRequest(null, getDICommApplianceEntity(),
@@ -564,7 +559,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      * @param permission   String[]
      */
     public void getPermission(String relationType, String[] permission) {
-        if (!cppController.isSignOn()) {
+        if (!DICommClientWrapper.getCloudController().isSignOn()) {
             permissionListener.onCallFailed();
         } else {
             int iMaxPermissons = 5;
@@ -595,7 +590,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      * @param permission   String[]
      */
     public void removePermission(String relationType, String[] permission) {
-        if (!cppController.isSignOn())
+        if (!DICommClientWrapper.getCloudController().isSignOn())
             return;
         PairingService removePermissions = new PairingService(callbackHandler);
         int retStatus = removePermissions.removePermissionsRequest(null, getDICommApplianceEntity(),
