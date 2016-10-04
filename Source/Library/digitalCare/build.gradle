@@ -166,7 +166,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
-	compile(group: 'com.philips.cdp', name: 'productselection', version: '1.6.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'productselection', version: '1.7.0-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
     }
