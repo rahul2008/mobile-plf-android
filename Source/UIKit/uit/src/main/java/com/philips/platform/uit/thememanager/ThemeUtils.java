@@ -11,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.util.StateSet;
 import android.util.Xml;
@@ -52,7 +53,7 @@ public class ThemeUtils {
     }
 
     private static int modulateColorAlpha(int color, float alphaMod) {
-        return color;//ColorUtils.setAlphaComponent(color, Math.round(Color.alpha(color) * alphaMod));
+        return ColorUtils.setAlphaComponent(color, Math.round(Color.alpha(color) * alphaMod));
     }
 
     /**
@@ -143,12 +144,12 @@ public class ThemeUtils {
                 continue;
             }
 
-//            final TypedArray typedArray = obtainAttributes(r, theme, attrs, android.support.v7.appcompat.R.styleable.ColorStateListItem);
-//            final int baseColor = typedArray.getColor(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_color,
-//                    Color.MAGENTA);
-//            float alphaMod = 1.0f;
-//            alphaMod = getAlphaMode(typedArray, alphaMod);
-//            typedArray.recycle();
+            final TypedArray typedArray = obtainAttributes(r, theme, attrs, android.support.v7.appcompat.R.styleable.ColorStateListItem);
+            final int baseColor = typedArray.getColor(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_color,
+                    Color.MAGENTA);
+            float alphaMod = 1.0f;
+            alphaMod = getAlphaMode(typedArray, alphaMod);
+            typedArray.recycle();
 
             // Parse all unrecognized attributes as state specifiers.
             int j = 0;
@@ -157,7 +158,7 @@ public class ThemeUtils {
             for (int i = 0; i < numAttrs; i++) {
                 final int stateResId = attrs.getAttributeNameResource(i);
                 if (stateResId != android.R.attr.color && stateResId != android.R.attr.alpha
-                       /* && stateResId != android.support.v7.appcompat.R.attr.alpha*/) {
+                        && stateResId != android.support.v7.appcompat.R.attr.alpha) {
                     // Unrecognized attribute, add to state set
                     stateSpec[j++] = attrs.getAttributeBooleanValue(i, false)
                             ? stateResId : -stateResId;
@@ -168,13 +169,13 @@ public class ThemeUtils {
             // Apply alpha modulation. If we couldn't resolve the color or
             // alpha yet, the default values leave us enough information to
             // modulate again during applyTheme().
-//            final int color = modulateColorAlpha(baseColor, alphaMod);
-//            if (listSize == 0 || stateSpec.length == 0) {
-//                defaultColor = color;
-//            }
-//
-//            colorList = append(colorList, listSize, color);
-//            stateSpecList = append(stateSpecList, listSize, stateSpec);
+            final int color = modulateColorAlpha(baseColor, alphaMod);
+            if (listSize == 0 || stateSpec.length == 0) {
+                defaultColor = color;
+            }
+
+            colorList = append(colorList, listSize, color);
+            stateSpecList = append(stateSpecList, listSize, stateSpec);
             listSize++;
         }
 
@@ -187,11 +188,11 @@ public class ThemeUtils {
     }
 
     private static float getAlphaMode(final TypedArray typedArray, float alphaMod) {
-//        if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha)) {
-//            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha, alphaMod);
-//        } else if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha)) {
-//            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha, alphaMod);
-//        }
+        if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha)) {
+            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha, alphaMod);
+        } else if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha)) {
+            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha, alphaMod);
+        }
         return alphaMod;
     }
 

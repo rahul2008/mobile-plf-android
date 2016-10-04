@@ -3,20 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name=".CatalogApplication"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/catalog_app_name"
         android:theme="@style/Theme.Philips">
 
     <activity
-        android:name="com.philips.platform.catalogapp.MainActivity"
-        android:label="@string/catalog_app_name"
+        android:name="com.philips.platform.uit.activity.BaseTestActivity"
         android:theme="@style/Theme.Philips">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
 </application>
