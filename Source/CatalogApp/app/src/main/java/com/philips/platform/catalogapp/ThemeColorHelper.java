@@ -38,7 +38,7 @@ public class ThemeColorHelper {
         };
     }
 
-    private int getColorResourceId(final Resources resources, final String basecolor, final String level, final String packageName) {
+    public int getColorResourceId(final Resources resources, final String basecolor, final String level, final String packageName) {
         return resources.getIdentifier(String.format(Locale.getDefault(), "uit_%s_level_%s", basecolor, level), "color", packageName);
     }
 
