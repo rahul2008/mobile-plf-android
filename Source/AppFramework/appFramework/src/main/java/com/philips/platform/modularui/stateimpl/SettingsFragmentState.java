@@ -16,12 +16,9 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class SettingsFragmentState extends UIState {
 
     private FragmentLauncher fragmentLauncher;
-    /**
-     * constructor
-     * @param stateID
-     */
-    public SettingsFragmentState(@UIStateDef int stateID) {
-        super(stateID);
+
+    public SettingsFragmentState() {
+        super(UIState.UI_SETTINGS_FRAGMENT_STATE);
     }
 
     /**

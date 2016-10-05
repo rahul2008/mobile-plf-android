@@ -21,7 +21,6 @@ import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -99,7 +98,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     }
 
     private ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
-        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        userRegistrationState = new UserRegistrationState();
         if (userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
             return settingScreenItemList;
         }

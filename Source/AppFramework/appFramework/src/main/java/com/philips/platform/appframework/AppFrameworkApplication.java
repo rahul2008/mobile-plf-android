@@ -8,15 +8,16 @@ package com.philips.platform.appframework;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+
 import java.util.Locale;
 /**
  * Application class is used for initialization
@@ -47,11 +48,11 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        userRegistrationState= new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        userRegistrationState= new UserRegistrationState();
         userRegistrationState.init(this);
-        productRegistrationState= new ProductRegistrationState(UIState.UI_PROD_REGISTRATION_STATE);
+        productRegistrationState= new ProductRegistrationState();
         productRegistrationState.init(this);
-        iapState = new IAPState(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+        iapState = new IAPState();
         iapState.init(this);
     }
 

@@ -39,8 +39,8 @@ public class IAPState extends UIState{
     public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
     public static final int IAP_SHOPPING_CART_VIEW = 4003;
 
-    public IAPState(@UIStateDef int stateID) {
-        super(stateID);
+    public IAPState() {
+        super(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
     }
 
     public IAPInterface getIapInterface() {

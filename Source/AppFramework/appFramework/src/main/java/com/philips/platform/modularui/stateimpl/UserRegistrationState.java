@@ -45,8 +45,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     private Context applicationContext;
     final String AI = "appinfra";
 
-    public UserRegistrationState(@UIStateDef int stateID) {
-        super(stateID);
+    public UserRegistrationState() {
+        super(UIState.UI_USER_REGISTRATION_STATE);
     }
 
     /**

@@ -19,8 +19,9 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class AboutScreenState  extends UIState {
 
     FragmentLauncher fragmentLauncher;
-    public AboutScreenState(@UIStateDef int stateID) {
-        super(stateID);
+
+    public AboutScreenState() {
+        super(UIState.UI_ABOUT_SCREEN_STATE);
     }
 
     /**

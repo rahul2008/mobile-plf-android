@@ -26,7 +26,6 @@ import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
 import java.util.Arrays;
@@ -93,7 +92,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                 }
                 int position1 = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.EVALUATION));
                 if (position1 != position) {
-                    userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+                    userRegistrationState = new UserRegistrationState();
                     userRegistrationState.getUserObject(context).logout(null);
                     if (configuration.equalsIgnoreCase(Constants.DEVELOPMENT)) {
                         initialiseUserRegistration(Constants.DEVELOPMENT);

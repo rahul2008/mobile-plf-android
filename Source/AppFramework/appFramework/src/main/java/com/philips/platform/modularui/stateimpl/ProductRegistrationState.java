@@ -37,8 +37,8 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
 
-    public ProductRegistrationState(@UIStateDef int stateID){
-        super(stateID);
+    public ProductRegistrationState(){
+        super(UIState.UI_PROD_REGISTRATION_STATE);
     }
 
     /**

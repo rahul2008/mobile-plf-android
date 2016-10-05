@@ -17,13 +17,11 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * This class if used for dynamic configuration of Environment of User registration
  */
 public class DebugTestFragmentState extends UIState {
+
     private FragmentLauncher fragmentLauncher;
-    /**
-     * constructor
-     * @param stateID
-     */
-    public DebugTestFragmentState(@UIStateDef int stateID) {
-        super(stateID);
+
+    public DebugTestFragmentState() {
+        super(UIState.UI_DEBUG_FRAGMENT_STATE);
     }
 
     /**

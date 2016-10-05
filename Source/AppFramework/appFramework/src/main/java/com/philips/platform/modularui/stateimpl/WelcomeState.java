@@ -16,12 +16,9 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class WelcomeState extends UIState {
 
     private FragmentLauncher fragmentLauncher;
-    /**
-     * constructor
-     * @param stateID
-     */
-    public WelcomeState(@UIStateDef int stateID) {
-        super(stateID);
+
+    public WelcomeState() {
+        super(UIState.UI_WELCOME_STATE);
     }
 
     /**
