@@ -100,6 +100,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     public void loadWelcomeFragment() {
         fragmentManager = this.getSupportFragmentManager();
         welcomeScreenFragment = new WelcomeScreenFragment();
+        welcomeScreenFragment.setPresenter(presenter);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.welcome_frame_container, welcomeScreenFragment);
         fragmentTransaction.commit();
@@ -142,14 +143,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         if (!isConsumed) {
 
             presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
-        }
-    }
-    void changeActionBarState(boolean isVisible) {
-        if (!isVisible) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getSupportActionBar().hide();
-        } else {
-            getSupportActionBar().show();
         }
     }
     @Override
