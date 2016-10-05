@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework;
 
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
@@ -48,4 +49,8 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(final Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 }
