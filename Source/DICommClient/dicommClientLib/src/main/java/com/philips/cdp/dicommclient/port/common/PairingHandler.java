@@ -8,6 +8,9 @@ package com.philips.cdp.dicommclient.port.common;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.cpp.ICPCallbackHandler;
 import com.philips.cdp.dicommclient.cpp.ICPEventListener;
+import com.philips.cdp.dicommclient.cpp.pairing.AppPairingHandlerRelationship;
+import com.philips.cdp.dicommclient.cpp.pairing.PairingHandlerRelationship;
+import com.philips.cdp.dicommclient.cpp.pairing.UserPairingHandlerRelationship;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -460,7 +463,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
             setPairingAttempts(mAppliance.getNetworkNode().getCppId());
             // If DI-COMM local (Pairing Port) request fails, then retry only the DI-COMM request
             if (pairingHandlerRelationship instanceof UserPairingHandlerRelationship) {
-                startUserPairing(pairingHandlerRelationship.cppId, pairingHandlerRelationship.credentials, pairingHandlerRelationship.type);
+                startUserPairing(pairingHandlerRelationship.getCppId(), pairingHandlerRelationship.getCredentials(), pairingHandlerRelationship.getType());
             } else {
                 startPairing();
             }
