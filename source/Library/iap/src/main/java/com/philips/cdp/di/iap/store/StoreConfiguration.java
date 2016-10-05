@@ -9,11 +9,8 @@ import android.content.Context;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 
-/**
- * This class having responsible for Store configuration
- */
 public class StoreConfiguration {
-    private static final String SUFFIX_INAPPCONFIG = "inAppConfig";
+    private static final String SUFFIX_CONFIGURATION = "inAppConfig";
 
     private final HybrisStore mStore;
     private final VerticalAppConfig mVerticalAppConfig;
@@ -25,22 +22,6 @@ public class StoreConfiguration {
         mWebStoreConfig = getWebStoreConfig(context);
     }
 
-    void initConfig(final String language, String countryCode, RequestListener listener) {
-        mWebStoreConfig.initConfig(language, countryCode, listener);
-    }
-
-    public String getHostPort() {
-        return mVerticalAppConfig.getHostPort();
-    }
-
-    public String getSite() {
-        return mWebStoreConfig.getSiteID();
-    }
-
-    public String getProposition() {
-        return mVerticalAppConfig.getProposition();
-    }
-
     VerticalAppConfig getVerticalAppConfig(final IAPSettings iapSettings) {
         return new VerticalAppConfig(iapSettings);
     }
@@ -49,9 +30,29 @@ public class StoreConfiguration {
         return new WebStoreConfig(context, this);
     }
 
+    void initConfig(final String language, String countryCode, RequestListener listener) {
+        mWebStoreConfig.initConfig(language, countryCode, listener);
+    }
+
+    public String getHostPort() {
+        return mVerticalAppConfig.getHostPort();
+    }
+
+    public String getProposition() {
+        return mVerticalAppConfig.getProposition();
+    }
+
+    public String getSite() {
+        return mWebStoreConfig.getSiteID();
+    }
+
+    public String getLocale() {
+        return mWebStoreConfig.getLocale();
+    }
+
     public String getRawConfigUrl() {
         final StringBuilder builder = new StringBuilder(getHostPort());
-        builder.append(SUFFIX_INAPPCONFIG).append(HybrisStore.SEPERATOR);
+        builder.append(SUFFIX_CONFIGURATION).append(HybrisStore.SEPERATOR);
         builder.append(mWebStoreConfig.getLocale()).append(HybrisStore.SEPERATOR);
         builder.append(getProposition());
         return builder.toString();
@@ -59,9 +60,5 @@ public class StoreConfiguration {
 
     public void generateStoreUrls() {
         mStore.generateStoreUrls();
-    }
-
-    public String getLocale() {
-        return mWebStoreConfig.getLocale();
     }
 }
