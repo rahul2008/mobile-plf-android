@@ -15,8 +15,8 @@ import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.servertime.constants.ServerTimeConstants;
+import com.philips.ntputils.ServerTime;
+import com.philips.ntputils.constants.ServerTimeConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +40,7 @@ class CoppaConsentUpdater {
             final boolean coppaConsentStatus,
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         //  if(Jump.getSignedInUser() != null){
-        ServerTime.init(mContext);
+        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
         CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
         JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
         JSONObject consentsObject = new JSONObject();
@@ -87,7 +87,7 @@ class CoppaConsentUpdater {
         consentsObject.put(CoppaConfiguration.LOCALE,
                 RegistrationHelper.getInstance().getLocale(mContext).toString());
         consentsObject.put(CoppaConfiguration.STORED_AT,
-                ServerTime.getInstance().
+                ServerTime.
                         getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
     }
 
@@ -100,7 +100,7 @@ class CoppaConsentUpdater {
         consentsObject.put(CoppaConfiguration.CONFIRMATION_GIVEN,
                 Boolean.toString(coppaConsentConfirmationStatus));
         consentsObject.put(CoppaConfiguration.CONFIRMATION_STORED_AT,
-                ServerTime.getInstance().
+                ServerTime.
                         getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
     }
 
@@ -114,7 +114,7 @@ class CoppaConsentUpdater {
     public void updateCoppaConsentConfirmationStatus(
             final boolean coppaConsentStatus,
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
-        ServerTime.init(mContext);
+        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
         CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
         JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
         JSONObject consentsObject = new JSONObject();

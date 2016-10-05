@@ -42,8 +42,8 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.philips.cdp.security.SecureStorage;
-import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.servertime.constants.ServerTimeConstants;
+import com.philips.ntputils.ServerTime;
+import com.philips.ntputils.constants.ServerTimeConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -127,9 +127,9 @@ public class CaptureRecord extends JSONObject {
         try {
             fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureStorage.decrypt(enctText);
-            fileContents = new String(decrtext);
+           byte[] enctText = (byte[]) ois.readObject();
+           byte[] decrtext = SecureStorage.decrypt(enctText);
+           fileContents = new String(decrtext);
             fis = null;
             return inflateCaptureRecord(fileContents);
         } catch (FileNotFoundException ignore) {
@@ -357,7 +357,7 @@ public class CaptureRecord extends JSONObject {
     }
 
     /*package*/ static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
-                                                                   Map<String, Object> flow) {
+                                                                 Map<String, Object> flow) {
         Map<String, Object> preregAttributes = new HashMap<String, Object>();
         for (Map.Entry<String, Object> entry : prefilledFields.entrySet()) {
             if (entry.getValue() == null) continue;
@@ -378,7 +378,7 @@ System.out.println("UTC time " +utcTime);
 }*/
 
     private String getUTCdatetimeAsString() {
-        return  ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+       return  ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
     }
 
     /**

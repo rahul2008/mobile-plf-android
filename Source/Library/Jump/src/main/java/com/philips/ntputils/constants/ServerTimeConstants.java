@@ -6,7 +6,7 @@
  * /
  */
 
-package com.philips.cdp.servertime.constants;
+package com.philips.ntputils.constants;
 
 /**
  * Created by 310202337 on 1/28/2016.

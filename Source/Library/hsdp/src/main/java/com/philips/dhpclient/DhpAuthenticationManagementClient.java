@@ -10,11 +10,11 @@ package com.philips.dhpclient;
 
 import android.util.Base64;
 
-import com.philips.cdp.servertime.ServerTime;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.util.HsdpLog;
 import com.philips.dhpclient.util.MapUtils;
+import com.philips.ntputils.ServerTime;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -104,7 +104,7 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
     }
 
     private static String getUTCdatetimeAsString() {
-        return ServerTime.getInstance().getCurrentUTCTimeWithFormat("yyyy-MM-dd HH:mm:ss");
+        return ServerTime.getCurrentUTCTimeWithFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     public DhpAuthenticationResponse refresh(String userId, String refreshToken) {
