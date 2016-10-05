@@ -5,6 +5,7 @@
 package com.philips.platform.uit.thememanager;
 
 import android.content.res.Resources;
+import android.support.annotation.StyleRes;
 
 import com.philips.platform.uit.R;
 
@@ -13,36 +14,41 @@ import com.philips.platform.uit.R;
  */
 public enum TonalRange {
 
-    ULTRA_LIGHT{
+    ULTRA_LIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.UltraLight, true);
+        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
+            injectTonalRangeWithBaseStyle(theme, R.style.UltraLight);
         }
     },
     VERY_LIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.VeryLight, true);
+        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
+            injectTonalRangeWithBaseStyle(theme, R.style.VeryLight);
         }
     },
-    LIGHT{
+    LIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.Light, true);
+        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
+            injectTonalRangeWithBaseStyle(theme, R.style.Light);
         }
     },
-    BRIGHT{
+    BRIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.Bright, true);
+        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
+            injectTonalRangeWithBaseStyle(theme, R.style.Bright);
         }
     },
     VERYDARK {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.VeryDark, true);
+        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
+            injectTonalRangeWithBaseStyle(theme, R.style.VeryDark);
         }
     };
 
-    public abstract void injectTonalRange(Resources.Theme theme);
+    void injectTonalRangeWithBaseStyle(Resources.Theme theme, @StyleRes int style) {
+        theme.applyStyle(R.style.Base, true);
+        theme.applyStyle(style, true);
+    }
+
+    public abstract void injectTonalRangeWithBaseStyle(Resources.Theme theme);
 }

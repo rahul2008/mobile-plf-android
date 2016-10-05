@@ -19,10 +19,7 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
-                if(drawable instanceof LayerDrawable) {
-                    drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
-                }
+                Drawable drawable = getDrawable(view, funcName, drawableID);
                 return DrawableMatcher.isSameHeight(expectedValue).matches(drawable);
             }
         };
@@ -45,10 +42,7 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
-                if(drawable instanceof LayerDrawable) {
-                    drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
-                }
+                Drawable drawable = getDrawable(view, funcName, drawableID);
 
                 return DrawableMatcher.isSameRadius(index, expectedValue).matches(drawable);
             }
@@ -63,14 +57,26 @@ public class FunctionDrawableMatchers {
      * @return
      */
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue) {
+        return isSameColor(funcName, state, expectedValue, -1);
+    }
+
+    public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                return DrawableMatcher.isSameColor(state, expectedValue).matches(UITTestUtils.getDrawableWithReflection(view, funcName));
+                Drawable drawable = getDrawable(view, funcName, drawableID);
+                return DrawableMatcher.isSameColor(state, expectedValue).matches(drawable);
             }
         };
     }
 
+    private static Drawable getDrawable(final View view, final String funcName, final int drawableID) {
+        Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
+        if(drawable instanceof LayerDrawable) {
+            drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
+        }
+        return drawable;
+    }
 
     /**
      * Must be operated on ColorStateList. If the target is Drawable, use another function instead.

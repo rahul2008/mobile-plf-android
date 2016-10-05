@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <style name="Base">
+        <item name="uitInputTextFillColor">?attr/uitColorLevel05</item>
+        <item name="uitInputTextFillPressedColor">@color/uitColorWhite</item>
+        <item name="uitInputTextFillDisabledColor">?attr/uitInputTextFillColor</item>
+        <item name="uitInputTextFillDisabledAlpha">@dimen/uit_text_editbox_fill_disabled_alpha</item>
+    </style>
 
     <style name="UltraLight">
         <item name="uitContentPrimaryColor">@color/uitColorWhite</item>
@@ -21,6 +28,7 @@
         <item name="uitControlPrimaryAlternateEnabledColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel65</item>
 
+        <item name="uitInputTextFillColor">@color/uitColorWhite</item>
     </style>
 
     <style name="VeryLight">
@@ -55,6 +63,8 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel65</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel70</item>
+
+        <item name="uitInputTextFillColor">?attr/uitColorLevel10</item>
 
     </style>
 </resources>
