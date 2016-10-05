@@ -13,17 +13,13 @@ public class StoreConfiguration {
     private static final String SUFFIX_CONFIGURATION = "inAppConfig";
 
     private final HybrisStore mStore;
-    private final VerticalAppConfig mVerticalAppConfig;
     private final WebStoreConfig mWebStoreConfig;
+    private final IAPSettings mIAPSettings;
 
     public StoreConfiguration(Context context, HybrisStore store, IAPSettings iapSettings) {
         mStore = store;
-        mVerticalAppConfig = getVerticalAppConfig(iapSettings);
+        mIAPSettings = iapSettings;
         mWebStoreConfig = getWebStoreConfig(context);
-    }
-
-    VerticalAppConfig getVerticalAppConfig(final IAPSettings iapSettings) {
-        return new VerticalAppConfig(iapSettings);
     }
 
     WebStoreConfig getWebStoreConfig(final Context context) {
@@ -35,11 +31,11 @@ public class StoreConfiguration {
     }
 
     public String getHostPort() {
-        return mVerticalAppConfig.getHostPort();
+        return mIAPSettings.getHostPort();
     }
 
     public String getProposition() {
-        return mVerticalAppConfig.getProposition();
+        return mIAPSettings.getProposition();
     }
 
     public String getSite() {
