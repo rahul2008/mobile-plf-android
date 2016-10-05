@@ -9,6 +9,7 @@ package com.philips.platform.appframework.introscreen;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.shamanland.fonticon.FontIconView;
 
 /**
@@ -125,22 +127,40 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void showActionBar() {
-
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.showActionBar();
     }
 
     @Override
     public void hideActionBar() {
-
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.hideActionBar();
     }
 
     @Override
     public void loadWelcomeFragment() {
-
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.loadWelcomeFragment();
     }
 
     @Override
     public void finishActivityAffinity() {
-
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.finishAffinity();
     }
 
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return (WelcomeActivity) getActivity();
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.fragment_frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
+    }
 }

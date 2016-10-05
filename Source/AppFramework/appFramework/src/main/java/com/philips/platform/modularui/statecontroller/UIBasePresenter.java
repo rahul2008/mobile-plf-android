@@ -11,6 +11,13 @@ import android.content.Context;
  * This class aims to handle events inside the states and also events when a particular state is loaded
  */
 abstract public class UIBasePresenter {
+
+    private UIView uiView;
+
+    public UIBasePresenter(final UIView uiView) {
+        this.uiView = uiView;
+    }
+
     /**
      * The onclick of objects in a particular state can be defined here
      * @param componentID The Id of any button or widget or any other component

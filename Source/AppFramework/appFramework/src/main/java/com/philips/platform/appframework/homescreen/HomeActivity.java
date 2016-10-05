@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -37,8 +38,10 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
@@ -47,8 +50,10 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener,FragmentManager.OnBackStackChangedListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HomeActivity.class.getSimpleName();
+    private static HamburgerUtil hamburgerUtil;
+    protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
@@ -56,10 +61,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     private ListView drawerListView;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    protected TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
-    private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null,shoppingCartLayout;
     private UserRegistrationState userRegistrationState;
@@ -78,7 +81,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        presenter = new HomeActivityPresenter();
+        presenter = new HomeActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -385,5 +388,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                 }
             }
         }
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return this;
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return this;
     }
 }

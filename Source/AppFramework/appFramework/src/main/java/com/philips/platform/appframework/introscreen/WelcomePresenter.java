@@ -32,6 +32,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
     private FragmentLauncher fragmentLauncher;
 
     public WelcomePresenter(WelcomeView welcomeView) {
+        super(welcomeView);
         this.welcomeView = welcomeView;
     }
 
@@ -49,7 +50,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
 
             case R.id.appframework_skip_button:
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-                fragmentLauncher = new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context);
+                fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
                 uiState.setPresenter(this);
                 ((UserRegistrationState)uiState).registerUIStateListener(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
@@ -58,14 +59,14 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
                 sharedPreferenceUtility = new SharedPreferenceUtility(context);
                 sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-                fragmentLauncher = new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context);
+                fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
                 uiState.setPresenter(this);
                 ((UserRegistrationState)uiState).registerUIStateListener(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
                 break;
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeActivityState(UIState.UI_HOME_STATE);
-                fragmentLauncher = new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context);
+                fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
                 appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
                 if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE))
                 {
@@ -90,7 +91,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
             welcomeView.showActionBar();
             setState(UIState.UI_WELCOME_REGISTRATION_STATE);
             uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-            fragmentLauncher = new FragmentLauncher((WelcomeActivity)context,R.id.fragment_frame_container,(WelcomeActivity)context);
+            fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
             uiState.setPresenter(this);
             ((UserRegistrationState)uiState).registerUIStateListener(this);
             appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
@@ -107,7 +108,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
         this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
-        fragmentLauncher = new FragmentLauncher((WelcomeActivity)activityContext,R.id.fragment_frame_container,(WelcomeActivity)activityContext);
+        fragmentLauncher = new FragmentLauncher((WelcomeActivity) activityContext, welcomeView.getContainerId(), (WelcomeActivity) activityContext);
         this.uiState.setPresenter(this);
         ((WelcomeActivity) activityContext).finishAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);

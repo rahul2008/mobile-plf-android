@@ -9,6 +9,7 @@ package com.philips.platform.appframework.introscreen;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -141,5 +142,20 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
             presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
         }
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return this;
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return this;
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.fragment_frame_container;
     }
 }

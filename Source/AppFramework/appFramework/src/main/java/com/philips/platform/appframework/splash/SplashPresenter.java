@@ -12,6 +12,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIView;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.stateimpl.WelcomeState;
@@ -22,13 +23,16 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
 public class SplashPresenter extends UIBasePresenter {
+    private final UIView uiView;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private AppFrameworkApplication appFrameworkApplication;
     private UIState uiState;
     private UserRegistrationState userRegistrationState;
     private FragmentLauncher fragmentLauncher;
 
-    SplashPresenter(){
+    public SplashPresenter(final UIView uiView) {
+        super(uiView);
+        this.uiView = uiView;
         setState(UIState.UI_SPLASH_STATE);
     }
 
@@ -38,9 +42,9 @@ public class SplashPresenter extends UIBasePresenter {
     }
 
     /**
-     *  The methods takes decision to load which next state needs to be loaded after splash screen
-     *Depending upon the User registration is compelted on not state will change
-
+     * The methods takes decision to load which next state needs to be loaded after splash screen
+     * Depending upon the User registration is compelted on not state will change
+     *
      * @param context
      */
     @Override
@@ -54,13 +58,11 @@ public class SplashPresenter extends UIBasePresenter {
             uiState = new WelcomeState(UIState.UI_WELCOME_STATE);
         }
         uiState.setPresenter(this);
-        fragmentLauncher = new FragmentLauncher((SplashActivity)context,R.id.fragment_frame_container,null);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
-
+        fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.fragment_frame_container, null);
+        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
     }
 
     public SharedPreferenceUtility getSharedPreferenceUtility(Context context) {
         return new SharedPreferenceUtility(context);
     }
-
 }
