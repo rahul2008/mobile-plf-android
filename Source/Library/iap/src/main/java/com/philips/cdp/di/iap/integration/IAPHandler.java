@@ -52,11 +52,49 @@ class IAPHandler {
         IAPLog.initIAPLog(mIAPDependencies);
     }
 
-
     void initIAP() {
         initControllerFactory(mIAPSetting);
         initHybrisDelegate(mIAPSetting);
         setLangAndCountry(mIAPSetting);
+    }
+
+    protected void initControllerFactory(IAPSettings iapSettings) {
+        ControllerFactory.getInstance().init(iapSettings.isUseLocalData());
+    }
+
+    private void initHybrisDelegate(IAPSettings iapSettings) {
+        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(iapSettings.isUseLocalData());
+        HybrisDelegate.getDelegateWithNetworkEssentials(iapSettings.getContext(), essentials, iapSettings);
+    }
+
+    protected void setLangAndCountry(IAPSettings pIAPSetting) {
+        PILLocaleManager localeManager = new PILLocaleManager(pIAPSetting.getContext());
+        String[] localeArray;
+        String localeAsString = localeManager.getInputLocale();
+        localeArray = localeAsString.split("_");
+        Locale locale = new Locale(localeArray[0], localeArray[1]);
+        CartModelContainer.getInstance().setLanguage(locale.getLanguage());
+        CartModelContainer.getInstance().setCountry(locale.getCountry());
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
+    }
+
+    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
+        final IAPListener iapListener = pLaunchInput.getIapListener();
+
+        //User logged off scenario
+        HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
+        delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(),
+                CartModelContainer.getInstance().getCountry(), new RequestListener() {
+                    @Override
+                    public void onSuccess(final Message msg) {
+                        onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
+                    }
+
+                    @Override
+                    public void onError(final Message msg) {
+                        onFailureOfInitialization(msg, iapListener);
+                    }
+                });
     }
 
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
@@ -65,23 +103,6 @@ class IAPHandler {
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
         }
-    }
-
-    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
-        final IAPListener iapListener = pLaunchInput.getIapListener();
-        //User logged off scenario
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
-        delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
-            @Override
-            public void onSuccess(final Message msg) {
-                onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
-            }
-
-            @Override
-            public void onError(final Message msg) {
-                onFailureOfInitialization(msg, iapListener);
-            }
-        });
     }
 
     protected void onFailureOfInitialization(Message msg, IAPListener iapListener) {
@@ -102,7 +123,6 @@ class IAPHandler {
         }
     }
 
-    //IAPListener is necessary to inject for vertical.
     protected void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
         InAppBaseFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher, iapLaunchInput.getIapListener());
@@ -138,7 +158,7 @@ class IAPHandler {
     }
 
     protected void launchActivity(Context pContext, IAPLaunchInput pLaunchInput,
-                                ActivityLauncher activityLauncher) {
+                                  ActivityLauncher activityLauncher) {
         Intent intent = new Intent(pContext, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, pLaunchInput.mLandingView);
@@ -185,38 +205,6 @@ class IAPHandler {
             api = new HybrisHandler(iapSettings.getContext());
         }
         return api;
-    }
-
-    private void initHybrisDelegate(IAPSettings iapSettings) {
-        int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
-        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(requestCode);
-        HybrisDelegate.getDelegateWithNetworkEssentials(iapSettings.getContext(), essentials, iapSettings);
-    }
-
-
-    protected int getNetworkEssentialReqeustCode(boolean useLocalData) {
-        int requestCode = NetworkEssentialsFactory.LOAD_HYBRIS_DATA;
-        if (useLocalData) {
-            requestCode = NetworkEssentialsFactory.LOAD_LOCAL_DATA;
-        }
-
-        return requestCode;
-    }
-
-    protected void initControllerFactory(IAPSettings iapSettings) {
-        int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
-        ControllerFactory.getInstance().init(requestCode);
-    }
-
-    protected void setLangAndCountry(IAPSettings pIAPSetting) {
-        PILLocaleManager localeManager = new PILLocaleManager(pIAPSetting.getContext());
-        String[] localeArray;
-        String localeAsString = localeManager.getInputLocale();
-        localeArray = localeAsString.split("_");
-        Locale locale = new Locale(localeArray[0], localeArray[1]);
-        CartModelContainer.getInstance().setLanguage(locale.getLanguage());
-        CartModelContainer.getInstance().setCountry(locale.getCountry());
-        HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
     }
 
     protected boolean isStoreInitialized(Context pContext) {

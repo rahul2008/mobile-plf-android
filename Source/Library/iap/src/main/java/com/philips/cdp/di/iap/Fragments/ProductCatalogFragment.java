@@ -160,7 +160,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(true);
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
-        if (!ControllerFactory.getInstance().loadLocalData()) {
+        if (!ControllerFactory.getInstance().isPlanB()) {
             mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
         mAdapter.tagProducts();

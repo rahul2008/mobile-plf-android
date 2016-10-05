@@ -145,7 +145,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mViewPager.setAdapter(mImageAdapter);
         indicator.setViewPager(mViewPager);
 
-        if (ControllerFactory.getInstance().loadLocalData()) {
+        if (ControllerFactory.getInstance().isPlanB()) {
             mBuyFromRetailers.setText(R.string.iap_buy_now);
         } else {
             mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
@@ -157,16 +157,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
                 mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
                 if (isNetworkConnected()) {
-                    if (!ControllerFactory.getInstance().loadLocalData()) {
+                    if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
                         if (!Utility.isProgressDialogShowing()) {
-
                             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-
                         }
                         controller.getProductDetail(mCTNValue);
-                    } else
+                    } else {
                         fetchProductDetail();
+                    }
                 }
             } else {
                 mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
@@ -277,7 +276,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void setButtonState() {
-        if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
+        if (ControllerFactory.getInstance().isPlanB()) {
             mAddToCart.setVisibility(View.GONE);
             mBuyFromRetailers.setVisibility(View.GONE);
         } else {

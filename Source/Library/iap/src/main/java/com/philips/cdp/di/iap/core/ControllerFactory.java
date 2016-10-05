@@ -13,36 +13,27 @@ import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 
 public class ControllerFactory {
     private static ControllerFactory mController = new ControllerFactory();
-    private int mRequestCode;
-
-    /**
-     * Must be called only from IAPHandler.
-     */
-    public void init(int requestCode) {
-        mRequestCode = requestCode;
-    }
+    private boolean mIsPlanB;
 
     public static ControllerFactory getInstance() {
         return mController;
     }
 
-    public boolean shouldDisplayCartIcon() {
-        return !loadLocalData();
+    public void init(boolean isLocalData) {
+        mIsPlanB = isLocalData;
     }
 
-    public boolean loadLocalData() {
-        return mRequestCode == NetworkEssentialsFactory.LOAD_LOCAL_DATA;
+    public boolean isPlanB() {
+        return mIsPlanB;
     }
 
-    @SuppressWarnings({"rawtype","unchecked"})
+    @SuppressWarnings({"rawtype", "unchecked"})
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
                                                     ShoppingCartPresenter.LoadListener listener) {
         ShoppingCartAPI api;
-        boolean isLocalData = loadLocalData();
-        if (isLocalData) {
+        if (mIsPlanB) {
             api = new LocalShoppingCartPresenter(context, listener);
-        }
-        else {
+        } else {
             api = new ShoppingCartPresenter(context, listener);
         }
         return api;
@@ -51,7 +42,7 @@ public class ControllerFactory {
     public ProductCatalogAPI getProductCatalogPresenter(Context context,
                                                         ProductCatalogPresenter.ProductCatalogListener listener) {
         ProductCatalogAPI api;
-        if (loadLocalData())
+        if (mIsPlanB)
             api = new LocalProductCatalog(context, listener);
         else {
             api = new ProductCatalogPresenter(context, listener);
