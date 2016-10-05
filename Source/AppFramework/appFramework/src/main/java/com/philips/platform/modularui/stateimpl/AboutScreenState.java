@@ -7,38 +7,37 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
 public class AboutScreenState  extends UIState {
-    AppFrameworkApplication appFrameworkApplication;
 
+    FragmentLauncher fragmentLauncher;
 
-    public AboutScreenState(@UIStateDef int stateID) {
-        super(stateID);
+    public AboutScreenState() {
+        super(UIState.UI_ABOUT_SCREEN_STATE);
     }
 
     /**
      * Navigating to AboutScreenFragment
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new AboutScreenFragment(), AboutScreenFragment.TAG);
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
+                handleFragmentBackStack( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
-    /**
-     * To handle back pressed
-     * @param context requires context
-     */
     @Override
-    public void back(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    public void init(Context context) {
+
     }
 }
 

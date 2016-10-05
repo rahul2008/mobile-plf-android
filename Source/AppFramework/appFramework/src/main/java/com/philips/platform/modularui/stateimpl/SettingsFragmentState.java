@@ -8,36 +8,34 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class SettingsFragmentState extends UIState {
-    /**
-     * constructor
-     * @param stateID
-     */
-    public SettingsFragmentState(@UIStateDef int stateID) {
-        super(stateID);
+
+    private FragmentLauncher fragmentLauncher;
+
+    public SettingsFragmentState() {
+        super(UIState.UI_SETTINGS_FRAGMENT_STATE);
     }
 
     /**
      * to navigate
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        if(context instanceof HomeActivity) {
-            ((AppFrameworkBaseActivity) context).showFragment(new SettingsFragment(), SettingsFragment.TAG);
-        }
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+            ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+                    handleFragmentBackStack(new SettingsFragment(), SettingsFragment.TAG,
+                            getUiStateData().getFragmentLaunchState());
+
     }
 
-    /**
-     * to handle back
-     * @param context requires context
-     */
     @Override
-    public void back(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    public void init(Context context) {
+
     }
 }

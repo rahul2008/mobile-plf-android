@@ -19,7 +19,7 @@
     <color name="actionbar_background_end_color">#0066A1</color>
     <color name="actionbar_title_color">#FFFFFF</color>
 
-    <!-- Action bar back arrow button -->
+    <!-- Action bar handleBack arrow button -->
     <style name="actionbar_back_button">
         <item name="android:src">@drawable/consumercare_actionbar_back_arrow_white</item>
     </style>

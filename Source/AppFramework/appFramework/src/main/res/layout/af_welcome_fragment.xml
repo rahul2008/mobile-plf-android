@@ -1,38 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parent_introduction_fragment_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/af_welcome_center_page_bg"
-    android:orientation="vertical">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+    <android.support.v4.view.ViewPager
+        android:id="@+id/welcome_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/welcome_skip_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/skip_layout_margin_top"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/skip_layout_padding_bottom"
+        >
+
+        <TextView
+            android:id="@+id/welcome_skip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/skip_introduction_button_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/welcome_button_text_size"
+            fontPath="fonts/centralesansbook.ttf"
+            />
+
+        <TextView
+            android:id="@+id/welcome_placeholder_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/welcome_button_text_size"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/welcome_indicator_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_above="@id/welcome_skip_button_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/intro_margin_right"
+        android:layout_marginStart="@dimen/intro_margin_left"
+        >
 
-        <TextView
-            android:id="@+id/large_text"
-            fontPath="fonts/centralesansxbold.ttf"
-            android:layout_width="match_parent"
+        <com.shamanland.fonticon.FontIconView
+            android:id="@+id/welcome_leftarrow"
+            android:layout_alignParentStart="true"
+            android:text="@string/uikit_fonticon_arrow_left"
+            style="@style/FontIcon.WelcomeArrow"
+            />
+
+        <com.philips.cdp.uikit.customviews.CircleIndicator
+            android:id="@+id/welcome_indicator"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/small_text"
-            android:layout_marginLeft="@dimen/intro_margin_left"
-            android:text="@string/introduction_screen_top_text"
-            android:textColor="@color/white"
-            android:textSize="@dimen/intro_large_textfont" />
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            />
+
+        <com.shamanland.fonticon.FontIconView
+            android:id="@+id/welcome_rightarrow"
+            android:layout_alignParentEnd="true"
+            android:text="@string/uikit_fonticon_arrow_right"
+            style="@style/FontIcon.WelcomeArrow"
+            />
 
         <TextView
-            android:id="@+id/small_text"
+            android:id="@+id/welcome_start_registration_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/start_registration_button_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/welcome_button_text_size"
+            android:visibility="gone"
             fontPath="fonts/centralesansbook.ttf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/intro_small_text_margin_bottom"
-            android:layout_marginLeft="@dimen/intro_margin_left"
-            android:layout_marginTop="@dimen/intro_small_text_margin_top"
-            android:text="@string/introduction_screen_one_bottom_text"
-            android:textColor="@color/white"
-            android:textSize="@dimen/intro_small_text_font" />
+            />
     </RelativeLayout>
 
-</LinearLayout>
+
+</RelativeLayout>

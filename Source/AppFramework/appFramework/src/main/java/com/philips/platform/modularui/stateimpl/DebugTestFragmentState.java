@@ -7,38 +7,36 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
+/**
+ * This class if used for dynamic configuration of Environment of User registration
+ */
 public class DebugTestFragmentState extends UIState {
-    AppFrameworkApplication appFrameworkApplication;
 
-    /**
-     * constructor
-     * @param stateID
-     */
-    public DebugTestFragmentState(@UIStateDef int stateID) {
-        super(stateID);
+    private FragmentLauncher fragmentLauncher;
+
+    public DebugTestFragmentState() {
+        super(UIState.UI_DEBUG_FRAGMENT_STATE);
     }
 
     /**
      * Navigate to the fragment
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new DebugTestFragment(), DebugTestFragment.TAG);
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
+                handleFragmentBackStack( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
-    /**
-     * to handle back key
-     * @param context requires context
-     */
-
     @Override
-    public void back(final Context context) {
-        ((AppFrameworkBaseActivity)context).popBackTillHomeFragment();
+    public void init(Context context) {
+
     }
 }
