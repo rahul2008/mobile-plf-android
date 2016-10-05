@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,6 +23,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.modularui.statecontroller.UIView;
 
 /**
  * <H1>Dev Guide</H1>
@@ -30,7 +32,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  * By default themed gradient background is applied.<br>
  * SplashActivity is class which will appear at the very start when user opens the app.
  */
-public class SplashActivity extends AppFrameworkBaseActivity {
+public class SplashActivity extends AppFrameworkBaseActivity implements UIView {
     private static int SPLASH_TIME_OUT = 3000;
     private static String TAG = SplashActivity.class.getSimpleName();
     private boolean isVisible = false;
@@ -42,7 +44,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        presenter = new SplashPresenter();
+        presenter = new SplashPresenter(this);
         initView();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Splash Activity Created ");
 
@@ -121,5 +123,10 @@ public class SplashActivity extends AppFrameworkBaseActivity {
     @Override
     public void updateActionBar(String s, boolean b) {
 
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return this;
     }
 }
