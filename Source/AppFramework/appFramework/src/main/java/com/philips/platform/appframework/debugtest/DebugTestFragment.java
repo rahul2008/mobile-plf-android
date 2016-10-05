@@ -21,10 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -56,7 +56,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity)getActivity()).updateActionBarIcon(false);
+        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Nullable
@@ -144,7 +144,5 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.PRODUCT_REGISTRATION_PREFERENCES, development);
         editor.commit();
-
     }
-
 }

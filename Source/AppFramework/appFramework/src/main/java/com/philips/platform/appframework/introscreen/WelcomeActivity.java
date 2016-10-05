@@ -131,8 +131,11 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     @Override
     public void updateActionBar(String s, boolean b) {
         textView.setText(s);
-
-
     }
 
+
+    @Override
+    public void updateActionBarIcon(boolean b) {
+
+    }
 }

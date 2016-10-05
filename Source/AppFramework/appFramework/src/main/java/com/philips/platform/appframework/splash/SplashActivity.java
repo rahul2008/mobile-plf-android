@@ -9,6 +9,7 @@ package com.philips.platform.appframework.splash;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Html;
 import android.view.ViewGroup;
@@ -105,5 +106,20 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    public void updateActionBarIcon(boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
     }
 }

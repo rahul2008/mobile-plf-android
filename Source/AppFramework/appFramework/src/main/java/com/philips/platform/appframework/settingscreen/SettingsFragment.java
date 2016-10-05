@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
@@ -38,7 +39,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         @Override
         public void onLogoutSuccess() {
             uiBasePresenter = new SettingsFragmentPresenter();
-            ((HomeActivity)getActivity()).setCartItemCount(0);
+            ((AppFrameworkBaseActivity)getActivity()).setCartItemCount(0);
             uiBasePresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT,getActivity());
         }
 
@@ -70,7 +71,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity)getActivity()).updateActionBarIcon(false);
+        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override

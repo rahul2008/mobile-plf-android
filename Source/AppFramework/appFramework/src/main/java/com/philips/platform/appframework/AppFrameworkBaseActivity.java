@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework;
 
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
@@ -12,12 +13,14 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.homescreen.HomeFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity {
+public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
+    private int cartItemCount = 0;
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
         int containerId = R.id.frame_container;
@@ -48,4 +51,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         }
     }
 
+    public int getCartItemCount() {
+        return cartItemCount;
+    }
+
+    public void setCartItemCount(int cartItemCount) {
+        this.cartItemCount = cartItemCount;
+    }
+
+    public abstract void updateActionBarIcon(boolean b);
 }

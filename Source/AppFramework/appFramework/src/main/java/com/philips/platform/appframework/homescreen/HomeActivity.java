@@ -15,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +38,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
@@ -50,7 +47,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener,FragmentManager.OnBackStackChangedListener {
     private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -69,7 +66,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private SharedPreferenceUtility sharedPreferenceUtility;
     private ImageView cartIcon;
     private TextView cartCount;
-    private int cartItemCount = 0;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -181,14 +177,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         setSupportActionBar(toolbar);
     }
 
-    public int getCartItemCount() {
-        return cartItemCount;
-    }
-
-    public void setCartItemCount(int cartItemCount) {
-        this.cartItemCount = cartItemCount;
-    }
-
     private void setDrawerAdapter() {
         adapter = null;
         TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
@@ -245,7 +233,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         } else {
             super.onBackPressed();
         }
-
     }
 
     @Override
@@ -260,7 +247,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
             iapInterface.getProductCartCount(this);
         }catch (RuntimeException e){
-            Log.e(""+TAG,"Exception caught"+e);
         }
     }
     @Override
@@ -324,9 +310,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     public void cartIconVisibility(boolean shouldShow) {
         if(shouldShow){
             cartIcon.setVisibility(View.VISIBLE);
-                if (cartItemCount > 0) {
+            int cartItemsCount = getCartItemCount();
+                if (cartItemsCount > 0) {
                         cartCount.setVisibility(View.VISIBLE);
-                        cartCount.setText(String.valueOf(cartItemCount));
+                        cartCount.setText(String.valueOf(cartItemsCount));
                 }else {
                     cartCount.setVisibility(View.GONE);
                 }
@@ -336,9 +323,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
     @Override
-    public void onGetCartCount(int count) {
-        cartItemCount = count;
-        if(cartItemCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
+    public void onGetCartCount(int cartCount) {
+        setCartItemCount(cartCount);
+        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
             cartIconVisibility(true);
         }
     }
