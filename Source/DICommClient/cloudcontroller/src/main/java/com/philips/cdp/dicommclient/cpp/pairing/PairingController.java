@@ -10,6 +10,7 @@ import com.philips.cdp.dicommclient.util.LogConstants;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
+import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
 import com.philips.icpinterface.data.PairingRelationship;
 
@@ -28,55 +29,55 @@ public class PairingController implements IPairingController {
     }
 
     @Override
-    public void startPairing() {
-
-    }
-
-    @Override
-    public void startUserPairing(String userId, String accessToken, String relationType) {
-
-    }
-
-    @Override
-    public void initializeRelationshipRemoval() {
-
-    }
-
-    @Override
-    public void addPermission(String relationType, String[] permission) {
-
-    }
-
-    @Override
-    public void getPermission(String relationType, String[] permission) {
-
-    }
-
-    @Override
-    public void removePermission(String relationType, String[] permission) {
-
-    }
-
-    @Override
     public void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull ICPEventListener icpEventListener) {
         addRelationship(relationshipType, null, pairingHandlerRelationship, icpEventListener);
     }
 
     @Override
     public void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull ICPEventListener icpEventListener) {
-        if (!mCloudController.isSignOn()) return;
-        int status;
-        PairingService addPSRelation = createPairingService(icpEventListener);
+        if (!mCloudController.isSignOn()) {
+            return;
+        }
 
+        int status;
+        PairingService pairingService = createPairingService(icpEventListener);
         PairingInfo pairingInfo = secretKey != null ? getPairingInfo(secretKey) : null;
 
-        addPSRelation.addRelationshipRequest(pairingHandlerRelationship.getTrustorEntity(), pairingHandlerRelationship.getTrusteeEntity(), null,
+        pairingService.addRelationshipRequest(pairingHandlerRelationship.getTrustorEntity(), pairingHandlerRelationship.getTrusteeEntity(), null,
                 getPairingRelationshipData(relationshipType, PAIRING_PERMISSIONS.toArray(new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
 
-        addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
-        status = addPSRelation.executeCommand();
+        pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
+        status = pairingService.executeCommand();
+
         if (Errors.REQUEST_PENDING != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: ");
+        }
+    }
+
+    /**
+     * Method removeRelationship-remove an existing relationship
+     *
+     * @param relationType String
+     */
+    @Override
+    public void removeRelationship(PairingEntitiyReference trustor, PairingEntitiyReference trustee, String relationType, @NonNull ICPEventListener icpEventListener) {
+        if (!mCloudController.isSignOn()){
+            return;
+        }
+
+        int status;
+        PairingService removeRelationship = createPairingService(icpEventListener);
+
+        status = removeRelationship.removeRelationshipRequest(trustor, trustee, relationType);
+        if (Errors.SUCCESS != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+            return;
+        }
+        removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
+        status = removeRelationship.executeCommand();
+
+        if (Errors.REQUEST_PENDING != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
         }
     }
 

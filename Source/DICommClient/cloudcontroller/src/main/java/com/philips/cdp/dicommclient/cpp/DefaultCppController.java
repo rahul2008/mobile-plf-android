@@ -51,6 +51,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DefaultCppController implements CppController {
+    
+    private static final String TAG = "DefaultCppController";
 
     private IPairingController mPairingController;
 
@@ -118,8 +120,8 @@ public class DefaultCppController implements CppController {
     }
 
     public DefaultCppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
-
         this.mContext = context;
+        
         mKpsConfigurationInfo = kpsConfigurationInfo;
         mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
 
@@ -132,7 +134,7 @@ public class DefaultCppController implements CppController {
 
         if (mSignon == null) {
             mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
-    }
+        }
 
         mSignon.setInterfaceAndContextObject(this, mContext);
 
@@ -505,7 +507,7 @@ public class DefaultCppController implements CppController {
             mDownloadData.executeCommand();
         } catch (Exception | Error e) {
             notifyDownloadDataListener(Errors.GENERAL_ERROR, null);
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -863,7 +865,7 @@ public class DefaultCppController implements CppController {
                     }
                 } catch (IOException e) {
                     mAppUpdateListener.onAppUpdateDownloadFailed();
-                    e.printStackTrace();
+                    Log.e(TAG, e.getMessage());
                 }
             }
         } else {
@@ -882,7 +884,7 @@ public class DefaultCppController implements CppController {
             mByteOffset = 0;
         } catch (FileNotFoundException e) {
             mAppUpdateListener.onAppUpdateDownloadFailed();
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
             mFileOutputStream = null;
         }
     }
@@ -894,7 +896,7 @@ public class DefaultCppController implements CppController {
                 mFileOutputStream = null;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 
