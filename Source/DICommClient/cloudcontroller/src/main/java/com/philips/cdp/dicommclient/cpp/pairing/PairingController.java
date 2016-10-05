@@ -61,7 +61,7 @@ public class PairingController implements IPairingController {
      */
     @Override
     public void removeRelationship(PairingEntitiyReference trustor, PairingEntitiyReference trustee, String relationType, @NonNull ICPEventListener icpEventListener) {
-        if (!mCloudController.isSignOn()){
+        if (!mCloudController.isSignOn()) {
             return;
         }
 
@@ -75,6 +75,93 @@ public class PairingController implements IPairingController {
         }
         removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
         status = removeRelationship.executeCommand();
+
+        if (Errors.REQUEST_PENDING != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+        }
+    }
+
+    /**
+     * Method addPermission- adds permission to a existing relationship
+     *
+     * @param relationType String
+     * @param permission   String[]
+     */
+    @Override
+    public void addPermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull ICPEventListener icpEventListener) {
+        if (!mCloudController.isSignOn()) {
+            return;
+        }
+        int status;
+        PairingService pairingService = mCloudController.getPairingController().createPairingService(icpEventListener);
+        status = pairingService.addPermissionsRequest(null, trustee, relationType, permission);
+
+        if (Errors.SUCCESS != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+            return;
+        }
+        pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
+        status = pairingService.executeCommand();
+
+        if (Errors.REQUEST_PENDING != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+        }
+    }
+
+    /**
+     * Method getPermission-get permissions of a existing relationship
+     *
+     * @param relationType String
+     * @param permission   String[]
+     */
+    @Override
+    public void getPermission(String relationType, String[] permission, PairingEntitiyReference trustee,
+                              PermissionListener permissionListener, @NonNull ICPEventListener icpEventListener) {
+        if (!mCloudController.isSignOn()) {
+            permissionListener.onCallFailed();
+            return;
+        }
+
+        int iMaxPermissons = 5;
+        int iPermIndex = 0;
+
+        PairingService pairingService = createPairingService(icpEventListener);
+        int status = pairingService.getPermissionsRequest(null, trustee, relationType, iMaxPermissons, iPermIndex);
+
+        if (Errors.SUCCESS != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+            permissionListener.onCallFailed();
+            return;
+        }
+        pairingService.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
+        status = pairingService.executeCommand();
+
+        if (Errors.REQUEST_PENDING != status) {
+            permissionListener.onCallFailed();
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+        }
+    }
+
+    /**
+     * Method removePermission-remove permission from a existing relationship
+     *
+     * @param relationType String
+     * @param permission   String[]
+     */
+    @Override
+    public void removePermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull ICPEventListener icpEventListener) {
+        if (!mCloudController.isSignOn()) {
+            return;
+        }
+        PairingService pairingService = createPairingService(icpEventListener);
+        int status = pairingService.removePermissionsRequest(null, trustee, relationType, permission);
+
+        if (Errors.SUCCESS != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+            return;
+        }
+        pairingService.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
+        status = pairingService.executeCommand();
 
         if (Errors.REQUEST_PENDING != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
@@ -100,6 +187,7 @@ public class PairingController implements IPairingController {
 
         return pairingTypeInfo;
     }
+
     /**
      * add pairingRelationshipData
      *
