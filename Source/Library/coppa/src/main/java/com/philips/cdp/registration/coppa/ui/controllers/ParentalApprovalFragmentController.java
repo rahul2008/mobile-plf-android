@@ -30,8 +30,8 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.servertime.constants.ServerTimeConstants;
+import com.philips.ntputils.ServerTime;
+import com.philips.ntputils.constants.ServerTimeConstants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -218,7 +218,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
             date = format.parse(mCoppaExtension.getConsent().getStoredAt());
             long millisecondsatConsentGiven = date.getTime();
 
-            final String timeNow = ServerTime.getInstance().getCurrentUTCTimeWithFormat(
+            final String timeNow = ServerTime.getCurrentUTCTimeWithFormat(
                     ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
             format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP, Locale.ROOT);
             format.setTimeZone(TimeZone.getTimeZone("UTC"));

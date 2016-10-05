@@ -11,11 +11,11 @@ package com.philips.dhpclient;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.servertime.constants.ServerTimeConstants;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.response.DhpResponseVerifier;
 import com.philips.dhpclient.util.HsdpLog;
+import com.philips.ntputils.ServerTime;
+import com.philips.ntputils.constants.ServerTimeConstants;
 
 import org.json.JSONException;
 
@@ -201,7 +201,7 @@ public class DhpApiClient {
     }
 
     public static String UTCDatetimeAsString(){
-        return ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT);
+        return ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT);
     }
 
     public void setResponseVerifier(DhpResponseVerifier responseVerifier) {

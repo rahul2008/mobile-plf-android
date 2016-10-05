@@ -1,5 +1,5 @@
 rootProject.setName("UserRegistration")
-include ':hsdp', ':HockeySDK-3.0.2', ':servertime'
+include ':hsdp', ':HockeySDK-3.0.2'
 include ':jump'
 include ':registrationApi'
 include ':coppa'

@@ -28,7 +28,7 @@ import com.philips.cdp.registration.coppa.ui.customviews.XNumberPickerDialog;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.servertime.ServerTime;
+import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Calendar;
@@ -203,8 +203,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     }
 
     private void validateInputs() {
-        ServerTime.init(getActivity().getApplicationContext());
-        String currentTime = ServerTime.getInstance().getCurrentTime();
+        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+        String currentTime = ServerTime.getCurrentTime();
         int currentYear = Integer.parseInt(currentTime.substring(0, 4));
         int selectedYear = Integer.parseInt(mTvSelectedYear.getText().toString().trim());
         int caluculateAge = currentYear - selectedYear;

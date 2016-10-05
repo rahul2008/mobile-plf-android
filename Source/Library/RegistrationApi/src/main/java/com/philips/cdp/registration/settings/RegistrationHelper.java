@@ -21,7 +21,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.security.SecureStorage;
-import com.philips.cdp.servertime.ServerTime;
+import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -166,8 +166,8 @@ public class RegistrationHelper {
     }
 
     private void refreshNTPOffset() {
-        ServerTime.init(mContext);
-        ServerTime.getInstance().refreshOffset();
+        ServerTime.init(getAppInfraInstance().getTime());
+        ServerTime.refreshOffset();
     }
 
 

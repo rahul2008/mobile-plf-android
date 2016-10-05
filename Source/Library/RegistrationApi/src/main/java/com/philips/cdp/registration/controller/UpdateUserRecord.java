@@ -22,8 +22,8 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.servertime.constants.ServerTimeConstants;
+import com.philips.ntputils.ServerTime;
+import com.philips.ntputils.constants.ServerTimeConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,8 +97,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
             RegistrationHelper userSettings = RegistrationHelper.getInstance();
             // visitedMicroSites
             try {
-                ServerTime.init(mContext);
-                String currentDate = ServerTime.getInstance().getCurrentUTCTimeWithFormat(DATE_FORMAT);
+                ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+                String currentDate = ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT);
                 JSONObject visitedMicroSitesObject = new JSONObject();
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
                 visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
@@ -176,8 +176,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
             try {
-                ServerTime.init(mContext);
-                String currentDate = ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+                ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+                String currentDate = ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
 
                 JSONObject visitedMicroSitesObject = new JSONObject();
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);

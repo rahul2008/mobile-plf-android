@@ -42,8 +42,8 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.philips.cdp.security.SecureStorage;
-import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.servertime.constants.ServerTimeConstants;
+import com.philips.ntputils.ServerTime;
+import com.philips.ntputils.constants.ServerTimeConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -378,7 +378,7 @@ System.out.println("UTC time " +utcTime);
 }*/
 
     private String getUTCdatetimeAsString() {
-       return  ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+       return  ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
     }
 
     /**

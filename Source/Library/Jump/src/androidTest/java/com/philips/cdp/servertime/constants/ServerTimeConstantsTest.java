@@ -2,9 +2,8 @@ package com.philips.cdp.servertime.constants;
 
 import android.test.InstrumentationTestCase;
 
-/**
- * Created by 310230979  on 8/30/2016.
- */
+import com.philips.ntputils.constants.ServerTimeConstants;
+
 public class ServerTimeConstantsTest extends InstrumentationTestCase {
 
     ServerTimeConstants mServerTimeConstants;
