@@ -7,6 +7,7 @@ package com.philips.platform.uit.tests;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.test.annotation.UiThreadTest;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
@@ -15,13 +16,13 @@ import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.DrawableMatcher;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.utils.TestConstants;
+import com.philips.platform.uit.utils.UITTestUtils;
 import com.philips.platform.uit.view.widget.TextEditBox;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getContext;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -56,9 +57,18 @@ public class TextBoxTest {
     }
 
     @Test
+    @UiThreadTest
     public void verifyTextEditBoxFillBackgroundRadius() {
         float expectedRadius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_fill_drawable)));
+    }
+
+//    @UiThreadTest
+    @Test
+    public void verifyTextEditBoxHeight() {
+        UITTestUtils.waitFor(testResources,2000);
+        int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_height);
+        getTextBox().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND,  expectedHeight, R.id.uit_texteditbox_fill_drawable)));
     }
 
     private ViewInteraction getTextBox() {

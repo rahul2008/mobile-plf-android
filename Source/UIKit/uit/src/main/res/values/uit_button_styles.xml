@@ -43,8 +43,9 @@
         <item name="uitImageButtonColorList">@color/uit_default_button_background_selector</item>
     </style>
 
-    <style name="UITTextEditBoxStyle">
+    <style name="UITTextEditBoxStyle" parent="Base.Widget.AppCompat.EditText">
         <item name="android:background">@drawable/uit_text_editbox_background</item>
+        <item name="android:minHeight">@dimen/uit_text_editbox_height</item>
     </style>
 
 </resources>

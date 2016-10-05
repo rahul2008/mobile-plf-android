@@ -28,5 +28,6 @@
 
     <!--TextEditBox dimens-->
     <dimen name="texteditbox_corner_radius">2dp</dimen>
+    <dimen name="texteditbox_height">40dp</dimen>
 
 </resources>

@@ -12,10 +12,17 @@ import org.hamcrest.Matcher;
 
 public class FunctionDrawableMatchers {
     public static Matcher<View> isSameHeight(final String funcName, final int expectedValue) {
+        return isSameHeight(funcName, expectedValue, -1);
+    }
+
+    public static Matcher<View> isSameHeight(final String funcName, final int expectedValue, final int drawableID) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
+                if(drawable instanceof LayerDrawable) {
+                    drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
+                }
                 return DrawableMatcher.isSameHeight(expectedValue).matches(drawable);
             }
         };
