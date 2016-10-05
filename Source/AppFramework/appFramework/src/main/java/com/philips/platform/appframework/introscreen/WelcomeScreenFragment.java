@@ -31,7 +31,7 @@ import com.shamanland.fonticon.FontIconView;
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  *
  */
-public class WelcomeScreenFragment extends Fragment implements View.OnClickListener {
+public class WelcomeScreenFragment extends Fragment implements View.OnClickListener, WelcomeView {
 
     private static String TAG = WelcomeActivity.class.getSimpleName();
     private FontIconView appframework_leftarrow, appframework_rightarrow;
@@ -45,7 +45,7 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
 
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " IntroductionScreen Activity Created ");
-        presenter = new WelcomePresenter();
+        presenter = new WelcomePresenter(this);
         View view = inflater.inflate(R.layout.af_welcome_activity, container, false);
         final ViewPager mPager = (ViewPager) view.findViewById(R.id.pager);
         mPager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
@@ -122,4 +122,25 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         presenter.onClick(v.getId(), getActivity());
     }
+
+    @Override
+    public void showActionBar() {
+
+    }
+
+    @Override
+    public void hideActionBar() {
+
+    }
+
+    @Override
+    public void loadWelcomeFragment() {
+
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+
+    }
+
 }

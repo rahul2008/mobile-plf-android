@@ -32,20 +32,18 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * It has two sections
  * 1. The user registration
  * 2. Welcome fragments
- *
  */
-public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
-    ImageView arrowImage;
-    TextView textView;
-    FragmentManager fragmentManager;
-    WelcomeScreenFragment welcomeScreenFragment;
-    FragmentTransaction fragmentTransaction;
-
+public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener, WelcomeView {
+    private ImageView arrowImage;
+    private TextView textView;
+    private FragmentManager fragmentManager;
+    private WelcomeScreenFragment welcomeScreenFragment;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomePresenter();
+        presenter = new WelcomePresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_screen);
         presenter.onLoad(this);
@@ -54,32 +52,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public void onBackPressed() {
-        boolean isConsumed = false;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager
-                .findFragmentById(R.id.fragment_frame_container);
-        if (fragment != null && fragment instanceof BackEventListener) {
-            isConsumed = ((BackEventListener) fragment).handleBackEvent();
-        }
-        if (!isConsumed) {
-
-            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
-        }
-
-
-    }
-
-    void changeActionBarState(boolean isVisible) {
-        if (!isVisible) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getSupportActionBar().hide();
-        } else {
-            getSupportActionBar().show();
-        }
     }
 
     private void initCustomActionBar() {
@@ -93,7 +65,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
                     ActionBar.LayoutParams.WRAP_CONTENT,
                     Gravity.CENTER);
             View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_home_action_bar, null); // layout which contains your button.
-
 
             final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
             frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -110,12 +81,31 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         }
     }
 
-    void loadWelcomeFragment() {
+    @Override
+    public void showActionBar() {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().show();
+    }
+
+    @Override
+    public void hideActionBar() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
+    }
+
+    @Override
+    public void loadWelcomeFragment() {
         fragmentManager = this.getSupportFragmentManager();
         welcomeScreenFragment = new WelcomeScreenFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_frame_container, welcomeScreenFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+        finishAffinity();
     }
 
     @Override
@@ -125,7 +115,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-    textView.setText(i);
+        textView.setText(i);
     }
 
     @Override
@@ -133,9 +123,23 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         textView.setText(s);
     }
 
-
     @Override
     public void updateActionBarIcon(boolean b) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        boolean isConsumed = false;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(R.id.fragment_frame_container);
+        if (fragment != null && fragment instanceof BackEventListener) {
+            isConsumed = ((BackEventListener) fragment).handleBackEvent();
+        }
+        if (!isConsumed) {
+
+            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
+        }
     }
 }
