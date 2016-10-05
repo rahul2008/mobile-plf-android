@@ -22,5 +22,5 @@
         android:layout_marginTop="24dp"
         android:gravity="center_horizontal"
         android:contentDescription="@string/colorRangesLabel"
-        app:srcCompat="@drawable/ic_white_done"/>
+        app:srcCompat="@drawable/ic_transparent_done"/>
 </FrameLayout>
