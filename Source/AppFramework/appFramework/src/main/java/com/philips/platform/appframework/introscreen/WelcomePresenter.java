@@ -109,7 +109,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
         this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
         fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
         this.uiState.setPresenter(this);
-        ((WelcomeActivity) activityContext).finishAffinity();
+        welcomeView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
     }
 }
