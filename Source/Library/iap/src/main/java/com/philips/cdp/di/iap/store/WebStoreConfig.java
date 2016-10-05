@@ -14,7 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.response.config.WebStoreConfigResponse;
+import com.philips.cdp.di.iap.response.config.HybrisConfigResponse;
 import com.philips.cdp.di.iap.session.IAPHurlStack;
 import com.philips.cdp.di.iap.session.IAPJsonRequest;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -93,8 +93,8 @@ public class WebStoreConfig {
         net.performRequest(request, new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
-                WebStoreConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
-                        WebStoreConfigResponse.class);
+                HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
+                        HybrisConfigResponse.class);
                 mSiteID = resp.getSiteId();
                 mStoreConfig.generateStoreUrls();
                 notifyConfigListener(true, null);
