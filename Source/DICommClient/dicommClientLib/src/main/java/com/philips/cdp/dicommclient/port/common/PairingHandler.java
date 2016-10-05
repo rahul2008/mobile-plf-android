@@ -112,7 +112,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         DICommLog.i(DICommLog.PAIRING, "Started pairing with appliance = " + mAppliance.getNetworkNode().getName() + " attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         String appEui64 = DICommClientWrapper.getCloudController().getAppCppId();
-        pairingHandlerRelationship = new AppPairingHandlerRelationship(appEui64, PAIRING_REFERENCEPROVIDER, mAppliance);
+        pairingHandlerRelationship = new AppPairingHandlerRelationship(appEui64, PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType());
         startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
@@ -120,7 +120,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         if (mAppliance == null) return;
         DICommLog.i(DICommLog.PAIRING, "Started user pairing with appliance = " + mAppliance.getNetworkNode().getName() + " attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
-        pairingHandlerRelationship = new UserPairingHandlerRelationship(userId, PAIRING_USER_REFERENCEPROVIDER, relationType, accessToken, mAppliance);
+        pairingHandlerRelationship = new UserPairingHandlerRelationship(userId, PAIRING_USER_REFERENCEPROVIDER, relationType, accessToken, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType());
         startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
@@ -398,7 +398,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                     } else {
                         DICommLog.i(DICommLog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
                         currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
-                        AppPairingHandlerRelationship appPairingHandlerRelationship = new AppPairingHandlerRelationship(DICommClientWrapper.getCloudController().getAppCppId(), PAIRING_REFERENCEPROVIDER, mAppliance);
+                        AppPairingHandlerRelationship appPairingHandlerRelationship = new AppPairingHandlerRelationship(DICommClientWrapper.getCloudController().getAppCppId(), PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType());
                         addRelationship(PAIRING_NOTIFY_RELATIONSHIP, null, appPairingHandlerRelationship);
                     }
                 } else {

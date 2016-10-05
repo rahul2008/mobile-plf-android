@@ -1,6 +1,5 @@
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.data.PairingEntitiyReference;
 
@@ -9,14 +8,16 @@ abstract class PairingHandlerRelationship {
     protected String provider;
     protected String type;
     protected String credentials;
-    protected DICommAppliance appliance;
+    private final String applianceCppId;
+    private final String applianceDeviceType;
 
-    public PairingHandlerRelationship(String cppId, String provider, String type, String credentials, DICommAppliance appliance) {
+    protected PairingHandlerRelationship(String cppId, String provider, String type, String credentials, String applianceCppId, String applicanceDeviceType) {
         this.cppId = cppId;
         this.provider = provider;
         this.type = type;
         this.credentials = credentials;
-        this.appliance = appliance;
+        this.applianceCppId = applianceCppId;
+        this.applianceDeviceType = applicanceDeviceType;
     }
 
     public String getCppId() {
@@ -27,9 +28,9 @@ abstract class PairingHandlerRelationship {
 
     public PairingEntitiyReference getTrusteeEntity() {
         PairingEntitiyReference pairingTrustee = new PairingEntitiyReference();
-        pairingTrustee.entityRefId = appliance.getNetworkNode().getCppId();
+        pairingTrustee.entityRefId = applianceCppId;
         pairingTrustee.entityRefProvider = provider;
-        pairingTrustee.entityRefType = appliance.getDeviceType();
+        pairingTrustee.entityRefType = applianceDeviceType;
         pairingTrustee.entityRefCredentials = null;
 
         DICommLog.i(DICommLog.PAIRING, "Appliance entityRefId" + pairingTrustee.entityRefId);
@@ -41,8 +42,8 @@ abstract class PairingHandlerRelationship {
 
 class UserPairingHandlerRelationship extends PairingHandlerRelationship {
 
-    public UserPairingHandlerRelationship(String cppId, String provider, String type, String credentials, DICommAppliance appliance) {
-        super(cppId, provider, type, credentials, appliance);
+    public UserPairingHandlerRelationship(String cppId, String provider, String type, String credentials, String applianceCppId, String applicanceDeviceType) {
+        super(cppId, provider, type, credentials, applianceCppId, applicanceDeviceType);
     }
 
     @Override
@@ -62,8 +63,8 @@ class UserPairingHandlerRelationship extends PairingHandlerRelationship {
 
 class AppPairingHandlerRelationship extends PairingHandlerRelationship {
 
-    public AppPairingHandlerRelationship(String cppId, String provider, DICommAppliance appliance) {
-        super(cppId, provider, appliance.getDeviceType(), null, appliance);
+    public AppPairingHandlerRelationship(String cppId, String provider, String applianceCppId, String applicanceDeviceType) {
+        super(cppId, provider, applicanceDeviceType, null, applianceCppId, applicanceDeviceType);
     }
 
     @Override
