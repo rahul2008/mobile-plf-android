@@ -30,7 +30,7 @@ public class MockWebStoreConfig extends WebStoreConfig {
     }
 
     @Override
-    void setPILLocalMangaer() {
+    void setPILocalManager() {
         mLocaleManager = mPILLocalManager;
     }
 
@@ -40,11 +40,11 @@ public class MockWebStoreConfig extends WebStoreConfig {
         mStoreConfig.getProposition();
         mStoreConfig.getRawConfigUrl();
         mStoreConfig.generateStoreUrls();
-//        requestHybrisConfig();
+//        fetchConfiguration();
     }
 
 /*    @Override
-    void requestHybrisConfig() {
+    void fetchConfiguration() {
         mSiteID = SITE_ID;
         mStoreConfig.getProposition();
         mStoreConfig.getRawConfigUrl();

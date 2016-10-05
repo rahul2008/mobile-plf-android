@@ -74,9 +74,9 @@ public class WebStoreConfigTest {
         WebStoreConfig mockedConfig = new MockWebStoreConfig(mContext, mStoreConfiguration);
         MockSynchronizedNetwork mockNetwork = (MockSynchronizedNetwork) mockedConfig.getSynchronizedNetwork();
         mockNetwork.setVolleyError(new VolleyError());
-        mockedConfig.mResponseListener = getRequestListener();
+        mockedConfig.mRequestListener = getRequestListener();
 
-        mockedConfig.requestHybrisConfig();
+        mockedConfig.fetchConfiguration();
         assertEquals(null, mockedConfig.getSiteID());
     }
 
@@ -86,9 +86,9 @@ public class WebStoreConfigTest {
         MockSynchronizedNetwork mockNetwork = (MockSynchronizedNetwork) mockedConfig.getSynchronizedNetwork();
         String response = TestUtils.readFile(this.getClass(), "config_response.txt");
         mockNetwork.setResponse(response);
-        mockedConfig.mResponseListener = getRequestListener();
+        mockedConfig.mRequestListener = getRequestListener();
 
-        mockedConfig.requestHybrisConfig();
+        mockedConfig.fetchConfiguration();
         assertEquals("US_Tuscany", mockedConfig.getSiteID());
     }
 
@@ -101,7 +101,7 @@ public class WebStoreConfigTest {
         String response = TestUtils.readFile(this.getClass(), "config_response.txt");
         mockNetwork.setResponse(response);
 
-        mockedConfig.requestHybrisConfig();
+        mockedConfig.fetchConfiguration();
         assertEquals("US_Tuscany", mockedConfig.getSiteID());
     }*/
 

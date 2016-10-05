@@ -33,18 +33,35 @@ import org.json.JSONObject;
 
 public class WebStoreConfig {
     final Context mContext;
-
-    String mSiteID;
-    PILLocaleManager mLocaleManager;
-    PILLocale mPILLocale;
-    StoreConfiguration mStoreConfig;
-
-    RequestListener mResponseListener;
+    private PILLocaleManager mLocaleManager;
+    private PILLocale mPILLocale;
+    private StoreConfiguration mStoreConfig;
+    private RequestListener mRequestListener;
     private String mFallBackLocale;
+    private String mSiteID;
 
     public WebStoreConfig(Context context, StoreConfiguration storeConfig) {
         mContext = context;
         mStoreConfig = storeConfig;
+    }
+
+    public void initConfig(final String language, String countryCode, final RequestListener listener) {
+        mRequestListener = listener;
+        initLocaleMatcher();
+        refresh(language, countryCode);
+    }
+
+    void initLocaleMatcher() {
+        setPILocalManager();
+    }
+
+    void setPILocalManager() {
+        mLocaleManager = new PILLocaleManager(mContext);
+    }
+
+    void refresh(String language, String countryCode) {
+        mLocaleManager.setInputLocale(language, countryCode);
+        mLocaleManager.refresh(mLocaleMatchListener);
     }
 
     String getSiteID() {
@@ -58,39 +75,20 @@ public class WebStoreConfig {
         return mFallBackLocale;
     }
 
-    public void initConfig(final String language, String countryCode, final RequestListener listener) {
-        mResponseListener = listener;
-        initLocaleMatcher();
-        refresh(language, countryCode);
-    }
-
-    void initLocaleMatcher() {
-        setPILLocalMangaer();
-    }
-
-    void setPILLocalMangaer() {
-        mLocaleManager = new PILLocaleManager(mContext);
-    }
-
-    void refresh(String language, String countryCode) {
-        mLocaleManager.setInputLocale(language,countryCode);
-        mLocaleManager.refresh(mLocaleMatchListener);
-    }
-
     void startConfigDownloadThread() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                requestHybrisConfig();
+                fetchConfiguration();
             }
         }).start();
     }
 
-    void requestHybrisConfig() {
+    void fetchConfiguration() {
         IAPJsonRequest request = new IAPJsonRequest(Request.Method.GET, mStoreConfig.getRawConfigUrl(), null,
                 null, null);
-        SynchronizedNetwork net = getSynchronizedNetwork();
-        net.performRequest(request, new SynchronizedNetworkCallBack() {
+        SynchronizedNetwork synchronizedNetwork = getSynchronizedNetwork();
+        synchronizedNetwork.performRequest(request, new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
                 HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
@@ -122,11 +120,11 @@ public class WebStoreConfig {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (mResponseListener != null) {
+                if (mRequestListener != null) {
                     if (success) {
-                        mResponseListener.onSuccess(msg);
+                        mRequestListener.onSuccess(msg);
                     } else {
-                        mResponseListener.onError(msg);
+                        mRequestListener.onError(msg);
                     }
                 }
             }
@@ -144,11 +142,8 @@ public class WebStoreConfig {
 
         @Override
         public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
-            if (mResponseListener != null) {
+            if (mRequestListener != null) {
                 Message msg = Message.obtain();
-                //We really don't know what happened wrong.
-                //Can happen in case no network or several reasons. Assume network error in
-                // these cases.
                 if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
                     msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
                 }

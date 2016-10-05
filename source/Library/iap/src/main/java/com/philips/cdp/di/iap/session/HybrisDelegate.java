@@ -9,7 +9,6 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 
@@ -23,13 +22,6 @@ public class HybrisDelegate {
     private HybrisDelegate() {
     }
 
-    public NetworkController getNetworkController(Context context) {
-        if (controller == null) {
-            controller = new NetworkController(context);
-        }
-        return controller;
-    }
-
     public static HybrisDelegate getInstance(Context context) {
         if (delegate.controller == null) {
             delegate.mContext = context.getApplicationContext();
@@ -38,16 +30,23 @@ public class HybrisDelegate {
         return delegate;
     }
 
+    public static HybrisDelegate getInstance() {
+        return delegate;
+    }
 
     public static HybrisDelegate getDelegateWithNetworkEssentials(Context context,
-                                                                  NetworkEssentials networkEssentials, IAPSettings iapSettings) {
+                                                                  NetworkEssentials networkEssentials,
+                                                                  IAPSettings iapSettings) {
         delegate.mContext = context;
         delegate.controller = new NetworkController(context, networkEssentials,iapSettings);
         return delegate;
     }
 
-    public static HybrisDelegate getInstance() {
-        return delegate;
+    public NetworkController getNetworkController(Context context) {
+        if (controller == null) {
+            controller = new NetworkController(context);
+        }
+        return controller;
     }
 
     public static NetworkController getNetworkController() {
