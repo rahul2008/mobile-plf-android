@@ -19,6 +19,8 @@ import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.cpp.listener.SendNotificationRegistrationIdListener;
 import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
+import com.philips.cdp.dicommclient.cpp.pairing.IPairingController;
+import com.philips.cdp.dicommclient.cpp.pairing.PairingController;
 import com.philips.cdp.dicommclient.util.LogConstants;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
@@ -49,6 +51,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DefaultCppController implements CppController {
+
+    private IPairingController mPairingController;
 
     private enum APP_REQUESTED_STATE {
         NONE, START, STOP
@@ -120,6 +124,7 @@ public class DefaultCppController implements CppController {
         mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
 
         mICPCallbackHandler = new ICPCallbackHandler(this);
+        mPairingController = new PairingController(this);
 
         mSignOnListeners = new ArrayList<>();
         mPublishEventListeners = new ArrayList<>();
@@ -929,5 +934,10 @@ public class DefaultCppController implements CppController {
     @Override
     public ICP_CLIENT_DCS_STATE getState() {
         return mDcsState;
+    }
+
+    @Override
+    public IPairingController getPairingController() {
+        return mPairingController;
     }
 }

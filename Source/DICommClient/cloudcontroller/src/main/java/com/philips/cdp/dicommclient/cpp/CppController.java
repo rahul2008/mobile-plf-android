@@ -6,6 +6,7 @@ import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.cpp.listener.SendNotificationRegistrationIdListener;
 import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
+import com.philips.cdp.dicommclient.cpp.pairing.IPairingController;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.ICPClientToAppInterface;
 
@@ -102,4 +103,6 @@ public interface CppController extends ICPClientToAppInterface, ICPEventListener
     interface DCSStartListener {
         void onResponseReceived();
     }
+
+    IPairingController getPairingController();
 }
