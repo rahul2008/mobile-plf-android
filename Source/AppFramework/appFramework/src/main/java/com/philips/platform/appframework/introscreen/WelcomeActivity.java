@@ -46,7 +46,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         super.onCreate(savedInstanceState);
         presenter = new WelcomePresenter(this);
         initCustomActionBar();
-        setContentView(R.layout.af_welcome_screen);
+        setContentView(R.layout.af_welcome_activity);
         presenter.onLoad(this);
     }
 
@@ -67,7 +67,8 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
                     Gravity.CENTER);
             View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_home_action_bar, null); // layout which contains your button.
 
-            final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+
+            final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.home_action_bar_button_layout);
             frameLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -75,8 +76,8 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
                 }
             });
             arrowImage = (ImageView) mCustomView
-                    .findViewById(R.id.arrow_left);
-            textView = (TextView) mCustomView.findViewById(R.id.action_bar_text);
+                    .findViewById(R.id.home_action_bar_arrow_left);
+            textView = (TextView) mCustomView.findViewById(R.id.home_action_bar_text);
             arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
             mActionBar.setCustomView(mCustomView, params);
         }
@@ -99,8 +100,9 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     public void loadWelcomeFragment() {
         fragmentManager = this.getSupportFragmentManager();
         welcomeScreenFragment = new WelcomeScreenFragment();
+        welcomeScreenFragment.setPresenter(presenter);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_frame_container, welcomeScreenFragment);
+        fragmentTransaction.add(R.id.welcome_frame_container, welcomeScreenFragment);
         fragmentTransaction.commit();
     }
 
@@ -134,7 +136,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         boolean isConsumed = false;
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
-                .findFragmentById(R.id.fragment_frame_container);
+                .findFragmentById(R.id.welcome_frame_container);
         if (fragment != null && fragment instanceof BackEventListener) {
             isConsumed = ((BackEventListener) fragment).handleBackEvent();
         }
@@ -143,7 +145,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
             presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
         }
     }
-
     @Override
     public FragmentActivity getFragmentActivity() {
         return this;
@@ -156,6 +157,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
     @Override
     public int getContainerId() {
-        return R.id.fragment_frame_container;
+        return R.id.welcome_frame_container;
     }
 }

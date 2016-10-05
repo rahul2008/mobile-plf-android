@@ -58,7 +58,7 @@ public class SplashPresenter extends UIBasePresenter {
             uiState = new WelcomeState(UIState.UI_WELCOME_STATE);
         }
         uiState.setPresenter(this);
-        fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.fragment_frame_container, null);
+        fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
         appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
     }
 

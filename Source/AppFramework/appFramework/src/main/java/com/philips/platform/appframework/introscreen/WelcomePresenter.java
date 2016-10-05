@@ -48,14 +48,14 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
         welcomeView.showActionBar();
         switch (componentID) {
 
-            case R.id.appframework_skip_button:
+            case R.id.welcome_skip_button:
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
                 fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
                 uiState.setPresenter(this);
                 ((UserRegistrationState)uiState).registerUIStateListener(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
                 break;
-            case R.id.start_registration_button:
+            case R.id.welcome_start_registration_button:
                 sharedPreferenceUtility = new SharedPreferenceUtility(context);
                 sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
                 uiState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);

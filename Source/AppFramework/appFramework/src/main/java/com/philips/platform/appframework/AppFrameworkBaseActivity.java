@@ -5,7 +5,6 @@
 */
 package com.philips.platform.appframework;
 
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
