@@ -43,7 +43,6 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         context = getApplicationContext();
-        LeakCanary.install(this);
         flowManager = new UIFlowManager();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
