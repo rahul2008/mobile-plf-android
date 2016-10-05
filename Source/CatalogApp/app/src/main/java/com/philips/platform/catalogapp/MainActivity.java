@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration(ColorRange.ORANGE, TonalRange.VERYDARK, this);
+        return new ThemeConfiguration(ColorRange.GROUP_BLUE, TonalRange.ULTRA_LIGHT, this);
     }
 
     public void switchFragment(Fragment fragment) {

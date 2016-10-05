@@ -25,8 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/colorRangesLabel"
-                android:textSize="20sp"/>
+                android:text="@string/colorRangesLabel"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/colorRangeList"
@@ -41,6 +40,7 @@
             android:layout_marginBottom="12dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
             android:orientation="vertical">
 
             <TextView
@@ -48,16 +48,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/TonalRangeLabel"
-                android:textSize="20sp"/>
+                android:text="@string/TonalRangeLabel"/>
 
             <TextView
                 style="@style/ThemeSettingsHeader2Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/forContentAreaText"
-                android:textSize="16sp"/>
+                android:text="@string/forContentAreaText"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/tonalRangeList"
@@ -70,8 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/forNavigationAreaText"
-                android:textSize="16sp"/>
+                android:text="@string/forNavigationAreaText"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/notificationBarList"
@@ -79,16 +76,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="6"
+                    android:layout_alignParentStart="true"
                     android:orientation="vertical">
 
                     <TextView
@@ -96,8 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:text="@string/forPrimaryControlsText"
-                        android:textSize="16sp"/>
+                        android:text="@string/forPrimaryControlsText"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/primaryControlsColorList"
@@ -106,9 +102,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"
+                    android:layout_alignParentEnd="true"
                     android:orientation="vertical">
 
                     <TextView
@@ -116,15 +112,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:text="@string/forDimText"
-                        android:textSize="16sp"/>
+                        android:text="@string/forDimText"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/dimColorList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -136,22 +131,23 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/ThemeSettingsHeader1Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/accentColorRangeText"
-                android:textSize="16sp"/>
+                android:layout_marginTop="24dp"
+                android:text="@string/accentColorRangeText"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/accentColorRangeList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="12dp"/>
 
             <TextView
                 android:id="@+id/warningText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/warningText"
                 android:textSize="14sp"
                 android:visibility="gone"/>
