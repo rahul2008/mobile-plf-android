@@ -9,6 +9,7 @@ package com.philips.platform.appframework.introscreen;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -32,20 +33,18 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * It has two sections
  * 1. The user registration
  * 2. Welcome fragments
- *
  */
-public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener {
-    ImageView arrowImage;
-    TextView textView;
-    FragmentManager fragmentManager;
-    WelcomeScreenFragment welcomeScreenFragment;
-    FragmentTransaction fragmentTransaction;
-
+public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener, WelcomeView {
+    private ImageView arrowImage;
+    private TextView textView;
+    private FragmentManager fragmentManager;
+    private WelcomeScreenFragment welcomeScreenFragment;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomePresenter();
+        presenter = new WelcomePresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_activity);
         presenter.onLoad(this);
@@ -54,32 +53,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public void onBackPressed() {
-        boolean isConsumed = false;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager
-                .findFragmentById(R.id.welcome_frame_container);
-        if (fragment != null && fragment instanceof BackEventListener) {
-            isConsumed = ((BackEventListener) fragment).handleBackEvent();
-        }
-        if (!isConsumed) {
-
-            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
-        }
-
-
-    }
-
-    void changeActionBarState(boolean isVisible) {
-        if (!isVisible) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getSupportActionBar().hide();
-        } else {
-            getSupportActionBar().show();
-        }
     }
 
     private void initCustomActionBar() {
@@ -110,12 +83,31 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         }
     }
 
-    void loadWelcomeFragment() {
+    @Override
+    public void showActionBar() {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().show();
+    }
+
+    @Override
+    public void hideActionBar() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
+    }
+
+    @Override
+    public void loadWelcomeFragment() {
         fragmentManager = this.getSupportFragmentManager();
         welcomeScreenFragment = new WelcomeScreenFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.welcome_frame_container, welcomeScreenFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+        finishAffinity();
     }
 
     @Override
@@ -125,14 +117,53 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-    textView.setText(i);
+        textView.setText(i);
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
         textView.setText(s);
+    }
 
+    @Override
+    public void updateActionBarIcon(boolean b) {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        boolean isConsumed = false;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(R.id.welcome_frame_container);
+        if (fragment != null && fragment instanceof BackEventListener) {
+            isConsumed = ((BackEventListener) fragment).handleBackEvent();
+        }
+        if (!isConsumed) {
+
+            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
+        }
+    }
+    void changeActionBarState(boolean isVisible) {
+        if (!isVisible) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getSupportActionBar().hide();
+        } else {
+            getSupportActionBar().show();
+        }
+    }
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return this;
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return this;
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.welcome_frame_container;
+    }
 }

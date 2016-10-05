@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +38,8 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -50,8 +50,10 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HomeActivity.class.getSimpleName();
+    private static HamburgerUtil hamburgerUtil;
+    protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
@@ -59,17 +61,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private ListView drawerListView;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    protected TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
-    private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null,shoppingCartLayout;
     private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private ImageView cartIcon;
     private TextView cartCount;
-    private int cartItemCount = 0;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -82,7 +81,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        presenter = new HomeActivityPresenter();
+        presenter = new HomeActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -181,14 +180,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         setSupportActionBar(toolbar);
     }
 
-    public int getCartItemCount() {
-        return cartItemCount;
-    }
-
-    public void setCartItemCount(int cartItemCount) {
-        this.cartItemCount = cartItemCount;
-    }
-
     private void setDrawerAdapter() {
         adapter = null;
         TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
@@ -245,7 +236,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         } else {
             super.onBackPressed();
         }
-
     }
 
     @Override
@@ -260,7 +250,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
             iapInterface.getProductCartCount(this);
         }catch (RuntimeException e){
-            Log.e(""+TAG,"Exception caught"+e);
         }
     }
     @Override
@@ -324,9 +313,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     public void cartIconVisibility(boolean shouldShow) {
         if(shouldShow){
             cartIcon.setVisibility(View.VISIBLE);
-                if (cartItemCount > 0) {
+            int cartItemsCount = getCartItemCount();
+                if (cartItemsCount > 0) {
                         cartCount.setVisibility(View.VISIBLE);
-                        cartCount.setText(String.valueOf(cartItemCount));
+                        cartCount.setText(String.valueOf(cartItemsCount));
                 }else {
                     cartCount.setVisibility(View.GONE);
                 }
@@ -336,9 +326,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
     @Override
-    public void onGetCartCount(int count) {
-        cartItemCount = count;
-        if(cartItemCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
+    public void onGetCartCount(int cartCount) {
+        setCartItemCount(cartCount);
+        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
             cartIconVisibility(true);
         }
     }
@@ -398,5 +388,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 }
             }
         }
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return this;
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return this;
     }
 }

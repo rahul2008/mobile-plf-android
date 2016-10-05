@@ -9,6 +9,7 @@ package com.philips.platform.appframework.introscreen;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,18 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.shamanland.fonticon.FontIconView;
 
-public class WelcomeScreenFragment extends Fragment implements View.OnClickListener {
+/**
+ * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
+ * <br>
+ * <p/>
+ * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
+ * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
+ *
+ */
+public class WelcomeScreenFragment extends Fragment implements View.OnClickListener, WelcomeView {
 
     private static String TAG = WelcomeActivity.class.getSimpleName();
 
@@ -116,5 +126,44 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
         if (presenter != null) {
             presenter.onClick(v.getId(), getActivity());
         }
+    }
+
+    @Override
+    public void showActionBar() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.showActionBar();
+    }
+
+    @Override
+    public void hideActionBar() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.hideActionBar();
+    }
+
+    @Override
+    public void loadWelcomeFragment() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.loadWelcomeFragment();
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.finishAffinity();
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return (WelcomeActivity) getActivity();
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.welcome_frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
     }
 }
