@@ -43,7 +43,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
      */
     @Override
     public void onClick(int componentID, Context context) {
-        activityContext = context;
+        activityContext = welcomeView.getFragmentActivity();
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         welcomeView.showActionBar();
         switch (componentID) {
@@ -101,16 +101,15 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
             welcomeView.hideActionBar();
             welcomeView.loadWelcomeFragment();
         }
-
     }
 
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
         this.uiState = new HomeActivityState(UIState.UI_HOME_STATE);
-        fragmentLauncher = new FragmentLauncher((WelcomeActivity) activityContext, welcomeView.getContainerId(), (WelcomeActivity) activityContext);
+        fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
         this.uiState.setPresenter(this);
-        ((WelcomeActivity) activityContext).finishAffinity();
+        welcomeView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
     }
 }
