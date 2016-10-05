@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -36,10 +37,10 @@ public class NetworkController {
         this(context, null, null);
     }
 
-    public NetworkController(Context context, NetworkEssentials essentials, IAPDependencies iapDependencies) {
+    public NetworkController(Context context, NetworkEssentials essentials, IAPSettings iapSettings) {
         this.context = context;
         mNetworkEssentials = essentials;
-        initStore(context, iapDependencies);
+        initStore(context, iapSettings);
         oAuthHandler = essentials.getOAuthHandler();
         initHurlStack(context);
         hybrisVolleyCreateConnection(context);
@@ -49,8 +50,8 @@ public class NetworkController {
         mIapHurlStack = mNetworkEssentials.getHurlStack(context, oAuthHandler);
     }
 
-    void initStore(Context context, IAPDependencies iapDependencies) {
-        store = mNetworkEssentials.getStore(context, iapDependencies);
+    void initStore(Context context, IAPSettings iapSettings) {
+        store = mNetworkEssentials.getStore(context, iapSettings);
     }
 
     public void hybrisVolleyCreateConnection(Context context) {

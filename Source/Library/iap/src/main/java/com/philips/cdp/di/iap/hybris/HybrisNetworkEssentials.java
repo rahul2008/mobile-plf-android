@@ -10,6 +10,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPHurlStack;
 import com.philips.cdp.di.iap.session.OAuthHandler;
 import com.philips.cdp.di.iap.session.TestEnvOAuthHandler;
@@ -17,8 +18,8 @@ import com.philips.cdp.di.iap.store.HybrisStore;
 
 public class HybrisNetworkEssentials implements NetworkEssentials {
     @Override
-    public StoreSpec getStore(final Context context, IAPDependencies iapDependencies) {
-        return new HybrisStore(context, iapDependencies);
+    public StoreSpec getStore(final Context context, IAPSettings iapSettings) {
+        return new HybrisStore(context, iapSettings);
     }
 
     @Override

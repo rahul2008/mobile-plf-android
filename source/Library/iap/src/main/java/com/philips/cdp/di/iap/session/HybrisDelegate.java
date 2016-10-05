@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 
 public class HybrisDelegate {
@@ -39,9 +40,9 @@ public class HybrisDelegate {
 
 
     public static HybrisDelegate getDelegateWithNetworkEssentials(Context context,
-                                                                  NetworkEssentials networkEssentials, IAPDependencies iapDependencies) {
+                                                                  NetworkEssentials networkEssentials, IAPSettings iapSettings) {
         delegate.mContext = context;
-        delegate.controller = new NetworkController(context, networkEssentials,iapDependencies);
+        delegate.controller = new NetworkController(context, networkEssentials,iapSettings);
         return delegate;
     }
 

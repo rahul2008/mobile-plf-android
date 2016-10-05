@@ -11,6 +11,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class IAPSettings extends UappSettings {
     private boolean mUseLocalData;
 
+    private String mProposition;
+
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
     }
@@ -21,6 +23,14 @@ public class IAPSettings extends UappSettings {
 
     public void setUseLocalData(boolean mUseLocalData) {
         this.mUseLocalData = mUseLocalData;
+    }
+
+    public String getProposition() {
+        return mProposition;
+    }
+
+    public void setProposition(String mProposition) {
+        this.mProposition = mProposition;
     }
 
 }

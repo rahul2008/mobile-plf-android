@@ -153,7 +153,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
-        mIAPSettings.setUseLocalData(false);
+        //mIAPSettings.setUseLocalData(false);
+        mIAPSettings.setProposition("Tuscany2016");
 
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
@@ -369,7 +370,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mSelectedCountry = "GB";
         setLocale(Locale.getDefault().getLanguage(), mSelectedCountry);
 
-        mIAPSettings.setUseLocalData(false);
+        mIAPSettings.setProposition("Tuscany2016");
         mIapInterface.init(mIapDependencies, mIAPSettings);
         updateCartIcon();
 

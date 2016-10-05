@@ -8,10 +8,11 @@ import android.content.Context;
 
 import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.OAuthHandler;
 
 public interface NetworkEssentials {
-    StoreSpec getStore(Context context, IAPDependencies iapDependencies);
+    StoreSpec getStore(Context context, IAPSettings iapSettings);
     HurlStack getHurlStack(Context context, OAuthHandler oAuthHandler);
     OAuthHandler getOAuthHandler();
 }

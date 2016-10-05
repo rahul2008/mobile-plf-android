@@ -54,8 +54,8 @@ class IAPHandler {
 
 
     void initIAP() {
-        initHybrisDelegate(mIAPSetting, mIAPDependencies);
         initControllerFactory(mIAPSetting);
+        initHybrisDelegate(mIAPSetting);
         setLangAndCountry(mIAPSetting);
     }
 
@@ -187,10 +187,10 @@ class IAPHandler {
         return api;
     }
 
-    private void initHybrisDelegate(IAPSettings iapSettings, IAPDependencies iapDependencies) {
+    private void initHybrisDelegate(IAPSettings iapSettings) {
         int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(requestCode);
-        HybrisDelegate.getDelegateWithNetworkEssentials(iapSettings.getContext(), essentials, iapDependencies);
+        HybrisDelegate.getDelegateWithNetworkEssentials(iapSettings.getContext(), essentials, iapSettings);
     }
 
 
