@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.ThemeColorHelper;
 
 import java.util.List;
 
@@ -27,10 +28,12 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     List<ColorModel> colorRangeList;
     private ThemeChangedListener themeChangedListener;
     private int selectedPosition = 0;
+    private final ThemeColorHelper colorListHelper;
 
-    public ThemeColorAdapter(@NonNull final List<ColorModel> colorRangeList, @NonNull final ThemeChangedListener themeChangedListener) {
+    public ThemeColorAdapter(@NonNull final List<ColorModel> colorRangeList, @NonNull final ThemeChangedListener themeChangedListener, final ThemeColorHelper colorListHelper) {
         this.colorRangeList = colorRangeList;
         this.themeChangedListener = themeChangedListener;
+        this.colorListHelper = colorListHelper;
     }
 
     @Override
@@ -45,10 +48,14 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     public void onBindViewHolder(@NonNull final ThemeColorAdapter.ViewHolder holder, final int position) {
         final int adapterPosition = holder.getAdapterPosition();
         final ColorModel colorModel = colorRangeList.get(position);
-        final int currentTextColor = holder.colorRangeTittleLabel.getCurrentTextColor();
         final Context context = holder.itemView.getContext();
         holder.colorRangeTittleLabel.setText(colorModel.getTitle());
+//        final int startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "50", context.getPackageName());
+//        final int endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "35", context.getPackageName());
+//        holder.itemView.setBackground(getItemviewBackground(startColors, endColors, context));
+
         holder.itemView.setBackgroundColor(ContextCompat.getColor(context, colorModel.getColor()));
+
         holder.colorRangeSelectedCheckBox.setVisibility(adapterPosition == selectedPosition ? View.VISIBLE : View.GONE);
 
         holder.colorRangeContainer.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +73,14 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
             }
         });
     }
+
+//    private GradientDrawable getItemviewBackground(final int startColor, final int endColor, final Context context) {
+//        GradientDrawable gd = new GradientDrawable(
+//                GradientDrawable.Orientation.TOP_BOTTOM,
+//                new int[]{Integer.valueOf(context.getResources().getString(startColor).substring(2),16), Integer.valueOf(context.getResources().getString(endColor).substring(2),16)});
+//        gd.setCornerRadius(0f);
+//        return gd;
+//    }
 
     @Override
     public int getItemCount() {

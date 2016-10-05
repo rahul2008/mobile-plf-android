@@ -65,31 +65,37 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
         return view;
     }
 
+    private void buildColorRangeList() {
+        colorRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), this, themeColorHelper));
+
+        setLayoutOrientation(colorRangeListview);
+    }
+
     private void buildAccentColorsList(final String colorRange) {
-        accentColorRangeList.setAdapter(new ThemeColorAdapter(themeColorHelper.getAccentColorsList(getContext(), colorRange), this));
+        accentColorRangeList.setAdapter(new ThemeColorAdapter(themeColorHelper.getAccentColorsList(getContext(), colorRange), this, themeColorHelper));
 
         setLayoutOrientation(accentColorRangeList);
     }
 
     private void buildDimColorsList(final String colorRange) {
-        dimColorListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getDimColors(getContext().getPackageName(), getResources(), colorRange), this));
+        dimColorListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getDimColors(getContext().getPackageName(), getResources(), colorRange), this, themeColorHelper));
 
         setLayoutOrientation(dimColorListview);
     }
 
     private void buildPrimaryColorsList(final String colorRange) {
-        primaryControlsListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getPrimaryColors(getResources(), colorRange, getContext().getPackageName()), this));
+        primaryControlsListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getPrimaryColors(getResources(), colorRange, getContext().getPackageName()), this, themeColorHelper));
         setLayoutOrientation(primaryControlsListview);
     }
 
     private void buildNavigationBar(final String colorRange) {
-        notificationBarListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), this));
+        notificationBarListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), this, themeColorHelper));
 
         setLayoutOrientation(notificationBarListview);
     }
 
     private void buildTonalRangeList(final String changedColorRange) {
-        tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getTonalRangeItemsList(changedColorRange, getContext()), this));
+        tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getTonalRangeItemsList(changedColorRange, getContext()), this, themeColorHelper));
 
         setLayoutOrientation(tonalRangeListview);
     }
@@ -98,11 +104,7 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
     }
 
-    private void buildColorRangeList() {
-        colorRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), this));
 
-        setLayoutOrientation(colorRangeListview);
-    }
 
     @Override
     public void onColorRangeChanged(final String changedColorRange) {
