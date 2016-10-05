@@ -17,8 +17,6 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.squareup.leakcanary.LeakCanary;
-
 import java.util.Locale;
 /**
  * Application class is used for initialization
@@ -43,7 +41,6 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         context = getApplicationContext();
-        LeakCanary.install(this);
         flowManager = new UIFlowManager();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
