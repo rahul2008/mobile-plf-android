@@ -10,7 +10,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class IAPSettings extends UappSettings {
     private boolean mUseLocalData;
-
     private String mProposition;
 
     public IAPSettings(Context applicationContext) {

@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.store;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.core.AbstractStoreSpec;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -15,9 +15,6 @@ import java.util.Locale;
 
 public class HybrisStore extends AbstractStoreSpec {
 
-    public static final String HTTPS = "https://";
-    public static final String WEB_ROOT = "pilcommercewebservices";
-    public static final String V2 = "v2";
     public static final String SEPERATOR = "/";
     private static final String USER = "users";
     private static final String LANG = "?fields=FULL&lang=";
@@ -94,9 +91,9 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mMakePaymentUrl;
     private String mPlaceOrderUrl;
 
-    public HybrisStore(Context context, IAPDependencies iapDependencies) {
+    public HybrisStore(Context context, IAPSettings iapSettings) {
         mIAPUser = initIAPUser(context);
-        mStoreConfig = getStoreConfig(context, iapDependencies);
+        mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
     IAPUser initIAPUser(Context context) {
@@ -112,8 +109,8 @@ public class HybrisStore extends AbstractStoreSpec {
         generateStoreUrls();
     }
 
-    StoreConfiguration getStoreConfig(final Context context, IAPDependencies iapDependencies) {
-        return new StoreConfiguration(context, this, iapDependencies);
+    StoreConfiguration getStoreConfig(final Context context, IAPSettings iapSettings) {
+        return new StoreConfiguration(context, this, iapSettings);
     }
 
     @Override
@@ -127,14 +124,12 @@ public class HybrisStore extends AbstractStoreSpec {
         createBaseUrl();
         createBaseUrlForProductCatalog();
         createOauthUrl();
+        createOAuthRefreshUrl();
         generateGenericUrls();
     }
 
     private void createBaseUrlForProductCatalog() {
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
-        builder.append(V2).append(SEPERATOR);
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
         builder.append(mStoreConfig.getSite()).append(SEPERATOR);
 
         mBaseURlForProductCatalog = builder.toString();
@@ -142,10 +137,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     private void createBaseUrl() {
         setStoreInitialized(true);
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
-        builder.append(V2).append(SEPERATOR);
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
         builder.append(mStoreConfig.getSite()).append(SEPERATOR);
         builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
 
@@ -153,19 +145,26 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     private void createOauthUrl() {
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
+
+        int index = mStoreConfig.getHostPort().indexOf("v2", 0);
+
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index));
         builder.append(SUFFIX_OAUTH);
 
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
+    private void createOAuthRefreshUrl() {
+        int index = mStoreConfig.getHostPort().indexOf("v2", 0);
+
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index));
+        builder.append(SUFFIX_REFRESH_OAUTH);
+
+        mOauthRefreshUrl = String.format(builder.toString());
+    }
+
     private String createRegionsUrl() {
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
-        builder.append(V2).append(SEPERATOR);
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
         builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
@@ -173,9 +172,6 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     protected void generateGenericUrls() {
-        //OAuth
-        mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
-                .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
 
         //Carts
         String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);

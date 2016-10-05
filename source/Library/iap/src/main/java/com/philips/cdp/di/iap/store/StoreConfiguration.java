@@ -6,15 +6,13 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.platform.appinfra.AppInfra;
 
 /**
  * This class having responsible for Store configuration
  */
-public class StoreConfiguration  {
+public class StoreConfiguration {
     private static final String SUFFIX_INAPPCONFIG = "inAppConfig";
 
     private final HybrisStore mStore;
@@ -52,10 +50,7 @@ public class StoreConfiguration  {
     }
 
     public String getRawConfigUrl() {
-       final StringBuilder builder = new StringBuilder(HybrisStore.HTTPS);
-        builder.append(getHostPort()).append(HybrisStore.SEPERATOR);
-        builder.append(HybrisStore.WEB_ROOT).append(HybrisStore.SEPERATOR);
-        builder.append(HybrisStore.V2).append(HybrisStore.SEPERATOR);
+        final StringBuilder builder = new StringBuilder(getHostPort());
         builder.append(SUFFIX_INAPPCONFIG).append(HybrisStore.SEPERATOR);
         builder.append(mWebStoreConfig.getLocale()).append(HybrisStore.SEPERATOR);
         builder.append(getProposition());

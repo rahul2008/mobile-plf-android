@@ -153,7 +153,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
-        //mIAPSettings.setUseLocalData(false);
         mIAPSettings.setProposition("Tuscany2016");
 
         mIapInterface = new IAPInterface();
