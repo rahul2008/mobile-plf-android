@@ -5,13 +5,13 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PairingPort extends DICommPort<Object> {
 
@@ -58,8 +58,8 @@ public class PairingPort extends DICommPort<Object> {
         putProperties(dataMap);
     }
 
-    public void triggerPairing(String appType, String appCppId, String secretKey) {
-        String[] dataArray = {appType, appCppId, secretKey};
+    public void triggerPairing(String type, String cppId, String secretKey) {
+        String[] dataArray = {type, cppId, secretKey};
         HashMap<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("Pair", dataArray);
         putProperties(dataMap);

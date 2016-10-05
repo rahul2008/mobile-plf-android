@@ -6,8 +6,6 @@
 package com.philips.cdp.dicommclient.cpp;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -61,9 +59,6 @@ public class CppControllerTest extends RobolectricTest {
 
     @Mock
     KpsConfigurationInfo kpsConfigurationInfoMock;
-
-    @Mock
-    PackageManager packageManagerMock;
 
     private final String cppId = "valid cppId";
     private CppController cppController;
@@ -268,18 +263,5 @@ public class CppControllerTest extends RobolectricTest {
         cppController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
 
         assertEquals(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED, cppController.getState());
-    }
-
-    @Test
-    public void whenStartingKeyProvisioningThenRetriveRelationshipId() throws Exception {
-        when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
-        when(contextMock.getPackageName()).thenReturn("com.philips.cdp.dicommclient.cpp.testing");
-        PackageInfo packageInfo = new PackageInfo();
-        packageInfo.versionCode = 1;
-        when(packageManagerMock.getPackageInfo("com.philips.cdp.dicommclient.cpp.testing", 0)).thenReturn(packageInfo);
-
-        cppController = new DefaultCppController(contextMock, kpsConfigurationInfoMock);
-
-        verify(kpsConfigurationInfoMock).getRelationshipId();
     }
 }

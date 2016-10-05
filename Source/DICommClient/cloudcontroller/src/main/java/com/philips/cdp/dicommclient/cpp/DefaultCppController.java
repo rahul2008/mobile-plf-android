@@ -127,7 +127,7 @@ public class DefaultCppController implements CppController {
 
         if (mSignon == null) {
             mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
-        }
+    }
 
         mSignon.setInterfaceAndContextObject(this, mContext);
 
@@ -176,7 +176,7 @@ public class DefaultCppController implements CppController {
         // Set Application Info
         // TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
         PackageManager pm = mContext.getPackageManager();
-        String relationshipId = mKpsConfigurationInfo.getRelationshipId();
+        String appId = mKpsConfigurationInfo.getAppId();
 
         try {
             appVersion = "" + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
@@ -184,8 +184,8 @@ public class DefaultCppController implements CppController {
             throw new KeyProvisioningException(e);
         }
 
-        Log.i(LogConstants.KPS, relationshipId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
-        provision.setApplicationInfo(createIdentityInformation(appVersion, relationshipId));
+        Log.i(LogConstants.KPS, appId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
+        provision.setApplicationInfo(createIdentityInformation(appVersion, appId));
 
         int commandResult = provision.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {

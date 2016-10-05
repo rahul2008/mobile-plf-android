@@ -42,6 +42,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 
     public static final String PAIRING_REFERENCEPROVIDER = "cpp";
+    public static final String PAIRING_USER_REFERENCEPROVIDER = "cphuser";
     public static final String PAIRING_DI_COMM_RELATIONSHIP = "di-comm";
     public static final String PAIRING_NOTIFY_RELATIONSHIP = "notify";
     public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "dataaccess";
@@ -58,6 +59,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
 
     private PermissionListener permissionListener = null;
     private static HashMap<String, Integer> attemptsCount = new HashMap<String, Integer>();
+    private PairingHandlerRelationship pairingHandlerRelationship;
 
     private enum ENTITY {
         PURIFIER, APP, DATAACCESS
@@ -107,60 +109,32 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      */
     public void startPairing() {
         if (mAppliance == null) return;
-        DICommLog.i(DICommLog.PAIRING, "Started pairing with appliance = " + mAppliance.getNetworkNode().getName() + "attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
+        DICommLog.i(DICommLog.PAIRING, "Started pairing with appliance = " + mAppliance.getNetworkNode().getName() + " attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
-//		getRelationship(currentRelationshipType);
-        startPairingPortTask(currentRelationshipType, PAIRING_PERMISSIONS
-                .toArray(new String[PAIRING_PERMISSIONS.size()]));
+        String appEui64 = DICommClientWrapper.getCloudController().getAppCppId();
+        pairingHandlerRelationship = new AppPairingHandlerRelationship(appEui64, PAIRING_REFERENCEPROVIDER, mAppliance);
+        startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
-    /**
-     * Method getRelationship- fetches existing relationships
-     *
-     * @param relationshipType String
-     */
-    private void getRelationship(String relationshipType) {
-        DICommLog.i(DICommLog.PAIRING, "Requesting existing relationships");
-
-        if (!DICommClientWrapper.getCloudController().isSignOn()) return;
-
-        DICommLog.i(DICommLog.PAIRING, "signOn is success");
-        boolean bincludeIncoming = true;
-        boolean bincludeOutgoing = true;
-        int iMetadataSize = 0;
-        int iMaxPermissions = 10;
-        int iMaxRelations = 5;
-        int iRelOffset = 0;
-        int retValue = 0;
-        PairingService getRelations = new PairingService(callbackHandler);
-
-        getRelations.setPairingServiceCommand(Commands.PAIRING_GET_RELATIONSHIPS);
-        retValue = getRelations.getRelationshipRequest(null,
-                relationshipType, bincludeIncoming, bincludeOutgoing,
-                iMetadataSize, iMaxPermissions, iMaxRelations, iRelOffset);
-        if (Errors.SUCCESS != retValue) {
-            DICommLog.d(DICommLog.PAIRING, "Check Parameters: " + retValue);
-            return;
-        }
-        retValue = getRelations.executeCommand();
-        if (Errors.REQUEST_PENDING != retValue) {
-            DICommLog.d(DICommLog.PAIRING, "Request Invalid/Failed Status: " + retValue);
-        }
+    public void startUserPairing(String userId, String accessToken, String relationType) {
+        if (mAppliance == null) return;
+        DICommLog.i(DICommLog.PAIRING, "Started user pairing with appliance = " + mAppliance.getNetworkNode().getName() + " attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
+        currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
+        pairingHandlerRelationship = new UserPairingHandlerRelationship(userId, PAIRING_USER_REFERENCEPROVIDER, relationType, accessToken, mAppliance);
+        startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
     /**
      * Method startPairingPortTask.
      *
-     * @param relationshipType String
-     * @param permission       String[]
+     * @param relationshipType           String
+     * @param pairingHandlerRelationship PairingHandlerRelationship
      */
-    private void startPairingPortTask(final String relationshipType,
-                                      final String[] permission) {
+    private void startPairingPortTask(final String relationshipType, final PairingHandlerRelationship pairingHandlerRelationship) {
 
         if (relationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)) {
             if (mAppliance == null) return;
             secretKey = generateRandomSecretKey();
-            String appEui64 = DICommClientWrapper.getCloudController().getAppCppId();
 
             PairingPort pairingPort = mAppliance.getPairingPort();
             pairingPort.addPortListener(new DICommPortListener() {
@@ -168,46 +142,45 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                 @Override
                 public void onPortUpdate(DICommPort<?> port) {
                     DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
-                    addRelationship(currentRelationshipType, secretKey);
+                    addRelationship(currentRelationshipType, secretKey, pairingHandlerRelationship);
                     port.removePortListener(this);
                 }
 
                 @Override
                 public void onPortError(DICommPort<?> port, Error error, String errorData) {
                     DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
-                    notifyListenerFailed(true);
+
+                    notifyListenerFailed();
                     port.removePortListener(this);
                 }
             });
-            pairingPort.triggerPairing(DICommClientWrapper.getCloudController().getAppType(), appEui64, secretKey);
+            pairingPort.triggerPairing(DICommClientWrapper.getCloudController().getAppType(), pairingHandlerRelationship.getCppId(), secretKey);
         } else {
             currentRelationshipType = relationshipType;
-            addRelationship(relationshipType, null);
+            addRelationship(relationshipType, null, pairingHandlerRelationship);
         }
     }
 
-    private void addRelationship(String relationshipType, String secretKey) {
-
+    private void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship) {
         if (!DICommClientWrapper.getCloudController().isSignOn()) return;
         int status;
-        PairingService addPSRelation = new PairingService(callbackHandler);
+        PairingService addPSRelation = createPairingService();
 
-        if (secretKey != null
-                && relationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)) {
-            addPSRelation.addRelationshipRequest(null, getDICommApplianceEntity(), null, getPairingRelationshipData(
-                    relationshipType, PAIRING_PERMISSIONS.toArray(
-                            new String[PAIRING_PERMISSIONS.size()])), getPairingInfo(secretKey));
-        } else {
-            addPSRelation.addRelationshipRequest(null, getDICommApplianceEntity(), null, getPairingRelationshipData(
-                    relationshipType, PAIRING_PUSH_PERMISSIONS.toArray(
-                            new String[PAIRING_PUSH_PERMISSIONS.size()])), null);
-        }
+        PairingInfo pairingInfo = secretKey != null && relationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP) ? getPairingInfo(secretKey) : null;
+
+        addPSRelation.addRelationshipRequest(pairingHandlerRelationship.getTrustorEntity(), pairingHandlerRelationship.getTrusteeEntity(), null, getPairingRelationshipData(
+                relationshipType, PAIRING_PERMISSIONS.toArray(
+                        new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
 
         addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
         status = addPSRelation.executeCommand();
         if (Errors.REQUEST_PENDING != status) {
             DICommLog.d(DICommLog.PAIRING, "Request Invalid/Failed Status: ");
         }
+    }
+
+    protected PairingService createPairingService() {
+        return new PairingService(callbackHandler);
     }
 
     public void initializeRelationshipRemoval() {
@@ -225,7 +198,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                                     PairingEntitiyReference trustee, String relationType) {
         if (!DICommClientWrapper.getCloudController().isSignOn())
             return;
-        PairingService removeRelationship = new PairingService(callbackHandler);
+        PairingService removeRelationship = createPairingService();
         int retStatus;
 
         retStatus = removeRelationship.removeRelationshipRequest(trustor, trustee, relationType);
@@ -362,7 +335,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         if (status != Errors.SUCCESS) {
             if (permissionListener == null) {
                 DICommLog.e(DICommLog.PAIRING, "Pairing call-FAILED (get or add), pairing attempt:" + getPairingAttempts(mAppliance.getNetworkNode().getCppId()) + " Appliance name:" + mAppliance.getNetworkNode().getName());
-                notifyListenerFailed(false);
+                notifyListenerFailed();
             } else {
                 DICommLog.e(DICommLog.PAIRING, "get permission call failed");
                 permissionListener.onCallFailed();
@@ -371,41 +344,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         }
 
         PairingService pairingObj = (PairingService) obj;
-        int diCommRelationships = pairingObj.getNumberOfRelationsReturned();
-        if (eventType == Commands.PAIRING_GET_RELATIONSHIPS) {
-            DICommLog.i(DICommLog.PAIRING, "GetRelation call-SUCCESS");
-            int noOfRelations = getNumberOfRelationships(pairingObj);
-            if (diCommRelationships < 1 || noOfRelations < 1) {
-
-                DICommLog.i(DICommLog.PAIRING, "No existing relationships - Requesting Purifier to start pairing");
-                startPairingPortTask(currentRelationshipType, PAIRING_PERMISSIONS
-                        .toArray(new String[PAIRING_PERMISSIONS.size()]));
-            } else if (diCommRelationships < 2 || noOfRelations < 1) {
-
-                DICommLog.i(DICommLog.PAIRING, "Only one existing relationship (one expired) - Need to start pairing again");
-                startPairingPortTask(currentRelationshipType, PAIRING_PERMISSIONS
-                        .toArray(new String[PAIRING_PERMISSIONS.size()]));
-            } else if (currentRelationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)
-                    && noOfRelations > 0) {
-                currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
-                getRelationship(currentRelationshipType);
-                DICommLog.i(DICommLog.PAIRING, "DI COMM relationship exists, checking for notify relationship");
-            } else if (currentRelationshipType.equals(PAIRING_NOTIFY_RELATIONSHIP)
-                    && noOfRelations > 0) {
-                DICommLog.i(DICommLog.PAIRING, "Notify relationship exists, pairing already successfull");
-                notifyListenerSuccess();
-                DICommLog.i(DICommLog.PAIRING, "Paring status set to true");
-                mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-                mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
-
-                //TODO better solution
-                //TODO verify with Jeroen: implementation correct this way?
-                DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
-                T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
-                appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-                discoveryManager.updateApplianceInDatabase(appliance);
-            }
-        } else if (eventType == Commands.PAIRING_REMOVE_RELATIONSHIP) {
+        if (eventType == Commands.PAIRING_REMOVE_RELATIONSHIP) {
             DICommLog.i(DICommLog.PAIRING, "RemoveRelation call-SUCCESS");
             if (currentRelationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)) {
                 if (entity_state == ENTITY.PURIFIER) {
@@ -454,17 +393,21 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
             if (relationStatus.equalsIgnoreCase("completed")) {
 
                 if (currentRelationshipType.equals(PAIRING_DI_COMM_RELATIONSHIP)) {
-                    DICommLog.i(DICommLog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
-                    currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
-                    addRelationship(PAIRING_NOTIFY_RELATIONSHIP, null);
+                    if (pairingHandlerRelationship instanceof UserPairingHandlerRelationship) {
+                        notifyListenerSuccess();
+                    } else {
+                        DICommLog.i(DICommLog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
+                        currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
+                        AppPairingHandlerRelationship appPairingHandlerRelationship = new AppPairingHandlerRelationship(DICommClientWrapper.getCloudController().getAppCppId(), PAIRING_REFERENCEPROVIDER, mAppliance);
+                        addRelationship(PAIRING_NOTIFY_RELATIONSHIP, null, appPairingHandlerRelationship);
+                    }
                 } else {
                     DICommLog.i(DICommLog.PAIRING, "Notification relationship added successfully - Pairing completed");
                     DICommLog.i(DICommLog.PAIRING, "Paring status set to true");
                     mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
                     mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
-                    //TODO better solution
-                    //TODO verify with Jeroen: implementation correct this way?
+                    //TODO see user story COM-89
                     DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
                     T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
                     appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
@@ -474,7 +417,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                 }
             } else {
                 DICommLog.e(DICommLog.PAIRING, "Pairing status is PENDING, pairing attempt:" + getPairingAttempts(mAppliance.getNetworkNode().getCppId()) + " Appliance name:" + mAppliance.getNetworkNode().getName());
-                notifyListenerFailed(false);
+                notifyListenerFailed();
             }
         } else if (eventType == Commands.PAIRING_ADD_PERMISSIONS) {
             permissionListener.onPermissionAdded();
@@ -510,15 +453,14 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         pairingListener.onPairingSuccess(mAppliance);
     }
 
-    private void notifyListenerFailed(boolean isPairingPortTaskFailed) {
+    private void notifyListenerFailed() {
 
         if (mAppliance == null) return;
         if (getPairingAttempts(mAppliance.getNetworkNode().getCppId()) < MAX_RETRY) {
             setPairingAttempts(mAppliance.getNetworkNode().getCppId());
             // If DI-COMM local (Pairing Port) request fails, then retry only the DI-COMM request
-            if (isPairingPortTaskFailed) {
-                startPairingPortTask(PAIRING_DI_COMM_RELATIONSHIP, PAIRING_PERMISSIONS
-                        .toArray(new String[PAIRING_PERMISSIONS.size()]));
+            if (pairingHandlerRelationship instanceof UserPairingHandlerRelationship) {
+                startUserPairing(pairingHandlerRelationship.cppId, pairingHandlerRelationship.credentials, pairingHandlerRelationship.type);
             } else {
                 startPairing();
             }
@@ -538,7 +480,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public void addPermission(String relationType, String[] permission) {
         if (!DICommClientWrapper.getCloudController().isSignOn())
             return;
-        PairingService addPermission = new PairingService(callbackHandler);
+        PairingService addPermission = createPairingService();
         int retStatus = addPermission.addPermissionsRequest(null, getDICommApplianceEntity(),
                 relationType, permission);
         if (Errors.SUCCESS != retStatus) {
@@ -564,7 +506,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         } else {
             int iMaxPermissons = 5;
             int iPermIndex = 0;
-            PairingService getPermission = new PairingService(callbackHandler);
+            PairingService getPermission = createPairingService();
             int retStatus;
 
             retStatus = getPermission.getPermissionsRequest(null,
@@ -592,7 +534,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public void removePermission(String relationType, String[] permission) {
         if (!DICommClientWrapper.getCloudController().isSignOn())
             return;
-        PairingService removePermissions = new PairingService(callbackHandler);
+        PairingService removePermissions = createPairingService();
         int retStatus = removePermissions.removePermissionsRequest(null, getDICommApplianceEntity(),
                 relationType, permission);
         if (Errors.SUCCESS != retStatus) {
