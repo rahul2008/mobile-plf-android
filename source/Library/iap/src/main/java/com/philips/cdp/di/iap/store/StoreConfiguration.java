@@ -54,7 +54,6 @@ public class StoreConfiguration {
         builder.append(SUFFIX_INAPPCONFIG).append(HybrisStore.SEPERATOR);
         builder.append(mWebStoreConfig.getLocale()).append(HybrisStore.SEPERATOR);
         builder.append(getProposition());
-
         return builder.toString();
     }
 
