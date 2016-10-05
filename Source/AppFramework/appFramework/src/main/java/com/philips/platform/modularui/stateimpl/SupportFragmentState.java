@@ -35,8 +35,8 @@ public class SupportFragmentState extends UIState implements CcListener {
     private FragmentLauncher fragmentLauncher;
     private UIStateListener supportListener;
 
-    public SupportFragmentState(@UIStateDef int stateID) {
-        super(stateID);
+    public SupportFragmentState() {
+        super(UIState.UI_SUPPORT_FRAGMENT_STATE);
     }
 
     /**
@@ -94,7 +94,7 @@ public class SupportFragmentState extends UIState implements CcListener {
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            supportListener.onStateComplete(new SupportFragmentState(UIState.UI_SUPPORT_FRAGMENT_STATE));
+            supportListener.onStateComplete(new SupportFragmentState());
             return true;
         }
         return false;

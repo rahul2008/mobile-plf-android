@@ -68,8 +68,8 @@ abstract public class UIState {
      * setter for state ID
      * @param stateID requirs the state ID
      */
-    @UIState.UIStateDef
-    public void setStateID(int stateID) {
+
+    public void setStateID(@UIState.UIStateDef int stateID) {
         this.stateID = stateID;
     }
 

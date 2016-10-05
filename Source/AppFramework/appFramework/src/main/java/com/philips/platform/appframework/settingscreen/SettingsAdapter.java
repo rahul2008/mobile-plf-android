@@ -27,7 +27,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -57,7 +56,7 @@ public class SettingsAdapter extends BaseAdapter{
                            LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
         activityContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        userRegistrationState = new UserRegistrationState();
         this.settingsItemList = settingsItemList;
         this.logoutHandler = logoutHandler;
         this.fragmentPresenter = fragmentPresenter;

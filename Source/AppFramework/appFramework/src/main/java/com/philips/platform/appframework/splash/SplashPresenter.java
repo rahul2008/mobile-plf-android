@@ -51,11 +51,11 @@ public class SplashPresenter extends UIBasePresenter {
     public void onLoad(Context context) {
         sharedPreferenceUtility = getSharedPreferenceUtility(context);
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        userRegistrationState = new UserRegistrationState();
         if (userRegistrationState.getUserObject(context).isUserSignIn()) {
-            uiState = new HomeActivityState(UIState.UI_HOME_STATE);
+            uiState = new HomeActivityState();
         } else {
-            uiState = new WelcomeState(UIState.UI_WELCOME_STATE);
+            uiState = new WelcomeState();
         }
         uiState.setPresenter(this);
         fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);

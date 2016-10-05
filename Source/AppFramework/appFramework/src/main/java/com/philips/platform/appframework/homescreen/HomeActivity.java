@@ -39,7 +39,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.FragmentView;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -255,7 +254,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     @Override
     protected void onResume() {
         super.onResume();
-        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        userRegistrationState = new UserRegistrationState();
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
         }
