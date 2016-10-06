@@ -24,6 +24,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
+import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -43,7 +44,7 @@ import java.util.List;
 
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
-        ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener<ShoppingCartData> {
+        ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData> {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
@@ -261,7 +262,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onLoadListenerError(Message msg) {
+    public void onLoadError(Message msg) {
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }

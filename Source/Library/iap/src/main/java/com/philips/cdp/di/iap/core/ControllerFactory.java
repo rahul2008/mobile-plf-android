@@ -29,7 +29,7 @@ public class ControllerFactory {
 
     @SuppressWarnings({"rawtype", "unchecked"})
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
-                                                    ShoppingCartPresenter.LoadListener listener) {
+                                                    ShoppingCartPresenter.ShoppingCartListener listener) {
         ShoppingCartAPI api;
         if (mIsPlanB) {
             api = new LocalShoppingCartPresenter(context, listener);

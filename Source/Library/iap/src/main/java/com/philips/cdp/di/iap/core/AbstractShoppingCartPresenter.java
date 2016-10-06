@@ -26,26 +26,24 @@ import java.util.Map;
 
 @SuppressWarnings("rawtypes")
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
-    public interface LoadListener<T> {
+    protected Context mContext;
+    protected ArrayList<StoreEntity> mStoreEntities;
+    protected StoreSpec mStore;
+    protected ShoppingCartListener mLoadListener;
+    protected HybrisDelegate mHybrisDelegate;
+
+    public interface ShoppingCartListener<T> {
         void onLoadFinished(ArrayList<T> data);
 
-        void onLoadListenerError(Message msg);
+        void onLoadError(Message msg);
 
         void onRetailerError(IAPNetworkError errorMsg);
     }
 
-   // private final static String PHILIPS_STORE_YES = "Y";
-
-    protected Context mContext;
-    protected ArrayList<StoreEntity> mStoreEntities;
-    protected StoreSpec mStore;
-    protected LoadListener mLoadListener;
-    protected HybrisDelegate mHybrisDelegate;
-
     public AbstractShoppingCartPresenter() {
     }
 
-    public AbstractShoppingCartPresenter(final Context context, final LoadListener listener) {
+    public AbstractShoppingCartPresenter(final Context context, final ShoppingCartListener listener) {
         mContext = context;
         mLoadListener = listener;
     }
@@ -55,7 +53,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
         dismissProgressDialog();
         if (mLoadListener != null) {
-            mLoadListener.onLoadListenerError(msg);
+            mLoadListener.onLoadError(msg);
         }
     }
 

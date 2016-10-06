@@ -9,19 +9,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
-public class AppLocalStoreTest {
+public class LocalStoreTest {
     @Mock
     Context mContext;
-    AppLocalStore mAppLocalStore;
+    LocalStore mAppLocalStore;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mAppLocalStore = new AppLocalStore(mContext);
+        mAppLocalStore = new LocalStore(mContext);
     }
 
     @Test

@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.ProductDetailController;
+import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -53,7 +54,7 @@ import java.util.Map;
 public class ProductDetailFragment extends InAppBaseFragment implements
         PRXProductAssetBuilder.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
-        ProductDetailController.ProductSearchListener, ShoppingCartPresenter.LoadListener<StoreEntity> {
+        ProductDetailController.ProductSearchListener, ShoppingCartPresenter.ShoppingCartListener<StoreEntity> {
 
 
     public static final String TAG = ProductDetailFragment.class.getName();
@@ -459,8 +460,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
 
     @Override
-    public void onLoadListenerError(Message msg) {
-        IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment ");
+    public void onLoadError(Message msg) {
+        IAPLog.d(IAPLog.LOG, "onLoadError == ProductDetailFragment ");
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {

@@ -38,7 +38,7 @@ import java.util.List;
 
 
 public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        ShoppingCartPresenter.LoadListener<ShoppingCartData>, DeliveryModeDialog.DialogListener {
+        ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, DeliveryModeDialog.DialogListener {
     private final static String TAG = OrderProductAdapter.class.getSimpleName();
 
     private List<ShoppingCartData> mShoppingCartDataList;
@@ -195,7 +195,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onLoadListenerError(Message msg) {
+    public void onLoadError(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {

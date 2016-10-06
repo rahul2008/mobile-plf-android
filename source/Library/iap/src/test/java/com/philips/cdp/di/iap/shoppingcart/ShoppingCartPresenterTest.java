@@ -45,7 +45,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
-public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadListener<ShoppingCartData> {
+public class ShoppingCartPresenterTest implements ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData> {
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     private ShoppingCartPresenter mShoppingCartPresenter;
@@ -286,7 +286,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     }
 
     @Override
-    public void onLoadListenerError(final Message msg) {
+    public void onLoadError(final Message msg) {
         boolean isHybrisError = msg.obj instanceof IAPNetworkError;
         assert (isHybrisError);
         assertEquals(((IAPNetworkError) msg.obj).getStatusCode(), ((IAPNetworkError) msg.obj).getIAPErrorCode());

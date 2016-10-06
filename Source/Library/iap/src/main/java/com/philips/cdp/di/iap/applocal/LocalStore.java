@@ -12,10 +12,10 @@ import com.philips.cdp.di.iap.core.AbstractStoreSpec;
  * Handles the scenario where the CTNs are provided from the vertical app.
  * All other urls, we are forced to override though it makes no sense.
  */
-public class AppLocalStore extends AbstractStoreSpec {
+public class LocalStore extends AbstractStoreSpec {
     private Context mContext;
 
-    public AppLocalStore(final Context context) {
+    public LocalStore(final Context context) {
         mContext = context;
     }
 }

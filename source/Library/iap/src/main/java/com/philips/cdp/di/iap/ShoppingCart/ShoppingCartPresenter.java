@@ -57,7 +57,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @SuppressWarnings({"rawtype", "unchecked"})
-    public ShoppingCartPresenter(Context context, LoadListener listener) {
+    public ShoppingCartPresenter(Context context, ShoppingCartListener listener) {
         super(context, listener);
     }
 
@@ -121,7 +121,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                mLoadListener.onLoadListenerError(msg);
+                mLoadListener.onLoadError(msg);
                 Utility.dismissProgressDialog();
             }
         });

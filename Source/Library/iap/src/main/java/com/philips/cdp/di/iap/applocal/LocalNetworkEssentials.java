@@ -16,7 +16,7 @@ public class LocalNetworkEssentials implements NetworkEssentials {
 
     @Override
     public StoreSpec getStore(final Context context, final IAPSettings iapSettings) {
-        return new AppLocalStore(context);
+        return new LocalStore(context);
     }
 
     @Override

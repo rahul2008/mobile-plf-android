@@ -5,11 +5,9 @@
 package com.philips.cdp.di.iap.applocal;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 
 /**
@@ -19,7 +17,7 @@ import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
     @SuppressWarnings("rawtypes")
-    public LocalShoppingCartPresenter(Context context, LoadListener listener) {
+    public LocalShoppingCartPresenter(Context context, ShoppingCartListener listener) {
         super(context, listener);
     }
 
