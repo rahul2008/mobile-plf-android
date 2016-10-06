@@ -10,31 +10,29 @@ import android.content.Context;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homescreen.HomeFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class HomeFragmentState extends UIState {
-    /**
-     * constructor
-     * @param stateID
-     */
-    public HomeFragmentState(@UIStateDef int stateID) {
-        super(stateID);
+
+    private FragmentLauncher fragmentLauncher;
+
+    public HomeFragmentState() {
+        super(UIState.UI_HOME_FRAGMENT_STATE);
     }
 
     /**
      * for Navigation
-     * @param context requires context
+     * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new HomeFragment(), HomeFragment.TAG);
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragment(), HomeFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
-    /**
-     * to handle back
-     * @param context requires context
-     */
     @Override
-    public void back(final Context context) {
-        ((AppFrameworkBaseActivity)context).finishActivity();
+    public void init(Context context) {
+
     }
 }

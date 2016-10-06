@@ -5,130 +5,58 @@
 */
 package com.philips.platform.appframework;
 
-import android.content.res.Configuration;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Window;
 
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
-import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.homescreen.HomeFragment;
-import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity{
-    private FragmentManager fragmentManager = null;
+public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
+    private int cartItemCount = 0;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        super.onCreate(savedInstanceState);
-        ProductSelectionLogger.i(Constants.ACTIVITY, "onCreate");
-        fragmentManager = getSupportFragmentManager();
-    }
-
-    public void showFragment(Fragment fragment, String fragmentTag) {
+    public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
         int containerId = R.id.frame_container;
-
-            try {
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                fragmentTransaction.addToBackStack(fragmentTag);
-                fragmentTransaction.commitAllowingStateLoss();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
+        try {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            switch (fragmentAddState) {
+                case Constants.ADD_HOME_FRAGMENT:
+                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
+                        fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                        fragmentTransaction.addToBackStack(fragmentTag);
+                        fragmentTransaction.commitAllowingStateLoss();
+                    } else {
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                    }
+                    break;
+                case Constants.ADD_FROM_HAMBURGER:
+                    getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                    fragmentTransaction.replace(containerId, fragment, fragmentTag);
+                    fragmentTransaction.addToBackStack(fragmentTag);
+                    fragmentTransaction.commitAllowingStateLoss();
+                    break;
+                case Constants.CLEAR_TILL_HOME:
+                    getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                    break;
             }
-    }
+        }catch (Exception e){
 
-    public void popBackTillHomeFragment() {
-        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG,0);
-    }
-
-    /*
-     * Add all the drawer fragments here
-     */
-    boolean isLaunchedFromHamburgerMenu(String tag){
-        if(tag.equalsIgnoreCase(SettingsFragment.TAG) || tag.equalsIgnoreCase(AboutScreenFragment.TAG) || tag.equalsIgnoreCase(DebugTestFragment.TAG)){
-            return true;
-        }
-        return false;
-    }
-
-    public void popBack(){
-        FragmentManager.BackStackEntry backEntry=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
-        String str=backEntry.getName();
-        if(str!=null && isLaunchedFromHamburgerMenu(str)){
-            popBackTillHomeFragment();
-        }else {
-            getSupportFragmentManager().popBackStack();
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    public int getCartItemCount() {
+        return cartItemCount;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void setCartItemCount(int cartItemCount) {
+        this.cartItemCount = cartItemCount;
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    protected boolean backstackFragment() {
-        fragmentManager.popBackStack();
-        return true;
-    }
-
-    private void removeCurrentFragment() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        Fragment currentFrag = fragmentManager
-                .findFragmentById(R.id.mainContainer);
-
-        if (currentFrag != null) {
-            transaction.remove(currentFrag);
-        }
-        transaction.commit();
-    }
-
-    public void removeFragmentByTag(String tag) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        Fragment currentFrag = fragmentManager
-                .findFragmentByTag(tag);
-
-        if (currentFrag != null) {
-            transaction.remove(currentFrag);
-        }
-        transaction.commit();
-    }
-
-    public void finishActivity() {
-        this.finishAffinity();
-    }
-
-    protected boolean findFragmentByTag(String tag) {
-        Fragment currentFrag = getSupportFragmentManager().findFragmentByTag(tag);
-
-        return (currentFrag != null);
-    }
+    public abstract void updateActionBarIcon(boolean b);
 }

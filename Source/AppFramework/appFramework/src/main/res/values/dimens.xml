@@ -11,6 +11,8 @@
     <dimen name="skip_layout_margin_top">32.5dp</dimen>
     <dimen name="skip_layout_padding_bottom">29dp</dimen>
     <dimen name="homescreen_left_margin">26dp</dimen>
-
+    <dimen name="welcome_skip_button_layout_margin">20dp</dimen>
+    <dimen name="welcome_button_text_size">14sp</dimen>
+    <dimen name="welcome_arrow_size">18sp</dimen>
 
 </resources>
