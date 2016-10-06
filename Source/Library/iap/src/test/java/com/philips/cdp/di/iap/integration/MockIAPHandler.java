@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.integration;
 import android.app.Application;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

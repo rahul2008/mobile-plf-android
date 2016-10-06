@@ -5,18 +5,13 @@
 
 package com.philips.cdp.di.iap.shoppingcart;
 
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
-import com.philips.cdp.di.iap.response.carts.EntriesEntity;
-import com.philips.cdp.di.iap.response.carts.ProductEntity;
-import com.philips.cdp.di.iap.response.carts.StockEntity;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
-
-import java.lang.reflect.Field;
 
 public class ShoppingCartDataTest  extends TestCase {
     private ShoppingCartData shoppingCartData = new ShoppingCartData();

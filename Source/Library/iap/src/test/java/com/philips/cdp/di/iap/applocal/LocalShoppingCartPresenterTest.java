@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.di.iap.applocal;
 
+import com.philips.cdp.di.iap.cart.LocalShoppingCartPresenter;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

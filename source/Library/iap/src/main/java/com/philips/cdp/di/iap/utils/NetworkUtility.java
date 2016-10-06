@@ -11,7 +11,7 @@ import android.text.TextUtils;
 
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
+import com.philips.cdp.di.iap.screens.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;

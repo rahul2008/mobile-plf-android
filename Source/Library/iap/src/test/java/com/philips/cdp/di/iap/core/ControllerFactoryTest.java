@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.core;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.controller.ControllerFactory;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

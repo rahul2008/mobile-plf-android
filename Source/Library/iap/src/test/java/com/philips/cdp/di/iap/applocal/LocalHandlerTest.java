@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.applocal;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.session.IAPListener;
 
 import org.junit.Before;

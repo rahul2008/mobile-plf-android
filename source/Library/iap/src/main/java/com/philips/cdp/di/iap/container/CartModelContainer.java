@@ -5,7 +5,7 @@
 package com.philips.cdp.di.iap.container;
 
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
+import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
