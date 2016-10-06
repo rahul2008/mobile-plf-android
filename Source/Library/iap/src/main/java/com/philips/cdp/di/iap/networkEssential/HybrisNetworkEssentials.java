@@ -23,7 +23,6 @@ public class HybrisNetworkEssentials implements NetworkEssentials {
     @Override
     public HurlStack getHurlStack(Context context, OAuthListener oAuthHandler) {
         IAPHurlStack iapHurlStack = new IAPHurlStack(oAuthHandler);
-        iapHurlStack.setContext(context);
         return (iapHurlStack.getHurlStack());
     }
 

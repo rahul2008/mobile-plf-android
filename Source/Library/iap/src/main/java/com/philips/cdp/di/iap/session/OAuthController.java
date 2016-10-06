@@ -43,10 +43,8 @@ public class OAuthController implements OAuthListener {
         return access_token;
     }
 
-    //We need different HurlStack for retry to avoid recursive call and stack overflow
     private void initRetryHurlStack() {
         IAPHurlStack stack  =new IAPHurlStack(mOAuthRequest);
-        stack.setContext(HybrisDelegate.getNetworkController().context);
         mRetryHurlStack = stack.getHurlStack();
     }
 

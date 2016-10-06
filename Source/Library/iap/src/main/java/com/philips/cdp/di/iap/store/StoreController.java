@@ -103,7 +103,6 @@ public class StoreController {
     //For testing purpose
     SynchronizedNetwork getSynchronizedNetwork() {
         IAPHurlStack hurlStack = new IAPHurlStack(null);
-        hurlStack.setContext(mContext);
         return new SynchronizedNetwork(hurlStack.getHurlStack());
     }
 

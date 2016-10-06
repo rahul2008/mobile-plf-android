@@ -62,7 +62,7 @@ class IAPHandler {
 
     private void initHybrisDelegate() {
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
-        HybrisDelegate.getDelegateWithNetworkEssentials(mIAPSetting.getContext(), essentials, mIAPSetting); //TODO : check
+        HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
     }
 
     protected void setLangAndCountry() {
