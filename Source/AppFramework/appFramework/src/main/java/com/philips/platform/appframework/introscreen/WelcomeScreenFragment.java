@@ -44,12 +44,6 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
     private CircleIndicator indicator;
     private UIBasePresenter presenter;
 
-    // This is not ideal solution, but more of a workaround
-    // ideally each activity and each fragment should have their own presenter responsible
-    // only for handling business logic of one specific component
-    // Current welcome screen clearly violates Single Responsibility Principle and
-    // doing correct MVP pattern here is not possible at this state.
-    // TODO make clear separation of responsibilities between activity and fragment
     public void setPresenter(UIBasePresenter presenter) {
         this.presenter = presenter;
     }

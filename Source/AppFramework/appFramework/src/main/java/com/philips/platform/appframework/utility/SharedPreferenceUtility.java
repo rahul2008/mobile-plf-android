@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.philips.platform.modularui.statecontroller.UIState;
-
 public class SharedPreferenceUtility {
     private Context context;
     private SharedPreferences sharedPreferences;
@@ -52,7 +50,7 @@ public class SharedPreferenceUtility {
     }
 
  public int getPreferenceInt(String key) {
-        return sharedPreferences.getInt(key, UIState.UI_SPLASH_UNREGISTERED_STATE);
+        return sharedPreferences.getInt(key,0);
     }
     public boolean contains(String key){
         return sharedPreferences.contains(key);
