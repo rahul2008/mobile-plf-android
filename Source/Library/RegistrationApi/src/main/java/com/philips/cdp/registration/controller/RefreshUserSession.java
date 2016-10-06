@@ -120,9 +120,14 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
+        if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
+                || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+
+            clearData();
+            RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
+        }
         UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
         mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
-
     }
 
     @Override
@@ -140,7 +145,4 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         }
         CaptureRecord.deleteFromDisk(mContext);
     }
-
-
-
 }
