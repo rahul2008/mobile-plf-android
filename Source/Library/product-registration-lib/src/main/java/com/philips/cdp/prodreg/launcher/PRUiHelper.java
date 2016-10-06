@@ -154,6 +154,10 @@ public class PRUiHelper {
         return prodRegUiListener;
     }
 
+    public void unRegisterProdRegListener() {
+        this.prodRegUiListener = null;
+    }
+
     private RegisteredProduct mapToRegisteredProduct(final Product currentProduct) {
         RegisteredProduct registeredProduct = null;
         if (currentProduct != null) {

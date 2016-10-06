@@ -90,6 +90,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             public void onClick(final View v) {
                 clearFragmentStack();
                 handleCallBack(true);
+                unRegisterProdRegListener();
             }
         };
     }
@@ -112,6 +113,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 } else {
                     clearFragmentStack();
                     PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
+                    unRegisterProdRegListener();
                     if (activity != null && !activity.isFinishing() && activity instanceof ProdRegBaseActivity) {
                         activity.finish();
                     }

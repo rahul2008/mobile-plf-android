@@ -36,7 +36,7 @@ import java.util.List;
 abstract class ProdRegBaseFragment extends Fragment implements BackEventListener {
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
-    private static ActionBarListener mActionbarUpdateListener;
+    private ActionBarListener mActionbarUpdateListener;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
 
@@ -223,6 +223,10 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             ProdRegLogger.e(TAG, e.getMessage());
         }
         return false;
+    }
+
+    protected void unRegisterProdRegListener() {
+        PRUiHelper.getInstance().unRegisterProdRegListener();
     }
 
     @Override

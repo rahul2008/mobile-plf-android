@@ -118,6 +118,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
         if (activity != null && !activity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
             handleCallBack(true);
+            unRegisterProdRegListener();
             return fragmentStack;
         }
         return true;

@@ -260,6 +260,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         if (activity != null && !activity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
             handleCallBack(true);
+            unRegisterProdRegListener();
             return fragmentStack;
         }
         return true;
@@ -278,6 +279,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void exitProductRegistration() {
         clearFragmentStack();
+        unRegisterProdRegListener();
     }
 
     @Override

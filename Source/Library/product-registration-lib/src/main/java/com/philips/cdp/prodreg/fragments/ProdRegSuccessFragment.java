@@ -64,6 +64,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             public void onClick(final View v) {
                 clearFragmentStack();
                 handleCallBack(false);
+                unRegisterProdRegListener();
             }
         });
         return view;
@@ -90,6 +91,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         if (activity != null && !activity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
             handleCallBack(true);
+            unRegisterProdRegListener();
             return fragmentStack;
         }
         return true;
