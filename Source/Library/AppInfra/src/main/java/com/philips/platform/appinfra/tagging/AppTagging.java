@@ -154,7 +154,7 @@ public class AppTagging implements AppTaggingInterface {
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         contextData.put(AppTaggingConstants.BUNDLE_ID, getAppStateFromConfig());
-        ArrayList taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitivedata", "appinfra", configError);
+        ArrayList taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitiveData", "appinfra", configError);
         if (taggingSensitiveData != null && taggingSensitiveData.size() > 0) {
             for (int i = 0; i < taggingSensitiveData.size(); i++) {
                 for (int j = 0; j < defaultValues.length; j++) {

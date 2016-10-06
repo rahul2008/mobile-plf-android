@@ -62,6 +62,7 @@ public class AndroidMediaPlayerExample extends Activity {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         Log.i("VedioonCompletion", "onVideoonCompletion");
+                        AppInfraApplication.mAIAppTaggingInterface.trackVideoEnd("Tagging_trackVideoEnd");
                         AppInfraApplication.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedActionStart");
                     }
                 });

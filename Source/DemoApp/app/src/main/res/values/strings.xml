@@ -283,6 +283,20 @@
 
     </string-array>
 
+    <string-array name="social_share_list">
+        <item>facebook</item>
+        <item>twitter</item>
+        <item>mail</item>
+        <item>airdrop</item>
+
+        <!--Facebook("facebook"),-->
+        <!--Twitter("twitter"),-->
+        <!--Mail("mail"),-->
+        <!--AirDrop("airdrop");-->
+
+
+    </string-array>
+
     <string-array name="platform_list">
         <item>DEFAULT</item>
         <item>PRX</item>
