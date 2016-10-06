@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
@@ -25,32 +29,21 @@ public class NetworkImageLoader {
     public NetworkImageLoader(Context context) {
         mRequestQueue = getRequestQueue(context);
         setUpCacheLoader();
-
     }
 
     protected void setUpCacheLoader() {
-        // Get max available VM memory, exceeding this amount will throw an
-        // OutOfMemory exception. Stored in kilobytes as LruCache takes an
-        // int in its constructor.
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-
-        // Use 1/8th of the available memory for this memory cache.
         final int cacheSize = maxMemory / 8;
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
-                // The cache size will be measured in kilobytes rather than
-                // number of items.
                 return bitmap.getByteCount() / 1024;
             }
         };
 
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
-                    /*private final LruCache<String, Bitmap>
-                            cache = new LruCache<String, Bitmap>(200);*/
-
                     @Override
                     public Bitmap getBitmap(String url) {
                         return mMemoryCache.get(url);
@@ -58,7 +51,6 @@ public class NetworkImageLoader {
 
                     @Override
                     public void putBitmap(String url, Bitmap bitmap) {
-                        //mMemoryCache.put(url, bitmap);
                         addBitmapToMemoryCache(url, bitmap);
                     }
 
@@ -86,7 +78,6 @@ public class NetworkImageLoader {
             Cache cache = new DiskBasedCache(context.getCacheDir(), 10 * 1024 * 1024);
             Network network = new BasicNetwork(new HurlStack());
             mRequestQueue = new RequestQueue(cache, network);
-            // Don't forget to start the volley request queue
             mRequestQueue.start();
         }
         return mRequestQueue;
@@ -95,5 +86,4 @@ public class NetworkImageLoader {
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }
-
 }
