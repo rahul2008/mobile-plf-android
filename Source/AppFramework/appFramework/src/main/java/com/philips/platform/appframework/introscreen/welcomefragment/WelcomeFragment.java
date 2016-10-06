@@ -4,10 +4,11 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.appframework.introscreen;
+package com.philips.platform.appframework.introscreen.welcomefragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.appframework.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -33,7 +35,7 @@ import com.shamanland.fonticon.FontIconView;
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  *
  */
-public class WelcomeScreenFragment extends Fragment implements View.OnClickListener, WelcomeView {
+public class WelcomeFragment extends Fragment implements View.OnClickListener, WelcomeFragmentView {
 
     private static String TAG = WelcomeActivity.class.getSimpleName();
 
@@ -44,8 +46,10 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
     private CircleIndicator indicator;
     private UIBasePresenter presenter;
 
-    public void setPresenter(UIBasePresenter presenter) {
-        this.presenter = presenter;
+    @Override
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = new WelcomeFragmentPresenter(this);
     }
 
     @Override
@@ -118,7 +122,7 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (presenter != null) {
-            presenter.onClick(v.getId(), getActivity());
+            presenter.onClick(v.getId());
         }
     }
 
@@ -160,4 +164,5 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
     public FragmentActivity getFragmentActivity() {
         return getActivity();
     }
+
 }

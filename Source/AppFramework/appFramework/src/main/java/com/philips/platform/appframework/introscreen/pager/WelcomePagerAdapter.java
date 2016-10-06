@@ -31,13 +31,13 @@ public class WelcomePagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case PAGER_POSITION_ONE:
-                return WelcomeSlideFragment.newInstance(R.string.introduction_screen_one_bottom_text,
+                return WelcomePagerFragment.newInstance(R.string.introduction_screen_one_bottom_text,
                         R.string.introduction_screen_one_bottom_text, R.drawable.af_welcome_start_page_bg);
             case PAGER_POSITION_TWO:
-                return WelcomeSlideFragment.newInstance(R.string.introduction_screen_two_bottom_text,
+                return WelcomePagerFragment.newInstance(R.string.introduction_screen_two_bottom_text,
                         R.string.introduction_screen_two_bottom_text, R.drawable.af_welcome_center_page_bg);
             case PAGER_POSITION_THREE:
-                return WelcomeSlideFragment.newInstance(R.string.introduction_screen_three_bottom_text,
+                return WelcomePagerFragment.newInstance(R.string.introduction_screen_three_bottom_text,
                         R.string.introduction_screen_three_bottom_text, R.drawable.af_welcome_end_page_bg);
             default:
                 return null;
