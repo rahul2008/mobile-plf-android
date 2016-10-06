@@ -6,11 +6,13 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -26,6 +28,18 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     private ActionBarListener mActionbarUpdateListener;
     protected IAPListener mIapListener;
     String mTitle = "";
+
+    protected IAPCartListener mProductCountListener = new IAPCartListener() {
+        @Override
+        public void onSuccess(final int count) {
+            updateCount(count);
+        }
+
+        @Override
+        public void onFailure(final Message msg) {
+            Utility.dismissProgressDialog();
+        }
+    };
 
     public void setActionBarListener(ActionBarListener actionBarListener, IAPListener iapListener) {
         mActionbarUpdateListener = actionBarListener;

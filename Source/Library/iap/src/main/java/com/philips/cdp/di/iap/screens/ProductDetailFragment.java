@@ -19,20 +19,20 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.cart.IAPCartListener;
-import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.ProductDetailController;
-import com.philips.cdp.di.iap.controller.ControllerFactory;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
+import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.ControllerFactory;
+import com.philips.cdp.di.iap.controller.ProductDetailController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
+import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.products.ProductDetailEntity;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -81,6 +81,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
+    private ErrorDialogFragment mErrorDialogFragment;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -130,7 +131,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
-        mEmptyCatalogText = (TextView) rootView.findViewById(R.id.empty_product_catalog_txt);
         mProductDescription = (TextView) rootView.findViewById(R.id.product_description);
         mCTN = (TextView) rootView.findViewById(R.id.ctn);
         mPrice = (TextView) rootView.findViewById(R.id.individual_price);
@@ -243,6 +243,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        if (!ControllerFactory.getInstance().isPlanB()) {
+            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
+        }
         if (mBundle != null) {
             if (!mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
                 tagProduct();
@@ -367,14 +370,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             Utility.dismissProgressDialog();
         }
         mDetailLayout.setVisibility(View.VISIBLE);
-        mEmptyCatalogText.setVisibility(View.GONE);
     }
 
     @Override
     public void onModelDataError(Message msg) {
         mDetailLayout.setVisibility(View.GONE);
-        mEmptyCatalogText.setVisibility(View.VISIBLE);
-        //  setTitleAndBackButtonVisibility(R.string.iap_product_catalog);
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
@@ -385,13 +385,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             if (Utility.isProgressDialogShowing()) {
                 Utility.dismissProgressDialog();
             }
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            mDetailLayout.setVisibility(View.GONE);
+            setTitleAndBackButtonVisibility(mProductTitle, false);
+            showErrorDialog(msg);
         } else {
             if (msg.what == RequestCode.SEARCH_PRODUCT) {
                 if (msg.obj instanceof ProductDetailEntity) {
                     mProductDetail = (ProductDetailEntity) msg.obj;
                     mCTNValue = mProductDetail.getCode();
                     fetchProductDetail();
+                    mDetailLayout.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -489,6 +492,28 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onDialogOkClick() {
-        moveToVerticalAppByClearingStack();
+        getFragmentManager().popBackStack();
+    }
+
+    private void showErrorDialog(Message msg) {
+        IAPNetworkError error = (IAPNetworkError) msg.obj;
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, mContext.getString(R.string.iap_ok));
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE,
+                NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()));
+        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION,
+                NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
+        if (mErrorDialogFragment == null) {
+            mErrorDialogFragment = new ErrorDialogFragment();
+            mErrorDialogFragment.setErrorDialogListener(this);
+            mErrorDialogFragment.setArguments(bundle);
+            mErrorDialogFragment.setShowsDialog(false);
+        }
+        try {
+            mErrorDialogFragment.show(getFragmentManager(), "NetworkErrorDialog");
+            mErrorDialogFragment.setShowsDialog(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

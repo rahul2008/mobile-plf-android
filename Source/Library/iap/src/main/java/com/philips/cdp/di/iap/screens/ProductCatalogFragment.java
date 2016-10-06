@@ -65,18 +65,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private boolean mIsLoading = false;
 
-    private IAPCartListener mProductCountListener = new IAPCartListener() {
-        @Override
-        public void onSuccess(final int count) {
-            updateCount(count);
-        }
-
-        @Override
-        public void onFailure(final Message msg) {
-            Utility.dismissProgressDialog();
-        }
-    };
-
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());

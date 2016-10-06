@@ -83,9 +83,6 @@ public class NetworkUtility {
             showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
                     getErrorDescriptionMessageFromErrorCode(context, error));
-        } else {
-            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
-                    context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong));
         }
     }
 
