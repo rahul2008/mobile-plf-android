@@ -99,15 +99,12 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         return getFragmentManager().popBackStackImmediate();
     }
 
-    public void showProductCatalogFragment() {
+    public void showProductCatalogFragment(String fragmentTag) {
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null) {
-            if (getActivity() != null && getActivity() instanceof IAPActivity && !getActivity().isFinishing()) {
-                clearFragmentStack();
-            }
+            getFragmentManager().popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             addFragment(ProductCatalogFragment.createInstance(new Bundle(),
                     AnimationType.NONE), ProductCatalogFragment.TAG);
-
         } else {
             getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
         }

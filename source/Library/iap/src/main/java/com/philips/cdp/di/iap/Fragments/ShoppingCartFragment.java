@@ -187,7 +187,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             startProductDetailFragment();
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            showProductCatalogFragment();
+            showProductCatalogFragment(ShoppingCartFragment.TAG);
         }
     }
 

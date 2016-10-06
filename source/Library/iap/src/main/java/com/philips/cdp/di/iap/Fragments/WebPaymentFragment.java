@@ -170,7 +170,7 @@ public class WebPaymentFragment extends WebFragment implements
         if (fragment != null) {
             moveToVerticalAppByClearingStack();
         } else {
-            showProductCatalogFragment();
+            showProductCatalogFragment(WebPaymentFragment.TAG);
         }
     }
 }

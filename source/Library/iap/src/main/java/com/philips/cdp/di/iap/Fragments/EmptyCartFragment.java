@@ -84,7 +84,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
-            showProductCatalogFragment();
+            showProductCatalogFragment(EmptyCartFragment.TAG);
         }
     }
 }
