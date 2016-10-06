@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.session;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.core.NetworkEssentials;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Null;
 import org.robolectric.RobolectricTestRunner;
 
 /**

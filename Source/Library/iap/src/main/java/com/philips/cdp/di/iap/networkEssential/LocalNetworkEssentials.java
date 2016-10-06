@@ -2,16 +2,15 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.applocal;
+package com.philips.cdp.di.iap.networkEssential;
 
 import android.content.Context;
 
 import com.android.volley.toolbox.HurlStack;
-import com.philips.cdp.di.iap.core.NetworkEssentials;
-import com.philips.cdp.di.iap.store.LocalStore;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.OAuthListener;
+import com.philips.cdp.di.iap.store.LocalStore;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 public class LocalNetworkEssentials implements NetworkEssentials {
 

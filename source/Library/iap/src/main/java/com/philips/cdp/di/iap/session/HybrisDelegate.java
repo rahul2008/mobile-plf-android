@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.NetworkEssentials;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;

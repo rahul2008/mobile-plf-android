@@ -2,10 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.core;
-
-import com.philips.cdp.di.iap.hybris.HybrisNetworkEssentials;
-import com.philips.cdp.di.iap.applocal.LocalNetworkEssentials;
+package com.philips.cdp.di.iap.networkEssential;
 
 public class NetworkEssentialsFactory {
     public static NetworkEssentials getNetworkEssentials(boolean isPlanB) {

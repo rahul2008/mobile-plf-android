@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.applocal;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.networkEssential.LocalNetworkEssentials;
 import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.platform.appinfra.AppInfra;

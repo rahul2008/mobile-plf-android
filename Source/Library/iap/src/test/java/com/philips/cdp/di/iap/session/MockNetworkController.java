@@ -8,7 +8,7 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.hybris.HybrisNetworkEssentials;
+import com.philips.cdp.di.iap.networkEssential.HybrisNetworkEssentials;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.model.AbstractModel;
