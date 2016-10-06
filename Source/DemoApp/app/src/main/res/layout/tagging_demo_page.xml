@@ -107,6 +107,7 @@
         android:layout_height="60dp"
         android:layout_below="@id/privacy_layout"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp"
         android:orientation="horizontal">
 
         <Button
@@ -127,11 +128,7 @@
             android:layout_height="60dp"
             android:text="Action Start" />
 
-        <Button
-            android:id="@+id/actionend"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:text="Action End" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -140,19 +137,13 @@
         android:layout_height="60dp"
         android:layout_below="@id/tag_layout"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp"
         android:orientation="horizontal">
-
         <Button
-            android:id="@+id/actionupdate"
+            android:id="@+id/actionend"
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:text="Action Update" />
-
-        <Button
-            android:id="@+id/actionexists"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:text="Action Exist" />
+            android:text="Action End" />
 
         <Button
             android:id="@+id/checkssl"
@@ -174,6 +165,7 @@
         android:layout_height="60dp"
         android:layout_below="@id/action_Layout"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp"
         android:orientation="horizontal">
 
         <Button
@@ -214,23 +206,18 @@
     <LinearLayout
         android:id="@+id/social_Layout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/video_Layout"
         android:layout_marginTop="10dp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/social_share"
-            android:layout_width="133dp"
-            android:layout_height="40dp"
-            android:text="Share"
-            android:textStyle="bold"
-            />
+        android:layout_marginLeft="100dp"
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <Spinner
             android:id="@+id/Spinner_social_share"
-            android:layout_width="133dp"
+            android:layout_width="200dp"
             android:layout_height="40dp"
-            />
+            android:layout_weight="0.29" />
     </LinearLayout>
 
 

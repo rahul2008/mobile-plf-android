@@ -29,9 +29,11 @@ public interface AppTaggingInterface {
         Mail("mail"),
         AirDrop("airdrop");
         private final String socialMedium;
+
         SocialMedium(String socialMedium) {
             this.socialMedium = socialMedium;
         }
+
         public String toString() {
             return this.socialMedium;
         }
@@ -161,37 +163,30 @@ public interface AppTaggingInterface {
     void trackFileDownload(String filename);
 
     /**
-     * Track file being downloaded.
+     * Track Timed Action Start.
      *
      * @param actionStart String filename.
      */
     void trackTimedActionStart(String actionStart);
 
     /**
-     * Track file being downloaded.
-     *
-     * @param actionUpdate String filename.
-     */
-    void trackTimedActionUpdate(String actionUpdate);
-
-    /**
-     * Track file being downloaded.
+     * Track Timed Action end.
      *
      * @param actionEnd String filename.
      */
     void trackTimedActionEnd(String actionEnd);
 
     /**
-     * Track file being downloaded.
+     * sets Privacy Consent For SensitiveData.
      *
-     * @param actionExists String filename.
+     * @param valueContent String filename.
      */
-    void trackingTimedActionExists(String actionExists);
+    void SetPrivacyConsentForSensitiveData(boolean valueContent);
 
-
-
-
-
+    /**
+     * get Privacy Consent For SensitiveData.
+     */
+    boolean getPrivacyConsentForSensitiveData();
 
 
 }

@@ -49,21 +49,17 @@ public class AIATDemoPage extends AppCompatActivity {
 
         Button TaggActionStartBtn = (Button) findViewById(R.id.actionstart);
         Button TaggActionEndBtn = (Button) findViewById(R.id.actionend);
-        Button TaggActionUpdateBtn = (Button) findViewById(R.id.actionupdate);
-        Button TaggActionExistBtn = (Button) findViewById(R.id.actionexists);
         Button CheckForSslBtn = (Button) findViewById(R.id.checkssl);
 
         Button TaggLinkExternal = (Button) findViewById(R.id.link_external);
         Button TaggVideoStart = (Button) findViewById(R.id.video_start);
         Button TaggVideoEnd = (Button) findViewById(R.id.video_end);
-//        Button TaggSocialTrack=  (Button) findViewById(R.id.socila_track);
         Button TaggFileDownload = (Button) findViewById(R.id.file_download);
 
         Spinner social_share_spinner = (Spinner) findViewById(R.id.Spinner_social_share);
 
         String mSector[];
         mSector = getResources().getStringArray(R.array.social_share_list);
-        // mcountryCode = getResources().getStringArray(R.array.country_code);
         ArrayAdapter<String> mSector_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mSector);
         social_share_spinner.setAdapter(mSector_adapter);
@@ -73,9 +69,7 @@ public class AIATDemoPage extends AppCompatActivity {
 //                sSocialMedium = AppTaggingInterface.SocialMedium.valueOf(parent.getAdapter().getItem(position).toString());
                 Log.i("Social Medium Value", "" + parent.getAdapter().getItem(position).toString());
                 switch (parent.getAdapter().getItem(position).toString()) {
-                    case "airdrop":
-                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.AirDrop, "Tagging_trackLinkExternal");
-                        break;
+
                     case "facebook":
                         AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Tagging_trackLinkExternal");
                         break;
@@ -154,21 +148,7 @@ public class AIATDemoPage extends AppCompatActivity {
             }
         });
 
-        TaggActionExistBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppInfraApplication.mAIAppTaggingInterface.trackingTimedActionExists("Tagging_trackingTimedActionExists");
-            }
-        });
-        TaggActionUpdateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionUpdate("Tagging_trackTimedActionUpdate");
-            }
-        });
-
-
-        TaggPageBtn.setOnClickListener(new View.OnClickListener() {
+               TaggPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null == key.getText().toString() || key.getText().toString().isEmpty() || null == value.getText().toString() || value.getText().toString().isEmpty()) {

@@ -15,6 +15,7 @@ import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
@@ -69,10 +70,18 @@ public class AppTagging implements AppTaggingInterface {
 
     private AppConfigurationInterface.AppConfigurationError configError;
     boolean sslValue = false;
+    String consentValueString = null;
+
+    SecureStorageInterface ssi;
+    SecureStorage.SecureStorageError mSecureStorage;
+    private final static String PRIVACY_CONSENT = "PrivacyConsentForSensitiveData";
 
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
+
+        ssi = mAppInfra.getSecureStorage();
+        mSecureStorage = new SecureStorage.SecureStorageError();
         init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
 
         mAppTaggingInterface = mAppInfra.getTagging();
@@ -154,18 +163,22 @@ public class AppTagging implements AppTaggingInterface {
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         contextData.put(AppTaggingConstants.BUNDLE_ID, getAppStateFromConfig());
-        ArrayList taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitiveData", "appinfra", configError);
-        if (taggingSensitiveData != null && taggingSensitiveData.size() > 0) {
-            for (int i = 0; i < taggingSensitiveData.size(); i++) {
-                for (int j = 0; j < defaultValues.length; j++) {
-                    if (taggingSensitiveData.get(i).equals(defaultValues[j])) {
-                        contextData.remove(defaultValues[j]);
-                    }
-                }
 
+        if (getPrivacyConsentForSensitiveData()) {
+            ArrayList taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitiveData", "appinfra", configError);
+            if (taggingSensitiveData != null && taggingSensitiveData.size() > 0) {
+                for (int i = 0; i < taggingSensitiveData.size(); i++) {
+                    for (int j = 0; j < defaultValues.length; j++) {
+                        if (taggingSensitiveData.get(i).equals(defaultValues[j])) {
+                            contextData.remove(defaultValues[j]);
+                        }
+                    }
+
+                }
+                return contextData;
             }
-            return contextData;
         }
+
 
         return contextData;
     }
@@ -327,15 +340,6 @@ public class AppTagging implements AppTaggingInterface {
 
     }
 
-    @Override
-    public void trackTimedActionUpdate(String actionUpdate) {
-        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
-            Analytics.trackTimedActionUpdate(actionUpdate, contextData);
-        }
-        Analytics.trackTimedActionUpdate(actionUpdate, contextData);
-
-
-    }
 
     @Override
     public void trackTimedActionEnd(String actionEnd) {
@@ -344,6 +348,29 @@ public class AppTagging implements AppTaggingInterface {
         }
         Analytics.trackTimedActionEnd(actionEnd, null);
 
+    }
+
+    @Override
+    public void SetPrivacyConsentForSensitiveData(boolean valueContent) {
+        if (valueContent) {
+            ssi.storeValueForKey(PRIVACY_CONSENT, String.valueOf(valueContent), mSecureStorage);
+        }
+    }
+
+    @Override
+    public boolean getPrivacyConsentForSensitiveData() {
+        boolean consentValue;
+
+
+        if (consentValueString == null) {
+            consentValueString = ssi.fetchValueForKey(PRIVACY_CONSENT, mSecureStorage);
+        }
+        if (consentValueString != null && consentValueString.equalsIgnoreCase("true")) {
+            consentValue = true;
+        } else {
+            consentValue = false;
+        }
+        return consentValue;
     }
 
 //    private Analytics.TimedActionBlock trackTimedActionBlock(final String actionItemKey, final String actionItemValue) {
@@ -362,14 +389,6 @@ public class AppTagging implements AppTaggingInterface {
 //        return timedActionBlock;
 //    }
 
-    @Override
-    public void trackingTimedActionExists(String actionExists) {
-
-        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
-            Analytics.trackingTimedActionExists(actionExists);
-        }
-        Analytics.trackingTimedActionExists(actionExists);
-    }
 
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {

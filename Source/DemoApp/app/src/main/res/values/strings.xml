@@ -284,11 +284,10 @@
     </string-array>
 
     <string-array name="social_share_list">
+        <item>Share</item>
         <item>facebook</item>
         <item>twitter</item>
         <item>mail</item>
-        <item>airdrop</item>
-
         <!--Facebook("facebook"),-->
         <!--Twitter("twitter"),-->
         <!--Mail("mail"),-->
