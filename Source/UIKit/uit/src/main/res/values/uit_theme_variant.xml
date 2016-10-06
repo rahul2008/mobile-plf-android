@@ -10,6 +10,7 @@
         <item name="uitInputTextBorderColor">@android:color/transparent</item>
         <item name="uitInputTextBorderDisabledColor">@android:color/transparent</item>
         <item name="uitInputTextBorderPressedColor">?attr/uitContentPrimaryColor</item>
+        <item name="uitInputTextBorderPressedColorAlpha">1</item>
     </style>
 
     <style name="UltraLight">

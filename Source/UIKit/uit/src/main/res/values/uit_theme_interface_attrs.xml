@@ -39,7 +39,7 @@
         <attr name="uitInputTextBorderWidth" format="reference|dimension"/>
         <attr name="uitInputTextBorderColor" format="reference|color"/>
         <attr name="uitInputTextBorderPressedColor" format="reference|color"/>
-        <attr name="uitInputTextBorderPressedColorAlpha" format="reference|dimension"/>
+        <attr name="uitInputTextBorderPressedColorAlpha" format="reference|float"/>
         <attr name="uitInputTextBorderDisabledColor" format="reference|color"/>
         <attr name="uitInputTextBorderBackgroundColorList" format="reference"/>
     </declare-styleable>
