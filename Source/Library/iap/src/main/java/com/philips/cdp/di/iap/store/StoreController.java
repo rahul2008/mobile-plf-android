@@ -20,7 +20,7 @@ import com.philips.cdp.di.iap.session.IAPJsonRequest;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.session.SynchronizedNetwork;
-import com.philips.cdp.di.iap.session.SynchronizedNetworkCallBack;
+import com.philips.cdp.di.iap.session.SynchronizedNetworkListener;
 import com.philips.cdp.localematch.LocaleMatchListener;
 import com.philips.cdp.localematch.PILLocale;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -80,7 +80,7 @@ public class StoreController {
         IAPJsonRequest request = new IAPJsonRequest(Request.Method.GET, mStoreConfig.getRawConfigUrl(), null,
                 null, null);
         SynchronizedNetwork synchronizedNetwork = getSynchronizedNetwork();
-        synchronizedNetwork.performRequest(request, new SynchronizedNetworkCallBack() {
+        synchronizedNetwork.performRequest(request, new SynchronizedNetworkListener() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
                 HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),

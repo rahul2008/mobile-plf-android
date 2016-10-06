@@ -65,7 +65,7 @@ public class OAuthController implements OAuthListener {
 
     protected void requestSyncOAuthToken(final RequestListener listener) {
         SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
-        network.performRequest(createOAuthRequest(mOAuthRequest), new SynchronizedNetworkCallBack() {
+        network.performRequest(createOAuthRequest(mOAuthRequest), new SynchronizedNetworkListener() {
             @Override
             public void onSyncRequestSuccess(final Response response) {
                 if (response != null && response.result != null) {
@@ -93,7 +93,7 @@ public class OAuthController implements OAuthListener {
 
     protected void requestSyncRefreshToken(RefreshOAuthRequest requestModel, final RequestListener listener) {
         SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
-        network.performRequest(createOAuthRequest(requestModel), new SynchronizedNetworkCallBack() {
+        network.performRequest(createOAuthRequest(requestModel), new SynchronizedNetworkListener() {
             @Override
             public void onSyncRequestSuccess(final Response response) {
                 if (response != null && response.result != null) {

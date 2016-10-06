@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONObject;
 
 
-public interface SynchronizedNetworkCallBack {
+public interface SynchronizedNetworkListener {
     void onSyncRequestSuccess(Response<JSONObject> jsonObjectResponse);
 
     void onSyncRequestError(VolleyError volleyError);

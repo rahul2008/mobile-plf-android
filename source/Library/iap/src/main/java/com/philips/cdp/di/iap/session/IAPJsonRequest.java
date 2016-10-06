@@ -95,7 +95,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
     private void postSelfAgain() {
         SynchronizedNetwork synchronizedNetwork = new SynchronizedNetwork
                 (HybrisDelegate.getNetworkController().mIapHurlStack);
-        synchronizedNetwork.performRequest(this, new SynchronizedNetworkCallBack() {
+        synchronizedNetwork.performRequest(this, new SynchronizedNetworkListener() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
                 postSuccessResponseOnUIThread(jsonObjectResponse.result);

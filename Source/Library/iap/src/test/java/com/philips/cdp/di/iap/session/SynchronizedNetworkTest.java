@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.session;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 
@@ -27,7 +26,7 @@ public class SynchronizedNetworkTest {
     @Mock
     IAPJsonRequest mIAIapJsonRequest;
     @Mock
-    SynchronizedNetworkCallBack mSynchronizedNetworkCallBack;
+    SynchronizedNetworkListener mSynchronizedNetworkCallBack;
 
     @Before
     public void setUp() throws Exception {
