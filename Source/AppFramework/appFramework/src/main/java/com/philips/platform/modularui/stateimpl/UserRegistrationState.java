@@ -44,6 +44,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
     final String AI = "appinfra";
+    final String UR = "UserRegistration";
 
     public UserRegistrationState() {
         super(UIState.UI_USER_REGISTRATION_STATE);
@@ -63,7 +64,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
 
     }
 
@@ -216,7 +217,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 UR,
                 minAge,
                 configError);
-
+        initHSDP(configuration);
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
@@ -349,6 +350,79 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+
+    }
+
+    public void initHSDP(Configuration configuration) {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        switch (configuration) {
+            case EVALUATION:
+                break;
+            case DEVELOPMENT:
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        UR,
+                        "Datacore",
+                        configError);
+
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        UR,
+                        "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+                        configError);
+
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        UR,
+                        "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+                        configError);
+
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        UR,
+                        "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com/",
+                        configError);
+                break;
+            case STAGING:
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.ApplicationName",
+                        UR,
+                        "uGrow",
+                        configError);
+
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Secret",
+                        UR,
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.Shared",
+                        UR,
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+
+                AppFrameworkApplication.appInfra.
+                        getConfigInterface().setPropertyForKey(
+                        "HSDPConfiguration.BaseURL",
+                        UR,
+                        "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com/",
+                        configError);
+                break;
+            case TESTING:
+                break;
+            case PRODUCTION:
+                break;
+            default:
+        }
 
     }
 }

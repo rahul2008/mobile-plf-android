@@ -16,6 +16,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
+import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
@@ -39,6 +40,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
+    private final int MENU_OPTION_CONNECTIVITY = 6;
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
@@ -111,6 +113,14 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
+                break;
+            case MENU_OPTION_CONNECTIVITY:
+                uiState = new ConnectivityFragmentState();
+                UIStateData connectivityStateData = new UIStateData();
+                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                uiState.setUiStateData(connectivityStateData);
+                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
+
                 break;
             default:
                 uiState = new HomeFragmentState();
