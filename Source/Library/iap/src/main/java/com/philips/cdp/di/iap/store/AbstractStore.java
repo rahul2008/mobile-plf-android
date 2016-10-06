@@ -16,7 +16,6 @@ public abstract class AbstractStore implements StoreListener {
 
     @Override
     public void setNewUser(final Context context) {
-
     }
 
     @Override
@@ -28,7 +27,6 @@ public abstract class AbstractStore implements StoreListener {
 
     @Override
     public void initStoreConfig(final String language, final String countryCode, final RequestListener listener) {
-
     }
 
     protected void checkAndUpdateStoreChange(String language, String countryCode) {
@@ -36,10 +34,6 @@ public abstract class AbstractStore implements StoreListener {
                 || !mCountry.equals(countryCode) || !mLanguage.equals(language)) {
             setStoreInitialized(false);
         }
-    }
-
-    protected void setStoreInitialized(boolean changed) {
-        mStoreInitialized = changed;
     }
 
     @Override
@@ -152,17 +146,19 @@ public abstract class AbstractStore implements StoreListener {
 
     @Override
     public void refreshLoginSession() {
-
     }
 
     @Override
     public void setUserLogout(final boolean userLoggedout) {
-
     }
 
     @Override
     public boolean isUserLoggedOut() {
         return false;
+    }
+
+    protected void setStoreInitialized(boolean isStoreAvailable) {
+        mStoreInitialized = isStoreAvailable;
     }
 
     @Override

@@ -120,46 +120,39 @@ public class HybrisStore extends AbstractStore {
     }
 
     void generateStoreUrls() {
-        createBaseUrl();
-        createBaseUrlForProductCatalog();
+        setStoreInitialized(true);
         createOauthUrl();
         createOAuthRefreshUrl();
+        createBaseUrl();
+        createBaseUrlForProductCatalog();
         generateGenericUrls();
     }
 
-    private void createBaseUrlForProductCatalog() {
-        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-
-        mBaseURlForProductCatalog = builder.toString();
-    }
-
-    private void createBaseUrl() {
-        setStoreInitialized(true);
-        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-        builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
-
-        mBaseURl = builder.toString();
-    }
-
     private void createOauthUrl() {
-
         int index = mStoreConfig.getHostPort().indexOf("v2", 0);
-
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index));
         builder.append(SUFFIX_OAUTH);
-
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
     private void createOAuthRefreshUrl() {
         int index = mStoreConfig.getHostPort().indexOf("v2", 0);
-
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index));
         builder.append(SUFFIX_REFRESH_OAUTH);
+        mOauthRefreshUrl = builder.toString();
+    }
 
-        mOauthRefreshUrl = String.format(builder.toString());
+    private void createBaseUrl() {
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
+        builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
+        mBaseURl = builder.toString();
+    }
+
+    private void createBaseUrlForProductCatalog() {
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
+        mBaseURlForProductCatalog = builder.toString();
     }
 
     private String createRegionsUrl() {
