@@ -8,14 +8,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 public class ThemeConfiguration {
-    TonalRange tonalRange;
+    ContentTonalRange contentTonalRange;
     ColorRange colorRange;
     PrimaryControlType controlType = PrimaryControlType.PRIMARY;
     Context context;
 
-    public ThemeConfiguration(@NonNull final ColorRange colorRange, @NonNull final TonalRange tonalRange, @NonNull final Context context) {
+    public ThemeConfiguration(@NonNull final ColorRange colorRange, @NonNull final ContentTonalRange contentTonalRange, @NonNull final Context context) {
         this.context = context;
-        this.tonalRange = tonalRange;
+        this.contentTonalRange = contentTonalRange;
         this.colorRange = colorRange;
     }
 

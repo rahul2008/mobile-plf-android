@@ -8,7 +8,7 @@
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
 
-        <item name="uitControlPrimaryTextColor">@color/uit_gray_level_75</item>
+        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
         <item name="uitControlSecondaryTextColor">?attr/uitColorLevel45</item>
 
         <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
@@ -16,7 +16,7 @@
         <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel25</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
-        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel35</item>
+        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
         <item name="uitControlPrimaryAlternateEnabledColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel65</item>
 
@@ -40,7 +40,7 @@
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel25</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel30</item>
 
-        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
+        <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
         <item name="uitControlSecondaryTextColor">?attr/uitColorLevel15</item>
     </style>
 
@@ -52,7 +52,7 @@
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
 
-        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
+        <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
         <item name="uitControlSecondaryTextColor">?attr/uitColorLevel15</item>
     </style>
 
@@ -63,7 +63,7 @@
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel70</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel75</item>
 
-        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
+        <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
         <item name="uitControlSecondaryTextColor">?attr/uitColorLevel15</item>
 
     </style>

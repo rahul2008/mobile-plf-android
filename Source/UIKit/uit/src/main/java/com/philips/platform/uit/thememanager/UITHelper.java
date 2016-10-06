@@ -23,7 +23,7 @@ public class UITHelper {
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
         Resources.Theme theme = themeConfiguration.context.getTheme();
         themeConfiguration.colorRange.injectColorRange(theme);
-        themeConfiguration.tonalRange.injectTonalRange(theme);
+        themeConfiguration.contentTonalRange.injectTonalRange(theme);
         themeConfiguration.controlType.injectPrimaryControlColors(theme);
     }
 }
