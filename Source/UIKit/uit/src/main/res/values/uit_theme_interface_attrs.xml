@@ -33,5 +33,10 @@
         <attr name="uitInputTextFillColorList" format="reference"/>
         <attr name="uitInputTextHint" format="reference|color"/>
         <attr name="uitInputText" format="reference|color"/>
+        <attr name="uitInputTextFillBackground" format="reference"/>
+        <attr name="uitInputTextFillBackgroundColorList" format="reference"/>
+        <attr name="uitInputTextBorderBackground" format="reference"/>
+        <attr name="uitInputTextBorderWidth" format="reference|dimension"/>
+        <attr name="uitInputTextBorderBackgroundColorList" format="reference"/>
     </declare-styleable>
 </resources>

@@ -44,9 +44,12 @@
     </style>
 
     <style name="UITTextEditBoxStyle" parent="Base.Widget.AppCompat.EditText">
-        <item name="android:background">@drawable/uit_text_editbox_background</item>
         <item name="android:minHeight">@dimen/uit_text_editbox_height</item>
         <item name="uitInputTextFillColorList">@color/uit_texteditbox_fill_selector</item>
+        <item name="uitInputTextFillBackground">@drawable/uit_texteditbox_fill</item>
+        <item name="uitInputTextFillBackgroundColorList">@color/uit_texteditbox_fill_selector</item>
+        <item name="uitInputTextBorderBackground">@drawable/uit_texteditbox_border</item>
+        <item name="uitInputTextBorderBackgroundColorList">@color/uit_texteditbox_stroke_selector</item>
     </style>
 
 </resources>

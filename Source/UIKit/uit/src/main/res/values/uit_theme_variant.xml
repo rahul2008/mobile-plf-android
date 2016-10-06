@@ -6,6 +6,7 @@
         <item name="uitInputTextFillPressedColor">@color/uitColorWhite</item>
         <item name="uitInputTextFillDisabledColor">?attr/uitInputTextFillColor</item>
         <item name="uitInputTextFillDisabledAlpha">@dimen/uit_text_editbox_fill_disabled_alpha</item>
+        <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width</item>
     </style>
 
     <style name="UltraLight">
@@ -29,6 +30,7 @@
         <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel65</item>
 
         <item name="uitInputTextFillColor">@color/uitColorWhite</item>
+        <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width_ultralight</item>
     </style>
 
     <style name="VeryLight">
