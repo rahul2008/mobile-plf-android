@@ -26,6 +26,7 @@ import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -40,6 +41,7 @@ import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
 import org.json.JSONObject;
 
@@ -317,10 +319,20 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     private void launchWelcomeFragment() {
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
+        String emailId = mUser.getEmail();
+        if (emailId != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailId)) {
+            launchAlmostDoneForTermsAcceptanceFragment();
+            return;
+        }
+
         trackPage(AppTaggingPages.WELCOME);
+        getRegistrationFragment().addWelcomeFragmentOnVerification();
     }
 
+    private void launchAlmostDoneForTermsAcceptanceFragment() {
+        trackPage(AppTaggingPages.ALMOST_DONE);
+        getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
+    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
