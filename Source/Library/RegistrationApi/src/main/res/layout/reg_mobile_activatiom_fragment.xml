@@ -31,7 +31,7 @@
                     android:id="@+id/tv_reg_verify"
                     style="@style/reg_textStyle"
                     android:layout_marginTop="@dimen/reg_header_margin_top"
-                    android:text="@string/mobileActivation_meassage"
+                    android:text="@string/Account_ActivationCode_Title_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XVerifyNumber
@@ -81,7 +81,7 @@
                     android:id="@+id/btn_reg_Verify"
                     style="@style/reg_style_btn"
                     android:enabled="false"
-                    android:text="@string/Verify_btntxt"
+                    android:text="@string/Account_ActivationCode_Verify_Account"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <ProgressBar

@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/fl_reg_invalid_alert"
             android:background="@android:color/transparent"
-            android:hint="@string/reg_EmailAddPlaceHolder_txtField"
+            android:hint="@string/CreateAccount_Email_PhoneNumber"
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
             android:maxLength="@integer/reg_et_name_max_length"

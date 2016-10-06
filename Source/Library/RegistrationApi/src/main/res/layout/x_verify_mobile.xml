@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/fl_reg_invalid_alert"
             android:background="@android:color/transparent"
-            android:hint="@string/Enter_Code_Placeholder_txtFiled"
+            android:hint="@string/Account_ActivationCode_EnterCode_placeholdertxt"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLength="@integer/reg_et_enter_code_max_length"
@@ -40,7 +40,7 @@
             android:id="@+id/btn_reg_resend"
             style="@style/reg_mobile_verfiy_style_btn"
             android:enabled="true"
-            android:text="@string/Mobile_Resend_btntxt"
+            android:text="@string/Account_ActivationCode_resendtxt"
             reglib:fontAssetName="CentraleSans-Book.OTF"
             android:layout_below="@+id/fl_reg_invalid_alert"
             android:layout_alignParentEnd="true"/>

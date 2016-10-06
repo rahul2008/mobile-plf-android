@@ -32,7 +32,7 @@
                 style="@style/reg_textStyle"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/InitialSignedIn_china_SigninNumberText"
+                android:text="@string/InitialSignedIn_SigninMobileNumberText"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
 

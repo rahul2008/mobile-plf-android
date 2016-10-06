@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/fl_reg_invalid_alert"
             android:background="@android:color/transparent"
-            android:hint="@string/Enter_Phone_Number"
+            android:hint="@string/PhoneAddPlaceHolder_txtField"
             android:imeOptions="actionNext"
             android:inputType="phone"
             android:maxLength="@integer/reg_et_phone_number_max_length"

@@ -46,7 +46,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XProviderButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileCreateAccountFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileSignInAccountFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -358,13 +357,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void launchCreateAccountFragment() {
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
-        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
-            getRegistrationFragment().addFragment(new MobileCreateAccountFragment());
 
-        }else {
-            getRegistrationFragment().addFragment(new CreateAccountFragment());
-
-        }
+        getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
     private void makeProgressVisible() {

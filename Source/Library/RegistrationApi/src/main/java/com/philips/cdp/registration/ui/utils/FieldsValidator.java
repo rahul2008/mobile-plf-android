@@ -9,6 +9,10 @@
 
 package com.philips.cdp.registration.ui.utils;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -142,4 +146,25 @@ public class FieldsValidator {
         return matcher.matches();
     }
 
+    public static boolean isValidMobileNumber(String mobile) {
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        Phonenumber.PhoneNumber phNumberProto = null;
+        if (mobile.length() > 0) {
+            if (android.util.Patterns.PHONE.matcher(mobile).matches()) {
+
+                try {
+                    // You can find your country code here
+                    phNumberProto = phoneUtil.parse(mobile, "US"); //replace Iso code here  check with sim
+                } catch (NumberParseException e) {
+                    // ineed to rlog
+
+                }
+                return phoneUtil.isValidNumber(phNumberProto);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

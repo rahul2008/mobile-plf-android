@@ -156,7 +156,7 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
         mProgressDialog.setCancelable(false);
 
         mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + /*mUser.getGivenName()*/"Kiran");
-        mUserDetails = getString(R.string.InitialSignedIn_china_SigninNumberText);
+        mUserDetails = getString(R.string.InitialSignedIn_SigninMobileNumberText);
         mUserDetails = String.format(mUserDetails, "1339 9999 9999");
         mTvSignInEmail.setText(mUserDetails);
     }

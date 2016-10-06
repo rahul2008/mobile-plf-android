@@ -1,7 +1,5 @@
 package com.philips.cdp.registration.settings;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import com.janrain.android.Jump;
@@ -86,7 +84,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             jumpConfig.captureAppId = "hffxcm638rna8wrxxggx2gykhc";
         } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.DEVELOPMENT))) {
             jumpConfig.engageAppId = "bdbppnbjfcibijknnfkk";
-            jumpConfig.captureAppId = "eupac7ugz25x8dwahvrbpmndf8";
+            jumpConfig.captureAppId = "euwkgsf83m56hqknjxgnranezh";
+            // previews it was "eupac7ugz25x8dwahvrbpmndf8"
         } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.TESTING))) {
             jumpConfig.engageAppId = "fhbmobeahciagddgfidm";
             jumpConfig.captureAppId = "x7nftvwfz8e8vcutz49p8eknqp";
@@ -111,7 +110,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         @Override
         public void onSuccess(URL url) {
             String janrainURL = url.toString().substring(8);
-            jumpConfig.captureDomain = janrainURL.toString();
+            // Hard coded the url for china will be replsed by service disover
+            jumpConfig.captureDomain = "philips-china-eu.eu-dev.janraincapture.com";
+            //previews it was like this
+            //janrainURL.toString();
             RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);
 
       serviceDiscoveryInterface.getServiceUrlWithCountryPreference(

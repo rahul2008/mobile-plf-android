@@ -45,7 +45,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     private FrameLayout mFlInvalidFieldAlert;
 
     private String mSavedEmaillError;
-
+    private String  country;
     public XEmail(Context context) {
         super(context);
         this.mContext = context;
@@ -56,6 +56,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         super(context, attrs);
         this.mContext = context;
         initUi(R.layout.reg_email);
+        country = mContext.getResources().getConfiguration().locale.getCountry();
+        checkingEmailorMobile();
     }
 
     public final void initUi(int resourceId) {
@@ -68,7 +70,15 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mEtEmail.addTextChangedListener(this);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
         mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_email_field_err);
+    }
 
+    private void checkingEmailorMobile() {
+        //need to changed by service discover as 01 or 02
+        if (country.equalsIgnoreCase("US")) {
+            mEtEmail.setHint(getResources().getString(R.string.CreateAccount_Email_PhoneNumber));
+        }else {
+            mEtEmail.setHint(getResources().getString(R.string.reg_EmailAddPlaceHolder_txtField));
+        }
     }
 
     public String getEmailId() {
@@ -85,10 +95,31 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private boolean validateEmail() {
         if (mEtEmail != null) {
-            if (!FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
-                setValidEmail(false);
-                return false;
+            //need to change by service discover
+            if (country.equalsIgnoreCase("US")) {
+                if (isEmailandMobile()) return true;
+            } else {
+                if (isEmail()) return true;
             }
+            setValidEmail(false);
+            return false;
+        }
+        return false;
+    }
+
+    private boolean isEmail() {
+        if (FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
+            setValidEmail(true);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEmailandMobile() {
+        if (FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())){
+            setValidEmail(true);
+            return true;
+        }else if(FieldsValidator.isValidMobileNumber(mEtEmail.getText().toString().trim())){
             setValidEmail(true);
             return true;
         }
@@ -191,7 +222,11 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             if (mEtEmail.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                if (country.equalsIgnoreCase("US")) {
+                    setErrDescription(getResources().getString(R.string.InvalidEmail_PhoneNumber_ErrorMsg));
+                }else {
+                    setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                }
             }
         }
     }
@@ -208,9 +243,18 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
                         AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
-                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                if (country.equalsIgnoreCase("US")){
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_MOBILE);
+                    setErrDescription(getResources().getString(R.string.InvalidEmail_PhoneNumber_ErrorMsg));
+                }else {
+
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
+                    setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                }
+
+
             }
             showEmailIsInvalidAlert();
         }

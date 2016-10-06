@@ -197,7 +197,7 @@ public class XPhoneNumber extends RelativeLayout implements TextWatcher, OnFocus
             if (mEtPhoneNumber.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.Invalid_PhonenumberMsg));
+                setErrDescription(getResources().getString(R.string.InvalidEmail_PhoneNumber_ErrorMsg));
             }
         }
     }
@@ -209,7 +209,7 @@ public class XPhoneNumber extends RelativeLayout implements TextWatcher, OnFocus
             if (mEtPhoneNumber.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.Invalid_PhonenumberMsg));
+                setErrDescription(getResources().getString(R.string.InvalidEmail_PhoneNumber_ErrorMsg));
             }
             showInvalidPhoneNumberAlert();
         }

@@ -23,6 +23,7 @@ import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
@@ -129,13 +130,18 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     // moved app logic to set user info (traditional login) in diuserprofile to
     // framework.
-    public void registerUserInfoForTraditional(String mGivenName, String mUserEmail,
+    public void registerUserInfoForTraditional(String mGivenName, String mUserEmailorMobile,
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail
     ) {
 
         mProfile = new DIUserProfile();
         mProfile.setGivenName(mGivenName);
-        mProfile.setEmail(mUserEmail);
+        if (FieldsValidator.isValidEmail(mUserEmailorMobile)){
+            mProfile.setEmail(mUserEmailorMobile);
+        }else {
+            // check mobile umber validation
+            mProfile.setMobile(mUserEmailorMobile);
+        }
         mProfile.setPassword(password);
         mProfile.setOlderThanAgeLimit(olderThanAgeLimit);
         mProfile.setReceiveMarketingEmail(isReceiveMarketingEmail);
@@ -168,8 +174,9 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
             JSONObject newUser = new JSONObject();
             try {
-                newUser.put("email", mProfile.getEmail()).
-                        put("givenName", mProfile.getGivenName())
+                newUser.put("email", mProfile.getEmail())
+                        .put("mobileNumber", mProfile.getMobile())
+                        .put("givenName", mProfile.getGivenName())
                         .put("password", mProfile.getPassword())
                         .put("olderThanAgeLimit", mProfile.getOlderThanAgeLimit())
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail());

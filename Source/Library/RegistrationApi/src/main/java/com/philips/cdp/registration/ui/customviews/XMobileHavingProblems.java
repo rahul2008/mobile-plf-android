@@ -37,7 +37,7 @@ public class XMobileHavingProblems extends LinearLayout {
 
     private final void initUi() {
 
-        String baseString = mContext.getString(R.string.Verfiy_Hint_lbltxt);
+        String baseString = mContext.getString(R.string.Account_ActivationCode_Verify_Account);
         String[] splitString = baseString.split("\n");
 
         LayoutInflater li = LayoutInflater.from(mContext);

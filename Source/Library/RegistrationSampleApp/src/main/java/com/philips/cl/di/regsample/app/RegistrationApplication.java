@@ -65,7 +65,7 @@ public class RegistrationApplication extends Application {
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.DEVELOPMENT
                 , UR,
-                "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
+                "qhq9jvkx35q8duef2fh6wwzceujjs9gs",
                 configError);
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.TESTING

@@ -80,7 +80,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
     }
 
     public void setCounterFinish() {
-        mBtResend.setText(mContext.getString(R.string.Mobile_Resend_btntxt));
+        mBtResend.setText(mContext.getString(R.string.Account_ActivationCode_resendtxt));
         mBtResend.setEnabled(true);
     }
 
@@ -202,7 +202,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
             if (mEtVerify.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.InvalidVerify_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.Account_ActivationCode_ErrorTxt));
             }
         }
     }
@@ -215,7 +215,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
             if (mEtVerify.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.InvalidVerify_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.Account_ActivationCode_ErrorTxt));
             }
             showEmailIsInvalidAlert();
         }

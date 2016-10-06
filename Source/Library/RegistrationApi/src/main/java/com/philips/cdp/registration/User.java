@@ -77,6 +77,10 @@ public class User {
 
     private String USER_EMAIL = "email";
 
+    private String USER_MOBILE = "mobileNumber";
+
+    private String USER_MOBILE_VERIFIED = "mobileNumberVerified";
+
     private String USER_GIVEN_NAME = "givenName";
 
     private String USER_DISPLAY_NAME = "displayName";
@@ -342,6 +346,7 @@ public class User {
 
         try {
             diUserProfile.setEmail(captureRecord.getString(USER_EMAIL));
+            diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
             diUserProfile.setGivenName(captureRecord.getString(USER_GIVEN_NAME));
             diUserProfile.setDisplayName(captureRecord.getString(USER_DISPLAY_NAME));
             diUserProfile
@@ -366,7 +371,7 @@ public class User {
             return false;
         try {
             JSONObject mObject = new JSONObject(captured.toString());
-            if (mObject.isNull(USER_EMAIL_VERIFIED)) {
+            if (mObject.isNull(USER_EMAIL_VERIFIED) ||mObject.isNull(USER_MOBILE_VERIFIED) ) {
                 mEmailVerified = false;
             } else {
                 mEmailVerified = true;
@@ -394,7 +399,7 @@ public class User {
 
         boolean signedIn = true;
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
+            signedIn = signedIn && (!capturedRecord.isNull(USER_EMAIL_VERIFIED)||!capturedRecord.isNull(USER_MOBILE_VERIFIED));
         }
         if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
             if (!RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
