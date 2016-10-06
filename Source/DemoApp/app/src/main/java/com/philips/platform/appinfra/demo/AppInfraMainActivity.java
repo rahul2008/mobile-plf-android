@@ -47,9 +47,9 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
         final ArrayList arryaLsit = new ArrayList();
         arryaLsit.add("appinfra.testing.service");
-//        arryaLsit.add("userreg.janrain.cdn");
-//        arryaLsit.add("userreg.landing.emailverif");
-//        arryaLsit.add("userreg.landing.resetpass");
+        arryaLsit.add("userreg.janrain.cdn");
+        arryaLsit.add("userreg.landing.emailverif");
+        arryaLsit.add("userreg.landing.resetpass");
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override

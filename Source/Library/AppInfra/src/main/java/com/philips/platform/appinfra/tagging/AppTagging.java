@@ -7,15 +7,25 @@ package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -29,6 +39,7 @@ public class AppTagging implements AppTaggingInterface {
 
     private String mLanguage;
     private String mAppsIdkey;
+    private String mAppState;
     private String prevPage;
 
     AppInfra mAppInfra;
@@ -56,14 +67,47 @@ public class AppTagging implements AppTaggingInterface {
 
     public static AppTaggingInterface mAppTaggingInterface;
 
+    private AppConfigurationInterface.AppConfigurationError configError;
+    boolean sslValue = false;
+
+
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
 
         mAppTaggingInterface = mAppInfra.getTagging();
+
+//        String appsstate = mAppInfra.getAppIdentity().getAppState().toString();
+
+        configError = new AppConfigurationInterface
+                .AppConfigurationError();
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
+
+    }
+
+    private boolean checkforSSLconnection() {
+
+        if (sslValue == false) {
+            JSONObject jSONObject = getMasterADBMobileConfig();
+
+            try {
+                sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
+                if (jSONObject != null && sslValue) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
+                            "true");
+                    return true;
+                } else {
+                    throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return sslValue;
+        }
+        return sslValue;
     }
 
     private void init(Locale locale, Context context, String appName) {
@@ -72,6 +116,27 @@ public class AppTagging implements AppTaggingInterface {
         prevPage = appName;
         Config.setContext(context);
 
+    }
+
+    private JSONObject getMasterADBMobileConfig() {
+        JSONObject result = null;
+        try {
+            InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
+            BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+            StringBuilder total = new StringBuilder();
+            String line;
+            while ((line = r.readLine()) != null) {
+                total.append(line).append('\n');
+            }
+            result = new JSONObject(total.toString());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
+                    result.toString());
+
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                    Log.getStackTraceString(e));
+        }
+        return result;
     }
 
     private Map<String, Object> addAnalyticsDataObject() {
@@ -88,7 +153,20 @@ public class AppTagging implements AppTaggingInterface {
         }
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
-        contextData.put(AppTaggingConstants.BUNDLE_ID, mAppInfra.getAppIdentity().getAppState());
+        contextData.put(AppTaggingConstants.BUNDLE_ID, getAppStateFromConfig());
+        ArrayList taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitivedata", "appinfra", configError);
+        if (taggingSensitiveData != null && taggingSensitiveData.size() > 0) {
+            for (int i = 0; i < taggingSensitiveData.size(); i++) {
+                for (int j = 0; j < defaultValues.length; j++) {
+                    if (taggingSensitiveData.get(i).equals(defaultValues[j])) {
+                        contextData.remove(defaultValues[j]);
+                    }
+                }
+
+            }
+            return contextData;
+        }
+
         return contextData;
     }
 
@@ -98,6 +176,14 @@ public class AppTagging implements AppTaggingInterface {
         }
 
         return mAppsIdkey;
+    }
+
+    private String getAppStateFromConfig() {
+        if (mAppState == null) {
+            mAppState = mAppInfra.getAppIdentity().getAppState().toString();
+        }
+
+        return mAppState;
     }
 
     private String getLanguage() {
@@ -201,6 +287,14 @@ public class AppTagging implements AppTaggingInterface {
 
 
     private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
+        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+            trackData(pageName, paramMap, isTrackPage);
+        }
+        trackData(pageName, paramMap, isTrackPage);
+
+    }
+
+    private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData = addAnalyticsDataObject();
         if (paramMap != null) {
@@ -221,6 +315,60 @@ public class AppTagging implements AppTaggingInterface {
             Analytics.trackAction(pageName, contextData);
         }
 
+    }
+
+    @Override
+    public void trackTimedActionStart(String actionStart) {
+
+        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+            Analytics.trackTimedActionStart(actionStart, contextData);
+        }
+        Analytics.trackTimedActionStart(actionStart, contextData);
+
+    }
+
+    @Override
+    public void trackTimedActionUpdate(String actionUpdate) {
+        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+            Analytics.trackTimedActionUpdate(actionUpdate, contextData);
+        }
+        Analytics.trackTimedActionUpdate(actionUpdate, contextData);
+
+
+    }
+
+    @Override
+    public void trackTimedActionEnd(String actionEnd) {
+        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+            Analytics.trackTimedActionEnd(actionEnd, null);
+        }
+        Analytics.trackTimedActionEnd(actionEnd, null);
+
+    }
+
+//    private Analytics.TimedActionBlock trackTimedActionBlock(final String actionItemKey, final String actionItemValue) {
+//        Analytics.TimedActionBlock<Boolean> timedActionBlock = new Analytics.TimedActionBlock<Boolean>() {
+//            @Override
+//            public Boolean call(long l, long l1, Map<String, Object> map) {
+//                if (actionItemKey != null && actionItemValue != null) {
+//
+//                    map.put(actionItemKey, actionItemValue);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        };
+//
+//        return timedActionBlock;
+//    }
+
+    @Override
+    public void trackingTimedActionExists(String actionExists) {
+
+        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+            Analytics.trackingTimedActionExists(actionExists);
+        }
+        Analytics.trackingTimedActionExists(actionExists);
     }
 
     @Override

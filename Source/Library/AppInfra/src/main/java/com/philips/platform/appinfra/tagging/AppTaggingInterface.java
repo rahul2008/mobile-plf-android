@@ -160,6 +160,39 @@ public interface AppTaggingInterface {
      */
     void trackFileDownload(String filename);
 
+    /**
+     * Track file being downloaded.
+     *
+     * @param actionStart String filename.
+     */
+    void trackTimedActionStart(String actionStart);
+
+    /**
+     * Track file being downloaded.
+     *
+     * @param actionUpdate String filename.
+     */
+    void trackTimedActionUpdate(String actionUpdate);
+
+    /**
+     * Track file being downloaded.
+     *
+     * @param actionEnd String filename.
+     */
+    void trackTimedActionEnd(String actionEnd);
+
+    /**
+     * Track file being downloaded.
+     *
+     * @param actionExists String filename.
+     */
+    void trackingTimedActionExists(String actionExists);
+
+
+
+
+
+
 
 }
 

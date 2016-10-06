@@ -5,6 +5,7 @@
  */
 package com.philips.platform.appinfra.demo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -37,6 +38,51 @@ public class AIATDemoPage extends AppCompatActivity {
         Button TaggOptInBtn =  (Button) findViewById(R.id.opt_in_btn);
         Button TaggOptOutBtn =  (Button) findViewById(R.id.opt_out_btn);
         Button TaggUnknownBtn =  (Button) findViewById(R.id.opt_unknown_btn);
+
+
+        Button TaggActionStartBtn =  (Button) findViewById(R.id.actionstart);
+        Button TaggActionEndBtn =  (Button) findViewById(R.id.actionend);
+        Button TaggActionUpdateBtn  =  (Button) findViewById(R.id.actionupdate);
+        Button TaggActionExistBtn=  (Button) findViewById(R.id.actionexists);
+        Button CheckForSslBtn =  (Button) findViewById(R.id.checkssl);
+
+        TaggActionStartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
+                startActivity(intent);
+                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionStart("Tagging_trackTimedActionStart");
+            }
+        });
+
+        TaggActionEndBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
+                startActivity(intent);
+                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedActionStart");
+            }
+        });
+
+        CheckForSslBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", "SSlCheck Key", "SSlCheck Value");
+            }
+        });
+
+        TaggActionExistBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppInfraApplication.mAIAppTaggingInterface.trackingTimedActionExists("Tagging_trackingTimedActionExists");
+            }
+        });
+        TaggActionUpdateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionUpdate("Tagging_trackTimedActionUpdate");
+            }
+        });
 
 
         TaggPageBtn.setOnClickListener(new View.OnClickListener() {

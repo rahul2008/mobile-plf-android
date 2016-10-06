@@ -29,7 +29,8 @@
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "STAGING",
-    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION"
+    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
+    "tagging.sensitivedata": ["bundleId, language" ]
 
   }
 }

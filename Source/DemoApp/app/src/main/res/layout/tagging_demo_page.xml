@@ -2,90 +2,170 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/key_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Key"
+            android:id="@+id/textView7"
+            />
+        <EditText
+            android:layout_width="192dp"
+            android:layout_height="50dp"
+            android:id="@+id/tagg_key_field"
+            android:hint="Enter Key"
+            />
 
-    <EditText
-        android:layout_width="192dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tagg_key_field"
-        android:hint="Enter Key"
-        android:layout_marginTop="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/opt_in_btn" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/value_layout"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/key_layout"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Value"
+            android:id="@+id/value_text"
+            />
+        <EditText
+            android:layout_width="192dp"
+            android:layout_height="50dp"
+            android:id="@+id/tagg_value_filed"
+            android:hint="Enter Value"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Value"
-        android:id="@+id/value_text"
-        android:layout_alignBaseline="@+id/tagg_value_filed"
-        android:layout_alignBottom="@+id/tagg_value_filed"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="33dp" />
+    </LinearLayout>
 
-    <EditText
-        android:layout_width="192dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tagg_value_filed"
-        android:hint="Enter Value"
-        android:layout_alignStart="@+id/tagg_key_field"
-        android:layout_below="@+id/tagg_key_field" />
+
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Value"-->
+        <!--android:id="@+id/value_text"-->
+        <!--android:layout_alignBaseline="@+id/tagg_value_filed"-->
+        <!--android:layout_alignBottom="@+id/tagg_value_filed"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginStart="33dp" />-->
+
+    <!--<EditText-->
+        <!--android:layout_width="192dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tagg_value_filed"-->
+        <!--android:hint="Enter Value"-->
+        <!--android:layout_alignStart="@+id/tagg_key_field"-->
+        <!--android:layout_below="@+id/tagg_key_field" />-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/privacy_layout"
+        android:layout_below="@id/value_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Privacy"
+            android:id="@+id/privacy_text"
+            />
+        <Button
+            android:text="Opt In"
+            android:id="@+id/opt_in_btn"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Opt Out"
+            android:id="@+id/opt_out_btn"
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Unknown"
+            android:id="@+id/opt_unknown_btn"
+            />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/tag_layout"
+        android:layout_below="@id/privacy_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TaggPage"
+        android:text="Tagg Page"
         android:id="@+id/tagg_page_button"
-        android:layout_marginTop="100dp"
-        android:layout_below="@+id/opt_out_btn"
-        android:layout_alignStart="@+id/opt_in_btn" />
-
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        />
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TaggAction"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Tagg Action"
         android:id="@+id/tagg_action_button"
-        android:layout_alignTop="@+id/tagg_page_button"
-        android:layout_toEndOf="@+id/opt_in_btn"
-        android:layout_marginStart="31dp" />
+        />
+        <Button
+            android:text="Action Start"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:id="@+id/actionstart"
+            />
+        <Button
+            android:text="Action End"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:id="@+id/actionend"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/action_Layout"
+        android:layout_below="@id/tag_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Unknown"
-        android:id="@+id/opt_unknown_btn"
-        android:layout_alignTop="@+id/opt_out_btn"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:text="Action Update"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:id="@+id/actionupdate"
+            />
+        <Button
+            android:text="Action Exist"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:id="@+id/actionexists"
+            />
+        <Button
+            android:text="Check for SSl"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:id="@+id/checkssl"
+            />
+    </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OptOut"
-        android:id="@+id/opt_out_btn"
-        android:layout_alignTop="@+id/opt_in_btn"
-        android:layout_toStartOf="@+id/opt_unknown_btn" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OptIn"
-        android:id="@+id/opt_in_btn"
-        android:layout_below="@+id/tagg_value_filed"
-        android:layout_toStartOf="@+id/opt_out_btn" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Privacy"
-        android:id="@+id/privacy_text"
-        android:layout_alignBottom="@+id/opt_in_btn"
-        android:layout_alignStart="@+id/value_text" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Key"
-        android:id="@+id/textView7"
-        android:layout_alignTop="@+id/tagg_key_field"
-        android:layout_alignStart="@+id/value_text" />
 
 </RelativeLayout>
