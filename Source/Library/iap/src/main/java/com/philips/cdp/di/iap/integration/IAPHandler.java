@@ -45,6 +45,7 @@ class IAPHandler {
     IAPHandler(IAPDependencies pIAPDependencies, IAPSettings pIapSettings) {
         mIAPDependencies = pIAPDependencies;
         mIAPSetting = pIapSettings;
+        initPreRequisite();
     }
 
     void initPreRequisite() {
