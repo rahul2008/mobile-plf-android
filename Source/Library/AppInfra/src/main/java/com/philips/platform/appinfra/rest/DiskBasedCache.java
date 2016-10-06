@@ -114,12 +114,15 @@ public class DiskBasedCache implements Cache {
             CacheHeader.readHeader(cis); // eat header
             byte[] data = streamToBytes(cis, (int) (file.length() - cis.bytesRead));
             Entry e = entry.toCacheEntry(data);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AI Rest Cache read ",key+" before decryption");
             SecureStorageInterface secureStorage= mAppInfra.getSecureStorage();
             SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
             e.data=secureStorage.decryptData(e.data,sse);
             if(sse.getErrorCode()!=null){
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AI Rest ",key+" response Decryption Error");
                 return null;
+            }else{
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AI Rest Cache read ",key+" after decryption");
             }
                 return e;
 
@@ -201,12 +204,14 @@ public class DiskBasedCache implements Cache {
     @Override
     public synchronized void put(String key, Entry entry) {
         pruneIfNeeded(entry.data.length);
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AI Rest Cache write ",key+" before encryption");
         SecureStorageInterface secureStorage= mAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         entry.data=secureStorage.encryptData(entry.data,sse);
         if(sse.getErrorCode()!=null){
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AI Rest ",key+" response Encryption Error");
         }else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AI Rest Cache write ",key+" after encryption");
             File file = getFileForKey(key);
             try {
                 BufferedOutputStream fos = new BufferedOutputStream(new FileOutputStream(file));
