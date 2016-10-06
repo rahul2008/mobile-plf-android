@@ -34,7 +34,7 @@ public class NewOAuthRequestTest {
     public void setUp() {
         StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "US", null);
-        mModel = new NewOAuthRequest(mStore, null);
+        mModel = new OAuthRequest(mStore, null);
     }
 
     @Test
@@ -68,34 +68,34 @@ public class NewOAuthRequestTest {
     public void matchAccessTokenAfterParseResponse() {
         String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
-        assertEquals(((NewOAuthRequest) mModel).getAccessToken(), "afa814bf-ad4d-477c-9bed-a79f0e37b8dd");
+        assertEquals(((OAuthRequest) mModel).getAccessToken(), "afa814bf-ad4d-477c-9bed-a79f0e37b8dd");
     }
 
     @Test
     public void matchRefreshTokenAfterParseResponse() {
         String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
-        assertEquals(((NewOAuthRequest) mModel).getrefreshToken(), "81eafe29-6036-4729-9118-63e6d089bdba");
+        assertEquals(((OAuthRequest) mModel).getrefreshToken(), "81eafe29-6036-4729-9118-63e6d089bdba");
     }
 
     @Test
     public void accessTokenShouldBeNullAfterResetToken() {
         String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
-        ((NewOAuthRequest) mModel).resetAccessToken();
-        assertNull(((NewOAuthRequest) mModel).getAccessToken());
+        ((OAuthRequest) mModel).resetAccessToken();
+        assertNull(((OAuthRequest) mModel).getAccessToken());
     }
 
     @Test
     public void refreshTokenShouldBeEmptyAfterResetToken() {
         String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
-        ((NewOAuthRequest) mModel).resetAccessToken();
-        assertEquals("", ((NewOAuthRequest) mModel).getrefreshToken());
+        ((OAuthRequest) mModel).resetAccessToken();
+        assertEquals("", ((OAuthRequest) mModel).getrefreshToken());
     }
 
     @Test
     public void requestRefreshAPIIsAvailable() {
-        ((NewOAuthRequest) mModel).refreshToken(null);
+        ((OAuthRequest) mModel).refreshToken(null);
     }
 }

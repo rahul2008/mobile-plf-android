@@ -15,7 +15,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -30,7 +29,7 @@ public class NetworkController {
     protected RequestQueue hybrisVolleyQueue;
     protected Context context;
     protected StoreSpec store;
-    protected OAuthHandler oAuthHandler;
+    protected OAuthListener oAuthHandler;
     protected NetworkEssentials mNetworkEssentials;
 
     public NetworkController(Context context) {

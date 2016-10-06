@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.applocal;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
-import com.philips.cdp.di.iap.session.OAuthHandler;
+import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -29,14 +29,14 @@ public class LocalNetworkEssentialsTest {
     AppInfra mAppInfra;
     MockIAPDependencies mockIAPDependencies;
     @Mock
-    OAuthHandler oAuthHandler;
+    OAuthListener oAuthHandler;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
         mockIAPDependencies = new MockIAPDependencies(mAppInfra);
         mLocalNetworkEssentials = new LocalNetworkEssentials();
-        oAuthHandler = new OAuthHandler() {
+        oAuthHandler = new OAuthListener() {
             @Override
             public String getAccessToken() {
                 return null;

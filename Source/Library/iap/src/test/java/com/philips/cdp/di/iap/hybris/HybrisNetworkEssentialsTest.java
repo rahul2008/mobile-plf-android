@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.hybris;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
-import com.philips.cdp.di.iap.session.OAuthHandler;
+import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -21,7 +21,7 @@ import org.robolectric.RobolectricTestRunner;
 public class HybrisNetworkEssentialsTest {
     HybrisNetworkEssentials mHybrisNetworkEssentials;
     MockIAPDependencies mockIAPDependencies;
-    OAuthHandler oAuthHandler;
+    OAuthListener oAuthHandler;
     @Mock
     AppInfra mAppInfra;
     @Mock
@@ -32,7 +32,7 @@ public class HybrisNetworkEssentialsTest {
         MockitoAnnotations.initMocks(this);
         mHybrisNetworkEssentials = new HybrisNetworkEssentials();
         mockIAPDependencies = new MockIAPDependencies(mAppInfra);
-        oAuthHandler = new OAuthHandler() {
+        oAuthHandler = new OAuthListener() {
             @Override
             public String getAccessToken() {
                 return null;

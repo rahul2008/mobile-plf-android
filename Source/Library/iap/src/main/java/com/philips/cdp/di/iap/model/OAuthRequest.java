@@ -8,14 +8,15 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
-import com.philips.cdp.di.iap.session.OAuthHandler;
+import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
 
 import java.util.Map;
 
-public class NewOAuthRequest extends AbstractModel implements OAuthHandler {
+public class OAuthRequest extends AbstractModel implements OAuthListener {
     OAuthResponse mOAuthResponse;
-    public NewOAuthRequest(final StoreSpec store, final Map<String, String> query) {
+
+    public OAuthRequest(final StoreSpec store, final Map<String, String> query) {
         super(store, query);
     }
 

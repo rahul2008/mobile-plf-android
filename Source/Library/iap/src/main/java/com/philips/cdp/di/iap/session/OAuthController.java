@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.NewOAuthRequest;
+import com.philips.cdp.di.iap.model.OAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
@@ -23,19 +23,18 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 
-public class TestEnvOAuthHandler implements OAuthHandler {
-    private final String TAG = TestEnvOAuthHandler.class.getSimpleName();
-
+public class OAuthController implements OAuthListener {
+    private final String TAG = OAuthController.class.getSimpleName();
     private String access_token;
-    private NewOAuthRequest mOAuthRequest;
+    private OAuthRequest mOAuthRequest;
     private StoreSpec mStore;
-
     private HurlStack mRetryHurlStack;
+
     @Override
     public String getAccessToken() {
         if (mOAuthRequest == null) {
             mStore = HybrisDelegate.getInstance().getStore();
-            mOAuthRequest = new NewOAuthRequest(mStore, null);
+            mOAuthRequest = new OAuthRequest(mStore, null);
             initRetryHurlStack();
         }
         if (access_token == null) {
@@ -44,7 +43,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         return access_token;
     }
 
-    //We need different HurlStack for retry to avoid recursive call and stackoverflow
+    //We need different HurlStack for retry to avoid recursive call and stack overflow
     private void initRetryHurlStack() {
         IAPHurlStack stack  =new IAPHurlStack(mOAuthRequest);
         stack.setContext(HybrisDelegate.getNetworkController().context);
@@ -53,9 +52,8 @@ public class TestEnvOAuthHandler implements OAuthHandler {
 
     @Override
     public void refreshToken(RequestListener listener) {
-        IAPLog.d(TAG,"requesting new access token using refreshtoken");
         HashMap<String, String> params = new HashMap<>();
-        params.put(ModelConstants.REFRESH_TOKEN,mOAuthRequest.getrefreshToken());
+        params.put(ModelConstants.REFRESH_TOKEN, mOAuthRequest.getrefreshToken());
         RefreshOAuthRequest request = new RefreshOAuthRequest(mStore, params);
         requestSyncRefreshToken(request, listener);
     }
@@ -116,6 +114,11 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         });
     }
 
+    protected IAPJsonRequest createOAuthRequest(final AbstractModel request) {
+        return new IAPJsonRequest(request.getMethod(), request.getUrl(),
+                request.requestBody(),null,null);
+    }
+
     protected void notifyErrorListener(final VolleyError volleyError, final RequestListener listener) {
         if(listener == null) return;
 
@@ -131,11 +134,6 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         Message msg = Message.obtain();
         msg.obj = response;
         listener.onSuccess(msg);
-    }
-
-    protected IAPJsonRequest createOAuthRequest(final AbstractModel request) {
-        return new IAPJsonRequest(request.getMethod(), request.getUrl(),
-                request.requestBody(),null,null);
     }
 
     // Ideally it should never get exception, until we really get bad response or bad JSON resp

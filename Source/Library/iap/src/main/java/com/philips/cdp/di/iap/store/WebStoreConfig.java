@@ -47,19 +47,11 @@ public class WebStoreConfig {
 
     public void initConfig(final String language, String countryCode, final RequestListener listener) {
         mRequestListener = listener;
-        initLocaleMatcher();
-        refresh(language, countryCode);
+        refreshPILocaleManager(language, countryCode);
     }
 
-    void initLocaleMatcher() {
-        setPILocalManager();
-    }
-
-    void setPILocalManager() {
+    void refreshPILocaleManager(String language, String countryCode) {
         mLocaleManager = new PILLocaleManager(mContext);
-    }
-
-    void refresh(String language, String countryCode) {
         mLocaleManager.setInputLocale(language, countryCode);
         mLocaleManager.refresh(mLocaleMatchListener);
     }

@@ -9,9 +9,8 @@ import android.content.Context;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.session.OAuthHandler;
+import com.philips.cdp.di.iap.session.OAuthListener;
 
 public class LocalNetworkEssentials implements NetworkEssentials {
 
@@ -21,12 +20,12 @@ public class LocalNetworkEssentials implements NetworkEssentials {
     }
 
     @Override
-    public HurlStack getHurlStack(Context context, final OAuthHandler oAuthHandler) {
+    public HurlStack getHurlStack(Context context, final OAuthListener oAuthHandler) {
         return new HurlStack();
     }
 
     @Override
-    public OAuthHandler getOAuthHandler() {
+    public OAuthListener getOAuthHandler() {
         return null;
     }
 }

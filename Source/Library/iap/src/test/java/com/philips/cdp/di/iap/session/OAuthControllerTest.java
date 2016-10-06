@@ -13,12 +13,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 28/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
-public class TestEnvOAuthHandlerTest {
-    TestEnvOAuthHandler mTestEnvOAuthHandler;
+public class OAuthControllerTest {
+    OAuthController mTestEnvOAuthHandler;
     @Mock
     RefreshOAuthRequest mRefreshOAuthRequest;
 
@@ -28,7 +25,7 @@ public class TestEnvOAuthHandlerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mTestEnvOAuthHandler = new TestEnvOAuthHandler();
+        mTestEnvOAuthHandler = new OAuthController();
     }
 
     @Test(expected = NullPointerException.class)

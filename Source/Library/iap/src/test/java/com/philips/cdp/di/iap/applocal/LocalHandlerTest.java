@@ -18,8 +18,8 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.ArrayList;
 
 @RunWith(RobolectricTestRunner.class)
-public class AppLocalHandlerTest {
-    AppLocalHandler mAppLocalHandler;
+public class LocalHandlerTest {
+    LocalHandler mAppLocalHandler;
     @Mock
     Context mContext;
     IAPListener mIapListener = new IAPListener() {
@@ -56,7 +56,7 @@ public class AppLocalHandlerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mAppLocalHandler = new AppLocalHandler(mContext);
+        mAppLocalHandler = new LocalHandler();
     }
 
     @Test

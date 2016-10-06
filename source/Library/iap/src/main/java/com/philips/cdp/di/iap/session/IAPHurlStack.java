@@ -27,14 +27,14 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 public class IAPHurlStack {
-    private final OAuthHandler mOAuthHandler;
+    private final OAuthListener mOAuthHandler;
     private static final String PHILIPS_HOST = "philips.com";
 
     private static final boolean TEST_SERVER = Boolean.TRUE;
 
     static Certificate testCertificate;
     private Context mContext;
-    public IAPHurlStack(OAuthHandler oAuthHandler) {
+    public IAPHurlStack(OAuthListener oAuthHandler) {
         mOAuthHandler = oAuthHandler;
     }
 

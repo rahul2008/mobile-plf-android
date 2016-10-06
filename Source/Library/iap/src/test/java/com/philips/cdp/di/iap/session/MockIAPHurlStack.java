@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MockIAPHurlStack extends IAPHurlStack {
-    public MockIAPHurlStack(final OAuthHandler oAuthHandler) {
+    public MockIAPHurlStack(final OAuthListener oAuthHandler) {
         super(oAuthHandler);
     }
 

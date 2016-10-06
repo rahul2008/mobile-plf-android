@@ -18,7 +18,7 @@ import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.applocal.AppLocalHandler;
+import com.philips.cdp.di.iap.applocal.LocalHandler;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
@@ -42,33 +42,31 @@ class IAPHandler {
     private IAPDependencies mIAPDependencies;
     private IAPSettings mIAPSetting;
 
-    IAPHandler(IAPDependencies mIAPDependencies, IAPSettings pIapSettings) {
-        this.mIAPDependencies = mIAPDependencies;
+    IAPHandler(IAPDependencies pIAPDependencies, IAPSettings pIapSettings) {
+        mIAPDependencies = pIAPDependencies;
         mIAPSetting = pIapSettings;
     }
 
-    void initTaggingLogging() {
+    void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
         IAPLog.initIAPLog(mIAPDependencies);
+
+        initControllerFactory();
+        initHybrisDelegate();
+        setLangAndCountry();
     }
 
-    void initIAP() {
-        initControllerFactory(mIAPSetting);
-        initHybrisDelegate(mIAPSetting);
-        setLangAndCountry(mIAPSetting);
+    protected void initControllerFactory() {
+        ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());
     }
 
-    protected void initControllerFactory(IAPSettings iapSettings) {
-        ControllerFactory.getInstance().init(iapSettings.isUseLocalData());
+    private void initHybrisDelegate() {
+        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
+        HybrisDelegate.getDelegateWithNetworkEssentials(mIAPSetting.getContext(), essentials, mIAPSetting); //TODO : check
     }
 
-    private void initHybrisDelegate(IAPSettings iapSettings) {
-        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(iapSettings.isUseLocalData());
-        HybrisDelegate.getDelegateWithNetworkEssentials(iapSettings.getContext(), essentials, iapSettings);
-    }
-
-    protected void setLangAndCountry(IAPSettings pIAPSetting) {
-        PILLocaleManager localeManager = new PILLocaleManager(pIAPSetting.getContext());
+    protected void setLangAndCountry() {
+        PILLocaleManager localeManager = new PILLocaleManager(mIAPSetting.getContext());
         String[] localeArray;
         String localeAsString = localeManager.getInputLocale();
         localeArray = localeAsString.split("_");
@@ -197,12 +195,12 @@ class IAPHandler {
                 + tag + ")");
     }
 
-    protected IAPExposedAPI getExposedAPIImplementor(IAPSettings iapSettings) {
+    protected IAPExposedAPI getExposedAPIImplementor() {
         IAPExposedAPI api;
-        if (iapSettings.isUseLocalData()) {
-            api = new AppLocalHandler(iapSettings.getContext());
+        if (mIAPSetting.isUseLocalData()) {
+            api = new LocalHandler();
         } else {
-            api = new HybrisHandler(iapSettings.getContext());
+            api = new HybrisHandler(mIAPSetting.getContext());
         }
         return api;
     }

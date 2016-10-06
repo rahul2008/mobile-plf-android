@@ -19,7 +19,7 @@ public interface StoreSpec {
 
     void setLangAndCountry(String language, String countryCode);
 
-    void initStoreConfig(String language, String countryCode, RequestListener listener);
+    void initStoreConfig(String language, String countryCode, RequestListener listener);//is language and country code is required to be passed?
 
     String getCountry();
 

@@ -11,10 +11,10 @@ import com.philips.cdp.di.iap.session.RequestListener;
 
 public class StoreConfiguration {
     private static final String SUFFIX_CONFIGURATION = "inAppConfig";
+    private final IAPSettings mIAPSettings;
 
     private final HybrisStore mStore;
     private final WebStoreConfig mWebStoreConfig;
-    private final IAPSettings mIAPSettings;
 
     public StoreConfiguration(Context context, HybrisStore store, IAPSettings iapSettings) {
         mStore = store;

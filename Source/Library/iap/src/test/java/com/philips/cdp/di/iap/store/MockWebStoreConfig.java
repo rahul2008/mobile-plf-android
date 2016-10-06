@@ -35,7 +35,7 @@ public class MockWebStoreConfig extends WebStoreConfig {
     }
 
     @Override
-    void initLocaleMatcher() {
+    void refreshPILocaleManager() {
         mSiteID = SITE_ID;
         mStoreConfig.getProposition();
         mStoreConfig.getRawConfigUrl();
@@ -53,7 +53,7 @@ public class MockWebStoreConfig extends WebStoreConfig {
 
     @Override
     void refresh(final String language, final String countryCode) {
-        initLocaleMatcher();
+        refreshPILocaleManager();
     }
 
     @Override
