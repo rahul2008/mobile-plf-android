@@ -101,4 +101,8 @@ public class IAPConstant {
     public static final String TWO_BUTTON_DIALOG_DESCRIPTION = "TWO_BUTTON_DIALOG_DESCRIPTION";
     public static final String TWO_BUTTON_DIALOG_POSITIVE_TEXT = "TWO_BUTTON_DIALOG_POSITIVE_TEXT";
     public static final String TWO_BUTTON_DIALOG_NEGATIVE_TEXT = "TWO_BUTTON_DIALOG_NEGATIVE_TEXT";
+
+    //Service discover key constants
+    public static final String IAP_IS_STORE_AVAILABLE = "iap.get.isStoreAvailable";
+    public static final String IAP_BASE_URL = "iap.baseUrl";
 }
