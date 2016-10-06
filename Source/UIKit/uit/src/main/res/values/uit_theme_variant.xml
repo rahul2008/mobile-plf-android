@@ -33,6 +33,8 @@
         <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel65</item>
 
         <item name="uitInputTextFillColor">@color/uitColorWhite</item>
+        <item name="uitInputTextBorderColor">@color/uit_gray_level_20</item>
+        <item name="uitInputTextBorderDisabledColor">@color/uit_gray_level_10</item>
         <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width_ultralight</item>
     </style>
 
