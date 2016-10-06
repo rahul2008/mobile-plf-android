@@ -1,209 +1,53 @@
 package com.philips.cdp.dicommclient.cpp.pairing;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.ICPCallbackHandler;
 import com.philips.cdp.dicommclient.cpp.ICPEventListener;
-import com.philips.cdp.dicommclient.util.LogConstants;
 import com.philips.icpinterface.PairingService;
-import com.philips.icpinterface.data.Commands;
-import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.PairingEntitiyReference;
-import com.philips.icpinterface.data.PairingInfo;
-import com.philips.icpinterface.data.PairingRelationship;
 
-public class PairingController implements IPairingController {
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-    /**
-     * PAIRING CONSTANTS
-     */
-    public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
-    public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
+public interface PairingController {
 
-    private final CppController mCloudController;
+    interface PairingCallback {
+        void onRelationshipAdd(String relationStatus);
 
-    public PairingController(@NonNull CppController cloudController) {
-        mCloudController = cloudController;
+        void onRelationshipRemove();
+
+        void onPermissionsAdd();
+
+        void onPermissionsRemove();
+
+        void onPermissionsGet(Collection<String> permissions);
+
+        void onPairingError(int eventType, int status);
     }
 
-    @Override
-    public void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull ICPEventListener icpEventListener) {
-        addRelationship(relationshipType, null, pairingHandlerRelationship, icpEventListener);
-    }
+    String PERMISSION_RESPONSE = "Response";
+    String PERMISSION_CHANGE = "Change";
+    String PERMISSION_PUSH = "Push";
 
-    @Override
-    public void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull ICPEventListener icpEventListener) {
-        if (!mCloudController.isSignOn()) {
-            return;
-        }
+    List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_RESPONSE, PERMISSION_CHANGE));
+    List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_PUSH));
 
-        int status;
-        PairingService pairingService = createPairingService(icpEventListener);
-        PairingInfo pairingInfo = secretKey != null ? getPairingInfo(secretKey) : null;
+    PairingService createPairingService(@NonNull ICPEventListener icpEventListener);
 
-        pairingService.addRelationshipRequest(pairingHandlerRelationship.getTrustorEntity(), pairingHandlerRelationship.getTrusteeEntity(), null,
-                getPairingRelationshipData(relationshipType, PAIRING_PERMISSIONS.toArray(new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
+    void setPairingCallback(@NonNull PairingCallback pairingCallback);
 
-        pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
-        status = pairingService.executeCommand();
+    void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
 
-        if (Errors.REQUEST_PENDING != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: ");
-        }
-    }
+    void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
 
-    /**
-     * Method removeRelationship-remove an existing relationship
-     *
-     * @param relationType String
-     */
-    @Override
-    public void removeRelationship(PairingEntitiyReference trustor, PairingEntitiyReference trustee, String relationType, @NonNull ICPEventListener icpEventListener) {
-        if (!mCloudController.isSignOn()) {
-            return;
-        }
+    void removeRelationship(PairingEntitiyReference trustor, PairingEntitiyReference trustee, String relationType, @NonNull PairingCallback callback);
 
-        int status;
-        PairingService removeRelationship = createPairingService(icpEventListener);
+    void addPermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull PairingCallback callback);
 
-        status = removeRelationship.removeRelationshipRequest(trustor, trustee, relationType);
-        if (Errors.SUCCESS != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-            return;
-        }
-        removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
-        status = removeRelationship.executeCommand();
+    void removePermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull PairingCallback callback);
 
-        if (Errors.REQUEST_PENDING != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-        }
-    }
+    void getPermission(String relationType, String[] permission, PairingEntitiyReference trustee, PermissionListener permissionListener, @NonNull PairingCallback callback);
 
-    /**
-     * Method addPermission- adds permission to a existing relationship
-     *
-     * @param relationType String
-     * @param permission   String[]
-     */
-    @Override
-    public void addPermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull ICPEventListener icpEventListener) {
-        if (!mCloudController.isSignOn()) {
-            return;
-        }
-        int status;
-        PairingService pairingService = mCloudController.getPairingController().createPairingService(icpEventListener);
-        status = pairingService.addPermissionsRequest(null, trustee, relationType, permission);
-
-        if (Errors.SUCCESS != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-            return;
-        }
-        pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
-        status = pairingService.executeCommand();
-
-        if (Errors.REQUEST_PENDING != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-        }
-    }
-
-    /**
-     * Method getPermission-get permissions of a existing relationship
-     *
-     * @param relationType String
-     * @param permission   String[]
-     */
-    @Override
-    public void getPermission(String relationType, String[] permission, PairingEntitiyReference trustee,
-                              PermissionListener permissionListener, @NonNull ICPEventListener icpEventListener) {
-        if (!mCloudController.isSignOn()) {
-            permissionListener.onCallFailed();
-            return;
-        }
-
-        int iMaxPermissons = 5;
-        int iPermIndex = 0;
-
-        PairingService pairingService = createPairingService(icpEventListener);
-        int status = pairingService.getPermissionsRequest(null, trustee, relationType, iMaxPermissons, iPermIndex);
-
-        if (Errors.SUCCESS != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-            permissionListener.onCallFailed();
-            return;
-        }
-        pairingService.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
-        status = pairingService.executeCommand();
-
-        if (Errors.REQUEST_PENDING != status) {
-            permissionListener.onCallFailed();
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-        }
-    }
-
-    /**
-     * Method removePermission-remove permission from a existing relationship
-     *
-     * @param relationType String
-     * @param permission   String[]
-     */
-    @Override
-    public void removePermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull ICPEventListener icpEventListener) {
-        if (!mCloudController.isSignOn()) {
-            return;
-        }
-        PairingService pairingService = createPairingService(icpEventListener);
-        int status = pairingService.removePermissionsRequest(null, trustee, relationType, permission);
-
-        if (Errors.SUCCESS != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-            return;
-        }
-        pairingService.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
-        status = pairingService.executeCommand();
-
-        if (Errors.REQUEST_PENDING != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-        }
-    }
-
-    @Override
-    public PairingService createPairingService(@NonNull ICPEventListener icpEventListener) {
-        return new PairingService(new ICPCallbackHandler(icpEventListener));
-    }
-
-    /**
-     * add pairing info
-     *
-     * @param secretKey
-     * @return
-     */
-    private PairingInfo getPairingInfo(String secretKey) {
-        PairingInfo pairingTypeInfo = new PairingInfo();
-        pairingTypeInfo.pairingInfoIsMatchIPAddr = false;
-        pairingTypeInfo.pairingInfoRequestTTL = PAIRING_REQUESTTTL_MIN;
-        pairingTypeInfo.pairingInfoSecretKey = secretKey;
-
-        return pairingTypeInfo;
-    }
-
-    /**
-     * add pairingRelationshipData
-     *
-     * @param permission
-     * @param relationshipType
-     * @return
-     */
-    private PairingRelationship getPairingRelationshipData(
-            String relationshipType, String[] permission) {
-        PairingRelationship pairingRelationshipData = new PairingRelationship();
-        pairingRelationshipData.pairingRelationshipIsAllowDelegation = false;
-        pairingRelationshipData.pairingRelationshipMetadata = null;
-        pairingRelationshipData.pairingRelationshipRelationType = relationshipType;
-        pairingRelationshipData.pairingRelationshipTTL = PAIRING_RELATIONSHIPDURATION_SEC;
-        pairingRelationshipData.pairingRelationshipPermissionArray = permission;
-
-        return pairingRelationshipData;
-    }
 }
