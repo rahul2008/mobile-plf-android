@@ -31,5 +31,5 @@
     <dimen name="uit_text_editbox_height">40dp</dimen>
     <dimen name="uit_texteditbox_stroke_width">4dp</dimen>
     <dimen name="uit_texteditbox_stroke_width_ultralight">1dp</dimen>
-    <item name="uit_text_editbox_fill_disabled_alpha" format="float" type="dimen">0.25</item>
+    <item name="uit_text_editbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
 </resources>
