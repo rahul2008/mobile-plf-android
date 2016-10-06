@@ -15,7 +15,7 @@ import com.philips.cdp.di.iap.products.ProductCatalogAPI;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;

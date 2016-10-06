@@ -5,7 +5,7 @@
 package com.philips.cdp.di.iap.iapHandler;
 
 import com.philips.cdp.di.iap.integration.IAPInterface;
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 
 public class LocalHandler extends IAPInterface implements IAPExposedAPI {
 

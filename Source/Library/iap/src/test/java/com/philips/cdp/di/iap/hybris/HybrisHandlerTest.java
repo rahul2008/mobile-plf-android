@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 
 import org.junit.Before;

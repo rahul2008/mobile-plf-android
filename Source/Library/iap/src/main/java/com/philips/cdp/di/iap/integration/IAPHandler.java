@@ -26,7 +26,6 @@ import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;

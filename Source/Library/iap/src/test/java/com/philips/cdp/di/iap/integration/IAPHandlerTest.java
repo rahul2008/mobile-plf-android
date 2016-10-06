@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentialsFactory;
-import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appinfra.AppInfra;

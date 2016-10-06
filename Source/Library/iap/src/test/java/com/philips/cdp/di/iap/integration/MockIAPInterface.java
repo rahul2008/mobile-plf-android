@@ -1,6 +1,5 @@
 package com.philips.cdp.di.iap.integration;
 
-import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;

@@ -9,7 +9,7 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;

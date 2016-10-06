@@ -4,7 +4,7 @@
  */
 package com.philips.cdp.di.iap.iapHandler;
 
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 
 public interface IAPExposedAPI {
     void getProductCartCount(IAPListener iapListener);

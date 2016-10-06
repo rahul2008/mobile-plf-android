@@ -1,7 +1,5 @@
 package com.philips.cdp.di.iap.integration;
 
-import com.philips.cdp.di.iap.session.IAPListener;
-
 import java.util.ArrayList;
 
 /**

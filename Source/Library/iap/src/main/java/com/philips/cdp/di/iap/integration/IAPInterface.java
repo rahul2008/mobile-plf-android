@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.integration;
 
 import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
-import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.registration.User;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
