@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-public class PRXProductAssetBuilder {
+public class PRXAssetExecutor {
     private AssetListener mAssetListener;
     private Context mContext;
     String mCTN;
@@ -47,8 +47,8 @@ public class PRXProductAssetBuilder {
         void onFetchAssetFailure(Message msg);
     }
 
-    public PRXProductAssetBuilder(Context context, String CTN,
-                                  AssetListener listener) {
+    public PRXAssetExecutor(Context context, String CTN,
+                            AssetListener listener) {
         mContext = context;
         mAssetListener = listener;
         mCTN = CTN;

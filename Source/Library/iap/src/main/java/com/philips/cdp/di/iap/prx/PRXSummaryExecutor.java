@@ -23,7 +23,7 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PRXDataBuilder {
+public class PRXSummaryExecutor {
 
     Context mContext;
     ArrayList<String> mCtns;
@@ -34,7 +34,7 @@ public class PRXDataBuilder {
     protected volatile int mProductUpdateCount;
     protected int mProductPresentInPRX;
 
-    public PRXDataBuilder(Context context,ArrayList<String> ctns, AbstractModel.DataLoadListener listener) {
+    public PRXSummaryExecutor(Context context, ArrayList<String> ctns, AbstractModel.DataLoadListener listener) {
         mContext = context;
         mCtns = ctns;
         mDataLoadListener = listener;

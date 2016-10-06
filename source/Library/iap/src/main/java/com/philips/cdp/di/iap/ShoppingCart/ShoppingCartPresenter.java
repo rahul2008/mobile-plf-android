@@ -21,7 +21,7 @@ import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.DeleteCartRequest;
 import com.philips.cdp.di.iap.model.GetCartsRequest;
 import com.philips.cdp.di.iap.model.GetCurrentCartRequest;
-import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
@@ -368,7 +368,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         for (EntriesEntity entry : entries) {
             ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
         }
-        PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX, this);
+        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnsToBeRequestedForPRX, this);
         builder.preparePRXDataRequest();
 
     }

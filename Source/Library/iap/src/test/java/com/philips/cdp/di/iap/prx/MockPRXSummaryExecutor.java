@@ -12,15 +12,13 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.mock;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class MockPRXDataBuilder extends PRXDataBuilder{
+public class MockPRXSummaryExecutor extends PRXSummaryExecutor {
 
-    public MockPRXDataBuilder(final Context context, final ArrayList<String> ctns, final AbstractModel.DataLoadListener listener) {
+    public MockPRXSummaryExecutor(final Context context, final ArrayList<String> ctns, final AbstractModel.DataLoadListener listener) {
         super(context, ctns, listener);
     }
 

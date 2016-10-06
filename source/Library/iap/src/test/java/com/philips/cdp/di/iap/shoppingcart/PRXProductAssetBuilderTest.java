@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.shoppingcart;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class PRXProductAssetBuilderTest {
     @Mock
     private Context context;
     @Mock
-    private PRXProductAssetBuilder mPrxProductAssetBuilder;
+    private PRXAssetExecutor mPrxProductAssetBuilder;
     @Mock
     private ProductAssetRequest mProductAssetBuilder;
 
@@ -31,7 +31,7 @@ public class PRXProductAssetBuilderTest {
 
     @Before
     public void setUP() {
-        mPrxProductAssetBuilder = Mockito.mock(PRXProductAssetBuilder.class);
+        mPrxProductAssetBuilder = Mockito.mock(PRXAssetExecutor.class);
     }
 
     @Test

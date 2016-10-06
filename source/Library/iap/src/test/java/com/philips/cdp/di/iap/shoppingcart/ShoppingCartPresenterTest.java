@@ -19,7 +19,7 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
-import com.philips.cdp.di.iap.prx.MockPRXDataBuilder;
+import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -49,7 +49,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     private ShoppingCartPresenter mShoppingCartPresenter;
-    private MockPRXDataBuilder mMockPRXDataBuilder;
+    private MockPRXSummaryExecutor mMockPRXDataBuilder;
     @Mock
     private FragmentManager mFragmentManager;
 
@@ -73,7 +73,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     @Test
     public void getCurrentCartDetailsVerifySuccess() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mShoppingCartPresenter);
+        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getCurrentCartDetails();
 
@@ -102,19 +102,19 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     private void makePRXData() throws JSONException {
         PrxRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
 
-        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
         CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
                 .class, "get_prx_success_response_HX9023_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
         CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
                 .class, "get_prx_success_response_HX9003_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
         CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);

@@ -13,7 +13,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ContactCallRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
-import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
@@ -107,7 +107,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
                 ctnToBeRequested.add(entry.getProduct().getCode());
             }
         }
-        PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnToBeRequested, listener);
+        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnToBeRequested, listener);
         builder.preparePRXDataRequest();
 
     }

@@ -12,7 +12,7 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
-import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
@@ -58,7 +58,7 @@ public class ProductCatalogHelper {
             }
         }
 
-        PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
+        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, productsToBeShown,
                 mGetProductCatalogListener);
         builder.preparePRXDataRequest();
     }

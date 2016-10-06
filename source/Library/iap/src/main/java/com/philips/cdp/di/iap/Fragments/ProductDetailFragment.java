@@ -26,14 +26,13 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.ProductDetailController;
-import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.prx.PRXDataBuilder;
-import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
 import com.philips.cdp.di.iap.response.products.ProductDetailEntity;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -52,7 +51,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
-        PRXProductAssetBuilder.AssetListener, View.OnClickListener, EventListener,
+        PRXAssetExecutor.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
         ProductDetailController.ProductSearchListener, ShoppingCartPresenter.ShoppingCartListener<StoreEntity> {
 
@@ -198,7 +197,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
-            PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, mCTNValue, this);
+            PRXAssetExecutor builder = new PRXAssetExecutor(mContext, mCTNValue, this);
             builder.build();
         } else {
             final HashMap<String, ArrayList<String>> prxAssetObjects =
@@ -226,7 +225,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (mContext == null) return;
                 Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
-            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnList, this);
+            PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
         } else {
             final HashMap<String, SummaryModel> prxAssetObjects =
