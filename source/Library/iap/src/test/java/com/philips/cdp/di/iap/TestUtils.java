@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -48,11 +48,11 @@ public class TestUtils {
         return delegate;
     }
 
-    public static StoreSpec getStubbedStore() {
+    public static StoreListener getStubbedStore() {
         if (mockHybrisStore != null) {
             return mockHybrisStore;
         }
-        StoreSpec mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
+        StoreListener mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
         mockStore.initStoreConfig("en", "US", null);
         return mockStore;
     }

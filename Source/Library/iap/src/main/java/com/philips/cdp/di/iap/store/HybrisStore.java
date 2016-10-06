@@ -6,14 +6,13 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.AbstractStoreSpec;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.Locale;
 
-public class HybrisStore extends AbstractStoreSpec {
+public class HybrisStore extends AbstractStore {
 
     public static final String SEPERATOR = "/";
     private static final String USER = "users";

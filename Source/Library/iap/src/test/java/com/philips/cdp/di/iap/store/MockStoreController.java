@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
@@ -9,18 +13,15 @@ import com.philips.cdp.localematch.PILLocaleManager;
 
 import org.mockito.Mock;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public class MockWebStoreConfig extends WebStoreConfig {
+public class MockStoreController extends StoreController {
     private final static String LOCALE = "en_US";
     private final static String SITE_ID = "US_TUSCANY";
     private SynchronizedNetwork mSynchronizedNetwork;
 
     @Mock
     PILLocaleManager mPILLocalManager;
-    public MockWebStoreConfig(final Context context, final StoreConfiguration storeConfig) {
+
+    public MockStoreController(final Context context, final StoreConfiguration storeConfig) {
         super(context, storeConfig);
     }
 
@@ -30,37 +31,19 @@ public class MockWebStoreConfig extends WebStoreConfig {
     }
 
     @Override
-    void setPILocalManager() {
+    void refreshPILocaleManager(String language, String countryCode) {
         mLocaleManager = mPILLocalManager;
-    }
-
-    @Override
-    void refreshPILocaleManager() {
         mSiteID = SITE_ID;
         mStoreConfig.getProposition();
         mStoreConfig.getRawConfigUrl();
         mStoreConfig.generateStoreUrls();
-//        fetchConfiguration();
-    }
-
-/*    @Override
-    void fetchConfiguration() {
-        mSiteID = SITE_ID;
-        mStoreConfig.getProposition();
-        mStoreConfig.getRawConfigUrl();
-        mStoreConfig.generateStoreUrls();
-    }*/
-
-    @Override
-    void refresh(final String language, final String countryCode) {
-        refreshPILocaleManager();
     }
 
     @Override
     SynchronizedNetwork getSynchronizedNetwork() {
-        if(mSynchronizedNetwork == null) {
+        if (mSynchronizedNetwork == null) {
             mSynchronizedNetwork = new MockSynchronizedNetwork((new MockIAPHurlStack(null)
-                    .getHurlStack()));;
+                    .getHurlStack()));
         }
         return mSynchronizedNetwork;
     }

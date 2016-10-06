@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.HybrisStore;
@@ -34,7 +34,7 @@ public class RefreshOAuthRequestTest {
 
     @Before
     public void setUp() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
         mStore.initStoreConfig("en", "US", null);
         mModel = new RefreshOAuthRequest(mStore, new HashMap<String, String>());
     }

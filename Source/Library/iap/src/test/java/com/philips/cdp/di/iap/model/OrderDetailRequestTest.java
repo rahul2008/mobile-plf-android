@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
@@ -32,7 +32,7 @@ public class OrderDetailRequestTest {
     IAPUser mUser;
     @Mock
     IAPDependencies mIAPDependencies;
-    private StoreSpec mStore;
+    private StoreListener mStore;
     private AbstractModel mModel;
 
     @Before

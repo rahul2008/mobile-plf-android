@@ -12,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.OAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
@@ -27,7 +27,7 @@ public class OAuthController implements OAuthListener {
     private final String TAG = OAuthController.class.getSimpleName();
     private String access_token;
     private OAuthRequest mOAuthRequest;
-    private StoreSpec mStore;
+    private StoreListener mStore;
     private HurlStack mRetryHurlStack;
 
     @Override

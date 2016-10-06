@@ -8,14 +8,15 @@ import android.content.Context;
 
 import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.LocalStore;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.OAuthListener;
 
 public class LocalNetworkEssentials implements NetworkEssentials {
 
     @Override
-    public StoreSpec getStore(final Context context, final IAPSettings iapSettings) {
+    public StoreListener getStore(final Context context, final IAPSettings iapSettings) {
         return new LocalStore(context);
     }
 

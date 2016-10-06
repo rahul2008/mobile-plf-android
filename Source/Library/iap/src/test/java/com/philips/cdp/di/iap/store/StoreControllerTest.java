@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.store;//package com.philips.cdp.di.iap.store;
+package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 import android.os.Message;
@@ -25,18 +25,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-public class WebStoreConfigTest {
+public class StoreControllerTest {
 
-    @Mock Context mContext;
-    @Mock StoreConfiguration mStoreConfiguration;
+    @Mock
+    Context mContext;
+    @Mock
+    StoreConfiguration mStoreConfiguration;
 
-    private Object mLock = new Object();
-    private WebStoreConfig mWebsStoreConfig;
+    private StoreController mWebsStoreConfig;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mWebsStoreConfig = new WebStoreConfig(mContext, mStoreConfiguration);
+        mWebsStoreConfig = new StoreController(mContext, mStoreConfiguration);
     }
 
     @Test
@@ -51,27 +52,20 @@ public class WebStoreConfigTest {
         assertEquals(NetworkURLConstants.LOCALE, mWebsStoreConfig.getLocale());
     }
 
- /*   @Test
-    public void veryInitConfigCallsRefresh() {
-        mWebsStoreConfig.mLocaleManager = mock(PILLocaleManager.class);
-        mWebsStoreConfig.refresh("en", "US");
-        Mockito.verify(mWebsStoreConfig.mLocaleManager, times(1))
-                .refresh(mContext, "en", "US");
-    }
-*/
     @Test
     public void verifyFailureViaConfigThread() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-        MockWebStoreConfig config = new MockWebStoreConfig(mContext, mStoreConfiguration);
-        config.initConfig("en", "us",mock(RequestListener.class));
+        MockStoreController config = new MockStoreController(mContext, mStoreConfiguration);
+        config.initConfig("en", "us", mock(RequestListener.class));
         config.startConfigDownloadThread();
 
         latch.await(1, TimeUnit.SECONDS);
     }
+
     @Test
     public void verifyFailure() throws InterruptedException {
-        WebStoreConfig mockedConfig = new MockWebStoreConfig(mContext, mStoreConfiguration);
+        StoreController mockedConfig = new MockStoreController(mContext, mStoreConfiguration);
         MockSynchronizedNetwork mockNetwork = (MockSynchronizedNetwork) mockedConfig.getSynchronizedNetwork();
         mockNetwork.setVolleyError(new VolleyError());
         mockedConfig.mRequestListener = getRequestListener();
@@ -82,7 +76,7 @@ public class WebStoreConfigTest {
 
     @Test
     public void verifySuccess() throws InterruptedException {
-        WebStoreConfig mockedConfig = new MockWebStoreConfig(mContext, mStoreConfiguration);
+        StoreController mockedConfig = new MockStoreController(mContext, mStoreConfiguration);
         MockSynchronizedNetwork mockNetwork = (MockSynchronizedNetwork) mockedConfig.getSynchronizedNetwork();
         String response = TestUtils.readFile(this.getClass(), "config_response.txt");
         mockNetwork.setResponse(response);
@@ -92,21 +86,8 @@ public class WebStoreConfigTest {
         assertEquals("US_Tuscany", mockedConfig.getSiteID());
     }
 
-/*    @Test
-    public void verifySuccessWitoutListener() throws InterruptedException {
-        WebStoreConfig mockedConfig = spy(mWebsStoreConfig);
-        when(mockedConfig.getSynchronizedNetwork()).thenReturn(new MockSynchronizedNetwork((new
-                IAPHurlStack(null).getHurlStack())));
-        MockSynchronizedNetwork mockNetwork = (MockSynchronizedNetwork) mockedConfig.getSynchronizedNetwork();
-        String response = TestUtils.readFile(this.getClass(), "config_response.txt");
-        mockNetwork.setResponse(response);
-
-        mockedConfig.fetchConfiguration();
-        assertEquals("US_Tuscany", mockedConfig.getSiteID());
-    }*/
-
     private RequestListener getRequestListener() {
-        return new RequestListener(){
+        return new RequestListener() {
 
             @Override
             public void onSuccess(final Message msg) {

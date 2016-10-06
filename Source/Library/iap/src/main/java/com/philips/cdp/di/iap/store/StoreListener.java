@@ -2,19 +2,18 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.core;
+package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.IAPUser;
 
 /**
  * Contains generic URL required to query from Server.
  * It should be refactored again to minimize the apis, as these apis are server dependant and
  * it's not scalable to add all the apis in single config interface.
  */
-public interface StoreSpec {
+public interface StoreListener {
     void setNewUser(Context context);
 
     void setLangAndCountry(String language, String countryCode);

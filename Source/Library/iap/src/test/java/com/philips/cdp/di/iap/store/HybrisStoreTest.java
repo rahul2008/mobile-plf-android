@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.store;//package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -31,7 +30,7 @@ public class HybrisStoreTest {
     StoreConfiguration mStoreConfig;
     @Mock
     AppInfra mAppInfra;
-    private StoreSpec mStore;
+    private StoreListener mStore;
     private MockIAPDependencies mockIAPDependencies;
 
     @Before

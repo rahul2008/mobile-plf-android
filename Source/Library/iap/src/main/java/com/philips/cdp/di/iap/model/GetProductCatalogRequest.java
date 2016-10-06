@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class GetProductCatalogRequest extends AbstractModel{
 
-    public GetProductCatalogRequest(StoreSpec store, Map<String, String> query,
+    public GetProductCatalogRequest(StoreListener store, Map<String, String> query,
                                     DataLoadListener listener) {
         super(store, query, listener);
     }

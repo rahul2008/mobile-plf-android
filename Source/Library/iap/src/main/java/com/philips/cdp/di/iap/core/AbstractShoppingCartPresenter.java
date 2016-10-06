@@ -14,6 +14,7 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -28,7 +29,7 @@ import java.util.Map;
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected Context mContext;
     protected ArrayList<StoreEntity> mStoreEntities;
-    protected StoreSpec mStore;
+    protected StoreListener mStore;
     protected ShoppingCartListener mLoadListener;
     protected HybrisDelegate mHybrisDelegate;
 
@@ -128,7 +129,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         return mHybrisDelegate;
     }
 
-    protected StoreSpec getStore() {
+    protected StoreListener getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }

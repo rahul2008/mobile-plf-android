@@ -6,14 +6,14 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 
 import java.util.Map;
 
 public class GetDeliveryModesRequest extends AbstractModel {
 
-    public GetDeliveryModesRequest(final StoreSpec store, final Map<String, String> query,
+    public GetDeliveryModesRequest(final StoreListener store, final Map<String, String> query,
                                    DataLoadListener loadListener) {
         super(store, query, loadListener);
     }

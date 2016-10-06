@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.controller;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
@@ -29,7 +29,7 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
     private BuyDirectListener mBuyDirectListener;
     private Context mContext;
     private HybrisDelegate mDelegate;
-    private StoreSpec mStore;
+    private StoreListener mStore;
 
     public BuyDirectController(Context pContext, BuyDirectListener pBuyDirectListener) {
         mContext = pContext;
@@ -139,11 +139,11 @@ public class BuyDirectController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    public void setStore(StoreSpec store) {
+    public void setStore(StoreListener store) {
         mStore = store;
     }
 
-    StoreSpec getStore() {
+    StoreListener getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }

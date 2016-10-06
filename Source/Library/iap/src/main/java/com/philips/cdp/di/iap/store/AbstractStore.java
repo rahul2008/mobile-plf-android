@@ -2,17 +2,16 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.core;
+package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.IAPUser;
 
-public abstract class AbstractStoreSpec implements StoreSpec {
+public abstract class AbstractStore implements StoreListener {
 
-    protected String mCountry;
     protected boolean mStoreInitialized;
+    protected String mCountry;
     protected String mLanguage;
 
     @Override

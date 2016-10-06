@@ -1,7 +1,7 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class SetDeliveryAddressModeRequest extends AbstractModel {
 
-    public SetDeliveryAddressModeRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener listener) {
+    public SetDeliveryAddressModeRequest(final StoreListener store, final Map<String, String> query, DataLoadListener listener) {
         super(store, query,listener);
     }
 

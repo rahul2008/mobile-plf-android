@@ -31,16 +31,16 @@ import com.philips.cdp.localematch.enums.Sector;
 
 import org.json.JSONObject;
 
-public class WebStoreConfig {
+public class StoreController {
     final Context mContext;
-    private PILLocaleManager mLocaleManager;
-    private PILLocale mPILLocale;
-    private StoreConfiguration mStoreConfig;
-    private RequestListener mRequestListener;
-    private String mFallBackLocale;
-    private String mSiteID;
+    protected PILLocaleManager mLocaleManager;
+    protected PILLocale mPILLocale;
+    protected StoreConfiguration mStoreConfig;
+    protected RequestListener mRequestListener;
+    protected String mFallBackLocale;
+    protected String mSiteID;
 
-    public WebStoreConfig(Context context, StoreConfiguration storeConfig) {
+    public StoreController(Context context, StoreConfiguration storeConfig) {
         mContext = context;
         mStoreConfig = storeConfig;
     }

@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
@@ -32,7 +32,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
     private Context mContext;
     private AddressListener mAddressListener;
     private HybrisDelegate mDelegate;
-    private StoreSpec mStore;
+    private StoreListener mStore;
 
     public interface AddressListener {
         void onGetRegions(Message msg);
@@ -207,11 +207,11 @@ public class AddressController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    public void setStore(StoreSpec store) {
+    public void setStore(StoreListener store) {
         mStore = store;
     }
 
-    StoreSpec getStore() {
+    StoreListener getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }

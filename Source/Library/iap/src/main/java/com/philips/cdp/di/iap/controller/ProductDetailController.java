@@ -4,7 +4,7 @@ package com.philips.cdp.di.iap.controller;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ProductDetailRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -18,7 +18,7 @@ public class ProductDetailController implements AbstractModel.DataLoadListener {
     private Context mContext;
     private ProductSearchListener mProductSearchListener;
     private HybrisDelegate mDelegate;
-    private StoreSpec mStore;
+    private StoreListener mStore;
 
     public interface ProductSearchListener {
         void onGetProductDetail(Message msg);
@@ -72,11 +72,11 @@ public class ProductDetailController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    public void setStore(StoreSpec store) {
+    public void setStore(StoreListener store) {
         mStore = store;
     }
 
-    StoreSpec getStore() {
+    StoreListener getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }

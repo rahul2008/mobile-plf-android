@@ -6,14 +6,14 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
 
 public class OrderHistoryRequest extends AbstractModel {
-    public OrderHistoryRequest(StoreSpec store, Map<String, String> query, DataLoadListener listener) {
+    public OrderHistoryRequest(StoreListener store, Map<String, String> query, DataLoadListener listener) {
         super(store, query, listener);
     }
 

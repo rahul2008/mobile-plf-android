@@ -12,7 +12,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ProductCatalogHelper;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
@@ -35,7 +35,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private Context mContext;
 
     private HybrisDelegate mHybrisDelegate;
-    private StoreSpec mStore;
+    private StoreListener mStore;
 
     Products mProducts;
     ProductCatalogHelper mProductCatalogHelper;
@@ -183,14 +183,14 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         return mHybrisDelegate;
     }
 
-    private StoreSpec getStore() {
+    private StoreListener getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }
         return mStore;
     }
 
-    public void setStore(StoreSpec store) {
+    public void setStore(StoreListener store) {
         mStore = store;
     }
 

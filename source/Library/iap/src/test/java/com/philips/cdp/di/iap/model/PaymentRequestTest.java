@@ -10,7 +10,7 @@ import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
@@ -31,7 +31,7 @@ import static junit.framework.Assert.assertNotNull;
 
 public class PaymentRequestTest {
     @Mock
-    StoreSpec mStore;
+    StoreListener mStore;
     @Mock
     Context mContext;
     @Mock

@@ -14,7 +14,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -28,7 +28,7 @@ public class NetworkController {
     protected HurlStack mIapHurlStack;
     protected RequestQueue hybrisVolleyQueue;
     protected Context context;
-    protected StoreSpec store;
+    protected StoreListener store;
     protected OAuthListener oAuthHandler;
     protected NetworkEssentials mNetworkEssentials;
 
@@ -124,7 +124,7 @@ public class NetworkController {
         hybrisVolleyQueue.add(jsObjRequest);
     }
 
-    public StoreSpec getStore() {
+    public StoreListener getStore() {
         return store;
     }
 

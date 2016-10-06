@@ -14,7 +14,7 @@ public class StoreConfiguration {
     private final IAPSettings mIAPSettings;
 
     private final HybrisStore mStore;
-    private final WebStoreConfig mWebStoreConfig;
+    private final StoreController mWebStoreConfig;
 
     public StoreConfiguration(Context context, HybrisStore store, IAPSettings iapSettings) {
         mStore = store;
@@ -22,8 +22,8 @@ public class StoreConfiguration {
         mWebStoreConfig = getWebStoreConfig(context);
     }
 
-    WebStoreConfig getWebStoreConfig(final Context context) {
-        return new WebStoreConfig(context, this);
+    StoreController getWebStoreConfig(final Context context) {
+        return new StoreController(context, this);
     }
 
     void initConfig(final String language, String countryCode, RequestListener listener) {

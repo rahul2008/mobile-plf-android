@@ -1,7 +1,7 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class UpdateAddressRequest extends AbstractModel {
 
-    public UpdateAddressRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
+    public UpdateAddressRequest(final StoreListener store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 

@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class ContactCallRequest extends AbstractModel {
 
-    public ContactCallRequest(final StoreSpec store, final Map<String,
+    public ContactCallRequest(final StoreListener store, final Map<String,
             String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
     }

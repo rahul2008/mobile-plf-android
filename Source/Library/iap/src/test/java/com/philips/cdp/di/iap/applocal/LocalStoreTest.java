@@ -2,6 +2,8 @@ package com.philips.cdp.di.iap.applocal;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.store.LocalStore;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

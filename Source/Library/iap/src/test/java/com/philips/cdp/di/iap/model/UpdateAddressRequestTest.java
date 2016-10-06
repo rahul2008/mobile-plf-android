@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 
 public class UpdateAddressRequestTest {
     @Mock
-    private StoreSpec mStore;
+    private StoreListener mStore;
     private AbstractModel mModel;
 
     @Before

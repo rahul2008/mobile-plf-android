@@ -8,7 +8,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.store.IAPUser;
@@ -33,7 +33,7 @@ public class ContactCallRequestTest {
     @Mock
     IAPUser mUser;
     private AbstractModel mModel;
-    private StoreSpec mStore;
+    private StoreListener mStore;
 
     @Before
     public void setUP() {
