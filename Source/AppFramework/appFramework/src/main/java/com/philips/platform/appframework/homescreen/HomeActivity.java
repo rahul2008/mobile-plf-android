@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -39,11 +36,10 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.modularui.util.UIConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -51,10 +47,12 @@ import java.util.ArrayList;
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
- * ActionbarListner is implemented by this activty and all the logic related to back handling and actionar is contained in this activity
+ * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarListener,IAPListener,FragmentManager.OnBackStackChangedListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HomeActivity.class.getSimpleName();
+    private static HamburgerUtil hamburgerUtil;
+    protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
@@ -62,19 +60,14 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     private ListView drawerListView;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    protected TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
-    private static HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null,shoppingCartLayout;
-    private static int mCartItemCount = 0;
     private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
-    private ImageView mCartIcon;
+    private ImageView cartIcon;
     private TextView cartCount;
-    int cartItemCount = 0;
-    private static final String HOME_FRAGMENT_PRESSED = "Home_Fragment_Pressed";
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -87,7 +80,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        presenter = new HomeActivityPresenter();
+        presenter = new HomeActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -95,16 +88,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         configureDrawer();
         renderHamburgerMenu();
         getSupportFragmentManager().addOnBackStackChangedListener(this);
-    }
-/**
- * To update cart count of the actionbar icon
- * @param count The cart count
-
- */
-    public void cartCountUpdate(int  count) {
-        mCartItemCount = count;
-        hamburgerItems.get(2).setCount(count);
-        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -114,20 +97,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         hamburgerUtil = null;
         drawerListView = null;
         loadSlideMenuItems();
-        setHamburgerAdaptor();
+        setHamburgerAdapter();
         drawerListView = (ListView) findViewById(R.id.hamburger_list);
         hamburgerUtil = new HamburgerUtil(this, drawerListView);
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
-        setDrawerAdaptor();
+        setDrawerAdapter();
         showNavigationDrawerItem(0);
-        sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,0);
+        sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,0);
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
                     adapter.notifyDataSetChanged();
-                    sharedPreferenceUtility.writePreferenceInt(HOME_FRAGMENT_PRESSED,position);
+                    sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
                 }
             }
@@ -145,13 +128,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     /**
      * To set the actionbar
-     * @param mActionBar : Requires the actionbar obejct
+     * @param actionBar : Requires the actionbar obejct
      */
-    private void setActionBar(ActionBar mActionBar) {
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowCustomEnabled(true);
-        IAPLog.d(IAPLog.LOG, "DemoAppActivity == onCreate");
+    private void setActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -166,23 +148,22 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
                 philipsDrawerLayout.openDrawer(navigationView);
             }
         });
-        hamburgerIcon.setTag("HamburgerIcon");
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
-        mCartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
+        cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
-        mCartIcon.setBackground(mCartIconDrawable);
+        cartIcon.setBackground(mCartIconDrawable);
         shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 philipsDrawerLayout.closeDrawer(navigationView);
-                presenter.onClick(UIConstants.UI_SHOPPING_CART_BUTTON_CLICK, HomeActivity.this);
+                presenter.onClick(Constants.UI_SHOPPING_CART_BUTTON_CLICK, HomeActivity.this);
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
-        cartCount.setVisibility(View.INVISIBLE);
-        mActionBar.setCustomView(mCustomView, params);
+        cartCount.setVisibility(View.GONE);
+        actionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
     }
@@ -198,7 +179,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         setSupportActionBar(toolbar);
     }
 
-    private void setDrawerAdaptor() {
+    private void setDrawerAdapter() {
         adapter = null;
         TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
         adapter = new HamburgerAdapter(this,
@@ -215,7 +196,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     }
 
     private void configureDrawer() {
-        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, com.philips.cdp.uikit.R.string.app_name, com.philips.cdp.uikit.R.string.app_name) {
+        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, R.string.af_app_name, R.string.af_app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }
@@ -227,13 +208,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         philipsDrawerLayout.addDrawerListener(drawerToggle);
     }
 
-    private void setHamburgerAdaptor() {
+    private void setHamburgerAdapter() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-            if (i == 2 && mCartItemCount > 0) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, mCartItemCount));
-            } else {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i],null));
-            }
         }
     }
 
@@ -245,55 +222,18 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void onBackPressed() {
-        if(null != hamburgerIcon) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
-            boolean backState = false;
-            if (hamburgerIcon.getTag().equals("HamburgerIcon")) {
-                if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                    philipsDrawerLayout.closeDrawer(Gravity.LEFT);
-                    return;
-                }
-                if (currentFrag instanceof HomeFragment) {
-                    finishAffinity();
-                } else if (fragmentManager.getBackStackEntryCount() == 1) {
-                    showNavigationDrawerItem(0);
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof RegistrationFragment) {
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                        fragmentManager.popBackStack();
-                    }
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag instanceof InAppBaseFragment) {
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                        popBackTillHomeFragment();
-                    }
-                } else if (currentFrag != null && currentFrag instanceof BackEventListener && currentFrag.getTag().equalsIgnoreCase(getResources().getString(R.string.af_digital_care))) {
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                        popBackTillHomeFragment();
-                    }
-                } else {
-                    AppFrameworkApplication applicationContext = (AppFrameworkApplication) HomeActivity.this.getApplicationContext();
-                    UIFlowManager flowManager = applicationContext.getFlowManager();
-                    UIState currentState = flowManager.getCurrentState();
-                    currentState.back(this);
-                }
-
-                /*
-                 If you go some screen other than HOME SCREEN and press back then
-                 HOME SCREEN has to be selected. So manually setting HOME as SELECTED.
-                */
-                adapter.setSelectedIndex(0);
-            } else if (hamburgerIcon.getTag().equals("BackButton")) {
-
-               if (currentFrag != null && currentFrag instanceof BackEventListener){
-                    backState = ((BackEventListener) currentFrag).handleBackEvent();
-                    if (!backState) {
-                       super.onBackPressed();
-                    }
-                }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+        boolean backState = false;
+        if(fragmentManager.getBackStackEntryCount() == 1){
+            finishAffinity();
+        } else if(currentFrag instanceof BackEventListener){
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if (!backState) {
+                super.onBackPressed();
             }
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -305,16 +245,16 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     private void addIapCartCount() {
         try {
-            IAPInterface iapInterface = ((AppFrameworkApplication) getApplicationContext()).getIapInterface();
+
+            IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
             iapInterface.getProductCartCount(this);
         }catch (RuntimeException e){
-            Log.e(""+TAG,"Exception caught"+e);
         }
     }
     @Override
     protected void onResume() {
         super.onResume();
-        userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
+        userRegistrationState = new UserRegistrationState();
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
         }
@@ -324,7 +264,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     /**
      * For Updating the actionbar title as coming from other components
      * @param i String res ID
-     * @param b Whether back is handled by them or not
+     * @param b Whether handleBack is handled by them or not
      */
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
@@ -335,7 +275,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     /**
      * For Updating the actionbar title as coming from other components
      * @param s String to be updated on actionbar title
-     * @param b Whether back is handled by them or not
+     * @param b Whether handleBack is handled by them or not
      */
     @Override
     public void updateActionBar(String s, boolean b) {
@@ -344,15 +284,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     }
 
-    public void cartIconVisibility(boolean shouldShow) {
-        if(shouldShow){
-            mCartIcon.setVisibility(View.VISIBLE);
-            userRegistrationState = new UserRegistrationState(UIState.UI_USER_REGISTRATION_STATE);
-            if(userRegistrationState.getUserObject(this).isUserSignIn()) {
-                addIapCartCount();
-            }
-        }
-    }
     /**
      * Method for showing the hamburger Icon or Back key on home fragments
      */
@@ -360,7 +291,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
     {
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-            hamburgerIcon.setTag("BackButton");
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -369,7 +299,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             });
         } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerIcon.setTag("HamburgerIcon");
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -380,14 +309,26 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
         }
     }
 
-    @Override
-    public void onGetCartCount(int count) {
-        cartItemCount = count;
-        if (count > 0 && mCartIcon.getVisibility() == View.VISIBLE) {
-            cartCount.setVisibility(View.VISIBLE);
-            cartCount.setText(String.valueOf(cartItemCount));
+    public void cartIconVisibility(boolean shouldShow) {
+        if(shouldShow){
+            cartIcon.setVisibility(View.VISIBLE);
+            int cartItemsCount = getCartItemCount();
+                if (cartItemsCount > 0) {
+                        cartCount.setVisibility(View.VISIBLE);
+                        cartCount.setText(String.valueOf(cartItemsCount));
+                }else {
+                    cartCount.setVisibility(View.GONE);
+                }
         } else {
-            cartCount.setVisibility(View.GONE);
+                cartIcon.setVisibility(View.GONE);
+                cartCount.setVisibility(View.GONE);
+        }
+    }
+    @Override
+    public void onGetCartCount(int cartCount) {
+        setCartItemCount(cartCount);
+        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
+            cartIconVisibility(true);
         }
     }
 
@@ -400,17 +341,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
 
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
-        if (shouldShow) {
-            mCartIcon.setVisibility(View.VISIBLE);
-
-            if(cartItemCount > 0) {
-                cartCount.setVisibility(View.VISIBLE);
-                cartCount.setText(String.valueOf(cartItemCount));
-            }
-        } else {
-            mCartIcon.setVisibility(View.GONE);
-            cartCount.setVisibility(View.GONE);
-        }
+        cartIconVisibility(shouldShow);
     }
 
     @Override
@@ -449,10 +380,27 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionBarL
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();
             if (null != str) {
-                if (str.equalsIgnoreCase(getResources().getString(R.string.af_digital_care)) || str.equalsIgnoreCase(getResources().getString(R.string.af_prod_reg_vertical_tag)) || str.equalsIgnoreCase("Registration_fragment_tag")) {
+                if(str.contains(Constants.IAP_PHILIPS_SHOP_FRAGMENT_TAG) || str.contains(Constants.IAP_PURCHASE_HISTORY_FRAGMENT_TAG) || str.contains(Constants.IAP_SHOPPING_CART_FRAGMENT_TAG)){
+                    return;
+                } else {
                     cartIconVisibility(true);
                 }
             }
         }
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return this;
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return this;
     }
 }

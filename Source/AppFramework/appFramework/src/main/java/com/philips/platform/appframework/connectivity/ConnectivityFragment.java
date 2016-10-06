@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -118,6 +120,10 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 break;
             case R.id.get_momentumvalue_button:
                 editTextValue=editText.getText().toString();
+                if(accessTokenValue==null|| RegistrationConfiguration.getInstance().getHSDPInfo()==null){
+                    Toast.makeText(getActivity(),"Datacore is not reachable",Toast.LENGTH_SHORT).show();
+                 break;
+                }
                 processMoment(user, editTextValue);
                 break;
             default:

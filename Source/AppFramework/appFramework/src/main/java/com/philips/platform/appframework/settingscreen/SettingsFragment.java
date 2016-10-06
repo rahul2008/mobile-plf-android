@@ -7,6 +7,7 @@
 package com.philips.platform.appframework.settingscreen;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,36 +15,34 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 
 /**
  * Fragment is used for showing the account settings that verticals provide
- * In the current implementation this class has below features:
- *  1. Options for custom settings
- *  2. Option to launch IAP history (if logged in already )
- *  3. Option to logout of User Registration (if logged in already )
- *  4. Option to login and launch IAP (if not logged in )
+ *
  */
-public class SettingsFragment extends AppFrameworkBaseFragment {
+public class SettingsFragment extends AppFrameworkBaseFragment implements SettingsView {
 
-    private SettingsAdapter mAdapter = null;
-    private ListView mList = null;
-    UIBasePresenter uiBasePresenter;
-    public static final int logOutButton = 5555;
     public static final String TAG = SettingsFragment.class.getSimpleName();
-    private LogoutHandler mLogoutHandler = new LogoutHandler() {
+    UIBasePresenter uiBasePresenter;
+    private SettingsAdapter adapter = null;
+    private ListView list = null;
+    private UserRegistrationState userRegistrationState;
+    private LogoutHandler logoutHandler = new LogoutHandler() {
         @Override
         public void onLogoutSuccess() {
-            uiBasePresenter = new SettingsFragmentPresenter();
-            uiBasePresenter.onClick(logOutButton,getActivity());
-            ((HomeActivity)getContext()).onGetCartCount(0);
+            uiBasePresenter = new SettingsFragmentPresenter(SettingsFragment.this);
+            ((AppFrameworkBaseActivity)getActivity()).setCartItemCount(0);
+            uiBasePresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT,getActivity());
         }
 
         @Override
@@ -74,24 +73,23 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity)getActivity()).updateActionBarIcon(false);
-        ((HomeActivity)getActivity()).cartIconVisibility(true);
+        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
-        fragmentPresenter = new SettingsFragmentPresenter();
-        mList = (ListView) view.findViewById(R.id.listwithouticon);
+        fragmentPresenter = new SettingsFragmentPresenter(this);
+        list = (ListView) view.findViewById(R.id.listwithouticon);
 
         final ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler, fragmentPresenter);
-        mList.setAdapter(mAdapter);
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter = new SettingsAdapter(getActivity(), settingScreenItemList, logoutHandler, fragmentPresenter);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(settingScreenItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())){
-                    fragmentPresenter.onClick(SettingsAdapter.iapHistoryLaunch, getActivity());
+                    fragmentPresenter.onClick(Constants.IAP_PURCHASE_HISTORY, getActivity());
                 }
             }
         });
@@ -100,9 +98,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     }
 
     private ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
-        User user = new User(getActivity());
-
-        if (user.isUserSignIn()) {
+        userRegistrationState = new UserRegistrationState();
+        if (userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
             return settingScreenItemList;
         }
 
@@ -126,5 +123,25 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return (AppFrameworkBaseActivity) getActivity();
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+        getActivity().finishAffinity();
     }
 }

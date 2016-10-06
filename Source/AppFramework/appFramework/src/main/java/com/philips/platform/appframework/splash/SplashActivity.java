@@ -9,7 +9,9 @@ package com.philips.platform.appframework.splash;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -21,39 +23,17 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.modularui.statecontroller.UIView;
 
 /**
  * <H1>Dev Guide</H1>
  * <p>
  * UIKit provides 3 basic templates that can be filled via target activity.<br>
  * By default themed gradient background is applied.<br>
- * To change default background following code can be used
- * <pre>
- *          ViewGroup group = (ViewGroup) findViewById(<font color="red">R.id.splash_layout</font>);
- *          group.setBackgroundResource(R.drawable.splashscreen_background);
- *     </pre>
- * <p/>
- * </p>
- * <H5>With Philips logo</H5>
- * Inflate <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_top</pre> or
- * <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_bottom</pre> or
- * <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_center_tb</pre>
- * as per the requirement.
- *
- * <p>
- * <H3>Modifying title</H3>
- * <br>
- * Update TextView with id <pre><font color="red"> R.id.splash_title </font></pre> to update the desired
- * text.
- * </p>
- *
- *
- * SplashActivity is class which will appear at the very start when user
- * opens the app.
+ * SplashActivity is class which will appear at the very start when user opens the app.
  */
-public class SplashActivity extends AppFrameworkBaseActivity {
+public class SplashActivity extends AppFrameworkBaseActivity implements UIView {
     private static int SPLASH_TIME_OUT = 3000;
-    private int SplashID = 90001;
     private static String TAG = SplashActivity.class.getSimpleName();
     private boolean isVisible = false;
 
@@ -64,7 +44,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        presenter = new SplashPresenter();
+        presenter = new SplashPresenter(this);
         initView();
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Splash Activity Created ");
 
@@ -128,5 +108,25 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    public void updateActionBarIcon(boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return this;
     }
 }

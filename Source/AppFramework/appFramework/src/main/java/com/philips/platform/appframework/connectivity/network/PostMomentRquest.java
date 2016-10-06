@@ -79,8 +79,12 @@ public class PostMomentRquest extends PlatformRequest {
     //TODO:Need to remove this. DOnt use hard coded url. Check with Deepthi.
     @Override
     public String getUrl() {
-        String baseUrl = RegistrationConfiguration.getInstance().getHSDPInfo().getBaseURL();
-        return baseUrl + "/api/users/" + user.getHsdpUUID() + "/moments";
+        if(RegistrationConfiguration.getInstance().getHSDPInfo()!=null) {
+            String baseUrl = RegistrationConfiguration.getInstance().getHSDPInfo().getBaseURL();
+            return baseUrl + "/api/users/" + user.getHsdpUUID() + "/moments";
+        }else{
+            return "";
+        }
     }
 
     public JSONObject getParams() {

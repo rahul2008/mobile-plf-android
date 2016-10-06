@@ -21,8 +21,7 @@
         tools:replace="android:theme,android:label">
 
         <activity
-            android:name=".splash.SplashActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection">
+            android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,9 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".introscreen.WelcomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".homescreen.HomeActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            android:configChanges="orientation|screenSize"
             />
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->
