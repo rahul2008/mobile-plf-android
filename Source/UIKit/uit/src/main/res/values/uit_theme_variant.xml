@@ -8,12 +8,11 @@
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
 
-        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
+        <item name="uitControlPrimaryTextColor">@color/uit_gray_level_75</item>
         <item name="uitControlSecondaryTextColor">?attr/uitColorLevel45</item>
 
-
-        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel15</item>
+        <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
+        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel60</item>
         <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel25</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
@@ -25,36 +24,47 @@
 
     <style name="VeryLight">
         <item name="uitContentPrimaryColor">?attr/uitColorLevel20</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel25</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel15</item>
 
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel05</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel10</item>
+        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel10</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel15</item>
 
+        <item name="uitControlPrimaryTextColor">?attr/uitColorLevel75</item>
+        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel60</item>
     </style>
 
     <style name="Light">
         <item name="uitContentPrimaryColor">?attr/uitColorLevel35</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel40</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel30</item>
 
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel20</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel25</item>
+        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel25</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel30</item>
+
+        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
+        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel15</item>
     </style>
 
 
     <style name="Bright">
         <item name="uitContentPrimaryColor">?attr/uitColorLevel50</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel55</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel45</item>
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
+
+        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
+        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel15</item>
     </style>
 
     <style name="VeryDark">
         <item name="uitContentPrimaryColor">?attr/uitColorLevel80</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel85</item>
+        <item name="uitContentSecondaryColor">?attr/uitColorLevel75</item>
 
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel65</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel70</item>
+        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel70</item>
+        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel75</item>
+
+        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
+        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel15</item>
 
     </style>
 </resources>
