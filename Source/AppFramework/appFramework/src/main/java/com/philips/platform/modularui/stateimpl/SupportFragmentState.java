@@ -6,7 +6,6 @@
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
@@ -19,91 +18,83 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.modularui.statecontroller.UIStateData;
+import com.philips.platform.modularui.statecontroller.UIStateListener;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
+/**
+ * This class contains all initialization & Launching details of Consumer Care
+ */
 public class SupportFragmentState extends UIState implements CcListener {
-    private ArrayList<String> mCtnList = null;
-    private FragmentActivity mFragmentActivity = null;
-    private Context mContext;
-    private int containerID;
+    private Context activityContext;
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
-    private ActionBarListener actionBarListener;
+    private FragmentLauncher fragmentLauncher;
+    private UIStateListener supportListener;
 
-    public SupportFragmentState(@UIStateDef int stateID) {
-        super(stateID);
+    public SupportFragmentState() {
+        super(UIState.UI_SUPPORT_FRAGMENT_STATE);
+    }
+
+    /**
+     * UIState overridden methods
+     * @param uiLauncher requires the UiLauncher object
+     */
+    @Override
+    public void navigate(UiLauncher uiLauncher) {
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        this.activityContext = fragmentLauncher.getFragmentActivity();
+        DigitalCareConfigManager.getInstance().registerCcListener(this);
+        ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+        launchCC();
     }
 
     @Override
-    public void navigate(Context context) {
-        mContext = context;
+    public void init(Context context) {
 
-        if(context instanceof HomeActivity){
-            containerID = R.id.frame_container;
-            mFragmentActivity = (HomeActivity) context;
-            actionBarListener  = (HomeActivity) context;
-        }
-        DigitalCareConfigManager.getInstance().registerCcListener(this);
-        runCC();
     }
 
-    void runCC()
+    void launchCC()
     {
-        if (mCtnList == null) {
-            mCtnList = new ArrayList<>(Arrays.asList(mFragmentActivity.getResources().getStringArray(R.array.productselection_ctnlist)));
-        }
-        String[] ctnList = new String[mCtnList.size()];
-        for (int i = 0; i < mCtnList.size(); i++) {
-            ctnList[i] = mCtnList.get(i);
-        }
+        String[] ctnList = new String[((ConsumerCareData)getUiStateData()).getCtnList().size()];
+        ctnList = ((ConsumerCareData)getUiStateData()).getCtnList().toArray(ctnList);
+
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
-        com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
-                new com.philips.platform.uappframework.launcher.FragmentLauncher
-                        (mFragmentActivity, containerID,actionBarListener
-                        );
         CcInterface ccInterface = new CcInterface();
 
-        if (ccSettings == null) ccSettings = new CcSettings(mContext);
+        if (ccSettings == null) ccSettings = new CcSettings(activityContext);
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
-        CcDependencies ccDependencies = new CcDependencies(AppFrameworkApplication.gAppInfra);
+        CcDependencies ccDependencies = new CcDependencies(AppFrameworkApplication.appInfra);
 
         ccInterface.init(ccDependencies, ccSettings);
-        ccInterface.launch(launcher, ccLaunchInput);
-    }
-    @Override
-    public void back(final Context context) {
-        ((AppFrameworkBaseActivity) context).popBackTillHomeFragment();
+        ccInterface.launch(fragmentLauncher, ccLaunchInput);
     }
 
-    public interface SetStateCallBack {
-        void setNextState(Context contexts);
+    /**
+     * Registering for UIStateListener callbacks
+     * @param uiStateListener
+     */
+    public void registerUIStateListener(UIStateListener uiStateListener) {
+        this.supportListener = (UIStateListener) getPresenter();
     }
 
-    SetStateCallBack setStateCallBack;
 
-    public void registerForNextState(SetStateCallBack setStateCallBack) {
-        this.setStateCallBack = (SetStateCallBack) getPresenter();
-    }
-
-    public void unloadCoCo() {
-        DigitalCareConfigManager.getInstance().unRegisterCcListener(this);
-
-    }
-
+    /**
+     * CcListener interface implementation methods
+     * @param s
+     * @return
+     */
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            setStateCallBack.setNextState(mContext);
+            supportListener.onStateComplete(new SupportFragmentState());
             return true;
         }
         return false;
@@ -117,5 +108,20 @@ public class SupportFragmentState extends UIState implements CcListener {
     @Override
     public boolean onSocialProviderItemClicked(String s) {
         return false;
+    }
+
+    /**
+     * Data Model for CoCo is defined here to have minimal import files.
+     */
+    public class ConsumerCareData extends UIStateData {
+        private ArrayList<String> ctnList = null;
+
+        public ArrayList<String> getCtnList() {
+            return ctnList;
+        }
+
+        public void setCtnList(ArrayList<String> ctnList) {
+            this.ctnList = ctnList;
+        }
     }
 }

@@ -9,18 +9,20 @@ package com.philips.platform.appframework.introscreen;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.shamanland.fonticon.FontIconView;
 
 /**
@@ -29,150 +31,91 @@ import com.shamanland.fonticon.FontIconView;
  * <p/>
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
- * method in the ViewPager's addOnPageChangeListener.To add a new screen, add another case statement in the onPageSelected method in the Viewpager's
- * addOnPageChangeListener.
  *
- * /&gt;</pre><br>
- *
- * <b>Sample Code:</b>
- * <pre>
- *            @Override
- * public void onPageSelected(int position) {
- * switch (position) {
- * case 0:
- * appframework_leftarrow.setVisibility(FontIconView.GONE);
- * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
- * startRegistrationScreenButton.setVisibility(TextView.GONE);
- * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
- * break;
- * case 1:
- * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
- * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
- * startRegistrationScreenButton.setVisibility(TextView.GONE);
- * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
- * break;
- * case 2:
- * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
- * appframework_rightarrow.setVisibility(FontIconView.GONE);
- * startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
- * appframeworkSkipButton.setVisibility(TextView.GONE);
- * break;
- * default:
- * }
- * }
- *        </pre>
- * <p/>
- * <p/>
- * <b>To change text in each Welcome Screen/Fragment please use the strings file:</b>
- * <br>
- * <b>To modify a screen/fragment use the Fragments onCreateView method's switch statement, choose the screen to be modified and
- * make the necessary changes. Sample code below:
- * </b>
- * <pre>
- *         switch (page) {
- * case PAGE_ONE:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
- * break;
- * case PAGE_TWO:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_center_page_bg));
- * smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
- * break;
- * case PAGE_THREE:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_end_page_bg));
- * smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
- * break;
- * default:
- * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
- * smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
- * }
- *        </pre>
  */
-public class WelcomeScreenFragment extends Fragment implements View.OnClickListener {
+public class WelcomeScreenFragment extends Fragment implements View.OnClickListener, WelcomeView {
 
     private static String TAG = WelcomeActivity.class.getSimpleName();
-    private FontIconView appframework_leftarrow, appframework_rightarrow;
-    private TextView startRegistrationScreenButton, appframeworkSkipButton;
-    private CircleIndicator mIndicator;
+
+    private FontIconView leftArrow;
+    private FontIconView rightArrow;
+    private TextView doneButton;
+    private TextView skipButton;
+    private CircleIndicator indicator;
     private UIBasePresenter presenter;
 
+    // This is not ideal solution, but more of a workaround
+    // ideally each activity and each fragment should have their own presenter responsible
+    // only for handling business logic of one specific component
+    // Current welcome screen clearly violates Single Responsibility Principle and
+    // doing correct MVP pattern here is not possible at this state.
+    // TODO make clear separation of responsibilities between activity and fragment
+    public void setPresenter(UIBasePresenter presenter) {
+        this.presenter = presenter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " IntroductionScreen Activity Created ");
-        presenter = new WelcomePresenter();
-        View view = inflater.inflate(R.layout.af_welcome_activity, container, false);
-        final ViewPager mPager = (ViewPager) view.findViewById(R.id.pager);
-        mPager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
+        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG,
+                " IntroductionScreen Activity Created ");
+        View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
-        appframework_leftarrow = (FontIconView) view.findViewById(R.id.appframework_leftarrow);
-        appframework_rightarrow = (FontIconView) view.findViewById(R.id.appframework_rightarrow);
-        startRegistrationScreenButton = (TextView) view.findViewById(R.id.start_registration_button);
-        appframeworkSkipButton = (TextView) view.findViewById(R.id.appframework_skip_button);
-        startRegistrationScreenButton.setOnClickListener(this);
-        appframeworkSkipButton.setOnClickListener(this);
+        final ViewPager pager = (ViewPager) view.findViewById(R.id.welcome_pager);
+        pager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
 
-        mIndicator = (CircleIndicator) view.findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
-        mIndicator.setFillColor(Color.WHITE);
-        mIndicator.setStrokeColor(Color.WHITE);
-        appframework_leftarrow.setVisibility(FontIconView.GONE);
+        leftArrow = (FontIconView) view.findViewById(R.id.welcome_leftarrow);
+        rightArrow = (FontIconView) view.findViewById(R.id.welcome_rightarrow);
+        doneButton = (TextView) view.findViewById(R.id.welcome_start_registration_button);
+        skipButton = (TextView) view.findViewById(R.id.welcome_skip_button);
+        doneButton.setOnClickListener(this);
+        skipButton.setOnClickListener(this);
 
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        indicator = (CircleIndicator) view.findViewById(R.id.welcome_indicator);
+        indicator.setViewPager(pager);
+        indicator.setFillColor(Color.WHITE);
+        indicator.setStrokeColor(Color.WHITE);
+        leftArrow.setVisibility(FontIconView.GONE);
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        appframework_leftarrow.setVisibility(FontIconView.GONE);
-                        appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
-                        startRegistrationScreenButton.setVisibility(TextView.GONE);
-                        appframeworkSkipButton.setVisibility(TextView.VISIBLE);
-                        break;
-                    case 1:
-                        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
-                        appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
-                        startRegistrationScreenButton.setVisibility(TextView.GONE);
-                        appframeworkSkipButton.setVisibility(TextView.VISIBLE);
-                        break;
-                    case 2:
-                        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
-                        appframework_rightarrow.setVisibility(FontIconView.GONE);
-                        startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
-                        appframeworkSkipButton.setVisibility(TextView.GONE);
-                        break;
-                    default:
+                if (position == 0) {
+                    leftArrow.setVisibility(FontIconView.GONE);
+                } else {
+                    leftArrow.setVisibility(FontIconView.VISIBLE);
+                }
+
+                if (position == 2) {
+                    rightArrow.setVisibility(FontIconView.GONE);
+                    skipButton.setVisibility(TextView.GONE);
+                    doneButton.setVisibility(TextView.VISIBLE);
+                } else {
+                    rightArrow.setVisibility(FontIconView.VISIBLE);
+                    skipButton.setVisibility(TextView.VISIBLE);
+                    doneButton.setVisibility(TextView.GONE);
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
-        appframework_rightarrow.setOnClickListener(new View.OnClickListener() {
+        rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (mPager.getCurrentItem() < mPager.getRight())
-                    mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+                pager.arrowScroll(View.FOCUS_RIGHT);
             }
         });
 
-        appframework_leftarrow.setOnClickListener(new View.OnClickListener() {
+        leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPager.getCurrentItem() > mPager.getLeft())
-                    mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
+                pager.arrowScroll(View.FOCUS_LEFT);
             }
         });
         return view;
@@ -180,6 +123,47 @@ public class WelcomeScreenFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        presenter.onClick(v.getId(), getActivity());
+        if (presenter != null) {
+            presenter.onClick(v.getId(), getActivity());
+        }
+    }
+
+    @Override
+    public void showActionBar() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.showActionBar();
+    }
+
+    @Override
+    public void hideActionBar() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.hideActionBar();
+    }
+
+    @Override
+    public void loadWelcomeFragment() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.loadWelcomeFragment();
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
+        welcomeActivity.finishAffinity();
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return (WelcomeActivity) getActivity();
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.welcome_frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
     }
 }

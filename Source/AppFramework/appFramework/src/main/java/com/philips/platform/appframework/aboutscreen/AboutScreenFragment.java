@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
 
 /**
  * About screen to display content and version number
@@ -28,24 +28,22 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity)getActivity()).updateActionBarIcon(false);
-        ((HomeActivity)getActivity()).cartIconVisibility(true);
+        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override
     public String getActionbarTitle() {
-        return "About";
+        return getResources().getString(R.string.about_screen_title);
     }
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.uikit_about_screen, container, false);
         TextView  version =(TextView)view.findViewById(R.id.about_version);
-        version.setText("App Version" +BuildConfig.VERSION_NAME);
-
-        view.setBackgroundColor(ContextCompat.getColor(this.getActivity(), R.color.uikit_philips_dark_blue));
-
+        version.setText(getResources().getString(R.string.about_screen_app_version) +BuildConfig.VERSION_NAME);
         TextView  content =(TextView)view.findViewById(R.id.about_content);
         content.setText(R.string.about_screen_description);
         return view;
+
     }
 }
