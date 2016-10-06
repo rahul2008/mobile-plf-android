@@ -11,8 +11,8 @@ import android.view.MenuItem;
 
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
+import com.philips.platform.uit.thememanager.ContentTonalRange;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
-import com.philips.platform.uit.thememanager.TonalRange;
 import com.philips.platform.uit.thememanager.UITHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration(ColorRange.GROUP_BLUE, TonalRange.ULTRA_LIGHT, this);
+        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentTonalRange.ULTRA_LIGHT, this);
     }
 
     public void switchFragment(Fragment fragment) {

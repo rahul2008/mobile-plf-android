@@ -2,7 +2,7 @@
     <string name="catalog_app_name">Catalog App DLS</string>
     <string name="demo_primary_button">Primary button</string>
     <string name="colorRangesLabel">Color range</string>
-    <string name="TonalRangeLabel">Tonal range</string>
+    <string name="TonalRangeLabel">Content tonal range</string>
     <string name="forContentAreaText">For Contents Area</string>
     <string name="forNavigationAreaText">For Navigation Area</string>
     <string name="forPrimaryControlsText">For Primary controls</string>

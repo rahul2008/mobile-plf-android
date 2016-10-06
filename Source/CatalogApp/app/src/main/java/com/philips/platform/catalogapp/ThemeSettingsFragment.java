@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,10 @@ import com.philips.platform.catalogapp.themesettings.ThemeColorAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ThemeSettingsFragment extends Fragment implements ThemeChangedListener {
+public class ThemeSettingsFragment extends Fragment {
+
+    String colorRange = "group_blue";
+    String tonalRange;
 
     @Bind(R.id.colorRangeList)
     RecyclerView colorRangeListview;
@@ -36,9 +40,6 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
     @Bind(R.id.primaryControlsColorList)
     RecyclerView primaryControlsListview;
 
-    @Bind(R.id.dimColorList)
-    RecyclerView dimColorListview;
-
     @Bind(R.id.accentColorRangeList)
     RecyclerView accentColorRangeList;
 
@@ -47,6 +48,8 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
 
     private ThemeColorHelper themeColorHelper;
 
+    int colorPickerWidth = 48;
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
@@ -54,67 +57,88 @@ public class ThemeSettingsFragment extends Fragment implements ThemeChangedListe
 
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
+        initColorPickerWidth();
         buildColorRangeList();
-        buildTonalRangeList("group_blue");
-        buildNavigationBar("group_blue");
-        buildPrimaryColorsList("group_blue");
-        buildDimColorsList("group_blue");
-
-        buildAccentColorsList("group_blue");
+        updateThemeSettingsLayout();
 
         return view;
     }
 
+    private void initColorPickerWidth() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int widthPixels = metrics.widthPixels;
+        float pageMargin = getResources().getDimension(R.dimen.themeSettingsPageMargin);
+        colorPickerWidth = (int) ((widthPixels - pageMargin) / 8);
+    }
+
+    private void updateThemeSettingsLayout() {
+        buildTonalRangeList(colorRange);
+        buildNavigationBar(colorRange);
+        buildPrimaryColorsList(colorRange);
+
+        buildAccentColorsList(colorRange);
+        warningText.setVisibility(View.VISIBLE);
+    }
+
     private void buildColorRangeList() {
-        colorRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), this, themeColorHelper));
+        colorRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
+            @Override
+            public void onColorRangeChanged(final String changedColorRange) {
+                colorRange = changedColorRange;
+                updateThemeSettingsLayout();
+            }
+        }, colorPickerWidth));
 
         setLayoutOrientation(colorRangeListview);
     }
 
-    private void buildAccentColorsList(final String colorRange) {
-        accentColorRangeList.setAdapter(new ThemeColorAdapter(themeColorHelper.getAccentColorsList(getContext(), colorRange), this, themeColorHelper));
-
-        setLayoutOrientation(accentColorRangeList);
-    }
-
-    private void buildDimColorsList(final String colorRange) {
-        dimColorListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getDimColors(getContext().getPackageName(), getResources(), colorRange), this, themeColorHelper));
-
-        setLayoutOrientation(dimColorListview);
-    }
-
-    private void buildPrimaryColorsList(final String colorRange) {
-        primaryControlsListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getPrimaryColors(getResources(), colorRange, getContext().getPackageName()), this, themeColorHelper));
-        setLayoutOrientation(primaryControlsListview);
-    }
-
-    private void buildNavigationBar(final String colorRange) {
-        notificationBarListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), this, themeColorHelper));
-
-        setLayoutOrientation(notificationBarListview);
-    }
-
     private void buildTonalRangeList(final String changedColorRange) {
-        tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getTonalRangeItemsList(changedColorRange, getContext()), this, themeColorHelper));
+        tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getTonalRangeItemsList(changedColorRange, getContext()), new ThemeChangedListener() {
+            @Override
+            public void onColorRangeChanged(final String tonalRangeChanged) {
+                tonalRange = tonalRangeChanged;
+                updateThemeSettingsLayout();
+            }
+        }, colorPickerWidth));
 
         setLayoutOrientation(tonalRangeListview);
     }
 
-    private void setLayoutOrientation(final RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+    private void buildNavigationBar(final String colorRange) {
+        notificationBarListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), new ThemeChangedListener() {
+            @Override
+            public void onColorRangeChanged(final String changedColorRange) {
+                updateThemeSettingsLayout();
+            }
+        }, colorPickerWidth));
+
+        setLayoutOrientation(notificationBarListview);
     }
 
+    private void buildPrimaryColorsList(final String colorRange) {
+        primaryControlsListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getPrimaryColors(getResources(), colorRange, getContext().getPackageName()), new ThemeChangedListener() {
+            @Override
+            public void onColorRangeChanged(final String changedColorRange) {
+                updateThemeSettingsLayout();
+            }
+        }, colorPickerWidth));
+        setLayoutOrientation(primaryControlsListview);
+    }
 
+    private void buildAccentColorsList(final String colorRange) {
+        accentColorRangeList.setAdapter(new ThemeColorAdapter(themeColorHelper.getAccentColorsList(getContext(), colorRange), new ThemeChangedListener() {
+            @Override
+            public void onColorRangeChanged(final String changedColorRange) {
+                updateThemeSettingsLayout();
+            }
+        }, colorPickerWidth));
 
-    @Override
-    public void onColorRangeChanged(final String changedColorRange) {
-        buildTonalRangeList(changedColorRange);
-        buildNavigationBar(changedColorRange);
-        buildNavigationBar(changedColorRange);
-        buildPrimaryColorsList(changedColorRange);
-        buildDimColorsList(changedColorRange);
+        setLayoutOrientation(accentColorRangeList);
+    }
 
-        warningText.setVisibility(View.VISIBLE);
+    private void setLayoutOrientation(final RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
     }
 }
 

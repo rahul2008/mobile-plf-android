@@ -21,6 +21,7 @@ public class ColorModel {
 
     public ColorModel(final String title, final int color) {
         this.title = title;
+        this.name = null;
         this.color = color;
     }
 

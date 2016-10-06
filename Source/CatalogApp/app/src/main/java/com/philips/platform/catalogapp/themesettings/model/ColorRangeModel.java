@@ -1,4 +1,4 @@
-package com.philips.platform.catalogapp.themesettings.d.model;
+package com.philips.platform.catalogapp.themesettings.model;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

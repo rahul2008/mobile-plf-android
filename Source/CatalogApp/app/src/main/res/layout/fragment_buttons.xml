@@ -22,9 +22,9 @@
                 android:id="@+id/disable_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textOn="Enabled"
+                android:checked="true"
                 android:textOff="Disabled"
-                android:checked="true"/>
+                android:textOn="Enabled"/>
         </LinearLayout>
 
         <LinearLayout
@@ -93,12 +93,12 @@
 
             <com.philips.platform.uit.view.widget.Button
                 android:id="@+id/demo_image_text_button"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
                 style="@style/UITDefaultButton.UITImageTextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/component_bottom_spacing"
                 android:drawablePadding="@dimen/uit_imagebutton_padding"
-                android:text="@string/buttons_with_icons"
-                android:layout_marginTop="@dimen/component_bottom_spacing"/>
+                android:text="@string/buttons_with_icons"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
