@@ -144,6 +144,36 @@ public class PairingHandler<T extends DICommAppliance> {
         this(appliance, iPairingListener);
     }
 
+    /**
+     * Method addPermission- adds permission to a existing relationship
+     *
+     * @param relationType String
+     * @param permissions  String[]
+     */
+    public void addPermission(String relationType, String[] permissions) {
+        mCloudController.getPairingController().addPermission(relationType, permissions, getDICommApplianceEntity(), mIcpEventListener);
+    }
+
+    /**
+     * Method getPermission-get permissions of a existing relationship
+     *
+     * @param relationType String
+     * @param permissions  String[]
+     */
+    public void getPermission(String relationType, String[] permissions) {
+        mCloudController.getPairingController().getPermission(relationType, permissions, getDICommApplianceEntity(), permissionListener, mIcpEventListener);
+    }
+
+    /**
+     * Method removePermission-remove permission from a existing relationship
+     *
+     * @param relationType String
+     * @param permission   String[]
+     */
+    public void removePermission(String relationType, String[] permission) {
+        mCloudController.getPairingController().removePermission(relationType, permission, getDICommApplianceEntity(), mIcpEventListener);
+    }
+
     private void handleAddRelationship(PairingService pairingService) {
         DICommLog.i(DICommLog.PAIRING, "AddRelation call-SUCCESS");
 
@@ -263,12 +293,13 @@ public class PairingHandler<T extends DICommAppliance> {
     }
 
     private void handleGetPermissions(PairingService pairingService) {
-        boolean permissionExists = false;
+        boolean hasPermissionPush = false;
+
         for (int i = 0; i < pairingService.getNumberOfPermissionsReturned(); i++) {
-            permissionExists = IPairingController.PERMISSION_PUSH.equals(pairingService.getPermissionAtIndex(i));
-            if (permissionExists) break;
+            hasPermissionPush = IPairingController.PERMISSION_PUSH.equals(pairingService.getPermissionAtIndex(i));
+            if (hasPermissionPush) break;
         }
-        permissionListener.onPermissionReturned(permissionExists);
+        permissionListener.onPermissionReturned(hasPermissionPush);
     }
 
     public void setPermissionListener(PermissionListener permissionListener) {
