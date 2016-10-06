@@ -7,6 +7,9 @@
         <item name="uitInputTextFillDisabledColor">?attr/uitInputTextFillColor</item>
         <item name="uitInputTextFillDisabledAlpha">@dimen/uit_text_editbox_fill_disabled_alpha</item>
         <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width</item>
+        <item name="uitInputTextBorderColor">@android:color/transparent</item>
+        <item name="uitInputTextBorderDisabledColor">@android:color/transparent</item>
+        <item name="uitInputTextBorderPressedColor">?attr/uitContentPrimaryColor</item>
     </style>
 
     <style name="UltraLight">
@@ -40,6 +43,7 @@
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel05</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel10</item>
 
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_text_editbox_border_20_alpha</item>
     </style>
 
     <style name="Light">
@@ -48,6 +52,7 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel20</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel25</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_text_editbox_border_20_alpha</item>
     </style>
 
 
@@ -57,6 +62,8 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
+
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_text_editbox_border_25_alpha</item>
     </style>
 
     <style name="VeryDark">
@@ -67,6 +74,7 @@
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel70</item>
 
         <item name="uitInputTextFillColor">?attr/uitColorLevel10</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_text_editbox_border_35_alpha</item>
 
     </style>
 </resources>
