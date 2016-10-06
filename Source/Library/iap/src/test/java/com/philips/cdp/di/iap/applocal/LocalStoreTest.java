@@ -25,7 +25,7 @@ public class LocalStoreTest {
 
     @Test
     public void setNewUser() {
-        mAppLocalStore.setNewUser(mContext);
+        mAppLocalStore.createNewUser(mContext);
     }
 
     @Test
@@ -140,12 +140,12 @@ public class LocalStoreTest {
 
     @Test
     public void setUserLogout() {
-        mAppLocalStore.setUserLogout(false);
+        mAppLocalStore.setNewUser(false);
     }
 
     @Test
     public void isUserLoggedOut() {
-        mAppLocalStore.isUserLoggedOut();
+        mAppLocalStore.isNewUser();
     }
 
     @Test

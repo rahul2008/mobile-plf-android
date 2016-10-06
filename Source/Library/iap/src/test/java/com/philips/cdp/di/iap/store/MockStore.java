@@ -38,11 +38,11 @@ public class MockStore {
             }
 
             @Override
-            IAPUser initIAPUser(final Context context) {
+            IAPUser createUser(final Context context) {
                 return mUser;
             }
         };
-        hybrisStore.setNewUser(mContext);
+        hybrisStore.createNewUser(mContext);
         return hybrisStore;
     }
 

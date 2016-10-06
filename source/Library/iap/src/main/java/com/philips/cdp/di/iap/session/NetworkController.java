@@ -21,15 +21,12 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 
-/**
- * NetworkController class is used to make Hybris request
- */
 public class NetworkController {
-    protected HurlStack mIapHurlStack;
-    protected RequestQueue hybrisVolleyQueue;
     protected Context context;
-    protected StoreListener store;
-    protected OAuthListener oAuthHandler;
+    protected HurlStack mIapHurlStack;
+    protected RequestQueue mRequestQueue;
+    protected StoreListener mStoreListener;
+    protected OAuthListener mOAuthListener;
     protected NetworkEssentials mNetworkEssentials;
 
     public NetworkController(Context context) {
@@ -40,34 +37,34 @@ public class NetworkController {
         this.context = context;
         mNetworkEssentials = essentials;
         initStore(context, iapSettings);
-        oAuthHandler = essentials.getOAuthHandler();
+        mOAuthListener = essentials.getOAuthHandler();
         initHurlStack(context);
         hybrisVolleyCreateConnection(context);
     }
 
     void initHurlStack(final Context context) {
-        mIapHurlStack = mNetworkEssentials.getHurlStack(context, oAuthHandler);
+        mIapHurlStack = mNetworkEssentials.getHurlStack(context, mOAuthListener);
     }
 
     void initStore(Context context, IAPSettings iapSettings) {
-        store = mNetworkEssentials.getStore(context, iapSettings);
+        mStoreListener = mNetworkEssentials.getStore(context, iapSettings);
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
-        hybrisVolleyQueue = VolleyWrapper.newRequestQueue(context, mIapHurlStack);
+        mRequestQueue = VolleyWrapper.newRequestQueue(context, mIapHurlStack);
     }
 
     void refreshOAuthToken(RequestListener listener) {
-        if (oAuthHandler != null) {
-            oAuthHandler.refreshToken(listener);
+        if (mOAuthListener != null) {
+            mOAuthListener.refreshToken(listener);
         }
     }
 
-    public void sendHybrisRequest(final int requestCode, final AbstractModel model, final
-    RequestListener requestListener) {
-        if (store.isUserLoggedOut()) {
-            store.setNewUser(context);
-            oAuthHandler.resetAccessToken();
+    public void sendHybrisRequest(final int requestCode, final AbstractModel model, final RequestListener requestListener) {
+
+        if (mStoreListener.isNewUser()) {
+            mStoreListener.createNewUser(context);
+            mOAuthListener.resetAccessToken();
         }
 
         Response.ErrorListener error = new Response.ErrorListener() {
@@ -103,6 +100,8 @@ public class NetworkController {
                     }
 
                     requestListener.onSuccess(msg);
+
+                    //For testing purpose
                     if (model.getUrl() != null) {
                         IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + requestCode + "in " +
                                 requestListener.getClass().getSimpleName() + "env = " + " " + model.getUrl().substring(0, 15));
@@ -111,8 +110,8 @@ public class NetworkController {
             }
         };
 
-        IAPJsonRequest jsObjRequest = getIapJsonRequest(model, error, response);
-        addToVolleyQueue(jsObjRequest);
+        IAPJsonRequest iapJsonRequest = getIapJsonRequest(model, error, response);
+        addToVolleyQueue(iapJsonRequest);
     }
 
     IAPJsonRequest getIapJsonRequest(final AbstractModel model, final Response.ErrorListener error, final Response.Listener<JSONObject> response) {
@@ -120,12 +119,12 @@ public class NetworkController {
                 model.requestBody(), response, error);
     }
 
-    public void addToVolleyQueue(final IAPJsonRequest jsObjRequest) {
-        hybrisVolleyQueue.add(jsObjRequest);
+    public void addToVolleyQueue(final IAPJsonRequest jsonRequest) {
+        mRequestQueue.add(jsonRequest);
     }
 
     public StoreListener getStore() {
-        return store;
+        return mStoreListener;
     }
 
 }

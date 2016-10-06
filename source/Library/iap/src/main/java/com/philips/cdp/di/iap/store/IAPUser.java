@@ -93,7 +93,7 @@ public class IAPUser implements UserRegistrationListener {
     @Override
     public void onUserLogoutSuccess() {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
-        mStore.setUserLogout(true);
+        mStore.setNewUser(true);
     }
 
     @Override

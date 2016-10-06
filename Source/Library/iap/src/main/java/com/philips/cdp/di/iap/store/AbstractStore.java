@@ -15,7 +15,7 @@ public abstract class AbstractStore implements StoreListener {
     protected String mLanguage;
 
     @Override
-    public void setNewUser(final Context context) {
+    public void createNewUser(final Context context) {
     }
 
     @Override
@@ -149,11 +149,11 @@ public abstract class AbstractStore implements StoreListener {
     }
 
     @Override
-    public void setUserLogout(final boolean userLoggedout) {
+    public void setNewUser(final boolean userLoggedout) {
     }
 
     @Override
-    public boolean isUserLoggedOut() {
+    public boolean isNewUser() {
         return false;
     }
 

@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.Locale;
 
@@ -50,7 +49,7 @@ public class HybrisStore extends AbstractStore {
     private static final String SUFFIX_PAY = "/pay";
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
-    private boolean mIsUserLoggedOut;
+    private boolean mIsNewUser;
 
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
@@ -91,23 +90,63 @@ public class HybrisStore extends AbstractStore {
     private String mPlaceOrderUrl;
 
     public HybrisStore(Context context, IAPSettings iapSettings) {
-        mIAPUser = initIAPUser(context);
+        mIAPUser = createUser(context);
         mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
-    IAPUser initIAPUser(Context context) {
-        mIsUserLoggedOut = false;
-        mIAPUser = new IAPUser(context, this);
-        IAPLog.i(IAPLog.LOG, "initIAPUser = " + mIAPUser.getJanRainID());
+    //User
+    @Override
+    public IAPUser getUser() {
         return mIAPUser;
     }
 
     @Override
-    public void setNewUser(Context context) {
-        initIAPUser(context);
+    public void setNewUser(boolean isNewUser) {
+        mIsNewUser = isNewUser;
+    }
+
+    @Override
+    public boolean isNewUser() {
+        return mIsNewUser;
+    }
+
+    IAPUser createUser(Context context) {
+        mIsNewUser = false;
+        mIAPUser = new IAPUser(context, this);
+        return mIAPUser;
+    }
+
+    @Override
+    public void createNewUser(Context context) {
+        createUser(context);
         generateStoreUrls();
     }
 
+    //Called when janrain token is changed
+    void updateJanRainIDBasedUrls() {
+        createOauthUrl();
+    }
+
+    @Override
+    public String getJanRainEmail() {
+        return mIAPUser.getJanRainEmail();
+    }
+
+    //Locale
+    @Override
+    public String getCountry() {
+        if (mCountry != null) {
+            return mCountry;
+        }
+        return "";
+    }
+
+    @Override
+    public String getLocale() {
+        return mStoreConfig.getLocale();
+    }
+
+    //Store
     StoreConfiguration getStoreConfig(final Context context, IAPSettings iapSettings) {
         return new StoreConfiguration(context, this, iapSettings);
     }
@@ -205,50 +244,6 @@ public class HybrisStore extends AbstractStore {
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }
 
-    @Override
-    public String getCountry() {
-        if (mCountry != null) {
-            return mCountry;
-        }
-        return "";
-    }
-
-    @Override
-    public String getLocale() {
-        return mStoreConfig.getLocale();
-    }
-
-    //Package level access
-    //Called when janrain token is changed
-    void updateJanRainIDBasedUrls() {
-        createOauthUrl();
-    }
-
-    @Override
-    public String getJanRainEmail() {
-        return mIAPUser.getJanRainEmail();
-    }
-
-    @Override
-    public IAPUser getUser() {
-        return mIAPUser;
-    }
-
-    @Override
-    public void refreshLoginSession() {
-        mIAPUser.refreshLoginSession();
-    }
-
-    @Override
-    public void setUserLogout(boolean userLoggedout) {
-        this.mIsUserLoggedOut = userLoggedout;
-    }
-
-    @Override
-    public boolean isUserLoggedOut() {
-        return mIsUserLoggedOut;
-    }
-
     //OAuth
     @Override
     public String getOauthUrl() {
@@ -258,6 +253,11 @@ public class HybrisStore extends AbstractStore {
     @Override
     public String getOauthRefreshUrl() {
         return mOauthRefreshUrl;
+    }
+
+    @Override
+    public void refreshLoginSession() {
+        mIAPUser.refreshLoginSession();
     }
 
     //Product

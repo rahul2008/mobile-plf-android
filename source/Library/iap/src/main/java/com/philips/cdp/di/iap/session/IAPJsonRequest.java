@@ -26,14 +26,14 @@ public class IAPJsonRequest extends Request<JSONObject> {
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params;
-    private Handler mMainHandler;
+    private Handler mHandler;
 
     public IAPJsonRequest(int method, String url, Map<String, String> params,
                           Listener<JSONObject> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
         mErrorListener = errorListener;
-        mMainHandler = new Handler(Looper.getMainLooper());
+        mHandler = new Handler(Looper.getMainLooper());
         this.params = params;
     }
 
@@ -109,7 +109,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
     }
 
     private void postSuccessResponseOnUIThread(final JSONObject jsonObject) {
-        mMainHandler.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mResponseListener.onResponse(jsonObject);
@@ -118,7 +118,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
     }
 
     private void postErrorResponseOnUIThread(final VolleyError volleyError) {
-        mMainHandler.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mErrorListener.onErrorResponse(volleyError);

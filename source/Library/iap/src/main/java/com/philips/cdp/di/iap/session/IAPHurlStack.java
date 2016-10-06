@@ -15,11 +15,11 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
 public class IAPHurlStack {
-    private final OAuthListener mOAuthHandler;
+    private final OAuthListener mOAuthListener;
     private static final String PHILIPS_HOST = "philips.com";
 
-    public IAPHurlStack(OAuthListener oAuthHandler) {
-        mOAuthHandler = oAuthHandler;
+    public IAPHurlStack(OAuthListener oAuthListener) {
+        mOAuthListener = oAuthListener;
     }
 
     public HurlStack getHurlStack() {
@@ -34,8 +34,8 @@ public class IAPHurlStack {
                             return hostname.contains(PHILIPS_HOST);
                         }
                     });
-                    if (mOAuthHandler != null) {
-                        connection.setRequestProperty("Authorization", "Bearer " + mOAuthHandler.getAccessToken());
+                    if (mOAuthListener != null) {
+                        connection.setRequestProperty("Authorization", "Bearer " + mOAuthListener.getAccessToken());
                     }
                 }
                 return connection;

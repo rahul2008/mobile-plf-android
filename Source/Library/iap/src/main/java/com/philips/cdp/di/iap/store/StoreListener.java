@@ -14,32 +14,32 @@ import com.philips.cdp.di.iap.session.RequestListener;
  * it's not scalable to add all the apis in single config interface.
  */
 public interface StoreListener {
-    void setNewUser(Context context);
+    IAPUser getUser();
+
+    void createNewUser(Context context);
+
+    void setNewUser(boolean isNewUser);
+
+    boolean isNewUser();
 
     void setLangAndCountry(String language, String countryCode);
-
-    void initStoreConfig(String language, String countryCode, RequestListener listener);//is language and country code is required to be passed?
 
     String getCountry();
 
     String getLocale();
 
-    String getJanRainEmail();
-
-    IAPUser getUser();
-
-    void refreshLoginSession();
-
-    void setUserLogout(boolean userLoggedout);
-
-    boolean isUserLoggedOut();
+    void initStoreConfig(String language, String countryCode, RequestListener listener);//is language and country code is required to be passed?
 
     boolean isStoreInitialized();
+
+    String getJanRainEmail();
 
     //OAuth
     String getOauthUrl();
 
     String getOauthRefreshUrl();
+
+    void refreshLoginSession();
 
     //Product
     String getProductCatalogUrl(int currentPage, int pageSize);

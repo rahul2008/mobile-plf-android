@@ -143,13 +143,13 @@ public class HybrisStoreTest {
 
     @Test
     public void verifyUserLogOut() {
-        mStore.setUserLogout(true);
-        assertTrue(mStore.isUserLoggedOut());
+        mStore.setNewUser(true);
+        assertTrue(mStore.isNewUser());
     }
 
     @Test
     public void checkSetNewUserNotSameAsMockedUser() {
-        mStore.setNewUser(mContext);
+        mStore.createNewUser(mContext);
     }
 
     @Test
