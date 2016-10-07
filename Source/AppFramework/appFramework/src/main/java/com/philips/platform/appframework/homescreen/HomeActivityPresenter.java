@@ -55,24 +55,31 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
+        uiState = getUiState(componentID);
+        uiState.setPresenter(this);
+        fragmentLauncher = getFragmentLauncher();
+        if (uiState instanceof SupportFragmentState) {
+            ((SupportFragmentState) uiState).registerUIStateListener(this);
+        }
+        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+    }
+
+    protected UIState getUiState(final int componentID) {
         switch (componentID) {
             case MENU_OPTION_HOME:
                 uiState = new HomeFragmentState();
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 uiState.setUiStateData(homeStateData);
-                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 break;
             case MENU_OPTION_SETTINGS:
                 uiState = new SettingsFragmentState();
                 UIStateData settingsStateData = new UIStateData();
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(settingsStateData);
-                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 break;
             case MENU_OPTION_SHOP:
                 uiState = new IAPState();
-                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
@@ -80,7 +87,6 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 break;
             case MENU_OPTION_SUPPORT:
                 uiState = new SupportFragmentState();
-                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 SupportFragmentState.ConsumerCareData supportStateData = new SupportFragmentState().new ConsumerCareData();
                 supportStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
@@ -91,18 +97,15 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(aboutStateData);
-                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 break;
             case MENU_OPTION_DEBUG:
                 uiState = new DebugTestFragmentState();
                 UIStateData debugStateData = new UIStateData();
                 debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(debugStateData);
-                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 break;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 uiState = new IAPState();
-                fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
@@ -111,11 +114,12 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
             default:
                 uiState = new HomeFragmentState();
         }
-        uiState.setPresenter(this);
-        if (uiState instanceof SupportFragmentState) {
-            ((SupportFragmentState) uiState).registerUIStateListener(this);
-        }
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+        return uiState;
+    }
+
+    protected FragmentLauncher getFragmentLauncher() {
+        fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
+        return fragmentLauncher;
     }
 
     @Override
@@ -127,7 +131,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         this.uiState = new ProductRegistrationState();
-        fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
+
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
         this.uiState.setUiStateData(uiStateDataModel);
