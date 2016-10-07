@@ -1,7 +1,5 @@
 *.xml
 *.bin
-*.properties
 *.lock
-*.jar
 *.png
 *.iml
