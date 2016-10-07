@@ -56,6 +56,9 @@ public class AIATDemoPage extends AppCompatActivity {
         Button TaggVideoEnd = (Button) findViewById(R.id.video_end);
         Button TaggFileDownload = (Button) findViewById(R.id.file_download);
 
+        Button Setdata = (Button) findViewById(R.id.setdata);
+        Button getData= (Button) findViewById(R.id.getdata);
+
         Spinner social_share_spinner = (Spinner) findViewById(R.id.Spinner_social_share);
 
         String mSector[];
@@ -84,6 +87,19 @@ public class AIATDemoPage extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        Setdata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsentForSensitiveData(true);
+            }
+        });
+        getData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("get Sensitive data", ""+AppInfraApplication.mAIAppTaggingInterface.getPrivacyConsentForSensitiveData());
             }
         });
 

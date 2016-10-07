@@ -181,7 +181,7 @@ public interface AppTaggingInterface {
      *
      * @param valueContent String filename.
      */
-    void SetPrivacyConsentForSensitiveData(boolean valueContent);
+    void setPrivacyConsentForSensitiveData(boolean valueContent);
 
     /**
      * get Privacy Consent For SensitiveData.

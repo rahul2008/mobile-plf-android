@@ -127,7 +127,7 @@ public class AppTagging implements AppTaggingInterface {
 
     }
 
-    private JSONObject getMasterADBMobileConfig() {
+    protected JSONObject getMasterADBMobileConfig() {
         JSONObject result = null;
         try {
             InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
@@ -351,7 +351,7 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     @Override
-    public void SetPrivacyConsentForSensitiveData(boolean valueContent) {
+    public void setPrivacyConsentForSensitiveData(boolean valueContent) {
         if (valueContent) {
             ssi.storeValueForKey(PRIVACY_CONSENT, String.valueOf(valueContent), mSecureStorage);
         }

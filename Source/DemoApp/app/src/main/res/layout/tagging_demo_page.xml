@@ -189,35 +189,49 @@
             android:text="File Download" />
 
 
-        <!--<GridLayout-->
-            <!--android:id="@+id/gridlayout1"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/video_Layout"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:columnCount="2"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:rowCount="2">-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sensitivedata_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/video_Layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/setdata"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Set Data" />
+
+        <Button
+            android:id="@+id/getdata"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="get Data" />
+
+        <Spinner
+            android:id="@+id/Spinner_social_share"
+            android:layout_width="133dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.29" />
 
 
-        <!--</GridLayout>-->
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/social_Layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/video_Layout"
+        android:layout_below="@+id/sensitivedata_Layout"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="100dp"
         android:orientation="vertical"
         android:weightSum="1">
 
-        <Spinner
-            android:id="@+id/Spinner_social_share"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_weight="0.29" />
+
     </LinearLayout>
 
 
