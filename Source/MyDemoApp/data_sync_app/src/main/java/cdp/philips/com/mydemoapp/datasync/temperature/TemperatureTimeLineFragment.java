@@ -1,6 +1,5 @@
 package cdp.philips.com.mydemoapp.datasync.temperature;
 
-import android.app.Application;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,11 +110,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
+                setSaveButtonState(temperature, location, dialogButton);
             }
 
             @Override
@@ -131,11 +127,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
+                setSaveButtonState(temperature, location, dialogButton);
             }
 
             @Override
@@ -145,6 +137,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         });
 
         dialog.show();
+    }
+
+    private void setSaveButtonState(final EditText temperature, final EditText location, final Button dialogButton) {
+        if(!TextUtils.isEmpty(temperature.getText().toString()) && !TextUtils.isEmpty(location.getText().toString())){
+            dialogButton.setEnabled(true);
+        }else{
+            dialogButton.setEnabled(false);
+        }
     }
 
     private void createAndSaveMoment(final String phaseInput, final String temperatureInput, final String locationInput) {

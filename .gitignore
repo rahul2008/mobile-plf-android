@@ -3,3 +3,4 @@
 *.lock
 *.png
 *.iml
+build/
