@@ -31,6 +31,8 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements UIState
 
     @Override
     public void onClick(final int componentID) {
+        appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
+        welcomeFragmentView.showActionBar();
         switch (componentID) {
             case R.id.welcome_skip_button:
                 uiState = new UserRegistrationState();
