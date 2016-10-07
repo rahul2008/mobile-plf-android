@@ -99,7 +99,7 @@ public class SplashActivity extends AppFrameworkBaseActivity implements UIView {
                 if(isVisible) {
                     // This method will be executed once the timer is over
                     // Start your app main activity
-                    presenter.onLoad(SplashActivity.this);
+                    presenter.onLoad();
                     finish();
                 }
             }

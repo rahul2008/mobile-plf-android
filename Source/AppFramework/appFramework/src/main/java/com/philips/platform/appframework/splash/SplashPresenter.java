@@ -5,11 +5,8 @@
 */
 package com.philips.platform.appframework.splash;
 
-import android.content.Context;
-
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIView;
@@ -24,7 +21,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class SplashPresenter extends UIBasePresenter {
     private final UIView uiView;
-    private SharedPreferenceUtility sharedPreferenceUtility;
     private AppFrameworkApplication appFrameworkApplication;
     private UIState uiState;
     private UserRegistrationState userRegistrationState;
@@ -37,7 +33,7 @@ public class SplashPresenter extends UIBasePresenter {
     }
 
     @Override
-    public void onClick(int componentID, Context context) {
+    public void onClick(int componentID) {
 
     }
 
@@ -45,14 +41,12 @@ public class SplashPresenter extends UIBasePresenter {
      * The methods takes decision to load which next state needs to be loaded after splash screen
      * Depending upon the User registration is compelted on not state will change
      *
-     * @param context
      */
     @Override
-    public void onLoad(Context context) {
-        sharedPreferenceUtility = getSharedPreferenceUtility(context);
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+    public void onLoad() {
+        appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
         userRegistrationState = new UserRegistrationState();
-        if (userRegistrationState.getUserObject(context).isUserSignIn()) {
+        if (userRegistrationState.getUserObject(uiView.getFragmentActivity()).isUserSignIn()) {
             uiState = new HomeActivityState();
         } else {
             uiState = new WelcomeState();
@@ -62,7 +56,4 @@ public class SplashPresenter extends UIBasePresenter {
         appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
     }
 
-    public SharedPreferenceUtility getSharedPreferenceUtility(Context context) {
-        return new SharedPreferenceUtility(context);
-    }
 }

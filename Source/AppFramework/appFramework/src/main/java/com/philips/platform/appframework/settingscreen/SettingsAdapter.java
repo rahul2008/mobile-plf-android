@@ -104,7 +104,7 @@ public class SettingsAdapter extends BaseAdapter{
                         if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
                             logoutAlert();
                         } else {
-                            fragmentPresenter.onLoad(activityContext);
+                            fragmentPresenter.onLoad();
                         }
                     }
                 });

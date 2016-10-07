@@ -5,10 +5,7 @@
 */
 package com.philips.platform.appframework.introscreen;
 
-import android.content.Context;
-
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -22,16 +19,15 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class WelcomePresenter extends UIBasePresenter implements UIStateListener {
+public class WelcomeActivityPresenter extends UIBasePresenter implements UIStateListener {
 
     private WelcomeView welcomeView;
-    private Context activityContext;
     private AppFrameworkApplication appFrameworkApplication;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private UIState uiState;
     private FragmentLauncher fragmentLauncher;
 
-    public WelcomePresenter(WelcomeView welcomeView) {
+    public WelcomeActivityPresenter(WelcomeView welcomeView) {
         super(welcomeView);
         this.welcomeView = welcomeView;
     }
@@ -39,35 +35,18 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
     /**
      * Handles the onclick of Welcome Skip and Done button
      * @param componentID : takes compenent Id
-     * @param context : takes context
+     *
      */
     @Override
-    public void onClick(int componentID, Context context) {
-        activityContext = welcomeView.getFragmentActivity();
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+    public void onClick(int componentID) {
+        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.showActionBar();
         switch (componentID) {
 
-            case R.id.welcome_skip_button:
-                uiState = new UserRegistrationState();
-                fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
-                uiState.setPresenter(this);
-                ((UserRegistrationState)uiState).registerUIStateListener(this);
-                appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
-                break;
-            case R.id.welcome_start_registration_button:
-                sharedPreferenceUtility = new SharedPreferenceUtility(context);
-                sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
-                uiState = new UserRegistrationState();
-                fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
-                uiState.setPresenter(this);
-                ((UserRegistrationState)uiState).registerUIStateListener(this);
-                appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
-                break;
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeActivityState();
                 fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
-                appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+                appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
                 if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE))
                 {
                     welcomeView.finishActivityAffinity();
@@ -80,13 +59,11 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
 
     /**
      * Takes care of handling whether to show user regitration after the splash screen has loaded or to show Welcome fragments if onboarding was skipped at the time of first launch
-     * @param context
      */
     @Override
-    public void onLoad(Context context) {
-        activityContext = context;
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        sharedPreferenceUtility = new SharedPreferenceUtility(context);
+    public void onLoad() {
+        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
+        sharedPreferenceUtility = new SharedPreferenceUtility(welcomeView.getFragmentActivity());
         if (sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED)|| appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
             welcomeView.showActionBar();
             setState(UIState.UI_USER_REGISTRATION_STATE);
@@ -105,7 +82,7 @@ public class WelcomePresenter extends UIBasePresenter implements UIStateListener
 
     @Override
     public void onStateComplete(UIState uiState) {
-        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
+        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         this.uiState = new HomeActivityState();
         fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
         this.uiState.setPresenter(this);

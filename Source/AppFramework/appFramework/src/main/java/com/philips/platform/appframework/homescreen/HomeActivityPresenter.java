@@ -5,8 +5,6 @@
 */
 package com.philips.platform.appframework.homescreen;
 
-import android.content.Context;
-
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
@@ -43,7 +41,6 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
     private UIState uiState;
-    private Context activityContext;
 
     public HomeActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
@@ -56,9 +53,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
      * Any changes for hamburger menu options should be made here
      */
     @Override
-    public void onClick(int componentID, Context context) {
-        activityContext = context;
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+    public void onClick(int componentID) {
+        appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         switch (componentID) {
             case MENU_OPTION_HOME:
                 uiState = new HomeFragmentState();
@@ -86,7 +82,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiState = new SupportFragmentState();
                 fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 SupportFragmentState.ConsumerCareData supportStateData = new SupportFragmentState().new ConsumerCareData();
-                supportStateData.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.productselection_ctnlist))));
+                supportStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 uiState.setUiStateData(supportStateData);
                 break;
@@ -109,7 +105,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
-                uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
+                uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
                 break;
             default:
@@ -123,17 +119,17 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     }
 
     @Override
-    public void onLoad(Context context) {
+    public void onLoad() {
 
     }
 
     @Override
     public void onStateComplete(UIState uiState) {
-        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
+        appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         this.uiState = new ProductRegistrationState();
         fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
-        uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist))));
+        uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
         this.uiState.setUiStateData(uiStateDataModel);
         this.uiState.setPresenter(this);
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
