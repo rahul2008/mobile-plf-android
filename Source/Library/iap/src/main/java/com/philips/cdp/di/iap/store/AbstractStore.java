@@ -38,7 +38,7 @@ public abstract class AbstractStore implements StoreListener {
 
     @Override
     public String getCountry() {
-        return null;
+        return mCountry;
     }
 
     @Override
