@@ -100,13 +100,22 @@
         android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/datacre_error_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Not Connected"
+            android:layout_below="@+id/get_momentumvalue_button"
+            android:layout_alignParentEnd="true"
+            android:text="Datacore is not reachable"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/connectionState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/get_momentumvalue_button"
             android:layout_alignParentEnd="true"
-            android:visibility="visible" />
+            android:text="Not Connected"
+            android:visibility="visible"/>
 
     </RelativeLayout>
 </ScrollView>

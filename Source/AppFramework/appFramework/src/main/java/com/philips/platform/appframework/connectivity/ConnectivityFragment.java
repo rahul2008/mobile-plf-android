@@ -46,6 +46,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private SHNDeviceDefinitionInfo shnDeviceDefinitionInfo;
     private User user;
     private ProgressDialog dialog = null;
+    private TextView dataCoreErrorText;
 
     /**
      * Presenter object for Connectivity
@@ -72,6 +73,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         editText = (EditText) rootView.findViewById(R.id.nucleous_value_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
+        dataCoreErrorText = (TextView) rootView.findViewById(R.id.datacre_error_text);
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
         btnGetMoment.setOnClickListener(this);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
@@ -119,10 +121,13 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 startConnectivity();
                 break;
             case R.id.get_momentumvalue_button:
-                editTextValue=editText.getText().toString();
-                if(accessTokenValue==null|| RegistrationConfiguration.getInstance().getHSDPInfo()==null){
-                    Toast.makeText(getActivity(),"Datacore is not reachable",Toast.LENGTH_SHORT).show();
-                 break;
+                editTextValue = editText.getText().toString();
+                if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null) {
+                    dataCoreErrorText.setVisibility(View.VISIBLE);
+                    Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
+                    break;
+                } else {
+                    dataCoreErrorText.setVisibility(View.GONE);
                 }
                 processMoment(user, editTextValue);
                 break;
