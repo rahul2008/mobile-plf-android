@@ -51,8 +51,26 @@ public class TextEditBox extends EditText {
         if (backgroundDrawable != null) {
             setBackground(getLayeredBackgroundDrawable(typedArray, theme));
         }
+        setHintTextColors(typedArray, theme);
+        setTextColors(typedArray, theme);
         restorePadding(paddingRect);
         typedArray.recycle();
+    }
+
+    private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
+        int textSelectorID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextTextSelector, -1);
+        if (textSelectorID != -1) {
+            ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, textSelectorID);
+            setTextColor(selector);
+        }
+    }
+
+    private void setHintTextColors(final TypedArray typedArray, final Resources.Theme theme) {
+        int hintSelectorID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextHintTextSelector, -1);
+        if (hintSelectorID != -1) {
+            ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, hintSelectorID);
+            setHintTextColor(selector);
+        }
     }
 
     private void restorePadding(final Rect viewPaddings) {

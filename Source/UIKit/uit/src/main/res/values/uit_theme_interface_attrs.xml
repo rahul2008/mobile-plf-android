@@ -42,5 +42,13 @@
         <attr name="uitInputTextBorderPressedColorAlpha" format="reference|float"/>
         <attr name="uitInputTextBorderDisabledColor" format="reference|color"/>
         <attr name="uitInputTextBorderBackgroundColorList" format="reference"/>
+        <attr name="uitInputTextTextColor" format="reference|color"/>
+        <attr name="uitInputTextTextDisabledColor" format="reference|color"/>
+        <attr name="uitInputTextTextDisabledAlpha" format="reference|float"/>
+        <attr name="uitInputTextHintTextColor" format="reference|color"/>
+        <attr name="uitInputTextHintTextDisabledColor" format="reference|color"/>
+        <attr name="uitInputTextHintTextDisabledAlpha" format="reference|float"/>
+        <attr name="uitInputTextTextSelector" format="reference"/>
+        <attr name="uitInputTextHintTextSelector" format="reference"/>
     </declare-styleable>
 </resources>
