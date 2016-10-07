@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -26,14 +25,12 @@ public class WelcomeFragmentPresenterTest extends TestCase {
 
     private WelcomeFragmentPresenter welcomeFragmentPresenter;
     private WelcomeFragmentView welcomeFragmentViewMock;
-    private WelcomeView welcomeViewMock;
     private FragmentActivity fragmentActivityMock;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         welcomeFragmentViewMock = mock(WelcomeFragmentView.class);
-        welcomeViewMock = mock(WelcomeView.class);
         fragmentActivityMock = mock(FragmentActivity.class);
         when(welcomeFragmentViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock);
