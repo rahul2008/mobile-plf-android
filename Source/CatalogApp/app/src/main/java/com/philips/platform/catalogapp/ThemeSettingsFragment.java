@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.philips.platform.catalogapp.themesettings.ThemeChangedListener;
@@ -57,9 +58,16 @@ public class ThemeSettingsFragment extends Fragment {
 
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
-        initColorPickerWidth();
-        buildColorRangeList();
-        updateThemeSettingsLayout();
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                initColorPickerWidth();
+                buildColorRangeList();
+                updateThemeSettingsLayout();
+            }
+        });
 
         return view;
     }
@@ -68,6 +76,12 @@ public class ThemeSettingsFragment extends Fragment {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
+        if (widthPixels > 800) {
+            final View settingLayout = getView().findViewById(R.id.setting_layout);
+            final ViewGroup.LayoutParams layoutParams = settingLayout.getLayoutParams();
+            layoutParams.width = widthPixels / 2;
+            widthPixels = widthPixels / 2;
+        }
         float pageMargin = getResources().getDimension(R.dimen.themeSettingsPageMargin);
         colorPickerWidth = (int) ((widthPixels - pageMargin) / 8);
     }

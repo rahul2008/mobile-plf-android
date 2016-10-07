@@ -39,8 +39,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
 
     @Override
     public ThemeColorAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, @NonNull final int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.theme_selector_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.theme_selector_list_item, parent, false);
         view.setMinimumWidth(colorPickerwidth);
         final ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.width = colorPickerwidth;
@@ -67,7 +66,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
 
         holder.colorRangeContainer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
+            public void onClick(final View view) {
                 selectedPosition = adapterPosition;
                 notifyDataSetChanged();
                 if (themeChangedListener != null) {
