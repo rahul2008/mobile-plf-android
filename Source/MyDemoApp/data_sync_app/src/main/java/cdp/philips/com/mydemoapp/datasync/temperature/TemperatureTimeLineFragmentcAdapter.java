@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +31,8 @@ import cdp.philips.com.mydemoapp.R;
 
 public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<? extends Moment> mData;
-    Context mContext;
-    Eventing mEventing;
+    private Context mContext;
+    private Eventing mEventing;
 
     public TemperatureTimeLineFragmentcAdapter(final Context context,Eventing eventing, final ArrayList<? extends Moment> data) {
         mData = data;
@@ -82,12 +83,12 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     }
 
     public class DataSyncViewHolder extends RecyclerView.ViewHolder {
-        public TextView mMomentData;
-        public Button mBtnUpdate;
-        public Button mBtnDelete;
-        public  TextView mNotes;
+        private TextView mMomentData;
+        private Button mBtnUpdate;
+        private Button mBtnDelete;
+        private TextView mNotes;
 
-        public DataSyncViewHolder(final View itemView) {
+         DataSyncViewHolder(final View itemView) {
             super(itemView);
             mMomentData = (TextView) itemView.findViewById(R.id.time_line_data);
             mBtnDelete = (Button) itemView.findViewById(R.id.delete);
@@ -154,11 +155,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
+                setSaveButtonState(temperature, location, dialogButton);
             }
 
             @Override
@@ -175,11 +172,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
+                setSaveButtonState(temperature, location, dialogButton);
             }
 
             @Override
@@ -200,6 +193,14 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mEventing.post((new MomentUpdateRequest(moment)));
         } catch (Exception ArrayIndexOutOfBoundsException) {
 
+        }
+    }
+
+    private void setSaveButtonState(final EditText temperature, final EditText location, final Button dialogButton) {
+        if(!TextUtils.isEmpty(temperature.getText().toString()) && !TextUtils.isEmpty(location.getText().toString())){
+            dialogButton.setEnabled(true);
+        }else{
+            dialogButton.setEnabled(false);
         }
     }
 
