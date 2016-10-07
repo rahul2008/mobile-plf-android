@@ -31,12 +31,13 @@ import java.util.Arrays;
  */
 public class HomeActivityPresenter extends UIBasePresenter implements UIStateListener {
 
-    private final int MENU_OPTION_HOME = 0;
+    public static final int MENU_OPTION_HOME = 0;
     private final int MENU_OPTION_SETTINGS = 1;
     private final int MENU_OPTION_SHOP = 2;
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
+    private final int PRODUCT_REGISTRATION = 6;
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
@@ -111,6 +112,9 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
                 break;
+            case PRODUCT_REGISTRATION:
+                uiState = new ProductRegistrationState();
+                break;
             default:
                 uiState = new HomeFragmentState();
         }
@@ -130,8 +134,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = new ProductRegistrationState();
-
+        this.uiState = getUiState(PRODUCT_REGISTRATION);
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
         this.uiState.setUiStateData(uiStateDataModel);

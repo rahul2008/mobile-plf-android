@@ -13,6 +13,7 @@ import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
+import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -20,6 +21,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import junit.framework.TestCase;
 
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -92,5 +94,38 @@ public class HomeActivityPresenterTest extends TestCase {
         homeActivityPresenter.onClick(0);
         verify(uiStateMock).setPresenter(homeActivityPresenter);
         verify(uiFlowManagerMock).navigateToState(uiStateMock, fragmentLauncherMock);
+    }
+
+    public void testOnStateComplete() {
+        final ProductRegistrationState uiStateMock = mock(ProductRegistrationState.class);
+        final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
+        homeActivityPresenter = new HomeActivityPresenter(fragmentViewMock) {
+            @Override
+            public void setState(final int stateID) {
+                super.setState(UIState.UI_HOME_STATE);
+            }
+
+            @Override
+            protected UIState getUiState(final int componentID) {
+                return uiStateMock;
+            }
+
+            @Override
+            protected FragmentLauncher getFragmentLauncher() {
+                return fragmentLauncherMock;
+            }
+        };
+        AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
+        UIFlowManager uiFlowManagerMock = mock(UIFlowManager.class);
+        when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
+        when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
+
+        final UIState uiStateMockThis = mock(UIState.class);
+        when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
+        when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
+        homeActivityPresenter.onClick(6);
+        homeActivityPresenter.onStateComplete(uiStateMockThis);
+        verify(uiStateMock, atLeastOnce()).setPresenter(homeActivityPresenter);
+        verify(uiFlowManagerMock, atLeastOnce()).navigateToState(uiStateMock, fragmentLauncherMock);
     }
 }
