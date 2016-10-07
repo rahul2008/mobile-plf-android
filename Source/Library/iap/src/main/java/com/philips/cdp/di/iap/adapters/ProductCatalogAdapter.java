@@ -67,7 +67,8 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(productCatalogData.getReviewStatistics() != null)
         {
             productHolder.mRating.setRating((float)productCatalogData.getReviewStatistics().getAverageOverallRating());
-            productHolder.mNoOfReview.setText("(" + productCatalogData.getReviewStatistics().getTotalReviewCount() + ")");
+            if(productCatalogData.getReviewStatistics().getTotalReviewCount() > 0)
+                productHolder.mNoOfReview.setText("(" + productCatalogData.getReviewStatistics().getTotalReviewCount() + ")");
         }
 
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
