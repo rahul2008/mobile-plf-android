@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
@@ -45,11 +46,17 @@ public class TextEditBox extends EditText {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITTextEditBox, defStyleAttr, R.style.UITTextEditBoxStyle);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
+        Rect paddingRect = new Rect(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
         Drawable backgroundDrawable = getLayeredBackgroundDrawable(typedArray, theme);
         if (backgroundDrawable != null) {
             setBackground(getLayeredBackgroundDrawable(typedArray, theme));
         }
+        restorePadding(paddingRect);
         typedArray.recycle();
+    }
+
+    private void restorePadding(final Rect viewPaddings) {
+        setPadding(viewPaddings.left, viewPaddings.top, viewPaddings.right, viewPaddings.bottom);
     }
 
     private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray, final Resources.Theme theme) {

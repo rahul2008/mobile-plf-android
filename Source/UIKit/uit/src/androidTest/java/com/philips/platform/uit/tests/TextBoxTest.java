@@ -57,18 +57,16 @@ public class TextBoxTest {
     }
 
     @Test
-    @UiThreadTest
     public void verifyTextEditBoxFillBackgroundRadius() {
         float expectedRadius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_fill_drawable)));
     }
 
-//    @UiThreadTest
     @Test
     public void verifyTextEditBoxHeight() {
-        UITTestUtils.waitFor(testResources,2000);
+        UITTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_height);
-        getTextBox().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND,  expectedHeight, R.id.uit_texteditbox_fill_drawable)));
+        getTextBox().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uit_texteditbox_fill_drawable)));
     }
 
     private ViewInteraction getTextBox() {
