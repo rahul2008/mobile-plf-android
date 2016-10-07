@@ -123,7 +123,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
      */
     private void showNavigationDrawerItem(int position) {
         philipsDrawerLayout.closeDrawer(navigationView);
-        presenter.onClick(position, HomeActivity.this);
+        presenter.onClick(position);
     }
 
     /**
@@ -158,7 +158,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
             @Override
             public void onClick(View v) {
                 philipsDrawerLayout.closeDrawer(navigationView);
-                presenter.onClick(Constants.UI_SHOPPING_CART_BUTTON_CLICK, HomeActivity.this);
+                presenter.onClick(Constants.UI_SHOPPING_CART_BUTTON_CLICK);
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);

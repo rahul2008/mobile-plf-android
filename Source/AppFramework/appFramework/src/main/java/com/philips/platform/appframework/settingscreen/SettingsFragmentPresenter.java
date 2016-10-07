@@ -5,8 +5,6 @@
 */
 package com.philips.platform.appframework.settingscreen;
 
-import android.content.Context;
-
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
@@ -32,7 +30,6 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
     private final SettingsView settingsView;
     private AppFrameworkApplication appFrameworkApplication;
     private UIState uiState;
-    private Context activityContext;
     private FragmentLauncher fragmentLauncher;
 
     public SettingsFragmentPresenter(final SettingsView settingsView) {
@@ -45,15 +42,13 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
      * Handles the click events for Login / Log out button
      * Launches UR for Login button click and Logs out of UR for logout button
      * Launches IAP history on click of Order history ( only if user is logged in )
+     *  @param componentID takes component Id
      *
-     * @param componentID takes component Id
      *
-     * @param context needs context
      */
     @Override
-    public void onClick(int componentID, Context context) {
-        activityContext = context;
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+    public void onClick(int componentID) {
+        appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
         switch (componentID){
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeFragmentState();
@@ -69,7 +64,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
                 fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_PURCHASE_HISTORY_VIEW);
-                uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.iap_productselection_ctnlist))));
+                uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(settingsView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
                 uiState.setPresenter(this);
                 appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
@@ -79,12 +74,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
 
     /**
      * Laods the User registration
-     * @param context requires context
      */
     @Override
-    public void onLoad(Context context) {
-        activityContext = context;
-        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+    public void onLoad() {
+        appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
         uiState = new UserRegistrationState();
         fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
         uiState.setPresenter(this);
@@ -98,7 +91,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
      */
     @Override
     public void onStateComplete(UIState uiState) {
-        appFrameworkApplication = (AppFrameworkApplication) activityContext.getApplicationContext();
+        appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
         this.uiState = new HomeActivityState();
         fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
         this.uiState.setPresenter(this);

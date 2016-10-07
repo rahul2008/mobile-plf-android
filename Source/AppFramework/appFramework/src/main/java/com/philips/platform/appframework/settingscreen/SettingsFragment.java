@@ -42,7 +42,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         public void onLogoutSuccess() {
             uiBasePresenter = new SettingsFragmentPresenter(SettingsFragment.this);
             ((AppFrameworkBaseActivity)getActivity()).setCartItemCount(0);
-            uiBasePresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT,getActivity());
+            uiBasePresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
         }
 
         @Override
@@ -89,7 +89,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(settingScreenItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())){
-                    fragmentPresenter.onClick(Constants.IAP_PURCHASE_HISTORY, getActivity());
+                    fragmentPresenter.onClick(Constants.IAP_PURCHASE_HISTORY);
                 }
             }
         });
