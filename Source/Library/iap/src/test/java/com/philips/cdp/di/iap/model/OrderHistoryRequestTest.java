@@ -4,9 +4,8 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.store.StoreListener;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -27,12 +26,13 @@ public class OrderHistoryRequestTest {
     @Mock
     IAPUser mUser;
     @Mock
-    IAPDependencies mIAPDependencies;
+    MockIAPSetting mIAPSetting;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
-        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        mIAPSetting = new MockIAPSetting(mContext);
+        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(mIAPSetting);
         mStore.initStoreConfig("en", "US", null);
         mModel = new OrderHistoryRequest(mStore, null, null);
     }

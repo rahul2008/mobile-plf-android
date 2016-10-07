@@ -20,15 +20,10 @@ public class NetworkEssentialsFactoryTest {
 
     @Test
     public void getNetworkEssentialsForLocalData() throws Exception{
-        NetworkEssentialsFactory.getNetworkEssentials(0);
+        NetworkEssentialsFactory.getNetworkEssentials(true);
     }
     @Test
     public void getNetworkEssentialsForHybrisData() throws Exception{
-        NetworkEssentialsFactory.getNetworkEssentials(1);
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void getNetworkEssentialsThrowException() throws Exception{
-        NetworkEssentialsFactory.getNetworkEssentials(2);
+        NetworkEssentialsFactory.getNetworkEssentials(false);
     }
 }

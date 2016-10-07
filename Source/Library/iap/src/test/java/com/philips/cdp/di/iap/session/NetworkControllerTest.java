@@ -1,10 +1,14 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
@@ -14,9 +18,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
 public class NetworkControllerTest {
     @Mock
@@ -26,13 +27,13 @@ public class NetworkControllerTest {
     @Mock
     NetworkEssentials mNetworkEssentials;
     NetworkController mNetworkController;
-    MockIAPDependencies mockIAPDependencies;
+    MockIAPSetting mockIAPSetting;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mockIAPDependencies = new MockIAPDependencies(mAppInfra);
-        mNetworkController = new NetworkController(mContext, mNetworkEssentials, mockIAPDependencies);
+        mockIAPSetting = new MockIAPSetting(mContext);
+        mNetworkController = new NetworkController(mContext, mNetworkEssentials, mockIAPSetting);
     }
 
     @Test

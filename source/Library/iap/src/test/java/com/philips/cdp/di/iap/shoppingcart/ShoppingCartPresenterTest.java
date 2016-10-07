@@ -17,8 +17,7 @@ import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -55,15 +54,13 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 
     @Mock
     private Context mContext;
-    @Mock
-    private IAPDependencies mIAPDependencies;
 
     ArrayList<String> mCTNS = new ArrayList<>();
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext, new MockIAPDependencies());
+        mNetworkController = new MockNetworkController(mContext, new MockIAPSetting(mContext));
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
         mCTNS.add("HX9033/64");

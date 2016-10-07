@@ -16,6 +16,16 @@ public class MockIAPSetting extends IAPSettings {
         super.setUseLocalData(mUseLocalData);
     }
 
+    @Override
+    protected void initServiceDiscovery() {
+        //simulation
+    }
+
+    @Override
+    public String getHostPort() {
+        return "https://acc.occ.shop.philips.com/pilcommercewebservices/v2/";
+    }
+
    /* public boolean setPlanA() {
         return true;
     }

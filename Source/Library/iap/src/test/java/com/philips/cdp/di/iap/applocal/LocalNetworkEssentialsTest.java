@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.applocal;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.networkEssential.LocalNetworkEssentials;
 import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -17,6 +17,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by indrajitkumar on 27/09/16.
@@ -28,14 +29,14 @@ public class LocalNetworkEssentialsTest {
     Context mContext;
     @Mock
     AppInfra mAppInfra;
-    MockIAPDependencies mockIAPDependencies;
+    MockIAPSetting mockIAPSetting;
     @Mock
     OAuthListener oAuthHandler;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mockIAPDependencies = new MockIAPDependencies(mAppInfra);
+        mockIAPSetting = new MockIAPSetting(mock(Context.class));
         mLocalNetworkEssentials = new LocalNetworkEssentials();
         oAuthHandler = new OAuthListener() {
             @Override
@@ -57,7 +58,7 @@ public class LocalNetworkEssentialsTest {
 
     @Test
     public void getStoreNotNull() throws Exception {
-        assertNotNull(mLocalNetworkEssentials.getStore(mContext, mockIAPDependencies));
+        assertNotNull(mLocalNetworkEssentials.getStore(mContext, mockIAPSetting));
     }
 
     @Test

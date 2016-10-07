@@ -10,9 +10,9 @@ import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -42,7 +42,7 @@ public class PaymentRequestTest {
 
     @Before
     public void setUP() {
-        mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig("en", "US", null);
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.ORDER_NUMBER, "H1212");

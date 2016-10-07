@@ -15,7 +15,7 @@ public class MockIAPInterface extends IAPInterface {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
         mIAPSettings = (IAPSettings) uappSettings;
         mIAPHandler = new IAPHandler(mIAPDependencies, mIAPSettings);
-        mImplementationHandler = mIAPHandler.getExposedAPIImplementor(mIAPSettings);
+        mImplementationHandler = mIAPHandler.getExposedAPIImplementor();
     }
 
     @Override

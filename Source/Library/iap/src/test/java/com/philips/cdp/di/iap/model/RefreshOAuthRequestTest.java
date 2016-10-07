@@ -3,13 +3,14 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class RefreshOAuthRequestTest {
 
     @Before
     public void setUp() {
-        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig("en", "US", null);
         mModel = new RefreshOAuthRequest(mStore, new HashMap<String, String>());
     }
@@ -56,6 +57,8 @@ public class RefreshOAuthRequestTest {
 
     @Test
     public void testParseResponseIsNull() {
+        Object obj =  mModel.parseResponse(mock(HybrisStore.class));
+        IAPLog.d("RefreshOAuth", "" + obj);
         assertNull(mModel.parseResponse(mock(HybrisStore.class)));
     }
 

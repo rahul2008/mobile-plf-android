@@ -44,7 +44,7 @@ public class IAPSettings extends UappSettings {
         return mHostPort;
     }
 
-    private void initServiceDiscovery() {
+    protected void initServiceDiscovery() {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 

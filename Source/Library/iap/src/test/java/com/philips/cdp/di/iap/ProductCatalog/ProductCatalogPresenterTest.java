@@ -13,7 +13,7 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
@@ -57,7 +57,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext, new MockIAPDependencies());
+        mNetworkController = new MockNetworkController(mContext, new MockIAPSetting(mContext));
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
 

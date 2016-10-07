@@ -8,9 +8,10 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.networkEssential.HybrisNetworkEssentials;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -32,8 +33,8 @@ public class MockNetworkController extends NetworkController {
     IAPDependencies mIAPDependencies;
     Context mContext;
 
-    public MockNetworkController(final Context context, final MockIAPDependencies iapDependencies) {
-        super(context, new HybrisNetworkEssentials(), iapDependencies);
+    public MockNetworkController(final Context context, final MockIAPSetting iapSetting) {
+        super(context, new HybrisNetworkEssentials(), iapSetting);
         mContext = context;
         mMockedContext = mock(Context.class);
     }
@@ -45,8 +46,8 @@ public class MockNetworkController extends NetworkController {
     }
 
     @Override
-    void initStore(Context context, IAPDependencies iapDependencies) {
-        store = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(iapDependencies);
+    void initStore(Context context, IAPSettings iapSettings) {
+        mStoreListener = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(iapSettings);
     }
 
     @Override

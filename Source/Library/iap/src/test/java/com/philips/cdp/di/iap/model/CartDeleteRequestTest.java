@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.IAPUser;
@@ -25,7 +26,7 @@ public class CartDeleteRequestTest {
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
         mStore.initStoreConfig("en", "us", null);
     }
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -42,7 +42,7 @@ public class ProductAssetBuilderTest implements
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext, new MockIAPDependencies());
+        mNetworkController = new MockNetworkController(mContext, new MockIAPSetting(mContext));
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
     }

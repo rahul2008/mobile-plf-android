@@ -176,7 +176,7 @@ public class HybrisStore extends AbstractStore {
 
     private void createOAuthRefreshUrl() {
         int index = mStoreConfig.getHostPort().indexOf("v2", 0);
-        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index));
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index-1));
         builder.append(SUFFIX_REFRESH_OAUTH);
         mOauthRefreshUrl = builder.toString();
     }

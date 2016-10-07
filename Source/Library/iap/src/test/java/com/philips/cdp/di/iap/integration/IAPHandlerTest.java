@@ -82,23 +82,17 @@ public class IAPHandlerTest {
     }
 
     @Test
-    public void initIAPRequestCodeForHybrisData() throws Exception {
-        assertEquals(NetworkEssentialsFactory.LOAD_HYBRIS_DATA, iapHandler.getNetworkEssentialReqeustCode(false));
-        assertEquals(NetworkEssentialsFactory.LOAD_LOCAL_DATA, iapHandler.getNetworkEssentialReqeustCode(true));
-    }
-
-    @Test
     public void useAppLocalHandlerNotNull() throws Exception {
         mIAPSetting = new MockIAPSetting(mContext);
         mIAPSetting.setUseLocalData(true);
-        assertNotNull(iapHandler.getExposedAPIImplementor(mIAPSetting));
+        assertNotNull(iapHandler.getExposedAPIImplementor());
         assertEquals(true, mIAPSetting.isUseLocalData());
     }
 
     @Test
     public void useHybrisLocalHandlerNotNull() throws Exception {
         mIAPSetting.setUseLocalData(false);
-        assertNotNull(iapHandler.getExposedAPIImplementor(mIAPSetting));
+        assertNotNull(iapHandler.getExposedAPIImplementor());
         assertEquals(false, mIAPSetting.isUseLocalData());
     }
 
@@ -220,13 +214,13 @@ public class IAPHandlerTest {
 
     @Test
     public void initControllerFactory() throws Exception {
-        mockIAPHandler.initControllerFactory(mIAPSetting);
+        mockIAPHandler.initControllerFactory();
     }
 
     @Test(expected = NullPointerException.class)
     public void setLocale() throws Exception {
         IAPSettings mIAPSetting = new IAPSettings(new Application());
-        mockIAPHandler.setLangAndCountry(mIAPSetting);
+        mockIAPHandler.setLangAndCountry();
     }
 
     @Test

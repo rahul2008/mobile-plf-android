@@ -21,15 +21,6 @@ public class MockIAPHandler extends IAPHandler {
     }
 
     @Override
-    void initTaggingLogging() {
-    }
-
-    @Override
-    protected int getNetworkEssentialReqeustCode(boolean useLocalData) {
-        return super.getNetworkEssentialReqeustCode(useLocalData);
-    }
-
-    @Override
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
             launchActivity(new Application(), pLaunchInput, (ActivityLauncher) uiLauncher);
