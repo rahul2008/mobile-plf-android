@@ -274,15 +274,15 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:+'
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.2.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
 	
-	 compile(group: 'com.philips.cdp', name: 'digitalCare', version: '6.2.0-SNAPSHOT', ext: 'aar', changing: true){
+	 compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true){
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '4.2.0-SNAPSHOT', ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-SNAPSHOT', ext: 'aar', changing: true){
           transitive=true
     }
 	
