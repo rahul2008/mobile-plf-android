@@ -48,13 +48,8 @@ public class IAPSettings extends UappSettings {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
+        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("appinfra.testing.service", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        IAPLog.d("IsStoreAvailable", s);
-                    }
 
                     @Override
                     public void onSuccess(URL url) {
@@ -65,16 +60,23 @@ public class IAPSettings extends UappSettings {
                             fetchBaseUrl(serviceDiscoveryInterface);
                         }
                     }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        IAPLog.d("IsStoreAvailable", s);
+                        //Notify
+                    }
                 });
     }
 
     private void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
+        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("appinfra.testing.service", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         IAPLog.d("Baseurl onError", s);
+                        //Notify
                     }
 
                     @Override

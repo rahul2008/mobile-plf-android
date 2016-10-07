@@ -149,7 +149,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
 
-
         mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
