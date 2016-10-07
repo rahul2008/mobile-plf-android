@@ -122,7 +122,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 break;
             case R.id.get_momentumvalue_button:
                 editTextValue = editText.getText().toString();
-                if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null) {
+                if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !ConnectivityUtils.isNetworkAvailable(getActivity())) {
                     dataCoreErrorText.setVisibility(View.VISIBLE);
                     Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
                     break;
