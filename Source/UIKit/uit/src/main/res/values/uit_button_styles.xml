@@ -47,6 +47,7 @@
         <item name="android:minHeight">@dimen/uit_text_editbox_height</item>
         <item name="android:minWidth">@dimen/uit_texteditbox_min_width</item>
         <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/uit_texteditbox_text_size</item>
         <item name="android:paddingLeft">@dimen/uit_texteditbox_text_padding</item>
         <item name="android:paddingRight">@dimen/uit_texteditbox_text_padding</item>
         <item name="uitInputTextFillColorList">@color/uit_texteditbox_fill_selector</item>

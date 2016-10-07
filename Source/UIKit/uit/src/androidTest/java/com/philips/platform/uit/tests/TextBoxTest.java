@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uit.tests;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -20,6 +21,7 @@ import com.philips.platform.uit.utils.UITTestUtils;
 import com.philips.platform.uit.view.widget.TextEditBox;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -31,6 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class TextBoxTest {
 
     private Resources testResources;
+    private Context activityContext;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
@@ -40,6 +43,7 @@ public class TextBoxTest {
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uit.test.R.layout.layout_textbox);
         testResources = getInstrumentation().getContext().getResources();
+        activityContext = activity;
     }
 
     @Test
@@ -62,6 +66,13 @@ public class TextBoxTest {
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_fill_drawable)));
     }
 
+    @Test
+    public void verfiyBorderEnabledColor() {
+        int expectedColor = UITTestUtils.getAttributeColor(activityContext,R.attr.uitInputTextBorderColor);
+        getTextBox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor, R.id.uit_texteditbox_stroke_drawable)));
+    }
+
+    @Ignore
     @Test
     public void verifyTextEditBoxHeight() {
         UITTestUtils.waitFor(testResources, 750);

@@ -37,6 +37,7 @@
     <dimen name="uit_texteditbox_stroke_width">4dp</dimen>
     <dimen name="uit_texteditbox_text_padding">12dp</dimen>
     <dimen name="uit_texteditbox_min_width">24dp</dimen>
+    <dimen name="uit_texteditbox_text_size">16sp</dimen>
     <dimen name="uit_texteditbox_stroke_width_ultralight">1dp</dimen>
     <item name="uit_text_editbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
     <item name="uit_text_editbox_border_20_alpha" format="float" type="dimen">0.20</item>

@@ -178,4 +178,11 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
     public void unscheduleDrawable(final Drawable who, final Runnable what) {
         unscheduleSelf(what);
     }
+
+    public int getstateColor(final int attr) {
+        if(tintList != null) {
+            return tintList.getColorForState(new int[]{attr}, Color.MAGENTA);
+        }
+        return Color.MAGENTA;
+    }
 }
