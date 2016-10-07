@@ -154,7 +154,7 @@ public class FieldsValidator {
 
                 try {
                     // You can find your country code here
-                    phNumberProto = phoneUtil.parse(mobile, "US"); //replace Iso code here  check with sim
+                    phNumberProto = phoneUtil.parse(mobile, "CN"); //replace Iso code here  check with sim
                 } catch (NumberParseException e) {
                     // ineed to rlog
 

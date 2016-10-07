@@ -348,11 +348,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void launchSignInFragment() {
         trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
-        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
-            getRegistrationFragment().addFragment(new MobileSignInAccountFragment());
-        }else {
+//        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
+//            getRegistrationFragment().addFragment(new MobileSignInAccountFragment());
+//        }else {
             getRegistrationFragment().addFragment(new SignInAccountFragment());
-        }
+//        }
     }
 
     private void launchCreateAccountFragment() {

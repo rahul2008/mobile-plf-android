@@ -52,7 +52,11 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         jumpConfig.captureForgotPasswordFormName = "forgotPasswordForm";
         jumpConfig.captureEditUserProfileFormName = "editProfileForm";
         jumpConfig.captureResendEmailVerificationFormName = "resendVerificationForm";
-        jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
+       // jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
+
+        //Temp: Below code has been modified for CHINA FLOW.
+        jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
+
         jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
         jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
 

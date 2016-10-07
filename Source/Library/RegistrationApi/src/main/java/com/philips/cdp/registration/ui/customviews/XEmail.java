@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 
 public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
@@ -56,7 +57,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         super(context, attrs);
         this.mContext = context;
         initUi(R.layout.reg_email);
-        country = mContext.getResources().getConfiguration().locale.getCountry();
+        country = RegistrationHelper.getInstance().getCountryCode();
         checkingEmailorMobile();
     }
 
