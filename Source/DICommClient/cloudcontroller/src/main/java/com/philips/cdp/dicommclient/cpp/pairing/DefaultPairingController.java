@@ -20,8 +20,8 @@ import java.util.Collection;
 
 public class DefaultPairingController implements PairingController, ICPEventListener {
 
-    public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
-    public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
+    private static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
+    private static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 
     private final CppController mCloudController;
     private PairingCallback mPairingCallback;
