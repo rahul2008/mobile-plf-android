@@ -79,7 +79,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     private void addLandingViews(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            setLocale();
+            updateConfigurationWithCurrentLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
             Bundle bundle = new Bundle();
@@ -125,7 +125,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         setTheme(themeIndex);
     }
 
-    private void setLocale() {
+    private void updateConfigurationWithCurrentLocale() {
         PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
         String localeAsString = localeManager.getInputLocale();
         if (localeAsString != null) {
