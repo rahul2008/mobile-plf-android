@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'jacoco'
 
 jacoco {
@@ -13,37 +15,6 @@ def coverageSourceDirs = [
 
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
-        }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
-            credentials {
-                username = "readonly"
-                password = "readonly"
-            }
-        }
-
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-        classpath 'com.shamanland:fonticon:0.1.+'
-        classpath 'com.google.code.gson:gson:2.2.+'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2"
-        classpath 'com.philips.cdp:cdpSCM:0.1.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
-    }
-}
-
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'maven-publish'
-
-allprojects {
-    repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -52,35 +23,98 @@ allprojects {
                 password = "readonly"
             }
         }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-        }
-
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+
+    }
+
+    apply plugin: 'com.jfrog.artifactory-upload'
+
+    group = 'com.philips.cdp'
+
+    artifactory {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+        publish {
+            repository {
+                repoKey = objcdp.getArtifactoryRepoKey('android')
+                username = objcdp.getArtifactoryUploadUser()
+                password = objcdp.getArtifactoryUploadPwd()
+                //publishPom = true
+                //publishIvy = false
+                //publishBuildInfo = true
+                //maven = true
+            }
+        }
+        resolve {
+            repository {
+                repoKey = 'libs-release-local'
+            }
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+	contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+        repository {
+            repoKey = "libs-snapshot-local-ios"
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+          //  publishPom = true
+          //  publishIvy = false
+          //  publishBuildInfo = true
+        }
+				        defaults {
+            publishIvy = false
+            publishPom = true
+            publishArtifacts = true
+        }
+    }
+
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+	clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -161,47 +195,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
 }
 
-//maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
-version = objcdp.getVersion()
-
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-            publishArtifacts = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local-android'
-        }
-    }
-}
-
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS===========
-
-
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
 
     description 'Run findbugs'
@@ -265,5 +258,3 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     }
 
 }
-
-apply from: "resolution.gradle"
