@@ -324,14 +324,11 @@ public class User {
 
     // For getting values from Captured and Saved Json object
     private DIUserProfile getUserInstance() {
-        CaptureRecord captureRecord = Jump.getSignedInUser();
-        if (captureRecord == null) {
-            captureRecord = CaptureRecord.loadFromDisk(mContext);
-        }
+        CaptureRecord captureRecord = null;
+        captureRecord = CaptureRecord.loadFromDisk(mContext);
         if (captureRecord == null) {
             return null;
         }
-
         DIUserProfile diUserProfile = new DIUserProfile();
         HsdpUser hsdpUser = new HsdpUser(mContext);
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
@@ -436,39 +433,16 @@ public class User {
     }
 
 
-
     // For update receive marketing email
     public void updateReceiveMarketingEmail(
             final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
             final boolean receiveMarketingEmail) {
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
-                UpdateReceiveMarketingEmail(updateReceiveMarketingEmail,
-                mContext, receiveMarketingEmail);
-        updateReceiveMarketingEmailHandler.updateMarketingEmailStatus();
-
+                UpdateReceiveMarketingEmail(
+                mContext);
+        updateReceiveMarketingEmailHandler.
+                updateMarketingEmailStatus(updateReceiveMarketingEmail, receiveMarketingEmail);
     }
-
-
-
-    public void updateGender(
-            final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
-            final String gender) {
-
-       // Write similar to login traditional for Janrain initialize and proceed  update marketing email class also
-
-
-   /*     UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
-                UpdateReceiveMarketingEmail(updateReceiveMarketingEmail,
-                mContext, receiveMarketingEmail);
-        updateReceiveMarketingEmailHandler.updateMarketingEmailStatus();
-*/
-    }
-
-
-
-
-
-
 
 
     // For updating consumer interests
@@ -552,7 +526,6 @@ public class User {
         }
         return captureRecord.getAccessToken();
     }
-
 
 
     /**
@@ -781,8 +754,7 @@ public class User {
         Jump.signOutCaptureUser(mContext);
     }
 
-    public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener)
-    {
+    public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         RegistrationHelper.getInstance().registerUserRegistrationListener(userRegistrationListener);
     }
 

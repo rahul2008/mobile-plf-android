@@ -252,33 +252,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private void updateUser() {
         mUser.updateReceiveMarketingEmail(this, mCbTerms.isChecked());
-
-        User user = new User(getContext());
-        //Make enable
-        user.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
-            @Override
-            public void onUpdateReceiveMarketingEmailSuccess() {
-                //Successfully updated
-            }
-
-            @Override
-            public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
-                //Updation failed
-            }
-        },true);
-
-        //Make disable
-        user.updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
-            @Override
-            public void onUpdateReceiveMarketingEmailSuccess() {
-                //Successfully updated
-            }
-
-            @Override
-            public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
-                //Updation failed
-            }
-        },false);
     }
 
     @Override
