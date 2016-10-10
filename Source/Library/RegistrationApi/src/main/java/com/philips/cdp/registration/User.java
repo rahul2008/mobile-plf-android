@@ -67,8 +67,6 @@ import java.io.ObjectOutputStream;
  */
 public class User {
 
-    private boolean mEmailVerified;
-
     private Context mContext;
 
     private JSONObject mConsumerInterestObject;
@@ -361,23 +359,21 @@ public class User {
 
     // For checking email verification
     public boolean getEmailVerificationStatus() {
-        mEmailVerified = false;
         CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
 
         if (captured == null)
             return false;
         try {
             JSONObject mObject = new JSONObject(captured.toString());
-            if (mObject.isNull(USER_EMAIL_VERIFIED) ||mObject.isNull(USER_MOBILE_VERIFIED) ) {
-                mEmailVerified = false;
-            } else {
-                mEmailVerified = true;
+            if (!mObject.isNull(USER_EMAIL_VERIFIED)){
+                return true;
+            } else if(!mObject.isNull(USER_MOBILE_VERIFIED)){
+                return true;
             }
-
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getEmailVerificationStatus,Caught JSON Exception");
         }
-        return mEmailVerified;
+        return false;
     }
 
     /**

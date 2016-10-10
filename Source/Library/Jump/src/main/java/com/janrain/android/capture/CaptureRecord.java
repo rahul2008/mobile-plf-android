@@ -130,7 +130,6 @@ public class CaptureRecord extends JSONObject {
            byte[] enctText = (byte[]) ois.readObject();
            byte[] decrtext = SecureStorage.decrypt(enctText);
            fileContents = new String(decrtext);
-            fis = null;
             return inflateCaptureRecord(fileContents);
         } catch (FileNotFoundException ignore) {
         } catch (NullPointerException ignore){
@@ -144,6 +143,7 @@ public class CaptureRecord extends JSONObject {
         } finally {
             if (fis != null) try {
                 fis.close();
+                fis = null;
             } catch (IOException e) {
                 throwDebugException(new RuntimeException(e));
             }
