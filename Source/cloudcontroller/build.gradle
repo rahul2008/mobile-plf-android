@@ -1,18 +1,69 @@
+/*
+ * Copyright 2016 (c) Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+import com.philips.cdp.cdpSCM
+
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'cdpSCM'
+
+def objcdp
+
+objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
 
 buildscript {
     repositories {
-        jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
     }
     dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.2.0'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
     }
 }
 
 allprojects {
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = '0.7.1.201405082137'
+    }
+
     repositories {
-        jcenter()
-        maven { url 'http://130.145.245.193:8081/artifactory/libs-release-local' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }
+    }
+}
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+        }
+        defaults {
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local-android'
+        }
     }
 }
 
@@ -52,3 +103,19 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
     compile 'com.android.support:support-annotations:23.1.0'
 }
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    // archives zipDoc
+    // archives sourceJar
+}
+
+task zipDocuments(type: Zip) {
+    def docFiles = objcdp.getExternalDocPath()
+    from files(docFiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
