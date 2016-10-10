@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <com.philips.platform.uit.view.widget.TextEditBox
         android:id="@+id/textBox"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="@string/textbox_dummy_string"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Hint text"/>
+
+    <com.philips.platform.uit.view.widget.TextEditBox
+        android:id="@+id/hintTextBoxDisabled"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Hint text"/>
+
+
+    <com.philips.platform.uit.view.widget.TextEditBox
+        android:id="@+id/FilledTextBoxDisabled"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Filled text"/>
+
 </LinearLayout>

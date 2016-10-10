@@ -106,17 +106,17 @@ public class TextBoxTest {
     @Test
     public void verifyTextEditBoxStrokeWidth(){
         int expectedStrokeWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_stroke_height);
-
+        getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedStrokeWidth, R.id.uit_texteditbox_stroke_drawable)));
 
     }
 
     //*********************************TextBoxColors TestScenarios**************************//
 
-    @Test
-    public void verfiyBorderEnabledColor() {
-        int expectedColor = UITTestUtils.getAttributeColor(activityContext,R.attr.uitInputTextBorderColor);
-        getTextBox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor, R.id.uit_texteditbox_stroke_drawable)));
-    }
+//    @Test
+//    public void verfiyBorderEnabledColor() {
+//        int expectedColor = UITTestUtils.getAttributeColor(activityContext,R.attr.uitInputTextBorderColor);
+//        getTextBox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor, R.id.uit_texteditbox_stroke_drawable)));
+//    }
 
     private ViewInteraction getTextBox() {
         return onView(withId(com.philips.platform.uit.test.R.id.textBox));
