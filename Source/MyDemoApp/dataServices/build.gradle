@@ -10,7 +10,7 @@ jacoco {
 }
 
 def coverageSourceDirs = [
-        '../iap/src/main/java'
+        '../dataServices/src/main/java'
 ]
 
 buildscript {
@@ -127,7 +127,7 @@ android {
         versionCode 1
         versionName objcdp.getVersionWithHash()
         multiDexEnabled true
-       // testApplicationId "com.philips.cdp.di.iap.test"
+        testApplicationId "com.philips.platform.dataservices.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
     }
@@ -172,9 +172,9 @@ android {
     }
 }
 
-configurations {
+/*configurations {
     compile.exclude module: 'support-annotations'
-}
+}*/
 
 configurations.all {
     // check for updates every build
@@ -236,7 +236,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: '../dataServices/build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
                        '**/BuildConfig.*',
@@ -251,7 +251,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    //executionData = files('../iap/build/jacoco/testDebugUnitTest.exec')
+    executionData = files('../dataServices/build/jacoco/testDebugUnitTest.exec')
 
     reports {
         xml.enabled = true

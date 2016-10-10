@@ -19,7 +19,7 @@ buildscript {
     }
 }
 
-apply plugin: 'com.jfrog.artifactory-upload'
+//apply plugin: 'com.jfrog.artifactory-upload'
 //apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.neenbedankt.android-apt'
@@ -49,7 +49,7 @@ allprojects {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
 		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' } 
-        apply plugin: 'com.jfrog.artifactory'
+//        apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
         flatDir {
