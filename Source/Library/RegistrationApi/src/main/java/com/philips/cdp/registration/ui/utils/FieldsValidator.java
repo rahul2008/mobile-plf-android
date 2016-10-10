@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 
 public class FieldsValidator {
 
+    private static Phonenumber.PhoneNumber numberProto;
+
     public static boolean isValidName(String name) {
         if (name == null)
             return false;
@@ -53,7 +55,6 @@ public class FieldsValidator {
         if (!isPasswordLengthMeets(password)) {
             return false;
         }
-
 
         int passwordValidatorCheckCount = 0;
 
@@ -148,18 +149,18 @@ public class FieldsValidator {
 
     public static boolean isValidMobileNumber(String mobile) {
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-        Phonenumber.PhoneNumber phNumberProto = null;
         if (mobile.length() > 0) {
             if (android.util.Patterns.PHONE.matcher(mobile).matches()) {
 
                 try {
                     // You can find your country code here
-                    phNumberProto = phoneUtil.parse(mobile, "CN"); //replace Iso code here  check with sim
+                    numberProto = phoneUtil.parse(mobile, "CN");
+                    RLog.d("MobileNumber", phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164));
                 } catch (NumberParseException e) {
-                    // ineed to rlog
-
+                    RLog.d("MobileNumber Exception", "NumberParseException : MobileNumber");
                 }
-                return phoneUtil.isValidNumber(phNumberProto);
+
+                return phoneUtil.isValidNumber(numberProto);
             } else {
                 return false;
             }
