@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib;
 
 import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
+import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
 /**
@@ -194,7 +195,14 @@ public enum SHNCapabilityType {
      *
      * @see CapabilityBluetoothDirect
      */
-    BLUETOOTH_DIRECT;
+    BLUETOOTH_DIRECT,
+
+    /**
+     * Plugin for DiComm communication
+     *
+     * @see CapabilityDiComm
+     */
+    DI_COMM;
 
     /**
      * Provides support for backwards compatibility,
@@ -260,6 +268,7 @@ public enum SHNCapabilityType {
             case CONFIG_ENERGY_INTAKE:
             case CLEAR_USER_DATA:
             case BLUETOOTH_DIRECT:
+            case DI_COMM:
             default:
                 break;
         }
