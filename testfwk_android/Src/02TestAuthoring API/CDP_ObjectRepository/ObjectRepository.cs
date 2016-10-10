@@ -2051,6 +2051,14 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
         {
             public static class HomeScreen
             {
+                public static string Terms
+                {
+                    get
+                    {
+                        return GetData("Terms");
+                    }
+
+                }
                 public static string HamburgerIcon
                 {
                     get
@@ -2202,6 +2210,38 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Alogout");
                     }
                 }
+
+                public static string AlogoutConfirm
+                {
+                    get
+                    {
+                        return GetData("AlogoutConfirm");
+                    }
+                }
+                public static string ALoginButton
+                {
+                    get
+                    {
+                        return GetData("ALoginButton");
+                    }
+                }
+                public static string ALoginContinue
+                {
+                    get
+                    {
+                        return GetData("ALoginContinue");
+                    }
+                }
+
+                public static string ALoginContinueConfirm
+                {
+                    get
+                    {
+                        return GetData("ALoginContinueConfirm");
+                    }
+                }
+
+
 
             }
         }

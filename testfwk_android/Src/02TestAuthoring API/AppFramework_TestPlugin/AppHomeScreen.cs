@@ -34,11 +34,17 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         /// </summary>
         public enum Button
         {
+            Alogout,
             HamburgerIcon,
             Settings,
             Connectivity,
             NucleousDevice,
-            MomentValueFromDatacore
+            AlogoutConfirm,
+            ALoginButton,
+                ALoginContinue,
+            ALoginContinueConfirm,
+            MomentValueFromDatacore,
+            Terms
 
         }
 
@@ -52,8 +58,21 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Connectivity).Click();
             if (btn == Button.NucleousDevice)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.NucleousDevice);
+            if (btn == Button.Alogout)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.Alogout);
+            if (btn == Button.AlogoutConfirm)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.AlogoutConfirm);
+
+            if (btn == Button.ALoginButton)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.ALoginButton);
+            if (btn == Button.ALoginContinue)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.ALoginContinue);
+            if (btn == Button.ALoginContinueConfirm)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.ALoginContinueConfirm);
             if (btn == Button.MomentValueFromDatacore)
-                _instance.ClickById(AppFrameWork.Android.HomeScreen.MomentValueFromDatacore);
+                 _instance.ClickById(AppFrameWork.Android.HomeScreen.MomentValueFromDatacore);
+            if (btn == Button.Terms)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.Terms);
         }
 
         public enum EditText
