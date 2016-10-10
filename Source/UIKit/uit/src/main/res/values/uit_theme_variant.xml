@@ -16,7 +16,7 @@
         <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
         <item name="uitInputTextHintTextColor">@color/uit_gray_level_35</item>
         <item name="uitInputTextHintTextDisabledColor">?attr/uitInputTextTextColor</item>
-        <item name="uitInputTextHintTextDisabledAlpha">@color/uit_gray_level_50</item>
+        <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
     </style>
 
     <style name="UltraLight">
@@ -54,7 +54,7 @@
 
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_text_editbox_border_20_alpha</item>
         <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uitInputTextHintTextDisabledAlpha">@color/uit_gray_level_35</item>
+        <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
     </style>
 
     <style name="Light">
