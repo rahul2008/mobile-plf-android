@@ -1,10 +1,14 @@
+/*
+ * Copyright 2016 © Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.dicommclient.cpp.pairing;
 
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.cpp.ICPEventListener;
 import com.philips.icpinterface.PairingService;
-import com.philips.icpinterface.data.PairingEntitiyReference;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,12 +46,14 @@ public interface PairingController {
 
     void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
 
-    void removeRelationship(PairingEntitiyReference trustor, PairingEntitiyReference trustee, String relationType, @NonNull PairingCallback callback);
+    void removeRelationship(PairingEntityReference trustor, PairingEntityReference trustee, String relationType, @NonNull PairingCallback callback);
 
-    void addPermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull PairingCallback callback);
+    void addPermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback);
 
-    void removePermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull PairingCallback callback);
+    void removePermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback);
 
-    void getPermission(String relationType, String[] permission, PairingEntitiyReference trustee, PermissionListener permissionListener, @NonNull PairingCallback callback);
+    void getPermission(String relationType, String[] permission, PairingEntityReference trustee, PermissionListener permissionListener, @NonNull PairingCallback callback);
+
+
 
 }

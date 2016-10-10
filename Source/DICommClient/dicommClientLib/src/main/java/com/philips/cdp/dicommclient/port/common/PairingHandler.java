@@ -11,6 +11,7 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.pairing.AppPairingHandlerRelationship;
 import com.philips.cdp.dicommclient.cpp.pairing.PairingController;
+import com.philips.cdp.dicommclient.cpp.pairing.PairingEntityReference;
 import com.philips.cdp.dicommclient.cpp.pairing.PairingHandlerRelationship;
 import com.philips.cdp.dicommclient.cpp.pairing.PermissionListener;
 import com.philips.cdp.dicommclient.cpp.pairing.UserPairingHandlerRelationship;
@@ -22,7 +23,6 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.icpinterface.data.PairingEntitiyReference;
 
 import java.util.Collection;
 import java.util.Date;
@@ -293,6 +293,14 @@ public class PairingHandler<T extends DICommAppliance> {
         startPairingPortTask(currentRelationshipType, pairingHandlerRelationship);
     }
 
+    /**
+     * Method startUserPairing- starts pairing procedure based on a user relation
+     *
+     * @param userId
+     * @param accessToken
+     * @param relationType
+     * @since UNRELEASED
+     */
     public void startUserPairing(String userId, String accessToken, String relationType) {
         if (mAppliance == null) return;
         DICommLog.i(DICommLog.PAIRING, "Started user pairing with appliance = " + mAppliance.getNetworkNode().getName() + " attempt: " + getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
@@ -354,19 +362,17 @@ public class PairingHandler<T extends DICommAppliance> {
     /**
      * add Trustee data
      *
-     * @return PairingEntitiyReference
+     * @return PairingController.PairingEntityReference
      */
-    private PairingEntitiyReference getDICommApplianceEntity() {
-        PairingEntitiyReference pairingTrustee = new PairingEntitiyReference();
+    private PairingEntityReference getDICommApplianceEntity() {
+        PairingEntityReference pairingTrustee = new PairingEntityReference();
         pairingTrustee.entityRefId = mAppliance.getNetworkNode().getCppId();
         pairingTrustee.entityRefProvider = PAIRING_REFERENCEPROVIDER;
         pairingTrustee.entityRefType = mAppliance.getDeviceType();
         pairingTrustee.entityRefCredentials = null;
 
-        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefId"
-                + pairingTrustee.entityRefId);
-        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefType"
-                + pairingTrustee.entityRefType);
+        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefId" + pairingTrustee.entityRefId);
+        DICommLog.i(DICommLog.PAIRING, "Appliance entityRefType" + pairingTrustee.entityRefType);
 
         return pairingTrustee;
     }
@@ -374,10 +380,10 @@ public class PairingHandler<T extends DICommAppliance> {
     /**
      * add Trustee data
      *
-     * @return PairingEntitiyReference
+     * @return PairingController.PairingEntityReference
      */
-    private PairingEntitiyReference getAppEntity() {
-        PairingEntitiyReference pairingTrustor = new PairingEntitiyReference();
+    private PairingEntityReference getAppEntity() {
+        PairingEntityReference pairingTrustor = new PairingEntityReference();
         pairingTrustor.entityRefId = mCloudController.getAppCppId();
         pairingTrustor.entityRefProvider = PAIRING_REFERENCEPROVIDER;
         pairingTrustor.entityRefType = mCloudController.getAppType();

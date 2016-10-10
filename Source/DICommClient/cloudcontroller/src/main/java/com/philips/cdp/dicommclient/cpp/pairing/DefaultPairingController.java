@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016 © Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.dicommclient.cpp.pairing;
 
 import android.support.annotation.NonNull;
@@ -11,7 +16,6 @@ import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
-import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
 import com.philips.icpinterface.data.PairingRelationship;
 
@@ -104,7 +108,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param relationType String
      */
     @Override
-    public void removeRelationship(PairingEntitiyReference trustor, PairingEntitiyReference trustee, String relationType, @NonNull PairingCallback callback) {
+    public void removeRelationship(PairingEntityReference trustor, PairingEntityReference trustee, String relationType, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
@@ -112,7 +116,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
         int status;
         PairingService removeRelationship = createPairingService(this);
 
-        status = removeRelationship.removeRelationshipRequest(trustor, trustee, relationType);
+        status = removeRelationship.removeRelationshipRequest(trustor.getInternalRepresentation(), trustee.getInternalRepresentation(), relationType);
         if (Errors.SUCCESS != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
             return;
@@ -132,13 +136,14 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param permission   String[]
      */
     @Override
-    public void addPermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull PairingCallback callback) {
+    public void addPermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
         int status;
         PairingService pairingService = mCloudController.getPairingController().createPairingService(this);
-        status = pairingService.addPermissionsRequest(null, trustee, relationType, permission);
+
+        status = pairingService.addPermissionsRequest(null, trustee.getInternalRepresentation(), relationType, permission);
 
         if (Errors.SUCCESS != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
@@ -159,7 +164,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param permission   String[]
      */
     @Override
-    public void getPermission(String relationType, String[] permission, PairingEntitiyReference trustee,
+    public void getPermission(String relationType, String[] permission, PairingEntityReference trustee,
                               PermissionListener permissionListener, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             permissionListener.onCallFailed();
@@ -170,7 +175,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
         int iPermIndex = 0;
 
         PairingService pairingService = createPairingService(this);
-        int status = pairingService.getPermissionsRequest(null, trustee, relationType, iMaxPermissons, iPermIndex);
+        int status = pairingService.getPermissionsRequest(null, trustee.getInternalRepresentation(), relationType, iMaxPermissons, iPermIndex);
 
         if (Errors.SUCCESS != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
@@ -193,12 +198,12 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param permission   String[]
      */
     @Override
-    public void removePermission(String relationType, String[] permission, PairingEntitiyReference trustee, @NonNull PairingCallback callback) {
+    public void removePermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
         PairingService pairingService = createPairingService(this);
-        int status = pairingService.removePermissionsRequest(null, trustee, relationType, permission);
+        int status = pairingService.removePermissionsRequest(null, trustee.getInternalRepresentation(), relationType, permission);
 
         if (Errors.SUCCESS != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
