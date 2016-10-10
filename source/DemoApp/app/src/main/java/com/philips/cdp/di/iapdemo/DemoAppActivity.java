@@ -449,7 +449,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                 //   mProgressDialog.show();
+                    mProgressDialog.show();
                 }
             });
 
