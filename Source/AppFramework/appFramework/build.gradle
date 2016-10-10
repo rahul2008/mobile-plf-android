@@ -117,8 +117,8 @@ android {
         applicationId "com.philips.platform.appframework"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 5
-        versionName "0.2.0-rc.17"
+        versionCode 1
+        versionName "0.3.0"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
