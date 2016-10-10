@@ -95,4 +95,19 @@ public class FunctionDrawableMatchers {
             }
         };
     }
+
+    public static Matcher<View> isSameStrokeWidth(final String funcName, final int expectedValue) {
+        return isSameStrokeWidth(funcName, expectedValue, -1);
+    }
+
+    public static Matcher<View> isSameStrokeWidth(final String funcName, final int expectedValue, final int drawableID) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                Drawable drawable = getDrawable(view, funcName, drawableID);
+
+                return DrawableMatcher.isSameStrokeWidth(expectedValue).matches(drawable);
+            }
+        };
+    }
 }

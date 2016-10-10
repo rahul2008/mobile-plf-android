@@ -58,4 +58,15 @@ public class DrawableMatcher {
             }
         };
     }
+
+    public static Matcher<Drawable> isSameStrokeWidth(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                return stateColors.getStrokeWidth() == expectedValue;
+            }
+        };
+    }
 }
