@@ -9,10 +9,11 @@
     <application
         android:allowBackup="true"
         android:label="@string/iap_app_name"
+        android:resizeableActivity="true"
         android:supportsRtl="true">
         <activity
             android:name=".activity.IAPActivity"
-            android:configChanges="locale|layoutDirection"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

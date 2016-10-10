@@ -44,10 +44,6 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.CrashManagerListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -166,13 +162,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPLog.i("DemoActivity", "onResume");
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
-        /** Should be commented for debug builds */
-        final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
-        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
-            public boolean shouldAutoUploadCrashes() {
-                return !IAPLog.isLoggingEnabled();
-            }
-        });
         init();
     }
 
@@ -457,7 +446,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
         }
         if ((!mProgressDialog.isShowing()) && !isFinishing()) {
-            mProgressDialog.show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                 //   mProgressDialog.show();
+                }
+            });
+
         }
     }
 
