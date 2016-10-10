@@ -72,7 +72,6 @@ public class TextBoxTest {
         getTextBox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor, R.id.uit_texteditbox_stroke_drawable)));
     }
 
-    @Ignore
     @Test
     public void verifyTextEditBoxHeight() {
         UITTestUtils.waitFor(testResources, 750);

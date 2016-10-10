@@ -44,6 +44,7 @@
     </style>
 
     <style name="UITTextEditBoxStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="fontPath">fonts/centralesansbook.ttf"</item>
         <item name="android:minHeight">@dimen/uit_text_editbox_height</item>
         <item name="android:minWidth">@dimen/uit_texteditbox_min_width</item>
         <item name="android:gravity">left|center_vertical</item>
