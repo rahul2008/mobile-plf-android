@@ -472,7 +472,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            } else {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.CreateAccount_Using_Phone_Alreadytxt));
+            }
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);

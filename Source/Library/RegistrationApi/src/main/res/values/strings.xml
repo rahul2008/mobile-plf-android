@@ -179,6 +179,7 @@
 
     <string name="CreateAccount_Email_PhoneNumber">Your email or phone number</string>
     <string name="InvalidEmail_PhoneNumber_ErrorMsg">Invalid email or phone number</string>
+    <string name="CreateAccount_Using_Phone_Alreadytxt">This phone is already in use.</string>
 
 
 </resources>
