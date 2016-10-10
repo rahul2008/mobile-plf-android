@@ -9,7 +9,7 @@
         <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width</item>
         <item name="uitInputTextBorderColor">@android:color/transparent</item>
         <item name="uitInputTextBorderDisabledColor">@android:color/transparent</item>
-        <item name="uitInputTextBorderPressedColor">?attr/uitContentPrimaryColor</item>
+        <item name="uitInputTextBorderPressedColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_alpha_per_100</item>
         <item name="uitInputTextTextColor">@color/uit_gray_level_75</item>
         <item name="uitInputTextTextDisabledColor">?attr/uitInputTextTextColor</item>
