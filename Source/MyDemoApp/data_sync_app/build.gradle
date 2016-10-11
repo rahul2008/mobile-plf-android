@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
@@ -62,7 +62,7 @@ allprojects {
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
-artifactory {
+/*artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
         repository {
@@ -85,7 +85,7 @@ artifactory {
             repoKey = 'app-release-local'
         }
     }
-}
+}*/
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -251,6 +251,7 @@ dependencies {
     compile "com.philips.cdp:registrationApi:7.1.0-SNAPSHOT"
     compile "com.philips.cdp:uikitLib:${uikitVersion}"
     compile "com.philips.cdp:AppInfra:1.2.0-SNAPSHOT"
+    compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
 }
 
 task copyToLib(type: Copy) {

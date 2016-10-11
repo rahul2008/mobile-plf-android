@@ -1,1 +1,4 @@
-include ':data_sync_app', ':dataServices'
+include ':data_sync_app'
+
+include ':dataServices'
+project(':dataServices').projectDir = new File('../Library/dataServices')
