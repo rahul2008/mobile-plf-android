@@ -5,6 +5,8 @@
 */
 package com.philips.platform.appframework.introscreen;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
@@ -21,6 +23,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class WelcomeActivityPresenter extends UIBasePresenter implements UIStateListener {
 
+    private static final int USER_REGISTRATION_STATE = 889;
     private WelcomeView welcomeView;
     private AppFrameworkApplication appFrameworkApplication;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -41,20 +44,31 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements UIState
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.showActionBar();
-        switch (componentID) {
+        uiState = getUiState(componentID);
+        fragmentLauncher = getFragmentLauncher();
+        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
+        if (appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE)) {
+            welcomeView.finishActivityAffinity();
+            uiState.setPresenter(this);
+            appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+        }
+    }
 
+    protected UIState getUiState(final int componentID) {
+        switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeActivityState();
-                fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
-                appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-                if(appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE))
-                {
-                    welcomeView.finishActivityAffinity();
-                    uiState.setPresenter(this);
-                    appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
-                }
+                break;
+            case USER_REGISTRATION_STATE:
+                uiState = new UserRegistrationState();
                 break;
         }
+        return uiState;
+    }
+
+    protected FragmentLauncher getFragmentLauncher() {
+        fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
+        return fragmentLauncher;
     }
 
     /**
@@ -63,15 +77,15 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements UIState
     @Override
     public void onLoad() {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        sharedPreferenceUtility = new SharedPreferenceUtility(welcomeView.getFragmentActivity());
+        sharedPreferenceUtility = getSharedPreferenceUtility();
         if (sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED)|| appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
             welcomeView.showActionBar();
             setState(UIState.UI_USER_REGISTRATION_STATE);
-            uiState = new UserRegistrationState();
-            fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
+            uiState = getUiState(USER_REGISTRATION_STATE);
+            fragmentLauncher = getFragmentLauncher();
             uiState.setPresenter(this);
             ((UserRegistrationState)uiState).registerUIStateListener(this);
-            appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+            appFrameworkApplication.getFlowManager().navigateToState(uiState, this.fragmentLauncher);
         } else {
             setState(UIState.UI_WELCOME_STATE);
             appFrameworkApplication.getFlowManager().getCurrentState().setStateID(UIState.UI_WELCOME_STATE);
@@ -80,11 +94,16 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements UIState
         }
     }
 
+    @NonNull
+    protected SharedPreferenceUtility getSharedPreferenceUtility() {
+        return new SharedPreferenceUtility(welcomeView.getFragmentActivity());
+    }
+
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        this.uiState = new HomeActivityState();
-        fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
+        this.uiState = getUiState(Constants.BACK_BUTTON_CLICK_CONSTANT);
+        fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);

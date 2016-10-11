@@ -27,6 +27,8 @@ import java.util.Arrays;
  */
 public class SettingsFragmentPresenter extends UIBasePresenter implements UIStateListener {
 
+    private static final int USER_REGISTRATION_STATE = 999;
+    private static final int HOME_ACTIVITY_STATE = 998;
     private final SettingsView settingsView;
     private AppFrameworkApplication appFrameworkApplication;
     private UIState uiState;
@@ -49,27 +51,40 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
     @Override
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
+        uiState = getUiState(componentID);
+        uiState.setPresenter(this);
+        fragmentLauncher = getFragmentLauncher();
+        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+    }
+
+    protected UIState getUiState(final int componentID) {
         switch (componentID){
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
                 uiState = new HomeFragmentState();
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 uiState.setUiStateData(homeStateData);
-                fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
-                uiState.setPresenter(this);
-                appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
                 break;
             case Constants.IAP_PURCHASE_HISTORY:
                 uiState = new IAPState();
-                fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_PURCHASE_HISTORY_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(settingsView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
-                uiState.setPresenter(this);
-                appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
+                break;
+            case USER_REGISTRATION_STATE:
+                uiState = new UserRegistrationState();
+                break;
+            case HOME_ACTIVITY_STATE:
+                uiState = new HomeActivityState();
                 break;
         }
+        return uiState;
+    }
+
+    protected FragmentLauncher getFragmentLauncher() {
+        fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
+        return fragmentLauncher;
     }
 
     /**
@@ -78,11 +93,11 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
     @Override
     public void onLoad() {
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
-        uiState = new UserRegistrationState();
-        fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
+        uiState = getUiState(USER_REGISTRATION_STATE);
+        fragmentLauncher = getFragmentLauncher();
         uiState.setPresenter(this);
         ((UserRegistrationState)uiState).registerUIStateListener(this);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState,fragmentLauncher);
+        appFrameworkApplication.getFlowManager().navigateToState(uiState, this.fragmentLauncher);
     }
 
     /**
@@ -92,10 +107,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
-        this.uiState = new HomeActivityState();
-        fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
+        this.uiState = getUiState(HOME_ACTIVITY_STATE);
+        fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         settingsView.finishActivityAffinity();
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState,fragmentLauncher);
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
     }
 }

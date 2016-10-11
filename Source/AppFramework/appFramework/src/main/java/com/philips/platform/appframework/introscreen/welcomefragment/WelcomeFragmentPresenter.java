@@ -1,7 +1,10 @@
 package com.philips.platform.appframework.introscreen.welcomefragment;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivityPresenter;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -33,24 +36,33 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements UIState
     public void onClick(final int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
         welcomeFragmentView.showActionBar();
+        uiState = getUiState(componentID);
+        uiState.setPresenter(this);
+        fragmentLauncher = getFragmentLauncher();
+        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+    }
+
+    @NonNull
+    protected FragmentLauncher getFragmentLauncher() {
+        return new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
+    }
+
+    protected UIState getUiState(final int componentID) {
         switch (componentID) {
             case R.id.welcome_skip_button:
                 uiState = new UserRegistrationState();
-                fragmentLauncher = new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
-                uiState.setPresenter(this);
                 ((UserRegistrationState) uiState).registerUIStateListener(this);
-                appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
                 break;
             case R.id.welcome_start_registration_button:
                 sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
                 sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
                 uiState = new UserRegistrationState();
-                fragmentLauncher = new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
-                uiState.setPresenter(this);
                 ((UserRegistrationState) uiState).registerUIStateListener(this);
-                appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
                 break;
+            case HomeActivityPresenter.MENU_OPTION_HOME:
+                uiState = new HomeActivityState();
         }
+        return uiState;
     }
 
     @Override
@@ -61,8 +73,8 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements UIState
     @Override
     public void onStateComplete(final UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = new HomeActivityState();
-        fragmentLauncher = new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
+        this.uiState = getUiState(HomeActivityPresenter.MENU_OPTION_HOME);
+        fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
