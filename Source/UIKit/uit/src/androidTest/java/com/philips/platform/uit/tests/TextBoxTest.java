@@ -36,6 +36,7 @@ public class TextBoxTest {
 
     private Resources testResources;
     private Context activityContext;
+    private Context instrumentationContext;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
@@ -51,71 +52,110 @@ public class TextBoxTest {
     //*********************************TextBoxLayout TestScenarios**************************//
 
     @Test
-    public void verifyTextBoxTextFormatSupport(){
+    public void verifyTextBoxTextFormatSupport() {
         getTextBox().perform(ViewActions.clearText());
         getTextBox().perform(ViewActions.typeText("Hello@123?"));
         getTextBox().check(matches(withText("Hello@123?")));
     }
 
     @Test
-    public void verifyTextBoxTextFontSize(){
-        float expectedFontSize = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_fontsize);
+    public void verifyTextBoxTextFontSize() {
+        float expectedFontSize = (int)testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_fontsize);
         getTextBox().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
     }
 
     @Test
     public void verifySameTextEditBoxRadiusOnDynamicCreation() {
         TextEditBox textEditBox = new TextEditBox(mActivityTestRule.getActivity());
-        float expectedRadius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius);
+        float expectedRadius = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
         Drawable strokeDrawable = ((LayerDrawable) textEditBox.getBackground()).findDrawableByLayerId(R.id.uit_texteditbox_stroke_drawable);
         DrawableMatcher.isSameRadius(0, expectedRadius).matches(strokeDrawable);
     }
 
     @Test
     public void verifyTextEditBoxStrokeBackgroundRadius() {
-        float expectedRadius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius);
+        float expectedRadius = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_stroke_drawable)));
     }
 
     @Test
     public void verifyTextEditBoxFillBackgroundRadius() {
-        float expectedRadius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius);
+        float expectedRadius = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_fill_drawable)));
     }
 
     @Test
-    public void verifyTextEditBoxLeftPadding(){
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_left_padding);
+    public void verifyTextEditBoxLeftPadding() {
+        int expectedLeftPadding = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_left_padding));
         getTextBox().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
-    public void verifyTextEditBoxRightPadding(){
-        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_right_padding);
+    public void verifyTextEditBoxRightPadding() {
+        int expectedRightPadding = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_right_padding));
         getTextBox().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyTextEditBoxHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_height);
+        int expectedHeight = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_height));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uit_texteditbox_fill_drawable)));
     }
 
-    //// TODO: 10/10/2016
     @Test
-    public void verifyTextEditBoxStrokeWidth(){
+    public void verifyTextEditBoxStrokeWidth() {
         int expectedStrokeWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_stroke_height);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedStrokeWidth, R.id.uit_texteditbox_stroke_drawable)));
-
     }
 
     //*********************************TextBoxColors TestScenarios**************************//
 
 //    @Test
-//    public void verfiyBorderEnabledColor() {
+//    public void verifyNormalTextBoxFillColor() {
+//        final int expectedColor = ContextCompat.getColor(activityContext, White);
+//        getTextBox().check(matches(FunctionDrawableMatchers
+//                .isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor,R.id.uit_texteditbox_fill_drawable)));
+//    }
+//
+//        @Test
+//    public void verifyNormalTextBoxBorderColor() {
 //        int expectedColor = UITTestUtils.getAttributeColor(activityContext,R.attr.uitInputTextBorderColor);
 //        getTextBox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor, R.id.uit_texteditbox_stroke_drawable)));
+//    }
+//    @Test
+//    public void verifyNormalTextBoxTextColor() {
+//
+//    }
+//
+//    @Test
+//    public void verifyNormalTextBoxHintTextColor() {
+//
+//    }
+//
+//    @Test
+//    public void verifyFocusedTextBoxFillColor() {
+//
+//    }
+//    @Test
+//    public void verifyFocusedTextBoxBorderColor() {
+//
+//    }
+//    @Test
+//    public void verifyDisabledTextBoxFillColor() {
+//
+//    }
+//    @Test
+//    public void verifyDisabledTextBoxBorderColor() {
+//
+//    }
+//    @Test
+//    public void verifyDisabledTextBoxTextColor() {
+//
+//    }
+//    @Test
+//    public void verifyDisabledTextBoxHintTextColor() {
+//
 //    }
 
     private ViewInteraction getTextBox() {

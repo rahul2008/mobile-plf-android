@@ -13,6 +13,14 @@
         android:hint="Hint text"/>
 
     <com.philips.platform.uit.view.widget.TextEditBox
+        android:id="@+id/textBoxMultiLine"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Hint text multi lines"/>
+
+    <com.philips.platform.uit.view.widget.TextEditBox
         android:id="@+id/hintTextBoxDisabled"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
