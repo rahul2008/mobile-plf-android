@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableWrapper;
 
+import com.philips.platform.uit.compat.StrokeDrawableWrapper;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +29,9 @@ public class GradientDrawableUtils {
     public static StateColors getStateColors(Drawable d) {
         int version = Build.VERSION.SDK_INT;
         StateColors impl;
-        if (d instanceof DrawableWrapper) {
+        if(d instanceof StrokeDrawableWrapper) {
+            impl = new StrokeDrawableWrapperStateColor(d);
+        } else if (d instanceof DrawableWrapper) {
             impl = new DrawableWrapperStateColor(d);
         } else if (version >= 23) {
             impl = new MarshmallowStateColor(d);

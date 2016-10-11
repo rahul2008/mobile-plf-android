@@ -7,6 +7,7 @@ package com.philips.platform.uit.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
@@ -108,7 +109,8 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyAltPrimaryTextOnlyButtonControlColorULTone() {
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue75);
+        TypedArray typedArray = mActivityTestRule.getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uitColorLevel75});
+        final int expectedColor = typedArray.getColor(0,Color.MAGENTA);
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }

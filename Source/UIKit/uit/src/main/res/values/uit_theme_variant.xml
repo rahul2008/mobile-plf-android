@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <style name="Base">
+        <item name="uitInputTextFillColor">?attr/uitColorLevel05</item>
+        <item name="uitInputTextFillPressedColor">@color/uitColorWhite</item>
+        <item name="uitInputTextFillDisabledColor">?attr/uitInputTextFillColor</item>
+        <item name="uitInputTextFillDisabledAlpha">@dimen/uit_texteditbox_fill_disabled_alpha</item>
+        <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width</item>
+        <item name="uitInputTextBorderColor">@android:color/transparent</item>
+        <item name="uitInputTextBorderDisabledColor">@android:color/transparent</item>
+        <item name="uitInputTextBorderPressedColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_alpha_per_100</item>
+        <item name="uitInputTextTextColor">@color/uit_gray_level_75</item>
+        <item name="uitInputTextTextDisabledColor">?attr/uitInputTextTextColor</item>
+        <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uitInputTextHintTextColor">@color/uit_gray_level_35</item>
+        <item name="uitInputTextHintTextDisabledColor">?attr/uitInputTextTextColor</item>
+        <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+    </style>
 
     <style name="UltraLight">
         <item name="uitContentPrimaryColor">@color/uitColorWhite</item>
@@ -21,6 +39,10 @@
         <item name="uitControlPrimaryAlternateEnabledColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel65</item>
 
+        <item name="uitInputTextFillColor">@color/uitColorWhite</item>
+        <item name="uitInputTextBorderColor">@color/uit_gray_level_20</item>
+        <item name="uitInputTextBorderDisabledColor">@color/uit_gray_level_10</item>
+        <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width_ultralight</item>
     </style>
 
     <style name="VeryLight">
@@ -30,6 +52,9 @@
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel05</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel10</item>
 
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha</item>
+        <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
     </style>
 
     <style name="Light">
@@ -38,6 +63,8 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel20</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel25</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha</item>
+        <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
     </style>
 
 
@@ -47,6 +74,9 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
+
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_25_alpha</item>
+        <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
     </style>
 
     <style name="VeryDark">
@@ -55,6 +85,10 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel65</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel70</item>
+
+        <item name="uitInputTextFillColor">?attr/uitColorLevel10</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha</item>
+        <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
 
     </style>
 </resources>
