@@ -19,7 +19,6 @@ import java.util.Set;
 public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener {
 
     private static final String TAG = "DiCommChannel";
-    // public static final String PRODUCT = "0";
 
     private final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
     private boolean isAvailable;
@@ -238,7 +237,10 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
         }
     }
 
-    private String GetProduct(String port) {
-        return (port == "firmware" ? "0" : "1");
+    // Current DiComm implementation supports only firmware port on product "0"
+    // all other ports are assumed to be on product "1".
+    @NonNull
+    private String GetProduct(@NonNull String port) {
+        return (port.equals("firmware") ? "0" : "1");
     }
 }

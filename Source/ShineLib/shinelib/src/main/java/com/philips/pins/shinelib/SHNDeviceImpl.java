@@ -482,9 +482,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
         if (internalState == InternalState.InitializingServices) {
+            // The current reference plug-in is not fully compliant with the reference board.
+            // To prevent the state "not-connected" due to (incompatible)services not ready, this check is disabled and needs to be re-enabled when
+            // a correct plugin is available. Original code checks first if all registered services are ready:
             // if (areAllRegisteredServicesReady()) {
-                setInternalStateReportStateUpdateAndSetTimers(InternalState.Ready);
+            //    setInternalStateReportStateUpdateAndSetTimers(InternalState.Ready);
             // }
+
+            setInternalStateReportStateUpdateAndSetTimers(InternalState.Ready);
         }
         if (state == SHNService.State.Error) {
             disconnect();
