@@ -24,10 +24,8 @@ import com.philips.platform.uit.thememanager.ThemeUtils;
 public class TextEditBox extends EditText {
     private final static int DRAWABLE_FILL_INDEX = 0;
     private final static int DRAWABLE_STROKE_INDEX = 1;
-    private Drawable strokeDrawable;
     private ColorStateList strokeColorStateList;
     private ColorStateList fillColorStateList;
-    private Drawable fillDrawable;
 
     public TextEditBox(final Context context) {
         this(context, null);
@@ -91,6 +89,7 @@ public class TextEditBox extends EditText {
 
     private Drawable getBorderBackground(final @NonNull TypedArray typedArray, final Resources.Theme theme) {
         int borderDrawableID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextBorderBackground, -1);
+        Drawable strokeDrawable = null;
         if (borderDrawableID != -1) {
             strokeDrawable = AppCompatResources.getDrawable(getContext(), borderDrawableID);
             int borderColorStateListID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextBorderBackgroundColorList, -1);
@@ -105,6 +104,7 @@ public class TextEditBox extends EditText {
 
     private Drawable getFillBackgroundDrawable(final @NonNull TypedArray typedArray, final Resources.Theme theme) {
         int fillDrawableID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextFillBackground, -1);
+        Drawable fillDrawable = null;
         if (fillDrawableID != -1) {
             fillDrawable = DrawableCompat.wrap(AppCompatResources.getDrawable(getContext(), fillDrawableID));
             int fillColorStateListID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextFillBackgroundColorList, -1);
