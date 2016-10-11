@@ -9,6 +9,7 @@ package com.philips.platform.catalogapp.themesettings;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,13 +56,13 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         holder.colorRangeTittleLabel.setText(colorModel.getTitle());
         ThemeColorHelper colorListHelper = new ThemeColorHelper();
         final Context context = holder.itemView.getContext();
-        if (colorModel.getName() != null && !colorModel.getName().isEmpty()) {
-            final int startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "50", context.getPackageName());
-            final int endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "35", context.getPackageName());
-            holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, startColors), ContextCompat.getColor(context, endColors), context));
-        } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, colorModel.getColor()));
-        }
+
+        setColorPickerBackground(holder, colorModel, colorListHelper, context);
+
+        setTickMarckColor(holder, adapterPosition, colorModel, context);
+
+        setPickerTextColor(holder, colorModel);
+
         holder.colorRangeSelectedCheckBox.setVisibility(adapterPosition == selectedPosition ? View.VISIBLE : View.GONE);
 
         holder.colorRangeContainer.setOnClickListener(new View.OnClickListener() {
@@ -80,10 +81,40 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         });
     }
 
-    private GradientDrawable getItemviewBackground(final int startColor, final int endColor, final Context context) {
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+    private void setPickerTextColor(final @NonNull ViewHolder holder, final ColorModel colorModel) {
+        if (colorModel.getTextColor() != -1) {
+            holder.colorRangeTittleLabel.setTextColor(colorModel.getTextColor());
+        }
+    }
+
+    private void setTickMarckColor(final @NonNull ViewHolder holder, final int adapterPosition, final ColorModel colorModel, final Context context) {
+        if (adapterPosition == selectedPosition) {
+            final VectorDrawableCompat drawableCompat = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_transparent_done, context.getTheme());
+            drawableCompat.setTint(colorModel.getTickColor());
+            holder.colorRangeSelectedCheckBox.setBackground(drawableCompat);
+        }
+    }
+
+    private void setColorPickerBackground(final @NonNull ViewHolder holder, final ColorModel colorModel, final ThemeColorHelper colorListHelper, final Context context) {
+        if (colorModel.getStartColor() != -1 && colorModel.getEndColor() != -1) {
+            final int startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getStartColor()), context.getPackageName());
+            int endColors = R.color.uitColorWhite;
+            if (colorModel.getEndColor() == 0) {
+                final int resourceId = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "05", context.getPackageName());
+                holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, resourceId), R.color.uitColorWhite));
+            } else {
+                endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getEndColor()), context.getPackageName());
+                holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, startColors), ContextCompat.getColor(context, endColors)));
+            }
+        } else {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, colorModel.getTextColor()));
+        }
+    }
+
+    private GradientDrawable getItemviewBackground(final int startColor, final int endColor) {
+        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
                 new int[]{startColor, endColor});
-        return gd;
+        return gradientDrawable;
     }
 
     @Override

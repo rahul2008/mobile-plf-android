@@ -44,26 +44,26 @@ public class ThemeColorHelper {
 
     List<ColorModel> getTonalRangeItemsList(final String changedColorRange, final Context context) {
         final List<ColorModel> tonalRangelist = new ArrayList<>();
-        int[] color = getTonalColors(context.getResources(), changedColorRange, context.getPackageName());
-        tonalRangelist.add(new ColorModel("VD", color[0]));
-        tonalRangelist.add(new ColorModel("B", color[1]));
-        tonalRangelist.add(new ColorModel("L", color[2]));
-        tonalRangelist.add(new ColorModel("VL", color[3]));
-        tonalRangelist.add(new ColorModel("UL", color[4]));
+        final int colorResourceId75 = getColorResourceId(context.getResources(), changedColorRange, "75", context.getPackageName());
+        tonalRangelist.add(new ColorModel("VD", changedColorRange, R.color.uitColorWhite, R.color.uitColorWhite, 75, 70));
+        tonalRangelist.add(new ColorModel("B", changedColorRange, R.color.uitColorWhite, R.color.uitColorWhite, 45, 40));
+        tonalRangelist.add(new ColorModel("L", changedColorRange, R.color.uitColorWhite, R.color.uitColorWhite, 30, 25));
+        tonalRangelist.add(new ColorModel("VL", changedColorRange, colorResourceId75, colorResourceId75, 15, 10));
+        tonalRangelist.add(new ColorModel("UL", changedColorRange, colorResourceId75, colorResourceId75, 05, 0));
         return tonalRangelist;
     }
 
     List<ColorModel> getColorRangeItemsList() {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
         int[] color = getColorRangeArray();
-        colorRangeModelsList.add(new ColorModel("GB", "group_blue", color[0]));
-        colorRangeModelsList.add(new ColorModel("Bl", "blue", color[1]));
-        colorRangeModelsList.add(new ColorModel("Aq", "aqua", color[2]));
-        colorRangeModelsList.add(new ColorModel("Gr", "green", color[3]));
-        colorRangeModelsList.add(new ColorModel("Or", "orange", color[4]));
-        colorRangeModelsList.add(new ColorModel("Pi", "pink", color[5]));
-        colorRangeModelsList.add(new ColorModel("Pu", "purple", color[6]));
-        colorRangeModelsList.add(new ColorModel("Gr", "gray", color[7]));
+        colorRangeModelsList.add(new ColorModel("GB", "group_blue", color[0], color[0], 50, 35));
+        colorRangeModelsList.add(new ColorModel("Bl", "blue", color[1], color[1], 50, 35));
+        colorRangeModelsList.add(new ColorModel("Aq", "aqua", color[2], color[2], 50, 35));
+        colorRangeModelsList.add(new ColorModel("Gr", "green", color[3], color[3], 50, 35));
+        colorRangeModelsList.add(new ColorModel("Or", "orange", color[4], color[4], 50, 35));
+        colorRangeModelsList.add(new ColorModel("Pi", "pink", color[5], color[5], 50, 35));
+        colorRangeModelsList.add(new ColorModel("Pu", "purple", color[6], color[6], 50, 35));
+        colorRangeModelsList.add(new ColorModel("Gr", "gray", color[7], color[7], 50, 35));
 
         return colorRangeModelsList;
     }

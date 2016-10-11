@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     android:id="@+id/colorRangeItemContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="40dp"
+    android:layout_width="wrap_content"
     android:layout_height="48dp"
     android:orientation="vertical">
 
@@ -17,10 +17,10 @@
 
     <ImageView
         android:id="@+id/colorRangeSelectedCheckbox"
-        android:layout_width="match_parent"
+        android:layout_marginTop="12dp"
+        android:layout_width="12dp"
         android:layout_height="12dp"
-        android:layout_marginTop="24dp"
-        android:gravity="center_horizontal"
-        android:contentDescription="@string/colorRangesLabel"
-        app:srcCompat="@drawable/ic_transparent_done"/>
-</FrameLayout>
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:contentDescription="@string/colorRangesLabel"/>
+</LinearLayout>

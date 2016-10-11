@@ -76,14 +76,19 @@ public class ThemeSettingsFragment extends Fragment {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
-        if (widthPixels > 800) {
+//        setLayoutWidthForTablet(widthPixels);
+
+        float pageMargin = getResources().getDimension(R.dimen.themeSettingsPageMargin);
+        colorPickerWidth = (int) ((widthPixels - pageMargin) / 8);
+    }
+
+    private void setLayoutWidthForTablet(int widthPixels) {
+        if (widthPixels > 1200) {
             final View settingLayout = getView().findViewById(R.id.setting_layout);
             final ViewGroup.LayoutParams layoutParams = settingLayout.getLayoutParams();
             layoutParams.width = widthPixels / 2;
             widthPixels = widthPixels / 2;
         }
-        float pageMargin = getResources().getDimension(R.dimen.themeSettingsPageMargin);
-        colorPickerWidth = (int) ((widthPixels - pageMargin) / 8);
     }
 
     private void updateThemeSettingsLayout() {
@@ -92,7 +97,7 @@ public class ThemeSettingsFragment extends Fragment {
         buildPrimaryColorsList(colorRange);
 
         buildAccentColorsList(colorRange);
-        warningText.setVisibility(View.VISIBLE);
+//        warningText.setVisibility(View.VISIBLE);
     }
 
     private void buildColorRangeList() {
@@ -112,7 +117,7 @@ public class ThemeSettingsFragment extends Fragment {
             @Override
             public void onColorRangeChanged(final String tonalRangeChanged) {
                 tonalRange = tonalRangeChanged;
-                updateThemeSettingsLayout();
+//                updateThemeSettingsLayout();
             }
         }, colorPickerWidth));
 
