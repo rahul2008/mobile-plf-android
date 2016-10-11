@@ -16,39 +16,39 @@ public enum TonalRange {
 
     ULTRA_LIGHT {
         @Override
-        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
-            injectTonalRangeWithBaseStyle(theme, R.style.UltraLight);
+        public void injectTonalRange(Resources.Theme theme) {
+            injectTonalRange(theme, R.style.UltraLight);
         }
     },
     VERY_LIGHT {
         @Override
-        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
-            injectTonalRangeWithBaseStyle(theme, R.style.VeryLight);
+        public void injectTonalRange(Resources.Theme theme) {
+            injectTonalRange(theme, R.style.VeryLight);
         }
     },
     LIGHT {
         @Override
-        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
-            injectTonalRangeWithBaseStyle(theme, R.style.Light);
+        public void injectTonalRange(Resources.Theme theme) {
+            injectTonalRange(theme, R.style.Light);
         }
     },
     BRIGHT {
         @Override
-        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
-            injectTonalRangeWithBaseStyle(theme, R.style.Bright);
+        public void injectTonalRange(Resources.Theme theme) {
+            injectTonalRange(theme, R.style.Bright);
         }
     },
     VERYDARK {
         @Override
-        public void injectTonalRangeWithBaseStyle(Resources.Theme theme) {
-            injectTonalRangeWithBaseStyle(theme, R.style.VeryDark);
+        public void injectTonalRange(Resources.Theme theme) {
+            injectTonalRange(theme, R.style.VeryDark);
         }
     };
 
-    void injectTonalRangeWithBaseStyle(Resources.Theme theme, @StyleRes int style) {
+    void injectTonalRange(Resources.Theme theme, @StyleRes int style) {
         theme.applyStyle(R.style.Base, true);
         theme.applyStyle(style, true);
     }
 
-    public abstract void injectTonalRangeWithBaseStyle(Resources.Theme theme);
+    public abstract void injectTonalRange(Resources.Theme theme);
 }
