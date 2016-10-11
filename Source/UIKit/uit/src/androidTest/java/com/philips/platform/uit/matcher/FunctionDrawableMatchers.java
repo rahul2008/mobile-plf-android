@@ -41,7 +41,7 @@ public class FunctionDrawableMatchers {
     }
 
     public static Matcher<View> isSameRadius(final String funcName, final int index, final float expectedValue) {
-        return isSameRadius(funcName, index,expectedValue, -1);
+        return isSameRadius(funcName, index, expectedValue, -1);
     }
 
     public static Matcher<View> isSameRadius(final String funcName, final int index, final float expectedValue, final int drawableID) {
@@ -73,7 +73,7 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-                BaseTypeSafteyMatcher <Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
+                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);
                 return matches;
@@ -83,7 +83,7 @@ public class FunctionDrawableMatchers {
 
     private static Drawable getDrawable(final View view, final String funcName, final int drawableID) {
         Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
-        if(drawable instanceof LayerDrawable) {
+        if (drawable instanceof LayerDrawable) {
             drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
         }
         return drawable;

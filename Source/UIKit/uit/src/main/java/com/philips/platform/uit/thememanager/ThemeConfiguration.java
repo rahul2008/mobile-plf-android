@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 public class ThemeConfiguration {
     ContentTonalRange contentTonalRange;
     ColorRange colorRange;
-    PrimaryControlType controlType = PrimaryControlType.PRIMARY;
+    PrimaryControlType controlType;
     Context context;
 
     public ThemeConfiguration(@NonNull final ColorRange colorRange, @NonNull final ContentTonalRange contentTonalRange, @NonNull final Context context) {

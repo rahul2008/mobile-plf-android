@@ -29,16 +29,16 @@ public class GradientDrawableUtils {
     public static StateColors getStateColors(Drawable d) {
         int version = Build.VERSION.SDK_INT;
         StateColors impl;
-        if(d instanceof StrokeDrawableWrapper) {
-            impl = new StrokeDrawableWrapperStateColor(d);
+        if (d instanceof StrokeDrawableWrapper) {
+            impl = new StrokeDrawableWrapperStateColors(d);
         } else if (d instanceof DrawableWrapper) {
-            impl = new DrawableWrapperStateColor(d);
+            impl = new DrawableStateColorsWrapper(d);
         } else if (version >= 23) {
-            impl = new MarshmallowStateColor(d);
+            impl = new MarshmallowStateColors(d);
         } else if (version >= 21) {
-            impl = new LollipopStateColor(d);
+            impl = new LollipopStateColors(d);
         } else {
-            impl = new KitKatStateColors(d);
+            impl = new KitKatStateColorsColors(d);
         }
         return impl;
     }
@@ -48,7 +48,6 @@ public class GradientDrawableUtils {
             Field field = getTintField(state.getClass(), fieldName);
             field.setAccessible(true);
             return field.get(state);
-
         } catch (IllegalAccessException | NullPointerException e) {
             e.printStackTrace();
         }

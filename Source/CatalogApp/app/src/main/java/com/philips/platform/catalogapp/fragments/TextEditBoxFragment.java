@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.R;
 
-public class TextEditBoxFragment extends Fragment{
+public class TextEditBoxFragment extends Fragment {
 
     @Nullable
     @Override

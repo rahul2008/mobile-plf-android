@@ -28,6 +28,8 @@ public class UITHelper {
         Resources.Theme theme = themeConfiguration.context.getTheme();
         themeConfiguration.colorRange.injectColorRange(theme);
         themeConfiguration.contentTonalRange.injectTonalRange(theme);
-        themeConfiguration.controlType.injectPrimaryControlColors(theme);
+        if (themeConfiguration.controlType != null) {
+            themeConfiguration.controlType.injectPrimaryControlColors(theme);
+        }
     }
 }

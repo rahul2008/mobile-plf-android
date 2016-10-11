@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <style name="Base">
+
+
+        <item name="uitButtonNormalColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitButtonPressedColor">?attr/uitControlPrimaryPressedColor</item>
+        <item name="uitButtonDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitButtonDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
+        <item name="uitButtonTextColor">?attr/uitControlPrimaryTextColor</item>
+        <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
+
         <item name="uitInputTextFillColor">?attr/uitColorLevel05</item>
         <item name="uitInputTextFillPressedColor">@color/uitColorWhite</item>
         <item name="uitInputTextFillDisabledColor">?attr/uitInputTextFillColor</item>
@@ -17,6 +26,7 @@
         <item name="uitInputTextHintTextColor">@color/uit_gray_level_35</item>
         <item name="uitInputTextHintTextDisabledColor">?attr/uitInputTextTextColor</item>
         <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+
     </style>
 
     <style name="UltraLight">
@@ -52,7 +62,8 @@
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel05</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel10</item>
 
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
+        </item>
         <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
     </style>
@@ -63,7 +74,9 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel20</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel25</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha</item>
+
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
+        </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
     </style>
 
@@ -75,7 +88,8 @@
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
 
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_25_alpha</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_25_alpha
+        </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
     </style>
 
@@ -87,7 +101,8 @@
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel70</item>
 
         <item name="uitInputTextFillColor">?attr/uitColorLevel10</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha
+        </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
 
     </style>

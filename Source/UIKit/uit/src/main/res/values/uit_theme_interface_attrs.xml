@@ -24,7 +24,7 @@
         <attr name="uitImageButtonDrawableColorList" format="reference"/>
         <attr name="uitImageButtonColorList" format="reference"/>
     </declare-styleable>
-    
+
     <declare-styleable name="UITTextEditBox">
         <attr name="uitInputTextFillColor" format="reference|color"/>
         <attr name="uitInputTextFillPressedColor" format="reference|color"/>

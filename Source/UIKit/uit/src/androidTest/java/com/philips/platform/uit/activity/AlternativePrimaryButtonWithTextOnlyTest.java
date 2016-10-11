@@ -14,6 +14,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uit.R;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
@@ -30,7 +31,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.GroupBlue35;
-import static com.philips.platform.uit.test.R.color.GroupBlue75;
 import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class AlternativePrimaryButtonWithTextOnlyTest {
@@ -103,7 +103,7 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
     @Test
     public void verifyAltPrimaryTextOnlyButtonControlColorULTone() {
         TypedArray typedArray = mActivityTestRule.getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uitColorLevel75});
-        final int expectedColor = typedArray.getColor(0,Color.MAGENTA);
+        final int expectedColor = typedArray.getColor(0, Color.MAGENTA);
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
