@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.session;
 
 import android.os.Message;
@@ -15,37 +19,36 @@ import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
 public class OAuthControllerTest {
-    OAuthController mTestEnvOAuthHandler;
+    OAuthController mOAuthController;
     @Mock
     RefreshOAuthRequest mRefreshOAuthRequest;
-
     @Mock
     AbstractModel model;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mTestEnvOAuthHandler = new OAuthController();
+        mOAuthController = new OAuthController();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void getAccessToken() throws Exception {
-        mTestEnvOAuthHandler.getAccessToken();
+        mOAuthController.getAccessToken();
     }
 
     @Test(expected = NullPointerException.class)
     public void refreshToken() throws Exception {
-        mTestEnvOAuthHandler.refreshToken(null);
+        mOAuthController.refreshToken(null);
     }
 
     @Test
     public void resetAccessToken() throws Exception {
-        mTestEnvOAuthHandler.resetAccessToken();
+        mOAuthController.resetAccessToken();
     }
 
     @Test(expected = RuntimeException.class)
     public void requestSyncRefreshToken() throws Exception {
-        mTestEnvOAuthHandler.requestSyncRefreshToken(mRefreshOAuthRequest, new RequestListener() {
+        mOAuthController.requestSyncRefreshToken(mRefreshOAuthRequest, new RequestListener() {
             @Override
             public void onSuccess(Message msg) {
 
@@ -60,26 +63,26 @@ public class OAuthControllerTest {
 
     @Test
     public void createOAuthRequest() throws Exception {
-        mTestEnvOAuthHandler.createOAuthRequest(model);
+        mOAuthController.createOAuthRequest(model);
     }
 
     @Test(expected = NullPointerException.class)
     public void requestSyncOAuthToken() throws Exception {
-        mTestEnvOAuthHandler.requestSyncOAuthToken(model);
+        mOAuthController.requestSyncOAuthToken(model);
     }
-
 
     @Test
     public void notifySuccessListener() throws Exception {
-        mTestEnvOAuthHandler.notifySuccessListener(null, model);
+        mOAuthController.notifySuccessListener(null, model);
     }
+
     @Test
     public void notifyErrorListener() throws Exception {
-        mTestEnvOAuthHandler.notifyErrorListener(null, model);
+        mOAuthController.notifyErrorListener(null, model);
     }
 
     @Test
     public void isInvalidGrantError() throws Exception {
-        mTestEnvOAuthHandler.isInvalidGrantError(new VolleyError());
+        mOAuthController.isInvalidGrantError(new VolleyError());
     }
 }
