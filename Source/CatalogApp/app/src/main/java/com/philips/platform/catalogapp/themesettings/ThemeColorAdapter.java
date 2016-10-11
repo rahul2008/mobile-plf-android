@@ -39,6 +39,10 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         this.colorPickerwidth = colorPickerwidth;
     }
 
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
     @Override
     public ThemeColorAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, @NonNull final int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.theme_selector_list_item, parent, false);
@@ -125,14 +129,12 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.colorRangeItemContainer)
-        View colorRangeContainer;
-
         @Bind(R.id.colorRangeTittleText)
         public TextView colorRangeTittleLabel;
-
         @Bind(R.id.colorRangeSelectedCheckbox)
         public ImageView colorRangeSelectedCheckBox;
+        @Bind(R.id.colorRangeItemContainer)
+        View colorRangeContainer;
 
         public ViewHolder(View view) {
             super(view);

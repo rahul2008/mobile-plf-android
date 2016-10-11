@@ -48,9 +48,7 @@
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:padding="10dp"
+                android:gravity="center"
                 android:text="@string/set_theme_settings"
                 android:visibility="gone"/>
         </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.philips.platform.catalogapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -42,14 +43,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            initDemoListFragment();
             final Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
             toolbar.setTitle(R.string.catalog_app_name);
             ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.catalog_app_name);
+
             initSetThemeSettings(toolbar);
 
             initThemeSettingsIcon(toolbar);
             setSupportActionBar(toolbar);
+
+            initDemoListFragment();
         }
     }
 
@@ -61,8 +64,14 @@ public class MainActivity extends AppCompatActivity {
                 initTonalRange();
                 initColorRange();
                 initNavigationRange();
+                restartActivity();
             }
         });
+    }
+
+    void restartActivity() {
+        finish();
+        startActivity(new Intent().setClass(this, com.philips.platform.catalogapp.MainActivity.class));
     }
 
     private void initNavigationRange() {
@@ -96,9 +105,13 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.mainContainer, new ComponentListFragment());
         transaction.commit();
+        toggle(themeSettingsIcon, setThemeTextView);
     }
 
     public ThemeConfiguration getThemeConfig() {
+        initTonalRange();
+        initColorRange();
+        initNavigationRange();
         return new ThemeConfiguration(colorRange, contentTonalRange, this);
     }
 

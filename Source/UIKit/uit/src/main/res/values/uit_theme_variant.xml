@@ -9,16 +9,16 @@
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
 
         <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
-        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel45</item>
+        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel75</item>
 
         <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
-        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel60</item>
+        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel15</item>
         <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel25</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
         <item name="uitControlPrimaryAlternateEnabledColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel65</item>
+        <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel85</item>
 
     </style>
 

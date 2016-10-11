@@ -6,7 +6,9 @@
 
 package com.philips.platform.catalogapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,8 @@ import android.widget.TextView;
 
 import com.philips.platform.catalogapp.themesettings.ThemeChangedListener;
 import com.philips.platform.catalogapp.themesettings.ThemeColorAdapter;
+import com.philips.platform.uit.thememanager.ContentTonalRange;
+import com.philips.platform.uit.thememanager.UITHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,12 +51,13 @@ public class ThemeSettingsFragment extends Fragment {
     private ThemeColorHelper themeColorHelper;
 
     int colorPickerWidth = 48;
+    SharedPreferences defaultSharedPreferences;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_theme_settings, container, false);
-
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -73,7 +78,7 @@ public class ThemeSettingsFragment extends Fragment {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
-//        setLayoutWidthForTablet(widthPixels);
+        setLayoutWidthForTablet(widthPixels);
 
         float pageMargin = getResources().getDimension(R.dimen.themeSettingsPageMargin);
         colorPickerWidth = (int) ((widthPixels - pageMargin) / 8);
@@ -100,6 +105,9 @@ public class ThemeSettingsFragment extends Fragment {
             @Override
             public void onColorRangeChanged(final String changedColorRange) {
                 colorRange = changedColorRange;
+                final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+                edit.putString(UITHelper.COLOR_RANGE, changedColorRange.toUpperCase());
+                edit.commit();
                 updateThemeSettingsLayout();
             }
         }, colorPickerWidth));
@@ -111,7 +119,14 @@ public class ThemeSettingsFragment extends Fragment {
         tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getContentTonalRangeItemsList(changedColorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onColorRangeChanged(final String tonalRangeChanged) {
-                tonalRange = tonalRangeChanged;
+                final ThemeColorAdapter  adapter = (ThemeColorAdapter) tonalRangeListview.getAdapter();
+                final int selectedPosition = adapter.getSelectedPosition();
+                final ContentTonalRange[] values = ContentTonalRange.values();
+                final ContentTonalRange tonalRange = values[selectedPosition];
+                final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+                edit.putString(UITHelper.CONTENT_TONAL_RANGE, tonalRange.name());
+                edit.commit();
+                ThemeSettingsFragment.this.tonalRange = tonalRangeChanged;
             }
         }, colorPickerWidth));
 
@@ -122,6 +137,9 @@ public class ThemeSettingsFragment extends Fragment {
         notificationBarListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onColorRangeChanged(final String changedColorRange) {
+                final ThemeColorAdapter  adapter = (ThemeColorAdapter) notificationBarListview.getAdapter();
+                final int selectedPosition = adapter.getSelectedPosition();
+
             }
         }, colorPickerWidth));
 
