@@ -8,12 +8,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
-public class MarshmallowStateColor extends LollipopStateColor {
+public class MarshmallowStateColors extends LollipopStateColors {
     private static final String COLOR_STATE_LIST = "mTint";
     private static final String SOLID_COLOR_STATE_LIST = "mSolidColors";
     private static final String STROKE_COLOR_STATE_LIST = "mStrokeColors";
 
-    public MarshmallowStateColor(Drawable d) {
+    public MarshmallowStateColors(Drawable d) {
         super(d);
     }
 

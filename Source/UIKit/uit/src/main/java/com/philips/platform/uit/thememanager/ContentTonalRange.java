@@ -5,6 +5,7 @@
 package com.philips.platform.uit.thememanager;
 
 import android.content.res.Resources;
+import android.support.annotation.StyleRes;
 
 import com.philips.platform.uit.R;
 
@@ -13,36 +14,41 @@ import com.philips.platform.uit.R;
  */
 public enum ContentTonalRange {
 
-    ULTRA_LIGHT{
+    ULTRA_LIGHT {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.UltraLight, true);
+            injectTonalRange(theme, R.style.UltraLight);
         }
     },
     VERY_LIGHT {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.VeryLight, true);
+            injectTonalRange(theme, R.style.VeryLight);
         }
     },
-    LIGHT{
+    LIGHT {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.Light, true);
+            injectTonalRange(theme, R.style.Light);
         }
     },
-    BRIGHT{
+    BRIGHT {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.Bright, true);
+            injectTonalRange(theme, R.style.Bright);
         }
     },
     VERY_DARK {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
-            theme.applyStyle(R.style.VeryDark, true);
+            injectTonalRange(theme, R.style.VeryDark);
         }
     };
+
+    void injectTonalRange(Resources.Theme theme, @StyleRes int style) {
+        theme.applyStyle(R.style.Base, true);
+        theme.applyStyle(style, true);
+    }
 
     public abstract void injectTonalRange(Resources.Theme theme);
 }

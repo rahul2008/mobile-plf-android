@@ -6,11 +6,11 @@ package com.philips.platform.uit.drawableutils;
 
 import android.graphics.drawable.Drawable;
 
-public class KitKatStateColors extends BaseColorStateImpl {
+public class KitKatStateColorsColors extends BaseStateColorsImpl {
     private final static String GRADIENT_SOLID_COLOR = "mSolidColor";
     private final static String STROKE_SOLID_COLOR = "mStrokeColor";
 
-    public KitKatStateColors(Drawable d) {
+    public KitKatStateColorsColors(Drawable d) {
         super(d);
     }
 

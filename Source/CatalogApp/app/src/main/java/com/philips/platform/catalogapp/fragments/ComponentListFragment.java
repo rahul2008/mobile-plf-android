@@ -46,6 +46,7 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
     private Map<Integer, String> getDemoItems() {
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Buttons");
+        itemsMap.put(1, "TextBox");
         return sortMap(itemsMap);
     }
 
@@ -80,6 +81,7 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
                 ((MainActivity) getActivity()).switchFragment(new ButtonFragment());
                 break;
             case 1:
+                ((MainActivity) getActivity()).switchFragment(new TextEditBoxFragment());
                 break;
         }
     }

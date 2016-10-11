@@ -9,7 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-public class DrawableStateColorsWrapper extends BaseColorStateImpl {
+public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
 
     private static final String TINT_COLOR_FIELD = "mTint";
 

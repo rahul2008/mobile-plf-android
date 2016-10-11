@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import com.philips.platform.uit.matcher.BaseTypeSafteyMatcher;
+
 import org.hamcrest.Matcher;
 
 public class TextViewPropertiesMatchers {
@@ -17,9 +19,11 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    return ((TextView) view).getTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA) == expectedValue;
+                    int actual = ((TextView) view).getTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
+                    setValues(String.valueOf(actual), String.valueOf(expectedValue));
+                    return actual == expectedValue;
                 }
-                throw new RuntimeException("Expected TextView got " + view.getClass().getName());
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
             }
         };
     }
@@ -29,9 +33,10 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
+                    setValues(String.valueOf(((TextView) view).getTextSize()), String.valueOf(expectedValue));
                     return ((TextView) view).getTextSize() == expectedValue;
                 }
-                throw new RuntimeException("Expected TextView got " + view.getClass().getName());
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
             }
         };
     }
