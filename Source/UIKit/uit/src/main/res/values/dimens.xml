@@ -32,15 +32,15 @@
     <dimen name="uit_image_text_button_padding_left">32dp</dimen>
 
     <!--TextBox-->
-    <dimen name="uit_text_editbox_corner_radius">2dp</dimen>
-    <dimen name="uit_text_editbox_height">40dp</dimen>
+    <dimen name="uit_texteditbox_corner_radius">2dp</dimen>
+    <dimen name="uit_texteditbox_height">40dp</dimen>
     <dimen name="uit_texteditbox_stroke_width">4dp</dimen>
     <dimen name="uit_texteditbox_text_padding">12dp</dimen>
     <dimen name="uit_texteditbox_min_width">24dp</dimen>
     <dimen name="uit_texteditbox_text_size">16sp</dimen>
     <dimen name="uit_texteditbox_stroke_width_ultralight">1dp</dimen>
-    <item name="uit_text_editbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
-    <item name="uit_text_editbox_border_20_alpha" format="float" type="dimen">0.20</item>
-    <item name="uit_text_editbox_border_25_alpha" format="float" type="dimen">0.25</item>
-    <item name="uit_text_editbox_border_35_alpha" format="float" type="dimen">0.35</item>
+    <item name="uit_texteditbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
+    <item name="uit_texteditbox_border_20_alpha" format="float" type="dimen">0.20</item>
+    <item name="uit_texteditbox_border_25_alpha" format="float" type="dimen">0.25</item>
+    <item name="uit_texteditbox_border_35_alpha" format="float" type="dimen">0.35</item>
 </resources>
