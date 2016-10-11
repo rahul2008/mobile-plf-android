@@ -19,7 +19,6 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 public class SettingsFragment extends AppFrameworkBaseFragment implements SettingsView {
 
     public static final String TAG = SettingsFragment.class.getSimpleName();
-    UIBasePresenter uiBasePresenter;
     private SettingsAdapter adapter = null;
     private ListView list = null;
     private UserRegistrationState userRegistrationState;

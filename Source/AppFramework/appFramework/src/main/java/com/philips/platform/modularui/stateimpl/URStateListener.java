@@ -8,4 +8,6 @@ import com.philips.platform.modularui.statecontroller.UIStateListener;
  */
 public interface URStateListener extends UIStateListener{
 
+    void onLogoutSuccess();
+    void onLogoutFailure();
 }
