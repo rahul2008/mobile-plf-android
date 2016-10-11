@@ -5,9 +5,3 @@ if (new File(localDiCommLibDir).exists()) {
     include ':dicommClientLib'
     project(':dicommClientLib').projectDir = new File(localDiCommLibDir)
 }
-
-def localCloudControllerDir = '../DICommClient/cloudcontroller'
-if (new File(localCloudControllerDir).exists()) {
-    include ':cloudcontroller'
-    project(':cloudcontroller').projectDir = new File(localCloudControllerDir)
-}

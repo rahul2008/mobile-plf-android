@@ -104,7 +104,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':cloudcontroller')
+    compile 'com.philips.cdp:cloudcontroller:1.0.0'
     compile 'com.google.code.gson:gson:2.3'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
