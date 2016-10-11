@@ -83,6 +83,7 @@ public class IAPSettings extends UappSettings {
                     public void onSuccess(URL url) {
                         IAPLog.d("Baseurl onSuccess URL = ", url.toString());
                         mHostPort = "https://acc.occ.shop.philips.com/pilcommercewebservices/v2/";
+                        //updated - https://acc.occ.shop.philips.com/ar_RW
                     }
                 });
     }

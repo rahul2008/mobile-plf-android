@@ -30,6 +30,8 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -112,7 +114,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
-        updateCartDetails(mShoppingCartAPI);
+
+        mAddressController.getDeliveryModes();
     }
 
     @Override
@@ -214,7 +217,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(ShippingAddressFragment.createInstance(bundle, AnimationType.NONE),
                         ShippingAddressFragment.TAG);
-            } else if (msg.obj instanceof GetShippingAddressData){
+            } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();
                 bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
@@ -287,12 +290,23 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-        //NOP
+        if ((msg.obj instanceof IAPNetworkError)) {
+            updateCartDetails(mShoppingCartAPI);
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            if (deliveryModeList.size() > 0) {
+                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            } else {
+                updateCartDetails(mShoppingCartAPI);
+            }
+        }
     }
 
     @Override
     public void onSetDeliveryMode(Message msg) {
-        //NOP
+        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
