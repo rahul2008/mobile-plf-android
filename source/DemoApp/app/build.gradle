@@ -23,12 +23,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
-            versionName "0.13.9"
+            versionName "0.16.1"
         }
         device {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
-            versionName "0.13.9"
+            versionName "0.16.1"
         }
     }
     lintOptions {

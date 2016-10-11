@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 
@@ -75,6 +76,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
+                IAPLog.d("Retailers URL :", url.toString());
                 return true;
             }
 
