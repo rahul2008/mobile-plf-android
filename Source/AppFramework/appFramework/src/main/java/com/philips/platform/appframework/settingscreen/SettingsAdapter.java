@@ -152,8 +152,8 @@ public class SettingsAdapter extends BaseAdapter{
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     progress = new ProgressDialog(activityContext);
-                    progress.setTitle("Please Wait!!");
-                    progress.setMessage("Wait!!");
+                    progress.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
+                    progress.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
                     progress.setCancelable(true);
                     progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progress.show();
