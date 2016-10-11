@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
 package com.philips.pins.shinelib.wrappers;
 
 import com.philips.pins.shinelib.ResultListener;
@@ -13,6 +17,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -27,6 +32,9 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
 
     @Mock
     private ResultListener<SHNDataRaw> rawResultListener;
+
+    @Mock
+    private ResultListener<SHNDataRaw> rawResultListener2;
 
     @Mock
     private SHNResultListener resultListener;
@@ -69,5 +77,50 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
         captureUserHandlerRunnable().run();
 
         verify(rawResultListener).onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+    }
+
+    @Test
+    public void shouldNotifyAllListenersAllRegisteredListener_whenDataResultReturnOnInternalThread() {
+        capabilityWrapper.addDataListener(rawResultListener);
+        capabilityWrapper.addDataListener(rawResultListener2);
+
+        verify(capabilityMock).addDataListener(rawResultListenerCaptor.capture());
+
+        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerCaptor.getValue();
+
+        internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+        captureUserHandlerRunnable().run();
+
+        verify(rawResultListener).onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+        verify(rawResultListener2).onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+    }
+
+    @Test
+    public void shouldNotNotifyListener_whenTheListenerIsRemoved() {
+        shouldAddListener_whenAddListenerIsCalledOnWrapper();
+        capabilityWrapper.removeDataListener(rawResultListener);
+        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerCaptor.getValue();
+
+        internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+        captureUserHandlerRunnable().run();
+
+        verify(rawResultListener, never()).onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+    }
+
+    @Test
+    public void shouldNotifyRemainingListenersOnUserThread_whenDataResultReturnOnInternalThread() {
+        capabilityWrapper.addDataListener(rawResultListener);
+        capabilityWrapper.addDataListener(rawResultListener2);
+
+        verify(capabilityMock).addDataListener(rawResultListenerCaptor.capture());
+        capabilityWrapper.removeDataListener(rawResultListener);
+
+        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerCaptor.getValue();
+
+        internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+        captureUserHandlerRunnable().run();
+
+        verify(rawResultListener, never()).onActionCompleted(READ_VALUE, EXPECTED_RESULT);
+        verify(rawResultListener2).onActionCompleted(READ_VALUE, EXPECTED_RESULT);
     }
 }

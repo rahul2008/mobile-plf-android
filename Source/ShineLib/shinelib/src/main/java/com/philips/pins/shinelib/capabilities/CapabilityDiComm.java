@@ -1,4 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.capabilities;
+
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapability;
@@ -13,12 +20,19 @@ public interface CapabilityDiComm extends SHNCapability {
      *
      * @param data to write
      */
-    void writeData(byte[] data);
+    void writeData(@NonNull byte[] data);
 
     /**
      * Attach a callback for data received from the peripheral
      *
      * @param dataRawResultListener to receive callback data
      */
-    void addDataListener(ResultListener<SHNDataRaw> dataRawResultListener);
+    void addDataListener(@NonNull ResultListener<SHNDataRaw> dataRawResultListener);
+
+    /**
+     * Remove a callback for data received from the peripheral
+     *
+     * @param dataRawResultListener to be removed
+     */
+    void removeDataListener(@NonNull ResultListener<SHNDataRaw> dataRawResultListener);
 }

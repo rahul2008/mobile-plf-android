@@ -200,7 +200,7 @@ public enum SHNCapabilityType {
     /**
      * Plugin for DiComm communication
      *
-     * @see CapabilityDiComm
+     * @see {@link CapabilityDiComm}
      */
     DI_COMM;
 
