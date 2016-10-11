@@ -9,18 +9,24 @@
         <attr name="uitNavigationSecondaryColor" format="reference|color"/>
         <attr name="uitNavigationTextColor" format="reference|color"/>
 
-
+        <attr name="uitControlSecondaryColor" format="reference|color"/>
         <attr name="uitControlSecondaryTextColor" format="reference|color"/>
         <attr name="uitControlSecondaryEnabledColor" format="reference|color"/>
         <attr name="uitControlSecondaryPressedColor" format="reference|color"/>
+        <attr name="uitControlSecondaryDisabledAlpha" format="reference|float"/>
+        <attr name="uitControlSecondaryTextDisabledAlpha" format="reference|float"/>
 
         <attr name="uitControlPrimaryEnabledColor" format="reference|color"/>
         <attr name="uitControlPrimaryPressedColor" format="reference|color"/>
         <attr name="uitControlPrimaryTextColor" format="reference|color"/>
+        <attr name="uitControlPrimaryDisabledAlpha" format="reference|float"/>
+        <attr name="uitControlPrimaryTextDisabledAlpha" format="reference|float"/>
 
         <attr name="uitControlPrimaryAlternateEnabledColor" format="reference|color"/>
         <attr name="uitControlPrimaryAlternatePressedColor" format="reference|color"/>
         <attr name="uitControlPrimaryAlternateTextColor" format="reference|color"/>
+        <attr name="uitControlPrimaryAltDisabledAlpha" format="reference|float"/>
+        <attr name="uitControlPrimaryAltTextDisabledAlpha" format="reference|float"/>
 
     </declare-styleable>
 

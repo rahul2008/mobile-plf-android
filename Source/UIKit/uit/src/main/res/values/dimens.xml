@@ -5,6 +5,7 @@
     <item name="uit_alpha_per_100" format="float" type="dimen">1</item>
     <item name="uit_alpha_per_35" format="float" type="dimen">0.35</item>
     <item name="uit_alpha_per_50" format="float" type="dimen">0.50</item>
+    <item name="uit_alpha_per_70" format="float" type="dimen">0.70</item>
 
     <!--Switch dimensions-->
     <item name="uit_switch_off_alpha" format="float" type="dimen">0.1</item>
