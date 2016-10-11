@@ -20,7 +20,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-public class NewOAuthRequestTest {
+public class OAuthRequestTest {
 
     @Mock
     Context mContext;

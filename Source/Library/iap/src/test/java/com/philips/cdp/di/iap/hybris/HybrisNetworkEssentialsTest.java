@@ -15,9 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
 public class HybrisNetworkEssentialsTest {
     HybrisNetworkEssentials mHybrisNetworkEssentials;
