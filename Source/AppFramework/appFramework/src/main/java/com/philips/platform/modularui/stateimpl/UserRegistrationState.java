@@ -14,6 +14,8 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -36,7 +38,7 @@ import java.util.Locale;
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
+public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener,UpdateReceiveMarketingEmailHandler,LogoutHandler {
 
     private Context activityContext;
     private User userObject;
@@ -349,6 +351,26 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+
+    }
+
+    @Override
+    public void onUpdateReceiveMarketingEmailSuccess() {
+
+    }
+
+    @Override
+    public void onUpdateReceiveMarketingEmailFailedWithError(final int i) {
+
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+        
+    }
+
+    @Override
+    public void onLogoutFailure(final int i, final String s) {
 
     }
 }

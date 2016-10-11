@@ -23,6 +23,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
@@ -41,7 +42,6 @@ public class SettingsAdapter extends BaseAdapter{
     private Context activityContext;
     private LayoutInflater inflater = null;
     private UserRegistrationState userRegistrationState;
-    private LogoutHandler logoutHandler = null;
     private ArrayList<SettingListItem> settingsItemList = null;
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -53,12 +53,11 @@ public class SettingsAdapter extends BaseAdapter{
     private ProgressDialog progress;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                           LogoutHandler logoutHandler, UIBasePresenter fragmentPresenter) {
+                            UIBasePresenter fragmentPresenter) {
         activityContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         userRegistrationState = new UserRegistrationState();
         this.settingsItemList = settingsItemList;
-        this.logoutHandler = logoutHandler;
         this.fragmentPresenter = fragmentPresenter;
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
     }
@@ -238,7 +237,18 @@ public class SettingsAdapter extends BaseAdapter{
                 .setPositiveButton(getString(R.string.settings_list_item_log_out),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                userRegistrationState.getUserObject(activityContext).logout(logoutHandler);
+                                userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
+                                    @Override
+                                    public void onLogoutSuccess() {
+                                        ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                        fragmentPresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+                                    }
+
+                                    @Override
+                                    public void onLogoutFailure(final int i, final String s) {
+
+                                    }
+                                });
                             }
                         })
                 .setIcon(android.R.drawable.ic_dialog_alert)
