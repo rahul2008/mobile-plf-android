@@ -18,8 +18,8 @@ import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -28,6 +28,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LauncherFragmentActivity extends UiKitActivity
         implements ActionBarListener, IAPListener, View.OnClickListener {
@@ -57,9 +58,23 @@ public class LauncherFragmentActivity extends UiKitActivity
 
         mProductCTNs = new ArrayList<>();
         mProductCTNs.add("HX8331/11");
-        setLocale("en", "US");
+        setLocale(Locale.getDefault().getLanguage(), "US");
 
-        launchInAppAsFragment();
+        if (savedInstanceState == null)
+            launchInAppAsFragment();
+        else{
+            onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void initIAP() {

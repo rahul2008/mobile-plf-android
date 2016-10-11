@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,20 +21,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.screens.InAppBaseFragment;
+import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
+import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.screens.BuyDirectFragment;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.di.iap.screens.ProductCatalogFragment;
 import com.philips.cdp.di.iap.screens.ProductDetailFragment;
 import com.philips.cdp.di.iap.screens.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
-import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.cart.IAPCartListener;
-import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -55,6 +56,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     private TextView mCountText;
     private ImageView mBackImage;
     private FrameLayout mCartContainer;
+    private String mTitle;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -114,7 +116,19 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     }
                     break;
             }
-        }
+        } else
+            setTitle(mTitle);
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void initTheme() {
@@ -182,6 +196,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
+        mTitle = title.toString();
         mTitleTextView.setText(title);
     }
 

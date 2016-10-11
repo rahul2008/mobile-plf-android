@@ -12,8 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -52,20 +52,15 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
         mTitle = getString(resourceId);
-        if (mActionbarUpdateListener == null) {
-            throw new RuntimeException("Please set the ActionBar Listener");
-        } else
+        if (mActionbarUpdateListener != null)
             mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
     }
 
 
     protected void setTitleAndBackButtonVisibility(String title, boolean isVisible) {
         mTitle = title;
-        if (mActionbarUpdateListener == null) {
-            throw new RuntimeException("Please set the ActionBar Listener");
-        } else {
+        if (mActionbarUpdateListener != null)
             mActionbarUpdateListener.updateActionBar(title, isVisible);
-        }
     }
 
     @Override
