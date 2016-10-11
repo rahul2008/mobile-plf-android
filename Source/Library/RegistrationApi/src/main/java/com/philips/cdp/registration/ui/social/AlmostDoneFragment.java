@@ -41,6 +41,8 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -627,7 +629,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (user.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
-            launchAccountActivateFragment();
+            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())){
+                launchAccountActivateFragment();
+            }else {
+                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+            }
+
         }
         hideSpinner();
     }

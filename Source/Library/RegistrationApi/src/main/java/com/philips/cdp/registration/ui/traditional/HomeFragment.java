@@ -47,6 +47,8 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XProviderButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileSignInAccountFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -609,7 +611,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (user.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
-            launchAccountActivationFragment();
+            if (FieldsValidator.isValidEmail(mUser.getEmail())){
+                launchAccountActivationFragment();
+            }else {
+                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+            }
+
         }
     }
 

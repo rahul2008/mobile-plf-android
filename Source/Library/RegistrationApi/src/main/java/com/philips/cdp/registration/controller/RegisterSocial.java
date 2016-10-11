@@ -27,6 +27,7 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
@@ -57,7 +58,13 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 		if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
 			HsdpUser hsdpUser = new HsdpUser(mContext);
-			hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+			String emailOrMobile;
+			if (FieldsValidator.isValidEmail(user.getEmail())){
+				emailOrMobile=	user.getEmail();
+			}else{
+				emailOrMobile=user.getMobile();
+			}
+			hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(), new SocialLoginHandler() {
 
 				@Override
 				public void onLoginSuccess() {
@@ -166,7 +173,14 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		profile.setGivenName(givenName);
 		profile.setDisplayName(displayName);
 		profile.setFamilyName(familyName);
-		profile.setEmail(userEmail);
+		if (FieldsValidator.isValidEmail(userEmail)){
+			profile.setEmail(userEmail);
+
+		}else {
+			// check mobile umber validation
+			profile.setMobile(userEmail);
+			;
+		}
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
 		completeSocialProviderLogin(profile, this, socialRegistrationToken);
@@ -180,7 +194,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 			familyName = diUserProfile.getFamilyName();
 			JSONObject newUser = new JSONObject();
 			try {
-				newUser.put("email", diUserProfile.getEmail()).put("givenName", diUserProfile.getGivenName())
+				newUser.put("email", diUserProfile.getEmail()).put("mobileNumber", diUserProfile.getMobile()).put("givenName", diUserProfile.getGivenName())
 						.put("familyName", familyName).put("password", diUserProfile.getPassword())
 						.put("displayName", diUserProfile.getDisplayName())
 						.put("olderThanAgeLimit", diUserProfile.getOlderThanAgeLimit())

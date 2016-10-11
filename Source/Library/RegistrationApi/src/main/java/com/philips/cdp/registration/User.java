@@ -592,6 +592,18 @@ public class User {
         return diUserProfile.getEmail();
     }
 
+    /**
+     * {@code getMobile} method returns the Mobile Number of a logged in user.
+     *
+     * @return String
+     */
+    public String getMobile() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getMobile();
+    }
 
     public String getPassword() {
         DIUserProfile diUserProfile = getUserInstance();
