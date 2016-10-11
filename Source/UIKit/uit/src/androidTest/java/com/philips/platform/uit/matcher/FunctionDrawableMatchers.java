@@ -20,7 +20,10 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-                return DrawableMatcher.isSameHeight(expectedValue).matches(drawable);
+                BaseTypeSafteyMatcher<Drawable> heightMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameHeight(expectedValue);
+                boolean matches = heightMatcher.matches(drawable);
+                setValues(heightMatcher.actual, heightMatcher.expected);
+                return matches;
             }
         };
     }
@@ -29,7 +32,10 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                return DrawableMatcher.isSameWidth(expectedValue).matches(UITTestUtils.getDrawableWithReflection(view, funcName));
+                BaseTypeSafteyMatcher<Drawable> widthMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameWidth(expectedValue);
+                boolean matches = widthMatcher.matches(UITTestUtils.getDrawableWithReflection(view, funcName));
+                setValues(widthMatcher.actual, widthMatcher.expected);
+                return matches;
             }
         };
     }
@@ -43,8 +49,10 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-
-                return DrawableMatcher.isSameRadius(index, expectedValue).matches(drawable);
+                BaseTypeSafteyMatcher<Drawable> radiusMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameRadius(index, expectedValue);
+                boolean matches = radiusMatcher.matches(drawable);
+                setValues(radiusMatcher.actual, radiusMatcher.expected);
+                return matches;
             }
         };
     }
@@ -65,7 +73,10 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-                return DrawableMatcher.isSameColor(state, expectedValue).matches(drawable);
+                BaseTypeSafteyMatcher <Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
+                boolean matches = colorMatcher.matches(drawable);
+                setValues(colorMatcher.actual, colorMatcher.expected);
+                return matches;
             }
         };
     }
@@ -105,8 +116,10 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-
-                return DrawableMatcher.isSameStrokeWidth(expectedValue).matches(drawable);
+                BaseTypeSafteyMatcher<Drawable> strokeMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeWidth(expectedValue);
+                boolean matches = strokeMatcher.matches(drawable);
+                setValues(strokeMatcher.actual, strokeMatcher.expected);
+                return matches;
             }
         };
     }

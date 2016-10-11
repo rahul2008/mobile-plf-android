@@ -16,6 +16,7 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
                 return view.getPaddingLeft() == expectedValue;
             }
         };
@@ -25,6 +26,7 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingRight()), String.valueOf(expectedValue));
                 return view.getPaddingRight() == expectedValue;
             }
         };
@@ -34,6 +36,7 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingTop()), String.valueOf(expectedValue));
                 return view.getPaddingTop() == expectedValue;
             }
         };
@@ -43,6 +46,7 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingBottom()), String.valueOf(expectedValue));
                 return view.getPaddingBottom() == expectedValue;
             }
         };

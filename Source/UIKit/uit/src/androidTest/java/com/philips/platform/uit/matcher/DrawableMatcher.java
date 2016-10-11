@@ -20,6 +20,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 Rect bounds = drawable.getBounds();
                 int actualHeight = bounds.bottom - bounds.top;
+                setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
                 return expectedValue == actualHeight;
             }
         };
@@ -32,6 +33,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 Rect bounds = drawable.getBounds();
                 int actualWidth = bounds.right - bounds.left;
+                setValues(String.valueOf(actualWidth), String.valueOf(expectedValue));
                 return expectedValue == actualWidth;
             }
         };
@@ -43,6 +45,7 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getCornerRadius()[index]), String.valueOf(expectedValue));
                 return Float.compare(stateColors.getCornerRadius()[index], expectedValue) == 0;
             }
         };
@@ -54,6 +57,7 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getStateColor(state)), String.valueOf(expectedValue));
                 return stateColors.getStateColor(state) == expectedValue;
             }
         };
@@ -65,6 +69,7 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getStrokeWidth()), String.valueOf(expectedValue));
                 return stateColors.getStrokeWidth() == expectedValue;
             }
         };
