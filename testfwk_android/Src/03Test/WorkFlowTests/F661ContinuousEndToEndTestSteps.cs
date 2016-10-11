@@ -36,10 +36,10 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 
         public void ThenIClickOnNucleousValue()
         {
-        //    AppHomeScreen.Click(AppHomeScreen.Button.NucleousDevice);
+           AppHomeScreen.Click(AppHomeScreen.Button.NucleousDevice);
             Thread.Sleep(10000);
-            AppHomeScreen.EnterText(AppHomeScreen.EditText.Nucleus, "68");
-            Thread.Sleep(2000);
+        //    AppHomeScreen.EnterText(AppHomeScreen.EditText.Nucleus, "68");
+          //  Thread.Sleep(2000);
 
             string battery_nucleus = AppHomeScreen.GetText(AppHomeScreen.EditText.Nucleus).Trim();
             Logger.Info("Nucleous battery info: " + battery_nucleus);
