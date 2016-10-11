@@ -237,21 +237,21 @@ dependencies {
     // Module projects
     compile project(':dataServices')
     // DAGGER
-    compile "com.google.dagger:dagger:${daggerVer}"
-    apt "com.google.dagger:dagger-compiler:${daggerVer}"
+    compile "com.google.dagger:dagger:2.0.2"
+    apt "com.google.dagger:dagger-compiler:2.0.2"
     provided 'org.glassfish:javax.annotation:10.0-b28'
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'javax.inject:javax.inject:1'
-    testApt "com.google.dagger:dagger-compiler:${daggerVer}"
+    testApt "com.google.dagger:dagger-compiler:2.0.2"
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
 
-    compile "com.j256.ormlite:ormlite-core:${ormliteVer}"
-    compile "com.j256.ormlite:ormlite-android:${ormliteVer}"
+    compile "com.j256.ormlite:ormlite-core:4.48"
+    compile "com.j256.ormlite:ormlite-android:4.48"
     compile "com.philips.cdp:registrationApi:7.1.0-SNAPSHOT"
-    compile "com.philips.cdp:uikitLib:${uikitVersion}"
+    compile "com.philips.cdp:uikitLib:3.2.3"
     compile "com.philips.cdp:AppInfra:1.2.0-SNAPSHOT"
-    compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
+    //compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
 }
 
 task copyToLib(type: Copy) {

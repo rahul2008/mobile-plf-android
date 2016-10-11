@@ -46,7 +46,7 @@ allprojects {
     ext.targetSdkVer = 22
     ext.appVersion = '0.0.1'
     ext.appVersionCode = 2
-   
+
     //Support library
     ext.supportLibraryVer = '24.1.1'
     ext.multiDexVersion = '1.0.1'
