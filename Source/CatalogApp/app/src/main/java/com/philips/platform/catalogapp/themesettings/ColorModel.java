@@ -13,6 +13,7 @@ public class ColorModel {
     private String name;
     private int textColor;
     private int tickColor;
+    private int backgroundColor;
 
     public ColorModel(final String title, final String name, final int textColor, final int tickColor, final int startColor, final int endColor) {
         this.title = title;
@@ -31,10 +32,12 @@ public class ColorModel {
         this.endColor = endColor;
     }
 
-    public ColorModel(final String title, final int textColor) {
+    public ColorModel(final String title, final String colorRange, final int backgroundColor, final int textColor) {
         this.title = title;
-        this.name = null;
+        this.name = colorRange;
+        this.backgroundColor = backgroundColor;
         this.textColor = textColor;
+        this.tickColor = textColor;
     }
 
     public String getTitle() {
@@ -59,5 +62,9 @@ public class ColorModel {
 
     public int getTickColor() {
         return tickColor;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
     }
 }

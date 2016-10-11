@@ -38,9 +38,6 @@ public class ThemeSettingsFragment extends Fragment {
     @Bind(R.id.notificationBarList)
     RecyclerView notificationBarListview;
 
-    @Bind(R.id.primaryControlsColorList)
-    RecyclerView primaryControlsListview;
-
     @Bind(R.id.accentColorRangeList)
     RecyclerView accentColorRangeList;
 
@@ -92,12 +89,10 @@ public class ThemeSettingsFragment extends Fragment {
     }
 
     private void updateThemeSettingsLayout() {
-        buildTonalRangeList(colorRange);
-        buildNavigationBar(colorRange);
-        buildPrimaryColorsList(colorRange);
+        buildContentTonalRangeList(colorRange);
+        buildNavigationList(colorRange);
 
         buildAccentColorsList(colorRange);
-//        warningText.setVisibility(View.VISIBLE);
     }
 
     private void buildColorRangeList() {
@@ -112,37 +107,25 @@ public class ThemeSettingsFragment extends Fragment {
         setLayoutOrientation(colorRangeListview);
     }
 
-    private void buildTonalRangeList(final String changedColorRange) {
-        tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getTonalRangeItemsList(changedColorRange, getContext()), new ThemeChangedListener() {
+    private void buildContentTonalRangeList(final String changedColorRange) {
+        tonalRangeListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getContentTonalRangeItemsList(changedColorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onColorRangeChanged(final String tonalRangeChanged) {
                 tonalRange = tonalRangeChanged;
-//                updateThemeSettingsLayout();
             }
         }, colorPickerWidth));
 
         setLayoutOrientation(tonalRangeListview);
     }
 
-    private void buildNavigationBar(final String colorRange) {
+    private void buildNavigationList(final String colorRange) {
         notificationBarListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onColorRangeChanged(final String changedColorRange) {
-                updateThemeSettingsLayout();
             }
         }, colorPickerWidth));
 
         setLayoutOrientation(notificationBarListview);
-    }
-
-    private void buildPrimaryColorsList(final String colorRange) {
-        primaryControlsListview.setAdapter(new ThemeColorAdapter(themeColorHelper.getPrimaryColors(getResources(), colorRange, getContext().getPackageName()), new ThemeChangedListener() {
-            @Override
-            public void onColorRangeChanged(final String changedColorRange) {
-                updateThemeSettingsLayout();
-            }
-        }, colorPickerWidth));
-        setLayoutOrientation(primaryControlsListview);
     }
 
     private void buildAccentColorsList(final String colorRange) {

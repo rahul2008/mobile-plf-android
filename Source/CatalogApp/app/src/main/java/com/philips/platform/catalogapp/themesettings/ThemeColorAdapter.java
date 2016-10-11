@@ -7,6 +7,7 @@
 package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -53,6 +54,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     public void onBindViewHolder(@NonNull final ThemeColorAdapter.ViewHolder holder, final int position) {
         final int adapterPosition = holder.getAdapterPosition();
         final ColorModel colorModel = colorRangeList.get(position);
+        holder.colorRangeTittleLabel.setTextColor(Color.WHITE);
         holder.colorRangeTittleLabel.setText(colorModel.getTitle());
         ThemeColorHelper colorListHelper = new ThemeColorHelper();
         final Context context = holder.itemView.getContext();
@@ -107,7 +109,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
                 holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, startColors), ContextCompat.getColor(context, endColors)));
             }
         } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, colorModel.getTextColor()));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, colorModel.getBackgroundColor()));
         }
     }
 

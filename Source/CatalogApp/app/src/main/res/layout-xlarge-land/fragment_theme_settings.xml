@@ -10,7 +10,7 @@
 
         <LinearLayout
             android:id="@+id/setting_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="376dp"
             android:layout_height="wrap_content"
             android:divider="@drawable/theme_settings_divider"
             android:orientation="vertical"

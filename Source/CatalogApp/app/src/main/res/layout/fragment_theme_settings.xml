@@ -76,24 +76,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"/>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/ThemeSettingsHeader2Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:text="@string/forPrimaryControlsText"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/primaryControlsColorList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
