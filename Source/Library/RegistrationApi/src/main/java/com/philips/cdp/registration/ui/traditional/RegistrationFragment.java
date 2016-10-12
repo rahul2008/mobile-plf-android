@@ -33,8 +33,6 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileSignInAccountFragment;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileWelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -163,7 +161,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 return true;
             }
             Fragment fragment = mFragmentManager.getFragments().get(count);
-            if (fragment instanceof WelcomeFragment || fragment instanceof MobileWelcomeFragment) {
+            if (fragment instanceof WelcomeFragment) {
                 navigateToHome();
                 trackPage(AppTaggingPages.HOME);
             }
@@ -210,18 +208,13 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         } else if (fragment instanceof SignInAccountFragment) {
             return AppTaggingPages.CREATE_ACCOUNT;
 
-        }  else if (fragment instanceof MobileSignInAccountFragment) {
-            return AppTaggingPages.CREATE_ACCOUNT;
-        } else if (fragment instanceof AccountActivationFragment) {
+        }   else if (fragment instanceof AccountActivationFragment) {
             return AppTaggingPages.ACCOUNT_ACTIVATION;
 
         } else if (fragment instanceof WelcomeFragment) {
             return AppTaggingPages.WELCOME;
 
-        } else if (fragment instanceof MobileWelcomeFragment) {
-            return AppTaggingPages.WELCOME;
-
-        } else if (fragment instanceof AlmostDoneFragment) {
+        }  else if (fragment instanceof AlmostDoneFragment) {
             return AppTaggingPages.ALMOST_DONE;
         } else {
             return AppTaggingPages.MERGE_ACCOUNT;

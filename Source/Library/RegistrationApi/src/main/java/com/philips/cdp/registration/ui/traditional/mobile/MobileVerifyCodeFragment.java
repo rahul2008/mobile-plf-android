@@ -30,6 +30,7 @@ import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XVerifyNumber;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -184,7 +185,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
     }
 
     public void addCodeVerificationSuccess() {
-        getRegistrationFragment().addFragment(new MobileWelcomeFragment());
+        getRegistrationFragment().addFragment(new WelcomeFragment());
     }
 
     public void handleUI() {
