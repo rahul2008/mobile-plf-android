@@ -26,6 +26,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     public LocalProductCatalog(final Context context, final ProductCatalogPresenter.ProductCatalogListener productCatalogListener) {
         mContext = context;
         mProductCatalogListener = productCatalogListener;
+
         mProductCatalogHelper = new ProductCatalogHelper(context, productCatalogListener, this);
         mProductList = new ArrayList<>();
     }

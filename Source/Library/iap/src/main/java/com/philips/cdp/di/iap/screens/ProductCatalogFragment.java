@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ProductCatalogAdapter;
@@ -97,10 +95,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
                     && CartModelContainer.getInstance().getProductList().size() != 0) {
                 onLoadFinished(getCachedProductList(), null);
             } else {
-                fetchProductListFromHybris();
+                fetchProductList();
             }
         } else {
-            fetchProductListFromHybris();
+            fetchProductList();
         }
     }
 
@@ -196,7 +194,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return super.handleBackEvent();
     }
 
-    private void fetchProductListFromHybris() {
+    private void fetchProductList() {
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
@@ -212,7 +210,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             dismissProgress();
             return;
         }
-        fetchProductListFromHybris();
+        fetchProductList();
     }
 
     @Override

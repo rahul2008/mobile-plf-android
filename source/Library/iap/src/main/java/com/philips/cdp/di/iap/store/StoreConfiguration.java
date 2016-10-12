@@ -48,6 +48,7 @@ public class StoreConfiguration {
 
     public String getRawConfigUrl() {
         final StringBuilder builder = new StringBuilder(getHostPort());
+        builder.append(HybrisStore.WEBROOT).append(HybrisStore.SEPERATOR).append(HybrisStore.V2).append(HybrisStore.SEPERATOR);
         builder.append(SUFFIX_CONFIGURATION).append(HybrisStore.SEPERATOR);
         builder.append(mWebStoreConfig.getLocale()).append(HybrisStore.SEPERATOR);
         builder.append(getProposition());

@@ -82,8 +82,8 @@ public class IAPSettings extends UappSettings {
                     @Override
                     public void onSuccess(URL url) {
                         IAPLog.d("Baseurl onSuccess URL = ", url.toString());
-                        mHostPort = "https://acc.occ.shop.philips.com/pilcommercewebservices/v2/";
-                        //updated - https://acc.occ.shop.philips.com/ar_RW
+                        String urlPort = "https://acc.occ.shop.philips.com/en_US"; // has to be removed once the xls is uploaded
+                        mHostPort = urlPort.substring(0, urlPort.length() - 5);
                     }
                 });
     }

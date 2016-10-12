@@ -23,7 +23,7 @@ public class MockIAPSetting extends IAPSettings {
 
     @Override
     public String getHostPort() {
-        return "https://acc.occ.shop.philips.com/pilcommercewebservices/v2/";
+        return "https://acc.occ.shop.philips.com/";
     }
 
    /* public boolean setPlanA() {

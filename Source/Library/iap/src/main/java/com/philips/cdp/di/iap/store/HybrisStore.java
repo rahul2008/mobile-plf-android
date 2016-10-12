@@ -13,6 +13,8 @@ import java.util.Locale;
 
 public class HybrisStore extends AbstractStore {
 
+    public static final String WEBROOT = "pilcommercewebservices";
+    public static final String V2 = "v2";
     public static final String SEPERATOR = "/";
     private static final String USER = "users";
     private static final String LANG = "?fields=FULL&lang=";
@@ -24,7 +26,7 @@ public class HybrisStore extends AbstractStore {
     //Oauth
     private static final String SUFFIX_OAUTH =
             "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret";
-    private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
+    private static final String SUFFIX_REFRESH_OAUTH = "oauth/token";
 
     //Requests
     private static final String SUFFIX_CARTS = "/carts";
@@ -168,21 +170,20 @@ public class HybrisStore extends AbstractStore {
     }
 
     private void createOauthUrl() {
-        int index = mStoreConfig.getHostPort().indexOf("v2", 0);
-        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index));
-        builder.append(SUFFIX_OAUTH);
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH);
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
     private void createOAuthRefreshUrl() {
-        int index = mStoreConfig.getHostPort().indexOf("v2", 0);
-        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort().substring(0, index-1));
-        builder.append(SUFFIX_REFRESH_OAUTH);
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_REFRESH_OAUTH);
         mOauthRefreshUrl = builder.toString();
     }
 
     private void createBaseUrl() {
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(mStoreConfig.getSite()).append(SEPERATOR);
         builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
         mBaseURl = builder.toString();
@@ -190,12 +191,14 @@ public class HybrisStore extends AbstractStore {
 
     private void createBaseUrlForProductCatalog() {
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(mStoreConfig.getSite()).append(SEPERATOR);
         mBaseURlForProductCatalog = builder.toString();
     }
 
     private String createRegionsUrl() {
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
         builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
