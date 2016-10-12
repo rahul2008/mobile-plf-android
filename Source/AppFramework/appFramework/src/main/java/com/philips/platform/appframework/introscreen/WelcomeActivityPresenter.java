@@ -12,8 +12,8 @@ import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
+import com.philips.platform.modularui.stateimpl.URStateListener;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -21,7 +21,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class WelcomeActivityPresenter extends UIBasePresenter implements UIStateListener {
+public class WelcomeActivityPresenter extends UIBasePresenter implements URStateListener {
 
     private static final int USER_REGISTRATION_STATE = 889;
     private WelcomeView welcomeView;
@@ -107,5 +107,15 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements UIState
         this.uiState.setPresenter(this);
         welcomeView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+
+    }
+
+    @Override
+    public void onLogoutFailure() {
+
     }
 }

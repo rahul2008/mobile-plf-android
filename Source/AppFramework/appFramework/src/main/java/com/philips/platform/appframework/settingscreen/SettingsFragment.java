@@ -15,12 +15,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -33,23 +31,9 @@ import java.util.ArrayList;
 public class SettingsFragment extends AppFrameworkBaseFragment implements SettingsView {
 
     public static final String TAG = SettingsFragment.class.getSimpleName();
-    UIBasePresenter uiBasePresenter;
     private SettingsAdapter adapter = null;
     private ListView list = null;
     private UserRegistrationState userRegistrationState;
-    private LogoutHandler logoutHandler = new LogoutHandler() {
-        @Override
-        public void onLogoutSuccess() {
-            uiBasePresenter = new SettingsFragmentPresenter(SettingsFragment.this);
-            ((AppFrameworkBaseActivity)getActivity()).setCartItemCount(0);
-            uiBasePresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
-        }
-
-        @Override
-        public void onLogoutFailure(int i, String s) {
-
-        }
-    };
 
     private ArrayList<SettingListItem> buildSettingsScreenList() {
         ArrayList<SettingListItem> settingScreenItemList = new ArrayList<SettingListItem>();
@@ -83,7 +67,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         list = (ListView) view.findViewById(R.id.listwithouticon);
 
         final ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        adapter = new SettingsAdapter(getActivity(), settingScreenItemList, logoutHandler, fragmentPresenter);
+        adapter = new SettingsAdapter(getActivity(), settingScreenItemList, fragmentPresenter);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

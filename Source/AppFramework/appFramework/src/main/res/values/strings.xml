@@ -43,6 +43,9 @@
     <string name="settings_update_fail">Update FAIL</string>
     <string name="settings_logout_alert">Are you sure you want to log out</string>
 
+    <string name="settings_progress_title">Please Wait!!</string>
+    <string name="settings_progress_message">Wait!!</string>
+
     <!--Settings Screen ends-->
 
     <string-array name="hamburger_drawer_items">

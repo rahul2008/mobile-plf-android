@@ -6,15 +6,16 @@
 package com.philips.platform.appframework.settingscreen;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
+import com.philips.platform.modularui.stateimpl.URStateListener;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -25,7 +26,7 @@ import java.util.Arrays;
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
  */
-public class SettingsFragmentPresenter extends UIBasePresenter implements UIStateListener {
+public class SettingsFragmentPresenter extends UIBasePresenter implements URStateListener {
 
     private static final int USER_REGISTRATION_STATE = 999;
     private static final int HOME_ACTIVITY_STATE = 998;
@@ -112,5 +113,20 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements UIStat
         this.uiState.setPresenter(this);
         settingsView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+        ((AppFrameworkBaseActivity)settingsView.getFragmentActivity()).setCartItemCount(0);
+        appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
+        uiState = getUiState(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+        fragmentLauncher = getFragmentLauncher();
+        uiState.setPresenter(this);
+        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+    }
+
+    @Override
+    public void onLogoutFailure() {
+
     }
 }
