@@ -6,9 +6,6 @@
 package com.philips.cdp.cloudcontroller.listener;
 
 public interface SendNotificationRegistrationIdListener {
-
-	public void onRegistrationIdSentSuccess();
-
-	public void onRegistrationIdSentFailed();
-
+	void onRegistrationIdSentSuccess();
+	void onRegistrationIdSentFailed();
 }

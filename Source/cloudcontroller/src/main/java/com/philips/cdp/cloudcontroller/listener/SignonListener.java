@@ -6,5 +6,5 @@
 package com.philips.cdp.cloudcontroller.listener;
 
 public interface SignonListener {
-	void signonStatus(boolean signon) ;
+    void signonStatus(boolean signon);
 }
