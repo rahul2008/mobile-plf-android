@@ -6,6 +6,7 @@
 package com.philips.cdp.cloudcontroller.pairing;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.CloudController;
@@ -16,6 +17,7 @@ import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
+import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
 import com.philips.icpinterface.data.PairingRelationship;
 
@@ -109,7 +111,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param relationType String
      */
     @Override
-    public void removeRelationship(PairingEntityReference trustor, PairingEntityReference trustee, String relationType, @NonNull PairingCallback callback) {
+    public void removeRelationship(@Nullable PairingEntityReference trustor, @Nullable PairingEntityReference trustee, String relationType, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
@@ -117,15 +119,18 @@ public class DefaultPairingController implements PairingController, ICPEventList
         int status;
         PairingService removeRelationship = createPairingService(this);
 
-        status = removeRelationship.removeRelationshipRequest(trustor.getInternalRepresentation(), trustee.getInternalRepresentation(), relationType);
-        if (Errors.SUCCESS != status) {
-            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
-            return;
-        }
-        removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
-        status = removeRelationship.executeCommand();
+        PairingEntitiyReference trustorInternalRepresentation = trustor == null ? null : trustor.getInternalRepresentation();
+        PairingEntitiyReference trusteeInternalRepresentation = trustee == null ? null : trustee.getInternalRepresentation();
 
-        if (Errors.REQUEST_PENDING != status) {
+        status = removeRelationship.removeRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, relationType);
+        if (Errors.SUCCESS == status) {
+            removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
+            status = removeRelationship.executeCommand();
+
+            if (Errors.REQUEST_PENDING != status) {
+                Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+            }
+        } else {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
         }
     }
