@@ -48,7 +48,7 @@ public class IAPSettings extends UappSettings {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
-        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("appinfra.testing.service", new
+        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("appinfra.testing.service", new//iap.get.storeavailable
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
@@ -70,7 +70,7 @@ public class IAPSettings extends UappSettings {
     }
 
     private void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("appinfra.testing.service", new
+        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("appinfra.testing.service", new //Change the key as iap.baseurl
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
@@ -82,7 +82,7 @@ public class IAPSettings extends UappSettings {
                     @Override
                     public void onSuccess(URL url) {
                         IAPLog.d("Baseurl onSuccess URL = ", url.toString());
-                        String urlPort = "https://acc.occ.shop.philips.com/en_US"; // has to be removed once the xls is uploaded
+                        String urlPort = "https://acc.occ.shop.philips.com/en_US"; // has to be removed once the xls is uploaded add url.toString()
                         mHostPort = urlPort.substring(0, urlPort.length() - 5);
                     }
                 });
