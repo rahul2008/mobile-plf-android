@@ -51,12 +51,14 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements UIState
         switch (componentID) {
             case R.id.welcome_skip_button:
                 uiState = new UserRegistrationState();
+                uiState.setPresenter(this);
                 ((UserRegistrationState) uiState).registerUIStateListener(this);
                 break;
             case R.id.welcome_start_registration_button:
                 sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
                 sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
                 uiState = new UserRegistrationState();
+                uiState.setPresenter(this);
                 ((UserRegistrationState) uiState).registerUIStateListener(this);
                 break;
             case HomeActivityPresenter.MENU_OPTION_HOME:

@@ -14,6 +14,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
+import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
@@ -37,7 +38,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
-    private final int PRODUCT_REGISTRATION = 6;
+    private final int MENU_OPTION_CONNECTIVITY = 6;
+    private final int PRODUCT_REGISTRATION = 7;
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
@@ -114,6 +116,12 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 break;
             case PRODUCT_REGISTRATION:
                 uiState = new ProductRegistrationState();
+                break;
+            case MENU_OPTION_CONNECTIVITY:
+                uiState = new ConnectivityFragmentState();
+                UIStateData connectivityStateData = new UIStateData();
+                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                uiState.setUiStateData(connectivityStateData);
                 break;
             default:
                 uiState = new HomeFragmentState();
