@@ -25,6 +25,27 @@ public class UITTestUtils {
         return color;
     }
 
+    public static float getAttributeAlpha(Context context, int attribute) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});
+        float alpha = Color.MAGENTA;
+        if (typedArray != null) {
+            alpha = typedArray.getFloat(0, 0f);
+            typedArray.recycle();
+
+        }
+        return alpha;
+    }
+
+    public static int getColorWithAlphaFromAttrs(Context context, int colorAttr, int alphaAttr) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{colorAttr, alphaAttr});
+        if (typedArray != null) {
+            int color = typedArray.getColor(0, Color.WHITE);
+            float alpha = typedArray.getFloat(1, 0f);
+            return modulateColorAlpha(color, alpha);
+        }
+        throw new RuntimeException("the typed array doesn't contain colr and alpha attr");
+    }
+
     public static int modulateColorAlpha(int color, float alphaMod) {
         return ColorUtils.setAlphaComponent(color, Math.round(Color.alpha(color) * alphaMod));
     }

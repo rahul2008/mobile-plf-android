@@ -156,12 +156,19 @@ public class TextBoxTest {
 //    public void verifyDisabledTextBoxTextColor() {
 //
 //    }
-//    @Test
-//    public void verifyDisabledTextBoxHintTextColor() {
-//
-//    }
+    @Test
+    public void verifyDisabledTextBoxHintTextColor() {
+        int expectedColor = UITTestUtils.getColorWithAlphaFromAttrs(activityContext,
+                R.attr.uitInputTextHintTextDisabledColor, R.attr.uitInputTextHintTextDisabledAlpha);
+        getDisabledHintTextBox().check(
+                matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
+    }
 
     private ViewInteraction getTextBox() {
         return onView(withId(com.philips.platform.uit.test.R.id.textBox));
+    }
+
+    private ViewInteraction getDisabledHintTextBox() {
+        return onView(withId(com.philips.platform.uit.test.R.id.hintTextBoxDisabled));
     }
 }
