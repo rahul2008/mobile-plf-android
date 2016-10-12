@@ -26,6 +26,20 @@ public class TextViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<View> isSameHintTextColor(final int stateAttr, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    int actual = ((TextView) view).getHintTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
+                    setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
+                    return actual == expectedValue;
+                }
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
+            }
+        };
+    }
+
     public static Matcher<View> isSameFontSize(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
