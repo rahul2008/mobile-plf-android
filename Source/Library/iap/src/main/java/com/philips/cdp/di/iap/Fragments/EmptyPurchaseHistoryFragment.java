@@ -58,7 +58,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     public void onClick(View v) {
         if (v == mContinueShoppingBtn) {
             if (!isNetworkConnected()) return;
-            showProductCatalogFragment();
+            showProductCatalogFragment(EmptyPurchaseHistoryFragment.TAG);
         }
     }
 }
