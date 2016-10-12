@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.introscreen.welcomefragment.WelcomeFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -38,16 +39,16 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     private ImageView arrowImage;
     private TextView textView;
     private FragmentManager fragmentManager;
-    private WelcomeScreenFragment welcomeScreenFragment;
+    private WelcomeFragment welcomeScreenFragment;
     private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomePresenter(this);
+        presenter = new WelcomeActivityPresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_activity);
-        presenter.onLoad(this);
+        presenter.onLoad();
     }
 
     @Override
@@ -99,8 +100,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     @Override
     public void loadWelcomeFragment() {
         fragmentManager = this.getSupportFragmentManager();
-        welcomeScreenFragment = new WelcomeScreenFragment();
-        welcomeScreenFragment.setPresenter(presenter);
+        welcomeScreenFragment = new WelcomeFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.welcome_frame_container, welcomeScreenFragment);
         fragmentTransaction.commit();
@@ -142,7 +142,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         }
         if (!isConsumed) {
 
-            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT, this);
+            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT);
         }
     }
     @Override

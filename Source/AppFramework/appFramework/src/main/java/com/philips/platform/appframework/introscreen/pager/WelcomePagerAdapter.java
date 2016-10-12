@@ -19,7 +19,9 @@ import com.philips.platform.appframework.R;
 public class WelcomePagerAdapter extends FragmentPagerAdapter {
 
     private static final String[] CONTENT = new String[] { "Page 1", "Page 2", "Page 3" };
-
+    private final int PAGER_POSITION_ONE = 0;
+    private final int PAGER_POSITION_TWO = 1;
+    private final int PAGER_POSITION_THREE = 2;
     public WelcomePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
@@ -28,14 +30,14 @@ public class WelcomePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         switch (position) {
-            case 0:
-                return WelcomeSlideFragment.newInstance(R.string.introduction_screen_one_bottom_text,
+            case PAGER_POSITION_ONE:
+                return WelcomePagerFragment.newInstance(R.string.introduction_screen_one_bottom_text,
                         R.string.introduction_screen_one_bottom_text, R.drawable.af_welcome_start_page_bg);
-            case 1:
-                return WelcomeSlideFragment.newInstance(R.string.introduction_screen_two_bottom_text,
+            case PAGER_POSITION_TWO:
+                return WelcomePagerFragment.newInstance(R.string.introduction_screen_two_bottom_text,
                         R.string.introduction_screen_two_bottom_text, R.drawable.af_welcome_center_page_bg);
-            case 2:
-                return WelcomeSlideFragment.newInstance(R.string.introduction_screen_three_bottom_text,
+            case PAGER_POSITION_THREE:
+                return WelcomePagerFragment.newInstance(R.string.introduction_screen_three_bottom_text,
                         R.string.introduction_screen_three_bottom_text, R.drawable.af_welcome_end_page_bg);
             default:
                 return null;

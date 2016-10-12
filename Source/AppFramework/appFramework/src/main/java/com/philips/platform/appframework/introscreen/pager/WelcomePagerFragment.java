@@ -22,7 +22,7 @@ import com.philips.platform.appframework.R;
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
  * The default content can be resplaced by verticals by changing the xml file 'parent_introduction_fragment_layout'
  */
-public class WelcomeSlideFragment extends Fragment {
+public class WelcomePagerFragment extends Fragment {
 
     private static final String ARG_PAGE_TITLE = "pageTitle";
     private static final String ARG_PAGE_SUBTITLE = "pageSubtitle";
@@ -33,14 +33,14 @@ public class WelcomeSlideFragment extends Fragment {
     @StringRes private int subtitleId;
     @DrawableRes private int backgroundId;
 
-    public static WelcomeSlideFragment newInstance(@StringRes int title, @StringRes int subtitle,
+    public static WelcomePagerFragment newInstance(@StringRes int title, @StringRes int subtitle,
                                                    @DrawableRes int background) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE_TITLE, title);
         args.putInt(ARG_PAGE_SUBTITLE, subtitle);
         args.putInt(ARG_PAGE_BG_ID, background);
 
-        WelcomeSlideFragment fragmentFirst = new WelcomeSlideFragment();
+        WelcomePagerFragment fragmentFirst = new WelcomePagerFragment();
         fragmentFirst.setArguments(args);
         return fragmentFirst;
     }
