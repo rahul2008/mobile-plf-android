@@ -64,19 +64,19 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_left_padding);
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyButtonRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_right_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyButtonCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
+        float radius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_cornerradius);
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
@@ -90,7 +90,7 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonFontSize() {
-        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
+        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_font_size);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 

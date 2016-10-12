@@ -87,7 +87,7 @@ public class PrimaryButtonWithIconOnlyTest {
 
     @Test
     public void verifyButtonWithIconLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
             }
 
@@ -99,7 +99,7 @@ public class PrimaryButtonWithIconOnlyTest {
 
     @Test
     public void verifyButtonCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
+        float radius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_cornerradius);
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 

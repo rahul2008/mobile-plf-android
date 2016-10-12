@@ -34,7 +34,7 @@ public class DrawableMatcher {
                 Rect bounds = drawable.getBounds();
                 int actualHeight = bounds.bottom - bounds.top;
                 setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
-                return expectedValue >= actualHeight;
+                return actualHeight >= expectedValue;
             }
         };
     }

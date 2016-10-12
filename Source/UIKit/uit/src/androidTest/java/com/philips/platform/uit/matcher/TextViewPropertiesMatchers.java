@@ -40,7 +40,7 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameFontSize(final int expectedValue) {
+    public static Matcher<View> isSameFontSize(final float expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
