@@ -14,17 +14,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
+import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
-import com.philips.cdp.di.iap.products.ProductCatalogAPI;
-import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
+import com.philips.cdp.di.iap.products.ProductCatalogAPI;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
@@ -88,7 +88,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
 
-        if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
+        if (currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
             if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
             } else if (CartModelContainer.getInstance().getProductList() != null

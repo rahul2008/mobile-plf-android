@@ -88,7 +88,7 @@ android {
         abortOnError false
     }
     defaultConfig {
-        minSdkVersion 24
+        minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
         versionName objcdp.getVersionWithHash()
