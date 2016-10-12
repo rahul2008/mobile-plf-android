@@ -296,11 +296,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-            if (deliveryModeList.size() > 0) {
-                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-            } else {
-                updateCartDetails(mShoppingCartAPI);
-            }
+            updateCartDetails(mShoppingCartAPI);
         }
     }
 
