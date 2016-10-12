@@ -31,6 +31,8 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -184,7 +186,14 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
-        mTvSignInEmail.setText(mUserDetails);
+
+        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+            mTvSignInEmail.setText(mUserDetails);
+        }else {
+            mUserDetails = getString(R.string.InitialSignedIn_SigninMobileNumberText);
+            mUserDetails = String.format(mUserDetails, mUser.getMobile());
+            mTvSignInEmail.setText(mUserDetails);
+        }
     }
 
     @Override

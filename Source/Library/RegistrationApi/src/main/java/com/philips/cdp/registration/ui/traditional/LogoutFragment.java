@@ -37,6 +37,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -76,6 +77,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private ProgressDialog mProgressDialog;
 
+    private String mUserDetails;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onCreate");
@@ -207,9 +209,16 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
         mTvWelcome.setText(getString(R.string.reg_Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
 
-        String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
-        email = String.format(email, mUser.getEmail());
-        mTvSignInEmail.setText(email);
+
+        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+            String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
+            email = String.format(email, mUser.getEmail());
+            mTvSignInEmail.setText(email);
+        }else {
+            mUserDetails = getString(R.string.InitialSignedIn_SigninMobileNumberText);
+            mUserDetails = String.format(mUserDetails, mUser.getMobile());
+            mTvSignInEmail.setText(mUserDetails);
+        }
     }
 
     @Override

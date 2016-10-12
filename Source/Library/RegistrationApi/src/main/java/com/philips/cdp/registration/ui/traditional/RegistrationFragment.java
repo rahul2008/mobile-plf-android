@@ -33,7 +33,6 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileLogoutFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileSignInAccountFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileWelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -246,9 +245,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
         if (isAccountSettings) {
-            if (RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
-                replaceWithLogoutFragment();
-            } else {
+
                 if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                     AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
                             getAppInfraInstance().getTagging();
@@ -266,7 +263,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 }
                 AppTagging.trackFirstPage(AppTaggingPages.HOME);
                 replaceWithHomeFragment();
-            }
+
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
@@ -351,13 +348,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     public void addWelcomeFragmentOnVerification() {
         navigateToHome();
-        if (RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
-            MobileWelcomeFragment welcomeFragment = new MobileWelcomeFragment();
-            replaceFragment(welcomeFragment, AppTaggingPages.WELCOME);
-        } else {
+
             WelcomeFragment welcomeFragment = new WelcomeFragment();
             replaceFragment(welcomeFragment, AppTaggingPages.WELCOME);
-        }
+
     }
 
     public void replaceFragment(Fragment fragment, String fragmentTag) {
@@ -376,20 +370,13 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void replaceWithWelcomeFragment() {
         try {
 
-            if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
-                MobileWelcomeFragment welcomeFragment = new MobileWelcomeFragment();
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment,
-                        AppTaggingPages.WELCOME);
-                fragmentTransaction.commitAllowingStateLoss();
 
-            }else {
                 WelcomeFragment welcomeFragment = new WelcomeFragment();
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment,
                         AppTaggingPages.WELCOME);
                 fragmentTransaction.commitAllowingStateLoss();
-            }
+
           }  catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
@@ -399,17 +386,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void replaceWithLogoutFragment() {
         try {
-            if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
-               MobileLogoutFragment mobileLogoutFragment = new MobileLogoutFragment();
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, mobileLogoutFragment);
-                fragmentTransaction.commitAllowingStateLoss();
-            }else {
+
                LogoutFragment logoutFragment = new LogoutFragment();
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
                 fragmentTransaction.commitAllowingStateLoss();
-            }
+
 
 
         } catch (IllegalStateException e) {
