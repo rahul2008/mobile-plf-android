@@ -5,25 +5,25 @@
 
 package com.philips.cdp.dicommclient.request;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.DefaultCppController;
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.DefaultCloudController;
 
 public class StartDcsRequest extends Request {
 
     private long TIME_OUT = 10 * 1000L;
 
-    private final CppController cppController;
+    private final CloudController cloudController;
     private final Object lock;
 
-    public StartDcsRequest(final CppController cppController, final ResponseHandler responseHandler) {
+    public StartDcsRequest(final CloudController cloudController, final ResponseHandler responseHandler) {
         super(null, responseHandler);
-        this.cppController = cppController;
+        this.cloudController = cloudController;
 
         lock = new Object();
 
     }
 
-    private final DefaultCppController.DCSStartListener dcsStartListener = new DefaultCppController.DCSStartListener() {
+    private final DefaultCloudController.DCSStartListener dcsStartListener = new DefaultCloudController.DCSStartListener() {
         @Override
         public void onResponseReceived() {
             synchronized (lock) {
@@ -35,12 +35,12 @@ public class StartDcsRequest extends Request {
     @Override
     public Response execute() {
         synchronized (lock) {
-            cppController.startDCSService(dcsStartListener);
+            cloudController.startDCSService(dcsStartListener);
 
             try {
                 lock.wait(TIME_OUT);
 
-                if (cppController.getState() != DefaultCppController.ICP_CLIENT_DCS_STATE.STARTED) {
+                if (cloudController.getState() != CloudController.ICPClientDCSState.STARTED) {
                     return new Response(null, Error.REQUESTFAILED, mResponseHandler);
                 }
             } catch (InterruptedException e) {

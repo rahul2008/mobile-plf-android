@@ -7,8 +7,7 @@ package com.philips.cdp.dicommclient.communication;
 
 import java.util.Map;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.DefaultCppController;
+import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
@@ -24,17 +23,17 @@ public class RemoteStrategy extends CommunicationStrategy {
 
     private final RemoteSubscriptionHandler mRemoteSubscriptionHandler;
     private final NetworkNode mNetworkNode;
-    private final CppController mCppController;
+    private final CloudController cloudController;
 
     private RequestQueue mRequestQueue;
     private boolean isDSCRequestOnGoing;
 
-    public RemoteStrategy(final NetworkNode networkNode, final CppController cppController) {
+    public RemoteStrategy(final NetworkNode networkNode, final CloudController cloudController) {
         mNetworkNode = networkNode;
-        mCppController = cppController;
+        this.cloudController = cloudController;
 
         mRequestQueue = createRequestQueue();
-        mRemoteSubscriptionHandler = createRemoteSubscriptionHandler(cppController);
+        mRemoteSubscriptionHandler = createRemoteSubscriptionHandler(cloudController);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class RemoteStrategy extends CommunicationStrategy {
                               final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler, mCppController);
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -52,7 +51,7 @@ public class RemoteStrategy extends CommunicationStrategy {
                               final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler, mCppController);
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -62,7 +61,7 @@ public class RemoteStrategy extends CommunicationStrategy {
                               final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler, mCppController);
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -70,7 +69,7 @@ public class RemoteStrategy extends CommunicationStrategy {
     public void deleteProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler, mCppController);
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -79,7 +78,7 @@ public class RemoteStrategy extends CommunicationStrategy {
                           final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, mCppController);
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -88,7 +87,7 @@ public class RemoteStrategy extends CommunicationStrategy {
                             final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, mCppController);
+        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -107,19 +106,19 @@ public class RemoteStrategy extends CommunicationStrategy {
     @Override
     public void disableCommunication() {
         mRemoteSubscriptionHandler.disableSubscription();
-        mCppController.stopDCSService();
+        cloudController.stopDCSService();
     }
 
     protected RequestQueue createRequestQueue() {
         return new RequestQueue();
     }
 
-    protected RemoteSubscriptionHandler createRemoteSubscriptionHandler(CppController cppController) {
-        return new RemoteSubscriptionHandler(cppController);
+    protected RemoteSubscriptionHandler createRemoteSubscriptionHandler(CloudController cloudController) {
+        return new RemoteSubscriptionHandler(cloudController);
     }
 
     protected StartDcsRequest createStartDcsRequest(ResponseHandler responseHandler) {
-        return new StartDcsRequest(mCppController, responseHandler);
+        return new StartDcsRequest(cloudController, responseHandler);
     }
 
     private ResponseHandler responseHandler = new ResponseHandler() {
@@ -135,7 +134,7 @@ public class RemoteStrategy extends CommunicationStrategy {
     };
 
     private void startDcsIfNecessary() {
-        if (mCppController.getState() != DefaultCppController.ICP_CLIENT_DCS_STATE.STARTED && !isDSCRequestOnGoing) {
+        if (cloudController.getState() != CloudController.ICPClientDCSState.STARTED && !isDSCRequestOnGoing) {
             StartDcsRequest startRequest = createStartDcsRequest(responseHandler);
             isDSCRequestOnGoing = true;
             mRequestQueue.addRequestInFrontOfQueue(startRequest);

@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016
  *   All rights reserved.
  */
 
@@ -8,11 +8,11 @@ package com.philips.cdp.dicommclient.port.common;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.ICPEventListener;
+import com.philips.cdp.cloudcontroller.pairing.DefaultPairingController;
+import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.ICPEventListener;
-import com.philips.cdp.dicommclient.cpp.pairing.DefaultPairingController;
-import com.philips.cdp.dicommclient.cpp.pairing.PairingController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -54,7 +54,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Log.class, DICommClientWrapper.class, DiscoveryManager.class})
 public class PairingHandlerTest {
@@ -66,7 +65,7 @@ public class PairingHandlerTest {
     private DICommAppliance diCommApplianceMock;
 
     @Mock
-    private CppController cppControllerMock;
+    private CloudController cloudControllerMock;
 
     @Mock
     private DiscoveryManager discoveryManagerMock;
@@ -113,21 +112,21 @@ public class PairingHandlerTest {
         DICommLog.disableLogging();
         PairingHandler.clear();
 
-        pairingController = new PairingControllerForTest(cppControllerMock);
+        pairingController = new PairingControllerForTest(cloudControllerMock);
 
         when(diCommApplianceMock.getNetworkNode()).thenReturn(networkNodeMock);
         when(diCommApplianceMock.getPairingPort()).thenReturn(pairingPortMock);
         when(diCommApplianceMock.getDeviceType()).thenReturn(DEVICE_TYPE);
 
-        when(cppControllerMock.getAppType()).thenReturn(APP_TYPE);
-        when(cppControllerMock.getAppCppId()).thenReturn(APP_CPP_ID);
-        when(cppControllerMock.isSignOn()).thenReturn(true);
-        when(cppControllerMock.getPairingController()).thenReturn(pairingController);
+        when(cloudControllerMock.getAppType()).thenReturn(APP_TYPE);
+        when(cloudControllerMock.getAppCppId()).thenReturn(APP_CPP_ID);
+        when(cloudControllerMock.isSignOn()).thenReturn(true);
+        when(cloudControllerMock.getPairingController()).thenReturn(pairingController);
 
         when(networkNodeMock.getCppId()).thenReturn(NETWORK_CPP_ID);
 
         mockStatic(DICommClientWrapper.class);
-        when(DICommClientWrapper.getCloudController()).thenReturn(cppControllerMock);
+        when(DICommClientWrapper.getCloudController()).thenReturn(cloudControllerMock);
 
         when(discoveryManagerMock.getApplianceByCppId(anyString())).thenReturn(diCommApplianceMock);
         mockStatic(DiscoveryManager.class);
@@ -445,11 +444,10 @@ public class PairingHandlerTest {
 
     class PairingControllerForTest extends DefaultPairingController {
 
-        public PairingControllerForTest(@NonNull CppController cloudController) {
+        public PairingControllerForTest(@NonNull CloudController cloudController) {
             super(cloudController);
         }
 
-        @Override
         public PairingService createPairingService(ICPEventListener icpEventListener) {
             return pairingServiceMock;
         }

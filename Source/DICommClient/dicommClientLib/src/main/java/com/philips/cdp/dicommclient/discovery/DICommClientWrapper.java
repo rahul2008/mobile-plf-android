@@ -9,11 +9,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.BuildConfig;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.cpp.CppController;
 
 import java.util.Random;
 
@@ -21,15 +21,16 @@ public final class DICommClientWrapper {
 
     private static Context sContext;
     private static String sTemporaryAppId;
-    private static CppController sCloudControllerInstance;
+    private static CloudController sCloudControllerInstance;
 
     private DICommClientWrapper() {
         // Utility class
     }
 
-    public static synchronized <U extends DICommAppliance> void initializeDICommLibrary(@NonNull Context context, @NonNull DICommApplianceFactory<U> applianceFactory, @Nullable DICommApplianceDatabase<U> applianceDatabase, @NonNull CppController cloudController) {
+    public static synchronized <U extends DICommAppliance> void initializeDICommLibrary(@NonNull Context context, @NonNull DICommApplianceFactory<U> applianceFactory, @Nullable DICommApplianceDatabase<U> applianceDatabase, @NonNull CloudController cloudController) {
         if (context == null) throw new IllegalArgumentException("Context is null");
-        if (applianceFactory== null) throw new IllegalArgumentException("ApplicanceFactory is null");
+        if (applianceFactory == null)
+            throw new IllegalArgumentException("ApplicanceFactory is null");
         if (cloudController == null) throw new IllegalArgumentException("CloudController is null.");
 
         sContext = context;
@@ -63,7 +64,7 @@ public final class DICommClientWrapper {
         return getCloudController() != null && getCloudController().getAppCppId() != null;
     }
 
-    public static CppController getCloudController() {
+    public static CloudController getCloudController() {
         return sCloudControllerInstance;
     }
 }

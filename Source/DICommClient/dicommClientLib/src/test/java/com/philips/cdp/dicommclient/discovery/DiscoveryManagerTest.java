@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
@@ -7,10 +7,10 @@ package com.philips.cdp.dicommclient.discovery;
 
 import android.os.Handler;
 
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.DefaultCppController;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -47,7 +47,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
     private DiscoveryManager<TestAppliance> mDiscoveryManager;
     private DiscoveryEventListener mListener;
     private NetworkMonitor mMockedNetworkMonitor;
-    private CppController mMockedCppController;
+    private CloudController mMockedCloudController;
     private TestApplianceFactory mTestApplianceFactory;
     private DICommApplianceDatabase<TestAppliance> mMockedApplianceDatabase;
 
@@ -56,7 +56,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mMockedCppController = mock(DefaultCppController.class);
+        mMockedCloudController = mock(DefaultCloudController.class);
         mTestApplianceFactory = new TestApplianceFactory();
         mMockedApplianceDatabase = mock(DICommApplianceDatabase.class);
         mMockedNetworkMonitor = mock(NetworkMonitor.class);

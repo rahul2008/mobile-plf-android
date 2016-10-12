@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2016.
+ * © Koninklijke Philips N.V., 2016
  *   All rights reserved.
  */
 
@@ -7,8 +7,7 @@ package com.philips.cdp.dicommclient.communication;
 
 import android.util.Log;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.DefaultCppController;
+import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
@@ -55,7 +54,7 @@ public class RemoteStrategyTest {
     private NetworkNode networkNodeMock;
 
     @Mock
-    private CppController cppControllerMock;
+    private CloudController CloudControllerMock;
 
     @Mock
     private ResponseHandler responseHandlerMock;
@@ -80,12 +79,12 @@ public class RemoteStrategyTest {
 
         DICommLog.disableLogging();
 
-        remoteStrategy = new RemoteStrategyForTesting(networkNodeMock, cppControllerMock);
+        remoteStrategy = new RemoteStrategyForTesting(networkNodeMock, CloudControllerMock);
     }
 
     @Test
     public void whenPutPropsIsCalledThenDSCIsStarted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
@@ -93,7 +92,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenDSCHasStartedSuccessfullyThenPutPropsRequestIsExecuted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(startRequestArgumentCaptor.capture());
@@ -104,7 +103,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenPutPropsIsCalledWhileDSCIsStartedThenPutPropsRequestIsExecuted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STARTED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STARTED);
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(StartDcsRequest.class));
@@ -113,7 +112,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenPutPropsIsCalledTwiceThenAnotherDSCStartRequestIsNotIssued() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STARTING);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STARTING);
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
@@ -122,7 +121,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenDSCISFailedToStartThenItIsStartedAgainWithNextRequest() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(startRequestArgumentCaptor.capture());
@@ -135,7 +134,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenDSCISStoppedThenItIsRestartedAgainWithNextRequest() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(startRequestArgumentCaptor.capture());
@@ -148,7 +147,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenGetPropsIsCalledThenDSCIsStarted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.getProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
@@ -156,7 +155,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenAddPropsIsCalledThenDSCIsStarted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.addProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
@@ -164,7 +163,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenDeletePropsIsCalledThenDSCIsStarted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
@@ -172,7 +171,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenSubscribeIsCalledThenDSCIsStarted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
@@ -180,7 +179,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenUnsubscribeIsCalledThenDSCIsStarted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
@@ -188,7 +187,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenEnableSubscriptionIsCalledThenDSCIsStarted() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
         remoteStrategy.enableCommunication(subscriptionEventListener);
 
@@ -197,7 +196,7 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenEnableSubscriptionIsCalledThenEnableSubscriptionIsCalled() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
         remoteStrategy.enableCommunication(subscriptionEventListener);
 
@@ -206,15 +205,15 @@ public class RemoteStrategyTest {
 
     @Test
     public void whenDisableCommunicationIsCalledThenDSCIsStopped() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.disableCommunication();
 
-        verify(cppControllerMock).stopDCSService();
+        verify(CloudControllerMock).stopDCSService();
     }
 
     @Test
     public void whenDisableCommunicationIsCalledThenDisableSubscriptionIsCalled() throws Exception {
-        when(cppControllerMock.getState()).thenReturn(DefaultCppController.ICP_CLIENT_DCS_STATE.STOPPED);
+        when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         remoteStrategy.disableCommunication();
 
         verify(remoteSubscriptionHandlerMock).disableSubscription();
@@ -236,8 +235,8 @@ public class RemoteStrategyTest {
 
     class RemoteStrategyForTesting extends RemoteStrategy {
 
-        public RemoteStrategyForTesting(NetworkNode networkNode, CppController cppController) {
-            super(networkNode, cppController);
+        public RemoteStrategyForTesting(NetworkNode networkNode, CloudController cloudController) {
+            super(networkNode, cloudController);
         }
 
         @Override
@@ -252,7 +251,7 @@ public class RemoteStrategyTest {
         }
 
         @Override
-        protected RemoteSubscriptionHandler createRemoteSubscriptionHandler(CppController cppController) {
+        protected RemoteSubscriptionHandler createRemoteSubscriptionHandler(CloudController cloudController) {
             return remoteSubscriptionHandlerMock;
         }
     }

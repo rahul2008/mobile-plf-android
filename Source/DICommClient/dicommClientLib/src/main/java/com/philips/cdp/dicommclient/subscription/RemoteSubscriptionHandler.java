@@ -5,8 +5,8 @@
 
 package com.philips.cdp.dicommclient.subscription;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -17,10 +17,10 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
 
     private SubscriptionEventListener mSubscriptionEventListener;
     private NetworkNode mNetworkNode;
-    private CppController mCppController;
+    private CloudController cloudController;
 
-    public RemoteSubscriptionHandler(CppController cppController) {
-        mCppController = cppController;
+    public RemoteSubscriptionHandler(CloudController cppController) {
+        cloudController = cppController;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         mNetworkNode = networkNode;
         mSubscriptionEventListener = subscriptionEventListener;
         //DI-Comm change. Moved from Constructor
-        mCppController.addDCSEventListener(networkNode.getCppId(), this);
+        cloudController.addDCSEventListener(networkNode.getCppId(), this);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         mSubscriptionEventListener = null;
         //DI-Comm change. Removing the listener on Disabling remote subscription
         if (mNetworkNode != null) {
-            mCppController.removeDCSEventListener(mNetworkNode.getCppId());
+            cloudController.removeDCSEventListener(mNetworkNode.getCppId());
         }
     }
 
