@@ -95,9 +95,13 @@ namespace Philips.SIG.Automation.Android.CDPP.Tests.Workflows
             WelcomeScreen.Status();
 
             Thread.Sleep(2000);
-            AccountSettings.Click(AccountSettings.Button.LogOut);
+            AppHomeScreen.Click(AppHomeScreen.Button.Alogout);
+            //AccountSettings.Click(AccountSettings.Button.LogOut);
             Thread.Sleep(2000);
-            AccountSettings.Click(AccountSettings.Button.LogOutConfirm);
+
+            AppHomeScreen.Click(AppHomeScreen.Button.AlogoutConfirm);
+
+            //AccountSettings.Click(AccountSettings.Button.LogOutConfirm);
             Thread.Sleep(2000);
             HomeScreen.WaitforHomeScreen();
 
