@@ -102,7 +102,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
 
-        if (currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
+        if (currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
             if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
                 displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
             } else if (CartModelContainer.getInstance().getProductList() != null
