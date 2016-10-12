@@ -29,6 +29,7 @@ import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.FileDownload;
 import com.philips.icpinterface.GlobalStore;
 import com.philips.icpinterface.ICPClient;
+import com.philips.icpinterface.ICPClientToAppInterface;
 import com.philips.icpinterface.Provision;
 import com.philips.icpinterface.SignOn;
 import com.philips.icpinterface.ThirdPartyNotification;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DefaultCloudController implements CloudController {
+public class DefaultCloudController implements CloudController, ICPClientToAppInterface {
     
     private static final String TAG = "DefaultCloudController";
     private static final String CERTIFICATE_EXTENSION = ".cer";

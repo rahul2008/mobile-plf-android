@@ -142,7 +142,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
             return;
         }
         int status;
-        PairingService pairingService = mCloudController.getPairingController().createPairingService(this);
+        PairingService pairingService = createPairingService(this);
 
         status = pairingService.addPermissionsRequest(null, trustee.getInternalRepresentation(), relationType, permission);
 
@@ -218,8 +218,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
         }
     }
 
-    @Override
-    public PairingService createPairingService(@NonNull ICPEventListener icpEventListener) {
+    private PairingService createPairingService(@NonNull ICPEventListener icpEventListener) {
         return new PairingService(new ICPCallbackHandler(icpEventListener));
     }
 

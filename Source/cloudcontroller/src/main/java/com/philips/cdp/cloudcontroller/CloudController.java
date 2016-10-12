@@ -12,10 +12,8 @@ import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
 import com.philips.cdp.cloudcontroller.listener.SendNotificationRegistrationIdListener;
 import com.philips.cdp.cloudcontroller.listener.SignonListener;
 import com.philips.cdp.cloudcontroller.pairing.PairingController;
-import com.philips.icpinterface.ICPClient;
-import com.philips.icpinterface.ICPClientToAppInterface;
 
-public interface CloudController extends ICPClientToAppInterface, ICPEventListener {
+public interface CloudController extends ICPEventListener {
 
     String NOTIFICATION_SERVICE_TAG = "3pns";
     String NOTIFICATION_PROTOCOL = "push";
@@ -79,20 +77,7 @@ public interface CloudController extends ICPClientToAppInterface, ICPEventListen
 
     void setAppUpdateNotificationListener(AppUpdateListener listener);
 
-    @Override
-    void onICPCallbackEventOccurred(int eventType, int status, ICPClient icpClient);
-
     void startNewAppUpdateDownload();
-
-    @Override
-    boolean loadCertificates();
-
-    /*
-         * Description: Function throws exception if network not exist. If network
-         * exist return from function.
-         */
-    @Override
-    void checkNetworkSate() throws Exception;
 
     String getICPClientVersion();
 

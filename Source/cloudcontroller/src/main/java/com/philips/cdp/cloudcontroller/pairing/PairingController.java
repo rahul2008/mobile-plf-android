@@ -7,9 +7,6 @@ package com.philips.cdp.cloudcontroller.pairing;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.cloudcontroller.ICPEventListener;
-import com.philips.icpinterface.PairingService;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,8 +34,6 @@ public interface PairingController {
 
     List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_RESPONSE, PERMISSION_CHANGE));
     List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_PUSH));
-
-    PairingService createPairingService(@NonNull ICPEventListener icpEventListener);
 
     void setPairingCallback(@NonNull PairingCallback pairingCallback);
 
