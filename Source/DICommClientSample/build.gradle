@@ -12,6 +12,5 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'http://130.145.245.193:8081/artifactory/libs-release-local-android' }
-        maven { url 'http://130.145.245.193:8081/artifactory/libs-snapshot-local-android' }
     }
 }

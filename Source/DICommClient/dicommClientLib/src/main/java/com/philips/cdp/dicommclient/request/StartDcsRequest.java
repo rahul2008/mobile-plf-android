@@ -6,7 +6,6 @@
 package com.philips.cdp.dicommclient.request;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.DefaultCloudController;
 
 public class StartDcsRequest extends Request {
 
@@ -23,7 +22,7 @@ public class StartDcsRequest extends Request {
 
     }
 
-    private final DefaultCloudController.DCSStartListener dcsStartListener = new DefaultCloudController.DCSStartListener() {
+    private final CloudController.DCSStartListener dcsStartListener = new CloudController.DCSStartListener() {
         @Override
         public void onResponseReceived() {
             synchronized (lock) {

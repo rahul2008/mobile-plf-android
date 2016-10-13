@@ -8,7 +8,6 @@ package com.philips.cdp.dicommclient.request;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.CloudError;
 import com.philips.cdp.cloudcontroller.listener.DcsResponseListener;
 import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -23,6 +22,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private static final String TAG = "RemoteRequest";
 
     private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
+    private static final int SUCCESS = 0;
     private static String BASEDATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\",\"data\":%s}";
     private static final String DICOMM_REQUEST = "DICOMM-REQUEST";
     private static int REQUEST_PRIORITY = 20;
@@ -111,7 +111,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     public void onPublishEventReceived(int status, int messageId, String conversationId) {
         if (mMessageId == messageId) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from the right request - status: " + status);
-            if (status == CloudError.SUCCESS.errorCode) {
+            if (status == SUCCESS) {
                 mConversationId = conversationId;
             } else {
                 synchronized (this) {

@@ -104,8 +104,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.philips.cdp:cloudcontroller:3.0.1-SNAPSHOT'
+    compile 'com.philips.cdp:cloudcontroller-api:2.0.0'
     compile 'com.google.code.gson:gson:2.3'
+    testCompile 'com.philips.cdp:cloudcontroller:4.0.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
