@@ -25,7 +25,6 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -36,11 +35,11 @@ import java.util.Locale;
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener {
+public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener{
 
     private Context activityContext;
     private User userObject;
-    private UIStateListener userRegistrationListener;
+    private URStateListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
     final String AI = "appinfra";
@@ -109,17 +108,17 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
      */
     @Override
     public void onUserLogoutSuccess() {
-
+        userRegistrationListener.onLogoutSuccess();
     }
 
     @Override
     public void onUserLogoutFailure() {
-
+        userRegistrationListener.onLogoutFailure();
     }
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-
+        userRegistrationListener.onLogoutSuccess();
     }
 
 
@@ -132,8 +131,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
      * Registering for UIStateListener callbacks
      * @param uiStateListener
      */
-    public void registerUIStateListener(UIStateListener uiStateListener){
-        this.userRegistrationListener = (UIStateListener) getPresenter();
+    public void registerUIStateListener(URStateListener uiStateListener){
+        this.userRegistrationListener = (URStateListener) getPresenter();
     }
 
     /**
@@ -425,4 +424,5 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         }
 
     }
+
 }
