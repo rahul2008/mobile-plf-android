@@ -34,12 +34,6 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: 'jacoco'
-
-    jacoco {
-        toolVersion = '0.7.1.201405082137'
-    }
-
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }
@@ -88,19 +82,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile('org.robolectric:robolectric:3.0') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    testCompile('org.robolectric:shadows-support-v4:3.0') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    testCompile 'org.powermock:powermock-api-mockito:1.6.4'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.4'
     compile 'com.android.support:support-annotations:23.1.0'
 }
 
