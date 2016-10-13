@@ -9,8 +9,8 @@ import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
+import com.philips.platform.modularui.stateimpl.URStateListener;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -18,7 +18,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class WelcomeFragmentPresenter extends UIBasePresenter implements UIStateListener {
+public class WelcomeFragmentPresenter extends UIBasePresenter implements URStateListener {
 
     private AppFrameworkApplication appFrameworkApplication;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -80,5 +80,15 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements UIState
         this.uiState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+
+    }
+
+    @Override
+    public void onLogoutFailure() {
+
     }
 }

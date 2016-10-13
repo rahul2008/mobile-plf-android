@@ -21,37 +21,46 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
     private int cartItemCount = 0;
+    private FragmentTransaction fragmentTransaction;
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
         int containerId = R.id.frame_container;
         try {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {
                 case Constants.ADD_HOME_FRAGMENT:
+
                     if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
-                        fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                        fragmentTransaction.addToBackStack(fragmentTag);
-                        fragmentTransaction.commitAllowingStateLoss();
+                        addToBackStack(containerId, fragment, fragmentTag);
                     } else {
                         getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
                     }
+
                     break;
                 case Constants.ADD_FROM_HAMBURGER:
-                    getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
-                    fragmentTransaction.replace(containerId, fragment, fragmentTag);
-                    fragmentTransaction.addToBackStack(fragmentTag);
-                    fragmentTransaction.commitAllowingStateLoss();
+
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    addToBackStack(containerId,new HomeFragment(),HomeFragment.TAG);
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    addToBackStack(containerId, fragment, fragmentTag);
+
                     break;
                 case Constants.CLEAR_TILL_HOME:
-                    getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    fragmentTransaction.replace(containerId,new HomeFragment());
-                    fragmentTransaction.addToBackStack(HomeFragment.TAG);
-                    fragmentTransaction.commitAllowingStateLoss();
+
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    addToBackStack(containerId,new HomeFragment(),HomeFragment.TAG);
+
                     break;
             }
         }catch (Exception e){
 
         }
+    }
+
+    private void addToBackStack(int containerID, Fragment fragment,String fragmentTag){
+        fragmentTransaction.replace(containerID,fragment,fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragmentTransaction.commit();
     }
 
     public int getCartItemCount() {

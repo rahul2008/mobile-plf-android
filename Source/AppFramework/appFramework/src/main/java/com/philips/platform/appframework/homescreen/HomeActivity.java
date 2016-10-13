@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -68,6 +69,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     private SharedPreferenceUtility sharedPreferenceUtility;
     private ImageView cartIcon;
     private TextView cartCount;
+    private boolean isCartVisible = true;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -341,7 +343,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
 
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
-        cartIconVisibility(shouldShow);
+        isCartVisible = shouldShow;
     }
 
     @Override
@@ -379,10 +381,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();
-            if (null != str) {
-                if(str.contains(Constants.IAP_PHILIPS_SHOP_FRAGMENT_TAG) || str.contains(Constants.IAP_PURCHASE_HISTORY_FRAGMENT_TAG) || str.contains(Constants.IAP_SHOPPING_CART_FRAGMENT_TAG)){
-                    return;
-                } else {
+            if(null != str){
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(str);
+                if(fragment instanceof InAppBaseFragment){
+                    cartIconVisibility(isCartVisible);
+                }
+                else {
                     cartIconVisibility(true);
                 }
             }
