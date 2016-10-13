@@ -29,13 +29,13 @@ android {
     }
 
     buildTypes {
-        debug{
-            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
+        debug {
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersion()}\""
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersion()}\""
         }
     }
 }
@@ -180,3 +180,42 @@ task zipDocuments(type: Zip) {
 
 zipDocuments {}.dependsOn generateJavadoc
 //=======To zip and upload "Documents/External" ==ENDS=============
+
+
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.7.6.201602180812'
+}
+
+def coverageSourceDirs = ['src/main/java']
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/inject/*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*'])
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testDebugUnitTest.exec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}

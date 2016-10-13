@@ -28,12 +28,6 @@ buildscript {
 apply from: 'extra/jenkins.gradle'
 
 allprojects {
-    apply plugin: 'jacoco'
-
-    jacoco {
-        toolVersion = '0.7.1.201405082137'
-    }
-
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }
@@ -44,45 +38,4 @@ allprojects {
     ext._minSdkVersion = 19
     ext._targetSdkVersion = 23
     ext._versionCode = 3
-}
-
-subprojects {
-    def coverageSourceDirs = ['src/main/java']
-
-    task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-        group = "Reporting"
-
-        description = "Generate Jacoco coverage reports"
-
-        classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
-                excludes: ['**/R.class',
-                           '**/R$*.class',
-                           '**/*$$ViewBinder*.*',
-                           '**/inject/*',
-                           '**/*$InjectAdapter.*',
-                           '**/BuildConfig.*',
-                           '**/Manifest*.*',
-                           '**/Dagger*.*',
-                           '**/*_Provide*Factory.*',
-                           '**/*_Member*Injector.*',
-                           '**/*_Factory.*',
-                           '**/PagerTitleStripV22*.*'])
-
-        additionalSourceDirs = files(coverageSourceDirs)
-        sourceDirectories = files(coverageSourceDirs)
-        executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-        doFirst {
-            new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-                if (file.name.contains('$$')) {
-                    file.renameTo(file.path.replace('$$', '$'))
-                }
-            }
-        }
-
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
 }
