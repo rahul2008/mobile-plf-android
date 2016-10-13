@@ -420,7 +420,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             } else {
                 //Need to show password errors only
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+                if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
+                    mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+                } else {
+                    mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+                }
                 trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
             }
         }
