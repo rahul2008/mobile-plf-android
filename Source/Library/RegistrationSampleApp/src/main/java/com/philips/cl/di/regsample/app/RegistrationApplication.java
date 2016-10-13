@@ -313,6 +313,9 @@ public class RegistrationApplication extends Application {
 
     final String AI = "appinfra";
     private void initAppIdentity(Configuration configuration) {
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = mAppInfraInterface.getAppIdentity();
         AppConfigurationInterface appConfigurationInterface = mAppInfraInterface.
