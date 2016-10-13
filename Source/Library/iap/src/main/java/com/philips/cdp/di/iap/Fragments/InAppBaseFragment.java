@@ -38,20 +38,15 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
         mTitle = getString(resourceId);
-        if (mActionbarUpdateListener == null) {
-            throw new RuntimeException("Please set the ActionBar Listener");
-        } else
+        if (mActionbarUpdateListener != null)
             mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
     }
 
 
     protected void setTitleAndBackButtonVisibility(String title, boolean isVisible) {
         mTitle = title;
-        if (mActionbarUpdateListener == null) {
-            throw new RuntimeException("Please set the ActionBar Listener");
-        } else {
+        if (mActionbarUpdateListener != null)
             mActionbarUpdateListener.updateActionBar(title, isVisible);
-        }
     }
 
     @Override
