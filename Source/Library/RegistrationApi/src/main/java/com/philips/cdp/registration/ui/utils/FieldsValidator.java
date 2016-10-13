@@ -158,6 +158,7 @@ public class FieldsValidator {
                     RLog.d("MobileNumber", phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164));
                 } catch (NumberParseException e) {
                     RLog.d("MobileNumber Exception", "NumberParseException : MobileNumber");
+                    return false;
                 }
 
                 return phoneUtil.isValidNumber(numberProto);
