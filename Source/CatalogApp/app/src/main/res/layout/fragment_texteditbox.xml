@@ -3,8 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-
     <com.philips.platform.uit.view.widget.TextEditBox
+        android:id="@+id/texteditbox"
         android:layout_width="@dimen/texteditbox_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -13,6 +13,7 @@
         android:hint="Hint text"/>
 
     <com.philips.platform.uit.view.widget.TextEditBox
+        android:id="@+id/textboxmultiline"
         android:layout_width="@dimen/texteditbox_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -20,6 +21,7 @@
         android:hint="Hint text multi lines"/>
 
     <com.philips.platform.uit.view.widget.TextEditBox
+        android:id="@+id/hintdisabled"
         android:layout_width="@dimen/texteditbox_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -29,6 +31,7 @@
 
 
     <com.philips.platform.uit.view.widget.TextEditBox
+        android:id="@+id/filleddisabled"
         android:layout_width="@dimen/texteditbox_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
