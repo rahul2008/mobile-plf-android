@@ -70,8 +70,7 @@ allprojects {
 dependencies {
     compile project(':iap')
     compile 'com.android.support:appcompat-v7:24.2.0'
-    compile "net.hockeyapp.android:HockeySDK:3.6.2"
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
 

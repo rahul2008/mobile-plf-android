@@ -167,13 +167,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPLog.i("DemoActivity", "onResume");
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
-        /** Should be commented for debug builds */
-        final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
-        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
-            public boolean shouldAutoUploadCrashes() {
-                return !IAPLog.isLoggingEnabled();
-            }
-        });
         init();
     }
 
