@@ -35,7 +35,6 @@ import butterknife.ButterKnife;
 public class ThemeSettingsFragment extends BaseFragment {
 
     ColorRange colorRange = ColorRange.GROUP_BLUE;
-    String tonalRange;
 
     @Bind(R.id.colorRangeList)
     RecyclerView colorRangeListview;
@@ -135,6 +134,7 @@ public class ThemeSettingsFragment extends BaseFragment {
                 updateNavigationRangeColors();
             }
         }, colorPickerWidth);
+        themeColorAdapter.setSelected(colorRange.ordinal());
         return themeColorAdapter;
     }
 
@@ -164,9 +164,9 @@ public class ThemeSettingsFragment extends BaseFragment {
                 final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
                 edit.putString(UITHelper.CONTENT_TONAL_RANGE, tonalRange.name());
                 edit.commit();
-                ThemeSettingsFragment.this.tonalRange = tonalRangeChanged;
             }
         }, colorPickerWidth);
+        tonalRangeAdapter.setSelected(contentTonalRange.values().length - contentTonalRange.ordinal() - 1);
         return tonalRangeAdapter;
     }
 

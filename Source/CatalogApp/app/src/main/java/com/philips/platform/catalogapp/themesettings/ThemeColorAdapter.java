@@ -133,6 +133,11 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void setSelected(final int ordinal) {
+        selectedPosition = ordinal;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.colorRangeTittleText)
         public TextView colorRangeTittleLabel;
