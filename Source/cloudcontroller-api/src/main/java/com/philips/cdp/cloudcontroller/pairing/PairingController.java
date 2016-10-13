@@ -37,9 +37,9 @@ public interface PairingController {
 
     void setPairingCallback(@NonNull PairingCallback pairingCallback);
 
-    void addRelationship(String relationshipType, BasePairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
+    void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
 
-    void addRelationship(String relationshipType, String secretKey, BasePairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
+    void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
 
     void removeRelationship(PairingEntityReference trustor, PairingEntityReference trustee, String relationType, @NonNull PairingCallback callback);
 

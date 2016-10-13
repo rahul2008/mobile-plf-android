@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.util.LogConstants;
 
-abstract class BasePairingHandlerRelationship implements PairingHandlerRelationship {
+public abstract class BasePairingHandlerRelationship implements PairingHandlerRelationship {
     private final String mCppId;
     private final String mProvider;
     private final String mType;

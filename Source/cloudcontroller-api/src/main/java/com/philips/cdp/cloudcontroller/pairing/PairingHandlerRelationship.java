@@ -1,9 +1,9 @@
-package com.philips.cdp.cloudcontroller.pairing;
-
 /**
- * (C) Koninklijke Philips N.V., 2015.
+ * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
+package com.philips.cdp.cloudcontroller.pairing;
+
 public interface PairingHandlerRelationship {
     String getCppId();
 
