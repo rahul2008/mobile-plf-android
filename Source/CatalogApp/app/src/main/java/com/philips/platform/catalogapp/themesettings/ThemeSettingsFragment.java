@@ -127,9 +127,7 @@ public class ThemeSettingsFragment extends BaseFragment {
             @Override
             public void onColorRangeChanged(final String changedColorRange) {
                 colorRange = ColorRange.valueOf(changedColorRange.toUpperCase());
-                final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
-                edit.putString(UITHelper.COLOR_RANGE, changedColorRange.toUpperCase());
-                edit.commit();
+                saveThemeValues(UITHelper.COLOR_RANGE, changedColorRange.toUpperCase());
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
             }
@@ -157,17 +155,29 @@ public class ThemeSettingsFragment extends BaseFragment {
         tonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentTonalRangeItemsList(changedColorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onColorRangeChanged(final String tonalRangeChanged) {
-                final ThemeColorAdapter adapter = (ThemeColorAdapter) tonalRangeListview.getAdapter();
-                final int selectedPosition = adapter.getSelectedPosition();
-                final ContentTonalRange[] values = ContentTonalRange.values();
-                final ContentTonalRange tonalRange = values[values.length - selectedPosition - 1];
-                final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
-                edit.putString(UITHelper.CONTENT_TONAL_RANGE, tonalRange.name());
-                edit.commit();
+                final ContentTonalRange tonalRange = getContentTonalRangeByPosition();
+                saveThemeValues(UITHelper.CONTENT_TONAL_RANGE, tonalRange.name());
             }
         }, colorPickerWidth);
-        tonalRangeAdapter.setSelected(contentTonalRange.values().length - contentTonalRange.ordinal() - 1);
+        tonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
         return tonalRangeAdapter;
+    }
+
+    private void saveThemeValues(final String contentTonalRange, final String name) {
+        final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+        edit.putString(contentTonalRange, name);
+        edit.commit();
+    }
+
+    private ContentTonalRange getContentTonalRangeByPosition() {
+        final ThemeColorAdapter adapter = (ThemeColorAdapter) tonalRangeListview.getAdapter();
+        final int selectedPosition = adapter.getSelectedPosition();
+        final ContentTonalRange[] values = ContentTonalRange.values();
+        return values[values.length - selectedPosition - 1];
+    }
+
+    private int getSelectedContentTonalRangePosition() {
+        return contentTonalRange.values().length - contentTonalRange.ordinal() - 1;
     }
 
     private void buildNavigationList(final ColorRange colorRange) {
@@ -185,7 +195,12 @@ public class ThemeSettingsFragment extends BaseFragment {
                 final int selectedPosition = adapter.getSelectedPosition();
             }
         }, colorPickerWidth);
+        navigationListAdapter.setSelected(getSelectedNavigationPosition());
         return navigationListAdapter;
+    }
+
+    private int getSelectedNavigationPosition() {
+        return NavigationColor.values().length - navigationColor.ordinal() - 1;
     }
 
     private void buildAccentColorsList(final ColorRange colorRange) {
