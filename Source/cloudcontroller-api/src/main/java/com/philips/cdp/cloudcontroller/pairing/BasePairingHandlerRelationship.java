@@ -9,6 +9,9 @@ import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.util.LogConstants;
 
+/**
+ * The type BasePairingHandlerRelationship.
+ */
 public abstract class BasePairingHandlerRelationship implements PairingHandlerRelationship {
     private final String mCppId;
     private final String mProvider;
@@ -17,6 +20,16 @@ public abstract class BasePairingHandlerRelationship implements PairingHandlerRe
     private final String mApplianceCppId;
     private final String mApplianceDeviceType;
 
+    /**
+     * Instantiates a new BasePairingHandlerRelationship.
+     *
+     * @param cppId               the cpp id
+     * @param provider            the provider
+     * @param type                the type
+     * @param credentials         the credentials
+     * @param applianceCppId      the appliance cpp id
+     * @param applianceDeviceType the appliance device type
+     */
     BasePairingHandlerRelationship(String cppId, String provider, String type, String credentials, String applianceCppId, String applianceDeviceType) {
         this.mCppId = cppId;
         this.mProvider = provider;
