@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UITNavigationBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">?attr/uitActionBarBackground</item>
+        <item name="background">?attr/uitActionBarBackground</item>
+    </style>
+
+    <style name="UITNavigationbarUltraLight">
+        <item name="uitActionBarBackground">@color/uitColorWhite</item>
+    </style>
+
+    <style name="UITNavigationbarVeryLight">
+        <item name="uitActionBarBackground">?attr/uitColorLevel05</item>
+    </style>
+
+    <style name="UITNavigationbarLight">
+        <item name="uitActionBarBackground">?attr/uitColorLevel20</item>
+    </style>
+
+    <style name="UITNavigationbarBright">
+        <item name="uitActionBarBackground">?attr/uitColorLevel40</item>
+    </style>
+
+    <style name="UITNavigationbarVeryDark">
+        <item name="uitActionBarBackground">?attr/uitColorLevel65</item>
+    </style>
+</resources>
