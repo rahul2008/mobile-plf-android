@@ -1,7 +1,6 @@
 package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.ThemeHelper;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentTonalRange;
 import com.philips.platform.uit.thememanager.NavigationColor;
@@ -27,12 +27,14 @@ public class PreviewActivity extends AppCompatActivity {
     private ContentTonalRange contentTonalRange = ContentTonalRange.ULTRA_LIGHT;
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private NavigationColor navigationColor = NavigationColor.VERY_LIGHT;
+    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        initTonalRange();
-        initColorRange();
-        initNavigationRange();
+        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this));
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentTonalRange = themeHelper.initTonalRange();
         Log.d("DLS", String.format("[%s]Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                 this.getClass().getName(), contentTonalRange, colorRange, navigationColor));
 
@@ -62,27 +64,9 @@ public class PreviewActivity extends AppCompatActivity {
     }
 
     public ThemeConfiguration getThemeConfig() {
-        initTonalRange();
-        initColorRange();
-        initNavigationRange();
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentTonalRange = themeHelper.initTonalRange();
         return new ThemeConfiguration(colorRange, contentTonalRange, this);
-    }
-
-    private void initNavigationRange() {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String navigation = sharedPreferences.getString(UITHelper.NAVIGATION_RANGE, NavigationColor.VERY_LIGHT.name());
-        navigationColor = NavigationColor.valueOf(navigation);
-    }
-
-    private void initColorRange() {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String color = sharedPreferences.getString(UITHelper.COLOR_RANGE, ColorRange.GROUP_BLUE.name());
-        colorRange = ColorRange.valueOf(color);
-    }
-
-    private void initTonalRange() {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String tonalRange = sharedPreferences.getString(UITHelper.CONTENT_TONAL_RANGE, ContentTonalRange.ULTRA_LIGHT.name());
-        contentTonalRange = ContentTonalRange.valueOf(tonalRange);
     }
 }

@@ -2,7 +2,6 @@ package com.philips.platform.catalogapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -39,12 +38,14 @@ public class MainActivity extends AppCompatActivity {
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private FragmentManager supportFragmentManager;
     private NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
+    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initColorRange();
-        initNavigationRange();
-        initTonalRange();
+        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this));
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentTonalRange = themeHelper.initTonalRange();
 
         Log.d("DLS", String.format("[%s]Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                 this.getClass().getName(), contentTonalRange, colorRange, navigationColor));
@@ -71,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         setThemeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                initTonalRange();
-                initColorRange();
-                initNavigationRange();
+                colorRange = themeHelper.initColorRange();
+                navigationColor = themeHelper.initNavigationRange();
+                contentTonalRange = themeHelper.initTonalRange();
                 restartActivity();
             }
         });
@@ -83,24 +84,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
         startActivity(new Intent(this, com.philips.platform.catalogapp.MainActivity.class));
         startActivity(new Intent(this, PreviewActivity.class));
-    }
-
-    private void initNavigationRange() {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String navigation = sharedPreferences.getString(UITHelper.NAVIGATION_RANGE, NavigationColor.VERY_LIGHT.name());
-        navigationColor = NavigationColor.valueOf(navigation);
-    }
-
-    private void initColorRange() {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String color = sharedPreferences.getString(UITHelper.COLOR_RANGE, ColorRange.GROUP_BLUE.name());
-        colorRange = ColorRange.valueOf(color);
-    }
-
-    private void initTonalRange() {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String tonalRange = sharedPreferences.getString(UITHelper.CONTENT_TONAL_RANGE, ContentTonalRange.ULTRA_LIGHT.name());
-        contentTonalRange = ContentTonalRange.valueOf(tonalRange);
     }
 
     private void initThemeSettingsIcon(final Toolbar toolbar) {
@@ -121,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ThemeConfiguration getThemeConfig() {
-        initTonalRange();
-        initColorRange();
-        initNavigationRange();
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentTonalRange = themeHelper.initTonalRange();
         return new ThemeConfiguration(colorRange, contentTonalRange, this);
     }
 

@@ -128,6 +128,11 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         return colorRangeList.size();
     }
 
+    public void setColorModels(final List<ColorModel> colorModels) {
+        this.colorRangeList = colorModels;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.colorRangeTittleText)
         public TextView colorRangeTittleLabel;
