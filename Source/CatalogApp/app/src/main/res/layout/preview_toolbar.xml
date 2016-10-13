@@ -31,7 +31,7 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="@string/preview"/>
+                android:text="@string/tittle_preview"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

@@ -15,5 +15,8 @@
     <string name="secondary_button_label">Secondary Button</string>
     <string name="tittle_theme_settings">Theme Setting</string>
     <string name="set_theme_settings">Set</string>
-    <string name="preview">Preview</string>
+    <string name="tittle_preview">Preview</string>
+    <string name="tittle_buttons">Buttons</string>
+    <string name="tittle_textbox">TextBox</string>
+    <string name="tittle_components">Components</string>
 </resources>

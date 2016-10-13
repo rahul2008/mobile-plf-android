@@ -16,7 +16,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
+import com.philips.platform.catalogapp.themesettings.PreviewActivity;
+import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentTonalRange;
 import com.philips.platform.uit.thememanager.NavigationColor;
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         return new ThemeConfiguration(colorRange, contentTonalRange, this);
     }
 
-    public boolean switchFragment(Fragment fragment) {
+    public boolean switchFragment(BaseFragment fragment) {
         supportFragmentManager = getSupportFragmentManager();
         final List<Fragment> fragments = supportFragmentManager.getFragments();
         if (fragments != null && fragments.size() > 0) {
@@ -139,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
         toggle(themeSettingsIcon, setThemeTextView);
+        setTitle(fragment.getTitle());
         return true;
     }
 

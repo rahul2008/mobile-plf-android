@@ -6,7 +6,6 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ComponentListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ComponentListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     ListView listView;
 
@@ -84,5 +83,10 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
                 ((MainActivity) getActivity()).switchFragment(new TextEditBoxFragment());
                 break;
         }
+    }
+
+    @Override
+    public int getTitle() {
+        return R.string.tittle_components;
     }
 }

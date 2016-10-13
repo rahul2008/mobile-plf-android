@@ -1,4 +1,4 @@
-package com.philips.platform.catalogapp;
+package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.philips.platform.catalogapp.R;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentTonalRange;
 import com.philips.platform.uit.thememanager.NavigationColor;

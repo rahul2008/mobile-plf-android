@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PreviewActivity"
+            android:name=".themesettings.PreviewActivity"
             android:theme="@style/Theme.Philips"/>
     </application>
 </manifest>

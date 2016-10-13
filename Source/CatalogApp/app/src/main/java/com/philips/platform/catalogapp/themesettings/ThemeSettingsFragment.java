@@ -4,13 +4,12 @@
  *
  */
 
-package com.philips.platform.catalogapp;
+package com.philips.platform.catalogapp.themesettings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -20,15 +19,16 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.philips.platform.catalogapp.themesettings.ThemeChangedListener;
-import com.philips.platform.catalogapp.themesettings.ThemeColorAdapter;
+import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.ThemeColorHelper;
+import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.uit.thememanager.ContentTonalRange;
 import com.philips.platform.uit.thememanager.UITHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ThemeSettingsFragment extends Fragment {
+public class ThemeSettingsFragment extends BaseFragment {
 
     String colorRange = "group_blue";
     String tonalRange;
@@ -159,6 +159,11 @@ public class ThemeSettingsFragment extends Fragment {
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+    }
+
+    @Override
+    public int getTitle() {
+        return R.string.tittle_theme_settings;
     }
 }
 

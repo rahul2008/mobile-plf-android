@@ -42,7 +42,7 @@ public class ThemeColorHelper {
         return resources.getIdentifier(String.format(Locale.getDefault(), "uit_%s_level_%s", basecolor, level), "color", packageName);
     }
 
-    List<ColorModel> getContentTonalRangeItemsList(final String changedColorRange, final Context context) {
+    public List<ColorModel> getContentTonalRangeItemsList(final String changedColorRange, final Context context) {
         final List<ColorModel> tonalRangelist = new ArrayList<>();
         final int colorResourceId75 = getColorResourceId(context.getResources(), changedColorRange, "75", context.getPackageName());
         tonalRangelist.add(new ColorModel("VD", changedColorRange, R.color.uitColorWhite, R.color.uitColorWhite, 75, 70));
@@ -53,7 +53,7 @@ public class ThemeColorHelper {
         return tonalRangelist;
     }
 
-    List<ColorModel> getColorRangeItemsList() {
+    public List<ColorModel> getColorRangeItemsList() {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
         int[] color = getColorRangeArray();
         colorRangeModelsList.add(new ColorModel("GB", "group_blue", color[0], color[0], 50, 35));
