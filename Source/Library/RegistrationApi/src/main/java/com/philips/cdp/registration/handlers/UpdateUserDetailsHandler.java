@@ -12,7 +12,7 @@ package com.philips.cdp.registration.handlers;
 /**
  * Update receive marketing email handler
  */
-public interface UpdateReceiveMarketingEmailHandler {
+public interface UpdateUserDetailsHandler {
 
 	/**
 	 * {@code onUpdateReceiveMarketingEmailSuccess}method to on update receive marketing email success
