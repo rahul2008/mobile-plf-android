@@ -19,9 +19,14 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
+import com.philips.platform.core.events.ReadDataFromBackendRequest;
+import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
+import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 
 import javax.inject.Inject;
 
@@ -36,6 +41,12 @@ public class Tracker {
 
     @NonNull
     private final BaseAppDataCreator dataCreator;
+
+    @Inject
+    DataPullSynchronise mDataPullSynchronise;
+
+    @Inject
+    DataPushSynchronise mDataPushSynchronise;
 
     private BackendIdProvider backendIdProvider;
 
@@ -55,6 +66,10 @@ public class Tracker {
     public Moment update(@NonNull final Moment moment) {
         eventing.post(new MomentUpdateRequest(moment));
         return moment;
+    }
+
+    public void fetch(final @NonNull MomentType... type){
+        eventing.post(new LoadMomentsRequest(type[0]));
     }
 
     @NonNull
@@ -86,5 +101,16 @@ public class Tracker {
 
     public void deleteMoment(final Moment moment) {
         eventing.post(new MomentDeleteRequest(moment));
+    }
+
+    public void updateMoment(Moment moment){
+        eventing.post((new MomentUpdateRequest(moment)));
+    }
+
+    public void synchronize() {
+        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
+        monitor.start(eventing);
+        eventing.post(new ReadDataFromBackendRequest(null));
+
     }
 }

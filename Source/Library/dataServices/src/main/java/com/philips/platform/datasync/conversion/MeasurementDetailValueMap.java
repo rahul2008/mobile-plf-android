@@ -33,7 +33,7 @@ public class MeasurementDetailValueMap {
     @Inject
     public MeasurementDetailValueMap() {
         final Map<String, String> toMeasurementDetailType = new HashMap<>();
-        toMeasurementDetailType.put("Location", MeasurementDetailType.LOCATION.toString());
+        toMeasurementDetailType.put("LOCATION", MeasurementDetailType.LOCATION.toString());
         fromMeasurementDetailValueMap.put(MeasurementDetailType.LOCATION, createInvertedMap(toMeasurementDetailType));
     }
 

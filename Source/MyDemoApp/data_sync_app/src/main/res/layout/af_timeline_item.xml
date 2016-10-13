@@ -54,4 +54,22 @@
         android:layout_toLeftOf="@+id/delete"
     />
 
+    <View
+        android:id="@+id/divider_below"
+        android:layout_below="@+id/time_line_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_toLeftOf="@id/update"
+        android:background="@color/uikit_philips_dark_blue" />
+
+    <TextView
+        android:id="@+id/phase"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="default"
+        android:gravity="left|bottom"
+        android:layout_below="@+id/divider_below"
+        android:layout_toLeftOf="@+id/delete"
+    />
+
 </RelativeLayout>

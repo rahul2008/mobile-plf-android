@@ -18,8 +18,11 @@ import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.monitors.DBMonitors;
 
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,21 +34,23 @@ import javax.inject.Inject;
 public class BaseAppCore implements BaseAppDataCreator {
 
     private final Eventing eventing;
-    private final com.philips.platform.core.BaseAppDatabase database;
-    private final BaseAppBackend lumeaBackend;
-    private EventMonitor[] eventMonitors;
+    BaseAppDataCreator database;
+    private DBMonitors dbMonitors;
+    private final BaseAppBackend appBackend;
+    private List<EventMonitor> eventMonitors;
 
     @Inject
-    public BaseAppCore(@NonNull final Eventing eventing, @NonNull final com.philips.platform.core.BaseAppDatabase database, final BaseAppBackend backend, @NonNull EventMonitor... eventMonitors) {
+    public BaseAppCore(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator database, final BaseAppBackend backend, @NonNull List<EventMonitor> eventMonitors, final DBMonitors dbMonitors) {
         this.eventing = eventing;
         this.database = database;
-        this.lumeaBackend = backend;
+        this.appBackend = backend;
         this.eventMonitors = eventMonitors;
+        this.dbMonitors = dbMonitors;
     }
 
     public void start() {
-        database.start(eventing);
-        lumeaBackend.start(eventing);
+        dbMonitors.start(eventing);
+        appBackend.start(eventing);
 
         for (EventMonitor eventMonitor : eventMonitors) {
             eventMonitor.start(eventing);
@@ -57,8 +62,8 @@ public class BaseAppCore implements BaseAppDataCreator {
             eventMonitor.stop();
         }
 
-        lumeaBackend.stop();
-        database.stop();
+        appBackend.stop();
+        dbMonitors.stop();
     }
 
     @NonNull

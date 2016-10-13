@@ -11,9 +11,10 @@ import com.philips.platform.core.Eventing;
 
 import javax.inject.Singleton;
 
-import cdp.philips.com.mydemoapp.DataSyncApplicationClass;
-import cdp.philips.com.mydemoapp.datasync.temperature.TemperatureTimeLineFragment;
-import cdp.philips.com.mydemoapp.datasync.trackers.TemperatureTracker;
+import cdp.philips.com.mydemoapp.DataSyncApplication;
+import cdp.philips.com.mydemoapp.temperature.TemperaturePresenter;
+import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
+import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragmentcAdapter;
 import dagger.Component;
 
 /**
@@ -21,15 +22,16 @@ import dagger.Component;
  * All rights reserved.
  */
 @Singleton
-@Component(modules = {ApplicationModule.class, CoreModule.class, DatabaseModule.class, BackendModule.class, RegistrationModule.class})
+@Component(modules = {ApplicationModule.class, CoreModule.class, DatabaseModule.class, BackendModule.class, MonitorModule.class, RegistrationModule.class})
 public interface AppComponent {
-    void injectApplication(DataSyncApplicationClass app);
+    void injectApplication(DataSyncApplication app);
 
     Eventing getEventing();
 
     BaseAppDataCreator getDataCreator();
 
-    void injectTemperature(TemperatureTracker baseTracker);
-
     void injectFragment(TemperatureTimeLineFragment temperatureTimeLineFragment);
+
+    void injectTemperatureAdapter(TemperatureTimeLineFragmentcAdapter temperatureTimeLineFragmentcAdapter);
+    void injectTemperature(TemperaturePresenter temperaturePresenter);
 }

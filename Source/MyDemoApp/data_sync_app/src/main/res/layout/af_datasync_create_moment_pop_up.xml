@@ -7,39 +7,44 @@
                 android:padding="10dp"
 >
 
-   <!-- <TextView
+    <TextView
         android:id="@+id/phase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/phase"
+        android:visibility="gone"
     />
 
     <EditText
         android:id="@+id/phase_detail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/phase"
         android:hint="@string/phase"
+        android:layout_marginTop="10dp"
         android:layout_alignBaseline="@id/phase"
         android:layout_marginBottom="10dp"
-    />-->
+    />
 
     <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/temperature"
+        android:layout_below="@id/phase_detail"
+        android:visibility="gone"
     />
 
     <EditText
         android:id="@+id/temperature_detail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/temperature"
         android:hint="@string/temperature"
         android:layout_marginBottom="10dp"
         android:inputType="number"
-        android:maxLength="3"
+        android:maxLength="10"
+        android:layout_below="@id/phase_detail"
     />
 
     <TextView
@@ -48,11 +53,12 @@
         android:layout_height="wrap_content"
         android:text="@string/location"
         android:layout_below="@id/temperature_detail"
+        android:visibility="gone"
     />
 
     <EditText
         android:id="@+id/location_detail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/location"
         android:hint="@string/location_hint"
@@ -62,7 +68,7 @@
 
     <Button
         android:id="@+id/save"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:layout_below="@id/location_detail"

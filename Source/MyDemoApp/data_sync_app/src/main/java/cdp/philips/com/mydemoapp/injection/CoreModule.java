@@ -12,10 +12,15 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.monitors.ExceptionMonitor;
 import com.philips.platform.core.monitors.LoggingMonitor;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.core.monitors.DBMonitors;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -52,8 +57,11 @@ public class CoreModule {
     BaseAppCore provideCore(
             @NonNull final Database database, @NonNull final Backend backend,
             @NonNull final LoggingMonitor loggingMonitor,
-            @NonNull final ExceptionMonitor exceptionMonitor) {
-        return new BaseAppCore(eventing, database, backend, loggingMonitor, exceptionMonitor);
+            @NonNull final ExceptionMonitor exceptionMonitor, @NonNull final DBMonitors dbMonitors) {
+        List<EventMonitor> monitors = new ArrayList<>();
+        monitors.add(loggingMonitor);
+        monitors.add(exceptionMonitor);
+        return new BaseAppCore(eventing, database, backend, monitors,dbMonitors);
     }
 
     @Provides

@@ -65,7 +65,7 @@ public class OrmDeleting {
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
     }
 
-    public void deleteMoment(@NonNull final OrmMoment moment) throws SQLException {
+    public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
         deleteMomentDetails(moment);
         deleteMomentMeasurements(moment);
         deleteSynchronisationData(moment.getSynchronisationData());

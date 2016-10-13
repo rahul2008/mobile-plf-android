@@ -45,9 +45,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     private final Context context;
 
     @NonNull
-    private final RegistrationLaunchHelperWrapper registrationLaunchHelperWrapper;
-
-    @NonNull
     private final User user;
 
     @NonNull
@@ -94,7 +91,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     @Inject
     public UserRegistrationFacadeImpl(
             @NonNull final Context context,
-            @NonNull final RegistrationLaunchHelperWrapper registrationLaunchHelperWrapper,
             @NonNull final User user,
             @NonNull final RegistrationHelper registrationHelper,
 
@@ -102,7 +98,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
             @NonNull final RegistrationConfiguration registrationConfiguration,
             @NonNull final HSDPInfo hsdpInfo) {
         this.context = context;
-        this.registrationLaunchHelperWrapper = registrationLaunchHelperWrapper;
         this.user =  user;
         this.registrationHelper = registrationHelper;
 
@@ -142,12 +137,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     public String getAccessToken() {
         refreshAccessTokenUsingWorkAround();
         return accessToken;
-    }
-
-    @Override
-    public void launchRegistration(@NonNull final Context context) {
-        email = isUserLoggedIn() ? getUserProfile().getEmail() : null;
-        registrationLaunchHelperWrapper.launchRegistrationActivity(context);
     }
 
     @NonNull

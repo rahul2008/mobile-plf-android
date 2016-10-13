@@ -72,11 +72,11 @@ public class MomentTypeMap {
         toMomentDetailTypeMap.put("Temperature", MomentDetailType.PHOTO);
         toMomentDetailTypeMap.put("Sticker", MomentDetailType.STICKER);
         toMomentDetailTypeMap.put("Video", MomentDetailType.VIDEO);
-        toMomentDetailTypeMap.put("Phase", MomentDetailType.PHASE);
+        toMomentDetailTypeMap.put("PHASE", MomentDetailType.PHASE);
         toMomentDetailTypeMap.put("SiteCatalystId", MomentDetailType.TAGGING_ID);
         fromMomentDetailTypeMap = createInvertedMap(toMomentDetailTypeMap);
 
-        toMeasurementDetailTypeMap.put("Location", MeasurementDetailType.LOCATION);
+        toMeasurementDetailTypeMap.put("LOCATION", MeasurementDetailType.LOCATION);
         fromMeasurementDetailTypeMap = createInvertedMap(toMeasurementDetailTypeMap);
     }
 
@@ -103,13 +103,13 @@ public class MomentTypeMap {
 
     @NonNull
     public MeasurementDetailType getMeasurementDetailType(@NonNull final String uGrowMeasurementDetailTypeString) {
-        MeasurementDetailType type = toMeasurementDetailTypeMap.get(uGrowMeasurementDetailTypeString);
+        MeasurementDetailType type = toMeasurementDetailTypeMap.get(uGrowMeasurementDetailTypeString.toUpperCase());
         return type == null ? MeasurementDetailType.UNKNOWN : type;
     }
 
     @NonNull
     public MomentDetailType getMomentDetailType(@NonNull final String uGrowMomentDetailString) {
-        MomentDetailType type = toMomentDetailTypeMap.get(uGrowMomentDetailString);
+        MomentDetailType type = toMomentDetailTypeMap.get(uGrowMomentDetailString.toUpperCase());
         return type == null ? MomentDetailType.UNKNOWN : type;
     }
 

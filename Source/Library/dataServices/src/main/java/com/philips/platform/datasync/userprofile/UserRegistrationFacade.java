@@ -1,6 +1,5 @@
 package com.philips.platform.datasync.userprofile;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.UserCredentials;
@@ -18,8 +17,6 @@ public interface UserRegistrationFacade {
 
     @NonNull
     String getAccessToken();
-
-    void launchRegistration(@NonNull final Context context);
 
     @NonNull
     UserProfile getUserProfile();

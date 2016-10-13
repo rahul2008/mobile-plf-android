@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.datasync.temperature.TemperatureTimeLineFragment;
+import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 
 import static com.philips.cdp.prxclient.RequestManager.mContext;
 
@@ -29,7 +30,12 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
-        startRegistrationFragment();
+        User user = new User(this);
+        if(user.isUserSignIn()){
+            showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
+        }else {
+            startRegistrationFragment();
+        }
     }
 
     void startRegistrationFragment(){
@@ -113,5 +119,16 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     public void updateActionBar(final String s, final boolean b) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
+        if (currentFrag instanceof TemperatureTimeLineFragment) {
+            finishAffinity();
+        }else {
+            super.onBackPressed();
+        }
     }
 }

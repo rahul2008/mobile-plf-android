@@ -7,7 +7,6 @@
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
@@ -102,7 +101,6 @@ public class MomentsConverter {
     }
 
     private void addMeasurements(@NonNull final Moment moment, @NonNull final List<com.philips.platform.datasync.moments.UCoreMeasurement> uCoreMeasurementList) {
-        Log.i("***SPOO***","addMeasurements");
         for (com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement : uCoreMeasurementList) {
             MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getType());
             if (!MeasurementType.UNKNOWN.equals(type)) {
@@ -125,7 +123,7 @@ public class MomentsConverter {
             MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
             if (!MeasurementDetailType.UNKNOWN.equals(type)) {
                 final MeasurementDetail measurementDetail = baseAppDataCreater.createMeasurementDetail(type, measurement);
-                String value = uCoreDetail.getValue();
+                String value = uCoreDetail.getValue().toUpperCase();
                 if (!value.equals(MeasurementDetailValueMap.UNKNOWN_NAME)) {
                     measurementDetail.setValue(value);
                     measurement.addMeasurementDetail(measurementDetail);
@@ -190,6 +188,8 @@ public class MomentsConverter {
         for (MeasurementDetail measurementDetail : measurementDetails) {
             com.philips.platform.datasync.moments.UCoreDetail uCoreDetail = new com.philips.platform.datasync.moments.UCoreDetail();
             uCoreDetail.setType(momentTypeMap.getMeasurementDetailTypeString(measurementDetail.getType()));
+
+           // uCoreDetail.setValue(measurementDetailValueMap.getString(measurementDetail.getType(), measurementDetail.getValue()));
             uCoreDetail.setValue(measurementDetail.getValue());
 
             uCoreDetailList.add(uCoreDetail);

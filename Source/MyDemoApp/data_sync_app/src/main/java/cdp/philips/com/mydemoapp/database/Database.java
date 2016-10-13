@@ -8,7 +8,7 @@ package cdp.philips.com.mydemoapp.database;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.Eventing;
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
@@ -16,11 +16,8 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.core.monitors.EventMonitor;
 
 import org.joda.time.DateTime;
-
-import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
@@ -34,30 +31,12 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class Database implements com.philips.platform.core.BaseAppDatabase {
+public class Database implements BaseAppDataCreator {
     @NonNull
     private cdp.philips.com.mydemoapp.database.OrmCreator creator;
 
-    @NonNull
-    private final List<EventMonitor> eventMonitors;
-
-    public Database(@NonNull cdp.philips.com.mydemoapp.database.OrmCreator creator,
-                    @NonNull List<EventMonitor> monitors) {
+    public Database(@NonNull cdp.philips.com.mydemoapp.database.OrmCreator creator) {
         this.creator = creator;
-        this.eventMonitors = monitors;
-    }
-
-    public void start(@NonNull final Eventing eventing) {
-        for (EventMonitor monitor : eventMonitors) {
-            monitor.start(eventing);
-        }
-    }
-
-    @Override
-    public void stop() {
-        for (EventMonitor monitor : eventMonitors) {
-            monitor.stop();
-        }
     }
 
     @Override
