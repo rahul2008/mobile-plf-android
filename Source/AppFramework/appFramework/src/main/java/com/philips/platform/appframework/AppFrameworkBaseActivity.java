@@ -6,6 +6,7 @@
 package com.philips.platform.appframework;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
@@ -42,7 +43,10 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                     fragmentTransaction.commitAllowingStateLoss();
                     break;
                 case Constants.CLEAR_TILL_HOME:
-                    getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                    getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    fragmentTransaction.replace(containerId,new HomeFragment());
+                    fragmentTransaction.addToBackStack(HomeFragment.TAG);
+                    fragmentTransaction.commitAllowingStateLoss();
                     break;
             }
         }catch (Exception e){

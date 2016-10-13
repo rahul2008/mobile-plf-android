@@ -8,53 +8,50 @@ package com.philips.platform.appframework.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import com.philips.platform.modularui.statecontroller.UIState;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class SharedPreferenceUtility {
+
     private Context context;
-    private SharedPreferences sharedPreferences;
+    @NonNull private SharedPreferences mMyPreferences;
 
-    public SharedPreferenceUtility(Context ctxt){
+    public SharedPreferenceUtility(@NonNull Context ctxt){
         context = ctxt;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mMyPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    @NonNull
     public SharedPreferences getMyPreferences() {
-        return sharedPreferences;
+        return mMyPreferences;
     }
 
-    public void writePreferenceString(String key, String value){
-        SharedPreferences.Editor e = sharedPreferences.edit();
-        e.putString(key, value);
-        e.commit();
+    public void writePreferenceString(@NonNull String key, @Nullable String value) {
+        mMyPreferences.edit().putString(key, value).apply();
     }
 
-    public void writePreferenceBoolean(String key, boolean value){
-        SharedPreferences.Editor e = sharedPreferences.edit();
-        e.putBoolean(key, value);
-        e.commit();
+    public void writePreferenceBoolean(@NonNull String key, boolean value) {
+        mMyPreferences.edit().putBoolean(key, value).apply();
     }
 
-    public void writePreferenceInt(String key,int value){
-        SharedPreferences.Editor e = sharedPreferences.edit();
-        e.putInt(key, value);
-        e.commit();
+    public void writePreferenceInt(@NonNull String key, int value) {
+        mMyPreferences.edit().putInt(key, value).apply();
     }
 
-    public String getPreferenceString(String key){
-        return sharedPreferences.getString(key,"");
+    public String getPreferenceString(@NonNull String key){
+        return mMyPreferences.getString(key,"");
 
     }
 
-    public boolean getPreferenceBoolean(String key) {
-        return sharedPreferences.getBoolean(key, false);
+    public boolean getPreferenceBoolean(@NonNull String key) {
+        return mMyPreferences.getBoolean(key, false);
     }
 
- public int getPreferenceInt(String key) {
-        return sharedPreferences.getInt(key, UIState.UI_SPLASH_UNREGISTERED_STATE);
+    public int getPreferenceInt(@NonNull String key) {
+        return mMyPreferences.getInt(key,0);
     }
-    public boolean contains(String key){
-        return sharedPreferences.contains(key);
+
+    public boolean contains(@NonNull String key){
+        return mMyPreferences.contains(key);
     }
 }
