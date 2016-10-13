@@ -161,7 +161,7 @@
         <item name="uitContentSecondary">?attr/uitColorLevel75</item>
         <item name="uitNavigationPrimary">?attr/uitColorLevel70</item>
         <item name="uitNavigationSecondary">?attr/uitColorLevel75</item>
-        <item name="uitApplicationBackground">?attr/uitColorLevel80</item>
+        <item name="uitApplicationBackground">?attr/uitColorLevel85</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
