@@ -80,12 +80,12 @@ public class DefaultPairingController implements PairingController, ICPEventList
     }
 
     @Override
-    public void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
+    public void addRelationship(String relationshipType, BasePairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
         addRelationship(relationshipType, null, pairingHandlerRelationship, mPairingCallback);
     }
 
     @Override
-    public void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
+    public void addRelationship(String relationshipType, String secretKey, BasePairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
@@ -94,7 +94,10 @@ public class DefaultPairingController implements PairingController, ICPEventList
         PairingService pairingService = createPairingService(this);
         PairingInfo pairingInfo = secretKey != null ? getPairingInfo(secretKey) : null;
 
-        pairingService.addRelationshipRequest(pairingHandlerRelationship.getTrustorEntity(), pairingHandlerRelationship.getTrusteeEntity(), null,
+        PairingEntitiyReference trustorInternalRepresentation = pairingHandlerRelationship.getTrustorEntity() == null ? null : convertPairingEntity(pairingHandlerRelationship.getTrustorEntity());
+        PairingEntitiyReference trusteeInternalRepresentation = pairingHandlerRelationship.getTrusteeEntity() == null ? null : convertPairingEntity(pairingHandlerRelationship.getTrusteeEntity());
+
+        pairingService.addRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, null,
                 getPairingRelationshipData(relationshipType, PAIRING_PERMISSIONS.toArray(new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
 
         pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
@@ -119,8 +122,8 @@ public class DefaultPairingController implements PairingController, ICPEventList
         int status;
         PairingService removeRelationship = createPairingService(this);
 
-        PairingEntitiyReference trustorInternalRepresentation = trustor == null ? null : trustor.getInternalRepresentation();
-        PairingEntitiyReference trusteeInternalRepresentation = trustee == null ? null : trustee.getInternalRepresentation();
+        PairingEntitiyReference trustorInternalRepresentation = trustor == null ? null : convertPairingEntity(trustor);
+        PairingEntitiyReference trusteeInternalRepresentation = trustee == null ? null : convertPairingEntity(trustee);
 
         status = removeRelationship.removeRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, relationType);
         if (Errors.SUCCESS == status) {
@@ -149,7 +152,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
         int status;
         PairingService pairingService = createPairingService(this);
 
-        status = pairingService.addPermissionsRequest(null, trustee.getInternalRepresentation(), relationType, permission);
+        status = pairingService.addPermissionsRequest(null, convertPairingEntity(trustee), relationType, permission);
 
         if (Errors.SUCCESS != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
@@ -181,7 +184,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
         int iPermIndex = 0;
 
         PairingService pairingService = createPairingService(this);
-        int status = pairingService.getPermissionsRequest(null, trustee.getInternalRepresentation(), relationType, iMaxPermissons, iPermIndex);
+        int status = pairingService.getPermissionsRequest(null, convertPairingEntity(trustee), relationType, iMaxPermissons, iPermIndex);
 
         if (Errors.SUCCESS != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
@@ -209,7 +212,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
             return;
         }
         PairingService pairingService = createPairingService(this);
-        int status = pairingService.removePermissionsRequest(null, trustee.getInternalRepresentation(), relationType, permission);
+        int status = pairingService.removePermissionsRequest(null, convertPairingEntity(trustee), relationType, permission);
 
         if (Errors.SUCCESS != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
@@ -259,5 +262,15 @@ public class DefaultPairingController implements PairingController, ICPEventList
         pairingRelationshipData.pairingRelationshipPermissionArray = permission;
 
         return pairingRelationshipData;
+    }
+
+    public final PairingEntitiyReference convertPairingEntity(PairingEntityReference reference) {
+        PairingEntitiyReference result = new PairingEntitiyReference();
+        result.entityRefCredentials = reference.entityRefCredentials;
+        result.entityRefId = reference.entityRefId;
+        result.entityRefProvider = reference.entityRefProvider;
+        result.entityRefType = reference.entityRefType;
+
+        return result;
     }
 }

@@ -61,7 +61,7 @@ public class CloudControllerTest extends RobolectricTest {
     KpsConfigurationInfo kpsConfigurationInfoMock;
 
     private final String cppId = "valid cppId";
-    private CloudController cloudController;
+    private DefaultCloudController cloudController;
 
     @Override
     @Before
@@ -85,7 +85,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void testNotifyDCSListenerNullData() {
-        CloudController controller = createCppControllerWithListeners("dfasfa", dcsListener);
+        CloudController controller = createCloudControllerWithListeners("dfasfa", dcsListener);
 
         controller.notifyDCSListener(null, "dfasfa", "dfasfa", null);
 
@@ -98,7 +98,7 @@ public class CloudControllerTest extends RobolectricTest {
         String cppId = "valid cppId";
         String action = "valid action";
 
-        CloudController controller = createCppControllerWithListeners(cppId, dcsListener);
+        CloudController controller = createCloudControllerWithListeners(cppId, dcsListener);
 
         controller.notifyDCSListener(data, cppId, action, null);
 
@@ -110,7 +110,7 @@ public class CloudControllerTest extends RobolectricTest {
         String data = "valid dcs event";
         String action = "valid action";
 
-        CloudController controller = createCppControllerWithListeners(null, dcsListener);
+        CloudController controller = createCloudControllerWithListeners(null, dcsListener);
 
         controller.notifyDCSListener(data, null, action, null);
 
@@ -121,23 +121,23 @@ public class CloudControllerTest extends RobolectricTest {
     public void testNotifyDCSListenerNullAction() {
         String data = "valid dcs event";
 
-        CloudController controller = createCppControllerWithListeners(cppId, dcsListener);
+        CloudController controller = createCloudControllerWithListeners(cppId, dcsListener);
 
         controller.notifyDCSListener(data, cppId, null, null);
 
         verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
     }
 
-    private CloudController createCppControllerWithListeners(String cppId,
+    private DefaultCloudController createCloudControllerWithListeners(String cppId,
                                                              DcsEventListener dcsListener) {
-        CloudController controller = DefaultCloudController.getCloudControllerForTesting();
+        DefaultCloudController controller = new DefaultCloudController();
         controller.addDCSEventListener(cppId, dcsListener);
         return controller;
     }
 
     @NonNull
-    private CloudController initCPPControllerAndPerformSignOn() {
-        CloudController cloudController = createCppControllerWithListeners(cppId, dcsListener);
+    private DefaultCloudController initCloudControllerAndPerformSignOn() {
+        DefaultCloudController cloudController = createCloudControllerWithListeners(cppId, dcsListener);
         cloudController.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, null);
 
         when(signOnMock.getSignOnStatus()).thenReturn(true);
@@ -147,7 +147,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void whenStartDCSIsCalledThenEventSubscriptionCommandIsExecuted() throws Exception {
-        CloudController cloudController = initCPPControllerAndPerformSignOn();
+        CloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
 
@@ -156,7 +156,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void whenSubscribeIsSuccessfulThenListenerIsNotified() throws Exception {
-        CloudController cloudController = initCPPControllerAndPerformSignOn();
+        DefaultCloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
         cloudController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
@@ -175,7 +175,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void whenSubscribeIsUnsuccessfulThenListenerIsNotified() throws Exception {
-        CloudController cloudController = initCPPControllerAndPerformSignOn();
+        DefaultCloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
         cloudController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.CONNECT_TIMEDOUT, null);
@@ -185,7 +185,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void whenSubscribeIsUnsuccessfulThenStateIs() throws Exception {
-        CloudController cloudController = initCPPControllerAndPerformSignOn();
+        DefaultCloudController cloudController = initCloudControllerAndPerformSignOn();
 
         cloudController.startDCSService(startedListener);
         cloudController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.CONNECT_TIMEDOUT, null);
@@ -195,7 +195,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void whenStartDCSIsCalledWhileNotSignedOnThenSignOnIsPerformed() throws Exception {
-        cloudController = createCppControllerWithListeners(cppId, dcsListener);
+        cloudController = createCloudControllerWithListeners(cppId, dcsListener);
 
         cloudController.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, null);
         Provision provisionMock = mock(Provision.class);
@@ -219,7 +219,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void whenDCSCommandWasNotExecutedThenDCSStateIsStopped() throws Exception {
-        CloudController cloudController = initCPPControllerAndPerformSignOn();
+        CloudController cloudController = initCloudControllerAndPerformSignOn();
         when(eventSubscriptionMock.executeCommand()).thenReturn(Errors.AUTHENTICATION_FAILED);
 
         cloudController.startDCSService(startedListener);
@@ -229,7 +229,7 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Test
     public void whenDCSCommandWasExecutedThenDCSStateIsStarting() throws Exception {
-        cloudController = initCPPControllerAndPerformSignOn();
+        cloudController = initCloudControllerAndPerformSignOn();
         when(eventSubscriptionMock.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
 
         cloudController.startDCSService(startedListener);

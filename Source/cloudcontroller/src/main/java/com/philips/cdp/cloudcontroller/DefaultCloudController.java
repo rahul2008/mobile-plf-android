@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.listener.AppUpdateListener;
@@ -19,8 +20,8 @@ import com.philips.cdp.cloudcontroller.listener.DcsResponseListener;
 import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
 import com.philips.cdp.cloudcontroller.listener.SendNotificationRegistrationIdListener;
 import com.philips.cdp.cloudcontroller.listener.SignonListener;
-import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.DefaultPairingController;
+import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.util.LogConstants;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
@@ -51,8 +52,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DefaultCloudController implements CloudController, ICPClientToAppInterface {
-    
+public class DefaultCloudController implements CloudController, ICPClientToAppInterface, ICPEventListener {
+
     private static final String TAG = "DefaultCloudController";
     private static final String CERTIFICATE_EXTENSION = ".cer";
 
@@ -132,8 +133,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         setLocale();
     }
 
-    // Only used for testing
-    private DefaultCloudController() {
+    @VisibleForTesting
+    DefaultCloudController() {
         mSignOn = null;
         mSignOnListeners = new ArrayList<>();
         mDcsResponseListeners = null;
@@ -522,7 +523,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                         Log.i(LogConstants.CLOUD_CONTROLLER, "Starting DCS after sign on");
                         startDCSService(dcsStartListener);
                     }
-
                 } else {
                     Log.e(LogConstants.ICPCLIENT, "SIGNON-FAILED");
                     mIsSignOn = false;
@@ -778,10 +778,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             mSignOn = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
         }
         return mSignOn.clientVersion();
-    }
-
-    static CloudController getCloudControllerForTesting() {
-        return new DefaultCloudController();
     }
 
     @Override

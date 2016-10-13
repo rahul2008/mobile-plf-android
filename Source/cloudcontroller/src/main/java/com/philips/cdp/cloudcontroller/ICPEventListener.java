@@ -8,5 +8,5 @@ package com.philips.cdp.cloudcontroller;
 import com.philips.icpinterface.ICPClient;
 
 public interface ICPEventListener {
-	void onICPCallbackEventOccurred(int eventType,int status,ICPClient obj) ;
+    void onICPCallbackEventOccurred(int eventType, int status, ICPClient obj);
 }
