@@ -51,4 +51,8 @@
         <attr name="uitInputTextTextSelector" format="reference"/>
         <attr name="uitInputTextHintTextSelector" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="UITActionBar">
+        <attr name="uitActionBarBackground" format="reference|color"/>
+    </declare-styleable>
 </resources>

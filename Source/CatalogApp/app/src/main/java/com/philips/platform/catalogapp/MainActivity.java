@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentTonalRange = themeHelper.initTonalRange();
-        return new ThemeConfiguration(colorRange, contentTonalRange, this);
+        return new ThemeConfiguration(colorRange, contentTonalRange, navigationColor, this);
     }
 
     public boolean switchFragment(BaseFragment fragment) {

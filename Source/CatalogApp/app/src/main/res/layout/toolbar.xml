@@ -40,7 +40,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="5dp"
                 android:padding="10dp"
-                android:src="@drawable/ic_theme_setting_entrance_icon"/>
+                app:srcCompat="@drawable/ic_theme_setting_entrance_icon"/>
 
             <TextView
                 android:id="@+id/set_theme_settings"

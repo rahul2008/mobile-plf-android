@@ -183,6 +183,12 @@ public class ThemeSettingsFragment extends BaseFragment {
             public void onColorRangeChanged(final String changedColorRange) {
                 final ThemeColorAdapter adapter = (ThemeColorAdapter) notificationBarListview.getAdapter();
                 final int selectedPosition = adapter.getSelectedPosition();
+
+                NavigationColor[] values = NavigationColor.values();
+                NavigationColor navigationColor = values[values.length - selectedPosition - 1];
+                final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+                edit.putString(UITHelper.NAVIGATION_RANGE, navigationColor.name());
+                edit.commit();
             }
         }, colorPickerWidth);
         return navigationListAdapter;

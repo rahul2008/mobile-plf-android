@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentTonalRange;
+import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.UITHelper;
 
@@ -26,7 +27,7 @@ public class BaseTestActivity extends AppCompatActivity {
     }
 
     private ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentTonalRange.ULTRA_LIGHT, this);
+        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentTonalRange.ULTRA_LIGHT, NavigationColor.BRIGHT, this);
     }
 
     public void switchTo(final int layout) {

@@ -31,5 +31,6 @@ public class UITHelper {
         if (themeConfiguration.controlType != null) {
             themeConfiguration.controlType.injectPrimaryControlColors(theme);
         }
+        themeConfiguration.navigationColor.injectNavigationColor(theme);
     }
 }

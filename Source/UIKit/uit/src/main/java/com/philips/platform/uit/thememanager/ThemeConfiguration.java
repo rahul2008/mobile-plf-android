@@ -11,11 +11,14 @@ public class ThemeConfiguration {
     ContentTonalRange contentTonalRange;
     ColorRange colorRange;
     PrimaryControlType controlType;
+    final NavigationColor navigationColor;
     Context context;
 
-    public ThemeConfiguration(@NonNull final ColorRange colorRange, @NonNull final ContentTonalRange contentTonalRange, @NonNull final Context context) {
+    public ThemeConfiguration(@NonNull final ColorRange colorRange, @NonNull final ContentTonalRange contentTonalRange,
+                              final NavigationColor navigationColor, @NonNull final Context context) {
         this.context = context;
         this.contentTonalRange = contentTonalRange;
+        this.navigationColor = navigationColor;
         this.colorRange = colorRange;
     }
 
