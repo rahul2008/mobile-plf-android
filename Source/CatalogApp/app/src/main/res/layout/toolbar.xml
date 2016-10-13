@@ -4,14 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/transparent">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        style="?attr/actionBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/uit_aqua_level_05">
+        android:layout_height="?attr/actionBarSize">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,7 +40,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="5dp"
                 android:padding="10dp"
-                android:src="@drawable/share"/>
+                android:src="@drawable/ic_theme_setting_entrance_icon"/>
 
             <TextView
                 android:id="@+id/set_theme_settings"

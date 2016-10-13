@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentTonalRange;
+import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.UITHelper;
 
@@ -33,12 +35,17 @@ public class MainActivity extends AppCompatActivity {
     private ContentTonalRange contentTonalRange = ContentTonalRange.ULTRA_LIGHT;
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private FragmentManager supportFragmentManager;
+    private NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initColorRange();
         initNavigationRange();
         initTonalRange();
+
+        Log.d("DLS", String.format("[%s]Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
+                this.getClass().getName(), contentTonalRange, colorRange, navigationColor));
+
         UITHelper.init(getThemeConfig());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -71,12 +78,14 @@ public class MainActivity extends AppCompatActivity {
 
     void restartActivity() {
         finish();
-        startActivity(new Intent().setClass(this, com.philips.platform.catalogapp.MainActivity.class));
+        startActivity(new Intent(this, com.philips.platform.catalogapp.MainActivity.class));
+        startActivity(new Intent(this, PreviewActivity.class));
     }
 
     private void initNavigationRange() {
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int navigation = sharedPreferences.getInt(UITHelper.NAVIGATION_RANGE, 1);
+        String navigation = sharedPreferences.getString(UITHelper.NAVIGATION_RANGE, NavigationColor.VERY_LIGHT.name());
+        navigationColor = NavigationColor.valueOf(navigation);
     }
 
     private void initColorRange() {

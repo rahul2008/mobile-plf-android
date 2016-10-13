@@ -40,7 +40,12 @@
     </style>
 
     <style name="UltraLight">
-        <item name="uitContentPrimaryColor">?attr/uitColorLevel45</item>
+        <item name="uitContentPrimary">@color/uitColorWhite</item>
+        <item name="uitContentSecondary">?attr/uitColorLevel05</item>
+        <item name="uitNavigationPrimary">@color/uitColorWhite</item>
+        <item name="uitNavigationSecondary">?attr/uitColorLevel05</item>
+        <item name="uitApplicationBackground">?attr/uitColorLevel05</item>
+
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
         <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_100</item>
@@ -57,23 +62,20 @@
         <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_50</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
 
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel05</item>
-        <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
-
-
         <item name="uitInputTextFillColor">@color/uitColorWhite</item>
         <item name="uitInputTextBorderColor">@color/uit_gray_level_20</item>
         <item name="uitInputTextBorderDisabledColor">@color/uit_gray_level_10</item>
         <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width_ultralight</item>
+        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
+
     </style>
 
     <style name="VeryLight">
-        <item name="uitContentPrimaryColor">?attr/uitColorLevel20</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel25</item>
-
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel05</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel10</item>
+        <item name="uitContentPrimary">?attr/uitColorLevel20</item>
+        <item name="uitContentSecondary">?attr/uitColorLevel15</item>
+        <item name="uitNavigationPrimary">?attr/uitColorLevel10</item>
+        <item name="uitNavigationSecondary">?attr/uitColorLevel15</item>
+        <item name="uitApplicationBackground">?attr/uitColorLevel25</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel20</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel30</item>
@@ -92,14 +94,16 @@
         </item>
         <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
+
     </style>
 
     <style name="Light">
-        <item name="uitContentPrimaryColor">?attr/uitColorLevel35</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel40</item>
-
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel20</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel25</item>
+        <item name="uitContentPrimary">?attr/uitColorLevel35</item>
+        <item name="uitContentSecondary">?attr/uitColorLevel30</item>
+        <item name="uitNavigationPrimary">?attr/uitColorLevel25</item>
+        <item name="uitNavigationSecondary">?attr/uitColorLevel30</item>
+        <item name="uitApplicationBackground">?attr/uitColorLevel40</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel85</item>
@@ -119,15 +123,17 @@
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
         </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
+        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
+
     </style>
 
 
     <style name="Bright">
-        <item name="uitContentPrimaryColor">?attr/uitColorLevel50</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel55</item>
-
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
+        <item name="uitContentPrimary">?attr/uitColorLevel50</item>
+        <item name="uitContentSecondary">?attr/uitColorLevel45</item>
+        <item name="uitNavigationPrimary">?attr/uitColorLevel40</item>
+        <item name="uitNavigationSecondary">?attr/uitColorLevel45</item>
+        <item name="uitApplicationBackground">?attr/uitColorLevel55</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel85</item>
@@ -146,14 +152,16 @@
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_25_alpha
         </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
+        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
+
     </style>
 
     <style name="VeryDark">
-        <item name="uitContentPrimaryColor">?attr/uitColorLevel80</item>
-        <item name="uitContentSecondaryColor">?attr/uitColorLevel85</item>
-
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel65</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel70</item>
+        <item name="uitContentPrimary">?attr/uitColorLevel80</item>
+        <item name="uitContentSecondary">?attr/uitColorLevel75</item>
+        <item name="uitNavigationPrimary">?attr/uitColorLevel70</item>
+        <item name="uitNavigationSecondary">?attr/uitColorLevel75</item>
+        <item name="uitApplicationBackground">?attr/uitColorLevel85</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
@@ -173,7 +181,7 @@
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha
         </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
-
+        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
     </style>
 
 </resources>

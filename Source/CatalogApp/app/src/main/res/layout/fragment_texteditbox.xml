@@ -4,6 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+
     <com.philips.platform.uit.view.widget.TextEditBox
         android:layout_width="@dimen/texteditbox_width"
         android:layout_height="wrap_content"

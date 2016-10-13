@@ -5,6 +5,8 @@
         <item name="buttonStyle">@style/UITDefaultButton</item>
         <item name="imageButtonStyle">@style/UITImageButton</item>
         <item name="editTextStyle">@style/UITTextEditBoxStyle</item>
+        <item name="actionBarStyle">@style/UITNavigationBar</item>
+        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
     </style>
 
 </resources>
