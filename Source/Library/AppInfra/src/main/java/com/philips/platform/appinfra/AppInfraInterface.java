@@ -78,6 +78,9 @@ public interface AppInfraInterface {
      */
     public RestInterface getRestClient();
 
-
+    /**
+     *  Gets the A/B testing Manager.
+     * @return the config
+     */
     public ABTestClientInterface getAbTesting();
 }
