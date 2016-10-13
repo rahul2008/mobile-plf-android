@@ -80,12 +80,12 @@ public class DefaultPairingController implements PairingController, ICPEventList
     }
 
     @Override
-    public void addRelationship(String relationshipType, BasePairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
+    public void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
         addRelationship(relationshipType, null, pairingHandlerRelationship, mPairingCallback);
     }
 
     @Override
-    public void addRelationship(String relationshipType, String secretKey, BasePairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
+    public void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
