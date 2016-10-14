@@ -118,6 +118,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
                 if (activity != null && !activity.isFinishing()) {
                     clearFragmentStack();
                     PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
+                    unRegisterProdRegListener();
                     if (activity instanceof ProdRegBaseActivity) {
                         getActivity().finish();
                     }
@@ -129,6 +130,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void exitProductRegistration() {
         clearFragmentStack();
+        unRegisterProdRegListener();
     }
 
     @Override
