@@ -677,7 +677,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 }
             }
         } else {
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
+            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())){
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
+            }else {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.Janrain_Error_Need_Mobile_Verification));
+            }
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             mBtnSignInAccount.setEnabled(false);

@@ -17,10 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 
 public class XHavingProblems extends LinearLayout {
 
     private Context mContext;
+    private User mUser;
 
     public XHavingProblems(Context context) {
         super(context);
@@ -31,13 +34,22 @@ public class XHavingProblems extends LinearLayout {
     public XHavingProblems(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
+        mUser = new User(mContext);
         initUi();
     }
 
 
     private final void initUi() {
 
-        String baseString = mContext.getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt);
+        String baseString;
+        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+            baseString   = mContext.getString(R.string.Mobile_TraditionalSignIn_Instruction_lbltxt);
+        }else {
+            baseString   = mContext.getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt);
+        }
+
+
+
         String[] splitString = baseString.split("\n");
 
         LayoutInflater li = LayoutInflater.from(mContext);

@@ -181,5 +181,8 @@
     <string name="InvalidEmail_PhoneNumber_ErrorMsg">Invalid email or phone number</string>
     <string name="CreateAccount_Using_Phone_Alreadytxt">This phone is already in use.</string>
 
+    <string name="Janrain_Error_Need_Mobile_Verification">Please verify your mobile number through the activation code sent to your mobile number</string>
+    <string name="Mobile_TraditionalSignIn_Instruction_lbltxt">Having Problems?\n-  It may take some time for the SMS with the code to arrive\n-  If you did not receive an SMS press the \'Resend\' button</string>
+
 
 </resources>
