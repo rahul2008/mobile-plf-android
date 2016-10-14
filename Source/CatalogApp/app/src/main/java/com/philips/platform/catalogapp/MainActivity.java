@@ -60,14 +60,15 @@ public class MainActivity extends AppCompatActivity {
         UITHelper.init(getThemeConfig());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+        toolbar.setTitle(R.string.catalog_app_name);
+        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.catalog_app_name);
+
+        initSetThemeSettings(toolbar);
+
+        initThemeSettingsIcon(toolbar);
         if (savedInstanceState == null) {
-            ButterKnife.bind(this);
-            toolbar.setTitle(R.string.catalog_app_name);
-            ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.catalog_app_name);
-
-            initSetThemeSettings(toolbar);
-
-            initThemeSettingsIcon(toolbar);
             setSupportActionBar(toolbar);
 
             initDemoListFragment();
@@ -167,9 +168,10 @@ public class MainActivity extends AppCompatActivity {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
             if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
                 toggle(themeSettingsIcon, setThemeTextView);
-            } else {
                 showHamburgerIcon();
             }
+        } else {
+            showHamburgerIcon();
         }
         super.onBackPressed();
     }

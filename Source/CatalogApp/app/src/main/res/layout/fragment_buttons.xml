@@ -36,7 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/category_divider_width"
                 android:layout_marginTop="@dimen/button_layout_padding"
-                android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:text="@string/individual_buttons_label"
                 android:textColor="@android:color/black"/>
@@ -78,7 +77,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/category_divider_width"
                 android:layout_marginTop="@dimen/button_layout_padding"
-                android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:paddingEnd="@dimen/component_bottom_spacing"
                 android:paddingStart="@dimen/component_bottom_spacing"

@@ -44,9 +44,9 @@ public class ThemeUtils {
     private static int getResourceIdBasedComponentType(@NonNull final TypedArray typedArray) {
         int resourceId = typedArray.getInt(0, 0);
         if (resourceId == 1) {
-            resourceId = R.style.AlternatePrimary;
+            resourceId = R.style.UITPrimaryControl_AlternatePrimary;
         } else if (resourceId == 2) {
-            resourceId = R.style.Secondary;
+            resourceId = R.style.UITPrimaryControl_Secondary;
         }
 
         return resourceId;
