@@ -117,7 +117,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         // Digital care initialization
         initializeDigitalCareLibrary();
 
-
     }
 
 
