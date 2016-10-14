@@ -169,4 +169,12 @@ public class FieldsValidator {
             return false;
         }
     }
+
+    public static String getVerifiedMobileNumber(String sms, String uuid){
+        String resultStr = uuid.concat(sms);
+        resultStr = resultStr.replaceAll("[0|i|o|l|1|-]","");
+        resultStr = resultStr.substring(0, Math.min(resultStr.length(), 32));
+        return resultStr;
+    }
+
 }

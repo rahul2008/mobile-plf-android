@@ -30,7 +30,7 @@ public class VerifyCodeFragmentController implements View.OnClickListener, onUpd
 
         if (id == R.id.btn_reg_Verify) {
             RLog.d(RLog.ONCLICK, "Verify Account : Activiate Account");
-            mVerifyCodeFragment.addCodeVerificationSuccess();
+            mVerifyCodeFragment.verifyMobileNumberTask();
         }
     }
 
