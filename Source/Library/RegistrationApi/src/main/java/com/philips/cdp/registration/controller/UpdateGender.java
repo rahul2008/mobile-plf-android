@@ -13,26 +13,27 @@ import android.content.Context;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
+import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.update.UpdateUser;
 
 import org.json.JSONException;
 
 public class UpdateGender extends UpdateUserDetailsBase {
 
-    private final static String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
+    public final static String USER_GENDER = "gender";
 
-    private boolean mReceiveMarketingEmail;
+    private Gender mGender;
 
     public UpdateGender(Context context) {
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }
 
-    public void updateMarketingEmailStatus(final UpdateUserDetailsHandler
-                                                   updateUserDetailsHandler,
-                                           final boolean receiveMarketingEmail) {
+    public void updateGender(final UpdateUserDetailsHandler
+                                     updateUserDetailsHandler,
+                             final Gender gender) {
         mUpdateUserDetails = updateUserDetailsHandler;
-        mReceiveMarketingEmail = receiveMarketingEmail;
+        mGender = gender;
         if (isJanrainInitializeRequired()) {
             mJanrainInitializer.initializeJanrain(mContext, this);
             return;
@@ -45,7 +46,7 @@ public class UpdateGender extends UpdateUserDetailsBase {
         mUpdatedUserdata = CaptureRecord.loadFromDisk(mContext);
         try {
             if (null != mUpdatedUserdata) {
-                mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+                mUpdatedUserdata.put(USER_GENDER, mGender.toString());
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
             }
@@ -60,7 +61,7 @@ public class UpdateGender extends UpdateUserDetailsBase {
     protected void performLocalUpdate() {
         if (null != mUpdatedUserdata)
             try {
-                mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+                mUpdatedUserdata.put(USER_GENDER, mGender.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

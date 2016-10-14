@@ -10,19 +10,19 @@
 package com.philips.cdp.registration.handlers;
 
 /**
- * Update receive marketing email handler
+ * Update user details handler
  */
 public interface UpdateUserDetailsHandler {
 
 	/**
-	 * {@code onUpdateReceiveMarketingEmailSuccess}method to on update receive marketing email success
+	 * {@code onUpdateSuccess}method to on update receive marketing email success
 	 */
-	public void onUpdateReceiveMarketingEmailSuccess();
+	public void onUpdateSuccess();
 
 	/**
-	 * {@code onUpdateReceiveMarketingEmailFailedWithError}method toon update receive marketing email failed with error
+	 * {@code onUpdateFailedWithError}method toon update receive marketing email failed with error
 	 * @param error error
      */
-	public void onUpdateReceiveMarketingEmailFailedWithError(int error);
+	public void onUpdateFailedWithError(int error);
 
 }

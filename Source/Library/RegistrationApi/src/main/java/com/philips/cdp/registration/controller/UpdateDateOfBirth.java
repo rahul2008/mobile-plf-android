@@ -17,22 +17,29 @@ import com.philips.cdp.registration.update.UpdateUser;
 
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 
-    private final static String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
+    public final static String USER_DATE_OF_BIRTH = "birthday";
 
-    private boolean mReceiveMarketingEmail;
+    public static final String DATE_FORMAT_FOR_DOB = "yyyy-MM-dd";
+
+    private String mBirthDate;
 
     public UpdateDateOfBirth(Context context) {
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }
 
-    public void updateMarketingEmailStatus(final UpdateUserDetailsHandler
-                                                   updateUserDetailsHandler,
-                                           final boolean receiveMarketingEmail) {
+    public void updateDateOfBirth(final UpdateUserDetailsHandler
+                                          updateUserDetailsHandler,
+                                  final Date date) {
         mUpdateUserDetails = updateUserDetailsHandler;
-        mReceiveMarketingEmail = receiveMarketingEmail;
+        final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_FOR_DOB, Locale.ROOT);
+        mBirthDate = sdf.format(date);
         if (isJanrainInitializeRequired()) {
             mJanrainInitializer.initializeJanrain(mContext, this);
             return;
@@ -45,7 +52,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
         mUpdatedUserdata = CaptureRecord.loadFromDisk(mContext);
         try {
             if (null != mUpdatedUserdata) {
-                mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+                mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
             }
@@ -60,7 +67,8 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
     protected void performLocalUpdate() {
         if (null != mUpdatedUserdata)
             try {
-                mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+
+                mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

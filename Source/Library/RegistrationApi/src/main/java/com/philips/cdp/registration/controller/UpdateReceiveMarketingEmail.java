@@ -11,13 +11,13 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 
 import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.update.UpdateUser;
 
 import org.json.JSONException;
 
-public class UpdateReceiveMarketingEmail extends UpdateReceiveMarketingEmailBase {
+public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
     private final static String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
 
@@ -28,10 +28,10 @@ public class UpdateReceiveMarketingEmail extends UpdateReceiveMarketingEmailBase
         mContext = context;
     }
 
-    public void updateMarketingEmailStatus(final UpdateReceiveMarketingEmailHandler
-                                                   updateReceiveMarketingEmailHandler,
+    public void updateMarketingEmailStatus(final UpdateUserDetailsHandler
+                                                   updateUserDetailsHandler,
                                            final boolean receiveMarketingEmail) {
-        mUpdateReceiveMarketingEmailHandler = updateReceiveMarketingEmailHandler;
+        mUpdateUserDetails = updateUserDetailsHandler;
         mReceiveMarketingEmail = receiveMarketingEmail;
         if (isJanrainInitializeRequired()) {
             mJanrainInitializer.initializeJanrain(mContext, this);
@@ -51,9 +51,9 @@ public class UpdateReceiveMarketingEmail extends UpdateReceiveMarketingEmailBase
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            if (null != mUpdateReceiveMarketingEmailHandler)
-                mUpdateReceiveMarketingEmailHandler.
-                        onUpdateReceiveMarketingEmailFailedWithError(-1);
+            if (null != mUpdateUserDetails)
+                mUpdateUserDetails.
+                        onUpdateFailedWithError(-1);
         }
     }
 

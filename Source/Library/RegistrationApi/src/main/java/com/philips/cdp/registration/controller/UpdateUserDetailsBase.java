@@ -23,7 +23,7 @@ public class UpdateUserDetailsBase implements
         UpdateUser.UpdateUserListener, RefreshLoginSessionHandler {
 
 
-    protected UpdateUserDetailsHandler mUpdateReceiveMarketingEmailHandler;
+    protected UpdateUserDetailsHandler mUpdateUserDetails;
 
     protected Context mContext;
 
@@ -35,13 +35,11 @@ public class UpdateUserDetailsBase implements
 
     protected void performActualUpdate() {
     }
+
     protected void performLocalUpdate() {
         if (null != mUpdatedUserdata)
             mUpdatedUserdata.saveToDisk(mContext);
     }
-
-
-
 
     @Override
     public void onJanrainInitializeSuccess() {
@@ -50,8 +48,8 @@ public class UpdateUserDetailsBase implements
 
     @Override
     public void onJanrainInitializeFailed() {
-        if (null != mUpdateReceiveMarketingEmailHandler)
-            mUpdateReceiveMarketingEmailHandler
+        if (null != mUpdateUserDetails)
+            mUpdateUserDetails
                     .onUpdateFailedWithError(-1);
 
     }
@@ -64,16 +62,16 @@ public class UpdateUserDetailsBase implements
     @Override
     public void onUserUpdateSuccess() {
         performLocalUpdate();
-        if (null != mUpdateReceiveMarketingEmailHandler)
-            mUpdateReceiveMarketingEmailHandler.onUpdateSuccess();
+        if (null != mUpdateUserDetails)
+            mUpdateUserDetails.onUpdateSuccess();
     }
 
     @Override
     public void onUserUpdateFailed(int error) {
         RLog.d("Error", "Error" + error);
         if (error == -1) {
-            if (null != mUpdateReceiveMarketingEmailHandler) {
-                mUpdateReceiveMarketingEmailHandler
+            if (null != mUpdateUserDetails) {
+                mUpdateUserDetails
                         .onUpdateFailedWithError(-1);
             }
             return;
@@ -84,9 +82,8 @@ public class UpdateUserDetailsBase implements
             user.refreshLoginSession(this);
             return;
         }
-        mUpdateReceiveMarketingEmailHandler
+        mUpdateUserDetails
                 .onUpdateFailedWithError(error);
-
 
     }
 
@@ -97,8 +94,8 @@ public class UpdateUserDetailsBase implements
 
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
-        if (null != mUpdateReceiveMarketingEmailHandler)
-            mUpdateReceiveMarketingEmailHandler
+        if (null != mUpdateUserDetails)
+            mUpdateUserDetails
                     .onUpdateFailedWithError(error);
     }
 

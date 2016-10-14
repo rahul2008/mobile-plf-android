@@ -10,6 +10,7 @@
 package com.philips.cl.di.regsample.app;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -33,12 +35,14 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -49,8 +53,10 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
+import java.util.Calendar;
+
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
-        UserRegistrationUIEventListener,UserRegistrationListener, RefreshLoginSessionHandler {
+        UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
     private Button mBtnRegistrationWithAccountSettings;
     private Button mBtnRegistrationWithOutAccountSettings;
@@ -65,6 +71,10 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private Button mBtnChangeConfiguaration;
     private Button mBtnApply;
     private Button mBtnCancel;
+    private Button mBtnUpdateDOB;
+    private Button mBtnUpdateGender;
+    private RadioGroup mRadioGender;
+
     private LinearLayout mLlConfiguration;
 
     private RadioGroup mRadioGroup;
@@ -102,6 +112,14 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mUser.registerUserRegistrationListener(this);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
+
+        mBtnUpdateDOB = (Button) findViewById(R.id.btn_update_date_of_birth);
+        mBtnUpdateDOB.setOnClickListener(this);
+        mBtnUpdateGender = (Button) findViewById(R.id.btn_update_gender);
+        mBtnUpdateGender.setOnClickListener(this);
+        mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
+        mRadioGender.check(R.id.Male);
+
 
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
@@ -256,7 +274,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onDestroy() {
-         mUser.unRegisterUserRegistrationListener(this);
+        mUser.unRegisterUserRegistrationListener(this);
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity unregister : RegisterUserRegistrationListener");
         super.onDestroy();
 
@@ -287,6 +305,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 break;
 
             case R.id.btn_registration_without_account:
+
+
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
 
@@ -321,10 +341,116 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 }
                 break;
 
+            case R.id.btn_update_gender:
+
+
+                    User user1 = new User(mContext);
+                System.out.println("before login"+user1.getGender());
+
+                if (!user1.isUserSignIn()) {
+                        Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
+                    } else {
+                    System.out.println("preset login"+user1.getGender());
+                        handleGender();
+                    }
+
+                break;
+
+            case R.id.btn_update_date_of_birth:
+                User user = new User(mContext);
+                System.out.println("before login"+user.getDateOfBirth());
+                if (!user.isUserSignIn()) {
+                    Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
+                } else {
+                    System.out.println("pre  login"+user.getDateOfBirth());
+                    handleDoBUpdate();
+
+
+                }
+                break;
+
             default:
                 break;
         }
+    }
 
+    private void handleGender() {
+
+        mProgressDialog.setMessage("Updating...");
+        mProgressDialog.show();
+        Gender gender;
+
+        if (mRadioGender.getCheckedRadioButtonId() == R.id.Male) {
+            gender = Gender.MALE;
+        } else {
+            gender = Gender.FEMALE;
+        }
+
+        final User user1 = new User(mContext);
+        user1.updateGender(new UpdateUserDetailsHandler() {
+            @Override
+            public void onUpdateSuccess() {
+                System.out.println("onUpdateSuccess");
+                mProgressDialog.hide();
+                showToast("onUpdateSuccess");
+                System.out.println("post login"+user1.getGender());
+            }
+
+            @Override
+            public void onUpdateFailedWithError(int error) {
+                System.out.println("onUpdateFailedWithError");
+                mProgressDialog.hide();
+                showToast("onUpdateFailedWithError" + error);
+                System.out.println("post login"+user1.getGender());
+
+            }
+        }, gender);
+
+
+    }
+
+    private void handleDoBUpdate() {
+        final int year, month, day;
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        mProgressDialog.setMessage("Updating...");
+                        mProgressDialog.show();
+
+                        Calendar c = Calendar.getInstance();
+                        c.set(year, monthOfYear, dayOfMonth, 0, 0);
+                        System.out.println("date" + c.getTime());
+
+                        System.out.println("onDateSet" + year + monthOfYear + dayOfMonth);
+                        final User user1 = new User(mContext);
+                        user1.updateDateOfBirth(new UpdateUserDetailsHandler() {
+                            @Override
+                            public void onUpdateSuccess() {
+                                System.out.println("onUpdateSuccess");
+                                mProgressDialog.hide();
+                                showToast("onUpdateSuccess");
+                                System.out.println("post  login"+user1.getDateOfBirth());
+                            }
+
+                            @Override
+                            public void onUpdateFailedWithError(int error) {
+                                System.out.println("onUpdateFailedWithError");
+                                mProgressDialog.hide();
+                                showToast("onUpdateFailedWithError" + error);
+                                System.out.println("post  login"+user1.getDateOfBirth());
+
+                            }
+                        }, c.getTime());
+                    }
+                }, year, month, day);
+        datePickerDialog.show();
     }
 
     private void handleRefreshAccessToken() {
@@ -412,7 +538,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             }
         });
     }
-
 
 
     @Override

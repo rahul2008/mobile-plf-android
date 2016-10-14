@@ -65,6 +65,46 @@
                     android:visibility="visible" />
 
                 <Button
+                    android:id="@+id/btn_update_date_of_birth"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_refresh_token"
+                    android:layout_centerInParent="true"
+                    android:text="Update DOB"
+                    android:visibility="visible" />
+
+
+                <RadioGroup
+                    android:id="@+id/genderRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text"
+                    android:checkedButton="@+id/Evalution">
+
+                    <RadioButton
+                        android:id="@+id/Male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Male" />
+
+                    <RadioButton
+                        android:id="@+id/Female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Female" />
+
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/btn_update_gender"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_refresh_token"
+                    android:layout_centerInParent="true"
+                    android:text="Update Gender"
+                    android:visibility="visible" />
+
+                <Button
                     android:id="@+id/btn_change_configuration"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
