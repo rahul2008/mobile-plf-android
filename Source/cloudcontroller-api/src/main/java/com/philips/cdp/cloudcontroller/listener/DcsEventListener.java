@@ -5,6 +5,20 @@
 
 package com.philips.cdp.cloudcontroller.listener;
 
+import android.support.annotation.NonNull;
+
+/**
+ * The interface DcsEventListener.
+ * <p>
+ * Provides notifications on DCS events.
+ */
 public interface DcsEventListener {
-    void onDCSEventReceived(String data, String fromEui64, String action);
+    /**
+     * On dcs event received.
+     *
+     * @param data      the event data
+     * @param fromEui64 the EUI64 string belonging to this event
+     * @param action    the event action
+     */
+    void onDCSEventReceived(@NonNull String data, @NonNull String fromEui64, @NonNull String action);
 }
