@@ -9,8 +9,21 @@ import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.util.LogConstants;
 
+/**
+ * The type UserPairingHandlerRelationship.
+ */
 public class UserPairingHandlerRelationship extends BasePairingHandlerRelationship {
 
+    /**
+     * Instantiates a new UserPairingHandlerRelationship.
+     *
+     * @param cppId                the cpp id
+     * @param provider             the provider
+     * @param type                 the type
+     * @param credentials          the credentials
+     * @param applianceCppId       the appliance cpp id
+     * @param applicanceDeviceType the applicance device type
+     */
     public UserPairingHandlerRelationship(String cppId, String provider, String type, String credentials, String applianceCppId, String applicanceDeviceType) {
         super(cppId, provider, type, credentials, applianceCppId, applicanceDeviceType);
     }

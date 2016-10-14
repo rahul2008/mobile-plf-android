@@ -5,7 +5,12 @@
 
 package com.philips.cdp.cloudcontroller.util;
 
-public class LogConstants {
+/**
+ * The class LogConstants.
+ * <p>
+ * Provides String constants used as tags for logging.
+ */
+public final class LogConstants {
     public static final String CLOUD_CONTROLLER = "CloudController";
     public static final String ICPCLIENT = "IcpClient";
     public static final String INDOOR_RDCP = "IndoorRdcp";

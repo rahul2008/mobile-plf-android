@@ -5,9 +5,31 @@
 
 package com.philips.cdp.cloudcontroller.pairing;
 
+/**
+ * The interface PermissionListener.
+ * <p>
+ * Provides callback methods to receive notifications about permission events.
+ */
 public interface PermissionListener {
-	void onPermissionReturned(boolean permissionExists);
-	void onPermissionRemoved();
-	void onPermissionAdded();
-	void onCallFailed();
+    /**
+     * On permission returned.
+     *
+     * @param permissionExists the permission exists
+     */
+    void onPermissionReturned(boolean permissionExists);
+
+    /**
+     * On permission removed.
+     */
+    void onPermissionRemoved();
+
+    /**
+     * On permission added.
+     */
+    void onPermissionAdded();
+
+    /**
+     * On call failed.
+     */
+    void onCallFailed();
 }
