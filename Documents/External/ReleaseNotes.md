@@ -2,11 +2,12 @@
 ================================================================================
 Release notes for DiComm
 ================================================================================
-Version *.*.*
+Version 2.0.0
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 ### New features:
+* COM-119 DiComm client lib can now be initialized with external CloudController.
 * COM-24 Added startUserPairing call to PairingHandler that allows to create user relationship. 
 --------------------------------------------------------------------------------
 ### Bugs fixed:
