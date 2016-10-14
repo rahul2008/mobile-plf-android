@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016
  *   All rights reserved.
  */
 
@@ -7,11 +7,11 @@ package com.philips.cdp.dicommclient.discovery;
 
 import android.os.Handler.Callback;
 
+import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.MockitoTestCase;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.NullStrategy;
-import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
@@ -43,7 +43,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
+        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CloudController.class), new TestApplianceFactory());
 
         mService = mock(SsdpService.class);
         mHelper = new SsdpServiceHelper(mService, null);
@@ -371,7 +371,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
 
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
+        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CloudController.class), mock(DICommApplianceFactory.class));
     }
 
     @SuppressWarnings("unchecked")
@@ -390,7 +390,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
 
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
+        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CloudController.class), mock(DICommApplianceFactory.class));
     }
 
     // ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****

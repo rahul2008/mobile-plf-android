@@ -10,14 +10,6 @@
     <string name="pair">Pair</string>
     <string name="unpair">Disengage</string>
     <string name="my_id">My ID:</string>
-
-    <string-array name="fan_speed_array">
-        <item>SILENT</item>
-        <item>AUTO</item>
-        <item>TURBO</item>
-        <item>ONE</item>
-        <item>TWO</item>
-        <item>THREE</item>
-    </string-array>
-
+    <string name="userId">user ID</string>
+    <string name="access_token">access token</string>
 </resources>

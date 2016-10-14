@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclientsample;
 
-import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
+import com.philips.cdp.cloudcontroller.KpsConfigurationInfo;
 
 class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
 

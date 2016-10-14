@@ -22,7 +22,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
     }
@@ -30,6 +30,7 @@ buildscript {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
@@ -44,6 +45,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
+        }
+        defaults {
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
@@ -64,7 +67,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
@@ -100,31 +103,29 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.philips.cdp:cloudcontroller-api:2.0.2'
     compile 'com.google.code.gson:gson:2.3'
-
+    testCompile 'com.philips.cdp:cloudcontroller:4.0.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile "com.squareup.assertj:assertj-android:1.1.1"
-
-    testCompile("org.robolectric:robolectric:3.0") {
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile('org.robolectric:robolectric:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile("org.robolectric:shadows-support-v4:3.0") {
+    testCompile('org.robolectric:shadows-support-v4:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
-
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile "com.squareup.assertj:assertj-android:1.1.1"
-
+    androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    provided 'com.android.support:support-annotations:23.1.0'
 }
 
 task sourceJar(type: Jar) {

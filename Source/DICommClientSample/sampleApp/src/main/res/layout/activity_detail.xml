@@ -75,4 +75,16 @@
         android:layout_height="wrap_content"
         android:text="@string/unpair"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userId"
+        android:hint="@string/userId"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userToken"
+        android:hint="@string/access_token"/>
+
 </LinearLayout>
