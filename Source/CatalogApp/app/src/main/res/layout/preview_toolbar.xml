@@ -22,7 +22,7 @@
                 android:id="@+id/back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
-                app:srcCompat="@drawable/ic_theme_setting_back_left_icon"/>
+                app:srcCompat="@drawable/ic_back_icon"/>
 
             <TextView
                 android:id="@+id/toolbar_title"

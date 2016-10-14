@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.ThemeColorHelper;
@@ -49,7 +48,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     RecyclerView accentColorRangeList;
 
     @Bind(R.id.warningText)
-    TextView warningText;
+    ViewGroup warningText;
 
     private ThemeColorHelper themeColorHelper;
 
@@ -74,7 +73,6 @@ public class ThemeSettingsFragment extends BaseFragment {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentTonalRange = themeHelper.initTonalRange();
-
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {

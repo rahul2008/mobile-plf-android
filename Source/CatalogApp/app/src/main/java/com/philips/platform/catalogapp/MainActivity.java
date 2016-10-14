@@ -27,13 +27,20 @@ import com.philips.platform.uit.thememanager.UITHelper;
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Bind(R.id.hamburger)
+    ImageView hamburgerIcon;
+    @Bind(R.id.theme_settings)
     ImageView themeSettingsIcon;
+    @Bind(R.id.set_theme_settings)
     TextView setThemeTextView;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     private ContentTonalRange contentTonalRange = ContentTonalRange.ULTRA_LIGHT;
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private FragmentManager supportFragmentManager;
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            final Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
+            ButterKnife.bind(this);
             toolbar.setTitle(R.string.catalog_app_name);
             ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.catalog_app_name);
 
@@ -68,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initSetThemeSettings(final Toolbar toolbar) {
-        setThemeTextView = (TextView) toolbar.findViewById(R.id.set_theme_settings);
         setThemeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -87,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initThemeSettingsIcon(final Toolbar toolbar) {
-        themeSettingsIcon = (ImageView) toolbar.findViewById(R.id.theme_settings);
         themeSettingsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -125,8 +130,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
         toggle(themeSettingsIcon, setThemeTextView);
+        toggleHamburgerIcon();
         setTitle(fragment.getTitle());
         return true;
+    }
+
+    private void toggleHamburgerIcon() {
+        hamburgerIcon.setImageResource(R.drawable.ic_back_icon);
     }
 
     @Override
@@ -143,8 +153,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toggle(final View visibleView, final View goneView) {
-        visibleView.setVisibility(View.VISIBLE);
-        goneView.setVisibility(View.GONE);
+        if (visibleView != null) {
+            visibleView.setVisibility(View.VISIBLE);
+        }
+        if (goneView != null) {
+            goneView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -153,9 +167,15 @@ public class MainActivity extends AppCompatActivity {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
             if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
                 toggle(themeSettingsIcon, setThemeTextView);
+            } else {
+                showHamburgerIcon();
             }
         }
         super.onBackPressed();
+    }
+
+    private void showHamburgerIcon() {
+        hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
     }
 
     private boolean hasBackStack() {
