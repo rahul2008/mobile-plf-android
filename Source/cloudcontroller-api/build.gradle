@@ -21,7 +21,9 @@ version = objcdp.getVersion()
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
     }
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.2.0'
@@ -36,7 +38,9 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+        }
     }
 }
 
@@ -80,17 +84,17 @@ android {
     }
 }
 
+configurations {
+    javadocDeps
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:support-annotations:23.1.0'
+    javadocDeps 'com.android.support:support-annotations:23.1.0'
 }
 
-//=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    // archives zipDoc
-    // archives sourceJar
-}
 
 task zipDocuments(type: Zip) {
     def docFiles = objcdp.getExternalDocPath()
@@ -99,4 +103,37 @@ task zipDocuments(type: Zip) {
         classifier 'docs'
     }
 }
-//=======To zip and upload "Documents/External" ==ENDS=============
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+}
+
+task generateJavadoc(type: Javadoc, dependsOn: sourcesJar) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.javadocDeps
+
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+}
+
+task javadocJar(type: Jar, dependsOn: generateJavadoc) {
+    classifier 'javadoc'
+
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+
+    from "$project.buildDir/docs/javadoc"
+}
+
+artifacts {
+    archives zipDoc
+    archives sourcesJar
+    archives javadocJar
+}
+
+zipDocuments {}.dependsOn generateJavadoc
