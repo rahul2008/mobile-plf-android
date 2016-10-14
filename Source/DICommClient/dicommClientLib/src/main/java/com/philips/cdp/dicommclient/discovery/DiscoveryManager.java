@@ -7,11 +7,12 @@ package com.philips.cdp.dicommclient.discovery;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 
+import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -78,11 +79,11 @@ public class DiscoveryManager<T extends DICommAppliance> {
         }
     };
 
-    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
-        return createSharedInstance(applicationContext, cppController, applianceFactory, new NullApplianceDatabase<U>());
+    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory) {
+        return createSharedInstance(applicationContext, cloudController, applianceFactory, new NullApplianceDatabase<U>());
     }
 
-    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
         if (mInstance != null) {
             throw new RuntimeException("DiscoveryManager can only be initialized once");
         }

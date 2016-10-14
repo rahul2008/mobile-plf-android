@@ -7,11 +7,10 @@ package com.philips.cdp.dicommclient.request;
 
 import android.util.Log;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
-import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.listener.DcsResponseListener;
+import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.icpinterface.data.Errors;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +22,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private static final String TAG = "RemoteRequest";
 
     private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
+    private static final int SUCCESS = 0;
     private static String BASEDATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\",\"data\":%s}";
     private static final String DICOMM_REQUEST = "DICOMM-REQUEST";
     private static int REQUEST_PRIORITY = 20;
@@ -35,13 +35,13 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private String mPortName;
     private int mProductId;
 
-    private CppController mCppController;
+    private CloudController cloudController;
     private final RemoteRequestType mRequestType;
 
-    public RemoteRequest(String cppId, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, final CppController cppController) {
+    public RemoteRequest(String cppId, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, final CloudController cloudController) {
         super(dataMap, responseHandler);
         this.cppId = cppId;
-        mCppController = cppController;
+        this.cloudController = cloudController;
         mRequestType = requestType;
         mPortName = portName;
         mProductId = productId;
@@ -58,11 +58,11 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     @Override
     public Response execute() {
         DICommLog.d(DICommLog.REMOTEREQUEST, "Start request REMOTE");
-        mCppController.addDCSResponseListener(this);
-        mCppController.addPublishEventListener(this);
+        cloudController.addDCSResponseListener(this);
+        cloudController.addPublishEventListener(this);
 
         String mEventData = createDataToSend(mPortName, mProductId, mDataMap);
-        mMessageId = mCppController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
+        mMessageId = cloudController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
                 "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
         try {
             long startTime = System.currentTimeMillis();
@@ -76,8 +76,8 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
             // NOP
         }
 
-        mCppController.removePublishEventListener(this);
-        mCppController.removeDCSResponseListener(this);
+        cloudController.removePublishEventListener(this);
+        cloudController.removeDCSResponseListener(this);
 
         if (mResponse == null) {
             DICommLog.e(DICommLog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
@@ -111,7 +111,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     public void onPublishEventReceived(int status, int messageId, String conversationId) {
         if (mMessageId == messageId) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from the right request - status: " + status);
-            if (status == Errors.SUCCESS) {
+            if (status == SUCCESS) {
                 mConversationId = conversationId;
             } else {
                 synchronized (this) {

@@ -7,10 +7,8 @@ package com.philips.cdp.dicommclient.request;
 
 import java.util.HashMap;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
 import com.philips.cdp.dicommclient.util.DICommLog;

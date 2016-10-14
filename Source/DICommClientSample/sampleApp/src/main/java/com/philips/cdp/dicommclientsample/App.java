@@ -6,8 +6,10 @@ package com.philips.cdp.dicommclientsample;
 
 import android.app.Application;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class App extends Application {
 
@@ -15,12 +17,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        CppController cppController = CppController.getInstance();
-        if (cppController == null) {
-            cppController = CppController.createSharedInstance(this, new SampleKpsConfigurationInfo());
-        }
+        final CloudController cppController = new DefaultCloudController(this, new SampleKpsConfigurationInfo());
 
-        cppController.setDefaultDcsState();
+        String ICPClientVersion = cppController.getICPClientVersion();
+        DICommLog.i(DICommLog.ICPCLIENT, "ICPClientVersion :" + ICPClientVersion);
 
         if (DICommClientWrapper.getContext() == null) {
             DICommClientWrapper.initializeDICommLibrary(this, new SampleApplianceFactory(), null, cppController);

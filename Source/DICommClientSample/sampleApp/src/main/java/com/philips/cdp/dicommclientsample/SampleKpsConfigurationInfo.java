@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclientsample;
 
-import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
+import com.philips.cdp.cloudcontroller.KpsConfigurationInfo;
 
 class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
 
@@ -42,7 +42,7 @@ class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
     }
 
     @Override
-    public String getRelationshipId() {
+    public String getAppId() {
         return "com.philips.cdp.dicommclientsample";
     }
 

@@ -1,11 +1,12 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.subscription;
 
-import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
@@ -35,7 +36,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
     private SubscriptionEventListener mSubscriptionEventListener;
     private NetworkNode mMockNetworkNode;
     private WrappedHandler mSubscriptionEventResponseHandler;
-    private CppController mMockCppController;
+    private CloudController mMockCloudController;
 
     @Captor
     ArgumentCaptor<Runnable> runnableCaptor;
@@ -45,7 +46,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         super.setUp();
 
         mSubscriptionEventListener = mock(SubscriptionEventListener.class);
-        mMockCppController = mock(CppController.class);
+        mMockCloudController = mock(DefaultCloudController.class);
         mMockNetworkNode = mock(NetworkNode.class);
         when(mMockNetworkNode.getIpAddress()).thenReturn(APPLIANCE_IP);
         when(mMockNetworkNode.getCppId()).thenReturn(APPLIANCE_CPPID);
@@ -139,7 +140,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
     private class RemoteSubscriptionHandlerImpl extends RemoteSubscriptionHandler {
 
         public RemoteSubscriptionHandlerImpl() {
-            super(mMockCppController);
+            super(mMockCloudController);
         }
 
         @Override
