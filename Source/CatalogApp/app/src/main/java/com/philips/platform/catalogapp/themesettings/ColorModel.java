@@ -7,8 +7,8 @@
 package com.philips.platform.catalogapp.themesettings;
 
 public class ColorModel {
-    int startColor = -1;
-    int endColor = -1;
+    private int startColor = -1;
+    private int endColor = -1;
     private String title;
     private String name;
     private int textColor;

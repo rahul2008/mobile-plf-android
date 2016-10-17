@@ -1,3 +1,8 @@
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
 package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
@@ -10,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.ThemeHelper;
@@ -19,6 +25,7 @@ import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.UITHelper;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -28,6 +35,11 @@ public class PreviewActivity extends AppCompatActivity {
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private NavigationColor navigationColor = NavigationColor.VERY_LIGHT;
     private ThemeHelper themeHelper;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+    @Bind(R.id.back_button)
+    ImageView backButton;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -43,7 +55,7 @@ public class PreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_preview);
-        final Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
         findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {

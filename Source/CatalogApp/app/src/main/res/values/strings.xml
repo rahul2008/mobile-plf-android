@@ -19,4 +19,13 @@
     <string name="tittle_buttons">Buttons</string>
     <string name="tittle_textbox">TextBox</string>
     <string name="tittle_components">Components</string>
+    <string name="hint_text">Hint text</string>
+    <string name="hint_text_multi_lines">Hint text multi lines</string>
+    <string name="filled_text">Filled text</string>
+    <string name="tittle_hamburger">Hamburger</string>
+    <string name="back">back</string>
+    <string name="disabled">Disabled</string>
+    <string name="enabled">Enabled</string>
+    <string name="close">close</string>
+    <string name="preview">Preview</string>
 </resources>

@@ -11,23 +11,14 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/component_bottom_spacing"
         android:inputType="text"
-        android:hint="Hint text"/>
+        android:hint="@string/hint_text"/>
 
     <com.philips.platform.uit.view.widget.TextEditBox
         android:layout_width="@dimen/texteditbox_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/component_bottom_spacing"
-        android:hint="Hint text multi lines"/>
-
-    <com.philips.platform.uit.view.widget.TextEditBox
-        android:layout_width="@dimen/texteditbox_width"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:enabled="false"
-        android:layout_marginTop="@dimen/component_bottom_spacing"
-        android:hint="Hint text"/>
-
+        android:hint="@string/hint_text_multi_lines"/>
 
     <com.philips.platform.uit.view.widget.TextEditBox
         android:layout_width="@dimen/texteditbox_width"
@@ -35,6 +26,15 @@
         android:layout_gravity="center"
         android:enabled="false"
         android:layout_marginTop="@dimen/component_bottom_spacing"
-        android:text="Filled text"/>
+        android:hint="@string/hint_text"/>
+
+
+    <com.philips.platform.uit.view.widget.TextEditBox
+        android:layout_width="@dimen/texteditbox_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:text="@string/filled_text"/>
 
 </LinearLayout>

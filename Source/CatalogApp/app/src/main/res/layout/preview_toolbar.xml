@@ -22,6 +22,7 @@
                 android:id="@+id/back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
+                android:contentDescription="@string/back"
                 app:srcCompat="@drawable/ic_back_icon"/>
 
             <TextView

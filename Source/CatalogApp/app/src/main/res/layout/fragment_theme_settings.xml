@@ -119,6 +119,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/close"
                 android:padding="10dp"
                 app:srcCompat="@drawable/ic_cross_icon"/>
 

@@ -50,12 +50,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
     }
 
     private Map<Integer, String> sortMap(final HashMap<Integer, String> map) {
-        TreeMap<Integer, String> sortedMap = new TreeMap<>(new Comparator<Integer>() {
-            @Override
-            public int compare(final Integer key1, final Integer key2) {
-                return map.get(key1).compareTo(map.get(key2));
-            }
-        });
+        TreeMap<Integer, String> sortedMap = new TreeMap<>(new IntegerComparator(map));
 
         sortedMap.putAll(map);
 
@@ -88,5 +83,18 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
     @Override
     public int getTitle() {
         return R.string.tittle_components;
+    }
+
+    private static class IntegerComparator implements Comparator<Integer> {
+        private final HashMap<Integer, String> map;
+
+        public IntegerComparator(final HashMap<Integer, String> map) {
+            this.map = map;
+        }
+
+        @Override
+        public int compare(final Integer key1, final Integer key2) {
+            return map.get(key1).compareTo(map.get(key2));
+        }
     }
 }

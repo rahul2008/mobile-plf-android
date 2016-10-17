@@ -144,6 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:padding="10dp"
+                    android:contentDescription="@string/close"
                     app:srcCompat="@drawable/ic_cross_icon"/>
 
                 <TextView
@@ -164,7 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Preview"/>
+                android:text="@string/preview"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
