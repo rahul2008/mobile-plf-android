@@ -33,6 +33,7 @@
 
     <!--TextBox-->
     <dimen name="uit_texteditbox_corner_radius">2dp</dimen>
+    <dimen name="uit_texteditbox_fill_corner_radius">4dp</dimen>
     <dimen name="uit_texteditbox_height">40dp</dimen>
     <dimen name="uit_texteditbox_stroke_width">4dp</dimen>
     <dimen name="uit_texteditbox_text_padding">12dp</dimen>

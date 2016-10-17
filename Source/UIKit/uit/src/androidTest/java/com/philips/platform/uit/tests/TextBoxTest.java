@@ -82,7 +82,7 @@ public class TextBoxTest {
 
     @Test
     public void verifyTextEditBoxFillBackgroundRadius() {
-        float expectedRadius = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
+        float expectedRadius = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_fill_corner_radius));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_fill_drawable)));
     }
 
