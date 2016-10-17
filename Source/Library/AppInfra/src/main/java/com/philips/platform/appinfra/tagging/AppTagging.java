@@ -35,12 +35,8 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class AppTagging implements AppTaggingInterface {
-//    private String newFieldKey;
-//    private String newFieldValue;
 
     private String mLanguage;
-    private String mAppsIdkey;
-    private String mAppState;
     private String prevPage;
 
     AppInfra mAppInfra;
@@ -66,27 +62,22 @@ public class AppTagging implements AppTaggingInterface {
 
     private Map<String, Object> contextData;
 
-    public static AppTaggingInterface mAppTaggingInterface;
-
     private AppConfigurationInterface.AppConfigurationError configError;
-    boolean sslValue = false;
-    String consentValueString = null;
+    private boolean sslValue = false;
+    private String consentValueString = null;
 
     SecureStorageInterface ssi;
-    SecureStorage.SecureStorageError mSecureStorage;
-    private final static String PRIVACY_CONSENT = "PrivacyConsentForSensitiveData";
+    SecureStorage.SecureStorageError mSecureStorageError;
+    private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
 
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
 
         ssi = mAppInfra.getSecureStorage();
-        mSecureStorage = new SecureStorage.SecureStorageError();
-        init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
+        mSecureStorageError = new SecureStorage.SecureStorageError();
+        init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
 
-        mAppTaggingInterface = mAppInfra.getTagging();
-
-//        String appsstate = mAppInfra.getAppIdentity().getAppState().toString();
 
         configError = new AppConfigurationInterface
                 .AppConfigurationError();
@@ -111,7 +102,8 @@ public class AppTagging implements AppTaggingInterface {
                     throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AdobeMobile Configuration exception",
+                        Log.getStackTraceString(e));
             }
 
             return sslValue;
@@ -164,39 +156,31 @@ public class AppTagging implements AppTaggingInterface {
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         contextData.put(AppTaggingConstants.BUNDLE_ID, getAppStateFromConfig());
 
-        if (getPrivacyConsentForSensitiveData()) {
-            ArrayList taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitiveData", "appinfra", configError);
-            if (taggingSensitiveData != null && taggingSensitiveData.size() > 0) {
-                for (int i = 0; i < taggingSensitiveData.size(); i++) {
-                    for (int j = 0; j < defaultValues.length; j++) {
-                        if (taggingSensitiveData.get(i).equals(defaultValues[j])) {
-                            contextData.remove(defaultValues[j]);
-                        }
-                    }
+        // Removes Sensitive data from Context object taking Consent
 
-                }
-                return contextData;
+        return removeSensitiveData(contextData);
+    }
+
+    private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
+        if (getPrivacyConsentForSensitiveData()) {
+            ArrayList<String> taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitiveData", "appinfra", configError);
+
+            if (taggingSensitiveData != null && taggingSensitiveData.size() > 0) {
+                data.keySet().removeAll(taggingSensitiveData);
+
             }
+            return data;
         }
 
-
-        return contextData;
+        return data;
     }
 
     private String getAppsId() {
-        if (mAppsIdkey == null) {
-            mAppsIdkey = Analytics.getTrackingIdentifier();
-        }
-
-        return mAppsIdkey;
+        return Analytics.getTrackingIdentifier();
     }
 
     private String getAppStateFromConfig() {
-        if (mAppState == null) {
-            mAppState = mAppInfra.getAppIdentity().getAppState().toString();
-        }
-
-        return mAppState;
+        return mAppInfra.getAppIdentity().getAppState().toString();
     }
 
     private String getLanguage() {
@@ -229,7 +213,7 @@ public class AppTagging implements AppTaggingInterface {
 
         String mLocalTimestamp = null;
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.ENGLISH);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
         String formattedDate = df.format(c.getTime());
         mLocalTimestamp = formattedDate;
         return mLocalTimestamp;
@@ -300,24 +284,33 @@ public class AppTagging implements AppTaggingInterface {
 
 
     private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+        if (checkforAppStateandSSl()) {
             trackData(pageName, paramMap, isTrackPage);
         }
         trackData(pageName, paramMap, isTrackPage);
 
     }
 
+    private boolean checkforAppStateandSSl() {
+        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+            return true;
+        }
+        return false;
+    }
+
     private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData = addAnalyticsDataObject();
         if (paramMap != null) {
-            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-                if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
-                    contextData.put(entry.getKey(), entry.getValue());
-                }
-            }
+            paramMap.putAll((Map)contextData);
+            contextData = removeSensitiveData((Map)paramMap);
+//            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+//                if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
+//                    contextData.put(entry.getKey(), entry.getValue());
+//                }
+//            }
         }
-        contextData = addAnalyticsDataObject();
+//        contextData = removeSensitiveData(contextData);
         if (null != prevPage && isTrackPage) {
             contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
@@ -333,38 +326,37 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackTimedActionStart(String actionStart) {
 
-        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+        if (checkforAppStateandSSl()) {
+            Analytics.trackTimedActionStart(actionStart, contextData);
+        } else {
             Analytics.trackTimedActionStart(actionStart, contextData);
         }
-        Analytics.trackTimedActionStart(actionStart, contextData);
+
 
     }
 
 
     @Override
     public void trackTimedActionEnd(String actionEnd) {
-        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
+        if (checkforAppStateandSSl()) {
+            Analytics.trackTimedActionEnd(actionEnd, null);
+        } else {
             Analytics.trackTimedActionEnd(actionEnd, null);
         }
-        Analytics.trackTimedActionEnd(actionEnd, null);
+
 
     }
 
+    // Sets the value of Privacy Consent For Sensitive Data and stores in preferences
     @Override
     public void setPrivacyConsentForSensitiveData(boolean valueContent) {
-        if (valueContent) {
-            ssi.storeValueForKey(PRIVACY_CONSENT, String.valueOf(valueContent), mSecureStorage);
-        }
+        ssi.storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), mSecureStorageError);
     }
 
     @Override
     public boolean getPrivacyConsentForSensitiveData() {
         boolean consentValue;
-
-
-        if (consentValueString == null) {
-            consentValueString = ssi.fetchValueForKey(PRIVACY_CONSENT, mSecureStorage);
-        }
+        consentValueString = ssi.fetchValueForKey(AIL_PRIVACY_CONSENT, mSecureStorageError);
         if (consentValueString != null && consentValueString.equalsIgnoreCase("true")) {
             consentValue = true;
         } else {
