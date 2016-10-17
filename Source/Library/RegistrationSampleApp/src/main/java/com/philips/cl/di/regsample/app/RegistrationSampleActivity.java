@@ -450,7 +450,9 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                         }, c.getTime());
                     }
                 }, year, month, day);
+        datePickerDialog.setCancelable(false);
         datePickerDialog.show();
+
     }
 
     private void handleRefreshAccessToken() {

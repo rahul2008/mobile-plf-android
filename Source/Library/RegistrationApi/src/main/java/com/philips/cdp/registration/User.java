@@ -364,17 +364,12 @@ public class User {
                 }
             }
 
-
-
             String dob = captureRecord.getString(UpdateDateOfBirth.USER_DATE_OF_BIRTH);
             if(null!= dob){
                 DateFormat formatter = new SimpleDateFormat(UpdateDateOfBirth.DATE_FORMAT_FOR_DOB, Locale.ROOT);
                 Date date = formatter.parse(dob);
                 diUserProfile.setDateOfBirth(date);
             }
-
-
-
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
         } catch (ParseException e) {

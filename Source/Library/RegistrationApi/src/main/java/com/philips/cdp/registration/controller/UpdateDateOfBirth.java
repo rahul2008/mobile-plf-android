@@ -9,14 +9,17 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.update.UpdateUser;
+import com.philips.ntputils.ServerTime;
 
 import org.json.JSONException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -34,18 +37,29 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
         mContext = context;
     }
 
-    public void updateDateOfBirth(final UpdateUserDetailsHandler
+    public void updateDateOfBirth(@NonNull final UpdateUserDetailsHandler
                                           updateUserDetailsHandler,
-                                  final Date date) {
+                                  @NonNull final Date date) {
         mUpdateUserDetails = updateUserDetailsHandler;
         final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_FOR_DOB, Locale.ROOT);
         mBirthDate = sdf.format(date);
-        if (isJanrainInitializeRequired()) {
-            mJanrainInitializer.initializeJanrain(mContext, this);
-            return;
+        try {
+            Date firstDate = sdf.parse(mBirthDate);
+            Date secondDate = sdf.parse(ServerTime.getCurrentTime());
+            if (firstDate.compareTo(secondDate) > 0) {
+                mUpdateUserDetails.onUpdateFailedWithError(-1);
+                return;
+            }
+            if (isJanrainInitializeRequired()) {
+                mJanrainInitializer.initializeJanrain(mContext, this);
+                return;
+            }
+            performActualUpdate();
+        } catch (ParseException e) {
+            mUpdateUserDetails.onUpdateFailedWithError(-1);
         }
-        performActualUpdate();
     }
+
 
     protected void performActualUpdate() {
         CaptureRecord userData = CaptureRecord.loadFromDisk(mContext);
@@ -67,7 +81,6 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
     protected void performLocalUpdate() {
         if (null != mUpdatedUserdata)
             try {
-
                 mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);
             } catch (JSONException e) {
                 e.printStackTrace();
