@@ -5,6 +5,8 @@
 */
 package com.philips.platform.appframework.settingscreen;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
@@ -117,12 +119,15 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
 
     @Override
     public void onLogoutSuccess() {
-        ((AppFrameworkBaseActivity)settingsView.getFragmentActivity()).setCartItemCount(0);
-        appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
-        uiState = getUiState(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
-        fragmentLauncher = getFragmentLauncher();
-        uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
+        if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
+            ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
+            appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
+            uiState = getUiState(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+            fragmentLauncher = getFragmentLauncher();
+            uiState.setPresenter(this);
+            appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        }
     }
 
     @Override
