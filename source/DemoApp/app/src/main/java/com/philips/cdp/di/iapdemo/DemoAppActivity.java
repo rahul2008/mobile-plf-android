@@ -44,6 +44,7 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -88,6 +89,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
+        IAPLog.enableLogging(true);
         IAPLog.i("DemoActivity", "onCreate");
         mApplicationContext = (DemoApplication) getApplicationContext();
         addActionBar();
@@ -170,30 +172,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     protected void onRestart() {
         super.onRestart();
         IAPLog.i("DemoActivity", "onRestart");
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        IAPLog.i("DemoActivity", "onSaveInstanceState");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        IAPLog.i("DemoActivity", "onRestoreInstanceState");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        IAPLog.i("DemoActivity", "onStart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        IAPLog.i("DemoActivity", "onStop");
     }
 
     private void addActionBar() {

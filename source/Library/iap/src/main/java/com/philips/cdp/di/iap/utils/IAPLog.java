@@ -4,27 +4,15 @@
  */
 package com.philips.cdp.di.iap.utils;
 
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import android.util.Log;
+
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.platform.appinfra.BuildConfig;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class IAPLog {
     public final static String LOG = "InAppPurchase";
     public static boolean isLoggingEnabled = false;
-    public static LoggingInterface sAppLoggingInterface;
-
-    public static void initIAPLog(IAPDependencies dependencies) {
-        sAppLoggingInterface = dependencies.getAppInfra().getLogging().
-                createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
-        enableLogging(true);
-    }
 
     public static void enableLogging(boolean enableLog) {
-        if (sAppLoggingInterface != null) {
-            sAppLoggingInterface.enableConsoleLog(enableLog);
-            sAppLoggingInterface.enableFileLog(enableLog);
-        }
         isLoggingEnabled = enableLog;
     }
 
@@ -33,26 +21,26 @@ public class IAPLog {
     }
 
     public static void d(String tag, String message) {
-        if (isLoggingEnabled && sAppLoggingInterface != null) {
-            sAppLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
+        if (isLoggingEnabled) {
+            Log.d(tag, message);
         }
     }
 
     public static void e(String tag, String message) {
-        if (isLoggingEnabled && sAppLoggingInterface != null) {
-            sAppLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
+        if (isLoggingEnabled) {
+            Log.e(tag, message);
         }
     }
 
     public static void i(String tag, String message) {
-        if (isLoggingEnabled && sAppLoggingInterface != null) {
-            sAppLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
+        if (isLoggingEnabled) {
+            Log.i(tag, message);
         }
     }
 
     public static void v(String tag, String message) {
-        if (isLoggingEnabled && sAppLoggingInterface != null) {
-            sAppLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
+        if (isLoggingEnabled) {
+            Log.v(tag, message);
         }
     }
 }

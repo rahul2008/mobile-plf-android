@@ -49,7 +49,6 @@ class IAPHandler {
 
     void initTaggingLogging() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
-        IAPLog.initIAPLog(mIAPDependencies);
     }
 
 
