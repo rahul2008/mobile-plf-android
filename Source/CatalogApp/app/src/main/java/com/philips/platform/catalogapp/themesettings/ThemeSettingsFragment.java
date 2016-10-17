@@ -94,19 +94,9 @@ public class ThemeSettingsFragment extends BaseFragment {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
-        setLayoutWidthForTablet(widthPixels);
 
         float pageMargin = getResources().getDimension(R.dimen.themeSettingsPageMargin);
         colorPickerWidth = (int) ((widthPixels - pageMargin) / 8);
-    }
-
-    private void setLayoutWidthForTablet(int widthPixels) {
-        if (widthPixels > 1200) {
-            final View settingLayout = getView().findViewById(R.id.setting_layout);
-            final ViewGroup.LayoutParams layoutParams = settingLayout.getLayoutParams();
-            layoutParams.width = widthPixels / 2;
-            widthPixels = widthPixels / 2;
-        }
     }
 
     private void updateThemeSettingsLayout() {
