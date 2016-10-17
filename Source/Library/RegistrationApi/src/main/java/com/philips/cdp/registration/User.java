@@ -47,6 +47,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -407,8 +408,13 @@ public class User {
         }
 
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
-            if (!isTermAccepted) {
+            boolean isTermAccepted;
+            if (FieldsValidator.isValidEmail(getEmail())){
+                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            }else {
+                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getMobile());
+            }
+           if (!isTermAccepted) {
                 signedIn = false;
                 clearData();
             }
