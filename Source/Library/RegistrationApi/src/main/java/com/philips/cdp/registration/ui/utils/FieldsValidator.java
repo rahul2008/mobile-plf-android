@@ -170,8 +170,8 @@ public class FieldsValidator {
         }
     }
 
-    public static String getVerifiedMobileNumber(String sms, String uuid){
-        String resultStr = uuid.concat(sms);
+    public static String getVerifiedMobileNumber(String uuid, String sms){
+        String resultStr = sms.concat(uuid);
         resultStr = resultStr.replaceAll("[0|i|o|l|1|-]","");
         resultStr = resultStr.substring(0, Math.min(resultStr.length(), 32));
         return resultStr;
