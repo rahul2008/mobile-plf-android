@@ -62,7 +62,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        initializeUserRegistrationLibrary(Configuration.PRODUCTION);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
 
     }
 
