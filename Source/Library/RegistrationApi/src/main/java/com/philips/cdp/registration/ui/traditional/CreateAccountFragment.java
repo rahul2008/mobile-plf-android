@@ -474,8 +474,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+                mTvEmailExist.setText(mContext.getResources().getString(R.string.reg_EmailAlreadyUsedErrorMsg_LabelTxt));
             } else {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.CreateAccount_Using_Phone_Alreadytxt));
+                mTvEmailExist.setText(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Messagetxt));
             }
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();

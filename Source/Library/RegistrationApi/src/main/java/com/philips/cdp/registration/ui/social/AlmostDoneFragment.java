@@ -680,7 +680,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         } else {
-            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            } else {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.CreateAccount_Using_Phone_Alreadytxt));
+            }
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
     }

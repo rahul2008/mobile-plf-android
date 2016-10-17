@@ -679,15 +679,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         } else {
             if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())){
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
+                mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt));
             }else {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.Janrain_Error_Need_Mobile_Verification));
+                mTvResendDetails.setText(mContext.getResources().getString(R.string.Mobile_TraditionalSignIn_Instruction_lbltxt));
             }
+            mTvResendDetails.setVisibility(View.VISIBLE);
+            mViewHavingProblem.setVisibility(View.GONE);
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             mBtnSignInAccount.setEnabled(false);
             mBtnResend.setVisibility(View.VISIBLE);
-            mViewHavingProblem.setVisibility(View.VISIBLE);
-            mTvResendDetails.setVisibility(View.GONE);
             mLlattentionBox.setVisibility(View.VISIBLE);
             mViewAttentionBoxLine.setVisibility(View.INVISIBLE);
         }
