@@ -21,9 +21,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentStart="true"
-                android:contentDescription="@string/tittle_hamburger"
                 android:layout_margin="5dp"
+                android:contentDescription="@string/tittle_hamburger"
+                android:visibility="visible"
                 app:srcCompat="@drawable/ic_hamburger_menu"/>
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentStart="true"
+                android:layout_margin="5dp"
+                android:contentDescription="@string/tittle_hamburger"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_back_icon"/>
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -39,8 +50,8 @@
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:contentDescription="@string/set_theme_settings"
                 android:layout_margin="5dp"
+                android:contentDescription="@string/set_theme_settings"
                 android:padding="10dp"
                 app:srcCompat="@drawable/ic_theme_setting_entrance_icon"/>
 

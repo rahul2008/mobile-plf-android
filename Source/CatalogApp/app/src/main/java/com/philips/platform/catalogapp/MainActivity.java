@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,10 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.hamburger)
     ImageView hamburgerIcon;
+
     @Bind(R.id.theme_settings)
     ImageView themeSettingsIcon;
+
     @Bind(R.id.set_theme_settings)
     TextView setThemeTextView;
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     private ContentTonalRange contentTonalRange = ContentTonalRange.ULTRA_LIGHT;
@@ -68,11 +72,27 @@ public class MainActivity extends AppCompatActivity {
         initSetThemeSettings(toolbar);
 
         initThemeSettingsIcon(toolbar);
+
+        initBackButton();
         if (savedInstanceState == null) {
             setSupportActionBar(toolbar);
 
             initDemoListFragment();
         }
+    }
+
+    private void initBackButton() {
+        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                if (hasBackStack()) {
+                    supportFragmentManager.popBackStack();
+                    processBackButton();
+                } else {
+                    Snackbar.make(view, "Hamburger not implemented ", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void initSetThemeSettings(final Toolbar toolbar) {
@@ -164,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        processBackButton();
+        super.onBackPressed();
+    }
+
+    private void processBackButton() {
         if (hasBackStack()) {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
             if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
@@ -173,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             showHamburgerIcon();
         }
-        super.onBackPressed();
     }
 
     private void showHamburgerIcon() {
