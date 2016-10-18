@@ -37,6 +37,7 @@
     <HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon>
     <Settings>//android.widget.TextView[@text='Settings']</Settings>
     <Connectivity>//android.widget.TextView[@text='Connectivity']</Connectivity>
+	  <DatacoreErrorMsg>com.philips.platform.referenceapp:id/datacre_error_text</DatacoreErrorMsg>
     <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
     <ALoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</ALoginButton>
     <ALoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</ALoginContinue>

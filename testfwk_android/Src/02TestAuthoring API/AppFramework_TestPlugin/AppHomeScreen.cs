@@ -107,6 +107,10 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             return String.Empty;
         }
 
+        public static string GetDatacoreErrorMsg()
+        {
+            return _instance.GetElement(SearchBy.Id, ObjectRepository.DatacoreErrorMsg).Text;
+        }
 
         public static bool IsVisible1()
         {

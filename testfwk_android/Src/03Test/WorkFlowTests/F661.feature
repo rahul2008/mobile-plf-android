@@ -11,5 +11,6 @@ Scenario: US9960 platform end to end smoke test
 	Then I click on Hamburger Menu Icon
 	Then I am on end to end smoke test screen
 	When I connect to the BLE reference device and retrieve battery level
+	Then I verify the nucleous value on screen shows '30'
 	When I get the latest moment from datacore
 	Then I verify the moment on screen shows '30'
