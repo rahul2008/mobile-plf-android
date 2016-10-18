@@ -11,8 +11,8 @@ public class ColorModel {
     private int endColor = -1;
     private String title;
     private String name;
-    private int textColor = -1;
-    private int tickColor = -1;
+    private int textColor = 0;
+    private int tickColor = 0;
     private int backgroundColor;
 
     public ColorModel(final String title, final String name, final int textColor, final int tickColor, final int startColor, final int endColor) {

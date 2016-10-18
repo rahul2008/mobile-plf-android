@@ -8,10 +8,13 @@ package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +34,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     private ThemeChangedListener themeChangedListener;
     private int colorPickerwidth;
     private int selectedPosition = 0;
+    private VectorDrawableCompat drawableCompat;
 
     public ThemeColorAdapter(@NonNull final List<ColorModel> colorRangeList, @NonNull final ThemeChangedListener themeChangedListener, final int colorPickerwidth) {
         this.colorRangeList = colorRangeList;
@@ -50,6 +54,8 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         layoutParams.width = colorPickerwidth;
         view.setLayoutParams(layoutParams);
         ThemeColorAdapter.ViewHolder viewHolder = new ViewHolder(view);
+        drawableCompat = VectorDrawableCompat.create(view.getContext().getResources(), R.drawable.ic_transparent_done, view.getContext().getTheme());
+
         return viewHolder;
     }
 
@@ -94,8 +100,14 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
 
     private void setTickMarckColor(final @NonNull ViewHolder holder, final int adapterPosition, final ColorModel colorModel, final Context context) {
         if (adapterPosition == selectedPosition) {
-            final VectorDrawableCompat drawableCompat = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_transparent_done, context.getTheme());
-            drawableCompat.setTint(colorModel.getTickColor());
+            final Drawable mutate = drawableCompat.mutate();
+            final Drawable wrap = DrawableCompat.wrap(mutate);
+            if (colorModel.getTickColor() == R.color.uitColorWhite) {
+                DrawableCompat.setTint(wrap, Color.WHITE);
+            } else {
+                DrawableCompat.setTint(wrap, colorModel.getTickColor());
+            }
+            DrawableCompat.setTintMode(wrap, PorterDuff.Mode.SRC_IN);
             holder.colorRangeSelectedCheckBox.setBackground(drawableCompat);
         }
     }
