@@ -38,11 +38,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
         }
+        compat {
+            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
+        }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+
     testCompile 'junit:junit:4.12'
 }
 
