@@ -88,9 +88,15 @@ public class AppTagging implements AppTaggingInterface {
         }
         contextData.put(AppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
-//        contextData.put(AppTaggingConstants.BUNDLE_ID, mAppInfra.getAppIdentity().getAppState());
+        contextData.put(AppTaggingConstants.BUNDLE_ID, getAppStateFromConfig());
         return contextData;
     }
+
+    private String getAppStateFromConfig() {
+        return mAppInfra.getAppIdentity().getAppState().toString();
+    }
+
+
 
     private String getAppsId() {
         if (mAppsIdkey == null) {
@@ -210,7 +216,6 @@ public class AppTagging implements AppTaggingInterface {
                 }
             }
         }
-        contextData = addAnalyticsDataObject();
         if (null != prevPage && isTrackPage) {
             contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
