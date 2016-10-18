@@ -7,6 +7,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
@@ -33,6 +34,7 @@ public class SynchronisationMonitor extends EventMonitor {
     }
 
     public void onEventAsync(ReadDataFromBackendRequest event) {
+        Log.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
         pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
     }
 

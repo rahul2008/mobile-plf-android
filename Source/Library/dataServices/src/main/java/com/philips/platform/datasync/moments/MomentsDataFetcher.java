@@ -8,6 +8,7 @@ import android.util.Log;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
+import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -59,12 +60,12 @@ public class MomentsDataFetcher extends DataFetcher {
                     accessProvider.getAccessToken(), gsonConverter);
 
             if (client != null) {
-                com.philips.platform.datasync.moments.UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
+                UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
                         accessProvider.getUserId(), null);
 
                 accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
-                List<com.philips.platform.datasync.moments.UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
+                List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
                 if (uCoreMoments != null && uCoreMoments.size() <= 0) {
                     return null;
                 }
@@ -75,6 +76,7 @@ public class MomentsDataFetcher extends DataFetcher {
             return null;
         } catch (RetrofitError ex) {
             Log.e(TAG, "RetrofitError: " + ex.getMessage(), ex);
+            eventing.post(new BackendMomentRequestFailed(ex));
             return ex;
         }
     }

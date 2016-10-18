@@ -40,7 +40,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String TAG = DatabaseHelper.class.getSimpleName();
-    public static final String DATABASE_NAME = "Lumea.db";
+    public static final String DATABASE_NAME = "DataService.db";
     public static final int DATABASE_VERSION = 1;
     private final UuidGenerator uuidGenerator;
     private final String packageName;

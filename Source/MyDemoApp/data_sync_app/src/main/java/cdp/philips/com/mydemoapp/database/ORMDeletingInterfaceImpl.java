@@ -55,6 +55,7 @@ public class ORMDeletingInterfaceImpl implements DBDeletingInterface {
             } else {
                 prepareMomentForDeletion(moment);
             }
+            notifyAllSuccess(moment);
         }catch (SQLException e){
             notifyAllFailure(e);
         }
@@ -64,6 +65,7 @@ public class ORMDeletingInterfaceImpl implements DBDeletingInterface {
      public void ormDeletingDeleteMoment(Moment moment){
          try {
              ormDeleting.ormDeleteMoment((OrmMoment)moment);
+             notifyAllSuccess(moment);
          } catch (SQLException e) {
              e.printStackTrace();
          }
@@ -103,4 +105,16 @@ public class ORMDeletingInterfaceImpl implements DBDeletingInterface {
             }
         }
     }
+
+    private void notifyAllSuccess(Object ormMoments) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if(integers.contains(EventHelper.MOMENT)){
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onSuccess(ormMoments);
+            }
+        }
+    }
+
 }

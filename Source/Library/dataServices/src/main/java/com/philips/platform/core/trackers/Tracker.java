@@ -7,6 +7,7 @@
 package com.philips.platform.core.trackers;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -108,6 +109,7 @@ public class Tracker {
     }
 
     public void synchronize() {
+        Log.i("***SPO***", "In Tracker.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
         monitor.start(eventing);
         eventing.post(new ReadDataFromBackendRequest(null));

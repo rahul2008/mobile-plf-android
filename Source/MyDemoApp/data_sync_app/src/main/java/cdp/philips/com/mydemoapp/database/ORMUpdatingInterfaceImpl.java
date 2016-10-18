@@ -52,6 +52,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
         return updatedCount;
     }
 
+    @Override
+    public void updateFailed(Exception e) {
+        notifyAllFailure(e);
+    }
+
+    @Override
+    public void postRetrofitError(final Throwable error) {
+        notifyAllFailure((Exception) error);
+    }
+
     private boolean photoFileExistsForPhotoMoments(@NonNull final Moment moment) {
         Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
         if (momentDetails == null) {

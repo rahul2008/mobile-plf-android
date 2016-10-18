@@ -77,23 +77,30 @@ public class DataPullSynchronise {
 
 
     public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
-        executor.execute(new Runnable() {
+        Log.i("**SPO**","In Data Pull Synchronize startFetching");
+        preformFetch(fetcher, lastSyncDateTime, referenceId);
+        /*executor.execute(new Runnable() {
             @Override
             public void run() {
-                preformFetch(fetcher, lastSyncDateTime, referenceId);
+                Log.i("**SPO**","In Data Pull Synchronize startFetching execute");
+
             }
-        });
+        });*/
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
+        Log.i("***SPO***","In startSynchronise - DataPullSynchronize");
         this.lastSyncDateTime = lastSyncDateTime;
         this.referenceId = referenceId;
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if (isLoggedIn) {
+            Log.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
+            Log.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
             eventing.post(new GetNonSynchronizedMomentsRequest());
         } else  {
+            Log.i("***SPO***","DataPullSynchronize isLogged-in is false");
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
         }
     }
@@ -111,12 +118,15 @@ public class DataPullSynchronise {
     }
 
     private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
+        Log.i("**SPO**","In Data Pull Synchronize preformFetch");
         RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
         updateResult(resultError);
 
         int jobsRunning = numberOfRunningFetches.decrementAndGet();
+        Log.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning);
 
         if (jobsRunning == 0) {
+            Log.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning + "calling report result");
             reportResult(fetchResult, referenceId);
         }
     }
@@ -128,33 +138,40 @@ public class DataPullSynchronise {
     }
 
     private void reportResult(final RetrofitError result, final int referenceId) {
+        Log.i("**SPO**","In Data Pull Synchronize reportResult");
         if (result == null) {
+            Log.i("**SPO**","In Data Pull Synchronize reportResult is OK call postOK");
             postOk(referenceId);
         } else {
+            Log.i("**SPO**","In Data Pull Synchronize reportResult is not OK call postError");
             postError(referenceId, result);
         }
     }
 
     private void postError(final int referenceId, final RetrofitError error) {
-        Log.i("***","Error" + error.getMessage());
+        Log.i("**SPO**","Error" + error.getMessage());
         eventing.post(new BackendResponse(referenceId, error));
     }
 
     private void postOk(final int referenceId) {
+        Log.i("**SPO**","In Data Pull Synchronize postOK");
         eventing.post(new ReadDataFromBackendResponse(referenceId));
     }
 
     private void initFetch() {
+        Log.i("**SPO**","In Data Pull Synchronize initFetch");
         numberOfRunningFetches.set(1);
         fetchResult = null;
     }
 
     private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments) {
+        Log.i("**SPO**","In Data Pull Synchronize fetchData");
         initFetch();
         startFetching(lastSyncDateTime, referenceId, mMomentsDataFetcher);
     }
 
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
+        Log.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
         final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
         fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments);
         unRegisterEvent();
