@@ -30,7 +30,7 @@ public class RLogTest extends InstrumentationTestCase{
 
             }catch(Exception e){System.out.println(e);}
         }
-        RLog.initForTesting(context);
+        RLog.init(context);
 
     }
     public void testRLog(){

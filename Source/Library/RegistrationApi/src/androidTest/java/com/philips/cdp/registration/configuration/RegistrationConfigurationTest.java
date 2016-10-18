@@ -29,7 +29,7 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
         }
         registrationConfiguration = RegistrationConfiguration.getInstance();
 
-        RLog.initForTesting(getInstrumentation().getContext());
+        RLog.init(getInstrumentation().getContext());
     }
 
     @Test

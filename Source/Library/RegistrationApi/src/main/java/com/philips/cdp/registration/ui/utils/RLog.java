@@ -55,19 +55,8 @@ public class RLog {
 
     public static void init(final Context context){
         mContext = context;
-
-        mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().getLogging().createInstanceForComponent("Registration","Registration");
-        mLoggingInterface.enableConsoleLog(false);
-        mLoggingInterface.enableFileLog(true);
-
-    }
-
-    public static void initForTesting(final Context context){
-        mContext = context;
-
-        mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().getLogging().createInstanceForComponent("Registration","Registration");
-        mLoggingInterface.enableConsoleLog(false);
-        mLoggingInterface.enableFileLog(false);
+        mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().
+                getLogging().createInstanceForComponent("Registration","Registration");
     }
 
     public static void disableLogging() {
@@ -115,5 +104,4 @@ public class RLog {
             mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
         }
     }
-
 }

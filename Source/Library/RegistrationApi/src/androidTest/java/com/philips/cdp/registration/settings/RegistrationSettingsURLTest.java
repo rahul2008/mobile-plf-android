@@ -3,14 +3,10 @@ package com.philips.cdp.registration.settings;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
-import org.mockito.internal.matchers.Null;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 9/16/2016.
@@ -37,7 +33,7 @@ public class RegistrationSettingsURLTest extends InstrumentationTestCase{
             }catch(Exception e){
                 System.out.println(e);}
         }
-        RLog.initForTesting(mContext);
+        RLog.init(mContext);
         try{
             registrationSettingsURL.initialiseConfigParameters("en-US");}
         catch(Exception e){

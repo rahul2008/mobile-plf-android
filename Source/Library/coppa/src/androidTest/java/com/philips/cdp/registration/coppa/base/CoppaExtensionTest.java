@@ -3,8 +3,6 @@ package com.philips.cdp.registration.coppa.base;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.coppa.utils.CoppaSettings;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
@@ -71,7 +69,7 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
                         setAppInfraInstance(new AppInfra.Builder().build(mContext));
             }catch(Exception e){System.out.println(e);}
         }
-        RLog.initForTesting(mContext);
+        RLog.init(mContext);
 
             Method method = null;
             try {

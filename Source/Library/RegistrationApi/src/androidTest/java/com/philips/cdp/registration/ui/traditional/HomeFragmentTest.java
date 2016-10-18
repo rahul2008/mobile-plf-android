@@ -43,7 +43,7 @@ public class HomeFragmentTest extends InstrumentationTestCase {
                 try{
                     RegistrationHelper.getInstance().
                             setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
-                    RLog.initForTesting(getInstrumentation().getContext());
+                    RLog.init(getInstrumentation().getContext());
                 }catch(Exception e){System.out.println(e);}
             }
             method =HomeFragment.class.getDeclaredMethod("handleSocialProviders",String.class);;

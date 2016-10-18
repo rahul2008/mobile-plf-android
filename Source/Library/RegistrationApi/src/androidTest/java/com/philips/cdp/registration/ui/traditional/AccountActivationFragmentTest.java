@@ -184,7 +184,7 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
                 try{
                     RegistrationHelper.getInstance().
                             setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
-                    RLog.initForTesting(getInstrumentation().getContext());
+                    RLog.init(getInstrumentation().getContext());
                 }catch(Exception e){System.out.println(e);}
             }
             method =AccountActivationFragment.class.getDeclaredMethod("handleRefreshUserFailed",int.class);;
@@ -209,7 +209,7 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
                 try{
                     RegistrationHelper.getInstance().
                             setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
-                    RLog.initForTesting(getInstrumentation().getContext());
+                    RLog.init(getInstrumentation().getContext());
                 }catch(Exception e){System.out.println(e);}
             }
             method =AccountActivationFragment.class.getDeclaredMethod("handleResendVerificationEmailSuccess");;
@@ -250,7 +250,7 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
                 try{
                     RegistrationHelper.getInstance().
                             setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
-                    RLog.initForTesting(getInstrumentation().getContext());
+                    RLog.init(getInstrumentation().getContext());
                 }catch(Exception e){System.out.println(e);}
             }
             method =AccountActivationFragment.class.getDeclaredMethod("handleResendVerificationEmailFailedWithError",UserRegistrationFailureInfo.class);;
