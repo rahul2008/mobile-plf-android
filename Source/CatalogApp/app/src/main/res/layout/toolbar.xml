@@ -22,7 +22,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentStart="true"
                 android:layout_margin="5dp"
-                android:contentDescription="@string/tittle_hamburger"
+                android:contentDescription="@string/hamburger_menu"
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_hamburger_menu"/>
 
@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="5dp"
-                android:contentDescription="@string/set_theme_settings"
+                android:contentDescription="@string/page_tittle_theme_settings"
                 android:padding="10dp"
                 app:srcCompat="@drawable/ic_theme_setting_entrance_icon"/>
 

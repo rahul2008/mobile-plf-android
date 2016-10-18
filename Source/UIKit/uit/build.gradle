@@ -49,11 +49,4 @@ dependencies {
     }
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
 
-    androidTestCompile('org.powermock:powermock-mockito-release-full:1.6.0') {
-        exclude module: 'hamcrest-core'
-        exclude module: 'objenesis'
-    }
-    testCompile "org.powermock:powermock-module-junit4:1.6.4"
-    testCompile "org.powermock:powermock-api-mockito:1.6.4"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
 }

@@ -1,9 +1,14 @@
-package com.philips.platform.catalogapp;
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
+package com.philips.platform.catalogapp.themesettings;
 
 import android.content.SharedPreferences;
 
 import com.philips.platform.uit.thememanager.ColorRange;
-import com.philips.platform.uit.thememanager.ContentTonalRange;
+import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.UITHelper;
 
@@ -26,9 +31,9 @@ public class ThemeHelper {
         return colorRange;
     }
 
-    public ContentTonalRange initTonalRange() {
-        String tonalRange = sharedPreferences.getString(UITHelper.CONTENT_TONAL_RANGE, ContentTonalRange.ULTRA_LIGHT.name());
-        final ContentTonalRange contentTonalRange = ContentTonalRange.valueOf(tonalRange);
-        return contentTonalRange;
+    public ContentColor initTonalRange() {
+        String tonalRange = sharedPreferences.getString(UITHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
+        final ContentColor contentColor = ContentColor.valueOf(tonalRange);
+        return contentColor;
     }
 }

@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
+ *
  */
 package com.philips.platform.catalogapp.fragments;
 
@@ -21,7 +22,7 @@ public class TextEditBoxFragment extends BaseFragment {
     }
 
     @Override
-    public int getTitle() {
-        return R.string.tittle_textbox;
+    public int getPageTitle() {
+        return R.string.page_tittle_textbox;
     }
 }

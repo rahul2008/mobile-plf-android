@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
+ *
  */
 package com.philips.platform.catalogapp.fragments;
 
@@ -81,8 +82,8 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
     }
 
     @Override
-    public int getTitle() {
-        return R.string.tittle_components;
+    public int getPageTitle() {
+        return R.string.catalog_app_name;
     }
 
     private static class IntegerComparator implements Comparator<Integer> {

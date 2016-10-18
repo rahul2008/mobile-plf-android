@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:padding="10dp"
-                    android:contentDescription="@string/close"
+                    android:contentDescription="@string/content_desc_close"
                     app:srcCompat="@drawable/ic_cross_icon"/>
 
                 <TextView

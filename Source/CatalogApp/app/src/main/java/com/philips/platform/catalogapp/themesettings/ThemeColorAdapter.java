@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.ThemeColorHelper;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.ViewHolder> {
-    List<ColorModel> colorRangeList;
+    private List<ColorModel> colorRangeList;
     private ThemeChangedListener themeChangedListener;
     private int colorPickerwidth;
     private int selectedPosition = 0;

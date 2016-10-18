@@ -22,7 +22,7 @@
                 android:id="@+id/back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
-                android:contentDescription="@string/back"
+                android:contentDescription="@string/content_desc_back"
                 app:srcCompat="@drawable/ic_back_icon"/>
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="@string/tittle_preview"/>
+                android:text="@string/page_tittle_preview"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

@@ -27,7 +27,7 @@ public class UITHelper {
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
         Resources.Theme theme = themeConfiguration.context.getTheme();
         themeConfiguration.colorRange.injectColorRange(theme);
-        themeConfiguration.contentTonalRange.injectTonalRange(theme);
+        themeConfiguration.contentColor.injectTonalRange(theme);
         if (themeConfiguration.controlType != null) {
             themeConfiguration.controlType.injectPrimaryControlColors(theme);
         }

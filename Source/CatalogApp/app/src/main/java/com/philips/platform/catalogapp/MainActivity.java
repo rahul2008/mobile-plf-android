@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.catalogapp;
 
 import android.content.Context;
@@ -19,9 +25,10 @@ import android.widget.TextView;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
+import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
-import com.philips.platform.uit.thememanager.ContentTonalRange;
+import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.UITHelper;
@@ -45,23 +52,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    private ContentTonalRange contentTonalRange = ContentTonalRange.ULTRA_LIGHT;
-    private ColorRange colorRange = ColorRange.GROUP_BLUE;
+    private ContentColor contentColor;
+    private ColorRange colorRange;
     private FragmentManager supportFragmentManager;
-    private NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
+    private NavigationColor navigationColor;
     private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this));
-        colorRange = themeHelper.initColorRange();
-        navigationColor = themeHelper.initNavigationRange();
-        contentTonalRange = themeHelper.initTonalRange();
-
-        Log.d("DLS", String.format("[%s]Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
-                this.getClass().getName(), contentTonalRange, colorRange, navigationColor));
 
         UITHelper.init(getThemeConfig());
+        if (BuildConfig.DEBUG) {
+            Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
+                    contentColor, colorRange, navigationColor));
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -101,15 +106,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(final View view) {
                 colorRange = themeHelper.initColorRange();
                 navigationColor = themeHelper.initNavigationRange();
-                contentTonalRange = themeHelper.initTonalRange();
+                contentColor = themeHelper.initTonalRange();
                 restartActivity();
             }
         });
     }
 
     void restartActivity() {
-        finish();
-        startActivity(new Intent(this, com.philips.platform.catalogapp.MainActivity.class));
+        startActivity(new Intent(this, com.philips.platform.catalogapp.MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        this.overridePendingTransition(0, 0);
         startActivity(new Intent(this, PreviewActivity.class));
     }
 
@@ -132,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
     public ThemeConfiguration getThemeConfig() {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
-        contentTonalRange = themeHelper.initTonalRange();
-        return new ThemeConfiguration(colorRange, contentTonalRange, navigationColor, this);
+        contentColor = themeHelper.initTonalRange();
+        return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 
     public boolean switchFragment(BaseFragment fragment) {
@@ -152,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
         toggle(themeSettingsIcon, setThemeTextView);
         toggleHamburgerIcon();
-        setTitle(fragment.getTitle());
+        setTitle(fragment.getPageTitle());
         return true;
     }
 
@@ -168,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadThemeSettingsPage() {
         final boolean switchedFragment = switchFragment(new ThemeSettingsFragment());
         if (switchedFragment) {
-            setTitle(R.string.tittle_theme_settings);
+            setTitle(R.string.page_tittle_theme_settings);
             toggle(setThemeTextView, themeSettingsIcon);
         }
     }

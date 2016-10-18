@@ -17,10 +17,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.philips.platform.catalogapp.BuildConfig;
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.ThemeHelper;
 import com.philips.platform.uit.thememanager.ColorRange;
-import com.philips.platform.uit.thememanager.ContentTonalRange;
+import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.UITHelper;
@@ -31,7 +31,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PreviewActivity extends AppCompatActivity {
 
-    private ContentTonalRange contentTonalRange = ContentTonalRange.ULTRA_LIGHT;
+    private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private NavigationColor navigationColor = NavigationColor.VERY_LIGHT;
     private ThemeHelper themeHelper;
@@ -44,14 +44,13 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this));
-        colorRange = themeHelper.initColorRange();
-        navigationColor = themeHelper.initNavigationRange();
-        contentTonalRange = themeHelper.initTonalRange();
-        Log.d("DLS", String.format("[%s]Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
-                this.getClass().getName(), contentTonalRange, colorRange, navigationColor));
 
         UITHelper.init(getThemeConfig());
 
+        if (BuildConfig.DEBUG) {
+            Log.d(PreviewActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
+                    contentColor, colorRange, navigationColor));
+        }
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_preview);
@@ -78,7 +77,7 @@ public class PreviewActivity extends AppCompatActivity {
     public ThemeConfiguration getThemeConfig() {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
-        contentTonalRange = themeHelper.initTonalRange();
-        return new ThemeConfiguration(colorRange, contentTonalRange, navigationColor, this);
+        contentColor = themeHelper.initTonalRange();
+        return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 }

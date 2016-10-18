@@ -4,7 +4,7 @@
  *
  */
 
-package com.philips.platform.uit;
+package uit;
 
 import com.philips.platform.uit.thememanager.UITHelper;
 

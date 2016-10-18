@@ -4,12 +4,12 @@
  *
  */
 
-package com.philips.platform.catalogapp;
+package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.philips.platform.catalogapp.themesettings.ColorModel;
+import com.philips.platform.catalogapp.R;
 import com.philips.platform.uit.thememanager.ColorRange;
 
 import java.util.ArrayList;

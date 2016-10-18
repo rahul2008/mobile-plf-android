@@ -12,7 +12,7 @@ import com.philips.platform.uit.R;
 /**
  * This class is used to set the theme type of application
  */
-public enum ContentTonalRange {
+public enum ContentColor {
 
     ULTRA_LIGHT {
         @Override
