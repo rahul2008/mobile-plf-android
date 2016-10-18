@@ -8,6 +8,7 @@ package com.philips.platform.catalogapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -38,7 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ThemeSettingsChanged {
 
     @Bind(R.id.hamburger)
     ImageView hamburgerIcon;
@@ -59,10 +60,12 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager supportFragmentManager;
     private NavigationColor navigationColor;
     private ThemeHelper themeHelper;
+    private SharedPreferences defaultSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this));
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        themeHelper = new ThemeHelper(defaultSharedPreferences);
 
         UITHelper.init(getThemeConfig());
         if (BuildConfig.DEBUG) {
@@ -80,10 +83,13 @@ public class MainActivity extends AppCompatActivity {
         initThemeSettingsIcon(toolbar);
 
         initBackButton();
+        supportFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             setSupportActionBar(toolbar);
 
             initDemoListFragment();
+        } else {
+            processBackButton();
         }
     }
 
@@ -100,9 +106,10 @@ public class MainActivity extends AppCompatActivity {
         setThemeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                colorRange = themeHelper.initColorRange();
-                navigationColor = themeHelper.initNavigationRange();
-                contentColor = themeHelper.initTonalRange();
+                saveThemeValues(UITHelper.COLOR_RANGE, colorRange.name());
+                saveThemeValues(UITHelper.NAVIGATION_RANGE, navigationColor.name());
+                saveThemeValues(UITHelper.CONTENT_TONAL_RANGE, contentColor.name());
+
                 restartActivity();
             }
         });
@@ -124,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDemoListFragment() {
-        supportFragmentManager = getSupportFragmentManager();
 
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.add(R.id.mainContainer, new ComponentListFragment());
@@ -139,8 +145,13 @@ public class MainActivity extends AppCompatActivity {
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 
+    private void saveThemeValues(final String key, final String name) {
+        final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+        edit.putString(key, name);
+        edit.commit();
+    }
+
     public boolean switchFragment(BaseFragment fragment) {
-        supportFragmentManager = getSupportFragmentManager();
 
         final List<Fragment> fragments = supportFragmentManager.getFragments();
         if (fragments != null && fragments.size() > 0) {
@@ -175,7 +186,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadThemeSettingsPage() {
-        final boolean switchedFragment = switchFragment(new ThemeSettingsFragment());
+        final ThemeSettingsFragment themeSettingsFragment = new ThemeSettingsFragment();
+        themeSettingsFragment.setThemeSettingsChanged(this);
+        final boolean switchedFragment = switchFragment(themeSettingsFragment);
         if (switchedFragment) {
             setTitle(R.string.page_tittle_theme_settings);
             toggle(setThemeTextView, themeSettingsIcon);
@@ -203,8 +216,10 @@ public class MainActivity extends AppCompatActivity {
             if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
                 toggle(themeSettingsIcon, setThemeTextView);
                 toggleHamburgerIcon();
+            } else {
+                showHamburgerIcon();
             }
-        } else if (supportFragmentManager.getBackStackEntryCount() == 0) {
+        } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
         }
     }
@@ -212,6 +227,8 @@ public class MainActivity extends AppCompatActivity {
     private void showHamburgerIcon() {
         hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
         title.setText(R.string.catalog_app_name);
+        toggle(themeSettingsIcon, setThemeTextView);
+
     }
 
     private boolean hasBackStack() {
@@ -228,5 +245,20 @@ public class MainActivity extends AppCompatActivity {
         final FragmentManager.BackStackEntry backStackEntry = supportFragmentManager.getBackStackEntryAt(index);
         final String name = backStackEntry.getName();
         return supportFragmentManager.findFragmentByTag(name);
+    }
+
+    @Override
+    public void onContentColorChanged(final ContentColor contentColor) {
+        this.contentColor = contentColor;
+    }
+
+    @Override
+    public void onNavigationColorChanged(final NavigationColor navigationColor) {
+        this.navigationColor = navigationColor;
+    }
+
+    @Override
+    public void onColorRangeChanged(final ColorRange colorRange) {
+        this.colorRange = colorRange;
     }
 }

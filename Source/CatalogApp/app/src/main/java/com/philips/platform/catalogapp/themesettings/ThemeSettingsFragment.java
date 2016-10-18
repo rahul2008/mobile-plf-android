@@ -20,11 +20,11 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.ThemeSettingsChanged;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
-import com.philips.platform.uit.thememanager.UITHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,6 +59,12 @@ public class ThemeSettingsFragment extends BaseFragment {
     private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
     private NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
     private ThemeHelper themeHelper;
+
+    public void setThemeSettingsChanged(final ThemeSettingsChanged themeSettingsChanged) {
+        this.themeSettingsChanged = themeSettingsChanged;
+    }
+
+    private ThemeSettingsChanged themeSettingsChanged;
 
     @Nullable
     @Override
@@ -111,9 +117,11 @@ public class ThemeSettingsFragment extends BaseFragment {
     private ThemeColorAdapter getColorRangeAdapter() {
         themeColorAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
             @Override
-            public void onColorRangeChanged(final String changedColorRange) {
+            public void onThemeSettingsChanged(final String changedColorRange) {
                 colorRange = ColorRange.valueOf(changedColorRange.toUpperCase());
-                saveThemeValues(UITHelper.COLOR_RANGE, changedColorRange.toUpperCase());
+                if (themeSettingsChanged != null) {
+                    themeSettingsChanged.onColorRangeChanged(colorRange);
+                }
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
             }
@@ -140,19 +148,15 @@ public class ThemeSettingsFragment extends BaseFragment {
     private ThemeColorAdapter getTonalRangeAdapter(final ColorRange changedColorRange) {
         tonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentColorModelList(changedColorRange, getContext()), new ThemeChangedListener() {
             @Override
-            public void onColorRangeChanged(final String tonalRangeChanged) {
-                final ContentColor tonalRange = getContentTonalRangeByPosition();
-                saveThemeValues(UITHelper.CONTENT_TONAL_RANGE, tonalRange.name());
+            public void onThemeSettingsChanged(final String tonalRangeChanged) {
+                contentColor = getContentTonalRangeByPosition();
+                if (themeSettingsChanged != null) {
+                    themeSettingsChanged.onContentColorChanged(contentColor);
+                }
             }
         }, colorPickerWidth);
         tonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
         return tonalRangeAdapter;
-    }
-
-    private void saveThemeValues(final String contentTonalRange, final String name) {
-        final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
-        edit.putString(contentTonalRange, name);
-        edit.commit();
     }
 
     private ContentColor getContentTonalRangeByPosition() {
@@ -176,15 +180,15 @@ public class ThemeSettingsFragment extends BaseFragment {
     private ThemeColorAdapter getNavigationListAdapter(final ColorRange colorRange) {
         navigationListAdapter = new ThemeColorAdapter(themeColorHelper.getNavigationColorModelsList(colorRange, getContext()), new ThemeChangedListener() {
             @Override
-            public void onColorRangeChanged(final String changedColorRange) {
+            public void onThemeSettingsChanged(final String changedColorRange) {
                 final ThemeColorAdapter adapter = (ThemeColorAdapter) notificationBarListview.getAdapter();
                 final int selectedPosition = adapter.getSelectedPosition();
 
                 NavigationColor[] values = NavigationColor.values();
-                NavigationColor navigationColor = values[values.length - selectedPosition - 1];
-                final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
-                edit.putString(UITHelper.NAVIGATION_RANGE, navigationColor.name());
-                edit.commit();
+                navigationColor = values[values.length - selectedPosition - 1];
+                if (themeSettingsChanged != null) {
+                    themeSettingsChanged.onNavigationColorChanged(navigationColor);
+                }
             }
         }, colorPickerWidth);
         navigationListAdapter.setSelected(getSelectedNavigationPosition());
@@ -198,12 +202,18 @@ public class ThemeSettingsFragment extends BaseFragment {
     private void buildAccentColorsList(final ColorRange colorRange) {
         accentColorRangeList.setAdapter(new ThemeColorAdapter(themeColorHelper.getAccentColorsList(getContext(), colorRange), new ThemeChangedListener() {
             @Override
-            public void onColorRangeChanged(final String changedColorRange) {
+            public void onThemeSettingsChanged(final String changedColorRange) {
                 updateThemeSettingsLayout();
             }
         }, colorPickerWidth));
 
         setLayoutOrientation(accentColorRangeList);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        themeSettingsChanged = null;
     }
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {

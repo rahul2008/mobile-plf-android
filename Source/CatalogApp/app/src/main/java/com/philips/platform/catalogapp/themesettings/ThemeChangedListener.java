@@ -8,5 +8,5 @@ package com.philips.platform.catalogapp.themesettings;
 
 public interface ThemeChangedListener {
 
-    void onColorRangeChanged(String changedColorRange);
+    void onThemeSettingsChanged(String changedColorRange);
 }

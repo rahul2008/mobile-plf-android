@@ -79,7 +79,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
                     final ColorModel colorModel = colorRangeList.get(adapterPosition);
 
                     if (colorModel.getName() != null) {
-                        themeChangedListener.onColorRangeChanged(colorModel.getName());
+                        themeChangedListener.onThemeSettingsChanged(colorModel.getName());
                     }
                 }
             }
