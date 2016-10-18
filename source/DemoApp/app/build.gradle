@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 23
     buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 23
         multiDexEnabled true
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
