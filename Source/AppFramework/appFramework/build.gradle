@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 
 archivesBaseName = "referenceApp"
 
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+def coverageSourceDirs = [
+        '../appFramework/src/main/java'
+]
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -342,4 +351,33 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         html.enabled = false
     }
 }
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
 
+//    jvmArgs = ["-XX:-UseSplitVerifier"]
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../appFramework/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+                       '**/response/*/*.class',
+                       '**/view/*.class',
+                       '**/adapters/*.class',
+                       '**/analytics/*.class',
+                       '**/utils/*.class',
+                       '**/activity/*.class',
+                       '**/Fragments/*.class']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../appFramework/build/jacoco/testDebugUnitTest.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+}
