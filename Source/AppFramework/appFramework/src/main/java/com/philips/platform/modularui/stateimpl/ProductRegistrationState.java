@@ -79,7 +79,7 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
     @Override
     public void onProdRegFailed(ProdRegError prodRegError) {
-        Toast.makeText(activityContext,""+ProdRegError.USER_NOT_SIGNED_IN,Toast.LENGTH_SHORT).show();
+        Toast.makeText(activityContext,""+prodRegError.getDescription().toString(),Toast.LENGTH_SHORT).show();
 
     }
 
