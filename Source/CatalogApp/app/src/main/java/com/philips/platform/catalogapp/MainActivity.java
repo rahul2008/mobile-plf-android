@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
             if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
                 toggle(themeSettingsIcon, setThemeTextView);
-                showHamburgerIcon();
+                toggleHamburgerIcon();
             }
         } else {
             showHamburgerIcon();
