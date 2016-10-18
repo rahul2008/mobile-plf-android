@@ -32,7 +32,7 @@ import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
@@ -43,7 +43,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler,
+        UpdateUserDetailsHandler, NetworStateListener, LogoutHandler,
         XCheckBox.OnCheckedChangeListener {
 
     private TextView mTvWelcome;
@@ -255,7 +255,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     @Override
-    public void onUpdateReceiveMarketingEmailSuccess() {
+    public void onUpdateSuccess() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -276,7 +276,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     @Override
-    public void onUpdateReceiveMarketingEmailFailedWithError(final int error) {
+    public void onUpdateFailedWithError(final int error) {
 
         handleOnUIThread(new Runnable() {
             @Override

@@ -13,18 +13,17 @@ import android.content.Context;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.update.UpdateUser;
 
-public class UpdateReceiveMarketingEmailBase implements
+public class UpdateUserDetailsBase implements
         JanrainInitializer.JanrainInitializeListener,
         UpdateUser.UpdateUserListener, RefreshLoginSessionHandler {
 
-    private final static String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
 
-    protected UpdateReceiveMarketingEmailHandler mUpdateReceiveMarketingEmailHandler;
+    protected UpdateUserDetailsHandler mUpdateUserDetails;
 
     protected Context mContext;
 
@@ -36,13 +35,11 @@ public class UpdateReceiveMarketingEmailBase implements
 
     protected void performActualUpdate() {
     }
+
     protected void performLocalUpdate() {
         if (null != mUpdatedUserdata)
             mUpdatedUserdata.saveToDisk(mContext);
     }
-
-
-
 
     @Override
     public void onJanrainInitializeSuccess() {
@@ -51,9 +48,9 @@ public class UpdateReceiveMarketingEmailBase implements
 
     @Override
     public void onJanrainInitializeFailed() {
-        if (null != mUpdateReceiveMarketingEmailHandler)
-            mUpdateReceiveMarketingEmailHandler
-                    .onUpdateReceiveMarketingEmailFailedWithError(-1);
+        if (null != mUpdateUserDetails)
+            mUpdateUserDetails
+                    .onUpdateFailedWithError(-1);
 
     }
 
@@ -65,17 +62,17 @@ public class UpdateReceiveMarketingEmailBase implements
     @Override
     public void onUserUpdateSuccess() {
         performLocalUpdate();
-        if (null != mUpdateReceiveMarketingEmailHandler)
-            mUpdateReceiveMarketingEmailHandler.onUpdateReceiveMarketingEmailSuccess();
+        if (null != mUpdateUserDetails)
+            mUpdateUserDetails.onUpdateSuccess();
     }
 
     @Override
     public void onUserUpdateFailed(int error) {
         RLog.d("Error", "Error" + error);
         if (error == -1) {
-            if (null != mUpdateReceiveMarketingEmailHandler) {
-                mUpdateReceiveMarketingEmailHandler
-                        .onUpdateReceiveMarketingEmailFailedWithError(-1);
+            if (null != mUpdateUserDetails) {
+                mUpdateUserDetails
+                        .onUpdateFailedWithError(-1);
             }
             return;
         }
@@ -85,9 +82,8 @@ public class UpdateReceiveMarketingEmailBase implements
             user.refreshLoginSession(this);
             return;
         }
-        mUpdateReceiveMarketingEmailHandler
-                .onUpdateReceiveMarketingEmailFailedWithError(error);
-
+        mUpdateUserDetails
+                .onUpdateFailedWithError(error);
 
     }
 
@@ -98,9 +94,9 @@ public class UpdateReceiveMarketingEmailBase implements
 
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
-        if (null != mUpdateReceiveMarketingEmailHandler)
-            mUpdateReceiveMarketingEmailHandler
-                    .onUpdateReceiveMarketingEmailFailedWithError(error);
+        if (null != mUpdateUserDetails)
+            mUpdateUserDetails
+                    .onUpdateFailedWithError(error);
     }
 
     @Override

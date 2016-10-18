@@ -8,6 +8,7 @@ import android.util.Log;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -20,7 +21,10 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+
 public class RegistrationCoppaApplication extends Application {
+
 
 
     private static volatile RegistrationCoppaApplication mRegistrationHelper = null;
@@ -49,37 +53,33 @@ public class RegistrationCoppaApplication extends Application {
         } else {
             initRegistration(Configuration.STAGING);
         }
-
-
-
     }
 
-    final String UR = "UserRegistration";
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.DEVELOPMENT
+        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_DEVELOPMENT
                 , UR,
                 "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
                 configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.TESTING
+        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_TESTING
                 , UR,
                 "g52bfma28yjbd24hyjcswudwedcmqy7c",
                 configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.EVALUATION
+        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_EVALUATION
                 , UR,
                 "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
                 configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.STAGING
+        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_STAGING
                 , UR,
                 "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
                 configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.PRODUCTION
+        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_PRODUCTION
                 , UR,
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
@@ -91,13 +91,13 @@ public class RegistrationCoppaApplication extends Application {
         System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
 
 */
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "MicrositeID",
+        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                PILCONFIGURATION_MICROSITE_ID,
                 UR,
                 "77000",
                 configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "RegistrationEnvironment",
+        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                PILCONFIGURATION_REGISTRATION_ENVIRONMENT,
                 UR,
                 configuration.getValue(),
                 configError);
@@ -105,22 +105,22 @@ public class RegistrationCoppaApplication extends Application {
         System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 */
         mAppInfraInterface.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "EmailVerificationRequired",
+                getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                FLOW_EMAIL_VERIFICATION_REQUIRED,
                 UR,
                 "" + true,
                 configError);
         mAppInfraInterface.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "TermsAndConditionsAcceptanceRequired",
+                getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED,
                 UR,
                 "" + true,
                 configError);
 
 
         mAppInfraInterface.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "PILConfiguration.CampaignID",
+                getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                PIL_CONFIGURATION_CAMPAIGN_ID,
                 UR,
                 "CL20150501_PC_TB_COPPA",
                 configError);
@@ -134,8 +134,8 @@ public class RegistrationCoppaApplication extends Application {
 */
         String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
         mAppInfraInterface.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "MinimumAgeLimit",
+                getConfigInterface().setPropertyForKey(URConfigurationConstants.
+                FLOW_MINIMUM_AGE_LIMIT,
                 UR,
                 minAge,
                 configError);
@@ -148,22 +148,22 @@ public class RegistrationCoppaApplication extends Application {
         providers.add("facebook");
         providers.add("googleplus");
         mAppInfraInterface.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
+                getConfigInterface().setPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
                         "NL",
                 UR,
                 providers,
                 configError);
 
         mAppInfraInterface.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
+                getConfigInterface().setPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
                         "US",
                 UR,
                 providers,
                 configError);
 
         mAppInfraInterface.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "default",
+                getConfigInterface().setPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
+                        URConfigurationConstants.DEFAULT,
                 UR,
                 providers,
                 configError);

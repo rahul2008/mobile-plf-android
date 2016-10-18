@@ -25,6 +25,8 @@ import com.philips.cdp.registration.controller.RefreshUserSession;
 import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.controller.ResendVerificationEmail;
+import com.philips.cdp.registration.controller.UpdateDateOfBirth;
+import com.philips.cdp.registration.controller.UpdateGender;
 import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
 import com.philips.cdp.registration.controller.UpdateUserRecord;
 import com.philips.cdp.registration.dao.ConsumerArray;
@@ -41,12 +43,13 @@ import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -60,6 +63,11 @@ import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
@@ -347,9 +355,25 @@ public class User {
             JSONObject userAddress = new JSONObject(captureRecord.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(captureRecord.getString(CONSUMER_PREFERED_LANGUAGE));
+            String gender = captureRecord.getString(UpdateGender.USER_GENDER);
+            if (null != gender) {
+                if (gender.equalsIgnoreCase(Gender.MALE.toString())) {
+                    diUserProfile.setGender(Gender.MALE);
+                } else {
+                    diUserProfile.setGender(Gender.FEMALE);
+                }
+            }
 
+            String dob = captureRecord.getString(UpdateDateOfBirth.USER_DATE_OF_BIRTH);
+            if(null!= dob){
+                DateFormat formatter = new SimpleDateFormat(UpdateDateOfBirth.DATE_FORMAT_FOR_DOB, Locale.ROOT);
+                Date date = formatter.parse(dob);
+                diUserProfile.setDateOfBirth(date);
+            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return diUserProfile;
     }
@@ -435,13 +459,40 @@ public class User {
 
     // For update receive marketing email
     public void updateReceiveMarketingEmail(
-            final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
+            final UpdateUserDetailsHandler updateReceiveMarketingEmail,
             final boolean receiveMarketingEmail) {
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
                 UpdateReceiveMarketingEmail(
                 mContext);
         updateReceiveMarketingEmailHandler.
                 updateMarketingEmailStatus(updateReceiveMarketingEmail, receiveMarketingEmail);
+    }
+
+    /**
+     * Update Date of bith of user.
+     *
+     * @param updateUserDetailsHandler
+     * @param date
+     */
+    public void updateDateOfBirth(
+            final UpdateUserDetailsHandler updateUserDetailsHandler,
+            final Date date) {
+        UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
+        updateDateOfBirth.updateDateOfBirth(updateUserDetailsHandler, date);
+    }
+
+
+    /**
+     * Update Date of bith of user.
+     *
+     * @param updateUserDetailsHandler
+     * @param gender
+     */
+    public void updateGender(
+            final UpdateUserDetailsHandler updateUserDetailsHandler,
+            final Gender gender) {
+        UpdateGender updateGender = new UpdateGender(mContext);
+        updateGender.updateGender(updateUserDetailsHandler, gender);
     }
 
 
@@ -634,6 +685,34 @@ public class User {
         }
         return diUserProfile.getReceiveMarketingEmail();
     }
+
+
+    /**
+     * Get Date of birth
+     *
+     * @return Date object
+     */
+    public Date getDateOfBirth() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getDateOfBirth();
+    }
+
+    /**
+     * Get Date of birth
+     *
+     * @return Date object
+     */
+    public Gender getGender() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getGender();
+    }
+
 
     /**
      * {@code getGivenName} method returns the display name of a logged in user.

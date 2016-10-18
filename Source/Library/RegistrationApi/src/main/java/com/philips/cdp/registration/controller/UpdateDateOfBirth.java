@@ -9,43 +9,64 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.update.UpdateUser;
+import com.philips.ntputils.ServerTime;
 
 import org.json.JSONException;
 
-public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-    private final static String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
+public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 
-    private boolean mReceiveMarketingEmail;
+    public final static String USER_DATE_OF_BIRTH = "birthday";
 
-    public UpdateReceiveMarketingEmail(Context context) {
+    public static final String DATE_FORMAT_FOR_DOB = "yyyy-MM-dd";
+
+    private String mBirthDate;
+
+    public UpdateDateOfBirth(Context context) {
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }
 
-    public void updateMarketingEmailStatus(final UpdateUserDetailsHandler
-                                                   updateUserDetailsHandler,
-                                           final boolean receiveMarketingEmail) {
+    public void updateDateOfBirth(@NonNull final UpdateUserDetailsHandler
+                                          updateUserDetailsHandler,
+                                  @NonNull final Date date) {
         mUpdateUserDetails = updateUserDetailsHandler;
-        mReceiveMarketingEmail = receiveMarketingEmail;
-        if (isJanrainInitializeRequired()) {
-            mJanrainInitializer.initializeJanrain(mContext, this);
-            return;
+        final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_FOR_DOB, Locale.ROOT);
+        mBirthDate = sdf.format(date);
+        try {
+            Date firstDate = sdf.parse(mBirthDate);
+            Date secondDate = sdf.parse(ServerTime.getCurrentTime());
+            if (firstDate.compareTo(secondDate) > 0) {
+                mUpdateUserDetails.onUpdateFailedWithError(-1);
+                return;
+            }
+            if (isJanrainInitializeRequired()) {
+                mJanrainInitializer.initializeJanrain(mContext, this);
+                return;
+            }
+            performActualUpdate();
+        } catch (ParseException e) {
+            mUpdateUserDetails.onUpdateFailedWithError(-1);
         }
-        performActualUpdate();
     }
+
 
     protected void performActualUpdate() {
         CaptureRecord userData = CaptureRecord.loadFromDisk(mContext);
         mUpdatedUserdata = CaptureRecord.loadFromDisk(mContext);
         try {
             if (null != mUpdatedUserdata) {
-                mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+                mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
             }
@@ -60,7 +81,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
     protected void performLocalUpdate() {
         if (null != mUpdatedUserdata)
             try {
-                mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+                mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
