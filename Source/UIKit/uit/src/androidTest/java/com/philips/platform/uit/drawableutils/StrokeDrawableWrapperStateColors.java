@@ -7,7 +7,7 @@ import com.philips.platform.uit.compat.StrokeDrawableWrapper;
 /**
  * Created by 310213764 on 10/7/2016.
  */
-public class StrokeDrawableWrapperStateColors extends KitKatStateColorsColors {
+public class StrokeDrawableWrapperStateColors extends KitKatStateColors {
     StrokeDrawableWrapper strokeDrawable;
 
     public StrokeDrawableWrapperStateColors(final Drawable d) {

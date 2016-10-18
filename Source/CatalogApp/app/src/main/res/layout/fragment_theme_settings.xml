@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/colorRangesLabel"/>
+                android:text="@string/color_ranges_label"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/colorRangeList"
@@ -49,14 +49,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/TonalRangeLabel"/>
+                android:text="@string/tonal_range_label"/>
 
             <TextView
                 style="@style/ThemeSettingsHeader2Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/forContentAreaText"/>
+                android:text="@string/for_content_area_text"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/tonalRangeList"
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="@string/forNavigationAreaText"/>
+                android:text="@string/for_navigation_area_text"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/notificationBarList"
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/accentColorRangeText"/>
+                android:text="@string/accent_color_range_text"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/accentColorRangeList"
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="@string/warningText"
+                android:text="@string/warning_text"
                 android:textSize="14sp"
                 android:visibility="visible"/>
         </LinearLayout>

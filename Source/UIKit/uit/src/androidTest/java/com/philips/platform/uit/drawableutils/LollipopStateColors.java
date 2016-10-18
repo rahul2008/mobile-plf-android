@@ -8,7 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
-public class LollipopStateColors extends KitKatStateColorsColors {
+public class LollipopStateColors extends KitKatStateColors {
     private static final String COLOR_STATE_LIST = "mColorStateList";
     private static final String STROKE_COLOR_STATE_LIST = "mStrokeColorStateList";
 

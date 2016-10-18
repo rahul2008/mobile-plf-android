@@ -38,7 +38,7 @@ public class GradientDrawableUtils {
         } else if (version >= 21) {
             impl = new LollipopStateColors(d);
         } else {
-            impl = new KitKatStateColorsColors(d);
+            impl = new KitKatStateColors(d);
         }
         return impl;
     }

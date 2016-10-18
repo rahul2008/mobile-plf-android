@@ -1,14 +1,14 @@
 <resources>
     <string name="catalog_app_name">Catalog App DLS</string>
     <string name="demo_primary_button">Primary button</string>
-    <string name="colorRangesLabel">Color range</string>
-    <string name="TonalRangeLabel">Content tonal range</string>
-    <string name="forContentAreaText">For Contents Area</string>
-    <string name="forNavigationAreaText">For Navigation Area</string>
-    <string name="forPrimaryControlsText">For Primary controls</string>
-    <string name="forDimText">For Dim</string>
-    <string name="accentColorRangeText">Accent color range</string>
-    <string name="warningText">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
+    <string name="color_ranges_label">Color range</string>
+    <string name="tonal_range_label">Content tonal range</string>
+    <string name="for_content_area_text">For Contents Area</string>
+    <string name="for_navigation_area_text">For Navigation Area</string>
+    <string name="for_primary_controls_text">For Primary controls</string>
+    <string name="for_dim_text">For Dim</string>
+    <string name="accent_color_range_text">Accent color range</string>
+    <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
     <string name="buttons_with_icons">Buttons with icon</string>
     <string name="individual_buttons_label">Individual Buttons</string>
     <string name="alternate_primary_label">Alternate Primary Button</string>

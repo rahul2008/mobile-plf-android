@@ -8,8 +8,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 public class ThemeConfiguration {
-    ContentColor contentColor;
-    ColorRange colorRange;
+    final ContentColor contentColor;
+    final ColorRange colorRange;
     PrimaryControlType controlType;
     final NavigationColor navigationColor;
     Context context;
