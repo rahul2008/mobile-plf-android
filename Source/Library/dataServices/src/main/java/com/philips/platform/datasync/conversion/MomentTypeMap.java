@@ -53,13 +53,13 @@ public class MomentTypeMap {
     @Inject
     public MomentTypeMap() {
         toMomentTypeMap.put("Treatment", MomentType.TREATMENT);
-        toMomentTypeMap.put("Temperature", MomentType.TEMPERATURE);
+        toMomentTypeMap.put("TEMPERATURE", MomentType.TEMPERATURE);
         toMomentTypeMap.put("Photo", MomentType.PHOTO);
         fromMomentTypeMap = createInvertedMap(toMomentTypeMap);
 
         toMeasurementTypeMap.put("Amount", MeasurementType.AMOUNT);
         toMeasurementTypeMap.put("Duration", MeasurementType.DURATION);
-        toMeasurementTypeMap.put("Temperature", MeasurementType.TEMPERATURE);
+        toMeasurementTypeMap.put("TEMPERATURE", MeasurementType.TEMPERATURE);
         toMeasurementTypeMap.put("Weight", MeasurementType.WEIGHT);
         toMeasurementTypeMap.put("RelativeHumidity", MeasurementType.RELATIVE_HUMIDITY);
         toMeasurementTypeMap.put("Length", MeasurementType.LENGTH);
@@ -69,7 +69,7 @@ public class MomentTypeMap {
 
         toMomentDetailTypeMap.put("Note", MomentDetailType.NOTE);
         toMomentDetailTypeMap.put("Photo", MomentDetailType.PHOTO);
-        toMomentDetailTypeMap.put("Temperature", MomentDetailType.PHOTO);
+        toMomentDetailTypeMap.put("TEMPERATURE", MomentDetailType.PHOTO);
         toMomentDetailTypeMap.put("Sticker", MomentDetailType.STICKER);
         toMomentDetailTypeMap.put("Video", MomentDetailType.VIDEO);
         toMomentDetailTypeMap.put("PHASE", MomentDetailType.PHASE);
@@ -91,13 +91,13 @@ public class MomentTypeMap {
 
     @NonNull
     public MomentType getMomentType(@NonNull final String uGrowMomentString) {
-        MomentType type = toMomentTypeMap.get(uGrowMomentString);
+        MomentType type = toMomentTypeMap.get(uGrowMomentString.toUpperCase());
         return type == null ? MomentType.UNKNOWN : type;
     }
 
     @NonNull
     public MeasurementType getMeasurementType(@NonNull final String uGrowMeasurementTypeString) {
-        MeasurementType type = toMeasurementTypeMap.get(uGrowMeasurementTypeString);
+        MeasurementType type = toMeasurementTypeMap.get(uGrowMeasurementTypeString.toUpperCase());
         return type == null ? MeasurementType.UNKNOWN : type;
     }
 

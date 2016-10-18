@@ -75,8 +75,9 @@ public class MonitorModule {
             FetchingMonitor fetchMonitor = new FetchingMonitor(fetching);
             ORMDeletingInterfaceImpl dbInterface = new ORMDeletingInterfaceImpl(deleting,saving);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving,updating,fetching,deleting);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao);
             DeletingMonitor deletingMonitor = new DeletingMonitor(dbInterface);
-            UpdatingMonitor updatingMonitor = new UpdatingMonitor(dbInterfaceOrmUpdatingInterface,dbInterface);
+            UpdatingMonitor updatingMonitor = new UpdatingMonitor(dbInterfaceOrmUpdatingInterface,dbInterface,dbInterfaceOrmFetchingInterface);
 
             return new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
         } catch (SQLException exception) {

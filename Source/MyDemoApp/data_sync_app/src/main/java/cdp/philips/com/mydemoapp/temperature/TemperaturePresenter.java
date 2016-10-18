@@ -1,6 +1,8 @@
 package cdp.philips.com.mydemoapp.temperature;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -29,10 +31,12 @@ public class TemperaturePresenter {
     Moment mMoment;
     Measurement mMeasurement;
     MomentType mMomentType;
+    Context mContext;
 
     TemperaturePresenter(Context context, MomentType momentType){
         ((DataSyncApplication) context.getApplicationContext()).getAppComponent().injectTemperature(this);
         mMomentType = momentType;
+        mContext = context;
     }
 
     public void createMoment(String momemtDetail, String measurement, String measurementDetail){
@@ -75,10 +79,15 @@ public class TemperaturePresenter {
     }
 
     public void saveRequest(){
-        tracker.save(mMoment);
+        if(mMoment.getCreatorId()==null || mMoment.getSubjectId()==null){
+            Toast.makeText(mContext,"Please Login again", Toast.LENGTH_SHORT).show();
+        }else {
+            tracker.save(mMoment);
+        }
     }
 
     public void startSync() {
+        Log.i("***SPO***", "In Presenter");
         tracker.synchronize();
     }
 }

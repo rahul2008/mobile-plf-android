@@ -59,7 +59,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     }
 
     @Override
-    public TemperatureTimeLineFragmentcAdapter.DataSyncViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public DataSyncViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.temperature_timeline, parent, false);
         return new DataSyncViewHolder(v);
     }
@@ -123,9 +123,9 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private void removeMoment(int adapterPosition) {
         try {
             tracker.deleteMoment(mData.get(adapterPosition));
-            mData.remove(adapterPosition);
+            /*mData.remove(adapterPosition);
             notifyItemRemoved(adapterPosition);
-            notifyDataSetChanged();
+            notifyDataSetChanged();*/
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }

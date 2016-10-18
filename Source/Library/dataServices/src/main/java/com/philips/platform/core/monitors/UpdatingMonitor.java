@@ -1,15 +1,21 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.ListSaveResponse;
+import com.philips.platform.core.events.BackendMomentRequestFailed;
+import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentUpdateRequest;
+import com.philips.platform.core.events.ReadDataFromBackendResponse;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -23,10 +29,14 @@ public class UpdatingMonitor extends EventMonitor{
     @NonNull
     DBDeletingInterface dbDeletingInterface;
 
+    @NonNull
+    DBFetchingInterface dbFetchingInterface;
 
-    public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface){
+
+    public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface){
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
+        this.dbFetchingInterface = dbFetchingInterface;
     }
 
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
@@ -43,6 +53,26 @@ public class UpdatingMonitor extends EventMonitor{
 
     }
 
+    public void onEventBackgroundThread(final BackendResponse error) {
+        dbUpdatingInterface.postRetrofitError(error.getCallException());
+    }
+
+    public void onEventBackgroundThread(final BackendMomentRequestFailed momentSaveRequestFailed) {
+        dbUpdatingInterface.updateFailed(momentSaveRequestFailed.getException());
+    }
+
+    public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
+        Log.i("**SPO**","In Updating Monitor ReadDataFromBackendResponse");
+        try {
+            Log.i("**SPO**","In Updating Monitor before calling fetchMoments");
+            dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
+        } catch (SQLException e) {
+            Log.i("**SPO**","In Updating Monitor report exception");
+            dbUpdatingInterface.updateFailed(e);
+            e.printStackTrace();
+        }
+    }
+
     public void onEventBackgroundThread(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
@@ -52,7 +82,12 @@ public class UpdatingMonitor extends EventMonitor{
 
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
         boolean savedAllMoments = updatedCount == moments.size();
-
-        eventing.post(new ListSaveResponse(requestId, savedAllMoments));
+        try {
+            dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e);
+            e.printStackTrace();
+        }
+        //eventing.post(new ListSaveResponse(requestId, savedAllMoments));
     }
 }

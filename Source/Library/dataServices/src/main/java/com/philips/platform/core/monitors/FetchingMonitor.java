@@ -7,9 +7,9 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.ExceptionEvent;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -19,7 +19,6 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
-import com.philips.platform.core.events.ReadDataFromBackendResponse;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -46,11 +45,7 @@ public class FetchingMonitor extends EventMonitor {
             eventing.post(new ExceptionEvent("Loading timeline failed", e));
         }
     }
-
-    public void onEventMainThread(ReadDataFromBackendResponse event) {
-        eventing.post(new LoadMomentsRequest(MomentType.TEMPERATURE));
-    }
-
+    
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType());
@@ -82,8 +77,10 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     public void onEventBackgroundThread(GetNonSynchronizedMomentsRequest event) {
+        Log.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
+            Log.i("**SPO**","in Fetching Monitor before sending GetNonSynchronizedMomentsResponse");
             eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList));
         } catch (SQLException e) {
             eventing.post(new GetNonSynchronizedMomentsResponse(null));

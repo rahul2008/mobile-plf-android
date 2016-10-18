@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
@@ -27,6 +28,7 @@ import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
+import retrofit.RetrofitError;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -204,7 +206,30 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onFailure(final Exception exception) {
+        onFailureRefresh(exception);
+    }
 
+    private void onFailureRefresh(final Exception e) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(e!=null && e.getMessage()!=null) {
+                    Log.i(TAG, "http : UI update Failed" + e.getMessage());
+                    Toast.makeText(getContext(),"UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }else{
+                    Log.i(TAG, "http : UI update Failed");
+                    Toast.makeText(getContext(),"UI update Failed", Toast.LENGTH_SHORT).show();
+                }
+                if(mSwipeRefreshLayout.isRefreshing()){
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onFailure(final RetrofitError error) {
+        onFailureRefresh(error);
     }
 
     @Override
