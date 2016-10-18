@@ -1,0 +1,66 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'cdpSCM'
+
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
+group = 'com.philips.cdp2'
+version = objcdp.getVersion()
+
+android {
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
+        versionCode _versionCode
+        versionName version
+
+        consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        debug{
+            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+}
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local-android'
+        }
+    }
+}
