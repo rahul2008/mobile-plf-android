@@ -494,8 +494,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             User user = new User(mContext);
             String email = user.getEmail();
-            if (email != null) {
+            System.out.println("email *****: "+email.length());
+
+            if (email != null && !email.equalsIgnoreCase("null")) {
+                System.out.println("email **: "+email);
                 RegPreferenceUtility.storePreference(mContext, email, true);
+            }else {
+                RegPreferenceUtility.storePreference(mContext, user.getMobile(), true);
+                System.out.println("Mobile  **: "+user.getMobile());
             }
         }
     }

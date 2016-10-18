@@ -179,7 +179,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		}else {
 			// check mobile umber validation
 			profile.setMobile(userEmail);
-			;
+
 		}
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
