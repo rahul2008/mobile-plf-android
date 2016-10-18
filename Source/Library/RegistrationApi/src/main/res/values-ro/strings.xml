@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Buna ziua</string>
 <string name="Access_More_Account_Setting_lbltxt">Doreşti să accesezi mai multe setări de cont?\nVizitează %s prin browser-ul tău.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Primeşte anunţuri Philips\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Primeşte comunicări promoţionale de la Philips în funcţie de preferinţe şi de comportamentul tău online\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Ce înseamnă aceasta?</string>
 <string name="Philips_News_Title">Anunţuri Philips</string>
 <string name="Philips_News_Back_btntxt">Înapoi</string>

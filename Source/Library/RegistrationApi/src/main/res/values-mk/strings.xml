@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Здраво</string>
 <string name="Access_More_Account_Setting_lbltxt">Сакате да пристапите до повеќе поставки за сметката?\nПосетете ја страницата %s преку вашиот пребарувач.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Добивајте соопштенија од Philips\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Добивај промотивни пораки од Philips врз база на моите лични потреби и онлајн однесување\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Што значи ова?</string>
 <string name="Philips_News_Title">Соопштенија од Philips</string>
 <string name="Philips_News_Back_btntxt">Назад</string>

@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Cén chaoi bhfuil tú?</string>
 <string name="Access_More_Account_Setting_lbltxt">An bhfuil uait rochtain a fháil ar níos mó socruithe cuntais?\nTabhair cuairt ar %s trí do bhrabhsálaí.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Faigh fógraí ó Philips\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Faigh cumarsáidí promóisin ó Philips bunaithe ar mo roghanna agus m’iompar ar líne\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Céard is brí leis seo?</string>
 <string name="Philips_News_Title">Fógraí Philips</string>
 <string name="Philips_News_Back_btntxt">Ar ais</string>

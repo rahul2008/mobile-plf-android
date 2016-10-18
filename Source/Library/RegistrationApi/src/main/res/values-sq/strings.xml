@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Përshëndetje</string>
 <string name="Access_More_Account_Setting_lbltxt">Dëshiron të hapësh cilësime të mëtejshme të llogarisë?\nVizito %s nëpërmjet shfletuesit.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Merr njoftime nga \"Philips\"\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Merr komunikimet promocionale të \"Philips\" sipas preferencave dhe sjelljes sime në internet\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Çfarë do të thotë kjo?</string>
 <string name="Philips_News_Title">Njoftime nga \"Philips\"</string>
 <string name="Philips_News_Back_btntxt">Kthehu</string>

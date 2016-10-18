@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">안녕하십니까?</string>
 <string name="Access_More_Account_Setting_lbltxt">더 많은 계정 설정을 확인하시겠습니까?\n브라우저에서 %s을(를) 방문하세요.</string>
 <string name="Philips_URL_txt">www.philips.co.kr</string>
-<string name="Receive_Philips_News_lbltxt">필립스 소식 받아보기\n%s</string>
+<string name="Receive_Philips_News_lbltxt">내 선호도와 온라인 활동을 기반으로 필립스의 홍보성 연락을 수신\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">이는 무슨 의미입니까?</string>
 <string name="Philips_News_Title">필립스 소식</string>
 <string name="Philips_News_Back_btntxt">뒤로</string>

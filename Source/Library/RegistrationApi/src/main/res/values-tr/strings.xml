@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Merhaba</string>
 <string name="Access_More_Account_Setting_lbltxt">Daha fazla hesap ayarına erişmek mi istiyorsunuz?\nTarayıcınızdan %s adresiniz ziyaret edin.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Philips duyuruları al\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Tercihlerinize ve çevrimiçi davranışınıza göre Philips\'in tanıtım amaçlı bildirimlerini alın\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Bu ne anlama geliyor?</string>
 <string name="Philips_News_Title">Philips duyuruları</string>
 <string name="Philips_News_Back_btntxt">Geriye</string>

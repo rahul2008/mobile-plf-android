@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Dobrý den,</string>
 <string name="Access_More_Account_Setting_lbltxt">přejete si přejít na další nastavení účtu?\nNavštivte ve svém prohlížeči adresu %s.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Dostávat oznámení Philips\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Dostávat reklamní zprávy společnosti Philips na základě svých preferencí a chování online\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Co to znamená?</string>
 <string name="Philips_News_Title">Oznámení Philips</string>
 <string name="Philips_News_Back_btntxt">Zpět</string>

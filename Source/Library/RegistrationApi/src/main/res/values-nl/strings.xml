@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Hallo</string>
 <string name="Access_More_Account_Setting_lbltxt">Wilt u toegang tot meer accountinstellingen?\nGa via uw browser naar %s.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Aankondigingen van Philips ontvangen\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Promotionele berichten van Philips ontvangen gebaseerd op mijn voorkeuren en onlinegedrag\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Wat betekent dit?</string>
 <string name="Philips_News_Title">Aankondigingen van Philips</string>
 <string name="Philips_News_Back_btntxt">Terug</string>

@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Halo</string>
 <string name="Access_More_Account_Setting_lbltxt">Apakah Anda ingin mengakses pengaturan akun lainnya?\nKunjungi %s lewat browser Anda.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Terima pengumuman Philips\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Menerima komunikasi promosi Philips berdasarkan Preferensi Saya dan perilaku online\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Apa artinya?</string>
 <string name="Philips_News_Title">Pengumuman Philips</string>
 <string name="Philips_News_Back_btntxt">Belakang</string>

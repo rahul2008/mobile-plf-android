@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Ciao</string>
 <string name="Access_More_Account_Setting_lbltxt">Vuoi accedere ad altre impostazioni dell\'account?\nVisita %s con il tuo browser.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Ricevi gli annunci Philips\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Ricevi comunicazioni promozionali Philips in base alle tue preferenze e al tuo comportamento online\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Che cosa significa?</string>
 <string name="Philips_News_Title">Annunci Philips</string>
 <string name="Philips_News_Back_btntxt">Indietro</string>

@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">您好</string>
 <string name="Access_More_Account_Setting_lbltxt">想要存取更多帳戶設定？\n請透過瀏覽器造訪 %s。</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">收到飛利浦通知\n%s</string>
+<string name="Receive_Philips_News_lbltxt">根據我的喜好和線上行為模式，接收來自飛利浦的宣傳通訊\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">這是什麼意思？</string>
 <string name="Philips_News_Title">飛利浦通知</string>
 <string name="Philips_News_Back_btntxt">返回</string>

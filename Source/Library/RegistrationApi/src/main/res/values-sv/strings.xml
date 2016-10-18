@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Hej!</string>
 <string name="Access_More_Account_Setting_lbltxt">Vill du få tillgång till fler kontoinställningar? \nBesök %s via din webbläsare.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Ta emot meddelanden från Philips\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Få Philips reklamkampanjer utifrån inställningar och beteende online\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Vad betyder det?</string>
 <string name="Philips_News_Title">Meddelanden från Philips</string>
 <string name="Philips_News_Back_btntxt">Tillbaka</string>

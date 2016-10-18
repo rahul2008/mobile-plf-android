@@ -121,7 +121,7 @@
 <string name="Signin_Success_Hello_lbltxt">Üdvözöljük!</string>
 <string name="Access_More_Account_Setting_lbltxt">Szeretne további fiókbeállításokhoz hozzáférni?\nLátogassa meg oldalunkat %s böngészőjén keresztül.</string>
 <string name="Philips_URL_txt">www.philips.com</string>
-<string name="Receive_Philips_News_lbltxt">Philips hírek fogadása\n%s</string>
+<string name="Receive_Philips_News_lbltxt">Promóciós levelek fogadása a Philipstől az érdeklődésem és online szokásaim alapján\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Ez mit jelent?</string>
 <string name="Philips_News_Title">Philips hírek</string>
 <string name="Philips_News_Back_btntxt">Vissza</string>
