@@ -78,9 +78,11 @@ artifactory {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
+			defaults {
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
+			          }
         }
     }
     resolve {
