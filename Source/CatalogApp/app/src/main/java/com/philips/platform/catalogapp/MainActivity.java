@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -97,7 +98,11 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
         hamburgerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                onBackPressed();
+                if (hasBackStack()) {
+                    onBackPressed();
+                } else {
+                    Snackbar.make(view, "Hamburger is not ready yet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -131,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
     }
 
     private void initDemoListFragment() {
-
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.add(R.id.mainContainer, new ComponentListFragment());
         transaction.commit();
@@ -228,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
         hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
         title.setText(R.string.catalog_app_name);
         toggle(themeSettingsIcon, setThemeTextView);
-
     }
 
     private boolean hasBackStack() {
