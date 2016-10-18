@@ -20,7 +20,7 @@ public class ThemeHelper {
     }
 
     public NavigationColor initNavigationRange() {
-        String navigation = sharedPreferences.getString(UITHelper.NAVIGATION_RANGE, NavigationColor.VERY_LIGHT.name());
+        String navigation = sharedPreferences.getString(UITHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
         final NavigationColor navigationColor = NavigationColor.valueOf(navigation);
         return navigationColor;
     }
