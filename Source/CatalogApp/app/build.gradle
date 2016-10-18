@@ -12,19 +12,18 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion buildSdkVer
+    buildToolsVersion "${buildToolsVer}"
 
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
-        minSdkVersion 19
-        targetSdkVersion 24
-        versionCode 1
-        versionName "0.1.0"
+        minSdkVersion "${minSdkVer}"
+        targetSdkVersion targetSdkVer
+        versionCode versionCode
+        versionName "${versionName}"
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        generatedDensities = []
     }
 
     signingConfigs {
@@ -81,15 +80,15 @@ dependencies {
     compile "com.android.support:support-v4:${supportLibraryVer}"
     compile "com.android.support:design:${supportLibraryVer}"
 
-    testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.1.2"
-    androidTestCompile('org.powermock:powermock-mockito-release-full:1.6.0') {
+    testCompile "junit:junit:${jUnitVer}"
+    testCompile "org.robolectric:robolectric:${robolectricVer}"
+    androidTestCompile("org.powermock:powermock-mockito-release-full:${powerMockitoVer}") {
         exclude module: 'hamcrest-core'
         exclude module: 'objenesis'
     }
-    testCompile "org.powermock:powermock-module-junit4:1.6.4"
-    testCompile "org.powermock:powermock-api-mockito:1.6.4"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
+    testCompile "org.powermock:powermock-module-junit4:${powerMockitoJunitVer}"
+    testCompile "org.powermock:powermock-api-mockito:${powerMockitoJunitVer}"
+    testCompile "org.powermock:powermock-classloading-xstream:${powerMockitoJunitVer}"
 
 
     compile "org.mockito:mockito-all:${mockitoVer}"
