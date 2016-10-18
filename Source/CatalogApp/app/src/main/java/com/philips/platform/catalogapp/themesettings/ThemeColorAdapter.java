@@ -102,15 +102,13 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
 
     private void setColorPickerBackground(final @NonNull ViewHolder holder, final ColorModel colorModel, final ThemeColorHelper colorListHelper, final Context context) {
         if (colorModel.getStartColor() != -1 && colorModel.getEndColor() != -1) {
-            final int startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getStartColor()), context.getPackageName());
-            int endColors = R.color.uitColorWhite;
+            int startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getStartColor()), context.getPackageName());
+            int endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getEndColor()), context.getPackageName());
             if (colorModel.getEndColor() == 0) {
-                final int resourceId = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "05", context.getPackageName());
-                holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, resourceId), R.color.uitColorWhite));
-            } else {
-                endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getEndColor()), context.getPackageName());
-                holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, startColors), ContextCompat.getColor(context, endColors)));
+                startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "05", context.getPackageName());
+                endColors = R.color.uitColorWhite;
             }
+            holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, startColors), ContextCompat.getColor(context, endColors)));
         } else {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, colorModel.getBackgroundColor()));
         }

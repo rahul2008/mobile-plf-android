@@ -42,7 +42,7 @@ public class ThemeColorHelperTest {
     @Test
     public void ShouldReturnContentTonalRangesWhenGetContentTonalColorsIsCalled() throws Exception {
         final Application application = RuntimeEnvironment.application;
-        final int[] colorsArray = themeColorHelper.getContentTonalColors(application.getResources(), "group_blue", application.getPackageName());
+        final int[] colorsArray = themeColorHelper.getContentColorsArray(application.getResources(), "group_blue", application.getPackageName());
 
         assertEquals(5, colorsArray.length);
         assertEquals(colorsArray[0], R.color.uit_group_blue_level_80);

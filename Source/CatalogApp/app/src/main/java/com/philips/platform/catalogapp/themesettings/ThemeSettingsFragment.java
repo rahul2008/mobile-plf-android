@@ -123,11 +123,11 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private void updateNavigationRangeColors() {
-        tonalRangeAdapter.setColorModels(themeColorHelper.getContentTonalRangeItemsList(colorRange, getContext()));
+        tonalRangeAdapter.setColorModels(themeColorHelper.getContentColorModelList(colorRange, getContext()));
     }
 
     private void updateTonalRangeColors() {
-        navigationListAdapter.setColorModels(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()));
+        navigationListAdapter.setColorModels(themeColorHelper.getNavigationColorModelsList(colorRange, getContext()));
     }
 
     private void buildContentTonalRangeList(final ColorRange changedColorRange) {
@@ -138,7 +138,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @NonNull
     private ThemeColorAdapter getTonalRangeAdapter(final ColorRange changedColorRange) {
-        tonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentTonalRangeItemsList(changedColorRange, getContext()), new ThemeChangedListener() {
+        tonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentColorModelList(changedColorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onColorRangeChanged(final String tonalRangeChanged) {
                 final ContentColor tonalRange = getContentTonalRangeByPosition();
@@ -174,7 +174,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @NonNull
     private ThemeColorAdapter getNavigationListAdapter(final ColorRange colorRange) {
-        navigationListAdapter = new ThemeColorAdapter(themeColorHelper.getNavigationColorRangeItemsList(colorRange, getContext()), new ThemeChangedListener() {
+        navigationListAdapter = new ThemeColorAdapter(themeColorHelper.getNavigationColorModelsList(colorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onColorRangeChanged(final String changedColorRange) {
                 final ThemeColorAdapter adapter = (ThemeColorAdapter) notificationBarListview.getAdapter();

@@ -29,9 +29,9 @@ public class ThemeColorHelper {
                 R.color.uit_gray_level_45};
     }
 
-    public int[] getContentTonalColors(final Resources resources, final String colorRangeResourceName, final String packageName) {
+    public int[] getContentColorsArray(final Resources resources, final String colorRangeResourceName, final String packageName) {
         return new int[]{
-                getColorResourceId(resources, colorRangeResourceName, "80", packageName),
+                getColorResourceId(resources, colorRangeResourceName, "75", packageName),
                 getColorResourceId(resources, colorRangeResourceName, "50", packageName),
                 getColorResourceId(resources, colorRangeResourceName, "35", packageName),
                 getColorResourceId(resources, colorRangeResourceName, "20", packageName),
@@ -43,7 +43,7 @@ public class ThemeColorHelper {
         return resources.getIdentifier(String.format(Locale.getDefault(), "uit_%s_level_%s", basecolor, level), "color", packageName);
     }
 
-    public List<ColorModel> getContentTonalRangeItemsList(final ColorRange colorRange, final Context context) {
+    public List<ColorModel> getContentColorModelList(final ColorRange colorRange, final Context context) {
         final List<ColorModel> tonalRangelist = new ArrayList<>();
         final String color = colorRange.name().toLowerCase();
         final int colorResourceId75 = getColorResourceId(context.getResources(), color, "75", context.getPackageName());
@@ -70,11 +70,11 @@ public class ThemeColorHelper {
         return colorRangeModelsList;
     }
 
-    public List<ColorModel> getNavigationColorRangeItemsList(final ColorRange colorRange, final Context context) {
+    public List<ColorModel> getNavigationColorModelsList(final ColorRange colorRange, final Context context) {
         final List<ColorModel> navigationColorModelList = new ArrayList<>();
 
         final String color = colorRange.name().toLowerCase();
-        final int[] navigationColors = getNavigationColors(color, context.getPackageName(), context.getResources());
+        final int[] navigationColors = getNavigationColorsArray(color, context.getPackageName(), context.getResources());
         navigationColorModelList.add(new ColorModel("VD", color, navigationColors[0], R.color.uitColorWhite));
         navigationColorModelList.add(new ColorModel("B", color, navigationColors[1], R.color.uitColorWhite));
         navigationColorModelList.add(new ColorModel("L", color, navigationColors[2], R.color.uitColorWhite));
@@ -83,7 +83,7 @@ public class ThemeColorHelper {
         return navigationColorModelList;
     }
 
-    private int[] getNavigationColors(final String colorResourcePlaceHolder, final String packageName, final Resources resources) {
+    private int[] getNavigationColorsArray(final String colorResourcePlaceHolder, final String packageName, final Resources resources) {
         return new int[]{
                 getColorResourceId(resources, colorResourcePlaceHolder, "65", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "40", packageName),
