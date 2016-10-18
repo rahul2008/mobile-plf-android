@@ -115,7 +115,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     }
 
     private GradientDrawable getItemviewBackground(final int startColor, final int endColor) {
-        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BR_TL,
+        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
                 new int[]{startColor, endColor});
         return gradientDrawable;
     }
