@@ -55,6 +55,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     private TextView mCountText;
     private ImageView mBackImage;
     private FrameLayout mCartContainer;
+    private String mTitle;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -114,6 +115,8 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     }
                     break;
             }
+        }else{
+            setTitle(mTitle);
         }
     }
 
@@ -182,6 +185,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
+        mTitle = title.toString();
         mTitleTextView.setText(title);
     }
 

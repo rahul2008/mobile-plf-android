@@ -83,14 +83,14 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
     lintOptions {
         abortOnError false
     }
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName objcdp.getVersionWithHash()
         multiDexEnabled true

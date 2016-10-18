@@ -43,11 +43,11 @@
   "appinfra": {
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "STAGING",
+    "appidentity.appState": "PRODUCTION",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION"
   },
   "IAP": {
-    "hostport": "acc.occ.shop.philips.com",
+    "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   }
 }

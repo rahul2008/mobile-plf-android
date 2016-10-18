@@ -33,7 +33,7 @@ public class DemoApplication extends Application {
         super.onCreate();
         initAppInfra();
         initIAP();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.PRODUCTION);
     }
 
     public void initAppInfra() {

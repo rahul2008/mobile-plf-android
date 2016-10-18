@@ -151,7 +151,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
-        mIAPSettings.setUseLocalData(false);
+        mIAPSettings.setUseLocalData(true);
 
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
@@ -311,7 +311,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         if (position == 0) {
             mShoppingCart.setVisibility(View.INVISIBLE);
-            mShopNow.setVisibility(View.GONE);
             mBuyDirect.setVisibility(View.GONE);
             mPurchaseHistory.setVisibility(View.GONE);
             mLaunchFragment.setVisibility(View.GONE);
@@ -321,14 +320,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         }
         mPurchaseHistory.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
-        mLaunchFragment.setVisibility(View.VISIBLE);
-        mShoppingCart.setVisibility(View.VISIBLE);
-        mShopNow.setVisibility(View.VISIBLE);
-        mBuyDirect.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
-        mShopNow.setEnabled(true);
-        mBuyDirect.setEnabled(true);
         mLaunchProductDetail.setEnabled(true);
+        mShopNow.setEnabled(true);
         mPurchaseHistory.setEnabled(true);
 
         String mSelectedCountry = parent.getItemAtPosition(position).toString();
@@ -336,7 +330,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mSelectedCountry = "GB";
         setLocale(Locale.getDefault().getLanguage(), mSelectedCountry);
 
-        mIAPSettings.setUseLocalData(false);
+        mIAPSettings.setUseLocalData(true);
         mIapInterface.init(mIapDependencies, mIAPSettings);
         updateCartIcon();
 
@@ -349,8 +343,16 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 dismissProgressDialog();
             }
             mPurchaseHistory.setVisibility(View.VISIBLE);
+            mShopNow.setVisibility(View.VISIBLE);
+            mBuyDirect.setVisibility(View.VISIBLE);
+            mLaunchFragment.setVisibility(View.VISIBLE);
+            mShoppingCart.setVisibility(View.VISIBLE);
         } else {
             mPurchaseHistory.setVisibility(View.GONE);
+            mShopNow.setVisibility(View.GONE);
+            mBuyDirect.setVisibility(View.GONE);
+            mLaunchFragment.setVisibility(View.GONE);
+            mShoppingCart.setVisibility(View.GONE);
         }
     }
 
