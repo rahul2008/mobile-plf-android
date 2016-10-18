@@ -1,5 +1,5 @@
 {
-  "name"               : "",
+  "name"               : "CommLib-all",
   "type"               : "library",
   "technology"         : "Java",
   "topic"              : "",
@@ -11,7 +11,7 @@
   "contact"            : "Joost Westra",
   "release format"     : "maven",
   "release url"        : "",
-  "version"            : "1.0.0",
-  "source url"         : "https://atlas.natlab.research.philips.com/bitbucket/projects/CON/repos/project-template",
+  "version"            : "0.0.1",
+  "source url"         : "https://atlas.natlab.research.philips.com/bitbucket/projects/COM/repos/android-commlib-all",
   "documentation url"  : "",
 }

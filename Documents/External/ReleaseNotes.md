@@ -1,4 +1,4 @@
-Release notes for <insert project name>
+Release notes for android-commlib-all
 =======================================
 
 Version 0.0.1

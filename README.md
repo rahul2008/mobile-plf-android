@@ -1,3 +1,3 @@
-#Read me
+#Readme
 
-Add text here.
+Combines CommLib and BlueLib to offer CommLib over BLE
