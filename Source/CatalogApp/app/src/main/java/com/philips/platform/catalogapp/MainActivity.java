@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -52,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.toolbar_title)
+    TextView title;
+
     private ContentColor contentColor;
     private ColorRange colorRange;
     private FragmentManager supportFragmentManager;
@@ -72,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         toolbar.setTitle(R.string.catalog_app_name);
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.catalog_app_name);
 
         initSetThemeSettings(toolbar);
 
@@ -90,12 +91,7 @@ public class MainActivity extends AppCompatActivity {
         hamburgerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if (hasBackStack()) {
-                    supportFragmentManager.popBackStack();
-                    processBackButton();
-                } else {
-                    Snackbar.make(view, "Hamburger not implemented ", Snackbar.LENGTH_SHORT).show();
-                }
+                onBackPressed();
             }
         });
     }
@@ -128,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDemoListFragment() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        supportFragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.add(R.id.mainContainer, new ComponentListFragment());
         transaction.commit();
         toggle(themeSettingsIcon, setThemeTextView);
@@ -143,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean switchFragment(BaseFragment fragment) {
         supportFragmentManager = getSupportFragmentManager();
+
         final List<Fragment> fragments = supportFragmentManager.getFragments();
         if (fragments != null && fragments.size() > 0) {
             for (Fragment fragmentFromList : fragments) {
@@ -159,6 +158,11 @@ public class MainActivity extends AppCompatActivity {
         toggleHamburgerIcon();
         setTitle(fragment.getPageTitle());
         return true;
+    }
+
+    @Override
+    public void setTitle(final int titleId) {
+        title.setText(titleId);
     }
 
     private void toggleHamburgerIcon() {
@@ -189,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        processBackButton();
         super.onBackPressed();
+        processBackButton();
     }
 
     private void processBackButton() {
@@ -200,13 +204,14 @@ public class MainActivity extends AppCompatActivity {
                 toggle(themeSettingsIcon, setThemeTextView);
                 toggleHamburgerIcon();
             }
-        } else {
+        } else if (supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
         }
     }
 
     private void showHamburgerIcon() {
         hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
+        title.setText(R.string.catalog_app_name);
     }
 
     private boolean hasBackStack() {
