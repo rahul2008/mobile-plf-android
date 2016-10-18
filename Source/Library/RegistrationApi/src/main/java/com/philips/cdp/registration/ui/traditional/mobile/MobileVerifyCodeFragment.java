@@ -28,6 +28,7 @@ import android.widget.ScrollView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -48,7 +49,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
+public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -70,6 +71,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
 
     private FragmentManager mFragmentManager;
 
+    private User mUser;
+
     private XRegError mRegError;
     private final long startTime = 60 * 1000;
     private final long interval = 1 * 1000;
@@ -86,6 +89,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
+        mUser = new User(mContext);
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         mFragmentManager = getChildFragmentManager();
@@ -225,6 +229,24 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
         }
     }
 
+    @Override
+    public void onRefreshUserSuccess() {
+        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+        hideSpinner();
+        getRegistrationFragment().addFragment(new WelcomeFragment());
+    }
+
+    @Override
+    public void onRefreshUserFailed(int error) {
+        hideSpinner();
+        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
+    }
+
+    private void hideSpinner(){
+        mPbSpinner.setVisibility(View.GONE);
+        mBtnVerify.setEnabled(true);
+    }
+
     public class MyCountDownTimer extends CountDownTimer {
         public MyCountDownTimer(long startTime, long interval) {
 
@@ -250,8 +272,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            User user = new User(mContext);
-            String UUid =  user.getJanrainUUID();
+            String UUid = mUser.getJanrainUUID();
             mBtnVerify.setEnabled(false);
             verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid,mEtCodeNUmber.getNumber());
             mPbSpinner.setVisibility(View.VISIBLE);
@@ -285,21 +306,20 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
         @Override
         protected void onPostExecute(String resultString) {
             super.onPostExecute(resultString);
-            mPbSpinner.setVisibility(View.GONE);
             processResponse(resultString);
         }
 
 
         private void processResponse(String resultString) {
-            mBtnVerify.setEnabled(true);
             Log.i("sms AccountActivation ", "processResponse Response = " + resultString);
             if (resultString == null) {
             } else {
                 try {
                     JSONObject jsonObject = new JSONObject(resultString);
                     if(jsonObject.getString("stat").toString().equals("ok")){
-                        getRegistrationFragment().addFragment(new WelcomeFragment());
+                        handleActivate();
                     }else{
+                        hideSpinner();
                         Log.i("sms Failure ", "Val = " + resultString);
                     }
 
@@ -311,5 +331,9 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
             }
         }
 
+    }
+
+    private void handleActivate() {
+        mUser.refreshUser(this);
     }
 }
