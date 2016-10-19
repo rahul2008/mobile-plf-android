@@ -74,12 +74,14 @@ public class ThemeColorHelper {
         final List<ColorModel> navigationColorModelList = new ArrayList<>();
 
         final String color = colorRange.name().toLowerCase();
+        final int colorResourceId75 = getColorResourceId(context.getResources(), color, "75", context.getPackageName());
+
         final int[] navigationColors = getNavigationColorsArray(color, context.getPackageName(), context.getResources());
         navigationColorModelList.add(new ColorModel("VD", color, navigationColors[0], R.color.uitColorWhite));
         navigationColorModelList.add(new ColorModel("B", color, navigationColors[1], R.color.uitColorWhite));
         navigationColorModelList.add(new ColorModel("L", color, navigationColors[2], R.color.uitColorWhite));
         navigationColorModelList.add(new ColorModel("VL", color, navigationColors[3], navigationColors[3]));
-        navigationColorModelList.add(new ColorModel("UL", color, navigationColors[4], navigationColors[4]));
+        navigationColorModelList.add(new ColorModel("UL", color, navigationColors[4], colorResourceId75));
         return navigationColorModelList;
     }
 
