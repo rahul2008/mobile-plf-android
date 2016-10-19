@@ -30,23 +30,21 @@ android {
     }
 
     buildTypes {
-        debug{
-            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
+        debug {
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         }
         compat {
-            buildConfigField "String", "LIBRARY_VERSION" , "\"${objcdp.getVersionWithHash()}\""
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         }
     }
 }
 
 dependencies {
-
-
     testCompile 'junit:junit:4.12'
 }
 
@@ -57,9 +55,11 @@ artifactory {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+            }
         }
     }
     resolve {
