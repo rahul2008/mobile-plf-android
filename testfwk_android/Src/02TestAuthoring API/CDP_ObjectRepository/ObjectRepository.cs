@@ -1299,6 +1299,13 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                 return GetData("MomentValue");
             }
         }
+        public static string DatacoreErrorMsg
+        {
+            get
+            {
+                return GetData("DatacoreErrorMsg");
+            }
+        }
     }
 
     public class Repository
@@ -2133,6 +2140,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Skip");
                     }
                 }
+
                 public static string Done
                 {
                     get
@@ -2179,7 +2187,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Connectivity");
                     }
                 }
-
 
                 public static string NucleousDevice
                 {
