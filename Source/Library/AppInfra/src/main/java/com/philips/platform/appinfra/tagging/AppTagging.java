@@ -43,6 +43,7 @@ public class AppTagging implements AppTaggingInterface {
     protected String mComponentVersion;
 
     private Locale mLocale;
+    private boolean sslValue = false;
 
     private final AppConfigurationInterface.AppConfigurationError configError;
 
@@ -72,7 +73,6 @@ public class AppTagging implements AppTaggingInterface {
     * */
 
     private boolean checkForSslConnection() {
-        boolean sslValue = false;
 
         JSONObject jSONObject = getMasterADBMobileConfig();
 
