@@ -6,4 +6,5 @@
 package com.philips.cdp2.commlib_all;
 
 public class CommlibAll {
+    // TODO perform wiring
 }

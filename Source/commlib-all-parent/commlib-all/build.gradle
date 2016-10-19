@@ -16,6 +16,27 @@ objcdp.setProjectDir(projectDir)
 group = 'com.philips.cdp2'
 version = objcdp.getVersion()
 
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local-android'
+        }
+    }
+}
+
 android {
     compileSdkVersion _compileSdkVersion
     buildToolsVersion _buildToolsVersion
@@ -45,26 +66,6 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-}
-
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local-android'
-        }
-    }
+    compile 'com.philips.cdp:shinelib:2.0.3'
+    compile 'com.philips.cdp:dicommClientLib:2.0.0'
 }
