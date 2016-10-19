@@ -24,6 +24,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -93,9 +94,8 @@ public class ABTestClientManager implements ABTestClientInterface {
      * Method to refresh the testValue based on the valueType.
      *
      * @param variableType valuType/UpdateType.
-     * @param listener
      */
-    private void refreshForVariableType(UPDATETYPES variableType, OnRefreshListener listener) {
+    private void refreshForVariableType(UPDATETYPES variableType) {
         String defaultValue = null;
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                 "Refreshing cache upto" + variableType);
@@ -127,9 +127,9 @@ public class ABTestClientManager implements ABTestClientInterface {
         } else if (variableType.equals(UPDATETYPES.EVERY_APP_START)) {
             isAppRestarted = false;
         }
-        if (listener != null) {
-            listener.onSuccess();
-        }
+//        if (listener != null) {
+//            listener.onSuccess();
+//        }
     }
 
     /**
@@ -185,15 +185,51 @@ public class ABTestClientManager implements ABTestClientInterface {
     @Override
     public String getTestValue(final String testName, final String defaultValue,
                                final UPDATETYPES updateType, Map<String, Object> parameters) {
-        String testValue;
 
+        String testValue;
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                "testName" + testName);
         testValue = getTestValueFromMemoryCache(testName);
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                "testValue" + testValue);
+        updateMemorycacheForTestName(testName, testValue, updateType);
+
         if (testValue != null) {
             return testValue;    // memory cache
+
         }
         return defaultValue;
     }
 
+
+    private void updateMemorycacheForTestName(String testName, String content, UPDATETYPES updateType) {
+        CacheModel.ValueModel updatedVal = new CacheModel.ValueModel();
+        updatedVal.setTestValue(content);
+        updatedVal.setUpdateType(updateType.name());
+
+        if (mCacheStatusValue != null && mCacheStatusValue.containsKey(testName) && !updateType.equals
+                (UPDATETYPES.EVERY_APP_START)) {
+            mCacheStatusValue.put(testName, updatedVal);
+
+        } else {
+            //value is already there in cache ignoring the new value
+
+        }
+
+
+        //remove from disk if it is already saved as appupdate variable
+        if (updateType.equals(UPDATETYPES.EVERY_APP_START)) {
+            removeCacheforTestName(testName);
+        }
+    }
+
+    private void removeCacheforTestName(String testName) {
+        CacheModel model = getCachefromPreference();
+        HashMap<String, CacheModel.ValueModel> cModel = model.getTestValues();
+        if (cModel.containsKey(testName)) {
+            cModel.remove(testName);
+        }
+    }
 
     /**
      * MEthod to fetch the testValue from the server.
@@ -210,28 +246,31 @@ public class ABTestClientManager implements ABTestClientInterface {
         TargetLocationRequest locationRequest = Target.createRequest(requestName,
                 defaultContent, parameters);
 
+        final CountDownLatch done = new CountDownLatch(1);
         Target.loadRequest(locationRequest, new Target.TargetCallback<String>() {
             @Override
             public void call(final String content) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (content != null) {
-                            mExperience = content;
-                            Log.e("ABTESTING", content);
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
-                                    content);
-                            CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
-                            valueModel.setTestValue(content);
-                            valueModel.setUpdateType(updatetypes.name());
-                            mCacheStatusValue.put(requestName, valueModel);
-                            mCacheModel.setTestValues(mCacheStatusValue);
-                            //  saveCachetoPreference(mCacheModel);
-                        }
-                    }
-                });
+                if (content != null) {
+                    mExperience = content;
+                    updateMemorycacheForTestName(requestName, content, updatetypes);
+                    Log.e("ABTESTING", content);
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                            content);
+                    CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
+                    valueModel.setTestValue(content);
+                    valueModel.setUpdateType(updatetypes.name());
+                    mCacheStatusValue.put(requestName, valueModel);
+                    mCacheModel.setTestValues(mCacheStatusValue);
+                }
+                done.countDown();
             }
         });
+        try {
+            // done.await(10, TimeUnit.SECONDS);
+            done.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return mExperience;
     }
 
@@ -264,7 +303,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      * @param listener listener
      */
     @Override
-    public void updateCache(OnRefreshListener listener) {
+    public void updateCache(final OnRefreshListener listener) {
         if (!isOnline()) {
             if (listener != null)
                 listener.onError(OnRefreshListener.ERRORVALUES.NO_NETWORK, "NO INTERNET");
@@ -274,9 +313,21 @@ public class ABTestClientManager implements ABTestClientInterface {
                 listener.onError(OnRefreshListener.ERRORVALUES.EXPERIENCES_PARTIALLY_DOWNLOADED,
                         "Partially Updated");
         } else {
-            refreshForVariableType(getVariableType(), listener);
-            //            if (listener != null)
-//                listener.onSuccess();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    refreshForVariableType(getVariableType());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (listener != null) {
+                                listener.onSuccess();
+                            }
+                        }
+                    });
+                }
+            }).start();
         }
     }
 
@@ -318,7 +369,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 return true;
             }
             String appVersion = getAppVersion();
-            String previousVersion = mCacheModel.getAppVersion();
+            previousVersion = mCacheModel.getAppVersion();
             if (previousVersion == null) {
                 //mCacheModel.setAppVersion(appVersion); // first launch
                 // saveCachetoPreference(mCacheModel);
