@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.Null;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
@@ -83,9 +84,9 @@ public class LocalProductCatalogTest {
         NetworkUtility.getInstance().createIAPErrorMessage("No product found in your Store.");
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void getProductCatalog() throws Exception {
-        Assert.assertFalse(mLocalProductCatalog.getProductCatalog(0, 1, null));
+        mLocalProductCatalog.getProductCatalog(0, 1, null);
     }
 
 }
