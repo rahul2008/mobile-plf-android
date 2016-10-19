@@ -250,7 +250,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (mBundle != null && mLaunchedFromProductCatalog) {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                     setButtonState();
-                    setCartIconVisibility(true);
+                    if (!ControllerFactory.getInstance().loadLocalData())
+                        setCartIconVisibility(true);
                     mBuyFromRetailers.setOnClickListener(this);
                     mBuyFromRetailers.setVisibility(View.VISIBLE);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
@@ -437,7 +438,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void setPrice(String actualPrice, String discountedPrice) {
-        setCartIconVisibility(true);
+        if (!ControllerFactory.getInstance().loadLocalData())
+            setCartIconVisibility(true);
         mPrice.setText(actualPrice);
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             mProductDiscountedPrice.setVisibility(View.GONE);

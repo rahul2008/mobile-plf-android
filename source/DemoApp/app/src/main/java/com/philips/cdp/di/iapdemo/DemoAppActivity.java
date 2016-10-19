@@ -318,6 +318,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mLaunchProductDetail.setVisibility(View.GONE);
             return;
         }
+        mShopNow.setVisibility(View.VISIBLE);
         mPurchaseHistory.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -343,13 +344,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 dismissProgressDialog();
             }
             mPurchaseHistory.setVisibility(View.VISIBLE);
-            mShopNow.setVisibility(View.VISIBLE);
+
             mBuyDirect.setVisibility(View.VISIBLE);
             mLaunchFragment.setVisibility(View.VISIBLE);
             mShoppingCart.setVisibility(View.VISIBLE);
         } else {
             mPurchaseHistory.setVisibility(View.GONE);
-            mShopNow.setVisibility(View.GONE);
             mBuyDirect.setVisibility(View.GONE);
             mLaunchFragment.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);

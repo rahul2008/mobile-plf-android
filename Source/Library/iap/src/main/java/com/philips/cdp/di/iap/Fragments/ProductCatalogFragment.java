@@ -161,7 +161,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
-        setCartIconVisibility(true);
+        if (!ControllerFactory.getInstance().loadLocalData())
+            setCartIconVisibility(true);
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
         if (!ControllerFactory.getInstance().loadLocalData()) {
             mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
