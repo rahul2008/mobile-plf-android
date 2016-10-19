@@ -170,6 +170,11 @@ public class ABTestClientManager implements ABTestClientInterface {
      * @return cacheStauts
      */
     public CACHESTATUSVALUES getCacheStatus() {
+        ArrayList<String> testList = getTestNameFromConfig();
+        if (testList == null) {
+            mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
+        }
+
         return mCachestatusvalues;
     }
 

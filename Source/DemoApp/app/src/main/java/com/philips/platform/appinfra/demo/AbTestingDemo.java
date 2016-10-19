@@ -93,7 +93,8 @@ public class AbTestingDemo extends Activity {
             @Override
             public void onClick(View v) {
                 String cacheStatus = abTestingInterface.getCacheStatus().toString();
-                cacheStatusValue.setText(cacheStatus);
+                if(cacheStatus != null)
+                    cacheStatusValue.setText(cacheStatus);
             }
         });
 
