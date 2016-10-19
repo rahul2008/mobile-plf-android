@@ -28,6 +28,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -45,7 +46,7 @@ import org.json.JSONObject;
 
 
 public class RegistrationFragment extends Fragment implements NetworStateListener,
-        OnClickListener,BackEventListener {
+        OnClickListener, BackEventListener {
 
 
     private FragmentManager mFragmentManager;
@@ -57,6 +58,17 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private int titleResourceID = -99;
 
     private boolean isAccountSettings = true;
+
+    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationUIEventListener;
+    }
+
+    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
+                                                           userRegistrationUIEventListener) {
+        this.userRegistrationUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private UserRegistrationUIEventListener userRegistrationUIEventListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +98,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworStateListener");
         mFragmentManager = getChildFragmentManager();
-        if(mFragmentManager.getBackStackEntryCount() < 1){
+        if (mFragmentManager.getBackStackEntryCount() < 1) {
             loadFirstFragment();
         }
 
@@ -142,8 +154,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void setPrevTiltle() {
         if (mPreviousResourceId != -99)
-            mActionBarListener.updateActionBar(getPreviousResourceId(),true);
-            //mActionBarListener.updateRegistrationTitle(getPreviousResourceId());
+            mActionBarListener.updateActionBar(getPreviousResourceId(), true);
+        //mActionBarListener.updateRegistrationTitle(getPreviousResourceId());
     }
 
 
@@ -154,7 +166,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     private boolean handleBackStack() {
-        if(mFragmentManager!=null){
+        if (mFragmentManager != null) {
             int count = mFragmentManager.getBackStackEntryCount();
             if (count == 0) {
                 return true;
@@ -173,7 +185,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             if (fragment instanceof AccountActivationFragment) {
                 RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
             }
-        }else{
+        } else {
             getActivity().finish();
         }
         return false;
@@ -443,7 +455,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void hideKeyBoard() {
-        if(mActivity!=null){
+        if (mActivity != null) {
             InputMethodManager imm = (InputMethodManager) mActivity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (mActivity.getWindow() != null && mActivity.getWindow().getCurrentFocus() != null) {
@@ -454,12 +466,13 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void showKeyBoard() {
-        if(mActivity!=null){
+        if (mActivity != null) {
             InputMethodManager inputMethodManager = (InputMethodManager)
                     mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
         }
     }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_reg_back) {

@@ -109,7 +109,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private boolean isTermsAndConditionVisible;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreate");
@@ -187,26 +186,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private Bundle mSavedBundle;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         mSavedBundle = outState;
         super.onSaveInstanceState(mSavedBundle);
-        if(mCbAcceptTerms!=null){
-            if(mCbTerms.isChecked()){
+        if (mCbAcceptTerms != null) {
+            if (mCbTerms.isChecked()) {
                 isSavedCBTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
                 mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
-        if(mCbAcceptTerms!=null){
-            if(mCbAcceptTerms.isChecked()){
+        if (mCbAcceptTerms != null) {
+            if (mCbAcceptTerms.isChecked()) {
                 isSavedCbAcceptTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
                 mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
-        if(mRegAccptTermsError!=null){
-            if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+        if (mRegAccptTermsError != null) {
+            if (mRegAccptTermsError.getVisibility() == View.VISIBLE) {
                 isTermsAndConditionVisible = true;
                 mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
                 mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -217,14 +217,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null){
-            if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean("isSavedCBTermsChecked")) {
                 mCbTerms.setChecked(true);
             }
-            if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
+            if (savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")) {
                 mCbAcceptTerms.setChecked(true);
             }
-            if(savedInstanceState.getString("saveTermsAndConditionErrText")!=null && savedInstanceState.getBoolean("isTermsAndConditionVisible")){
+            if (savedInstanceState.getString("saveTermsAndConditionErrText") != null && savedInstanceState.getBoolean("isTermsAndConditionVisible")) {
                 mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
             }
         }
@@ -367,7 +367,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegUtility.handleTermsCondition(getRegistrationFragment().getParentActivity());
+            getRegistrationFragment().getUserRegistrationUIEventListener()
+                    .onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
         }
     };
 
@@ -415,10 +416,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (NetworkUtility.isNetworkAvailable(mContext) && mEtEmail.isValidEmail() && mEtEmail.isShown()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
-            }else if(NetworkUtility.isNetworkAvailable(mContext)){
+            } else if (NetworkUtility.isNetworkAvailable(mContext)) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
-            }else {
+            } else {
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);

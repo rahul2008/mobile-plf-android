@@ -132,7 +132,7 @@ public class RegistrationCoppaApplication extends Application {
        System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
         System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
 */
-        String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
+        String minAge = "{ \"NL\":12 ,\"GB\":13,\"default\": 16}";
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(URConfigurationConstants.
                 FLOW_MINIMUM_AGE_LIMIT,

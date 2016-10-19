@@ -1,6 +1,6 @@
 package com.philips.cdp.registration.coppa.utils;
 
-import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaUIEventListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
@@ -32,7 +32,7 @@ public class CoppaLaunchInput extends UappLaunchInput {
 
     private RegistrationFunction registrationFunction;
 
-    private UserRegistrationCoppaUIEventListener userRegistrationListener;
+    private UserRegistrationUIEventListener userRegistrationListener;
 
     public RegistrationFunction getRegistrationFunction() {
         return registrationFunction;
@@ -51,12 +51,12 @@ public class CoppaLaunchInput extends UappLaunchInput {
     }
 
 
-    public void setUserRegistrationCoppaUIEventListener(UserRegistrationCoppaUIEventListener
+    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
                                                            userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
     }
 
-    public UserRegistrationCoppaUIEventListener getUserRegistrationUIEventListener() {
+    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return this.userRegistrationListener;
     }
 }

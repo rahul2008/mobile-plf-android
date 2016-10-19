@@ -148,10 +148,6 @@ public class RegUtility {
         }
     }
 
-    public static void handleTermsCondition(Activity activity) {
-        RegistrationHelper.getInstance().getUserRegistrationUIEventListener()
-                .onTermsAndConditionClick(activity);
-    }
 
 
     public static Configuration getConfiguration(String registrationEnv) {

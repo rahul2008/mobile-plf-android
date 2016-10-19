@@ -2,8 +2,6 @@ package com.philips.cdp.registration.coppa.event;
 
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
-
 import org.junit.Test;
 
 /**

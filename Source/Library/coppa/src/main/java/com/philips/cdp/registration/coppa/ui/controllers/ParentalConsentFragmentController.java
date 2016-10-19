@@ -10,7 +10,6 @@ package com.philips.cdp.registration.coppa.ui.controllers;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
-import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 
 public class ParentalConsentFragmentController {
@@ -22,9 +21,10 @@ public class ParentalConsentFragmentController {
     {
         this.mParentalApprovalFragment = parentalConsentFragment;
         mParentalApprovalFragment.getRegistrationFragment();
-        if (RegistrationCoppaFragment.getParentActivity() != null) {
+        if (parentalConsentFragment.getRegistrationFragment().getParentActivity() != null) {
 
-            mCoppaExtension = new CoppaExtension(RegistrationCoppaFragment.getParentActivity().
+            mCoppaExtension = new CoppaExtension(parentalConsentFragment.getRegistrationFragment().
+                    getParentActivity().
                     getApplicationContext());
         }
     }

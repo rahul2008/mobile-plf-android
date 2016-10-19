@@ -25,7 +25,6 @@ import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
-import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -42,7 +41,7 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegistrationHelper.getInstance().getUserRegistrationUIEventListener().
+          getRegistrationFragment().getUserRegistrationUIEventListener().
                     onPrivacyPolicyClick(getActivity());
         }
     };
@@ -162,8 +161,8 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         int id = v.getId();
         if (id == R.id.coppa_reg_btn_dashboard) {
             RLog.d("Dash Board ", "Clicked : *******");
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+            if (getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
+                getRegistrationFragment().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(getActivity());
             }
         }

@@ -3,15 +3,7 @@ package com.philips.cdp.registration.coppa.utils;
 import android.app.Activity;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.coppa.event.UserRegistrationCoppaHelper;
-import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
-import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaUIEventListener;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-
-import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/25/2016.

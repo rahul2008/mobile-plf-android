@@ -25,7 +25,6 @@ import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragm
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
-import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -49,8 +48,8 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         @Override
         public void onClick(View v) {
             RegCoppaAlertDialog.dismissDialog();
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+            if (mParentalApprovalFragment.getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
+                mParentalApprovalFragment.getRegistrationFragment().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete( mParentalApprovalFragment.getActivity());
             }
         }
@@ -59,9 +58,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
         mParentalApprovalFragment = fragment;
         mParentalApprovalFragment.getRegistrationFragment();
-        if (RegistrationCoppaFragment.getParentActivity() != null) {
+        if (fragment.getRegistrationFragment().getParentActivity() != null) {
             mParentalApprovalFragment.getRegistrationFragment();
-            mCoppaExtension = new CoppaExtension(RegistrationCoppaFragment
+            mCoppaExtension = new CoppaExtension(fragment.getRegistrationFragment()
                     .getParentActivity().getApplicationContext());
             final Bundle bunble = mParentalApprovalFragment.getArguments();
             if (bunble != null) {
@@ -165,9 +164,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
                                         // mParentalApprovalFragment.setIsUSRegionCode();
                                         addReConfirmParentalConsentFragment();
                                     } else {
-                                        if (RegistrationCoppaHelper.getInstance().
+                                        if (mParentalApprovalFragment.getRegistrationFragment().
                                                 getUserRegistrationUIEventListener() != null) {
-                                            RegistrationCoppaHelper.getInstance().
+                                            mParentalApprovalFragment.getRegistrationFragment().
                                                     getUserRegistrationUIEventListener().
                                                     onUserRegistrationComplete(
                                                             mParentalApprovalFragment.getActivity());
@@ -185,9 +184,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
                     //Need to check and act on it on what bases it arraived here
                     //If comes from the general way then need not be load 24 hours screen else load
                     if (isParentalConsent) {
-                        if (RegistrationCoppaHelper.getInstance().
+                        if (mParentalApprovalFragment.getRegistrationFragment().
                                 getUserRegistrationUIEventListener() != null) {
-                            RegistrationCoppaHelper.getInstance().
+                            mParentalApprovalFragment.getRegistrationFragment().
                                     getUserRegistrationUIEventListener().
                                     onUserRegistrationComplete(
                                             mParentalApprovalFragment.getActivity());
@@ -198,9 +197,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
                     }
                 }
             } else {
-                if (RegistrationCoppaHelper.getInstance().
+                if (mParentalApprovalFragment.getRegistrationFragment().
                         getUserRegistrationUIEventListener() != null) {
-                    RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                    mParentalApprovalFragment.getRegistrationFragment().getUserRegistrationUIEventListener().
                             onUserRegistrationComplete( mParentalApprovalFragment.getActivity());
                 }
             }
@@ -247,9 +246,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
             if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven
                     || mCoppaExtension.getCoppaEmailConsentStatus() ==
                     CoppaStatus.kDICOPPAConfirmationNotGiven) {
-                if (RegistrationCoppaHelper.getInstance().
+                if (mParentalApprovalFragment.getRegistrationFragment().
                         getUserRegistrationUIEventListener() != null) {
-                    RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+                    mParentalApprovalFragment.getRegistrationFragment().getUserRegistrationUIEventListener().
                             onUserRegistrationComplete( mParentalApprovalFragment.getActivity());
                 }
             }

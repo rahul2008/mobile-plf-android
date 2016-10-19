@@ -17,7 +17,6 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.security.SecureStorage;
@@ -57,17 +56,6 @@ public class RegistrationHelper {
 
     private RegistrationHelper() {
     }
-
-    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
-        return userRegistrationUIEventListener;
-    }
-
-    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener userRegistrationUIEventListener) {
-        this.userRegistrationUIEventListener = userRegistrationUIEventListener;
-    }
-
-    private UserRegistrationUIEventListener userRegistrationUIEventListener;
-
 
     /**
      * @return instance of this class
