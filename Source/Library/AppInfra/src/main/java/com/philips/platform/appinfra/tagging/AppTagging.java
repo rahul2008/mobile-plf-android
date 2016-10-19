@@ -96,8 +96,6 @@ public class AppTagging implements AppTaggingInterface {
         return mAppInfra.getAppIdentity().getAppState().toString();
     }
 
-
-
     private String getAppsId() {
         if (mAppsIdkey == null) {
             mAppsIdkey = Analytics.getTrackingIdentifier();
