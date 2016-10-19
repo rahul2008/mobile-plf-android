@@ -72,7 +72,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
 
         setTickMarckColor(holder, adapterPosition, colorModel, context);
 
-        setPickerTextColor(holder, colorModel);
+        setPickerTextColor(holder, colorModel, context);
 
         holder.colorRangeSelectedCheckBox.setVisibility(adapterPosition == selectedPosition ? View.VISIBLE : View.GONE);
 
@@ -92,24 +92,37 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         });
     }
 
-    private void setPickerTextColor(final @NonNull ViewHolder holder, final ColorModel colorModel) {
-        if (colorModel.getTextColor() != -1) {
-            holder.colorRangeTittleLabel.setTextColor(colorModel.getTextColor());
+    private void setPickerTextColor(final @NonNull ViewHolder holder, final ColorModel colorModel, final Context context) {
+        if (colorModel.getContentColor() == R.color.uitColorWhite) {
+            holder.colorRangeTittleLabel.setTextColor(Color.WHITE);
+        } else {
+            final int colorResourceId75 = getColorResourceId75(colorModel, context);
+            holder.colorRangeTittleLabel.setTextColor(getCompatColor(context, colorResourceId75));
         }
+    }
+
+    private int getCompatColor(final Context context, final int colorResourceId75) {
+        return ContextCompat.getColor(context, colorResourceId75);
     }
 
     private void setTickMarckColor(final @NonNull ViewHolder holder, final int adapterPosition, final ColorModel colorModel, final Context context) {
         if (adapterPosition == selectedPosition) {
             final Drawable mutate = drawableCompat.mutate();
             final Drawable wrap = DrawableCompat.wrap(mutate);
-            if (colorModel.getTickColor() == R.color.uitColorWhite) {
+            if (colorModel.getContentColor() == R.color.uitColorWhite) {
                 DrawableCompat.setTint(wrap, Color.WHITE);
             } else {
-                DrawableCompat.setTint(wrap, colorModel.getTickColor());
+                final int colorResourceId75 = getColorResourceId75(colorModel, context);
+                DrawableCompat.setTint(wrap, getCompatColor(context, colorResourceId75));
             }
             DrawableCompat.setTintMode(wrap, PorterDuff.Mode.SRC_IN);
             holder.colorRangeSelectedCheckBox.setBackground(drawableCompat);
         }
+    }
+
+    private int getColorResourceId75(final ColorModel colorModel, final Context context) {
+        ThemeColorHelper themeColorHelper = new ThemeColorHelper();
+        return themeColorHelper.getColorResourceId(context.getResources(), colorModel.getName(), "75", context.getPackageName());
     }
 
     private void setColorPickerBackground(final @NonNull ViewHolder holder, final ColorModel colorModel, final ThemeColorHelper colorListHelper, final Context context) {
@@ -120,9 +133,9 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
                 startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "05", context.getPackageName());
                 endColors = R.color.uitColorWhite;
             }
-            holder.itemView.setBackground(getItemviewBackground(ContextCompat.getColor(context, startColors), ContextCompat.getColor(context, endColors)));
+            holder.itemView.setBackground(getItemviewBackground(getCompatColor(context, startColors), getCompatColor(context, endColors)));
         } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, colorModel.getBackgroundColor()));
+            holder.itemView.setBackgroundColor(getCompatColor(context, colorModel.getBackgroundColor()));
         }
     }
 
@@ -150,8 +163,10 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.colorRangeTittleText)
         public TextView colorRangeTittleLabel;
+
         @Bind(R.id.colorRangeSelectedCheckbox)
         public ImageView colorRangeSelectedCheckBox;
+
         @Bind(R.id.colorRangeItemContainer)
         View colorRangeContainer;
 
