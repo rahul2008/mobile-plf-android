@@ -5,7 +5,6 @@
  */
 package com.philips.platform.appinfra.abtestclient;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,7 +13,7 @@ import java.util.HashMap;
 
 class CacheModel {
 
-    private HashMap<String, ArrayList<String>> mTestValues;
+    private HashMap<String, ValueModel> mTestValues;
 
     private String mAppVersion;
 
@@ -28,12 +27,35 @@ class CacheModel {
     }
 
 
-    public HashMap<String, ArrayList<String>> getTestValues() {
+    public HashMap<String, ValueModel> getTestValues() {
         return mTestValues;
     }
 
-    public void setTestValues(HashMap<String, ArrayList<String>> testValues) {
+    public void setTestValues(HashMap<String, ValueModel> testValues) {
         this.mTestValues = testValues;
     }
 
+    static class ValueModel {
+
+        private String testValue;
+        private String updateType;
+
+
+        public String getTestValue() {
+            return testValue;
+        }
+
+        public void setTestValue(String testValue) {
+            this.testValue = testValue;
+        }
+
+        public String getUpdateType() {
+            return updateType;
+        }
+
+        public void setUpdateType(String updateType) {
+            this.updateType = updateType;
+        }
+    }
 }
+

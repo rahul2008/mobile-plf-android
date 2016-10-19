@@ -32,7 +32,7 @@ public class AbTestingDemo extends Activity {
     private Spinner requestType;
     private EditText testName;
     private EditText defaultValue;
-    String[] valueTypes = {"Always", "App Update", "App Restart"};
+    String[] valueTypes = {"App Update", "App Restart"};
     ABTestClientInterface.UPDATETYPES valueType;
 
 
@@ -77,9 +77,7 @@ public class AbTestingDemo extends Activity {
         btValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (requestType.getSelectedItem().toString().equalsIgnoreCase("Always")) {
-                    valueType = ABTestClientInterface.UPDATETYPES.UPDATE_ALWAYS;
-                } else if (requestType.getSelectedItem().toString().equalsIgnoreCase("App Update")) {
+               if (requestType.getSelectedItem().toString().equalsIgnoreCase("App Update")) {
                     valueType = ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE;
                 } else if (requestType.getSelectedItem().toString().equalsIgnoreCase("App Restart")) {
                     valueType = ABTestClientInterface.UPDATETYPES.EVERY_APP_START;
