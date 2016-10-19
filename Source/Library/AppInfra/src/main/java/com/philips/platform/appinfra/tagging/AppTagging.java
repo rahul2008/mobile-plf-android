@@ -45,7 +45,6 @@ public class AppTagging implements AppTaggingInterface {
     private Locale mLocale;
 
     private final AppConfigurationInterface.AppConfigurationError configError;
-    private boolean sslValue = false;
 
     private final SecureStorageInterface ssi;
     private final SecureStorage.SecureStorageError mSecureStorageError;
@@ -73,6 +72,7 @@ public class AppTagging implements AppTaggingInterface {
     * */
 
     private boolean checkForSslConnection() {
+        boolean sslValue = false;
 
         JSONObject jSONObject = getMasterADBMobileConfig();
 
@@ -155,11 +155,20 @@ public class AppTagging implements AppTaggingInterface {
 
     private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
         if (getPrivacyConsentForSensitiveData()) {
-            ArrayList<String> taggingSensitiveData = (ArrayList) mAppInfra.getConfigInterface().getPropertyForKey("tagging.sensitiveData", "appinfra", configError);
-
-            if (taggingSensitiveData != null && taggingSensitiveData.size() > 0) {
-                data.keySet().removeAll(taggingSensitiveData);
-
+            if (mAppInfra.getConfigInterface() != null) {
+                try {
+                    Object object = mAppInfra.getConfigInterface().getPropertyForKey
+                            ("tagging.sensitiveData", "appinfra", configError);
+                    if (object instanceof ArrayList) {
+                        ArrayList<String> taggingSensitiveData = (ArrayList<String>) object;
+                        if (taggingSensitiveData.size() > 0) {
+                            data.keySet().removeAll(taggingSensitiveData);
+                        }
+                    }
+                } catch (Exception e) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                            "Tagging", "" + e);
+                }
             }
             return data;
         }
