@@ -38,6 +38,7 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".HttpClientService"/>
         <!-- Regitration Api End -->
 
     </application>

@@ -10,10 +10,11 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.philips.cdp.registration.HttpClientService;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
@@ -39,17 +42,10 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-
-public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler {
+public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler,HttpClientServiceReceiver.Listener {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -201,8 +197,50 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         }
     }
 
-    public void verifyMobileNumberTask() {
-        new AccountActivationTask().execute();
+    public void verifyMobileNumberService() {
+
+        mPbSpinner.setVisibility(View.VISIBLE);
+        mBtnVerify.setEnabled(false);
+        getActivity().startService(createCallingIntent());
+    }
+
+    private Intent createCallingIntent() {
+        String UUid = mUser.getJanrainUUID();
+        String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid,mEtCodeNUmber.getNumber());
+        String url = "https://philips-china-eu.eu-dev.janraincapture.com/access/useVerificationCode";
+        Intent httpServiceIntent = new Intent(mContext,HttpClientService.class);
+        HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
+        receiver.setListener(this);
+        httpServiceIntent.putExtra("receiver", receiver);
+        httpServiceIntent.putExtra("verifiedMobileNumber", verifiedMobileNumber);
+        httpServiceIntent.putExtra("url", url);
+        return httpServiceIntent;
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        String response = resultData.getString("responseStr");
+        handleActivate(response);
+    }
+
+    private void handleActivate(String response ) {
+        if(response!=null){
+            try {
+                countDownTimer.cancel();
+                countDownTimer.onFinish();
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getString("stat").toString().equals("ok")){
+                    mUser.refreshUser(this);
+                }else{
+                    hideSpinner();
+                    Log.i("sms Failure ", "Val = " + response);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 
     public void handleUI() {
@@ -264,76 +302,5 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : "+millisUntilFinished / 1000);
             mEtCodeNUmber.setCountertimer(String.format("%02d", +millisUntilFinished / 1000)+"s");
         }
-    }
-
-    private class AccountActivationTask extends AsyncTask<Void, Void, String> {
-
-        private String verifiedMobileNumber;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            String UUid = mUser.getJanrainUUID();
-            mBtnVerify.setEnabled(false);
-            verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid,mEtCodeNUmber.getNumber());
-            mPbSpinner.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            OkHttpClient client = new OkHttpClient();
-
-            MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-
-            RequestBody body = RequestBody.create(mediaType, "verification_code="+verifiedMobileNumber);
-            Request request = new Request.Builder()
-                    .url("https://philips-china-eu.eu-dev.janraincapture.com/access/useVerificationCode")
-                    .post(body)
-                    .addHeader("cache-control", "no-cache")
-                    .addHeader("content-type", "application/x-www-form-urlencoded")
-                    .build();
-            String responseStr = null;
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-                responseStr = response.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return responseStr != null ? responseStr : null;
-        }
-
-        @Override
-        protected void onPostExecute(String resultString) {
-            super.onPostExecute(resultString);
-            processResponse(resultString);
-        }
-
-
-        private void processResponse(String resultString) {
-            Log.i("sms AccountActivation ", "processResponse Response = " + resultString);
-            if (resultString == null) {
-            } else {
-                try {
-                    JSONObject jsonObject = new JSONObject(resultString);
-                    if(jsonObject.getString("stat").toString().equals("ok")){
-                        handleActivate();
-                    }else{
-                        hideSpinner();
-                        Log.i("sms Failure ", "Val = " + resultString);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                }
-
-            }
-        }
-
-    }
-
-    private void handleActivate() {
-        mUser.refreshUser(this);
     }
 }
