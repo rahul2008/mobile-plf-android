@@ -80,4 +80,6 @@ public class RegistrationCoppaActivityTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
     }
+
+
 }

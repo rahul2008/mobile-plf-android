@@ -2,6 +2,7 @@ package com.philips.cdp.registration.coppa.utils;
 
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 
 import org.junit.Before;
@@ -21,7 +22,7 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
 //    UserRegistrationUIEventListener userRegistrationListener;
 
     @Mock
-    UserRegistrationCoppaUIEventListener mUserRegistrationCoppaUIEventListener;
+    UserRegistrationUIEventListener mUserRegistrationCoppaUIEventListener;
 
     @Before
     public void setUp() throws Exception {
