@@ -123,7 +123,7 @@ public class MomentsConverter {
             MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
             if (!MeasurementDetailType.UNKNOWN.equals(type)) {
                 final MeasurementDetail measurementDetail = baseAppDataCreater.createMeasurementDetail(type, measurement);
-                String value = uCoreDetail.getValue().toUpperCase();
+                String value = uCoreDetail.getValue();
                 if (!value.equals(MeasurementDetailValueMap.UNKNOWN_NAME)) {
                     measurementDetail.setValue(value);
                     measurement.addMeasurementDetail(measurementDetail);
