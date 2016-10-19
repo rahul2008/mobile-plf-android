@@ -43,7 +43,6 @@ public class AppTagging implements AppTaggingInterface {
     protected String mComponentVersion;
 
     private Locale mLocale;
-    private boolean sslValue = false;
 
     private final AppConfigurationInterface.AppConfigurationError configError;
 
@@ -73,17 +72,20 @@ public class AppTagging implements AppTaggingInterface {
     * */
 
     private boolean checkForSslConnection() {
+        boolean sslValue = false;
 
         JSONObject jSONObject = getMasterADBMobileConfig();
 
         try {
-            sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
-            if (sslValue) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
-                        "true");
-                return true;
-            } else {
-                throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
+            if (jSONObject != null) {
+                sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
+                if (sslValue) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
+                            "true");
+                    return true;
+                } else {
+                    throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
+                }
             }
         } catch (JSONException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AdobeMobile Configuration exception",
