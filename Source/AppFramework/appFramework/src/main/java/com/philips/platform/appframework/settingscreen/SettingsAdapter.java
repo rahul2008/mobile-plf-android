@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
@@ -53,7 +53,7 @@ public class SettingsAdapter extends BaseAdapter{
     private ProgressDialog progress;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                            UIBasePresenter fragmentPresenter) {
+                           UIBasePresenter fragmentPresenter) {
         activityContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         userRegistrationState = new UserRegistrationState();
@@ -158,32 +158,32 @@ public class SettingsAdapter extends BaseAdapter{
                     progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progress.show();
                     if (isChecked) {
-                        userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                        userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
-                            public void onUpdateReceiveMarketingEmailSuccess() {
+                            public void onUpdateSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
                                 Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_success),Toast.LENGTH_LONG).show();
                             }
 
                             @Override
-                            public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
                                 Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_fail),Toast.LENGTH_LONG).show();
 
                             }
                         }, true);
                     } else {
-                        userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateReceiveMarketingEmailHandler() {
+                        userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
-                            public void onUpdateReceiveMarketingEmailSuccess() {
+                            public void onUpdateSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
                                 Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_success),Toast.LENGTH_LONG).show();
                             }
 
                             @Override
-                            public void onUpdateReceiveMarketingEmailFailedWithError(int i) {
+                            public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
                                 Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_fail),Toast.LENGTH_LONG).show();
                             }
