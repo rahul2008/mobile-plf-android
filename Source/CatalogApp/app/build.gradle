@@ -8,7 +8,6 @@ buildscript {
         jcenter()
 
     }
-
 }
 
 android {
@@ -33,6 +32,10 @@ android {
             storeFile file('../UIT_GoogleBeta_KeyStore.jks')
             storePassword 'philips'
         }
+    }
+
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
     }
 
     buildTypes {

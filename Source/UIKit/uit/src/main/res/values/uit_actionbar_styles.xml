@@ -3,6 +3,7 @@
     <style name="UITNavigationBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">?attr/uitActionBarBackground</item>
         <item name="background">?attr/uitActionBarBackground</item>
+        <item name="android:textColorPrimary">?attr/uitControlPrimaryTextColor</item>
     </style>
 
     <style name="UITNavigationbarUltraLight">
