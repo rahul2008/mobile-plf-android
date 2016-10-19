@@ -70,6 +70,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_theme_settings, container, false);
+        view.setVisibility(View.GONE);
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
@@ -88,6 +89,7 @@ public class ThemeSettingsFragment extends BaseFragment {
                 buildNavigationList(colorRange);
 
                 buildAccentColorsList(colorRange);
+                view.setVisibility(View.VISIBLE);
             }
         });
 
