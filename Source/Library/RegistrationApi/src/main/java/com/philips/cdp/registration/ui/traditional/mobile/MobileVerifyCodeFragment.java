@@ -236,7 +236,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                     mUser.refreshUser(this);
                 }else{
                     hideSpinner();
-                    Log.i("sms Failure ", "Val = " + response);
+                    Log.i("SMS activation failure ", "Val = " + response);
                 }
 
             } catch (Exception e) {
@@ -264,6 +264,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             }
             mBtnVerify.setEnabled(true);
         } else {
+            countDownTimer.cancel();
+            countDownTimer.onFinish();
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mBtnVerify.setEnabled(false);
