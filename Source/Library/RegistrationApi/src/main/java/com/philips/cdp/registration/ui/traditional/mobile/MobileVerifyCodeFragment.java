@@ -211,8 +211,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         Intent httpServiceIntent = new Intent(mContext,HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
+
+        String bodyContent = "verification_code="+verifiedMobileNumber;
         httpServiceIntent.putExtra("receiver", receiver);
-        httpServiceIntent.putExtra("verifiedMobileNumber", verifiedMobileNumber);
+        httpServiceIntent.putExtra("bodyContent", bodyContent);
         httpServiceIntent.putExtra("url", url);
         return httpServiceIntent;
     }
@@ -220,6 +222,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
+        Log.i("onReceiveResult ", "Response Val = " + response);
         handleActivate(response);
     }
 

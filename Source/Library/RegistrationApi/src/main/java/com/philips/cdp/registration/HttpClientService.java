@@ -18,24 +18,21 @@ import java.io.IOException;
  */
 public class HttpClientService extends IntentService{
 
-    private String verifiedMobileNumber;
-
     public HttpClientService(){
         super("HttpClientService");
     }
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
         final ResultReceiver receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
 
-        verifiedMobileNumber = intent.getExtras().getString("verifiedMobileNumber");
+        String bodyContent = intent.getExtras().getString("bodyContent");
         String url  = intent.getExtras().getString("url");
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
 
-        RequestBody body = RequestBody.create(mediaType, "verification_code="+verifiedMobileNumber);
+        RequestBody body = RequestBody.create(mediaType,bodyContent);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -48,9 +45,9 @@ public class HttpClientService extends IntentService{
             response = client.newCall(request).execute();
             responseStr = response.body().string();
 
-            Bundle b = new Bundle();
-            b.putString("responseStr", responseStr);
-            receiver.send(0, b);
+            Bundle responseBundle = new Bundle();
+            responseBundle.putString("responseStr", responseStr);
+            receiver.send(0, responseBundle);
         } catch (IOException e) {
             e.printStackTrace();
         }
