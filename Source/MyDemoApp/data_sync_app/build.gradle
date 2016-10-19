@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.1.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
@@ -252,9 +252,9 @@ dependencies {
 
     compile "com.j256.ormlite:ormlite-core:4.48"
     compile "com.j256.ormlite:ormlite-android:4.48"
-    compile "com.philips.cdp:registrationApi:7.1.0-SNAPSHOT"
+    compile "com.philips.cdp:registrationApi:8.1.0-SNAPSHOT"
     compile "com.philips.cdp:uikitLib:3.2.3"
-    compile "com.philips.cdp:AppInfra:1.2.0-SNAPSHOT"
+    compile "com.philips.cdp:AppInfra:1.3.0-SNAPSHOT"
     //compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
 }
 

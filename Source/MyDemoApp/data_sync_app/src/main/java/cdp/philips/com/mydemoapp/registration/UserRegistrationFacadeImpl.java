@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
@@ -72,6 +73,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
 
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int statusCode) {
+                    Toast.makeText(context,"refresh token failed and status code is = " + statusCode,Toast.LENGTH_LONG).show();
                     notifyLoginSessionResponse();
                 }
 
