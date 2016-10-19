@@ -73,6 +73,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
 
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int statusCode) {
+                    if(context!=null)
                     Toast.makeText(context,"refresh token failed and status code is = " + statusCode,Toast.LENGTH_LONG).show();
                     notifyLoginSessionResponse();
                 }
