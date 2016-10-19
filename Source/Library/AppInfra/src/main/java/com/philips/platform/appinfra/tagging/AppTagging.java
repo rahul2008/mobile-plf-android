@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -39,35 +38,17 @@ public class AppTagging implements AppTaggingInterface {
     private String mLanguage;
     private String prevPage;
 
-    AppInfra mAppInfra;
+    private final AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
 
-    private String[] defaultValues = {
-            AppTaggingConstants.LANGUAGE_KEY,
-            AppTaggingConstants.APPSID_KEY,
-            AppTaggingConstants.COMPONENT_ID,
-            AppTaggingConstants.COMPONENT_VERSION,
+    private Locale mLocale;
 
-            AppTaggingConstants.UTC_TIMESTAMP_KEY,
-            AppTaggingConstants.BUNDLE_ID
-
-
-    };
-
-
-    private Locale mlocale;
-
-    private Context mcontext;
-
-    private Map<String, Object> contextData;
-
-    private AppConfigurationInterface.AppConfigurationError configError;
+    private final AppConfigurationInterface.AppConfigurationError configError;
     private boolean sslValue = false;
-    private String consentValueString = null;
 
-    SecureStorageInterface ssi;
-    SecureStorage.SecureStorageError mSecureStorageError;
+    private final SecureStorageInterface ssi;
+    private final SecureStorage.SecureStorageError mSecureStorageError;
     private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
 
 
@@ -76,7 +57,7 @@ public class AppTagging implements AppTaggingInterface {
 
         ssi = mAppInfra.getSecureStorage();
         mSecureStorageError = new SecureStorage.SecureStorageError();
-        init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
+        init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext());
 
 
         configError = new AppConfigurationInterface
@@ -87,38 +68,41 @@ public class AppTagging implements AppTaggingInterface {
 
     }
 
-    private boolean checkforSSLconnection() {
+    /*
+    * Checks for SSL connection value from Adobe json
+    * */
 
-        if (sslValue == false) {
-            JSONObject jSONObject = getMasterADBMobileConfig();
+    private boolean checkForSslConnection() {
 
-            try {
-                sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
-                if (jSONObject != null && sslValue) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
-                            "true");
-                    return true;
-                } else {
-                    throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
-                }
-            } catch (JSONException e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AdobeMobile Configuration exception",
-                        Log.getStackTraceString(e));
+        JSONObject jSONObject = getMasterADBMobileConfig();
+
+        try {
+            sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
+            if (sslValue) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
+                        "true");
+                return true;
+            } else {
+                throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
             }
-
-            return sslValue;
+        } catch (JSONException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AdobeMobile Configuration exception",
+                    Log.getStackTraceString(e));
         }
+
         return sslValue;
     }
 
-    private void init(Locale locale, Context context, String appName) {
-        mlocale = locale;
-        mcontext = context;
-        prevPage = appName;
+    private void init(Locale locale, Context context) {
+        mLocale = locale;
+        prevPage = "TaggingPageInitialization";
         Config.setContext(context);
 
     }
 
+    /**
+     * Reading from Adobe json
+     */
     protected JSONObject getMasterADBMobileConfig() {
         JSONObject result = null;
         try {
@@ -140,8 +124,12 @@ public class AppTagging implements AppTaggingInterface {
         return result;
     }
 
+    /**
+     * Constructing default Object data
+     **/
+
     private Map<String, Object> addAnalyticsDataObject() {
-        Map<String, Object> contextData = new HashMap<String, Object>();
+        Map<String, Object> contextData = new HashMap<>();
 
         contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
 
@@ -160,6 +148,10 @@ public class AppTagging implements AppTaggingInterface {
 
         return removeSensitiveData(contextData);
     }
+
+    /**
+     * Removes Sensitive data declared in Adobe json
+     **/
 
     private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
         if (getPrivacyConsentForSensitiveData()) {
@@ -180,12 +172,23 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     private String getAppStateFromConfig() {
-        return mAppInfra.getAppIdentity().getAppState().toString();
+
+        if (mAppInfra.getAppIdentity() != null) {
+            try {
+                return mAppInfra.getAppIdentity().
+                        getAppState().toString();
+            } catch (Exception e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        "Tagging", "" + e);
+            }
+        }
+
+        return null;
     }
 
     private String getLanguage() {
         if (mLanguage == null) {
-            mLanguage = mlocale.getLanguage();
+            mLanguage = mLocale.getLanguage();
         }
         return mLanguage;
 
@@ -193,7 +196,7 @@ public class AppTagging implements AppTaggingInterface {
 
     private String getUTCTimestamp() {
         String mUTCTimestamp = null;
-        String UTCtime = null;
+        String UTCtime;
 
         if (mAppInfra.getTime() != null) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
@@ -211,25 +214,18 @@ public class AppTagging implements AppTaggingInterface {
 
     private String getLocalTimestamp() {
 
-        String mLocalTimestamp = null;
+        String mLocalTimestamp;
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-        String formattedDate = df.format(c.getTime());
-        mLocalTimestamp = formattedDate;
+        mLocalTimestamp = df.format(c.getTime());
         return mLocalTimestamp;
     }
 
     private String getComponentId() {
-//        if (mComponentID == null) {
-//            mComponentID = "DefaultText";
-//        }
         return mComponentID;
     }
 
     private String getComponentVersionVersionValue() {
-//        if (mComponentVersion == null) {
-//            mComponentVersion = "DefaultValue";
-//        }
         return mComponentVersion;
     }
 
@@ -284,33 +280,35 @@ public class AppTagging implements AppTaggingInterface {
 
 
     private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        if (checkforAppStateandSSl()) {
+        if (checkForSslConnection()) {
+            trackData(pageName, paramMap, isTrackPage);
+        } else if (checkForProductionState()) {
             trackData(pageName, paramMap, isTrackPage);
         }
-        trackData(pageName, paramMap, isTrackPage);
-
     }
 
-    private boolean checkforAppStateandSSl() {
-        if (mAppInfra.getAppIdentity().getAppState() != null && mAppInfra.getAppIdentity().getAppState().toString().equalsIgnoreCase("Production") && checkforSSLconnection()) {
-            return true;
+    private boolean checkForProductionState() {
+
+        if (mAppInfra.getAppIdentity() != null) {
+            try {
+                return !mAppInfra.getAppIdentity().
+                        getAppState().toString().equalsIgnoreCase("Production");
+            } catch (Exception e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        "Tagging", "" + e);
+            }
         }
+
         return false;
     }
 
     private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        Map<String, Object> contextData = new HashMap<String, Object>();
+        Map<String, Object> contextData;
         contextData = addAnalyticsDataObject();
         if (paramMap != null) {
-            paramMap.putAll((Map)contextData);
-            contextData = removeSensitiveData((Map)paramMap);
-//            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-//                if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
-//                    contextData.put(entry.getKey(), entry.getValue());
-//                }
-//            }
+            paramMap.putAll((Map) contextData);
+            contextData = removeSensitiveData((Map) paramMap);
         }
-//        contextData = removeSensitiveData(contextData);
         if (null != prevPage && isTrackPage) {
             contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
@@ -326,21 +324,18 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackTimedActionStart(String actionStart) {
 
-        if (checkforAppStateandSSl()) {
-            Analytics.trackTimedActionStart(actionStart, contextData);
-        } else {
-            Analytics.trackTimedActionStart(actionStart, contextData);
+        if (checkForSslConnection()) {
+            Analytics.trackTimedActionStart(actionStart, addAnalyticsDataObject());
+        } else if (checkForProductionState()) {
+            Analytics.trackTimedActionStart(actionStart, addAnalyticsDataObject());
         }
-
-
     }
-
 
     @Override
     public void trackTimedActionEnd(String actionEnd) {
-        if (checkforAppStateandSSl()) {
+        if (checkForSslConnection()) {
             Analytics.trackTimedActionEnd(actionEnd, null);
-        } else {
+        } else if (checkForProductionState()) {
             Analytics.trackTimedActionEnd(actionEnd, null);
         }
 
@@ -356,36 +351,16 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public boolean getPrivacyConsentForSensitiveData() {
         boolean consentValue;
-        consentValueString = ssi.fetchValueForKey(AIL_PRIVACY_CONSENT, mSecureStorageError);
-        if (consentValueString != null && consentValueString.equalsIgnoreCase("true")) {
-            consentValue = true;
-        } else {
-            consentValue = false;
-        }
+        String consentValueString = ssi.fetchValueForKey(AIL_PRIVACY_CONSENT, mSecureStorageError);
+        consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
         return consentValue;
     }
-
-//    private Analytics.TimedActionBlock trackTimedActionBlock(final String actionItemKey, final String actionItemValue) {
-//        Analytics.TimedActionBlock<Boolean> timedActionBlock = new Analytics.TimedActionBlock<Boolean>() {
-//            @Override
-//            public Boolean call(long l, long l1, Map<String, Object> map) {
-//                if (actionItemKey != null && actionItemValue != null) {
-//
-//                    map.put(actionItemKey, actionItemValue);
-//                    return true;
-//                }
-//                return false;
-//            }
-//        };
-//
-//        return timedActionBlock;
-//    }
 
 
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
 
-        Map<String, String> trackMap = new HashMap<String, String>();
+        Map<String, String> trackMap = new HashMap<>();
         trackMap.put(key, value);
         track(pageName, trackMap, true);
     }
@@ -401,7 +376,7 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
 
-        Map<String, String> trackMap = new HashMap<String, String>();
+        Map<String, String> trackMap = new HashMap<>();
         trackMap.put(key, value);
         track(pageName, trackMap, false);
 
@@ -441,7 +416,7 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public void trackSocialSharing(SocialMedium medium, String sharedItem) {
-        Map<String, String> trackMap = new HashMap<String, String>();
+        Map<String, String> trackMap = new HashMap<>();
         trackMap.put("socialItem", sharedItem);
         trackMap.put("socialType", medium.toString());
         trackActionWithInfo("socialShare", trackMap);
