@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('../../../../android-shinelib/Source/ShineLib/shinelib/build/outputs/aar/shinelib-debug.aar'))

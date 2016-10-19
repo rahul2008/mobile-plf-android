@@ -66,6 +66,18 @@ android {
 }
 
 dependencies {
-    compile 'com.philips.cdp:shinelib:2.0.3'
-    compile 'com.philips.cdp:dicommClientLib:2.0.0'
+    compile 'com.android.support:support-annotations:23.1.0'
+
+    def blueLib = 'com.philips.cdp:shinelib:2.0.3'
+    def commLib = 'com.philips.cdp:dicommClientLib:2.0.0'
+
+    compatCompile project(":bluelib")
+    compatCompile project(":commlib")
+    compatCompile 'com.philips.cdp:cloudcontroller-api:2.0.2'
+
+    debugCompile blueLib
+    debugCompile commLib
+
+    releaseCompile blueLib
+    releaseCompile commLib
 }
