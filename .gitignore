@@ -4,3 +4,4 @@
 *.png
 *.iml
 build/
+*.properties
