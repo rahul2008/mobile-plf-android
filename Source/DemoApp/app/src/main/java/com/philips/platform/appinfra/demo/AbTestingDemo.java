@@ -92,9 +92,11 @@ public class AbTestingDemo extends Activity {
         btCacheStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cacheStatus = abTestingInterface.getCacheStatus().toString();
-                if(cacheStatus != null)
-                    cacheStatusValue.setText(cacheStatus);
+                if(abTestingInterface.getCacheStatus() != null) {
+                    String cacheStatus = abTestingInterface.getCacheStatus().toString();
+                    if(cacheStatus != null)
+                        cacheStatusValue.setText(cacheStatus);
+                }
             }
         });
 

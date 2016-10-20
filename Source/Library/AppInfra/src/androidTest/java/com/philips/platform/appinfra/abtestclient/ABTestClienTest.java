@@ -38,6 +38,18 @@ public class ABTestClienTest extends MockitoTestCase {
         cacheModel = new CacheModel();
         assertNotNull(cacheModel);
         assertNotNull(abTestClienTestManager);
+
+        abTestClienTestManager = new ABTestClientManager(mAppInfra) {
+            @Override
+            protected void saveCachetoPreference(CacheModel model) {
+                super.saveCachetoPreference(model);
+            }
+
+            @Override
+            protected CacheModel getCachefromPreference() {
+                return super.getCachefromPreference();
+            }
+        };
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("isOnline");
             method.setAccessible(true);

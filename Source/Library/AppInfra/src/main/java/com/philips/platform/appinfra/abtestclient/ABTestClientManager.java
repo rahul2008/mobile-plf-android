@@ -170,11 +170,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      * @return cacheStauts
      */
     public CACHESTATUSVALUES getCacheStatus() {
-        ArrayList<String> testList = getTestNameFromConfig();
-        if (testList == null) {
-            mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
-        }
-
+        loadfromDisk();
         return mCachestatusvalues;
     }
 
@@ -197,13 +193,14 @@ public class ABTestClientManager implements ABTestClientInterface {
         testValue = getTestValueFromMemoryCache(testName);
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                 "testValue" + testValue);
-        updateMemorycacheForTestName(testName, testValue, updateType);
-
         if (testValue != null) {
             return testValue;    // memory cache
-
+        } else {
+            testValue = defaultValue;
         }
-        return defaultValue;
+        updateMemorycacheForTestName(testName, testValue, updateType);
+
+        return testValue;
     }
 
 
@@ -215,7 +212,8 @@ public class ABTestClientManager implements ABTestClientInterface {
         if (mCacheStatusValue != null && mCacheStatusValue.containsKey(testName) && !updateType.equals
                 (UPDATETYPES.EVERY_APP_START)) {
             mCacheStatusValue.put(testName, updatedVal);
-
+            mCacheModel.setTestValues(mCacheStatusValue);
+            saveCachetoPreference(mCacheModel);
         } else {
             //value is already there in cache ignoring the new value
 
@@ -230,9 +228,11 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void removeCacheforTestName(String testName) {
         CacheModel model = getCachefromPreference();
-        HashMap<String, CacheModel.ValueModel> cModel = model.getTestValues();
-        if (cModel.containsKey(testName)) {
-            cModel.remove(testName);
+        if (model != null) {
+            HashMap<String, CacheModel.ValueModel> cModel = model.getTestValues();
+            if (cModel.containsKey(testName)) {
+                cModel.remove(testName);
+            }
         }
     }
 
@@ -411,7 +411,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      *
      * @param model cachemodel object
      */
-    private void saveCachetoPreference(CacheModel model) {
+    protected void saveCachetoPreference(CacheModel model) {
         SharedPreferences.Editor editor = mContext.getSharedPreferences
                 (ABTEST_PRREFERENCE, MODE_PRIVATE).edit();
         Gson gson = new Gson();
@@ -427,7 +427,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      *
      * @return cachemodel object
      */
-    private CacheModel getCachefromPreference() {
+    protected CacheModel getCachefromPreference() {
         SharedPreferences prefs = mContext.getSharedPreferences(ABTEST_PRREFERENCE, MODE_PRIVATE);
         String json = prefs.getString("cacheobject", "");
         Gson gson = new Gson();
