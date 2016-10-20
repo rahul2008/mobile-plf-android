@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/data_sync_fragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <!--<Button
+            android:id="@+id/add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="?attr/uikit_baseColor"
+            android:text="@string/add"
+        />-->
+
+        <!--
+                <Button
+                    android:id="@+id/sync"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/uikit_baseColor"
+                    android:text="@string/sync"
+                />
+        -->
+
+
+        <ImageButton
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/reg_circle" android:clickable="true"
+            android:src="@android:drawable/ic_input_add"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/timeline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/add"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:divider="?attr/uikit_listDividerColor"
+            android:dividerHeight="1dp"
+            android:footerDividersEnabled="false"
+            android:listSelector="?attr/uikit_listSelectorBackground"
+            android:overScrollFooter="@android:color/transparent"
+            android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+
+
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

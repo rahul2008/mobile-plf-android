@@ -31,6 +31,10 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.platform.appframework.AppFrameworkApplication.appInfra;
+
 /**
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
@@ -62,9 +66,42 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        initializeUserRegistrationLibrary(Configuration.STAGING);
-
+        initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
+        initHSDP();
     }
+
+    public void initHSDP() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.ApplicationName",
+                UR,
+                "Datacore",
+                configError);
+
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.Secret",
+                UR,
+                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+                configError);
+
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.Shared",
+                UR,
+                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+                configError);
+
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.BaseURL",
+                UR,
+                "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+                configError);
+    }
+
 
     /**
      * ActionBarListener interface implementation methods
@@ -157,51 +194,51 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        AppFrameworkApplication.appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
+        appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.DEVELOPMENT
                 , UR,
                 "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
                 configError);
-        AppFrameworkApplication.appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
+        appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.TESTING
                 , UR,
                 "g52bfma28yjbd24hyjcswudwedcmqy7c",
                 configError);
-        AppFrameworkApplication.appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
+        appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.EVALUATION
                 , UR,
                 "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
                 configError);
-        AppFrameworkApplication.appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
+        appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.STAGING
                 , UR,
                 "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
                 configError);
-        AppFrameworkApplication.appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
+        appInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.PRODUCTION
                 , UR,
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
 
 
-        AppFrameworkApplication.appInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
+        appInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "MicrositeID",
                 UR,
                 "77000",
                 configError);
-        AppFrameworkApplication.appInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
+        appInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "RegistrationEnvironment",
                 UR,
                 configuration.getValue(),
                 configError);
 
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "EmailVerificationRequired",
                 UR,
                 "" + true,
                 configError);
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "TermsAndConditionsAcceptanceRequired",
                 UR,
@@ -209,7 +246,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 configError);
 
         String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "MinimumAgeLimit",
                 UR,
@@ -221,21 +258,21 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         providers.add("googleplus");
         providers.add("sinaweibo");
         providers.add("qq");
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "NL",
                 UR,
                 providers,
                 configError);
 
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "US",
                 UR,
                 providers,
                 configError);
 
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey("SigninProviders." +
                         "default",
                 UR,
@@ -255,7 +292,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         localeManager.setInputLocale(languageCode, countryCode);
 
         initAppIdentity(configuration);
-        URDependancies urDependancies = new URDependancies(AppFrameworkApplication.appInfra);
+        URDependancies urDependancies = new URDependancies(appInfra);
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
@@ -265,29 +302,29 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = AppFrameworkApplication.appInfra.getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = AppFrameworkApplication.appInfra.
+        mAppIdentityInterface = appInfra.getAppIdentity();
+        AppConfigurationInterface appConfigurationInterface = appInfra.
                 getConfigInterface();
 
         //Dynamically set the values to appInfar and app state
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.micrositeId",
                 AI,
                 "77000",
                 configError);
 
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.sector",
                 AI,
                 "b2c",
                 configError);
 
-        AppFrameworkApplication.appInfra.
+        appInfra.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.serviceDiscoveryEnvironment",
                 AI,
@@ -297,7 +334,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
         switch (configuration) {
             case EVALUATION:
-                AppFrameworkApplication.appInfra.
+                appInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -305,7 +342,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                         configError);
                 break;
             case DEVELOPMENT:
-                AppFrameworkApplication.appInfra.
+                appInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -314,7 +351,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
                 break;
             case PRODUCTION:
-                AppFrameworkApplication.appInfra.
+                appInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -322,7 +359,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                         configError);
                 break;
             case STAGING:
-                AppFrameworkApplication.appInfra.
+                appInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -331,7 +368,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
                 break;
             case TESTING:
-                AppFrameworkApplication.appInfra.
+                appInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
