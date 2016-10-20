@@ -42,4 +42,18 @@
         <item name="uitImageButtonDrawableColorList">@color/uit_default_button_text_selector</item>
         <item name="uitImageButtonColorList">@color/uit_default_button_background_selector</item>
     </style>
+
+    <style name="UITExtraWideButton" parent="UITDefaultButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="UITExtraWideImageTextButton" parent="UITDefaultButton.UITImageTextButton">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+
+    <style name="UITExtraWideImageTextButton.Center">
+        <item name="android:gravity">center</item>
+    </style>
 </resources>
