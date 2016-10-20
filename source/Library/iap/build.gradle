@@ -52,7 +52,7 @@ allprojects {
                 password = "readonly"
             }
         }
-        maven {
+   /*     maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
         }
         maven {
@@ -61,7 +61,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' } */
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
@@ -152,11 +152,11 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
     //Coco
-	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.0', ext: 'aar')
+	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.4.+', ext: 'aar')
     {
            transitive = true
     }
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.0.0', ext: 'aar')
+	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.0.+', ext: 'aar')
     {
            transitive = true
     }
