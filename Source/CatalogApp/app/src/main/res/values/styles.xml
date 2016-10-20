@@ -18,7 +18,7 @@
     </style>
 
     <style name="ThemeSettingsLabelText">
-        <item name="android:textColor">@drawable/colorselector</item>
+        <item name="android:textColor">?attr/uitContentPrimary</item>
         <item name="android:textSize">10sp</item>
         <item name="android:paddingStart">4dp</item>
         <item name="android:paddingTop">4dp</item>
