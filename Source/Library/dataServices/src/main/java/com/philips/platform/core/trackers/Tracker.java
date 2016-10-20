@@ -134,11 +134,9 @@ public class Tracker {
         eventing.post(new ReadDataFromBackendRequest(null));
     }
 
-    public void synchronize() {
+    private void synchronize() {
         Log.i("***SPO***", "In Tracker.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
         monitor.start(eventing);
-//        eventing.post(new ReadDataFromBackendRequest(null));
-
     }
 }

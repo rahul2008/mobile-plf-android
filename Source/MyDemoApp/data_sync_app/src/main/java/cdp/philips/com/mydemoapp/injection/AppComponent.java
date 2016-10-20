@@ -37,7 +37,5 @@ public interface AppComponent {
     void injectTemperatureAdapter(TemperatureTimeLineFragmentcAdapter temperatureTimeLineFragmentcAdapter);
     void injectTemperature(TemperaturePresenter temperaturePresenter);
 
-    void injectActivity(DemoActivity demoActivity);
-
     void injectReciever(BaseAppBroadcastReceiver baseAppBroadcastReceiver);
 }

@@ -44,7 +44,6 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         }else {
             startRegistrationFragment();
         }
-        ((DataSyncApplication) this.getApplication()).getAppComponent().injectActivity(this);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
     }
 
