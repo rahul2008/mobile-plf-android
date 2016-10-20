@@ -91,7 +91,7 @@
     <!--Orange-->
     <style name="Orange">
         <item name="uitColorLevel90">@color/uit_orange_level_90</item>
-        <item name="uitColorLevel85">@color/uit_purple_level_85</item>
+        <item name="uitColorLevel85">@color/uit_orange_level_85</item>
         <item name="uitColorLevel80">@color/uit_orange_level_80</item>
         <item name="uitColorLevel75">@color/uit_orange_level_75</item>
         <item name="uitColorLevel70">@color/uit_orange_level_70</item>

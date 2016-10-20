@@ -11,6 +11,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.1'
+        //Dagger dependencies
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
     }
 }
@@ -42,7 +44,7 @@ allprojects {
         jcenter()
     }
 
-    ext.supportLibraryVer = '24.2.1';
+    ext.supportLibraryVer = '25.0.0';
     ext.butterKnifeVer = '7.0.1'
     ext.mavenAntTaskVer = '2.1.3'
     ext.mockitoVer = '1.10.19'
