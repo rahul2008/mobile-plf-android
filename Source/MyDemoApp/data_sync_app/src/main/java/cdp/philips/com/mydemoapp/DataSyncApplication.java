@@ -79,7 +79,7 @@ public class DataSyncApplication extends Application{
         databaseHelper.getWritableDatabase();
        // Stetho.initializeWithDefaults(this);
 
-        initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
 
         prepareInjectionsGraph();
         appComponent.injectApplication(this);
@@ -306,7 +306,7 @@ public class DataSyncApplication extends Application{
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 UR,
-                "Datacore",
+                "uGrow",
                 configError);
 
         gAppInfra.
@@ -327,7 +327,7 @@ public class DataSyncApplication extends Application{
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 UR,
-                "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
                 configError);
     }
 
