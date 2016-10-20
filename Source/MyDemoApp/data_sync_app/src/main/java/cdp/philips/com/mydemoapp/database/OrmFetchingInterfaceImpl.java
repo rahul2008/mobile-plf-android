@@ -7,6 +7,7 @@
 package cdp.philips.com.mydemoapp.database;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -60,6 +61,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     @Override
     public void fetchMoments(@NonNull final MomentType type) throws SQLException {
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
+        queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.queryForEq("type_id", type.getId()));
     }
 
@@ -73,7 +75,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         }
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.where().in("type_id", ids);
-
+        queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.query(queryBuilder.prepare()));
     }
 
@@ -110,6 +112,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public List<?> fetchNonSynchronizedMoments() throws SQLException{
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
         momentQueryBuilder.where().eq(SYNCED_FIELD, false);
 
@@ -161,7 +164,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException {
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
         List<? extends Moment> ormMomentList = (List<? extends Moment>)fetchNonSynchronizedMoments();
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
     }

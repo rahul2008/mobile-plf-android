@@ -6,6 +6,7 @@
 
 package com.philips.platform.core.trackers;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -25,9 +26,12 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
+import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
+
+import org.joda.time.DateTimeConstants;
 
 import javax.inject.Inject;
 
@@ -108,11 +112,33 @@ public class Tracker {
         eventing.post((new MomentUpdateRequest(moment)));
     }
 
+    public void syncData(){
+        synchronize();
+        sendPushEvent();
+        sendPullDataEvent();
+    }
+
+    private void sendPushEvent() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("***SPO***", "In Tracker.sendPushEvent");
+                eventing.post(new WriteDataToBackendRequest());
+            }
+        }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
+
+    }
+
+    private void sendPullDataEvent() {
+        Log.i("***SPO***", "In Tracker.sendPullDataEvent");
+        eventing.post(new ReadDataFromBackendRequest(null));
+    }
+
     public void synchronize() {
         Log.i("***SPO***", "In Tracker.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
         monitor.start(eventing);
-        eventing.post(new ReadDataFromBackendRequest(null));
+//        eventing.post(new ReadDataFromBackendRequest(null));
 
     }
 }

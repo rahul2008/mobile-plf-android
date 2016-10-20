@@ -7,6 +7,7 @@
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
@@ -75,6 +76,7 @@ public class MomentsDataSender implements DataSender<Moment> {
 
     @Override
     public boolean sendDataToBackend(@NonNull final List<? extends Moment> dataToSend) {
+        Log.i("***SPO***","MomentsDataSender sendDataToBackend");
         if (!accessProvider.isLoggedIn()) {
             return false;
         }
@@ -91,6 +93,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
+        Log.i("***SPO***","MomentsDataSender sendDataToBackend");
         if(moments == null || moments.isEmpty()) {
             return true;
         }
@@ -113,6 +116,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
+        Log.i("***SPO***","MomentsDataSender sendMomentToBackend");
         if (shouldCreateMoment(moment)) {
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {

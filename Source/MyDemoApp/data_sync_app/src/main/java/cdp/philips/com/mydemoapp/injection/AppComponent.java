@@ -12,6 +12,8 @@ import com.philips.platform.core.Eventing;
 import javax.inject.Singleton;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
+import cdp.philips.com.mydemoapp.activity.DemoActivity;
+import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.temperature.TemperaturePresenter;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragmentcAdapter;
@@ -34,4 +36,8 @@ public interface AppComponent {
 
     void injectTemperatureAdapter(TemperatureTimeLineFragmentcAdapter temperatureTimeLineFragmentcAdapter);
     void injectTemperature(TemperaturePresenter temperaturePresenter);
+
+    void injectActivity(DemoActivity demoActivity);
+
+    void injectReciever(BaseAppBroadcastReceiver baseAppBroadcastReceiver);
 }

@@ -55,11 +55,15 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     public void onEventBackgroundThread(GetNonSynchronizedDataRequest event) {
+        Log.i("***SPO***","In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
+            Log.i("***SPO***","In Fetching Monitor before putMomentsForSync");
             dataToSync = dbInterface.putMomentsForSync(dataToSync);
+            Log.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
+            Log.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
             eventing.post(new ExceptionEvent("Loading last entry", e));
         }
     }
