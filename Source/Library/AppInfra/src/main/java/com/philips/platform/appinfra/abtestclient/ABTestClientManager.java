@@ -43,6 +43,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private boolean isAppRestarted = false;
     private String previousVersion;
+    private boolean isRefreshed = false;
     //  CacheModel.ValueModel valueModel;
 
 
@@ -84,8 +85,10 @@ public class ABTestClientManager implements ABTestClientInterface {
             mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
         }
 
-        if (shouldRefresh) {
+        if (shouldRefresh || !isRefreshed) {
             mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
+        } else {
+            mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_UPDATED;
         }
     }
 
@@ -170,7 +173,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      * @return cacheStauts
      */
     public CACHESTATUSVALUES getCacheStatus() {
-        loadfromDisk();
+        // loadfromDisk();
         return mCachestatusvalues;
     }
 
@@ -327,6 +330,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                         @Override
                         public void run() {
                             if (listener != null) {
+                                isRefreshed = true;
                                 listener.onSuccess();
                             }
                         }
