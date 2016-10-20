@@ -30,9 +30,9 @@ objcdp.setProjectDir(projectDir)
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+    //    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+	//	maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
 
     }
 
@@ -159,7 +159,7 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.0.0', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.0.+', ext: 'aar')
             {
                 transitive = true
             }
