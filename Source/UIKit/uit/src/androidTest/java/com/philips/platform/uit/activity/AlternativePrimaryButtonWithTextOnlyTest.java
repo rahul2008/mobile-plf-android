@@ -7,6 +7,7 @@ package com.philips.platform.uit.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
@@ -67,19 +68,19 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyAltButtonLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_left_padding);
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyAltButtonRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_right_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyAltButtonCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
+        float radius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_cornerradius);
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
@@ -93,7 +94,7 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyAltButtonFontSize() {
-        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
+        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_font_size);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
@@ -105,7 +106,8 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyAltPrimaryTextOnlyButtonControlColorULTone() {
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue75);
+        TypedArray typedArray = mActivityTestRule.getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uitColorLevel75});
+        final int expectedColor = typedArray.getColor(0,Color.MAGENTA);
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }

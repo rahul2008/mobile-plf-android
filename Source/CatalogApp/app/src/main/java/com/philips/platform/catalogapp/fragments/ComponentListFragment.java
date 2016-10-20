@@ -31,7 +31,7 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_component_list, null);
+        View view = inflater.inflate(R.layout.fragment_component_list, container, false);
         listView = (ListView) view.findViewById(R.id.componentList);
         setListItems();
         return view;
@@ -46,6 +46,7 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
     private Map<Integer, String> getDemoItems() {
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Buttons");
+        itemsMap.put(1, "TextBox");
         return sortMap(itemsMap);
     }
 
@@ -77,9 +78,10 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
         // TODO: 9/13/2016 : Handle this properly with enums. Right now enable so that we can test buttons
         switch (key) {
             case 0:
-                ((MainActivity)getActivity()).switchFragment(new ButtonFragment());
+                ((MainActivity) getActivity()).switchFragment(new ButtonFragment());
                 break;
             case 1:
+                ((MainActivity) getActivity()).switchFragment(new TextEditBoxFragment());
                 break;
         }
     }

@@ -24,4 +24,31 @@
         <attr name="uitImageButtonDrawableColorList" format="reference"/>
         <attr name="uitImageButtonColorList" format="reference"/>
     </declare-styleable>
+    
+    <declare-styleable name="UITTextEditBox">
+        <attr name="uitInputTextFillColor" format="reference|color"/>
+        <attr name="uitInputTextFillPressedColor" format="reference|color"/>
+        <attr name="uitInputTextFillDisabledColor" format="reference|color"/>
+        <attr name="uitInputTextFillDisabledAlpha" format="reference|float|dimension"/>
+        <attr name="uitInputTextFillColorList" format="reference"/>
+        <attr name="uitInputTextHint" format="reference|color"/>
+        <attr name="uitInputText" format="reference|color"/>
+        <attr name="uitInputTextFillBackground" format="reference"/>
+        <attr name="uitInputTextFillBackgroundColorList" format="reference"/>
+        <attr name="uitInputTextBorderBackground" format="reference"/>
+        <attr name="uitInputTextBorderWidth" format="reference|dimension"/>
+        <attr name="uitInputTextBorderColor" format="reference|color"/>
+        <attr name="uitInputTextBorderPressedColor" format="reference|color"/>
+        <attr name="uitInputTextBorderPressedColorAlpha" format="reference|float"/>
+        <attr name="uitInputTextBorderDisabledColor" format="reference|color"/>
+        <attr name="uitInputTextBorderBackgroundColorList" format="reference"/>
+        <attr name="uitInputTextTextColor" format="reference|color"/>
+        <attr name="uitInputTextTextDisabledColor" format="reference|color"/>
+        <attr name="uitInputTextTextDisabledAlpha" format="reference|float"/>
+        <attr name="uitInputTextHintTextColor" format="reference|color"/>
+        <attr name="uitInputTextHintTextDisabledColor" format="reference|color"/>
+        <attr name="uitInputTextHintTextDisabledAlpha" format="reference|float"/>
+        <attr name="uitInputTextTextSelector" format="reference"/>
+        <attr name="uitInputTextHintTextSelector" format="reference"/>
+    </declare-styleable>
 </resources>

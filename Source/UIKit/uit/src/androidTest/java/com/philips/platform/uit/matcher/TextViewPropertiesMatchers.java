@@ -8,8 +8,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
-import com.philips.platform.uit.matcher.BaseTypeSafteyMatcher;
-
 import org.hamcrest.Matcher;
 
 public class TextViewPropertiesMatchers {
@@ -19,21 +17,38 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    return ((TextView) view).getTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA) == expectedValue;
+                    int actual = ((TextView) view).getTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
+                    setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
+                    return actual == expectedValue;
                 }
-                throw new RuntimeException("Expected TextView got " +view.getClass().getName());
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
             }
         };
     }
 
-    public static Matcher<View> isSameFontSize(final int expectedValue) {
+    public static Matcher<View> isSameHintTextColor(final int stateAttr, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
+                    int actual = ((TextView) view).getHintTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
+                    setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
+                    return actual == expectedValue;
+                }
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<View> isSameFontSize(final float expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    setValues(String.valueOf(((TextView) view).getTextSize()), String.valueOf(expectedValue));
                     return ((TextView) view).getTextSize() == expectedValue;
                 }
-                throw new RuntimeException("Expected TextView got " +view.getClass().getName());
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
             }
         };
     }

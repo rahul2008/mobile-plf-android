@@ -42,5 +42,4 @@
         <item name="uitImageButtonDrawableColorList">@color/uit_default_button_text_selector</item>
         <item name="uitImageButtonColorList">@color/uit_default_button_background_selector</item>
     </style>
-
 </resources>
