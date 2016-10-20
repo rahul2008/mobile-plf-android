@@ -74,13 +74,13 @@ public class AIATDemoPage extends AppCompatActivity {
                 switch (parent.getAdapter().getItem(position).toString()) {
 
                     case "facebook":
-                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Tagging_trackLinkExternal");
+                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Tagging_trackSocial_FacceBook");
                         break;
                     case "mail":
-                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Mail, "Tagging_trackLinkExternal");
+                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Mail, "Tagging_trackSocial_Mail");
                         break;
                     case "twitter":
-                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Twitter, "Tagging_trackLinkExternal");
+                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Twitter, "Tagging_trackSocial_Twitter");
                         break;
                 }
             }
