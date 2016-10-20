@@ -26,6 +26,19 @@ public class DrawableMatcher {
         };
     }
 
+    public static Matcher<Drawable> isMinHeight(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                Rect bounds = drawable.getBounds();
+                int actualHeight = bounds.bottom - bounds.top;
+                setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
+                return actualHeight >= expectedValue;
+            }
+        };
+    }
+
     public static Matcher<Drawable> isSameWidth(final int expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
@@ -59,6 +72,18 @@ public class DrawableMatcher {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 setValues(String.valueOf(stateColors.getStateColor(state)), String.valueOf(expectedValue));
                 return stateColors.getStateColor(state) == expectedValue;
+            }
+        };
+    }
+
+    public static Matcher<Drawable> isSameStrokeColor(final int state, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getStrokeSolidStateColor(state)), String.valueOf(expectedValue));
+                return stateColors.getStrokeSolidStateColor(state) == expectedValue;
             }
         };
     }
