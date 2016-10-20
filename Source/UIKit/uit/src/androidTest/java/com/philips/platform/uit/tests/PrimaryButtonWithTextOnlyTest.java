@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.platform.uit.activity;
+package com.philips.platform.uit.tests;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 
 
 import com.philips.platform.uit.R;
+import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;

@@ -1,9 +1,10 @@
-package com.philips.platform.uit.activity;
+package com.philips.platform.uit.tests;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
 
+import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.view.widget.Button;
 
 import org.junit.Before;

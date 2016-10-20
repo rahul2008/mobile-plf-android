@@ -1,4 +1,4 @@
-package com.philips.platform.uit.activity;
+package com.philips.platform.uit.tests;
 
 import android.support.test.runner.AndroidJUnit4;
 
