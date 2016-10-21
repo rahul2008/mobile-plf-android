@@ -95,7 +95,7 @@ public class MomentsDataSender implements DataSender<Moment> {
             return true;
         }
         boolean conflictHappened = false;
-        String BASE = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+        String BASE = "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com";
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, BASE,
                 accessProvider.getAccessToken(), momentGsonConverter);
 
