@@ -157,6 +157,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                             public void onSuccess(Object response) {
                                 Bitmap bitmap = (Bitmap)response;
                                 mImageView.setImageBitmap(bitmap);
+                                Log.i("LOG REST ", "image downloaded");
                             }
 
                             @Override
