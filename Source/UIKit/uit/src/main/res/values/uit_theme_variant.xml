@@ -83,8 +83,8 @@
 
         <item name="uitApplicationBackground">?attr/uitColorLevel25</item>
 
-        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel20</item>
-        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel30</item>
+        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
+        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
         <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_70</item>
 
         <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>

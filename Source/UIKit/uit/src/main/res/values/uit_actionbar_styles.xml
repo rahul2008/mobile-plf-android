@@ -6,7 +6,6 @@
         <item name="background">?attr/uitActionBarBackground</item>
         <item name="android:textColorPrimary">?attr/uitControlPrimaryTextColor</item>
 
-
     </style>
 
     <style name="UITNavigationbarUltraLight">
@@ -14,11 +13,11 @@
     </style>
 
     <style name="UITNavigationbarVeryLight">
-        <item name="uitActionBarBackground">?attr/uitColorLevel05</item>
+        <item name="uitActionBarBackground">?attr/uitColorLevel10</item>
     </style>
 
     <style name="UITNavigationbarLight">
-        <item name="uitActionBarBackground">?attr/uitColorLevel20</item>
+        <item name="uitActionBarBackground">?attr/uitColorLevel25</item>
     </style>
 
     <style name="UITNavigationbarBright">
@@ -26,6 +25,6 @@
     </style>
 
     <style name="UITNavigationbarVeryDark">
-        <item name="uitActionBarBackground">?attr/uitColorLevel65</item>
+        <item name="uitActionBarBackground">?attr/uitColorLevel70</item>
     </style>
 </resources>
