@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -30,12 +31,16 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import cdp.philips.com.mydemoapp.listener.EventHelper;
+import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
+import retrofit.RetrofitError;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 @Singleton
-public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
+public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
     public static final boolean USE_COPPA_FLOW = false;
     public static final boolean TAGGING_ENABLED = true;
     public final static int ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS = 1;
@@ -67,7 +72,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
                     accessTokenRefreshTime = DateTime.now();
-                    accessToken = getHsdpAccessToken();
+                    accessToken = gethsdpaccesstoken();
                     notifyLoginSessionResponse();
                 }
 
@@ -107,10 +112,10 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
         this.eventing = eventing;
         this.hsdpInfo = hsdpInfo;
         this.registrationConfiguration = registrationConfiguration;
-
+        EventHelper.getInstance().registerURNotification(EventHelper.UR,this);
     }
 
-    private String getHsdpAccessToken() {
+    private String gethsdpaccesstoken() {
         if (getUser(context) == null) {
             return accessToken;
         }
@@ -138,7 +143,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     @NonNull
     @Override
     public String getAccessToken() {
-        refreshAccessTokenUsingWorkAround();
+        //refreshAccessTokenUsingWorkAround();
         return accessToken;
     }
 
@@ -171,9 +176,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
 
     // TODO: We may have to ask the common component to take care of this
     private synchronized void refreshAccessTokenUsingWorkAround() {
-        /*if (isAccessTokenStillValid() || accessTokenRefreshInProgress) {
-            return;
-        }*/
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
         accessTokenRefreshInProgress = true;
@@ -193,10 +195,10 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
         }
     }
 
-    private boolean isAccessTokenStillValid() {
-     //   return accessTokenRefreshTime != null && accessTokenRefreshTime.plusHours(ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS).isAfter(DateTime.now());
+    /*private boolean isAccessTokenStillValid() {
+       // return accessTokenRefreshTime != null && accessTokenRefreshTime.plusHours(ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS).isAfter(DateTime.now());
         return false;
-    }
+    }*/
 
     public void clearUserData() {
         accessTokenRefreshTime = null;
@@ -275,5 +277,18 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     private void clearPreferences() {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
+    }
+
+    @Override
+    public void onFailure(final RetrofitError error) {
+        if(error.getKind().equals(RetrofitError.Kind.UNEXPECTED)){
+            Log.i("***SPO***","In onFailure of UserRegistration - User Not logged in");
+            if(context!=null){
+                Toast.makeText(context,"User Not Logged-in",Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        if (!accessTokenRefreshInProgress)
+            refreshAccessTokenUsingWorkAround();
     }
 }

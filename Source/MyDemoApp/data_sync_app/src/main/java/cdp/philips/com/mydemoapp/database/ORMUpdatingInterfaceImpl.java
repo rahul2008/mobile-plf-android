@@ -22,6 +22,8 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
+import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
+import retrofit.RetrofitError;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -215,12 +217,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
     }
 
     private void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Map<Integer, ArrayList<UserRegistrationFailureListener>> eventMap = EventHelper.getInstance().getURMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
+        if(integers.contains(EventHelper.UR)){
+            ArrayList<UserRegistrationFailureListener> dbChangeListeners = EventHelper.getInstance().getURMap().get(EventHelper.UR);
+            for (UserRegistrationFailureListener listener : dbChangeListeners) {
+                listener.onFailure((RetrofitError)e);
             }
         }
     }

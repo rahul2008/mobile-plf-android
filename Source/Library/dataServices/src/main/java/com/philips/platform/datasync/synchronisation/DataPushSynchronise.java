@@ -18,6 +18,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Singleton;
 
@@ -42,6 +43,9 @@ public class DataPushSynchronise extends EventMonitor {
     @NonNull
     private final Eventing eventing;
 
+    @NonNull
+    private final AtomicInteger numberOfRunningFetches = new AtomicInteger(0);
+
     public DataPushSynchronise(@NonNull final UCoreAccessProvider accessProvider,
                                @NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataSender> senders,
                                @NonNull final Executor executor,
@@ -56,13 +60,16 @@ public class DataPushSynchronise extends EventMonitor {
         Log.i("***SPO***","In startSynchronise - DataPushSynchronize");
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
-        if (isLoggedIn) {
+        if(!isLoggedIn){
+            Log.i("***SPO***","DataPushSynchronize isLogged-in is false");
+            eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
+            return;
+        }
+
+        if (!isSyncStarted()) {
             Log.i("***SPO***","DataPushSynchronize isLogged-in is true");
             registerEvent();
             fetchNonSynchronizedData(eventId);
-        } else {
-            Log.i("***SPO***","DataPushSynchronize isLogged-in is false");
-            eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
         }
     }
 
@@ -86,21 +93,48 @@ public class DataPushSynchronise extends EventMonitor {
 
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
         Log.i("***SPO***","DataPushSynchronize GetNonSynchronizedDataResponse");
+        numberOfRunningFetches.set(1);
         startAllSenders(response);
+    }
+
+    private boolean isSyncStarted() {
+        boolean isSynced = numberOfRunningFetches.get() > 0;
+        Log.i("***SPO***",isSynced + "");
+        return isSynced;
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
         Log.i("***SPO***","DataPushSynchronize startAllSenders");
         for (final com.philips.platform.datasync.synchronisation.DataSender sender : senders) {
             Log.i("***SPO***","DataPushSynchronize startAllSenders inside loop");
-            /*executor.execute(new Runnable() {
+            //startSenders(sender, nonSynchronizedData);
+
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
                     Log.i("***SPO***","DataPushSynchronize before sendDataToBackend");
-                    sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+                    startSenders(sender, nonSynchronizedData);
                 }
-            });*/
-            Log.i("***SPO***","DataPushSynchronize before sendDataToBackend");
+            }).start();
+
+      /*      executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    startSenders(sender, nonSynchronizedData);
+                }
+            });
+      */      //Log.i("***SPO***","DataPushSynchronize before sendDataToBackend");
+            //sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+        }
+    }
+
+    private void startSenders(DataSender sender, GetNonSynchronizedDataResponse nonSynchronizedData) {
+        Log.i("***SPO***","DataPushSynchronize before sendDataToBackend");
+        int jobsRunning = numberOfRunningFetches.decrementAndGet();
+        Log.i("**SPO**","In DataPushSynchronize executor and jobsRunning = " + jobsRunning);
+
+        if (jobsRunning == 0) {
+            Log.i("**SPO**","In DataPushSynchronize and jobsRunning = " + jobsRunning + "calling sendDataToBackend");
             sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
         }
     }

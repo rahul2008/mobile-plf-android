@@ -93,7 +93,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
-        Log.i("***SPO***","MomentsDataSender sendDataToBackend");
+        Log.i("***SPO***","MomentsDataSender sendMoments");
         if(moments == null || moments.isEmpty()) {
             return true;
         }

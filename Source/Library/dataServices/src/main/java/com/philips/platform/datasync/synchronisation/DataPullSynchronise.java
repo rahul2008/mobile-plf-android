@@ -73,19 +73,16 @@ public class DataPullSynchronise {
     }
 
 
-
-
-
     public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
         Log.i("**SPO**","In Data Pull Synchronize startFetching");
-        preformFetch(fetcher, lastSyncDateTime, referenceId);
-        /*executor.execute(new Runnable() {
+      //  preformFetch(fetcher, lastSyncDateTime, referenceId);
+        executor.execute(new Runnable() {
             @Override
             public void run() {
                 Log.i("**SPO**","In Data Pull Synchronize startFetching execute");
-
+                preformFetch(fetcher, lastSyncDateTime, referenceId);
             }
-        });*/
+        });
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
@@ -94,14 +91,17 @@ public class DataPullSynchronise {
         this.referenceId = referenceId;
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
-        if (isLoggedIn) {
+        if(!isLoggedIn){
+            Log.i("***SPO***","DataPullSynchronize isLogged-in is false");
+            postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
+            return;
+        }
+
+        if (!isSyncStarted()) {
             Log.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             Log.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
             eventing.post(new GetNonSynchronizedMomentsRequest());
-        } else  {
-            Log.i("***SPO***","DataPullSynchronize isLogged-in is false");
-            postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
         }
     }
 

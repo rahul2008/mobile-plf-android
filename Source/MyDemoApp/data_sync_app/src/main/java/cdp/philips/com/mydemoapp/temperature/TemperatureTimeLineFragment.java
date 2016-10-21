@@ -228,11 +228,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void onFailure(final RetrofitError error) {
-        onFailureRefresh(error);
-    }
-
-    @Override
     public void onRefresh() {
         if(!mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(true);
