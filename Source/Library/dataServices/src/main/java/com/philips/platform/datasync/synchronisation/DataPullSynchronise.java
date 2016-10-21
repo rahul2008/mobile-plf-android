@@ -75,14 +75,14 @@ public class DataPullSynchronise {
 
     public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
         Log.i("**SPO**","In Data Pull Synchronize startFetching");
-      //  preformFetch(fetcher, lastSyncDateTime, referenceId);
-        executor.execute(new Runnable() {
+        preformFetch(fetcher, lastSyncDateTime, referenceId);
+      /*  executor.execute(new Runnable() {
             @Override
             public void run() {
                 Log.i("**SPO**","In Data Pull Synchronize startFetching execute");
                 preformFetch(fetcher, lastSyncDateTime, referenceId);
             }
-        });
+        });*/
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
