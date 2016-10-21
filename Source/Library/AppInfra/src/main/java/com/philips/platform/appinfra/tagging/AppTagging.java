@@ -84,6 +84,7 @@ public class AppTagging implements AppTaggingInterface {
                             "true");
                     return true;
                 } else {
+                    if(!checkForProductionState())
                     throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
                 }
             }
