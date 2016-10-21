@@ -6,10 +6,12 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.pins.shinelib.SHNCentral;
 
-public class CommLibContext<A extends DICommAppliance>{
+public class CommLibContext<A extends DICommAppliance> {
 
     @NonNull
     private final DiscoveryManager<A> mDiscoveryManager;
+
+    @NonNull
     private final BleDeviceCache mBleDeviceCache;
 
     @NonNull
@@ -31,5 +33,4 @@ public class CommLibContext<A extends DICommAppliance>{
     public SHNCentral getShnCentral() {
         return mShnCentral;
     }
-
 }
