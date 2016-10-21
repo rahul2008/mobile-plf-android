@@ -328,7 +328,7 @@ public class RestManager implements RestInterface{
 
     private void imageRequestWithURL(String urlString, final ServiceIDCallback listener, Map<String, String> headers, ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, int maxWidth, int maxHeight) throws HttpForbiddenException{
         urlString = "http://i.imgur.com/7spzG.png";
-        ImageRequest request = new ImageRequest(urlString,
+        ImageRequest imageRequest = new ImageRequest(urlString,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
@@ -342,7 +342,7 @@ public class RestManager implements RestInterface{
                         //mImageView.setImageResource(R.drawable.image_load_error);
                     }
                 });
-
+        getRequestQueue().add(imageRequest);
 
     }
     private File getCacheDir(){
