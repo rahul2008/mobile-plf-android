@@ -20,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
 import com.philips.platform.appinfra.rest.request.StringRequest;
@@ -159,7 +160,7 @@ public class RestClientActivity extends AppCompatActivity {
                     }
                 }else{
                     StringRequest mStringRequest = null;
-                    try {
+                   /* try {
                         mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id="+idInput.getText().toString().trim(), new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -185,12 +186,57 @@ public class RestClientActivity extends AppCompatActivity {
                     if(mStringRequest.getCacheEntry()!=null){
                         String cachedResponse = new String(mStringRequest.getCacheEntry().data);
                         Log.i("CACHED DATA: ", "" + cachedResponse);
-                    }
+                    }*/
                     // mStringRequest.setShouldCache(false); // set false to disable cache
-                    if(null!=mStringRequest) {
+                    /////////////////////////
+
+
+                   /* try {
+                        mRestInterface.stringRequestWithServiceID(Request.Method.GET, "userreg.janrain.api", RestManager.LANGUAGE, "path", new RestInterface.ServiceIDCallback() {
+                            @Override
+                            public void onSuccess(Object response) {
+                                String serviceResponse=(String)response;
+                                Log.i("LOG REST SD", "" + serviceResponse);
+                            }
+
+                            @Override
+                            public void onErrorResponse(String error) {
+                                Log.i("LOG REST SD", "" + error);
+                            }
+                        },
+                        null,null);
+                    } catch (HttpForbiddenException e) {
+                        Log.e("LOG REST SD", e.toString() );
+                        e.printStackTrace();
+                    }*/
+
+                    try {
+                        mRestInterface.jsonObjectRequestWithServiceID(Request.Method.GET, "userreg.janrain.api", RestManager.LANGUAGE, "path", new RestInterface.ServiceIDCallback() {
+                                    @Override
+                                    public void onSuccess(Object response) {
+                                        JSONObject serviceResponse=(JSONObject)response;
+                                        Log.i("LOG REST SD", "" + serviceResponse);
+                                    }
+
+                                    @Override
+                                    public void onErrorResponse(String error) {
+                                        Log.i("LOG REST SD", "" + error);
+                                    }
+                                },
+                                null,null);
+                    } catch (HttpForbiddenException e) {
+                        Log.e("LOG REST SD", e.toString() );
+                        e.printStackTrace();
+                    }
+
+
+
+
+                    //////////////////////////
+                   /* if(null!=mStringRequest) {
                         urlFired.setText(mStringRequest.getUrl());
                         mRestInterface.getRequestQueue().add(mStringRequest);
-                    }
+                    }*/
 
                     }
 

@@ -197,7 +197,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 9:
 
                 Intent restClientActivity = new Intent(AppInfraMainActivity.this,
-                        RestClientActivity.class);
+                        RestMenuActivity.class);
                 startActivity(restClientActivity);
                 break;
         }
