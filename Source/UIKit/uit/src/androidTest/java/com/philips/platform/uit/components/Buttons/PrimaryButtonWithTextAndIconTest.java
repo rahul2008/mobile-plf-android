@@ -1,4 +1,10 @@
-package com.philips.platform.uit.components.Buttons;
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
+
+package com.philips.platform.uit.components.buttons.button;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;

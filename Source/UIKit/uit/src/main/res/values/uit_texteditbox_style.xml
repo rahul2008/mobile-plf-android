@@ -11,7 +11,9 @@
         <item name="android:paddingBottom">@dimen/uit_texteditbox_vertical_padding</item>
         <item name="android:paddingTop">@dimen/uit_texteditbox_vertical_padding</item>
         <item name="android:lineSpacingExtra">@dimen/uit_texteditbox_line_spacing</item>
-        <item name="android:lineSpacingMultiplier">@integer/uit_texteditbox_font_spacing_multiplier</item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uit_texteditbox_font_spacing_multiplier
+        </item>
         <item name="uitInputTextFillColorList">@color/uit_texteditbox_fill_selector</item>
         <item name="uitInputTextFillBackground">@drawable/uit_texteditbox_fill</item>
         <item name="uitInputTextFillBackgroundColorList">@color/uit_texteditbox_fill_selector</item>

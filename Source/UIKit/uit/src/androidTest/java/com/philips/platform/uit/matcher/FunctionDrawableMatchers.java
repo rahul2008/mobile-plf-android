@@ -98,7 +98,7 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-                BaseTypeSafteyMatcher <Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeColor(state, expectedValue);
+                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeColor(state, expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);
                 return matches;

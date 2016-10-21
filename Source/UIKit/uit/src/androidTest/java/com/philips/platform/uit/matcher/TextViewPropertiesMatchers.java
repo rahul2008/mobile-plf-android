@@ -21,7 +21,7 @@ public class TextViewPropertiesMatchers {
                     setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
                     return actual == expectedValue;
                 }
-                throw new RuntimeException("expected TextView got " +view.getClass().getName());
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
         };
     }

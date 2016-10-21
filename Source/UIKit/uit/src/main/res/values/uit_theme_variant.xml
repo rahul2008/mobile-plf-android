@@ -124,7 +124,8 @@
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel20</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel25</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
+        </item>
     </style>
 
 
