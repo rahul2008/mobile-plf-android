@@ -85,7 +85,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
             android:orientation="vertical">
@@ -106,8 +106,6 @@
 
         </LinearLayout>
 
-        <include layout="@layout/theme_settings_divider"/>
-
         <LinearLayout
             android:id="@+id/warningText"
             android:layout_width="match_parent"
@@ -118,19 +116,19 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|start"
+                android:paddingTop="5dp"
                 android:contentDescription="@string/content_desc_close"
-                android:padding="10dp"
                 app:srcCompat="@drawable/ic_cross_icon"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="10dp"
                 android:text="@string/warning_text"
-                android:textSize="14sp"
-                android:visibility="visible"/>
+                android:textSize="14sp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
