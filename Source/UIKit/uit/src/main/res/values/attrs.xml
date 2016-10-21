@@ -27,9 +27,6 @@
         <attr name="uitControlPrimaryAlternateTextColor" format="reference|color"/>
         <attr name="uitControlPrimaryAltDisabledAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryAltTextDisabledAlpha" format="reference|float"/>
-        <attr name="uitNavigationbarColor" format="reference|color"/>
-        <attr name="uitNavigationPrimary" format="reference|color"/>
-        <attr name="uitNavigationSecondary" format="reference|color"/>
         <attr name="uitApplicationBackground" format="reference|color"/>
     </declare-styleable>
 

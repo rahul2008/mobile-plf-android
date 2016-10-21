@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="UITNavigationBar" parent="Theme.AppCompat.Light.NoActionBar">
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="UITNavigationBar" parent="Theme.AppCompat.Light.NoActionBar" tools:ignore="NewApi">
         <item name="android:background">?attr/uitActionBarBackground</item>
         <item name="background">?attr/uitActionBarBackground</item>
         <item name="android:textColorPrimary">?attr/uitControlPrimaryTextColor</item>
+
+
     </style>
 
     <style name="UITNavigationbarUltraLight">
