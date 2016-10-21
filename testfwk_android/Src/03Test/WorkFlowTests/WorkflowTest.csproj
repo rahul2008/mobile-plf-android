@@ -66,12 +66,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BleApplianceSteps.cs" />
+    <Compile Include="CC_Bindings.cs" />
     <Compile Include="F661.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>F661.feature</DependentUpon>
     </Compile>
     <Compile Include="F661ContinuousEndToEndTestSteps.cs" />
+    <Compile Include="F953-ConsumerCare.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>F953-ConsumerCare.feature</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSteps.cs" />
     <Compile Include="IapReport.cs" />
     <Compile Include="MyPhilips.cs" />
@@ -96,6 +102,10 @@
     <None Include="F661.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>F661.feature.cs</LastGenOutput>
+    </None>
+    <None Include="F953-ConsumerCare.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>F953-ConsumerCare.feature.cs</LastGenOutput>
     </None>
     <None Include="MyPhilips.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -131,6 +141,10 @@
     <ProjectReference Include="..\..\02TestAuthoring API\AppFramework_TestPlugin\AppFramework_TestPlugin.csproj">
       <Project>{61879128-714e-4b66-a3e3-f3a3218b8254}</Project>
       <Name>AppFramework_TestPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\02TestAuthoring API\CC.Android.TestPlugin\CC.Android.TestPlugin.csproj">
+      <Project>{a6f48442-b970-47ab-b4d4-dca58a2ed294}</Project>
+      <Name>CC.Android.TestPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\02TestAuthoring API\CDP_ObjectRepository\ObjectRepository.csproj">
       <Project>{298a63ca-64db-44a2-bcf3-9cb7ff65ff21}</Project>

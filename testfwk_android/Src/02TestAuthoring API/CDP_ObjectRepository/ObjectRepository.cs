@@ -2074,8 +2074,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
-
-
                 public static string AppFrameworkHomeScreen
                 {
                     get
@@ -2084,7 +2082,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
-
                 public static string HamburgerList
                 {
                     get
@@ -2092,8 +2089,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("HamburgerList");
                     }
                 }
-
-                
                 public static string LoginSettings
                 {
                     get
@@ -2101,7 +2096,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("LoginSettings");
                     }
                 }
-
                 public static string VerticalSettings
                 {
                     get
@@ -2116,7 +2110,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("WelcomeScreen");
                     }
                 }
-
                 public static string RightArrow
                 {
                     get
@@ -2124,7 +2117,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("RightArrow");
                     }
                 }
-
                 public static string LeftArrow
                 {
                     get
@@ -2132,7 +2124,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("LeftArrow");
                     }
                 }
-               
                 public static string Skip
                 {
                     get
@@ -2140,7 +2131,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Skip");
                     }
                 }
-
                 public static string Done
                 {
                     get
@@ -2155,7 +2145,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("AUsername");
                     }
                 }
-
                 public static string PassWord
                 {
                     get
@@ -2163,7 +2152,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("APassWord");
                     }
                 }
-
                 public static string PhilipsAccountReg
                 {
                     get
@@ -2171,7 +2159,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("AppPhilipsAccountReg");
                     }
                 }
-
                 public static string Settings
                 {
                     get
@@ -2179,7 +2166,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Settings");
                     }
                 }
-
                 public static string Connectivity
                 {
                     get
@@ -2187,7 +2173,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Connectivity");
                     }
                 }
-
                 public static string NucleousDevice
                 {
                     get
@@ -2196,9 +2181,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
-
-
-
                 public static string MomentValueFromDatacore
                 {
                     get
@@ -2207,9 +2189,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
-
-
-
                 public static string Alogout
                 {
                     get
@@ -2217,7 +2196,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Alogout");
                     }
                 }
-
                 public static string AlogoutConfirm
                 {
                     get
@@ -2239,7 +2217,6 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("ALoginContinue");
                     }
                 }
-
                 public static string ALoginContinueConfirm
                 {
                     get
@@ -2247,14 +2224,1182 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("ALoginContinueConfirm");
                     }
                 }
+                public static string Support
+                {
+                    get
+                    {
+                        return GetData("Support");
+                    }
 
-
-
+                }
             }
         }
 
     }
 
+    public class ConsumerCare
+    {
+        static XmlDocument doc = new XmlDocument();
+        public static string GetData(string element)
+        {
+            string retVal = string.Empty;
+            if (doc.BaseURI == "")
+            {
+                string filepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Repository.xml");
+                doc.Load(filepath);
+            }
+            XmlNode n1 = doc.GetElementsByTagName(element)[0];
+            if (n1 != null)
+                retVal = n1.InnerText;
+            return retVal;
+        }
+        public class Android
+        {
+            public class HomeScreen
+            {
+                public static string LaunchasActivity
+                {
+                    get
+                    {
+                        return GetData("LaunchasActivity");
+                    }
+
+                }
+                public static string LaunchasFragment
+                {
+                    get
+                    {
+                        return GetData("LaunchasFragment");
+                    }
+                }
+                public static string AddCTN
+                {
+                    get
+                    {
+                        return GetData("AddCTN");
+                    }
+
+                }
+                public static string Country_Spinner
+                {
+                    get
+                    {
+                        return GetData("CountrySpinner");
+                    }
+                }
+                public static string Language
+                {
+                    get
+                    {
+                        return GetData("LanguageSpinner");
+                    }
+                }
+                static string langaugeTitle = null;
+                public static string LanguageTitle
+                {
+                    get
+                    {
+                        return GetData("LangaugeTitle");
+                    }
+                    set
+                    {
+                        langaugeTitle = value;
+                    }
+                }
+                static string selectedCountry = null;
+                public static string CountryTitle
+                {
+                    get
+                    {
+                        return GetData("CountryTitle");
+                    }
+                    set
+                    {
+                        selectedCountry = value;
+                    }
+                }
+
+            }
+
+            public class AddProduct
+            {
+                public static string Submit
+                {
+                    get
+                    {
+                        return GetData("Submit");
+                    }
+                }
+                public static string AddCTN
+                {
+                    get
+                    {
+                        return GetData("CTN_Name");
+                    }
+                }
+                public static string AddCategory
+                {
+                    get
+                    {
+                        return GetData("AddCategory");
+                    }
+                }
+                public static string AddCatalog
+                {
+                    get
+                    {
+                        return GetData("AddCatalog");
+                    }
+                }
+            }
+
+            public class SupportScreen
+            {
+                public static string ViewProductInfo
+                {
+                    get
+                    {
+                        return GetData("ViewProductInfo");
+                    }
+
+                }
+                public static string ReadFAQ
+                {
+                    get
+                    {
+                        return GetData("ReadFAQ");
+                    }
+
+                }
+                public static string ContactUs
+                {
+                    get
+                    {
+                        return GetData("ContactUs");
+                    }
+
+                }
+                public static string FindPhilips
+                {
+                    get
+                    {
+                        return GetData("FindPhilips");
+                    }
+
+                }
+                public static string TellUs
+                {
+                    get
+                    {
+                        return GetData("TellUs");
+                    }
+
+                }
+                public static string MyPhilipsAccount
+                {
+                    get
+                    {
+                        return GetData("MyPhilipsAccount");
+                    }
+
+                }
+                public static string ChangeSelectedProduct
+                {
+                    get
+                    {
+                        return GetData("ChangeSelectedProduct");
+                    }
+
+                }
+                public static string ReturnToHomeScreen
+                {
+                    get
+                    {
+                        return GetData("ReturnToHomeScreen");
+                    }
+                }
+                static string demotitle = null;
+                public static string DemoTitle
+                {
+                    get
+                    {
+                        return GetData("DemoTitle");
+                    }
+                    set
+                    {
+                        demotitle = value;
+                    }
+                }
+            }
+
+            public class ProductInformationScreen
+            {
+                public static string ProductManual
+                {
+                    get
+                    {
+                        return GetData("Product_Manual");
+                    }
+                }
+                public static string ProductInformation
+                {
+                    get
+                    {
+                        return GetData("Product_Information");
+                    }
+                }
+                public static string BacktoSupport
+                {
+                    get
+                    {
+                        return GetData("Back_to_Support");
+                    }
+                }
+                static string produtdetail = null;
+                public static string ProductDetail
+                {
+                    get
+                    {
+                        return GetData("ProductDetail");
+                    }
+                    set
+                    {
+                        produtdetail = value;
+                    }
+
+                }
+                static string productInfoTitle = null;
+                public static string ProductInfoTitle
+                {
+                    get
+                    {
+                        return GetData("ProductInfoTitle");
+                    }
+                    set
+                    {
+                        productInfoTitle = value;
+                    }
+                }
+                public static string ProductImage
+                {
+                    get
+                    {
+                        return GetData("Image");
+                    }
+                }
+                static string videoText = null;
+                public static string VideoTitle
+                {
+                    get
+                    {
+                        return GetData("VideoHeading");
+                    }
+                    set
+                    {
+                        videoText = value;
+                    }
+                }
+                public static string VideoPlayButton
+                {
+                    get
+                    {
+                        return GetData("VideoPlayButton");
+                    }
+                }
+                public static string WebViewofProductInfo
+                {
+                    get
+                    {
+                        return GetData("WebViewofProductInfo");
+                    }
+                }
+                public static string PopUpview
+                {
+                    get
+                    {
+                        return GetData("OK");
+                    }
+
+                }
+                public static string ProductVariant
+                {
+                    get
+                    {
+                        return GetData("ProductVariant");
+                    }
+                }
+
+            }
+
+            public class FAQ
+            {
+                public static string BackToHomePage
+                {
+                    get
+                    {
+                        return GetData("Back_to_FAQHomePage");
+                    }
+                }
+                static string FAQheadertxt = null;
+                public static string FAQHeaderText
+                {
+                    get
+                    {
+                        return GetData("FAQHeaderText");
+                    }
+                    set
+                    {
+                        FAQheadertxt = value;
+                    }
+                }
+                public static string BeforeyouBye
+                {
+                    get
+                    {
+                        return GetData("BeforeYouBye");
+                    }
+                }
+                public static string BuyYourProduct
+                {
+                    get
+                    {
+                        return GetData("BuyYourProdut");
+                    }
+                }
+                public static string GettingStarted
+                {
+                    get
+                    {
+                        return GetData("GettingStarted");
+                    }
+                }
+                public static string UseandLearn
+                {
+                    get
+                    {
+                        return GetData("UseandLearn");
+                    }
+                }
+                public static string Apps
+                {
+                    get
+                    {
+                        return GetData("Apps");
+                    }
+                }
+                public static string TroubleShooting
+                {
+                    get
+                    {
+                        return GetData("Troubleshooting");
+                    }
+                }
+                public static string CleaningandMaintenance
+                {
+                    get
+                    {
+                        return GetData("CleaningandMaintenance");
+                    }
+                }
+                public static string ArethereanySideEffects
+                {
+                    get
+                    {
+                        return GetData("AreThereanySideeffects");
+                    }
+                }
+                public static string HaveOrder
+                {
+                    get
+                    {
+                        return GetData("HaveOrder");
+                    }
+                }
+                public static string Working
+                {
+                    get
+                    {
+                        return GetData("Working");
+                    }
+                }
+                public static string LifeExpectancy
+                {
+                    get
+                    {
+                        return GetData("LifeExpectancy");
+                    }
+                }
+                public static string DownloadInstall
+                {
+                    get
+                    {
+                        return GetData("Dowload_Install");
+                    }
+                }
+                public static string FindApp
+                {
+                    get
+                    {
+                        return GetData("Find_App");
+                    }
+                }
+                public static string Clean
+                {
+                    get
+                    {
+                        return GetData("Clean");
+                    }
+                }
+            }
+
+            public class QuestionandAnswer
+            {
+                public static string BackToFAQHomePage
+                {
+                    get
+                    {
+                        return GetData("BacktoFAQpage");
+                    }
+                }
+                static string QAHeadertxt = null;
+                public static string QAHeaderText
+                {
+                    get
+                    {
+                        return GetData("QAHeaderText");
+                    }
+                    set
+                    {
+                        QAHeaderText = value;
+                    }
+                }
+            }
+
+            public class ContactUs
+            {
+                public static string OnTwitter
+                {
+                    get
+                    {
+                        return GetData("OnTwitter");
+                    }
+                }
+                public static string OnFacebook
+                {
+                    get
+                    {
+                        return GetData("OnFacebook");
+                    }
+                }
+                public static string LiveChat
+                {
+                    get
+                    {
+                        return GetData("LiveChat");
+                    }
+                }
+                public static string SendEmail
+                {
+                    get
+                    {
+                        return GetData("SendEmail");
+                    }
+                }
+                public static string Call
+                {
+                    get
+                    {
+                        return GetData("Call");
+                    }
+                }
+                //static string Leave_Msg = null;
+                //public static string LeaveMessage
+                //{
+                //    get
+                //    {
+                //        return GetData("LeaveMessage");
+                //    }
+                //    set
+                //    {
+                //        Leave_Msg = value;
+                //    }
+
+                //}
+                //static string contact = null;
+                //public static string Contact
+                //{
+                //    get
+                //    {
+                //        return GetData("Contact");
+                //    }
+                //    set
+                //    {
+                //        contact = value;
+                //    }
+                //}
+                static string headerTxt = null;
+                public static string HeaderTxt
+                {
+                    get
+                    {
+                        return GetData("HeaderText");
+                    }
+                    set
+                    {
+                        headerTxt = value;
+                    }
+                }
+                public static string BacktoSupport
+                {
+                    get
+                    {
+                        return GetData("BackToHomePage");
+                    }
+                }
+                public static string OK
+                {
+                    get
+                    {
+                        return GetData("Ok");
+                    }
+                }
+            }
+
+            public class FacebookViewPage
+            {
+                public static string UserName
+                {
+                    get
+                    {
+                        return GetData("UserName");
+                    }
+                }
+                public static string Password
+                {
+                    get
+                    {
+                        return GetData("Password");
+                    }
+                }
+                public static string LoginButton
+                {
+                    get
+                    {
+                        return GetData("LogInButton");
+                    }
+                }
+                public static string Join
+                {
+                    get
+                    {
+                        return GetData("Join");
+                    }
+                }
+
+            }
+
+            public class TwitterViewPage
+            {
+                public static string SignUp
+                {
+                    get
+                    {
+                        return GetData("SignUpButton");
+                    }
+                }
+                public static string LogIn
+                {
+                    get
+                    {
+                        return GetData("LogInButton");
+                    }
+                }
+            }
+
+            public class ChatWithPhilips
+            {
+                static string headertxt = null;
+                public static string HeaderText
+                {
+                    get
+                    {
+                        return GetData("HeaderText");
+                    }
+                    set
+                    {
+                        headertxt = value;
+                    }
+                }
+                public static string BacktoContactUs
+                {
+                    get
+                    {
+                        return GetData("BacktoContactUs");
+                    }
+                }
+                public static string ChatNow
+                {
+                    get
+                    {
+                        return GetData("ChatNow");
+                    }
+                }
+                public static string Cancel
+                {
+                    get
+                    {
+                        return GetData("Cancel");
+                    }
+                }
+            }
+
+            public class ChatNow
+            {
+                public static string BacktoHome
+                {
+                    get
+                    {
+                        return GetData("BacktoHomeScreen");
+                    }
+                }
+                static string headerTxt = null;
+                public static string HeaderText
+                {
+                    get
+                    {
+                        return GetData("HeaderText");
+                    }
+                    set
+                    {
+                        headerTxt = value;
+                    }
+                }
+                public static string FirstName
+                {
+                    get
+                    {
+                        return GetData("FirstName");
+                    }
+                }
+                public static string LastName
+                {
+                    get
+                    {
+                        return GetData("LastName");
+                    }
+                }
+                public static string Email
+                {
+                    get
+                    {
+                        return GetData("Email");
+                    }
+                }
+                public static string MobileNo
+                {
+                    get
+                    {
+                        return GetData("MobileNo");
+                    }
+                }
+                public static string CheckBox
+                {
+                    get
+                    {
+                        return GetData("CheckBox");
+                    }
+                }
+                public static string StartChat
+                {
+                    get
+                    {
+                        return GetData("StartChat");
+                    }
+                }
+                public static string Close
+                {
+                    get
+                    {
+                        return GetData("Close");
+                    }
+                }
+                public static string ChatBusy_View
+                {
+                    get
+                    {
+                        return GetData("ChatBusy");
+                    }
+                }
+                public static string Querytext
+                {
+                    get
+                    {
+                        return GetData("QueryTextBox");
+                    }
+                }
+                public static string SendButton
+                {
+                    get
+                    {
+                        return GetData("Send");
+                    }
+                }
+                public static string ChatFrame
+                {
+                    get
+                    {
+                        return GetData("ChatFrame");
+                    }
+                }
+            }
+
+            public class SendEmail
+            {
+                public static string BacktoHomeScrn
+                {
+                    get
+                    {
+                        return GetData("BacktohomeScrn");
+                    }
+                }
+                static string header = null;
+                public static string HeaderTxt
+                {
+                    get
+                    {
+                        return GetData("Header");
+                    }
+                    //set
+                    //{
+                    //    header = value;
+                    //}
+                }
+            }
+
+            public class FindPhilips
+            {
+                public static string BackToHome
+                {
+                    get
+                    {
+                        return GetData("BackToHome");
+                    }
+                }
+                public static string Allow
+                {
+                    get
+                    {
+                        return GetData("Allow");
+                    }
+                }
+                static string findHeaderTxt = null;
+                public static string FindHeaderText
+                {
+                    get
+                    {
+                        return GetData("HeaderFindPhilips");
+                    }
+                    set
+                    {
+                        findHeaderTxt = null;
+                    }
+                }
+                public static string Search
+                {
+                    get
+                    {
+                        return GetData("Search");
+                    }
+                }
+                public static string searchButton
+                {
+                    get
+                    {
+                        return GetData("SearchButton");
+                    }
+                }
+                public static string ErrorOk
+                {
+                    get
+                    {
+                        return GetData("ErrorOk");
+                    }
+                }
+
+            }
+
+            public class DialogsFindPhilips
+            {
+                static string txtDesc = null;
+                public static string TextDesc
+                {
+                    get
+                    {
+                        return GetData("TextDesc");
+                    }
+                    set
+                    {
+                        txtDesc = value;
+                    }
+                }
+                public static string GoToContactPge
+                {
+                    get
+                    {
+                        return GetData("GotoContactPage");
+                    }
+                }
+                public static string TextOK
+                {
+                    get
+                    {
+                        return GetData("OKButton");
+                    }
+                }
+            }
+            public class DialogsFindPhilips1
+            {
+                static string textData = null;
+                public static string ErrorData
+                {
+                    get
+                    {
+                        return GetData("NoDataAvailable");
+                    }
+                    set
+                    {
+                        textData = value;
+                    }
+                }
+                //public static string ParentDialog
+                //{
+                //    get
+                //    {
+                //        return GetData("ParentLayout");
+                //    }
+                //}
+                public static string DataOK
+                {
+                    get
+                    {
+                        return GetData("NoDataOK");
+                    }
+                }
+            }
+
+            public class DialogsFindPhilips2
+            {
+                static string textData = null;
+                public static string GPSErrorData
+                {
+                    get
+                    {
+                        return GetData("GPSErrorMsg");
+                    }
+                    set
+                    {
+                        textData = value;
+                    }
+                }
+                public static string GPS_OK
+                {
+                    get
+                    {
+                        return GetData("GPSOKButton");
+                    }
+                }
+                public static string GPS_Cancel
+                {
+                    get
+                    {
+                        return GetData("GPSCancleButton");
+                    }
+                }
+            }
+
+            public class DialogsFindPhilips4
+            {
+                public static string ShareLocationToPhilipsOKButton
+                {
+                    get
+                    {
+                        return GetData("ShareLocationToPhilipsOKButton");
+                    }
+                }
+
+                public static string NoServiceAvailableOKButton
+                {
+                    get
+                    {
+                        return GetData("NoServiceAvailableOKButton");
+                    }
+                }
+            }
+
+            public class GPSLocation
+            {
+                public static string SwitchButton
+                {
+                    get
+                    {
+                        return GetData("SwitchButton");
+                    }
+                }
+                static string txtHeader = null;
+                public static string HeaderTxt
+                {
+                    get
+                    {
+                        return GetData("Header");
+                    }
+                    set
+                    {
+                        txtHeader = value;
+                    }
+                }
+            }
+
+            public class TellUs
+            {
+                static string headertxt = null;
+                public static string TellUsHeaderText
+                {
+                    get
+                    {
+                        return GetData("TellUsHeaderText");
+                    }
+                    set
+                    {
+                        headertxt = value;
+                    }
+                }
+                public static string BackToHomescreen
+                {
+                    get
+                    {
+                        return GetData("BackTo_Homescreen");
+                    }
+                }
+                public static string AppReview
+                {
+                    get
+                    {
+                        return GetData("AppReview");
+                    }
+                }
+                public static string ProductReview
+                {
+                    get
+                    {
+                        return GetData("ProductReview");
+                    }
+                }
+                public static string RetryButton
+                {
+                    get
+                    {
+                        return GetData("RetryButton");
+                    }
+                }
+                public static string PlaySire_view
+                {
+                    get
+                    {
+                        return GetData("PlayStore_View");
+                    }
+                }
+
+                public static string PlayStoreRetryButton
+                {
+                    get
+                    {
+                        return GetData("PlayStoreRetryButton");
+                    }
+                }
+            }
+
+            public class ProductScreen
+            {
+                public static string Back_To_home
+                {
+                    get
+                    {
+                        return GetData("Backto_Home");
+                    }
+                }
+                static string productHeaderTxt = null;
+                public static string ProductHeaderText
+                {
+                    get
+                    {
+                        return GetData("ProductHeadertxt");
+                    }
+                    set
+                    {
+                        productHeaderTxt = value;
+                    }
+                }
+                public static string Product_Screen
+                {
+                    get
+                    {
+                        return GetData("Product_List_View");
+                    }
+                }
+                public static string Product_Id
+                {
+                    get
+                    {
+                        return GetData("Product_Id");
+                    }
+                }
+                public static string Selected_Produt
+                {
+                    get
+                    {
+                        return GetData("SelectedProduct");
+                    }
+                }
+                public static string BlueTouch
+                {
+                    get
+                    {
+                        return GetData("BluetouchProduct");
+                    }
+                }
+            }
+
+            public class SelectedProductScreen
+            {
+                public static string Backto_home
+                {
+                    get
+                    {
+                        return GetData("BacktoHome");
+                    }
+                }
+                public static string Select_Button
+                {
+                    get
+                    {
+                        return GetData("SelectProductButton");
+                    }
+                }
+                static string txtHeader = null;
+                public static string TextHeader
+                {
+                    get
+                    {
+                        return GetData("TextHeader");
+                    }
+                    set
+                    {
+                        txtHeader = value;
+                    }
+                }
+                static string name = null;
+                public static string Selected_Productname
+                {
+                    get
+                    {
+                        return GetData("ProductName");
+                    }
+                    set
+                    {
+                        name = value;
+                    }
+
+                }
+                static string CTN = null;
+                public static string Selected_ProductCTN
+                {
+                    get
+                    {
+                        return GetData("ProductCTN");
+                    }
+                    set
+                    {
+                        CTN = value;
+                    }
+                }
+            }
+
+            public class ConfirmationScreen
+            {
+                public static string Bact_To_Home
+                {
+                    get
+                    {
+                        return GetData("Backto_Home");
+                    }
+                }
+                public static string Change
+                {
+                    get
+                    {
+                        return GetData("Changeutton");
+                    }
+                }
+                public static string Continue
+                {
+                    get
+                    {
+                        return GetData("ContinueButton");
+                    }
+                }
+                static string textheader = null;
+                public static string TextHeader
+                {
+                    get
+                    {
+                        return GetData("TextHeader");
+                    }
+                    set
+                    {
+                        textheader = value;
+                    }
+                }
+                static string productVariant = null;
+                public static string ProductVrnt
+                {
+                    get
+                    {
+                        return GetData("ProductVrnt");
+                    }
+                }
+            }
+
+            public class SelectProduct
+            {
+                public static string BackTo_Home
+                {
+                    get
+                    {
+                        return GetData("Backto_Home");
+                    }
+                }
+                public static string SeachProduct
+                {
+                    get
+                    {
+                        return GetData("Search");
+                    }
+                }
+                static string txtHeader = null;
+                public static string HeaderText
+                {
+                    get
+                    {
+                        return GetData("HeaderText");
+                    }
+                    set
+                    {
+                        txtHeader = value;
+                    }
+                }
+            }
+        }
+    }
 
 
 }

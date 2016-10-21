@@ -56,6 +56,7 @@ namespace Philips.CDP.Automation.IAP.Test.ApplicationStartup
         public void AfterScenario()
         {
             Logger.Info(_scenarioName + " stopped");
+			MobileDriver.ReLaunchApp(4);
         }
     }
 }

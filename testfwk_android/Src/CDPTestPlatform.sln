@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01Foundation", "01Foundation", "{42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}"
 EndProject
@@ -47,6 +47,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFramework_TestPlugin", "02TestAuthoring API\AppFramework_TestPlugin\AppFramework_TestPlugin.csproj", "{61879128-714E-4B66-A3E3-F3A3218B8254}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ST_Nucleo", "ST_Nucleo\ST_Nucleo.csproj", "{5AFB3739-118D-482D-BC42-8C08C1004DD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Android.TestPlugin", "02TestAuthoring API\CC.Android.TestPlugin\CC.Android.TestPlugin.csproj", "{A6F48442-B970-47AB-B4D4-DCA58A2ED294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -324,6 +326,21 @@ Global
 		{5AFB3739-118D-482D-BC42-8C08C1004DD6}.TestRunner|Mixed Platforms.Build.0 = Release|Any CPU
 		{5AFB3739-118D-482D-BC42-8C08C1004DD6}.TestRunner|x86.ActiveCfg = Release|Any CPU
 		{5AFB3739-118D-482D-BC42-8C08C1004DD6}.TestRunner|x86.Build.0 = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.Release|x86.ActiveCfg = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.TestRunner|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.TestRunner|Any CPU.Build.0 = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.TestRunner|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.TestRunner|Mixed Platforms.Build.0 = Release|Any CPU
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294}.TestRunner|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -345,5 +362,6 @@ Global
 		{B6A94A2A-EBED-4434-8843-C233EDBDD2DF} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}
 		{1CE5BC4C-1B17-424D-AF76-63DEEB731216} = {42FE82D3-31DD-4D90-9B3E-C89BCC5E3A95}
 		{61879128-714E-4B66-A3E3-F3A3218B8254} = {70A8E416-B9AB-45A2-A23F-B508314AEEED}
+		{A6F48442-B970-47AB-B4D4-DCA58A2ED294} = {70A8E416-B9AB-45A2-A23F-B508314AEEED}
 	EndGlobalSection
 EndGlobal
