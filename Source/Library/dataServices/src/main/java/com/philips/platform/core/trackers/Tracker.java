@@ -114,11 +114,11 @@ public class Tracker {
 
     public void syncData(){
         synchronize();
-        sendPushEvent();
+      //  sendPushEvent();
         sendPullDataEvent();
     }
 
-    private void sendPushEvent() {
+ /*   private void sendPushEvent() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -127,7 +127,7 @@ public class Tracker {
             }
         }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
 
-    }
+    }*/
 
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In Tracker.sendPullDataEvent");
