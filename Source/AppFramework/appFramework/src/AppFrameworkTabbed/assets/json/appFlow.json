@@ -1,0 +1,56 @@
+{
+  "appflow": {
+    "firstState": "splash",
+    "states": [
+      {
+        "state": "splash",
+        "nextState": [
+          {
+            "condition": [
+              "isLoggedIn"
+            ],
+            "state": "home"
+          },
+          {
+            "condition": [],
+            "state": "welcome"
+          }
+        ]
+      },
+      {
+        "state": "welcome",
+        "nextState": [
+          {
+            "condition": [
+              "isDonePressed"
+            ],
+            "state": "registration"
+          },
+          {
+            "condition": [],
+            "state": "welcome"
+          }
+        ]
+      },
+      {
+        "state": "registration",
+        "nextState": [
+          {
+            "condition": [
+              "isLoggedIn"
+            ],
+            "state": "home"
+          },
+          {
+            "condition": [],
+            "state": "welcomeUserProfile"
+          }
+        ]
+      },
+      {
+        "state": "home",
+        "nextState": []
+      }
+    ]
+  }
+}

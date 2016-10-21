@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.philips.platform.appframework">
+<manifest package="com.philips.platform.appframework"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -30,9 +30,10 @@
         </activity>
         <activity android:name=".introscreen.WelcomeActivity"
             android:configChanges="orientation|screenSize"/>
-        <activity android:name=".homescreen.HomeActivity"
+        <activity
+            android:name=".homescreen.HomeTabbedActivity"
             android:configChanges="orientation|screenSize"
-            />
+            android:theme="@style/Theme.Philips.DarkBlue.Gradient.NoActionBar"/>
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->
             <!--android:exported="false">-->

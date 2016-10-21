@@ -15,19 +15,6 @@ import java.lang.annotation.RetentionPolicy;
 
 abstract public class UIState {
 
-    private UIBasePresenter uiBasePresenter;
-    private UIStateData uiStateData;
-    /**  This class defines constants for each state ,
-     * Any new state should be added here and its constant should be defined here
-     * Constants for each state,Values for the states start from 1001 and continues further.
-     */
-    @IntDef({UI_WELCOME_REGISTRATION_STATE,UI_SPLASH_STATE,UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
-            UI_WELCOME_STATE, UI_USER_REGISTRATION_STATE, UI_HOME_STATE,
-            UI_HOME_FRAGMENT_STATE, UI_SETTINGS_FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE, UI_PROD_REGISTRATION_STATE, UI_IAP_SHOPPING_FRAGMENT_STATE,UI_ABOUT_SCREEN_STATE})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface UIStateDef {
-    }
-
     public static final int UI_WELCOME_REGISTRATION_STATE = 1001;
     public static final int UI_SPLASH_STATE = 1002;
     public static final int UI_SPLASH_UNREGISTERED_STATE = 1003;
@@ -41,22 +28,38 @@ abstract public class UIState {
     public static final int UI_SUPPORT_FRAGMENT_STATE = 1011;
     public static final int UI_DEBUG_FRAGMENT_STATE = 1012;
     public static final int UI_PROD_REGISTRATION_STATE = 1013;
-	public static final int UI_IAP_SHOPPING_FRAGMENT_STATE = 1015;
-    public static final int UI_ABOUT_SCREEN_STATE=1016;
+    public static final int UI_IAP_SHOPPING_FRAGMENT_STATE = 1015;
+    public static final int UI_ABOUT_SCREEN_STATE = 1016;
+    public static final int UI_HOME_TABBED_STATE = 1017;
 
+    /**
+     * This class defines constants for each state ,
+     * Any new state should be added here and its constant should be defined here
+     * Constants for each state,Values for the states start from 1001 and continues further.
+     */
+    @IntDef({UI_WELCOME_REGISTRATION_STATE, UI_SPLASH_STATE, UI_SPLASH_UNREGISTERED_STATE, UI_SPLASH_REGISTERED_STATE, UI_SPLASH_DONE_PRESSED_STATE,
+            UI_WELCOME_STATE, UI_USER_REGISTRATION_STATE, UI_HOME_STATE,
+            UI_HOME_FRAGMENT_STATE, UI_SETTINGS_FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE, UI_PROD_REGISTRATION_STATE, UI_IAP_SHOPPING_FRAGMENT_STATE, UI_ABOUT_SCREEN_STATE, UI_HOME_TABBED_STATE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface UIStateDef {
+    }
     @UIState.UIStateDef
     int stateID;
+    private UIBasePresenter uiBasePresenter;
+    private UIStateData uiStateData;
 
     /**
      * State constructor
-     * @param stateID  pass the state Id
+     *
+     * @param stateID pass the state Id
      */
-    public UIState(@UIState.UIStateDef int stateID){
+    public UIState(@UIState.UIStateDef int stateID) {
         this.stateID = stateID;
     }
 
     /**
      * getter for state Id
+     *
      * @return stateID
      */
     @UIState.UIStateDef
@@ -66,6 +69,7 @@ abstract public class UIState {
 
     /**
      * setter for state ID
+     *
      * @param stateID requirs the state ID
      */
 
@@ -75,31 +79,36 @@ abstract public class UIState {
 
     /**
      * For navigating from one state to other
+     *
      * @param uiLauncher requires the UiLauncher object
      */
     public abstract void navigate(UiLauncher uiLauncher);
+
     /**
      * For initialising the component
+     *
      * @param context
      */
 
     public abstract void init(Context context);
 
     /**
-     * to set the presenter
-     * @param uiBasePresenter
+     * to get the presenter object
+     *
+     * @return
      */
-
-    public void setPresenter(UIBasePresenter uiBasePresenter){
-        this.uiBasePresenter = uiBasePresenter;
+    public UIBasePresenter getPresenter() {
+        return uiBasePresenter;
     }
 
     /**
-     * to get the presenter object
-     * @return
+     * to set the presenter
+     *
+     * @param uiBasePresenter
      */
-    public UIBasePresenter getPresenter(){
-        return uiBasePresenter;
+
+    public void setPresenter(UIBasePresenter uiBasePresenter) {
+        this.uiBasePresenter = uiBasePresenter;
     }
 
     public UIStateData getUiStateData() {
@@ -109,5 +118,4 @@ abstract public class UIState {
     public void setUiStateData(UIStateData uiStateData) {
         this.uiStateData = uiStateData;
     }
-
 }

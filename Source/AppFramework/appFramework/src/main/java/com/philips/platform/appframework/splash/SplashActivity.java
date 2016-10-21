@@ -111,6 +111,11 @@ public class SplashActivity extends AppFrameworkBaseActivity implements UIView {
     }
 
     @Override
+    public int getContainerId() {
+        return 0;
+    }
+
+    @Override
     public void updateActionBarIcon(boolean b) {
 
     }

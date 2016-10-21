@@ -5,14 +5,12 @@
 */
 package com.philips.platform.appframework.splash;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIView;
-import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.modularui.stateimpl.WelcomeState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -21,7 +19,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class SplashPresenter extends UIBasePresenter {
     private final UIView uiView;
-    private AppFrameworkApplication appFrameworkApplication;
     private UIState uiState;
     private UserRegistrationState userRegistrationState;
     private FragmentLauncher fragmentLauncher;
@@ -44,16 +41,16 @@ public class SplashPresenter extends UIBasePresenter {
      */
     @Override
     public void onLoad() {
-        appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
         userRegistrationState = new UserRegistrationState();
+        FlowManager targetFlowManager = new FlowManager();
         if (userRegistrationState.getUserObject(uiView.getFragmentActivity()).isUserSignIn()) {
-            uiState = new HomeActivityState();
+            uiState = targetFlowManager.getState("splash_navigate_home");
         } else {
-            uiState = new WelcomeState();
+            uiState = targetFlowManager.getState("splash_navigate_welcome");
         }
         uiState.setPresenter(this);
         fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+        uiState.navigate(fragmentLauncher);
     }
 
 }

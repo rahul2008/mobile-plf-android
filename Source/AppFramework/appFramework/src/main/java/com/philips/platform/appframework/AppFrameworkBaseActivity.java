@@ -23,8 +23,10 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     private int cartItemCount = 0;
     private FragmentTransaction fragmentTransaction;
 
+    public abstract int getContainerId();
+
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
-        int containerId = R.id.frame_container;
+        int containerId = getContainerId();
         try {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {

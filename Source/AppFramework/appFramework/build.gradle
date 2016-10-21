@@ -123,7 +123,6 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.philips.platform.appframework"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -134,6 +133,18 @@ android {
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+    }
+
+    productFlavors {
+        AppFrameworkHamburger {
+            applicationId = "com.philips.platform.hamburger"
+            resValue "string", "af_app_name", "AF Hamburger"
+
+        }
+        AppFrameworkTabbed {
+            applicationId = "com.philips.platform.tabbed"
+            resValue "string", "af_app_name", "AF Tabbed"
+        }
     }
 
     lintOptions {
@@ -329,5 +340,4 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         xml.enabled = true
         html.enabled = true
     }
-
 }

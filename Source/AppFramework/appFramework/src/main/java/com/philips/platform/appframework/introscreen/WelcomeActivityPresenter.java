@@ -8,6 +8,7 @@ package com.philips.platform.appframework.introscreen;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -29,29 +30,34 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
     private SharedPreferenceUtility sharedPreferenceUtility;
     private UIState uiState;
     private FragmentLauncher fragmentLauncher;
+    private FlowManager flowManager;
 
     public WelcomeActivityPresenter(WelcomeView welcomeView) {
         super(welcomeView);
         this.welcomeView = welcomeView;
+        flowManager = new FlowManager();
     }
 
     /**
      * Handles the onclick of Welcome Skip and Done button
-     * @param componentID : takes compenent Id
      *
+     * @param componentID : takes compenent Id
      */
     @Override
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.showActionBar();
-        uiState = getUiState(componentID);
+//        uiState = getUiState(componentID);
+        String eventId = getEventID(componentID);
+        uiState = flowManager.getState(eventId);
         fragmentLauncher = getFragmentLauncher();
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        if (appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE)) {
-            welcomeView.finishActivityAffinity();
-            uiState.setPresenter(this);
-            appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
-        }
+//        if (appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE)) {
+        welcomeView.finishActivityAffinity();
+        uiState.setPresenter(this);
+        uiState.navigate(fragmentLauncher);
+//            appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+//        }
     }
 
     protected UIState getUiState(final int componentID) {
@@ -66,6 +72,16 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
         return uiState;
     }
 
+    private String getEventID(final int componentID) {
+        switch (componentID) {
+            case Constants.BACK_BUTTON_CLICK_CONSTANT:
+                return "welcome_activity_home";
+            case USER_REGISTRATION_STATE:
+                return "welcome_ur";
+        }
+        return null;
+    }
+
     protected FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
         return fragmentLauncher;
@@ -78,20 +94,23 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
     public void onLoad() {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         sharedPreferenceUtility = getSharedPreferenceUtility();
-        if (sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED)|| appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
+       /* if (sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED)|| appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
             welcomeView.showActionBar();
             setState(UIState.UI_USER_REGISTRATION_STATE);
-            uiState = getUiState(USER_REGISTRATION_STATE);
+//            uiState = getUiState(USER_REGISTRATION_STATE);
+            String eventId = getEventID(USER_REGISTRATION_STATE);
+            uiState = flowManager.getState(eventId);
             fragmentLauncher = getFragmentLauncher();
             uiState.setPresenter(this);
             ((UserRegistrationState)uiState).registerUIStateListener(this);
-            appFrameworkApplication.getFlowManager().navigateToState(uiState, this.fragmentLauncher);
-        } else {
-            setState(UIState.UI_WELCOME_STATE);
-            appFrameworkApplication.getFlowManager().getCurrentState().setStateID(UIState.UI_WELCOME_STATE);
-            welcomeView.hideActionBar();
-            welcomeView.loadWelcomeFragment();
-        }
+//            appFrameworkApplication.getFlowManager().navigateToState(uiState, this.fragmentLauncher);
+            uiState.navigate(fragmentLauncher);
+        } else {*/
+        setState(UIState.UI_WELCOME_STATE);
+//            appFrameworkApplication.getFlowManager().getCurrentState().setStateID(UIState.UI_WELCOME_STATE);
+        welcomeView.hideActionBar();
+        welcomeView.loadWelcomeFragment();
+//        }
     }
 
     @NonNull
@@ -102,11 +121,14 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        this.uiState = getUiState(Constants.BACK_BUTTON_CLICK_CONSTANT);
+//        this.uiState = getUiState(Constants.BACK_BUTTON_CLICK_CONSTANT);
+        String eventId = getEventID(Constants.BACK_BUTTON_CLICK_CONSTANT);
+        this.uiState = flowManager.getState(eventId);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeView.finishActivityAffinity();
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+//        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        this.uiState.navigate(fragmentLauncher);
     }
 
     @Override

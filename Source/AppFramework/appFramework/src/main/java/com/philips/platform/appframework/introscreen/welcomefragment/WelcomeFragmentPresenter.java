@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.homescreen.HomeActivityPresenter;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
@@ -25,21 +26,23 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     private UIState uiState;
     private FragmentLauncher fragmentLauncher;
     private WelcomeFragmentView welcomeFragmentView;
+    private FlowManager flowManager;
 
     public WelcomeFragmentPresenter(WelcomeFragmentView welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
+        flowManager = new FlowManager();
     }
-
 
     @Override
     public void onClick(final int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
         welcomeFragmentView.showActionBar();
-        uiState = getUiState(componentID);
+        String eventId = getEventID(componentID);
+        uiState = flowManager.getState(eventId);
         uiState.setPresenter(this);
         fragmentLauncher = getFragmentLauncher();
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+        uiState.navigate(fragmentLauncher);
     }
 
     @NonNull
@@ -67,6 +70,20 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return uiState;
     }
 
+    private String getEventID(final int componentID) {
+        switch (componentID) {
+            case R.id.welcome_skip_button:
+                return "welcome_skip";
+            case R.id.welcome_start_registration_button:
+                sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
+                sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
+                return "welcome_done";
+            case HomeActivityPresenter.MENU_OPTION_HOME:
+                return "welcome_home";
+        }
+        return null;
+    }
+
     @Override
     public void onLoad() {
 
@@ -75,11 +92,14 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     @Override
     public void onStateComplete(final UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = getUiState(HomeActivityPresenter.MENU_OPTION_HOME);
+//        this.uiState = getUiState(HomeActivityPresenter.MENU_OPTION_HOME);
+        String eventId = getEventID(HomeActivityPresenter.MENU_OPTION_HOME);
+        this.uiState = flowManager.getState(eventId);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+//        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        uiState.navigate(fragmentLauncher);
     }
 
     @Override

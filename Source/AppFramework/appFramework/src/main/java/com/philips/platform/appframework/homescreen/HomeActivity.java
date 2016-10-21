@@ -45,6 +45,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
+
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
