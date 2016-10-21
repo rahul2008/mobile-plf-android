@@ -25,12 +25,12 @@ public class ButtonFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_buttons, container, false);
-        imageButton = (ImageButton) view.findViewById(R.id.demo_image_button);
-        imageTextButton = (Button) view.findViewById(R.id.demo_image_text_button);
-        imageButton.setImageDrawable(getShareIcon());
-        imageTextButton.setImageDrawable(getShareIcon());
-        setDisableSwitch(view);
+        View view = inflater.inflate(R.layout.fragment_buttons_all, container, false);
+//        imageButton = (ImageButton) view.findViewById(R.id.demo_image_button);
+//        imageTextButton = (Button) view.findViewById(R.id.demo_image_text_button);
+//        imageButton.setImageDrawable(getShareIcon());
+//        imageTextButton.setImageDrawable(getShareIcon());
+        //setDisableSwitch(view);
         return view;
     }
 

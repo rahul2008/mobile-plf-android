@@ -5,4 +5,13 @@
     <string name="individual_buttons_label">Individual Buttons</string>
     <string name="alternate_primary_label">Alternate Primary Button</string>
     <string name="secondary_button_label">Secondary Button</string>
+    
+    <!--Buttons layout page-->
+    <string name="with_icon">With icon</string>
+    <string name="extra_wide">Extra wide</string>
+    <string name="disabled">Disabled</string>
+    <string name="buttons">Buttons</string>
+    <string name="buttons_icon_only">Icon only buttons</string>
+    <string name="buttons_text_primary">Primary button</string>
+    <string name="buttons_text_secondary">Secondary button</string>
 </resources>

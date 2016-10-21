@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:theme="@style/Theme.Philips">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--With Icon layout-->
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_weight="1"
+                android:gravity="center_vertical|start"
+                android:text="@string/with_icon"/>
+
+            <Switch
+                android:id="@+id/toggleicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/divider_layout"/>
+
+        <!--Extra layout-->
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_weight="1"
+                android:gravity="center_vertical|start"
+                android:text="@string/with_icon"/>
+
+            <Switch
+                android:id="@+id/toggleextraWide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/divider_layout"/>
+
+        <!--Disabled layout-->
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_weight="1"
+                android:gravity="center_vertical|start"
+                android:text="@string/with_icon"/>
+
+            <Switch
+                android:id="@+id/toggleDisable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/divider_layout"/>
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:text="@string/buttons"/>
+
+        <!--Extra wide buttons-->
+        <LinearLayout
+            android:id="@+id/groupExtraWide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.philips.platform.uit.view.widget.Button
+                style="@style/UITExtraWideImageTextButton.Center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/button_first_last_element_gap"
+                android:text="@string/buttons_text_primary"/>
+
+            <com.philips.platform.uit.view.widget.Button
+                style="@style/UITExtraWideImageTextButton.Center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                android:layout_marginTop="@dimen/button_gap"
+                android:text="@string/buttons_text_secondary"
+                app:uitComponentType="Secondary"/>
+        </LinearLayout>
+
+        <!--Defualt buttons-->
+        <LinearLayout
+            android:id="@+id/groupDefault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.philips.platform.uit.view.widget.Button
+                style="@style/UITExtraWideImageTextButton.Center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                android:layout_marginTop="@dimen/button_first_last_element_gap"
+                android:gravity="center"
+                android:text="@string/buttons_text_primary"/>
+
+            <com.philips.platform.uit.view.widget.Button
+                style="@style/UITDefaultButton.UITImageTextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/button_gap"
+                android:gravity="center"
+                android:text="@string/buttons_text_secondary"/>
+        </LinearLayout>
+
+        <include layout="@layout/divider_layout"/>
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:text="@string/buttons_icon_only"/>
+
+
+        <!--Icon only buttons-->
+        <LinearLayout
+            android:id="@+id/groupIconOnly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/layout_margin_left_right"
+            android:gravity="center">
+
+            <com.philips.platform.uit.view.widget.ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
