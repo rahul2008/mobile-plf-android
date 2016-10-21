@@ -25,7 +25,13 @@ public interface ABTestClientInterface {
     }
 
 
-    enum UPDATETYPES { EVERY_APP_START, ONLY_AT_APP_UPDATE}
+    enum UPDATETYPES { EVERY_APP_START(1), ONLY_AT_APP_UPDATE(2);
+
+        
+
+        UPDATETYPES(int i) {
+        }
+    }
 
 
     interface OnRefreshListener {

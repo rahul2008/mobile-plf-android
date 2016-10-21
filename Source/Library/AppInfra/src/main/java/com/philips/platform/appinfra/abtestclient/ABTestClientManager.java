@@ -112,15 +112,23 @@ public class ABTestClientManager implements ABTestClientInterface {
                     "update TYPE" + updateType.ordinal());
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                     "varialbe TYPE" + variableType.ordinal());
-            if (valModel.getTestValue() != null) {
-                defaultValue = valModel.getTestValue();
-            }
 
-            if (updateType.equals(variableType)) {
+            if(variableType.ordinal() <= updateType.ordinal()) {
+                if (valModel.getTestValue() != null) {
+                    defaultValue = valModel.getTestValue();
+                }
                 getTestValueFromServer(key, defaultValue, updateType, null);
-            } else {
-                getTestValueFromServer(key, defaultValue, updateType, null);
+
             }
+//            if(variableType.equals(UPDATETYPES.EVERY_APP_START)) {
+//                if (updateType.equals(variableType)) {
+//                    System.out.println("APP IN IF LOOP");
+//                }
+//            }
+//             else {
+//                System.out.println(" APP IN  Else");
+//                getTestValueFromServer(key, defaultValue, updateType, null);
+//            }
         }
         mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_UPDATED;
         previousVersion = getAppVersion();
@@ -233,7 +241,7 @@ public class ABTestClientManager implements ABTestClientInterface {
         CacheModel model = getCachefromPreference();
         if (model != null) {
             HashMap<String, CacheModel.ValueModel> cModel = model.getTestValues();
-            if (cModel.containsKey(testName)) {
+            if (cModel != null && cModel.containsKey(testName)) {
                 cModel.remove(testName);
             }
         }
@@ -359,8 +367,10 @@ public class ABTestClientManager implements ABTestClientInterface {
      */
     private UPDATETYPES getVariableType() {
         if (isAppUpdated()) {
+            System.out.println("APP UPDATED") ;
             return UPDATETYPES.ONLY_AT_APP_UPDATE;
         } else if (isAppRestarted) {
+            System.out.println("APP RESTART ");
             return UPDATETYPES.EVERY_APP_START;
         } else {
             return UPDATETYPES.EVERY_APP_START;
@@ -415,7 +425,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      *
      * @param model cachemodel object
      */
-    protected void saveCachetoPreference(CacheModel model) {
+    private void saveCachetoPreference(CacheModel model) {
         SharedPreferences.Editor editor = mContext.getSharedPreferences
                 (ABTEST_PRREFERENCE, MODE_PRIVATE).edit();
         Gson gson = new Gson();
@@ -431,11 +441,16 @@ public class ABTestClientManager implements ABTestClientInterface {
      *
      * @return cachemodel object
      */
-    protected CacheModel getCachefromPreference() {
-        SharedPreferences prefs = mContext.getSharedPreferences(ABTEST_PRREFERENCE, MODE_PRIVATE);
-        String json = prefs.getString("cacheobject", "");
-        Gson gson = new Gson();
-        CacheModel obj = gson.fromJson(json, CacheModel.class);
-        return obj;
+    private CacheModel getCachefromPreference() {
+        try {
+            SharedPreferences prefs = mContext.getSharedPreferences(ABTEST_PRREFERENCE, MODE_PRIVATE);
+            String json = prefs.getString("cacheobject", "");
+            Gson gson = new Gson();
+            return gson.fromJson(json, CacheModel.class);
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTESTCLIENT",
+                    e.getMessage());
+        }
+        return null;
     }
 }
