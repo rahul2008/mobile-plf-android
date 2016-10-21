@@ -88,6 +88,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mResponse.setText(null);
+                mImageView.setImageBitmap(null);
                 int methodType = Request.Method.GET;
 
 
