@@ -28,6 +28,18 @@ public class FunctionDrawableMatchers {
         };
     }
 
+    public static Matcher<View> isMinHeight(final String funcName, final int expectedValue, final int drawableID) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                Drawable drawable = getDrawable(view, funcName, drawableID);
+                BaseTypeSafteyMatcher<Drawable> heightMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isMinHeight(expectedValue);
+                boolean matches = heightMatcher.matches(drawable);
+                setValues(heightMatcher.actual, heightMatcher.expected);
+                return matches;
+            }
+        };
+    }
     public static Matcher<View> isSameWidth(final String funcName, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
@@ -74,6 +86,19 @@ public class FunctionDrawableMatchers {
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
                 BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
+                boolean matches = colorMatcher.matches(drawable);
+                setValues(colorMatcher.actual, colorMatcher.expected);
+                return matches;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameStrokeColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                Drawable drawable = getDrawable(view, funcName, drawableID);
+                BaseTypeSafteyMatcher <Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeColor(state, expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);
                 return matches;

@@ -18,7 +18,21 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     int actual = ((TextView) view).getTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
-                    setValues(String.valueOf(actual), String.valueOf(expectedValue));
+                    setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
+                    return actual == expectedValue;
+                }
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<View> isSameHintTextColor(final int stateAttr, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    int actual = ((TextView) view).getHintTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
+                    setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
                     return actual == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
@@ -26,7 +40,7 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameFontSize(final int expectedValue) {
+    public static Matcher<View> isSameFontSize(final float expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
