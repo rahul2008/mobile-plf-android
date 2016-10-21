@@ -10,7 +10,6 @@
  */
 package com.philips.platform.uit.components.buttons.button;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -50,13 +49,9 @@ public class AlternativePrimaryButtonWithTextOnlyTest {
 
     @Before
     public void setUp() {
-        final Activity activity = mActivityTestRule.getActivity();
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activity.setContentView(com.philips.platform.uit.test.R.layout.layout_buttons);
-            }
-        });
+
+        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
     }
