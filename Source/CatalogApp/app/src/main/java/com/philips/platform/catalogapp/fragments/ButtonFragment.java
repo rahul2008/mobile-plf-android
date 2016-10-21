@@ -4,6 +4,7 @@
  */
 package com.philips.platform.catalogapp.fragments;
 
+import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,24 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uit.view.widget.Button;
-import com.philips.platform.uit.view.widget.ImageButton;
+import com.philips.platform.catalogapp.databinding.FragmentButtonsAllBinding;
 
 public class ButtonFragment extends Fragment {
-    ImageButton imageButton;
-    Button imageTextButton;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_buttons_all, container, false);
-//        imageButton = (ImageButton) view.findViewById(R.id.demo_image_button);
-//        imageTextButton = (Button) view.findViewById(R.id.demo_image_text_button);
-//        imageButton.setImageDrawable(getShareIcon());
-//        imageTextButton.setImageDrawable(getShareIcon());
-        //setDisableSwitch(view);
-        return view;
+        FragmentButtonsAllBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
+        binding.setFrag(this);
+        return binding.getRoot();
     }
 
     public Drawable getShareIcon() {
@@ -57,5 +51,17 @@ public class ButtonFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void toggleIcons(boolean isIconToggleChecked) {
+        Toast.makeText(getContext(), "" + isIconToggleChecked, Toast.LENGTH_SHORT).show();
+    }
+
+    public void toggleExtraWideButtons(boolean toggle) {
+
+    }
+
+    public void disableAllButtons() {
+
     }
 }

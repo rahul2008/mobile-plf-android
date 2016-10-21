@@ -25,7 +25,9 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
+    dataBinding {
+        enabled = true
+    }
     signingConfigs {
         TestPhilipsStore {
             keyAlias 'philips'
