@@ -1,12 +1,12 @@
 
-package com.philips.platform.modularui.pojo;
+package com.philips.platform.flowmanager.pojo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Appflow {
+public class AppFlow {
 
     private String firstState;
     private List<State> states = new ArrayList<State>();

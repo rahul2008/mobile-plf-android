@@ -1,0 +1,46 @@
+{
+  "appflow": {
+    "firstState": "welcome",
+    "states": [
+      {
+        "state": "welcome",
+        "events": [
+          {
+            "eventId": "skip_clicked",
+            "nextStates": [
+              {
+                "condition": [
+                  "conditionyogesh"
+                ],
+                "nextState": "nextStatesss"
+              },
+              {
+                "condition": [
+                  "conditionforrakesh"
+                ],
+                "nextState": "nextStatesss"
+              }
+            ]
+          },
+          {
+            "eventId": "isDoneClicked",
+            "nextStates": [
+              {
+                "condition": [
+                  "conditionsusmit"
+                ],
+                "nextState": "nextStatesss"
+              },
+              {
+                "condition": [
+                  "conditionforricha"
+                ],
+                "nextState": "nextStatesss"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

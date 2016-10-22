@@ -5,8 +5,9 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.platform.appframework.R;
+import com.philips.platform.flowmanager.pojo.AppFlow;
+import com.philips.platform.flowmanager.pojo.AppFlowModelNew;
 import com.philips.platform.flowmanagerjson.jsonstates.AppStates;
-import com.philips.platform.flowmanagerjson.pojo.AppFlow;
 import com.philips.platform.flowmanagerjson.pojo.AppFlowModel;
 import com.philips.platform.flowmanagerjson.pojo.AppFlowNextState;
 import com.philips.platform.flowmanagerjson.pojo.AppFlowStates;
@@ -31,10 +32,14 @@ public class AppFlowDataParser {
      */
     public static AppFlowModel getAppFlow(Context context) {
         AppFlowModel appFlowModel = null;
+        AppFlow appFlow;
         String response = null;
+        String appFlowResponse = null;
         final JSONHelper jsonHelper = new JSONHelper(context);
         try {
             response = jsonHelper.getJsonFromURL(R.string.com_philips_app_fmwk_app_flow_url
+                    , R.string.com_philips_app_fwrk_app_flow_json_file_path);
+            appFlowResponse = jsonHelper.getJsonFromURL(R.string.com_philips_app_fmwk_app_flow_url
                     , R.string.com_philips_app_fwrk_app_flow_json_file_path);
             appFlowModel = new Gson().fromJson(response, AppFlowModel.class);
         } catch (JsonSyntaxException e) {
@@ -45,8 +50,26 @@ public class AppFlowDataParser {
             response = jsonHelper.readJsonFromFile
                     (R.string.com_philips_app_fwrk_app_flow_json_file_path, context);
             appFlowModel = new Gson().fromJson(response, AppFlowModel.class);
+            appFlow = new Gson().fromJson(response, AppFlow.class);
         }
         return appFlowModel;
+    }
+
+    public static AppFlowModelNew getAppFlowNew(Context context) {
+        AppFlowModelNew appFlow;
+        String appFlowResponse;
+        final JSONHelper jsonHelper = new JSONHelper(context);
+        try {
+            appFlowResponse = jsonHelper.getJsonForAppFlow(R.string.com_philips_app_fmwk_app_flow_url
+                    , R.string.com_philips_app_fwrk_app_flow_json_file_path);
+            appFlow = new Gson().fromJson(appFlowResponse, AppFlowModelNew.class);
+        } catch (JsonSyntaxException e) {
+            // This code has been added to handle the cases of JSON parsing error/exception
+            appFlowResponse = jsonHelper.readJsonFromFile
+                    (R.string.com_philips_app_fmwk_app_flow_url, context);
+            appFlow = new Gson().fromJson(appFlowResponse, AppFlowModelNew.class);
+        }
+        return appFlow;
     }
 
     /**
@@ -55,7 +78,7 @@ public class AppFlowDataParser {
      * @param appFlow Object to AppFlow class which defines the app flow.
      * @return Map of state to array of next states.
      */
-    public static Map<AppStates, AppFlowNextState[]> getAppFlowMap(AppFlow appFlow) {
+    public static Map<AppStates, AppFlowNextState[]> getAppFlowMap(com.philips.platform.flowmanagerjson.pojo.AppFlow appFlow) {
         Map<AppStates, AppFlowNextState[]> appFlowMap = null;
         if (appFlow.getStates() != null) {
             appFlowMap = new HashMap<AppStates, AppFlowNextState[]>();

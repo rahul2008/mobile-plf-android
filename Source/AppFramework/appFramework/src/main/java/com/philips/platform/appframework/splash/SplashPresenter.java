@@ -5,8 +5,11 @@
 */
 package com.philips.platform.appframework.splash;
 
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.flowmanagerjson.FlowManagerJson;
+import com.philips.platform.flowmanagerjson.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIView;
@@ -43,6 +46,8 @@ public class SplashPresenter extends UIBasePresenter {
     public void onLoad() {
         userRegistrationState = new UserRegistrationState();
         FlowManager targetFlowManager = new FlowManager();
+        final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
+        uiState = FlowManagerJson.getInstance(appFrameworkApplication).getNextState(AppStates.SPLASH);
         if (userRegistrationState.getUserObject(uiView.getFragmentActivity()).isUserSignIn()) {
             uiState = targetFlowManager.getState("splash_navigate_home");
         } else {

@@ -1,5 +1,5 @@
 
-package com.philips.platform.modularui.pojo;
+package com.philips.platform.flowmanager.pojo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

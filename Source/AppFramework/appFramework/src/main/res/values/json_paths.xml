@@ -10,6 +10,6 @@
     tools:ignore="MissingTranslation">
     <string name="com_philips_lumea_asset_upload_page_json_file_path">json/asset_upload_page.json</string>
     <string name="com_philips_app_fwrk_app_flow_json_file_path">json/appFlow.json</string>
-    <string name="com_philips_app_fmwk_app_flow_url">test</string>
+    <string name="com_philips_app_fmwk_app_flow_url">json/Appflow_config_json.json</string>
     <string name="com_philips_lumea_device_details_json_file_path">json/devicesDetails.json</string>
 </resources>

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -23,13 +24,19 @@ import java.util.Locale;
  * Application class is used for initialization
  */
 public class AppFrameworkApplication extends Application {
-    public UIFlowManager flowManager;
-    private static Context context;
     public static AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
+    private static Context context;
+    public UIFlowManager flowManager;
+    protected FlowManager targetFlowManager;
     UserRegistrationState userRegistrationState;
     IAPState iapState;
     ProductRegistrationState productRegistrationState;
+
+    public static Context getContext() {
+        return context;
+    }
+
      /**
      * @return instance of this class
      */
@@ -43,6 +50,7 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         flowManager = new UIFlowManager();
+        targetFlowManager = new FlowManager();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
@@ -59,6 +67,7 @@ public class AppFrameworkApplication extends Application {
     public IAPState getIap(){
         return iapState;
     }
+
 /**
  * Method for initializing IAP
  *
@@ -82,9 +91,8 @@ public class AppFrameworkApplication extends Application {
         return flowManager;
     }
 
-    public static Context getContext() {
-        return context;
+    public FlowManager getTargetFlowManager() {
+        return targetFlowManager;
     }
-
 
     }

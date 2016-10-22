@@ -36,9 +36,16 @@ public class JSONHelper {
      */
     public String getJsonFromURL(int url, int localFilePath) {
         String response = null;
+        String appFlowResponse;
         //TODO : need to add CQ5 json download code
         response = readJsonFromFile(localFilePath, mContext);
         return response;
+    }
+
+    public String getJsonForAppFlow(int url, int localFilePath) {
+        String appFlowResponse;
+        appFlowResponse = readJsonFromFile(url, mContext);
+        return appFlowResponse;
     }
 
     /**

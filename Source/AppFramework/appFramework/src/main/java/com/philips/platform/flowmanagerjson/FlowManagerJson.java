@@ -2,6 +2,7 @@ package com.philips.platform.flowmanagerjson;
 
 import android.content.Context;
 
+import com.philips.platform.flowmanager.pojo.AppFlowModelNew;
 import com.philips.platform.flowmanagerjson.condition.AppConditions;
 import com.philips.platform.flowmanagerjson.condition.BaseCondition;
 import com.philips.platform.flowmanagerjson.condition.ConditionFactory;
@@ -76,6 +77,7 @@ public class FlowManagerJson {
      */
     private void getAppFlowStates() {
         final AppFlowModel appFlowModel = AppFlowDataParser.getAppFlow(mContext);
+        final AppFlowModelNew appFlowNew = AppFlowDataParser.getAppFlowNew(mContext);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             mFirstState = AppStates.get(appFlowModel.getAppFlow().getFirstState());
             mAppFlowMap = AppFlowDataParser.getAppFlowMap(appFlowModel.getAppFlow());
