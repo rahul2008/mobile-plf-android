@@ -3,9 +3,6 @@ package cdp.philips.com.mydemoapp;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
-
-//import com.facebook.stetho.Stetho;
-import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -77,7 +74,7 @@ public class DataSyncApplication extends Application{
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
-        Stetho.initializeWithDefaults(this);
+       // Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
 
