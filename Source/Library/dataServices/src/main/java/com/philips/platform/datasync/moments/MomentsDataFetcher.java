@@ -50,9 +50,9 @@ public class MomentsDataFetcher extends DataFetcher {
     @CheckResult
     @Nullable
     public RetrofitError fetchDataSince(@Nullable final DateTime sinceTimestamp) {
-        if (isUserInvalid()) {
+        /*if (isUserInvalid()) {
             return null;
-        }
+        }*/
         try {
             String momentsLastSyncUrl = accessProvider.getMomentLastSyncTimestamp();
 

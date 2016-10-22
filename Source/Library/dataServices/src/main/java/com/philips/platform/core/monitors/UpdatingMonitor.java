@@ -83,15 +83,15 @@ public class UpdatingMonitor extends EventMonitor{
         //int requestId = momentSaveRequest.getEventId();
 
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
-        boolean savedAllMoments = updatedCount == moments.size();
-        if(savedAllMoments) {
+       // boolean savedAllMoments = updatedCount == moments.size();
+        /*if(savedAllMoments) {
             try {
                 dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
             } catch (SQLException e) {
                 dbUpdatingInterface.updateFailed(e);
                 e.printStackTrace();
             }
-        }
+        }*/
         //eventing.post(new ListSaveResponse(requestId, savedAllMoments));
     }
 }

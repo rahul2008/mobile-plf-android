@@ -60,6 +60,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public void fetchMoments(@NonNull final MomentType type) throws SQLException {
+        Log.i("***SPO***","In fetchMoments - OrmFetchingInterfaceImpl");
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.queryForEq("type_id", type.getId()));
@@ -128,6 +129,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     public void getActiveMoments(final List<?> ormMoments) {
+        Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
             for (OrmMoment ormMoment : (List<OrmMoment>)ormMoments) {
@@ -136,7 +138,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
                 }
             }
         }
-
+        Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
     }
 

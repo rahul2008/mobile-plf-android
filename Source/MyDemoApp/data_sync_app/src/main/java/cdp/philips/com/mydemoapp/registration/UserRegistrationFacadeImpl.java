@@ -144,6 +144,9 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     @Override
     public String getAccessToken() {
         //refreshAccessTokenUsingWorkAround();
+        if(accessToken == null || accessToken.isEmpty()){
+            refreshAccessTokenUsingWorkAround();
+        }
         return accessToken;
     }
 

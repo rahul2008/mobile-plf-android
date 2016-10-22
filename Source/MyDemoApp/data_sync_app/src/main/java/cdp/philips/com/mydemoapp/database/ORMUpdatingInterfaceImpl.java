@@ -51,6 +51,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
                 updatedCount = processMoment(updatedCount, moment);
             }
         }
+            notifyAllSuccess(moments);
         return updatedCount;
     }
 

@@ -33,7 +33,7 @@ import static com.philips.cdp.prxclient.RequestManager.mContext;
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener{
 
     private ActionBarListener actionBarListener;
-    AlarmManager alarmManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,42 +44,18 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         }else {
             startRegistrationFragment();
         }
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
     }
 
     @Override
     @CallSuper
     protected void onStart() {
         super.onStart();
-        setUpBackendSynchronizationLoop();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        cancelPendingIntent();
-    }
-
-    private void setUpBackendSynchronizationLoop() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-
-        // Start the first time after 5 seconds
-        long firstTime = SystemClock.elapsedRealtime();
-        firstTime += 5 * 1000;
-
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, BaseAppBroadcastReceiver.DATA_FETCH_FREQUENCY, dataSyncIntent);
-    }
-
-    private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(this, BaseAppBroadcastReceiver.class);
-        intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
-        return PendingIntent.getBroadcast(this, 0, intent, 0);
-    }
-
-    public void cancelPendingIntent() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-        dataSyncIntent.cancel();
-        alarmManager.cancel(dataSyncIntent);
     }
 
     void startRegistrationFragment(){
