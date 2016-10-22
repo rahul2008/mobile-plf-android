@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 
 //import com.facebook.stetho.Stetho;
+import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -38,8 +40,6 @@ import cdp.philips.com.mydemoapp.injection.MonitorModule;
 import cdp.philips.com.mydemoapp.injection.RegistrationModule;
 import cdp.philips.com.mydemoapp.utility.EventingImpl;
 import de.greenrobot.event.EventBus;
-
-import static com.philips.cdp.registration.configuration.RegistrationConfiguration.UR;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -77,7 +77,7 @@ public class DataSyncApplication extends Application{
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
-       // Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
 
@@ -305,28 +305,28 @@ public class DataSyncApplication extends Application{
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
-                UR,
+                URConfigurationConstants.UR,
                 "Datacore",
                 configError);
 
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Secret",
-                UR,
+                URConfigurationConstants.UR,
                 "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
                 configError);
 
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Shared",
-                UR,
+                URConfigurationConstants.UR,
                 "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
                 configError);
 
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
-                UR,
+                URConfigurationConstants.UR,
                 "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
                 configError);
     }

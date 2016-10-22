@@ -7,6 +7,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
@@ -17,6 +18,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Singleton;
 
@@ -52,31 +54,55 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     public void startSynchronise(final int eventId) {
+        Log.i("***SPO***","In startSynchronise - DataPushSynchronize");
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if (isLoggedIn) {
+            Log.i("***SPO***","DataPushSynchronize isLogged-in is true");
+            registerEvent();
             fetchNonSynchronizedData(eventId);
-        } else {
+        }else{
+            Log.i("***SPO***","DataPushSynchronize isLogged-in is false");
             eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
         }
     }
 
+    public void registerEvent() {
+        if (!eventing.isRegistered(this)) {
+            eventing.register(this);
+        }
+    }
+
+    public void unRegisterEvent() {
+        if (eventing.isRegistered(this)) {
+            eventing.unregister(this);
+        }
+    }
+
+
     private void fetchNonSynchronizedData(int eventId) {
+        Log.i("***SPO***","DataPushSynchronize fetchNonSynchronizedData before calling GetNonSynchronizedDataRequest");
         eventing.post(new GetNonSynchronizedDataRequest(eventId));
     }
 
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
+        Log.i("***SPO***","DataPushSynchronize GetNonSynchronizedDataResponse");
         startAllSenders(response);
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
+        Log.i("***SPO***","DataPushSynchronize startAllSenders");
         for (final com.philips.platform.datasync.synchronisation.DataSender sender : senders) {
-            executor.execute(new Runnable() {
+            Log.i("***SPO***","DataPushSynchronize startAllSenders inside loop");
+            sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+
+           /* executor.execute(new Runnable() {
                 @Override
                 public void run() {
+                    Log.i("***SPO***","DataPushSynchronize before sendDataToBackend inside run ");
                     sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
                 }
-            });
+            });*/
         }
     }
 }

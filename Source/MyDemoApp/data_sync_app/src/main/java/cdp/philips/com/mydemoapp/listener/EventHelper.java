@@ -24,17 +24,24 @@ public class EventHelper {
 
     private static EventHelper eventHelper;
     public static final int MOMENT = 1;
+    public static final int UR = 1;
 
     private Map<Integer, ArrayList<DBChangeListener>> eventMap;
+    private Map<Integer, ArrayList<UserRegistrationFailureListener>> urMap;
 
     //Key is the unique tag for UI .
 
     private EventHelper() {
         eventMap = new HashMap<Integer, ArrayList<DBChangeListener>>();
+        urMap = new HashMap<Integer, ArrayList<UserRegistrationFailureListener>>();
     }
 
     public Map<Integer, ArrayList<DBChangeListener>> getEventMap() {
         return eventMap;
+    }
+
+    public Map<Integer, ArrayList<UserRegistrationFailureListener>> getURMap() {
+        return urMap;
     }
 
     /*public void setEventMap(Map<Integer, ArrayList<DBChangeListener>> eventMap) {
@@ -57,6 +64,15 @@ public class EventHelper {
 
         dbChangeListeners.add(observer);
         eventMap.put(tag, dbChangeListeners);
+    }
+
+    public void registerURNotification(Integer tag, UserRegistrationFailureListener observer) {
+        ArrayList<UserRegistrationFailureListener> userRegistrationFailureListeners = urMap.get(tag);
+        if(userRegistrationFailureListeners==null)
+            userRegistrationFailureListeners = new ArrayList<>();
+
+        userRegistrationFailureListeners.add(observer);
+        urMap.put(tag, userRegistrationFailureListeners);
     }
 
     public void unregisterEventNotification(Integer tag, DBChangeListener pObserver) {

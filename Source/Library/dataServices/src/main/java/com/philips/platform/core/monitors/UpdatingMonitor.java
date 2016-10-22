@@ -14,6 +14,7 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.events.WriteDataToBackendRequest;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -63,14 +64,15 @@ public class UpdatingMonitor extends EventMonitor{
 
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
         Log.i("**SPO**","In Updating Monitor ReadDataFromBackendResponse");
-        try {
+        /*try {
             Log.i("**SPO**","In Updating Monitor before calling fetchMoments");
             dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
         } catch (SQLException e) {
             Log.i("**SPO**","In Updating Monitor report exception");
             dbUpdatingInterface.updateFailed(e);
             e.printStackTrace();
-        }
+        }*/
+        eventing.post(new WriteDataToBackendRequest());
     }
 
     public void onEventBackgroundThread(final BackendMomentListSaveRequest momentSaveRequest) {
@@ -78,16 +80,18 @@ public class UpdatingMonitor extends EventMonitor{
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        int requestId = momentSaveRequest.getEventId();
+        //int requestId = momentSaveRequest.getEventId();
 
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
-        boolean savedAllMoments = updatedCount == moments.size();
-        try {
-            dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
-        } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e);
-            e.printStackTrace();
-        }
+       // boolean savedAllMoments = updatedCount == moments.size();
+        /*if(savedAllMoments) {
+            try {
+                dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
+            } catch (SQLException e) {
+                dbUpdatingInterface.updateFailed(e);
+                e.printStackTrace();
+            }
+        }*/
         //eventing.post(new ListSaveResponse(requestId, savedAllMoments));
     }
 }

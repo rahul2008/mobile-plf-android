@@ -88,6 +88,6 @@ public class TemperaturePresenter {
 
     public void startSync() {
         Log.i("***SPO***", "In Presenter");
-        tracker.synchronize();
+        tracker.syncData();
     }
 }
