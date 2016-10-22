@@ -3,6 +3,7 @@ package com.philips.platform.appframework.database;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.platform.appframework.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
@@ -22,6 +23,8 @@ import com.philips.platform.appframework.database.table.OrmMoment;
 import com.philips.platform.appframework.database.table.OrmSynchronisationData;
 import com.philips.platform.appframework.listener.DBChangeListener;
 import com.philips.platform.appframework.listener.EventHelper;
+
+import retrofit.RetrofitError;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -49,6 +52,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
                 updatedCount = processMoment(updatedCount, moment);
             }
         }
+            notifyAllSuccess(moments);
         return updatedCount;
     }
 
@@ -215,12 +219,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
     }
 
     private void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Map<Integer, ArrayList<UserRegistrationFailureListener>> eventMap = EventHelper.getInstance().getURMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
+        if(integers.contains(EventHelper.UR)){
+            ArrayList<UserRegistrationFailureListener> dbChangeListeners = EventHelper.getInstance().getURMap().get(EventHelper.UR);
+            for (UserRegistrationFailureListener listener : dbChangeListeners) {
+                listener.onFailure((RetrofitError)e);
             }
         }
     }

@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
@@ -15,6 +16,8 @@ import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.appframework.listener.EventHelper;
+import com.philips.platform.appframework.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.UserCredentials;
 import com.philips.platform.core.datatypes.UserProfile;
@@ -30,12 +33,14 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import retrofit.RetrofitError;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 @Singleton
-public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
+public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
     public static final boolean USE_COPPA_FLOW = false;
     public static final boolean TAGGING_ENABLED = true;
     public final static int ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS = 1;
@@ -61,25 +66,21 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     private boolean accessTokenRefreshInProgress;
     private String accessToken = "";
     private Runnable refreshLoginSessionRunnable = new Runnable() {
-
         @Override
         public void run() {
-            Log.d("***SPO***","INSIDE refreshLoginSessionRunnable");
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    Log.d("***SPO***","SUCCESS");
                     accessTokenRefreshTime = DateTime.now();
-                    accessToken = getHsdpAccessToken();
+                    accessToken = gethsdpaccesstoken();
                     notifyLoginSessionResponse();
                 }
 
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int statusCode) {
-                    Log.d("***SPO***","FAILURE");
+                    if(context!=null)
+                    Toast.makeText(context,"refresh token failed and status code is = " + statusCode,Toast.LENGTH_LONG).show();
                     notifyLoginSessionResponse();
-
-
                 }
 
                 @Override
@@ -111,10 +112,10 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
         this.eventing = eventing;
         this.hsdpInfo = hsdpInfo;
         this.registrationConfiguration = registrationConfiguration;
-
+        EventHelper.getInstance().registerURNotification(EventHelper.UR,this);
     }
 
-    private String getHsdpAccessToken() {
+    private String gethsdpaccesstoken() {
         if (getUser(context) == null) {
             return accessToken;
         }
@@ -142,9 +143,10 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     @NonNull
     @Override
     public String getAccessToken() {
-        Log.d("***SPO***","getAccessToken()");
-        refreshAccessTokenUsingWorkAround();
-        Log.d("***SPO***","accessToken"+accessToken);
+        //refreshAccessTokenUsingWorkAround();
+        if(accessToken == null || accessToken.isEmpty()){
+            refreshAccessTokenUsingWorkAround();
+        }
         return accessToken;
     }
 
@@ -186,11 +188,9 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
         accessTokenRefreshInProgress = true;
         synchronized (this) {
             try {
-                Log.d("***SPO***","BEFORE WAIT");
                 wait();
-                Log.d("***SPO***","AFTER WAIT");
             } catch (InterruptedException ignored) {
-                Log.d("***SPO***","InterruptedException ignored");
+
             }
         }
         accessTokenRefreshInProgress = false;
@@ -202,10 +202,10 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
         }
     }
 
-    private boolean isAccessTokenStillValid() {
-     //   return accessTokenRefreshTime != null && accessTokenRefreshTime.plusHours(ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS).isAfter(DateTime.now());
+    /*private boolean isAccessTokenStillValid() {
+       // return accessTokenRefreshTime != null && accessTokenRefreshTime.plusHours(ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS).isAfter(DateTime.now());
         return false;
-    }
+    }*/
 
     public void clearUserData() {
         accessTokenRefreshTime = null;
@@ -284,5 +284,18 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade {
     private void clearPreferences() {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
+    }
+
+    @Override
+    public void onFailure(final RetrofitError error) {
+        if(error.getKind().equals(RetrofitError.Kind.UNEXPECTED)){
+            Log.i("***SPO***","In onFailure of UserRegistration - User Not logged in");
+            if(context!=null){
+                Toast.makeText(context,"User Not Logged-in",Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        if (!accessTokenRefreshInProgress)
+            refreshAccessTokenUsingWorkAround();
     }
 }

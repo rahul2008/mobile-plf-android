@@ -72,16 +72,16 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
             TemperatureMomentHelper helper = new TemperatureMomentHelper();
-            OrmMoment moment = (OrmMoment) mData.get(position);
+            Moment moment = (OrmMoment) mData.get(position);
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
 
-            if(!moment.isSynced()){
+            /*if(!moment.isSynced()){
              mSyncViewHolder.mIsSynced.setVisibility(View.VISIBLE);
             }else {
                 mSyncViewHolder.mIsSynced.setVisibility(View.GONE);
-            }
+            }*/
 
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,9 +124,9 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private void removeMoment(int adapterPosition) {
         try {
             tracker.deleteMoment(mData.get(adapterPosition));
-            /*mData.remove(adapterPosition);
+            mData.remove(adapterPosition);
             notifyItemRemoved(adapterPosition);
-            notifyDataSetChanged();*/
+            notifyDataSetChanged();
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@
 package com.philips.platform.appframework.database;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -59,7 +60,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public void fetchMoments(@NonNull final MomentType type) throws SQLException {
+        Log.i("***SPO***","In fetchMoments - OrmFetchingInterfaceImpl");
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
+        queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.queryForEq("type_id", type.getId()));
     }
 
@@ -73,7 +76,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         }
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.where().in("type_id", ids);
-
+        queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.query(queryBuilder.prepare()));
     }
 
@@ -110,6 +113,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public List<?> fetchNonSynchronizedMoments() throws SQLException{
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
         momentQueryBuilder.where().eq(SYNCED_FIELD, false);
 
@@ -125,6 +129,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     public void getActiveMoments(final List<?> ormMoments) {
+        Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
             for (OrmMoment ormMoment : (List<OrmMoment>)ormMoments) {
@@ -133,7 +138,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
                 }
             }
         }
-
+        Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
     }
 
@@ -161,7 +166,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException {
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
         List<? extends Moment> ormMomentList = (List<? extends Moment>)fetchNonSynchronizedMoments();
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
     }

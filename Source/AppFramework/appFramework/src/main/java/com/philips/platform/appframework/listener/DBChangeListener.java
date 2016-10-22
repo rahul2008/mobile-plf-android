@@ -9,5 +9,4 @@ public interface DBChangeListener {
     public void onSuccess(ArrayList<? extends Object> data);
     public void onSuccess(Object data);
     public void onFailure(Exception exception);
-    public void onFailure(RetrofitError error);
 }

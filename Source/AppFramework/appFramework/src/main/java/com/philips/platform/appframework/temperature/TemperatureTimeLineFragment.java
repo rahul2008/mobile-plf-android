@@ -1,8 +1,12 @@
 package com.philips.platform.appframework.temperature;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,16 +23,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.listener.DBChangeListener;
+import com.philips.platform.appframework.listener.EventHelper;
+import com.philips.platform.appframework.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 
 import java.util.ArrayList;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.listener.DBChangeListener;
-import com.philips.platform.appframework.listener.EventHelper;
-import retrofit.RetrofitError;
+import static android.content.Context.ALARM_SERVICE;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -39,6 +44,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
     private TemperatureTimeLineFragmentcAdapter mAdapter ;
+    AlarmManager alarmManager;
 
     ImageButton mAddButton;
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -51,6 +57,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         init();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        cancelPendingIntent();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -159,11 +170,35 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void init() {
+        alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
         ((AppFrameworkApplication) getActivity().getApplication()).getAppComponent().injectFragment(this);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT,this);
         mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
          mTemperaturePresenter.fetchData();
+        setUpBackendSynchronizationLoop();
         //mTemperaturePresenter.startSync();
+    }
+
+    private void setUpBackendSynchronizationLoop() {
+        PendingIntent dataSyncIntent = getPendingIntent();
+
+        // Start the first time after 5 seconds
+        long firstTime = SystemClock.elapsedRealtime();
+        firstTime += 5 * 1000;
+
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, BaseAppBroadcastReceiver.DATA_FETCH_FREQUENCY, dataSyncIntent);
+    }
+
+    private PendingIntent getPendingIntent() {
+        Intent intent = new Intent(getContext(), BaseAppBroadcastReceiver.class);
+        intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
+        return PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+    }
+
+    public void cancelPendingIntent() {
+        PendingIntent dataSyncIntent = getPendingIntent();
+        dataSyncIntent.cancel();
+        alarmManager.cancel(dataSyncIntent);
     }
 
     @Override
@@ -213,23 +248,20 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(e!=null && e.getMessage()!=null) {
+                if (e != null && e.getMessage() != null) {
                     Log.i(TAG, "http : UI update Failed" + e.getMessage());
-                    Toast.makeText(getContext(),"UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }else{
+                    if (getContext() != null)
+                        Toast.makeText(getContext(), "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
                     Log.i(TAG, "http : UI update Failed");
-                    Toast.makeText(getContext(),"UI update Failed", Toast.LENGTH_SHORT).show();
+                    if (getContext() != null)
+                        Toast.makeText(getContext(), "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
                 if(mSwipeRefreshLayout.isRefreshing()){
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
-    }
-
-    @Override
-    public void onFailure(final RetrofitError error) {
-        onFailureRefresh(error);
     }
 
     @Override

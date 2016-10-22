@@ -55,7 +55,7 @@ public class ORMDeletingInterfaceImpl implements DBDeletingInterface {
             } else {
                 prepareMomentForDeletion(moment);
             }
-            notifyAllSuccess(moment);
+            //notifyAllSuccess(moment);
         }catch (SQLException e){
             notifyAllFailure(e);
         }
@@ -65,7 +65,7 @@ public class ORMDeletingInterfaceImpl implements DBDeletingInterface {
      public void ormDeletingDeleteMoment(Moment moment){
          try {
              ormDeleting.ormDeleteMoment((OrmMoment)moment);
-             notifyAllSuccess(moment);
+           //  notifyAllSuccess(moment);
          } catch (SQLException e) {
              e.printStackTrace();
          }

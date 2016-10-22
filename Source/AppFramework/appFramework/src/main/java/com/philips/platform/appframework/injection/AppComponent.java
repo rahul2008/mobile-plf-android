@@ -7,6 +7,7 @@
 package com.philips.platform.appframework.injection;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.appframework.temperature.TemperaturePresenter;
 import com.philips.platform.appframework.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.appframework.temperature.TemperatureTimeLineFragmentcAdapter;
@@ -34,4 +35,6 @@ public interface AppComponent {
 
     void injectTemperatureAdapter(TemperatureTimeLineFragmentcAdapter temperatureTimeLineFragmentcAdapter);
     void injectTemperature(TemperaturePresenter temperaturePresenter);
+
+    void injectReciever(BaseAppBroadcastReceiver baseAppBroadcastReceiver);
 }
