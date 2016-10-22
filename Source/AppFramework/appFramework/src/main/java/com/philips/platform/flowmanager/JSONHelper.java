@@ -1,4 +1,4 @@
-package com.philips.platform.flowmanagerjson;
+package com.philips.platform.flowmanager;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,26 +25,9 @@ public class JSONHelper {
         mContext = context;
     }
 
-    /**
-     * This method will download and return the server response from given URL.
-     * It check for cached response if available an return the cached one instead of downloading if its valid.
-     * To handle the offline and error scenarios it takes the path of prePackaged response file.
-     *
-     * @param url           Server URL from where the data will be downloaded.
-     * @param localFilePath Path of prePackaged response data.
-     * @return The response as a String or 'null'
-     */
-    public String getJsonFromURL(int url, int localFilePath) {
-        String response = null;
+    public String getJsonForAppFlow(int localFilePath) {
         String appFlowResponse;
-        //TODO : need to add CQ5 json download code
-        response = readJsonFromFile(localFilePath, mContext);
-        return response;
-    }
-
-    public String getJsonForAppFlow(int url, int localFilePath) {
-        String appFlowResponse;
-        appFlowResponse = readJsonFromFile(url, mContext);
+        appFlowResponse = readJsonFromFile(localFilePath, mContext);
         return appFlowResponse;
     }
 
@@ -57,7 +40,7 @@ public class JSONHelper {
      * @return String as per Resource Id
      */
     private String getStringFromResource(Context context, int stringResourceId) {
-        String str = null;
+        String str;
         str = context.getString(stringResourceId);
         return str;
     }
@@ -85,23 +68,19 @@ public class JSONHelper {
      *                      or {@link android.app.Activity} object.
      * @return Local Json file data as String
      */
-    public String readJsonFromFile(String localFilePath, Context context) {
+    private String readJsonFromFile(String localFilePath, Context context) {
         String json = null;
         InputStreamReader is = null;
         BufferedReader br = null;
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         try {
             is = new InputStreamReader(context.getAssets().open(localFilePath), "ISO-8859-1");
             br = new BufferedReader(is);
-            String line = "";
-            if (br != null) {
-                while ((line = br.readLine()) != null) {
-                    buffer.append(line);
-                    line = null;
-                }
+            String line;
+            while ((line = br.readLine()) != null) {
+                stringBuilder.append(line);
             }
-            json = buffer.toString();
-            buffer = null;
+            json = stringBuilder.toString();
         } catch (Exception e) {
             Log.getStackTraceString(e);
         } finally {
@@ -109,7 +88,6 @@ public class JSONHelper {
                 if (is != null) {
                     is.close();
                 }
-                is = null;
             } catch (Exception e) {
                 Log.getStackTraceString(e);
             }
@@ -118,7 +96,6 @@ public class JSONHelper {
                 if (br != null) {
                     br.close();
                 }
-                br = null;
             } catch (Exception e) {
                 Log.getStackTraceString(e);
             }

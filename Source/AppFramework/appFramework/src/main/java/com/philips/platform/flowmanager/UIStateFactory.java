@@ -4,9 +4,9 @@
  * the written consent of the copyright holder.
  */
 
-package com.philips.platform.flowmanagerjson;
+package com.philips.platform.flowmanager;
 
-import com.philips.platform.flowmanagerjson.jsonstates.AppStates;
+import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;

@@ -4,7 +4,7 @@
  * the written consent of the copyright holder.
  */
 
-package com.philips.platform.flowmanagerjson.condition;
+package com.philips.platform.flowmanager.condition;
 
 import java.util.Collections;
 import java.util.Map;

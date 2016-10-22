@@ -1,4 +1,4 @@
-package com.philips.platform.flowmanagerjson.condition;
+package com.philips.platform.flowmanager.condition;
 
 import android.content.Context;
 

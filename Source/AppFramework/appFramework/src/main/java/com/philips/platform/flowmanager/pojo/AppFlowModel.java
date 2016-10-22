@@ -4,15 +4,7 @@
  * the written consent of the copyright holder.
  */
 
-package com.philips.platform.flowmanagerjson.pojo;
-
-/**
- * Project           : Lumea
- * File Name         : AppFlowModel
- * Description       : Model to AppFlowModel object.
- * Revision History: version 1:
- * Description: Initial version
- */
+package com.philips.platform.flowmanager.pojo;
 @SuppressWarnings("serial")
 public class AppFlowModel implements java.io.Serializable {
 
