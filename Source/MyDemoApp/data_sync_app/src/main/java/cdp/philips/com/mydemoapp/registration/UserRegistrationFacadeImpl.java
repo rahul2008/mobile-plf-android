@@ -62,8 +62,8 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     @NonNull
     private SharedPreferences sharedPreferences;
-    private DateTime accessTokenRefreshTime;
-    private boolean accessTokenRefreshInProgress;
+    //private DateTime accessTokenRefreshTime;
+    private boolean accessTokenRefreshInProgress = false;
     private String accessToken = "";
     private Runnable refreshLoginSessionRunnable = new Runnable() {
         @Override
@@ -71,7 +71,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    accessTokenRefreshTime = DateTime.now();
+                    //accessTokenRefreshTime = DateTime.now();
                     accessToken = gethsdpaccesstoken();
                     notifyLoginSessionResponse();
                 }
@@ -144,9 +144,10 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     @Override
     public String getAccessToken() {
         //refreshAccessTokenUsingWorkAround();
-        if(accessToken == null || accessToken.isEmpty()){
+        if (isAccessTokenStillValid())
+            accessToken = gethsdpaccesstoken();
+        else
             refreshAccessTokenUsingWorkAround();
-        }
         return accessToken;
     }
 
@@ -179,6 +180,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     // TODO: We may have to ask the common component to take care of this
     private synchronized void refreshAccessTokenUsingWorkAround() {
+        Log.d("***SPO***","refreshAccessTokenUsingWorkAround()");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
         accessTokenRefreshInProgress = true;
@@ -198,17 +200,15 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
         }
     }
 
-    /*private boolean isAccessTokenStillValid() {
-       // return accessTokenRefreshTime != null && accessTokenRefreshTime.plusHours(ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS).isAfter(DateTime.now());
-        return false;
-    }*/
+    private boolean isAccessTokenStillValid() {
+        return accessToken!= null || !accessToken.isEmpty();
+      //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
+    }
 
     public void clearUserData() {
-        accessTokenRefreshTime = null;
+      //  accessTokenRefreshTime = null;
         eventing.post(new DataClearRequest());
         clearPreferences();
-
-
         email = null;
     }
 
@@ -284,14 +284,13 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     @Override
     public void onFailure(final RetrofitError error) {
-        if(error.getKind().equals(RetrofitError.Kind.UNEXPECTED)){
-            Log.i("***SPO***","In onFailure of UserRegistration - User Not logged in");
-            if(context!=null){
-                Toast.makeText(context,"User Not Logged-in",Toast.LENGTH_SHORT).show();
+        if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
+            Log.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
+            if (context != null) {
+                Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
             }
             return;
         }
-        if (!accessTokenRefreshInProgress)
-            refreshAccessTokenUsingWorkAround();
+        refreshAccessTokenUsingWorkAround();
     }
 }

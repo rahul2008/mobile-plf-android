@@ -30,7 +30,7 @@ public interface MomentsClient {
     com.philips.platform.datasync.moments.UCoreMomentsHistory getMomentsHistory(
             @Header("performerId") String userId,
             @Path("babyId") String babyId,
-            @Query("_since") DateTime timestamp
+            @Query(value = "_since", encodeValue = false) String timestamp
     );
 
     @POST("/api/users/{subjectId}/moments")

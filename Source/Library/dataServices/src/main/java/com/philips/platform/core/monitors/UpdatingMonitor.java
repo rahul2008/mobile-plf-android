@@ -64,14 +64,14 @@ public class UpdatingMonitor extends EventMonitor{
 
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
         Log.i("**SPO**","In Updating Monitor ReadDataFromBackendResponse");
-        /*try {
+        try {
             Log.i("**SPO**","In Updating Monitor before calling fetchMoments");
             dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
         } catch (SQLException e) {
             Log.i("**SPO**","In Updating Monitor report exception");
             dbUpdatingInterface.updateFailed(e);
             e.printStackTrace();
-        }*/
+        }
         eventing.post(new WriteDataToBackendRequest());
     }
 
