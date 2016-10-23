@@ -49,7 +49,7 @@ abstract public class UIState {
     private UIStateData uiStateData;
 
     /**
-     * State constructor
+     * AppFlowState constructor
      *
      * @param stateID pass the state Id
      */

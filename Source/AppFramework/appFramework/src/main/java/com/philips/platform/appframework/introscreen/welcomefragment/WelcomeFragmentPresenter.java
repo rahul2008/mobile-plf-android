@@ -38,8 +38,8 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     public void onClick(final int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
         welcomeFragmentView.showActionBar();
-        EventStates eventId = getEventID(componentID);
-        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
+        EventStates eventState = getEventState(componentID);
+        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
         uiState.setPresenter(this);
         fragmentLauncher = getFragmentLauncher();
         appFrameworkApplication.getFlowManager().setCurrentState(uiState);
@@ -71,7 +71,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return uiState;
     }
 
-    private EventStates getEventID(final int componentID) {
+    private EventStates getEventState(final int componentID) {
         switch (componentID) {
             case R.id.welcome_skip_button:
                 return EventStates.WELCOME_SKIP;
@@ -93,8 +93,8 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     @Override
     public void onStateComplete(final UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
-        EventStates eventId = getEventID(HomeActivityPresenter.MENU_OPTION_HOME);
-        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
+        EventStates eventState = getEventState(HomeActivityPresenter.MENU_OPTION_HOME);
+        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();

@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Event {
+public class AppFlowEvent {
 
     private String eventId;
-    private List<NextState> nextStates = new ArrayList<NextState>();
+    private List<AppFlowNextState> appFlowNextStates = new ArrayList<AppFlowNextState>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -27,17 +27,17 @@ public class Event {
     }
 
     /**
-     * @return The nextStates
+     * @return The appFlowNextStates
      */
-    public List<NextState> getNextStates() {
-        return nextStates;
+    public List<AppFlowNextState> getAppFlowNextStates() {
+        return appFlowNextStates;
     }
 
     /**
-     * @param nextStates The nextStates
+     * @param appFlowNextStates The appFlowNextStates
      */
-    public void setNextStates(List<NextState> nextStates) {
-        this.nextStates = nextStates;
+    public void setAppFlowNextStates(List<AppFlowNextState> appFlowNextStates) {
+        this.appFlowNextStates = appFlowNextStates;
     }
 
     public Map<String, Object> getAdditionalProperties() {

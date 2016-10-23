@@ -9,9 +9,9 @@ import com.philips.platform.flowmanager.condition.BaseCondition;
 import com.philips.platform.flowmanager.condition.ConditionFactory;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.jsonstates.EventStates;
+import com.philips.platform.flowmanager.pojo.AppFlowEvent;
 import com.philips.platform.flowmanager.pojo.AppFlowModel;
-import com.philips.platform.flowmanager.pojo.Event;
-import com.philips.platform.flowmanager.pojo.NextState;
+import com.philips.platform.flowmanager.pojo.AppFlowNextState;
 import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -29,7 +29,7 @@ public class FlowManager extends BaseUiFlowManager {
     //Singleton instance of FlowManager class
     private static FlowManager flowManager;
     //Map of states and nex tSates which decides the Application flow
-    private static Map<AppStates, List<Event>> mAppFlowMap;
+    private static Map<AppStates, List<AppFlowEvent>> mAppFlowMap;
     //Object to hold first state of the app flow.
     private static AppStates mFirstState;
     //Object to hold UI state factory instance
@@ -88,21 +88,21 @@ public class FlowManager extends BaseUiFlowManager {
      */
     public UIState getNextState(AppStates currentState, EventStates eventData) {
         //Getting the list of all possible next state for the give 'currentState'.
-        final List<Event> events = mAppFlowMap.get(currentState);
+        final List<AppFlowEvent> appFlowEvents = mAppFlowMap.get(currentState);
 
-        if (events != null) {
+        if (appFlowEvents != null) {
             //Looping through all the possible next states and returning the state which satisfies
             // any entry condition.
-            for (final Event event : events) {
-                //boolean to hold the status of entry condition for the 'event'.
+            for (final AppFlowEvent appFlowEvent : appFlowEvents) {
+                //boolean to hold the status of entry condition for the 'appFlowEvent'.
 
-                final EventStates eventStates = EventStates.get(event.getEventId());
-                if (event.getEventId() != null && eventStates == eventData) {
-                    final List<NextState> nextStates = event.getNextStates();
+                final EventStates eventStates = EventStates.get(appFlowEvent.getEventId());
+                if (appFlowEvent.getEventId() != null && eventStates == eventData) {
+                    final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getAppFlowNextStates();
                     //Getting list of all possible entry conditions
-                    for (NextState nextState : nextStates) {
+                    for (AppFlowNextState appFlowNextState : appFlowNextStates) {
                         boolean isConditionSatisfies = true;
-                        List<String> conditionsTypes = nextState.getCondition();
+                        List<String> conditionsTypes = appFlowNextState.getCondition();
                         if (conditionsTypes != null && conditionsTypes.size() > 0) {
                             for (final String conditionType : conditionsTypes) {
                                 BaseCondition condition = mConditionFactory
@@ -114,7 +114,7 @@ public class FlowManager extends BaseUiFlowManager {
                         }
                         //Return the UIState if the entry condition is satisfies.
                         if (isConditionSatisfies) {
-                            return getUIState(AppStates.get(nextState.getNextState()));
+                            return getUIState(AppStates.get(appFlowNextState.getNextState()));
                         }
                     }
                     break;
@@ -125,7 +125,7 @@ public class FlowManager extends BaseUiFlowManager {
     }
 
     /**
-     * Method to return the Object to UIState based on State ID.
+     * Method to return the Object to UIState based on AppFlowState ID.
      *
      * @param state state ID.
      * @return Object to UIState if available or 'null'.

@@ -30,7 +30,7 @@ abstract public class UIBasePresenter {
 
     /**
      * For seeting the current state , so that flow manager is updated with current state
-     * @param stateID requires State ID
+     * @param stateID requires AppFlowState ID
      */
     public void setState(int stateID){
 

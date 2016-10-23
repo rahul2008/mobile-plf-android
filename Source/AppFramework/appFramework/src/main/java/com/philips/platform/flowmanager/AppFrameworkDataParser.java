@@ -12,9 +12,9 @@ import com.google.gson.JsonSyntaxException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.pojo.AppFlow;
+import com.philips.platform.flowmanager.pojo.AppFlowEvent;
 import com.philips.platform.flowmanager.pojo.AppFlowModel;
-import com.philips.platform.flowmanager.pojo.Event;
-import com.philips.platform.flowmanager.pojo.State;
+import com.philips.platform.flowmanager.pojo.AppFlowState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class AppFrameworkDataParser {
 
     private static AppFlowModel appFlow;
-    private static HashMap<AppStates, List<Event>> appFlowMap;
+    private static HashMap<AppStates, List<AppFlowEvent>> appFlowMap;
 
     /**
      * This method will return the object of AppFlow class or 'null'.
@@ -55,11 +55,11 @@ public class AppFrameworkDataParser {
      * @param appFlow Object to AppFlow class which defines the app flow.
      * @return Map of state to array of next states.
      */
-    public static Map<AppStates, List<Event>> getAppFlowMap(AppFlow appFlow) {
-        if (appFlow.getStates() != null) {
+    public static Map<AppStates, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
+        if (appFlow.getAppFlowStates() != null) {
             appFlowMap = new HashMap<>();
-            for (final State states : appFlow.getStates()) {
-                appFlowMap.put(AppStates.get(states.getState()), states.getEvents());
+            for (final AppFlowState states : appFlow.getAppFlowStates()) {
+                appFlowMap.put(AppStates.get(states.getState()), states.getAppFlowEvents());
             }
         }
         return appFlowMap;

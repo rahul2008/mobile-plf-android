@@ -124,7 +124,7 @@ public class FlowManager extends BaseUiFlowManager {
     }
 
     /**
-     * Method to return the Object to UIState based on State ID.
+     * Method to return the Object to UIState based on AppFlowState ID.
      *
      * @param state state ID.
      * @return Object to UIState if available or 'null'.

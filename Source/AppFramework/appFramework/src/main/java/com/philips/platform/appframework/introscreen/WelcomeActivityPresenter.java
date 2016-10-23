@@ -46,8 +46,8 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.showActionBar();
-        EventStates eventId = getEventID(componentID);
-        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
+        EventStates eventState = getEventState(componentID);
+        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         if (appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE)) {
@@ -70,7 +70,7 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
         return uiState;
     }
 
-    private EventStates getEventID(final int componentID) {
+    private EventStates getEventState(final int componentID) {
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return EventStates.WELCOME_HOME;
@@ -95,8 +95,8 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
         if (sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED) || appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
             welcomeView.showActionBar();
             setState(UIState.UI_USER_REGISTRATION_STATE);
-            EventStates eventId = getEventID(USER_REGISTRATION_STATE);
-            uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
+            EventStates eventState = getEventState(USER_REGISTRATION_STATE);
+            uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
             fragmentLauncher = getFragmentLauncher();
             uiState.setPresenter(this);
             ((UserRegistrationState) uiState).registerUIStateListener(this);
@@ -118,7 +118,7 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        EventStates eventId = getEventID(Constants.BACK_BUTTON_CLICK_CONSTANT);
+        EventStates eventId = getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT);
         this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);

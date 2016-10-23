@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NextState {
+public class AppFlowNextState {
 
     private List<String> condition = new ArrayList<String>();
     private String nextState;
