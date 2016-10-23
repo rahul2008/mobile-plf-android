@@ -8,6 +8,7 @@ import com.philips.platform.flowmanager.condition.AppConditions;
 import com.philips.platform.flowmanager.condition.BaseCondition;
 import com.philips.platform.flowmanager.condition.ConditionFactory;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
+import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.flowmanager.pojo.AppFlowModel;
 import com.philips.platform.flowmanager.pojo.Event;
 import com.philips.platform.flowmanager.pojo.NextState;
@@ -85,7 +86,7 @@ public class FlowManager extends BaseUiFlowManager {
      * @param currentState current state of the app.
      * @return Object to next UIState if available or 'null'.
      */
-    public UIState getNextState(AppStates currentState, String eventData) {
+    public UIState getNextState(AppStates currentState, EventStates eventData) {
         //Getting the list of all possible next state for the give 'currentState'.
         final List<Event> events = mAppFlowMap.get(currentState);
 
@@ -95,7 +96,8 @@ public class FlowManager extends BaseUiFlowManager {
             for (final Event event : events) {
                 //boolean to hold the status of entry condition for the 'event'.
 
-                if (event.getEventId() != null && event.getEventId().equals(eventData)) {
+                final EventStates eventStates = EventStates.get(event.getEventId());
+                if (event.getEventId() != null && eventStates == eventData) {
                     final List<NextState> nextStates = event.getNextStates();
                     //Getting list of all possible entry conditions
                     for (NextState nextState : nextStates) {

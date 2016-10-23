@@ -8,6 +8,8 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.homescreen.HomeActivityPresenter;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.flowmanager.jsonstates.AppStates;
+import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
@@ -26,20 +28,18 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     private UIState uiState;
     private FragmentLauncher fragmentLauncher;
     private WelcomeFragmentView welcomeFragmentView;
-    private FlowManager flowManager;
 
     public WelcomeFragmentPresenter(WelcomeFragmentView welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
-        flowManager = FlowManager.getInstance(welcomeFragmentView.getFragmentActivity());
     }
 
     @Override
     public void onClick(final int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
         welcomeFragmentView.showActionBar();
-        String eventId = getEventID(componentID);
-        uiState = flowManager.getState(eventId);
+        EventStates eventId = getEventID(componentID);
+        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
         uiState.setPresenter(this);
         fragmentLauncher = getFragmentLauncher();
         uiState.navigate(fragmentLauncher);
@@ -70,16 +70,16 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return uiState;
     }
 
-    private String getEventID(final int componentID) {
+    private EventStates getEventID(final int componentID) {
         switch (componentID) {
             case R.id.welcome_skip_button:
-                return "welcome_skip";
+                return EventStates.WELCOME_SKIP;
             case R.id.welcome_start_registration_button:
                 sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
                 sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
-                return "welcome_done";
+                return EventStates.WELCOME_DONE;
             case HomeActivityPresenter.MENU_OPTION_HOME:
-                return "welcome_home";
+                return EventStates.WELCOME_HOME;
         }
         return null;
     }
@@ -92,13 +92,11 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     @Override
     public void onStateComplete(final UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
-//        this.uiState = getUiState(HomeActivityPresenter.MENU_OPTION_HOME);
-        String eventId = getEventID(HomeActivityPresenter.MENU_OPTION_HOME);
-        this.uiState = flowManager.getState(eventId);
+        EventStates eventId = getEventID(HomeActivityPresenter.MENU_OPTION_HOME);
+        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();
-//        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
         uiState.navigate(fragmentLauncher);
     }
 

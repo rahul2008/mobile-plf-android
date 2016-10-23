@@ -9,10 +9,10 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
+import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIView;
-import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -21,9 +21,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class SplashPresenter extends UIBasePresenter {
     private final UIView uiView;
-    private UIState uiState;
-    private UserRegistrationState userRegistrationState;
-    private FragmentLauncher fragmentLauncher;
 
     public SplashPresenter(final UIView uiView) {
         super(uiView);
@@ -43,19 +40,14 @@ public class SplashPresenter extends UIBasePresenter {
      */
     @Override
     public void onLoad() {
-        userRegistrationState = new UserRegistrationState();
-        FlowManager targetFlowManager = FlowManager.getInstance(uiView.getFragmentActivity());
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
-        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, "skip_clicked");
-        if (userRegistrationState.getUserObject(uiView.getFragmentActivity()).isUserSignIn()) {
-            uiState = targetFlowManager.getState("splash_navigate_home");
-        } else {
-
-            uiState = targetFlowManager.getState("splash_navigate_welcome");
+        final UIState uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, EventStates.APP_START);
+        final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
+        if (null != uiState) {
+            uiState.setPresenter(this);
+            appFrameworkApplication.getFlowManager().setCurrentState(uiState);
+            uiState.navigate(fragmentLauncher);
         }
-        uiState.setPresenter(this);
-        fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
-        uiState.navigate(fragmentLauncher);
     }
 
 }
