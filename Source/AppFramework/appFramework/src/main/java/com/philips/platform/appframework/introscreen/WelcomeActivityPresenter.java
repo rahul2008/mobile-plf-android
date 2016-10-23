@@ -100,6 +100,7 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
             fragmentLauncher = getFragmentLauncher();
             uiState.setPresenter(this);
             ((UserRegistrationState) uiState).registerUIStateListener(this);
+            appFrameworkApplication.getFlowManager().setCurrentState(uiState);
             uiState.navigate(fragmentLauncher);
         } else {
             setState(UIState.UI_WELCOME_STATE);

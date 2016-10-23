@@ -42,6 +42,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
         uiState.setPresenter(this);
         fragmentLauncher = getFragmentLauncher();
+        appFrameworkApplication.getFlowManager().setCurrentState(uiState);
         uiState.navigate(fragmentLauncher);
     }
 
