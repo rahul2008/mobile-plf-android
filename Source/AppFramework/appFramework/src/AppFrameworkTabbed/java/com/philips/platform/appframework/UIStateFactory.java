@@ -4,14 +4,14 @@
  * the written consent of the copyright holder.
  */
 
-package com.philips.platform.flowmanager;
+package com.philips.platform.appframework;
 
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
-import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
+import com.philips.platform.modularui.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
@@ -57,7 +57,7 @@ public class UIStateFactory {
         map.put(AppStates.WELCOME, new WelcomeState());
         map.put(AppStates.REGISTRATION, new UserRegistrationState());
         map.put(AppStates.HOMEFRAGMENT, new HomeFragmentState());
-        map.put(AppStates.HOME, new HomeActivityState());
+        map.put(AppStates.HOME, new HomeTabbedActivityState());
         map.put(AppStates.ABOUT, new AboutScreenState());
         map.put(AppStates.DEBUG, new DebugTestFragmentState());
         map.put(AppStates.SETTINGS, new SettingsFragmentState());

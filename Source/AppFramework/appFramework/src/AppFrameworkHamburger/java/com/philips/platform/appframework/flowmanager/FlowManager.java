@@ -3,7 +3,6 @@ package com.philips.platform.appframework.flowmanager;
 import android.content.Context;
 
 import com.philips.platform.flowmanager.AppFrameworkDataParser;
-import com.philips.platform.flowmanager.UIStateFactory;
 import com.philips.platform.flowmanager.condition.AppConditions;
 import com.philips.platform.flowmanager.condition.BaseCondition;
 import com.philips.platform.flowmanager.condition.ConditionFactory;
