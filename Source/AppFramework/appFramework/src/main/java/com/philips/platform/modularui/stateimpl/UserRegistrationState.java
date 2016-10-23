@@ -66,7 +66,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
+        initializeUserRegistrationLibrary(Configuration.STAGING);
         initHSDP();
     }
 
@@ -77,7 +77,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 UR,
-                "Datacore",
+               // "Datacore",
+                "uGrow",
                 configError);
 
         appInfra.
@@ -98,7 +99,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 UR,
-                "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
                 configError);
     }
 

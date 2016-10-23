@@ -115,6 +115,6 @@
     <string name="location_hint">Location Name</string>
     <string name="save">Save</string>
     <string name="synced">Not Synced</string>
-
+    <string name="ds_screen_title">Data Services</string>
 
 </resources>

@@ -258,7 +258,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         super.onResume();
         userRegistrationState = new UserRegistrationState();
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
-            //addIapCartCount();
+            addIapCartCount();
         }
 
     }

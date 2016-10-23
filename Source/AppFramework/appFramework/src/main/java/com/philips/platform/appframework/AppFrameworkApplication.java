@@ -96,8 +96,8 @@ public class AppFrameworkApplication extends Application {
         userRegistrationState.init(this);
         productRegistrationState= new ProductRegistrationState();
         productRegistrationState.init(this);
-//        iapState = new IAPState();
-  //      iapState.init(this);
+        iapState = new IAPState();
+        iapState.init(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
         // Stetho.initializeWithDefaults(this);

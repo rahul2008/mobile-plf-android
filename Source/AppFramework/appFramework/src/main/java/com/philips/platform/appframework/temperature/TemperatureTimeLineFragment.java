@@ -3,12 +3,10 @@ package com.philips.platform.appframework.temperature;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +22,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.listener.DBChangeListener;
 import com.philips.platform.appframework.listener.EventHelper;
@@ -39,7 +39,7 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener, SwipeRefreshLayout.OnRefreshListener{
+public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBChangeListener, SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -49,12 +49,22 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     SwipeRefreshLayout mSwipeRefreshLayout;
     TemperaturePresenter mTemperaturePresenter;
-    private ProgressDialog mProgressDialog = null;
+
+    @Override
+    public String getActionbarTitle() {
+        return getResources().getString(R.string.ds_screen_title);
+    }
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override

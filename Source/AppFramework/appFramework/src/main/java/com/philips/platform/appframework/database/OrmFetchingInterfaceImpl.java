@@ -115,8 +115,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     public List<?> fetchNonSynchronizedMoments() throws SQLException{
         Log.i("***SPO***","In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl after query builder");
         momentQueryBuilder.where().eq(SYNCED_FIELD, false);
-
+        Log.i("***SPO***","In OrmFetchingInterfaceImpl after where and before query");
         return momentQueryBuilder.query();
     }
 

@@ -219,14 +219,32 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
     }
 
     private void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<UserRegistrationFailureListener>> eventMap = EventHelper.getInstance().getURMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.UR)){
-            ArrayList<UserRegistrationFailureListener> dbChangeListeners = EventHelper.getInstance().getURMap().get(EventHelper.UR);
-            for (UserRegistrationFailureListener listener : dbChangeListeners) {
-                listener.onFailure((RetrofitError)e);
+        RetrofitError error = (RetrofitError) e;
+        int status = -1000;
+        if(error!=null && error.getResponse()!=null) {
+            status = error.getResponse().getStatus();
+        }
+
+        Map<Integer, ArrayList<UserRegistrationFailureListener>> urMap = EventHelper.getInstance().getURMap();
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers;
+
+        if (status == 401 || status == 400) {
+            integers = urMap.keySet();
+            if (integers.contains(EventHelper.UR)) {
+                ArrayList<UserRegistrationFailureListener> dbChangeListeners = EventHelper.getInstance().getURMap().get(EventHelper.UR);
+                for (UserRegistrationFailureListener listener : dbChangeListeners) {
+                    listener.onFailure((RetrofitError) e);
+                }
+            }
+        } else {
+            integers = eventMap.keySet();
+            if (integers.contains(EventHelper.MOMENT)) {
+                ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+                for (DBChangeListener listener : dbChangeListeners) {
+                    listener.onFailure(e);
+                }
             }
         }
     }
-
 }
