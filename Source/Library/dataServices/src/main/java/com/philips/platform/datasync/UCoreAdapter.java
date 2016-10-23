@@ -65,7 +65,8 @@ public class UCoreAdapter {
 
 
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
-        String baseUrl = "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com";
+        //String baseUrl = "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com";
+        String baseUrl = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
         if (baseUrl == null || baseUrl.isEmpty()) {
             return null;
         }
