@@ -1,6 +1,6 @@
 {
   "appflow": {
-    "firstState": "welcome",
+    "firstState": "splash",
     "states": [
       {
         "state": "welcome",
@@ -10,15 +10,13 @@
             "nextStates": [
               {
                 "condition": [
-                  "conditionyogesh"
+                  "isLoggedIn"
                 ],
-                "nextState": "nextStatesss"
+                "nextState": "home"
               },
               {
-                "condition": [
-                  "conditionforrakesh"
-                ],
-                "nextState": "nextStatesss"
+                "condition": [],
+                "nextState": "welcome"
               }
             ]
           },
@@ -27,15 +25,13 @@
             "nextStates": [
               {
                 "condition": [
-                  "conditionsusmit"
+                  "isLoggedIn"
                 ],
-                "nextState": "nextStatesss"
+                "nextState": "home"
               },
               {
-                "condition": [
-                  "conditionforricha"
-                ],
-                "nextState": "nextStatesss"
+                "condition": [],
+                "nextState": "welcome"
               }
             ]
           }

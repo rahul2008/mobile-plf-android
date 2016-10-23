@@ -31,7 +31,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     public WelcomeFragmentPresenter(WelcomeFragmentView welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
-        flowManager = new FlowManager();
+        flowManager = FlowManager.getInstance(welcomeFragmentView.getFragmentActivity());
     }
 
     @Override

@@ -2,8 +2,6 @@ package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.flows.SplashFlow;
-import com.philips.platform.appframework.flows.WelcomeFlow;
 import com.philips.platform.flowmanager.AppFrameworkDataParser;
 import com.philips.platform.flowmanager.UIStateFactory;
 import com.philips.platform.flowmanager.condition.AppConditions;
@@ -13,20 +11,12 @@ import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.pojo.AppFlowModel;
 import com.philips.platform.flowmanager.pojo.Event;
 import com.philips.platform.flowmanager.pojo.NextState;
-import com.philips.platform.modularui.statecontroller.BaseFlow;
 import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.HomeTabbedActivityState;
-import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
-import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.modularui.stateimpl.WelcomeState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -34,12 +24,6 @@ import java.util.TreeMap;
  */
 
 public class FlowManager extends BaseUiFlowManager {
-
-    private static final int WELCOME_FLOW = 1006;
-    private static final int SPLASH_FLOW = 1007;
-    private static Map<Integer, UIState> uiStateHashMap;
-    private static Map<Integer, BaseFlow> baseFlowMap;
-    private static Map<String, Integer> eventFlowMap;
 
     //Singleton instance of FlowManager class
     private static FlowManager flowManager;
@@ -52,35 +36,20 @@ public class FlowManager extends BaseUiFlowManager {
     //Object to hold UI Condition factory instance
     private static ConditionFactory mConditionFactory;
 
-    private static Map<String, NextState> mEventNextStatesMap;
     private Context mContext;
 
-    private static void initFlowMap() {
-        baseFlowMap = new TreeMap<>();
-        baseFlowMap.put(WELCOME_FLOW, new WelcomeFlow());
-        baseFlowMap.put(SPLASH_FLOW, new SplashFlow());
+    private FlowManager(Context context) {
+        mContext = context;
+        mUIStateFactory = new UIStateFactory();
+        mConditionFactory = new ConditionFactory();
+        getAppFlowStates(context);
     }
 
-    private static void initEventFlowMap() {
-        eventFlowMap = new HashMap<>();
-        eventFlowMap.put("welcome_done", WELCOME_FLOW);
-        eventFlowMap.put("welcome_skip", WELCOME_FLOW);
-        eventFlowMap.put("welcome_ur", WELCOME_FLOW);
-        eventFlowMap.put("welcome_fragment_home", WELCOME_FLOW);
-        eventFlowMap.put("welcome_activity_home", WELCOME_FLOW);
-        eventFlowMap.put("welcome_settings", WELCOME_FLOW);
+    public static FlowManager getInstance(Context context) {
+        if (flowManager == null)
+            flowManager = new FlowManager(context);
 
-        eventFlowMap.put("splash_navigate_home", SPLASH_FLOW);
-        eventFlowMap.put("splash_navigate_welcome", SPLASH_FLOW);
-    }
-
-    private static void initStates() {
-        uiStateHashMap = new TreeMap<>();
-        uiStateHashMap.put(UIState.UI_WELCOME_STATE, new WelcomeState());
-        uiStateHashMap.put(UIState.UI_HOME_FRAGMENT_STATE, new HomeFragmentState());
-        uiStateHashMap.put(UIState.UI_HOME_STATE, new HomeTabbedActivityState());
-        uiStateHashMap.put(UIState.UI_USER_REGISTRATION_STATE, new UserRegistrationState());
-        uiStateHashMap.put(UIState.UI_SETTINGS_FRAGMENT_STATE, new SettingsFragmentState());
+        return flowManager;
     }
 
     private static void getAppFlowStates(Context mContext) {
@@ -98,24 +67,16 @@ public class FlowManager extends BaseUiFlowManager {
 
     @Override
     public UIState getFirstState() {
-        return null;
+        return getUIState(mFirstState);
     }
 
     @Override
     public void navigateToNextState(String eventID, UiLauncher uiLauncher) {
-        final Integer stateId = eventFlowMap.get(eventID);
-        final BaseFlow baseFlow = baseFlowMap.get(stateId);
-        final Integer state = baseFlow.getNextState(eventID);
-        final UIState uiState = uiStateHashMap.get(state);
-        uiState.navigate(uiLauncher);
     }
 
     @Override
     public UIState getState(final String eventID) {
-        final Integer stateId = eventFlowMap.get(eventID);
-        final BaseFlow baseFlow = baseFlowMap.get(stateId);
-        final Integer state = baseFlow.getNextState(eventID);
-        return uiStateHashMap.get(state);
+        return null;
     }
 
     /**
@@ -136,14 +97,10 @@ public class FlowManager extends BaseUiFlowManager {
 
                 if (event.getEventId() != null && event.getEventId().equals(eventData)) {
                     final List<NextState> nextStates = event.getNextStates();
-                    boolean isConditionSatisfies = true;
                     //Getting list of all possible entry conditions
-                    for (NextState nextState :
-                            nextStates) {
+                    for (NextState nextState : nextStates) {
+                        boolean isConditionSatisfies = true;
                         List<String> conditionsTypes = nextState.getCondition();
-                        //Looping through all the possible condition.
-                        //Set 'isConditionSatisfies' to 'true' is any of the condition satisfies.
-                        //If any of condition satisfies other set it to 'false'.
                         if (conditionsTypes != null && conditionsTypes.size() > 0) {
                             for (final String conditionType : conditionsTypes) {
                                 BaseCondition condition = mConditionFactory
@@ -171,21 +128,11 @@ public class FlowManager extends BaseUiFlowManager {
      * @param state state ID.
      * @return Object to UIState if available or 'null'.
      */
-    public UIState getUIState(AppStates state) {
+    private UIState getUIState(AppStates state) {
         UIState uiState = null;
         if (state != null) {
             uiState = mUIStateFactory.getUIStateState(state);
         }
         return uiState;
-    }
-
-    static {
-        initStates();
-        initEventFlowMap();
-        initFlowMap();
-
-        mUIStateFactory = new UIStateFactory();
-        mConditionFactory = new ConditionFactory();
-        getAppFlowStates(null);
     }
 }

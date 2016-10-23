@@ -50,7 +50,7 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         flowManager = new UIFlowManager();
-        targetFlowManager = new FlowManager();
+        targetFlowManager = FlowManager.getInstance(context);
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);

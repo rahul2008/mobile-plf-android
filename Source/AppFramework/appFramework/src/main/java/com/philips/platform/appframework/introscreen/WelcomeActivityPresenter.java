@@ -35,7 +35,7 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
     public WelcomeActivityPresenter(WelcomeView welcomeView) {
         super(welcomeView);
         this.welcomeView = welcomeView;
-        flowManager = new FlowManager();
+        flowManager = FlowManager.getInstance(welcomeView.getFragmentActivity());
     }
 
     /**
