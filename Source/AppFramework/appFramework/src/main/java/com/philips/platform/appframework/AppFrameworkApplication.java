@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 
+import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.platform.appframework.database.DatabaseHelper;
@@ -100,7 +101,7 @@ public class AppFrameworkApplication extends Application {
         iapState.init(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
-        // Stetho.initializeWithDefaults(this);
+         Stetho.initializeWithDefaults(this);
 
         //initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
 
