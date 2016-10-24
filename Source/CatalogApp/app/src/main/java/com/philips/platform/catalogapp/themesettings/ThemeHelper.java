@@ -31,7 +31,7 @@ public class ThemeHelper {
         return colorRange;
     }
 
-    public ContentColor initTonalRange() {
+    public ContentColor initContentTonalRange() {
         String tonalRange = sharedPreferences.getString(UITHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
         final ContentColor contentColor = ContentColor.valueOf(tonalRange);
         return contentColor;

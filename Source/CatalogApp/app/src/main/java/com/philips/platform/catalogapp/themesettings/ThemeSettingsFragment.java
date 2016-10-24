@@ -20,18 +20,21 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.ThemeSettingsChanged;
+import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
+import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
+import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
+import com.philips.platform.uit.thememanager.UITHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ThemeSettingsFragment extends BaseFragment {
-
-    private ColorRange colorRange = ColorRange.GROUP_BLUE;
 
     @Bind(R.id.colorRangeList)
     RecyclerView colorRangeListview;
@@ -51,20 +54,19 @@ public class ThemeSettingsFragment extends BaseFragment {
     private ThemeColorHelper themeColorHelper;
 
     int colorPickerWidth = 48;
+
     private SharedPreferences defaultSharedPreferences;
-    private ThemeColorAdapter themeColorAdapter;
+    private ThemeColorAdapter colorRangeAdapter;
     private ThemeColorAdapter tonalRangeAdapter;
     private ThemeColorAdapter navigationListAdapter;
-
     private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
+
+    private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
     private ThemeHelper themeHelper;
-
-    public void setThemeSettingsChanged(final ThemeSettingsChanged themeSettingsChanged) {
-        this.themeSettingsChanged = themeSettingsChanged;
-    }
-
-    private ThemeSettingsChanged themeSettingsChanged;
+    private int colorRangeSelectedPosition;
+    private int contentSelectedPosition;
+    private int navigationSelectedPosition;
 
     @Nullable
     @Override
@@ -75,9 +77,19 @@ public class ThemeSettingsFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
-        colorRange = themeHelper.initColorRange();
-        navigationColor = themeHelper.initNavigationRange();
-        contentColor = themeHelper.initTonalRange();
+
+        if (savedInstanceState != null) {
+            colorRangeSelectedPosition = savedInstanceState.getInt(UITHelper.COLOR_RANGE, getColorRangeAdapter().getSelectedPosition());
+            contentSelectedPosition = savedInstanceState.getInt(UITHelper.CONTENT_TONAL_RANGE, getTonalRangeAdapter(colorRange).getSelectedPosition());
+            navigationSelectedPosition = savedInstanceState.getInt(UITHelper.NAVIGATION_RANGE, getNavigationListAdapter(colorRange).getSelectedPosition());
+            colorRange = ColorRange.values()[colorRangeSelectedPosition];
+            initNavigationColor(navigationSelectedPosition);
+            initContentColor(contentSelectedPosition);
+        } else {
+            colorRange = themeHelper.initColorRange();
+            navigationColor = themeHelper.initNavigationRange();
+            contentColor = themeHelper.initContentTonalRange();
+        }
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -94,6 +106,18 @@ public class ThemeSettingsFragment extends BaseFragment {
         });
 
         return view;
+    }
+
+    private void initContentColor(final int colorRangeSelectedPosition) {
+        contentColor = ContentColor.values()[colorRangeSelectedPosition];
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putInt(UITHelper.COLOR_RANGE, colorRange.ordinal());
+        outState.putInt(UITHelper.CONTENT_TONAL_RANGE, getSelectedContentTonalRangePosition());
+        outState.putInt(UITHelper.NAVIGATION_RANGE, getSelectedNavigationPosition());
+        super.onSaveInstanceState(outState);
     }
 
     private void initColorPickerWidth() {
@@ -117,19 +141,18 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @NonNull
     private ThemeColorAdapter getColorRangeAdapter() {
-        themeColorAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
+        colorRangeAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
             @Override
             public void onThemeSettingsChanged(final String changedColorRange) {
                 colorRange = ColorRange.valueOf(changedColorRange.toUpperCase());
-                if (themeSettingsChanged != null) {
-                    themeSettingsChanged.onColorRangeChanged(colorRange);
-                }
+
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
+                EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
             }
         }, colorPickerWidth);
-        themeColorAdapter.setSelected(colorRange.ordinal());
-        return themeColorAdapter;
+        colorRangeAdapter.setSelected(colorRangeSelectedPosition == 0 ? colorRange.ordinal() : colorRangeSelectedPosition);
+        return colorRangeAdapter;
     }
 
     private void updateNavigationRangeColors() {
@@ -152,9 +175,7 @@ public class ThemeSettingsFragment extends BaseFragment {
             @Override
             public void onThemeSettingsChanged(final String tonalRangeChanged) {
                 contentColor = getContentTonalRangeByPosition();
-                if (themeSettingsChanged != null) {
-                    themeSettingsChanged.onContentColorChanged(contentColor);
-                }
+                EventBus.getDefault().post(new TonalRangeChangedEvent(contentColor.name().toString(), contentColor));
             }
         }, colorPickerWidth);
         tonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
@@ -169,7 +190,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private int getSelectedContentTonalRangePosition() {
-        return contentColor.values().length - contentColor.ordinal() - 1;
+        return contentSelectedPosition == 0 ? (contentColor.values().length - contentColor.ordinal() - 1) : contentSelectedPosition;
     }
 
     private void buildNavigationList(final ColorRange colorRange) {
@@ -186,19 +207,21 @@ public class ThemeSettingsFragment extends BaseFragment {
                 final ThemeColorAdapter adapter = (ThemeColorAdapter) notificationBarListview.getAdapter();
                 final int selectedPosition = adapter.getSelectedPosition();
 
-                NavigationColor[] values = NavigationColor.values();
-                navigationColor = values[values.length - selectedPosition - 1];
-                if (themeSettingsChanged != null) {
-                    themeSettingsChanged.onNavigationColorChanged(navigationColor);
-                }
+                initNavigationColor(selectedPosition);
+                EventBus.getDefault().post(new NavigationColorChangedEvent(contentColor.name().toString(), navigationColor));
             }
         }, colorPickerWidth);
         navigationListAdapter.setSelected(getSelectedNavigationPosition());
         return navigationListAdapter;
     }
 
+    private void initNavigationColor(final int selectedPosition) {
+        NavigationColor[] values = NavigationColor.values();
+        navigationColor = values[values.length - selectedPosition - 1];
+    }
+
     private int getSelectedNavigationPosition() {
-        return NavigationColor.values().length - navigationColor.ordinal() - 1;
+        return navigationSelectedPosition == 0 ? NavigationColor.values().length - navigationColor.ordinal() - 1 : navigationSelectedPosition;
     }
 
     private void buildAccentColorsList(final ColorRange colorRange) {
@@ -210,12 +233,6 @@ public class ThemeSettingsFragment extends BaseFragment {
         }, colorPickerWidth));
 
         setLayoutOrientation(accentColorRangeList);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        themeSettingsChanged = null;
     }
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {
