@@ -25,6 +25,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.introscreen.welcomefragment.WelcomeFragment;
+import com.philips.platform.appframework.splash.SplashFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -40,6 +41,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
     private TextView textView;
     private FragmentManager fragmentManager;
     private WelcomeFragment welcomeScreenFragment;
+    private SplashFragment splashFragment;
     private FragmentTransaction fragmentTransaction;
 
     @Override
@@ -48,7 +50,15 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         presenter = new WelcomeActivityPresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_activity);
-        presenter.onLoad();
+        loadSplashFragment();
+    }
+
+    public void loadSplashFragment() {
+        fragmentManager = this.getSupportFragmentManager();
+        splashFragment = new SplashFragment();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.welcome_frame_container, splashFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
