@@ -25,11 +25,18 @@ public interface ABTestClientInterface {
     }
 
 
-    enum UPDATETYPES { EVERY_APP_START(1), ONLY_AT_APP_UPDATE(2);
+    enum UPDATETYPES {
+        EVERY_APP_START(1), ONLY_AT_APP_UPDATE(2);
 
-        
+        private int value;
+
 
         UPDATETYPES(int i) {
+            this.value = i;
+        }
+
+        public int getValue(){
+            return value;
         }
     }
 

@@ -15,18 +15,6 @@ class CacheModel {
 
     private HashMap<String, ValueModel> mTestValues;
 
-    private String mAppVersion;
-
-
-    public String getAppVersion() {
-        return mAppVersion;
-    }
-
-    public void setAppVersion(String appVersion) {
-        this.mAppVersion = appVersion;
-    }
-
-
     public HashMap<String, ValueModel> getTestValues() {
         return mTestValues;
     }
@@ -39,7 +27,15 @@ class CacheModel {
 
         private String testValue;
         private String updateType;
+        private String appVersion;
 
+        public String getAppVersion() {
+            return appVersion;
+        }
+
+        public void setAppVersion(String appVersion) {
+            this.appVersion = appVersion;
+        }
 
         public String getTestValue() {
             return testValue;
