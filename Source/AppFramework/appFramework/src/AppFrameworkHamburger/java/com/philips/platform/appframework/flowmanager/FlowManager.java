@@ -98,7 +98,7 @@ public class FlowManager extends BaseUiFlowManager {
 
                 final EventStates eventStates = EventStates.get(appFlowEvent.getEventId());
                 if (appFlowEvent.getEventId() != null && eventStates == eventData) {
-                    final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getAppFlowNextStates();
+                    final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                     //Getting list of all possible entry conditions
                     for (AppFlowNextState appFlowNextState : appFlowNextStates) {
                         boolean isConditionSatisfies = true;
