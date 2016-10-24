@@ -84,6 +84,18 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".RestClientServiceIdActivity"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".RestMenuActivity"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".RestDemo"
             android:label="RestDemo"
             android:screenOrientation="portrait"
