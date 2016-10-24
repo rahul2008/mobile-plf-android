@@ -99,23 +99,6 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
         uiState.setUiStateData(homeStateData);
         uiState.navigate(fragmentLauncher);
-        /*final SharedPreferenceUtility sharedPreferenceUtility = getSharedPreferenceUtility();
-        if (sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED) || appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
-            welcomeView.showActionBar();
-            setState(UIState.UI_USER_REGISTRATION_STATE);
-            EventStates eventState = getEventState(USER_REGISTRATION_STATE);
-            uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
-            fragmentLauncher = getFragmentLauncher();
-            uiState.setPresenter(this);
-            ((UserRegistrationState) uiState).registerUIStateListener(this);
-            appFrameworkApplication.getFlowManager().setCurrentState(uiState);
-            uiState.navigate(fragmentLauncher);
-        } else {
-            setState(UIState.UI_WELCOME_STATE);
-            appFrameworkApplication.getFlowManager().getCurrentState().setStateID(UIState.UI_WELCOME_STATE);
-            welcomeView.hideActionBar();
-            welcomeView.loadWelcomeFragment();
-        }*/
     }
 
     @NonNull

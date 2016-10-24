@@ -50,7 +50,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         presenter = new WelcomeActivityPresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_activity);
-        loadSplashFragment();
+        presenter.onLoad();
     }
 
     public void loadSplashFragment() {

@@ -2,8 +2,11 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.splash.SplashFragment;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
@@ -11,6 +14,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * All rights reserved.
  */
 public class SplashState extends UIState {
+    private FragmentLauncher fragmentLauncher;
 
     public SplashState() {
         super(UIState.UI_SPLASH_STATE);
@@ -18,7 +22,9 @@ public class SplashState extends UIState {
 
     @Override
     public void navigate(final UiLauncher uiLauncher) {
-
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+                addFragment(new SplashFragment(), SplashFragment.TAG);
     }
 
     @Override

@@ -26,7 +26,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 public class SplashFragment extends Fragment implements WelcomeView{
     private boolean isVisible = false;
     private static int SPLASH_TIME_OUT = 3000;
-    private static String TAG = WelcomeActivity.class.getSimpleName();
+    public static String TAG = WelcomeActivity.class.getSimpleName();
     UIBasePresenter presenter;
 
     @Nullable

@@ -37,7 +37,7 @@ import com.shamanland.fonticon.FontIconView;
  */
 public class WelcomeFragment extends Fragment implements View.OnClickListener, WelcomeFragmentView {
 
-    private static String TAG = WelcomeActivity.class.getSimpleName();
+    public static String TAG = WelcomeActivity.class.getSimpleName();
 
     private FontIconView leftArrow;
     private FontIconView rightArrow;

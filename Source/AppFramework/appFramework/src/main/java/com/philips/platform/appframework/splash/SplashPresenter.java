@@ -8,13 +8,14 @@ package com.philips.platform.appframework.splash;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
-import com.philips.platform.modularui.statecontroller.UIView;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -22,9 +23,9 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
 public class SplashPresenter extends UIBasePresenter {
-    private final UIView uiView;
+    private final WelcomeView uiView;
 
-    public SplashPresenter(final UIView uiView) {
+    public SplashPresenter(WelcomeView uiView) {
         super(uiView);
         this.uiView = uiView;
         setState(UIState.UI_SPLASH_STATE);
@@ -47,6 +48,9 @@ public class SplashPresenter extends UIBasePresenter {
         UIStateData homeStateData = new UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
         uiState.setUiStateData(homeStateData);
+        if(uiState instanceof UserRegistrationState) {
+            uiView.showActionBar();
+        }
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
         if (null != uiState) {
             uiState.setPresenter(this);
