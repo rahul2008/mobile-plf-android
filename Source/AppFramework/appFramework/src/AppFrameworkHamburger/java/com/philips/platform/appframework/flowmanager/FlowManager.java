@@ -86,7 +86,7 @@ public class FlowManager extends BaseUiFlowManager {
      * @param currentState current state of the app.
      * @return Object to next UIState if available or 'null'.
      */
-    public UIState getNextState(AppStates currentState, EventStates eventData) {
+    public UIState getNextState(AppStates currentState, EventStates event) {
         //Getting the list of all possible next state for the give 'currentState'.
         final List<AppFlowEvent> appFlowEvents = mAppFlowMap.get(currentState);
 
@@ -97,7 +97,7 @@ public class FlowManager extends BaseUiFlowManager {
                 //boolean to hold the status of entry condition for the 'appFlowEvent'.
 
                 final EventStates eventStates = EventStates.get(appFlowEvent.getEventId());
-                if (appFlowEvent.getEventId() != null && eventStates == eventData) {
+                if (appFlowEvent.getEventId() != null && eventStates == event) {
                     final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                     //Getting list of all possible entry conditions
                     for (AppFlowNextState appFlowNextState : appFlowNextStates) {
