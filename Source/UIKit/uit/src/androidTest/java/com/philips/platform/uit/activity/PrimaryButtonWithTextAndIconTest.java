@@ -2,6 +2,7 @@ package com.philips.platform.uit.activity;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uit.view.widget.Button;
@@ -10,6 +11,8 @@ import org.junit.Before;
 import org.junit.Rule;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -36,7 +39,9 @@ public class PrimaryButtonWithTextAndIconTest {
 
     /************************************************Theming************************************************/
 
-
+    private ViewInteraction getIconandTextButton() {
+        return onView(withId(com.philips.platform.uit.test.R.id.demo_image_text_button));
+    }
 
 
 
