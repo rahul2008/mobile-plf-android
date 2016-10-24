@@ -67,6 +67,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
                 break;
             case HomeActivityPresenter.MENU_OPTION_HOME:
                 uiState = new HomeActivityState();
+                break;
         }
         return uiState;
     }
