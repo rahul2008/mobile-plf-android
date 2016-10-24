@@ -48,6 +48,24 @@
                 "nextState": "registration"
               }
             ]
+          },
+          {
+            "eventId": "welcome_home",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "welcome_registration",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "registration"
+              }
+            ]
           }
         ]
       },
