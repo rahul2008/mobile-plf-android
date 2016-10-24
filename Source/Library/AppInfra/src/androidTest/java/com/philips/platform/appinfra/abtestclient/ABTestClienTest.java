@@ -193,10 +193,10 @@ public class ABTestClienTest extends MockitoTestCase {
         CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
         valueModel.setTestValue("default");
         valueModel.setUpdateType(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
+        valueModel.setAppVersion("1.1.0");
         HashMap<String, CacheModel.ValueModel> cacheValue = new HashMap<>();
         cacheValue.put("philipsmobileappabtest1content", valueModel);
         cacheModel.setTestValues(cacheValue);
-        cacheModel.setAppVersion("1.1.0");
         return cacheModel;
     }
 
