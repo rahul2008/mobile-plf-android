@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
-import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
 import com.philips.platform.uit.utils.UITTestUtils;
 
@@ -49,52 +48,6 @@ public class SecondaryButtonWithTextOnlyTest {
         instrumentationContext = getInstrumentation().getContext();
     }
 
-    /*****************************************
-     * Layout Scenarios
-     *********************************************/
-
-    @Test
-    public void verifySecButtonHeight() {
-        UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_height);
-        getPrimaryButton()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
-    }
-
-    @Test
-    public void verifySecButtonLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_left_padding);
-        getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
-    }
-
-    @Test
-    public void verifySecButtonRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_right_padding);
-        getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
-    }
-
-    @Test
-    public void verifySecButtonCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
-        getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
-    }
-
-
-
-    // TODO: 9/14/2016
-    @Ignore
-    public void verifyAltButtonFontType() {
-
-    }
-
-    @Test
-    public void verifySecButtonFontSize() {
-        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
-        getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
-    }
-
-
-
     /*******************************************************
      * Theming
      ******************************************************/
@@ -116,14 +69,6 @@ public class SecondaryButtonWithTextOnlyTest {
     }
 
     @Test
-    public void verifySecTextOnlyDisabledButtonControlColorULTone() {
-        final int disabledColor = modulateColorAlpha(Color.parseColor("#BFE2EB"), 0.25f);
-        disableAllViews();
-        getPrimaryButton().check(matches(FunctionDrawableMatchers
-                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
-    }
-
-    @Test
     public void verifySecTextOnlyButtonFontColor() {
         final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue45);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedFontColor)));
@@ -133,6 +78,14 @@ public class SecondaryButtonWithTextOnlyTest {
     @Test
     public void verifySecTextOnlyPressedButtonFontColor() {
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_pressed, GroupBlue45)));
+    }
+
+    @Test
+    public void verifySecTextOnlyDisabledButtonControlColorULTone() {
+        final int disabledColor = modulateColorAlpha(Color.parseColor("#BFE2EB"), 0.25f);
+        disableAllViews();
+        getPrimaryButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
     }
 
     @Test
