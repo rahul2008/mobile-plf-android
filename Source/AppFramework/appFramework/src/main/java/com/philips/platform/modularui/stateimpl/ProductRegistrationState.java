@@ -19,6 +19,7 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -61,6 +62,10 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
         new PRInterface().init(prodRegDependencies, uappSettings);
     }
 
+    @Override
+    public AppStates getStateEnum() {
+        return AppStates.PR;
+    }
 
     /**
      * ProdRegUiListener interface implementation methods

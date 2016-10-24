@@ -24,6 +24,7 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -37,12 +38,12 @@ import java.util.Locale;
  */
 public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener{
 
+    final String AI = "appinfra";
     private Context activityContext;
     private User userObject;
     private URStateListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
-    final String AI = "appinfra";
 
     public UserRegistrationState() {
         super(UIState.UI_USER_REGISTRATION_STATE);
@@ -64,6 +65,11 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         this.applicationContext = context;
         initializeUserRegistrationLibrary(Configuration.STAGING);
 
+    }
+
+    @Override
+    public AppStates getStateEnum() {
+        return AppStates.REGISTRATION;
     }
 
     /**
@@ -242,8 +248,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 providers,
                 configError);
 
-
-        SharedPreferences.Editor editor = applicationContext.getSharedPreferences("reg_dynamic_config", applicationContext.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = applicationContext.getSharedPreferences("reg_dynamic_config", Context.MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
 

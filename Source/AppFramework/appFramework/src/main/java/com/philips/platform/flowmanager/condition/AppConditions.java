@@ -20,7 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Description: Initial version
  */
 public enum AppConditions {
-    IS_LOGGED_IN("isLoggedIn");
+    IS_LOGGED_IN("isLoggedIn"),
+    IS_DONE_PRESSED("isDonePressed");
 
     //Map to hold the Enum and its corresponding values.
     private static final Map<String, AppConditions> ENUM_MAP;

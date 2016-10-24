@@ -24,15 +24,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Project           : Lumea
- * File Name         : UIStateFactory
- * Description       : This is factory class for UI state object
- * Revision History: version 1:
- * Date: 7/6/2016
- * Original author: Bhanu Hirawat
- * Description: Initial version
- */
 public class UIStateFactory {
 
     //Map to hold the Enum and its corresponding values.

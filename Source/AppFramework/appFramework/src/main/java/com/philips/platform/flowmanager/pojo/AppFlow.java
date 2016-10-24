@@ -9,32 +9,40 @@ import java.util.Map;
 public class AppFlow {
 
     private String firstState;
-    private List<AppFlowState> states = new ArrayList<AppFlowState>();
+    private List<AppFlowState> states = new ArrayList<>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * @return The firstState
+     *
+     * @return
+     *     The firstState
      */
     public String getFirstState() {
         return firstState;
     }
 
     /**
-     * @param firstState The firstState
+     *
+     * @param firstState
+     *     The firstState
      */
     public void setFirstState(String firstState) {
         this.firstState = firstState;
     }
 
     /**
-     * @return The states
+     *
+     * @return
+     *     The states
      */
     public List<AppFlowState> getStates() {
         return states;
     }
 
     /**
-     * @param states The states
+     *
+     * @param states
+     *     The states
      */
     public void setStates(List<AppFlowState> states) {
         this.states = states;
