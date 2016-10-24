@@ -252,7 +252,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                     String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(),mContext);
                     mEtCodeNUmber.hideResendSpinner();
                     Log.i("SMS Resend failure ", "Val = " + response);
-                    mRegError.setError(errorMsg);
+                    mEtCodeNUmber.showEmailIsInvalidAlert();
+                    mEtCodeNUmber.setErrDescription(errorMsg);
                 }
 
             } catch (Exception e) {
@@ -273,7 +274,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 }else{
                     hideSpinner();
                     Log.i("SMS activation failure ", "Val = " + response);
-                    mRegError.setError(jsonObject.getString("error_description").toString());
+                    mEtCodeNUmber.showEmailIsInvalidAlert();
+                    mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());
                 }
 
             } catch (Exception e) {

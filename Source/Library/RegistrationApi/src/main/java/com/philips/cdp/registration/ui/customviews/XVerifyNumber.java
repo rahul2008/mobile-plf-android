@@ -123,7 +123,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
     }
 
-    private void showEmailIsInvalidAlert() {
+    public void showEmailIsInvalidAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
         mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
