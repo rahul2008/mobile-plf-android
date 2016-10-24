@@ -56,10 +56,10 @@ public class AppFrameworkDataParser {
      * @return Map of state to array of next states.
      */
     public static Map<AppStates, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
-        if (appFlow.getAppFlowStates() != null) {
+        if (appFlow.getStates() != null) {
             appFlowMap = new HashMap<>();
-            for (final AppFlowState states : appFlow.getAppFlowStates()) {
-                appFlowMap.put(AppStates.get(states.getState()), states.getAppFlowEvents());
+            for (final AppFlowState states : appFlow.getStates()) {
+                appFlowMap.put(AppStates.get(states.getState()), states.getEvents());
             }
         }
         return appFlowMap;

@@ -9,7 +9,7 @@ import java.util.Map;
 public class AppFlowEvent {
 
     private String eventId;
-    private List<AppFlowNextState> appFlowNextStates = new ArrayList<AppFlowNextState>();
+    private List<AppFlowNextState> nextStates = new ArrayList<AppFlowNextState>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -27,17 +27,17 @@ public class AppFlowEvent {
     }
 
     /**
-     * @return The appFlowNextStates
+     * @return The nextStates
      */
-    public List<AppFlowNextState> getAppFlowNextStates() {
-        return appFlowNextStates;
+    public List<AppFlowNextState> getNextStates() {
+        return nextStates;
     }
 
     /**
-     * @param appFlowNextStates The appFlowNextStates
+     * @param nextStates The nextStates
      */
-    public void setAppFlowNextStates(List<AppFlowNextState> appFlowNextStates) {
-        this.appFlowNextStates = appFlowNextStates;
+    public void setNextStates(List<AppFlowNextState> nextStates) {
+        this.nextStates = nextStates;
     }
 
     public Map<String, Object> getAdditionalProperties() {
