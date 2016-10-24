@@ -233,13 +233,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onReceiveResult(int resultCode, Bundle resultData) {
         mBtnVerify.setEnabled(true);
         String response = resultData.getString("responseStr");
+        RLog.i("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
         if (response == null) {
             mEtCodeNUmber.hideResendSpinner();
             mEtCodeNUmber.showEmailIsInvalidAlert();
             mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.URX_SMS_InternalServerError));
             return;
         }
-        Log.i("onReceiveResult ", "Response Val = " + response);
         if (isAccountActivate) {
             handleActivate(response);
         } else {
@@ -258,7 +258,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             } else {
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
                 mEtCodeNUmber.hideResendSpinner();
-                Log.i("SMS Resend failure ", "Val = " + response);
+                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 mEtCodeNUmber.showEmailIsInvalidAlert();
                 mEtCodeNUmber.setErrDescription(errorMsg);
             }
@@ -285,7 +285,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                     mUser.refreshUser(this);
                 } else {
                     hideSpinner();
-                    Log.i("SMS activation failure ", "Val = " + response);
+                    RLog.i("MobileVerifyCodeFragment ", "SMS activation failure: " + response);
                     if (jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode))) {
                         mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.Mobile_Verification_Invalid_Code));
                     } else {

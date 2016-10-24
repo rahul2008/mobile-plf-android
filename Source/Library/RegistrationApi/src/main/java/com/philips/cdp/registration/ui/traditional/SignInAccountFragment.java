@@ -763,13 +763,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
+        RLog.i("SignInAccountFragment ", "onReceiveResult Response Val = " + response);
         if (response == null) {
             updateResendUIState();
             mEtEmail.showValidEmailAlert();
             mRegError.setError(mContext.getResources().getString(R.string.URX_SMS_InternalServerError));
             return;
         }
-        Log.i("onReceiveResult ", "Response Val = " + response);
         handleResendSMSRespone(response);
     }
 
@@ -795,7 +795,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 handleResendVerificationEmailSuccess();
             } else {
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
-                Log.i("SMS Resend failure ", "Val = " + response);
+                RLog.i("SignInAccountFragment ", "SMS Resend failure Val = " + response);
                 mRegError.setError(errorMsg);
             }
 
