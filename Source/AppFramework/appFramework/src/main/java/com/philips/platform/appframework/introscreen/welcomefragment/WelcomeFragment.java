@@ -139,12 +139,6 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
     }
 
     @Override
-    public void loadWelcomeFragment() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.loadWelcomeFragment();
-    }
-
-    @Override
     public void finishActivityAffinity() {
         final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
         welcomeActivity.finishAffinity();

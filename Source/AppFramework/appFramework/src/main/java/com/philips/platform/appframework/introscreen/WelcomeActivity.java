@@ -53,14 +53,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         presenter.onLoad();
     }
 
-    public void loadSplashFragment() {
-        fragmentManager = this.getSupportFragmentManager();
-        splashFragment = new SplashFragment();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.welcome_frame_container, splashFragment);
-        fragmentTransaction.commit();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -105,15 +97,6 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
-    }
-
-    @Override
-    public void loadWelcomeFragment() {
-        fragmentManager = this.getSupportFragmentManager();
-        welcomeScreenFragment = new WelcomeFragment();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.welcome_frame_container, welcomeScreenFragment);
-        fragmentTransaction.commit();
     }
 
     @Override

@@ -92,12 +92,6 @@ public class SplashFragment extends Fragment implements WelcomeView{
     }
 
     @Override
-    public void loadWelcomeFragment() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.loadWelcomeFragment();
-    }
-
-    @Override
     public void finishActivityAffinity() {
         final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
         welcomeActivity.finishAffinity();
