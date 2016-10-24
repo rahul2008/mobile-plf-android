@@ -10,13 +10,13 @@ buildscript {
 }
 
 android {
-    compileSdkVersion buildSdkVer
+    compileSdkVersion 24
     buildToolsVersion "${buildToolsVer}"
 
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
         minSdkVersion "${minSdkVer}"
-        targetSdkVersion targetSdkVer
+        targetSdkVersion 'N'
         versionCode versionCode
         versionName "${versionName}"
 
