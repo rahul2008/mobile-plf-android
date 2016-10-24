@@ -37,8 +37,8 @@ import java.util.Map;
 
 public class RestManager implements RestInterface{
     private RequestQueue mRequestQueue ;
-    public static AppInfra mAppInfra;
-    private AppConfigurationInterface mAppConfigurationInterface;
+    AppInfra mAppInfra;
+
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
     public final static String LANGUAGE="language";
@@ -56,11 +56,13 @@ public class RestManager implements RestInterface{
 //        return mInstance;
 //    }
 
+    @Override
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone ,passes one in.
             // Instantiate the cache
+            AppConfigurationInterface mAppConfigurationInterface;
             mAppConfigurationInterface = mAppInfra.getConfigInterface();
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
             Integer cacheSizeinKB = (Integer)mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB","appinfra",configError);
@@ -242,6 +244,8 @@ public class RestManager implements RestInterface{
         }
     }
 
+
+
     private void stringRequestWithURL(final int requestType, String urlString, final ServiceIDCallback listener, final Map<String, String> headers,final  Map<String, String> params) throws HttpForbiddenException {
         StringRequest request=null;
         try {
@@ -353,5 +357,14 @@ public class RestManager implements RestInterface{
         getRequestQueue().add(req);
     }
 
+    @Override
+    public boolean isValidURL(String url) {
+        boolean isValidurl=false;
+        String regex = "\\b(http?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+        if(null!=url && url.matches(regex) ) {
+            isValidurl = true;
+        }
+        return isValidurl;
+    }
 
 }

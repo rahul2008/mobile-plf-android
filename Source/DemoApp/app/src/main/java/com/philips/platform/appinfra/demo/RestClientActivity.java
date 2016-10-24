@@ -106,7 +106,15 @@ public class RestClientActivity extends AppCompatActivity {
 
                 if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")) {
                     StringRequest putRequest = null;
+                    if(!mRestInterface.isValidURL(urlInput.getText().toString().trim())){ // if invalid url
+                        showAlertDialog("URL Error","Invalid URL");
+                        return ;
+                    }
                     try {
+                        if(!mRestInterface.isValidURL(urlInput.getText().toString().trim())){ // if invalid url
+                            showAlertDialog("URL Error","Invalid URL");
+                            return ;
+                        }
                         putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id="+idInput.getText().toString().trim(),
                                 new Response.Listener<String>()
                                 {
@@ -158,6 +166,10 @@ public class RestClientActivity extends AppCompatActivity {
                         mRestInterface.getRequestQueue().add(putRequest);
                     }
                 }else{
+                    if(!mRestInterface.isValidURL(urlInput.getText().toString().trim())){ // if invalid url
+                        showAlertDialog("URL Error","Invalid URL");
+                        return ;
+                    }
                     StringRequest mStringRequest = null;
                     try {
                         mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id="+idInput.getText().toString().trim(), new Response.Listener<String>() {
@@ -227,6 +239,10 @@ public class RestClientActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mRestInterface.isValidURL(urlInput.getText().toString().trim()+"/RCT/test.php?action=authtoken")){ // if invalid url
+                    showAlertDialog("URL Error","Invalid URL");
+                    return ;
+                }
                 StringRequest mStringRequest = null;
                 try {
                     mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authtoken", new Response.Listener<String>() {
@@ -274,6 +290,10 @@ public class RestClientActivity extends AppCompatActivity {
         autchCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mRestInterface.isValidURL(urlInput.getText().toString().trim()+"/RCT/test.php?action=authcheck")){ // if invalid url
+                    showAlertDialog("URL Error","Invalid URL");
+                    return ;
+                }
                 StringRequest mStringRequest = null;
                 try {
                     mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authcheck",
@@ -403,4 +423,6 @@ public class RestClientActivity extends AppCompatActivity {
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
+
+
 }

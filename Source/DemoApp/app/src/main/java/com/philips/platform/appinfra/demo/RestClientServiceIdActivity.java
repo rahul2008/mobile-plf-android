@@ -34,7 +34,6 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     // String url = "https://hashim.herokuapp.com/RCT/test.php?action=data&id=aa";
     //String baseURL= "https://www.oldchaphome.nl";
     String serviceIdString;
-    String pathComponentString;
 
     private Spinner requestTypeSpinner;
     private Spinner requestDataSpinner;
@@ -62,7 +61,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         mResponse= (TextView) findViewById(R.id.textViewResponse);
         mImageView = (ImageView) findViewById(R.id.responseImageId);
         serviceIdString= serviceIDInput.getText().toString();
-        pathComponentString = pathComponentInput.getText().toString();
+
 
         Button setHeaders = (Button)findViewById(R.id.buttonSetHeadersSID);
         setHeaders.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +109,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
                 if(requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[0])){ // string
                      try {
-                        mRestInterface.stringRequestWithServiceID(Request.Method.GET, serviceIdString, RestManager.LANGUAGE, pathComponentString, new RestInterface.ServiceIDCallback() {
+                        mRestInterface.stringRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
                             @Override
                             public void onSuccess(Object response) {
                                 String serviceResponse=(String)response;
@@ -131,7 +130,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                     }
                 }else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])){ //json
                     try {
-                        mRestInterface.jsonObjectRequestWithServiceID(Request.Method.GET, serviceIdString, RestManager.LANGUAGE, pathComponentString, new RestInterface.ServiceIDCallback() {
+                        mRestInterface.jsonObjectRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
                                     @Override
                                     public void onSuccess(Object response) {
                                         JSONObject serviceResponse=(JSONObject)response;
@@ -153,7 +152,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])){ //image
 
                     try {
-                        mRestInterface.imageRequestWithServiceID(serviceIdString, RestManager.LANGUAGE, pathComponentString, new RestInterface.ServiceIDCallback() {
+                        mRestInterface.imageRequestWithServiceID(serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
                             @Override
                             public void onSuccess(Object response) {
                                 Bitmap bitmap = (Bitmap)response;
@@ -237,5 +236,14 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
+    }
+
+    // get path component to be appended at base url returned by SD
+    String getPathComponentString(){
+        String path="";
+        if(null!=pathComponentInput.getText() && null!=pathComponentInput.getText().toString()){
+            path=pathComponentInput.getText().toString().trim();
+        }
+        return path;
     }
 }

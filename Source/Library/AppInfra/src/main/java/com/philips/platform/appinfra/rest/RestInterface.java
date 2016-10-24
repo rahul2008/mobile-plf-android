@@ -66,4 +66,6 @@ public interface RestInterface {
         void onErrorResponse(String error);
     }
 
+    public boolean isValidURL(String url);
+
 }
