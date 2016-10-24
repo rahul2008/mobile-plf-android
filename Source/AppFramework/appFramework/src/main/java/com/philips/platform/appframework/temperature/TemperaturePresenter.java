@@ -2,6 +2,7 @@ package com.philips.platform.appframework.temperature;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Measurement;
@@ -19,12 +20,16 @@ import org.joda.time.DateTime;
 import javax.inject.Inject;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIView;
+import com.philips.platform.modularui.stateimpl.URStateListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TemperaturePresenter {
+public class TemperaturePresenter  extends UIBasePresenter {
     @Inject
     Tracker tracker;
 
@@ -33,7 +38,8 @@ public class TemperaturePresenter {
     MomentType mMomentType;
     Context mContext;
 
-    TemperaturePresenter(Context context, MomentType momentType){
+    TemperaturePresenter(UIView uiView, Context context, MomentType momentType){
+        super(uiView);
         ((AppFrameworkApplication) context.getApplicationContext()).getAppComponent().injectTemperature(this);
         mMomentType = momentType;
         mContext = context;
@@ -90,4 +96,21 @@ public class TemperaturePresenter {
         Log.i("***SPO***", "In Presenter");
         tracker.syncData();
     }
+
+
+    @Override
+    public void onClick(int componentID) {
+
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    public void createAndSaveMoment(final String phaseInput, final String temperatureInput, final String locationInput) {
+        createMoment(phaseInput, temperatureInput, locationInput);
+        saveRequest();
+    }
+
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.philips.platform.appframework.listener.EventHelper;
 import com.philips.platform.appframework.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 
@@ -39,7 +41,7 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBChangeListener, SwipeRefreshLayout.OnRefreshListener{
+public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBChangeListener, SwipeRefreshLayout.OnRefreshListener,TemperatureView{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -71,6 +73,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onStop() {
         super.onStop();
         cancelPendingIntent();
+
     }
 
     @Override
@@ -102,8 +105,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                createAndSaveMoment(phase.getText().toString(), temperature.getText().toString(),
-                        location.getText().toString()   );
+                mTemperaturePresenter.createAndSaveMoment(phase.getText().toString(),temperature.getText().toString(),location.getText().toString() );
                 dialog.dismiss();
             }
         });
@@ -174,19 +176,16 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         dialog.show();
     }
 
-    private void createAndSaveMoment(final String phaseInput, final String temperatureInput, final String locationInput) {
-        mTemperaturePresenter.createMoment(phaseInput, temperatureInput, locationInput);
-        mTemperaturePresenter.saveRequest();
-    }
+
 
     private void init() {
         alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
         ((AppFrameworkApplication) getActivity().getApplication()).getAppComponent().injectFragment(this);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT,this);
-        mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
+        mTemperaturePresenter = new TemperaturePresenter(this,getContext(), MomentType.TEMPERATURE);
          mTemperaturePresenter.fetchData();
         setUpBackendSynchronizationLoop();
-        //mTemperaturePresenter.startSync();
+
     }
 
     private void setUpBackendSynchronizationLoop() {
@@ -267,18 +266,45 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                     if (getContext() != null)
                         Toast.makeText(getContext(), "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-                if(mSwipeRefreshLayout.isRefreshing()){
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
+               dismissRefreshLayout();
             }
         });
     }
 
     @Override
     public void onRefresh() {
+       showRefreshLayout();
+        mTemperaturePresenter.startSync();
+    }
+
+    private void showRefreshLayout(){
         if(!mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(true);
         }
-        mTemperaturePresenter.startSync();
+    }
+    private void dismissRefreshLayout(){
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+        getActivity().finishAffinity();
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return (AppFrameworkBaseActivity) getActivity();
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.frame_container;
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
     }
 }
