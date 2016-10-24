@@ -63,7 +63,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         serviceIdString= serviceIDInput.getText().toString();
 
 
-        Button setHeaders = (Button)findViewById(R.id.buttonSetHeadersSID);
+        final Button setHeaders = (Button)findViewById(R.id.buttonSetHeadersSID);
         setHeaders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,9 +90,10 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                 mImageView.setImageBitmap(null);
                 int methodType = Request.Method.GET;
 
+                if(headers != null) {
+                    for(String  key: headers.keySet() ){
 
-                for(String  key: headers.keySet() ){
-
+                    }
                 }
 
                 if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("GET")){

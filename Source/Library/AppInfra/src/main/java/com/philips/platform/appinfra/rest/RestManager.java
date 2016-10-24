@@ -44,10 +44,6 @@ public class RestManager implements RestInterface {
     public final static String LANGUAGE = "language";
     public final static String COUNTRY = "country";
 
-    enum RequestData {StringRequest, JsonObjectRequest, ImageRequest}
-
-    ;
-
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
     }
@@ -73,7 +69,7 @@ public class RestManager implements RestInterface {
             }
             Cache cache = new DiskBasedCache(getCacheDir(), cacheSizeinKB, mAppInfra); //
 
-// Set up the network to use HttpURLConnection as the HTTP client.
+            // Set up the network to use HttpURLConnection as the HTTP client.
             Network network = getNetwork();
             mRequestQueue = new RequestQueue(cache, network);
             mRequestQueue.start();
@@ -275,7 +271,7 @@ public class RestManager implements RestInterface {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> paramList = new HashMap<String, String>();
-                    if (null != paramList && paramList.size() > 0) {
+                    if (paramList.size() > 0) {
                         for (String key : params.keySet()) {
                             paramList.put(key, params.get(key));
                         }
@@ -296,7 +292,7 @@ public class RestManager implements RestInterface {
             };
             ;
         } catch (HttpForbiddenException e) {
-            e.printStackTrace();
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
         }
         if (null != request) {
             getRequestQueue().add(request);
@@ -341,7 +337,7 @@ public class RestManager implements RestInterface {
             };
 
         } catch (HttpForbiddenException e) {
-            e.printStackTrace();
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
         }
 
         if (null != jsObjRequest) {
@@ -373,7 +369,7 @@ public class RestManager implements RestInterface {
                         }
                     });
         } catch (HttpForbiddenException e) {
-            e.printStackTrace();
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
         }
 
         if (null != imageRequest) {
