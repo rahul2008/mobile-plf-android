@@ -2,6 +2,7 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
+import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -23,5 +24,10 @@ public class SplashState extends UIState {
     @Override
     public void init(final Context context) {
 
+    }
+
+    @Override
+    public AppStates getStateEnum() {
+        return AppStates.SPLASH;
     }
 }

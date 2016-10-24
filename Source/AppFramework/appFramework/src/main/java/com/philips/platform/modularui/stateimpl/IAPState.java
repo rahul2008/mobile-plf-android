@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -28,16 +29,16 @@ import java.util.ArrayList;
  */
 public class IAPState extends UIState{
 
-    private Context activityContext;
-    private Context applicationContext;
-    private IAPInterface iapInterface;
-    private FragmentLauncher fragmentLauncher;
     /**
      IAP flow constants, values for IAP views should start from 4000 series
      */
     public static final int IAP_CATALOG_VIEW = 4001;
     public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
     public static final int IAP_SHOPPING_CART_VIEW = 4003;
+    private Context activityContext;
+    private Context applicationContext;
+    private IAPInterface iapInterface;
+    private FragmentLauncher fragmentLauncher;
 
     public IAPState() {
         super(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
@@ -86,7 +87,11 @@ public class IAPState extends UIState{
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
+    }
 
+    @Override
+    public AppStates getStateEnum() {
+        return AppStates.IAP;
     }
 
     /**

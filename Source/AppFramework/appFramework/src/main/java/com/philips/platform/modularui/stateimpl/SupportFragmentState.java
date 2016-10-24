@@ -18,6 +18,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
@@ -55,6 +56,11 @@ public class SupportFragmentState extends UIState implements CcListener {
     @Override
     public void init(Context context) {
 
+    }
+
+    @Override
+    public AppStates getStateEnum() {
+        return AppStates.SUPPORT;
     }
 
     void launchCC()

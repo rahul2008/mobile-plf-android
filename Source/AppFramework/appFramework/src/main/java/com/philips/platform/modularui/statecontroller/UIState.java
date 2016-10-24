@@ -8,6 +8,7 @@ package com.philips.platform.modularui.statecontroller;
 import android.content.Context;
 import android.support.annotation.IntDef;
 
+import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.lang.annotation.Retention;
@@ -118,4 +119,6 @@ abstract public class UIState {
     public void setUiStateData(UIStateData uiStateData) {
         this.uiStateData = uiStateData;
     }
+
+    public abstract AppStates getStateEnum();
 }

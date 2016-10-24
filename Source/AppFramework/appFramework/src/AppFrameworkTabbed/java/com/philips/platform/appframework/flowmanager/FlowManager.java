@@ -43,7 +43,7 @@ public class FlowManager extends BaseUiFlowManager {
         mContext = context;
         mUIStateFactory = new UIStateFactory();
         mConditionFactory = new ConditionFactory();
-        getAppFlowStates(context);
+        initAppFlowStates(context);
     }
 
     public static FlowManager getInstance(Context context) {
@@ -53,7 +53,7 @@ public class FlowManager extends BaseUiFlowManager {
         return flowManager;
     }
 
-    private static void getAppFlowStates(Context mContext) {
+    private static void initAppFlowStates(Context mContext) {
         final AppFlowModel appFlowModel = AppFrameworkDataParser.getAppFlow(mContext);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             mFirstState = AppStates.get(appFlowModel.getAppFlow().getFirstState());

@@ -3,19 +3,10 @@
     "firstState": "splash",
     "states": [
       {
-        "state": "welcome",
+        "state": "splash",
         "events": [
           {
             "eventId": "onAppStartEvent",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "welcome"
-              }
-            ]
-          },
-          {
-            "eventId": "welcome_skip",
             "nextStates": [
               {
                 "condition": [
@@ -23,6 +14,26 @@
                 ],
                 "nextState": "home"
               },
+              {
+                "condition": [
+                  "isDonePressed"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "welcome",
+        "events": [
+          {
+            "eventId": "welcome_skip",
+            "nextStates": [
               {
                 "condition": [],
                 "nextState": "registration"
@@ -33,32 +44,58 @@
             "eventId": "welcome_done",
             "nextStates": [
               {
-                "condition": [
-                  "isLoggedIn"
-                ],
-                "nextState": "home"
-              },
-              {
                 "condition": [],
                 "nextState": "registration"
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "state": "home",
+        "events": [
           {
-            "eventId": "welcome_home",
+            "eventId": "homeFragment",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "home"
+                "nextState": "homeFragment"
               }
             ]
           },
           {
-            "eventId": "welcome_registration",
+            "eventId": "settings",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "registration"
+                "nextState": "settings"
+              }
+            ]
+          },
+          {
+            "eventId": "support",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "support"
+              }
+            ]
+          },
+          {
+            "eventId": "about",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "about"
+              }
+            ]
+          },
+          {
+            "eventId": "iap",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
               }
             ]
           }

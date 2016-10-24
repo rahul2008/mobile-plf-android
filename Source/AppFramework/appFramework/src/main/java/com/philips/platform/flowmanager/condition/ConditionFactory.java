@@ -41,6 +41,7 @@ public class ConditionFactory {
     static {
         final Map<AppConditions, BaseCondition> map = new ConcurrentHashMap<AppConditions, BaseCondition>();
         map.put(AppConditions.IS_LOGGED_IN, new ConditionIsLoggedIn());
+        map.put(AppConditions.IS_DONE_PRESSED, new ConditionIsDonePressed());
         CONDITIONS_MAP = Collections.unmodifiableMap(map);
     }
 }

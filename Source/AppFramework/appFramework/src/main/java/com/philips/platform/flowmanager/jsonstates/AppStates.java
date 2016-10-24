@@ -10,15 +10,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Project           : Lumea
- * File Name         : States
- * Description       : Class to define the states
- * Revision History: version 1:
- * Date: 7/5/2016
- * Original author: Bhanu Hirawat
- * Description: Initial version
- */
 public enum AppStates {
     SPLASH("splash"),
     WELCOME("welcome"),
