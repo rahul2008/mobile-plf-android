@@ -115,15 +115,17 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                                 String serviceResponse=(String)response;
                                 Log.i("LOG REST SD", "" + serviceResponse);
                                 mResponse.setText(serviceResponse);
+                                clearParamsAndHeaders();// clear headerd and params from rest client
                             }
 
                             @Override
                             public void onErrorResponse(String error) {
                                 Log.i("LOG REST SD", "" + error);
                                 mResponse.setText(error);
+                                clearParamsAndHeaders();// clear headerd and params from rest client
                             }
                         },
-                        null,null);
+                                headers,params);
                     } catch (HttpForbiddenException e) {
                         Log.e("LOG REST SD", e.toString() );
                         e.printStackTrace();
@@ -136,15 +138,17 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                                         JSONObject serviceResponse=(JSONObject)response;
                                         Log.i("LOG REST SD", "" + serviceResponse);
                                         mResponse.setText(serviceResponse.toString());
+                                        clearParamsAndHeaders();// clear headerd and params from rest client
                                     }
 
                                     @Override
                                     public void onErrorResponse(String error) {
                                         Log.i("LOG REST ", "" + error);
                                         mResponse.setText(error);
+                                        clearParamsAndHeaders();// clear headerd and params from rest client
                                     }
                                 },
-                                null,null);
+                                headers,params);
                     } catch (HttpForbiddenException e) {
                         Log.e("LOG REST SD", e.toString() );
                         e.printStackTrace();
@@ -158,12 +162,14 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                                 Bitmap bitmap = (Bitmap)response;
                                 mImageView.setImageBitmap(bitmap);
                                 Log.i("LOG REST ", "image downloaded");
+                                clearParamsAndHeaders();// clear headerd and params from rest client
                             }
 
                             @Override
                             public void onErrorResponse(String error) {
                                 mResponse.setText(error);
                                 Log.i("LOG REST ", "" + error);
+                                clearParamsAndHeaders();// clear headerd and params from rest client
                             }
                         },headers,null, Bitmap.Config.RGB_565,0,0
                         );
@@ -245,5 +251,10 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
             path=pathComponentInput.getText().toString().trim();
         }
         return path;
+    }
+
+    private void clearParamsAndHeaders(){
+        headers=null;
+        params=null;
     }
 }

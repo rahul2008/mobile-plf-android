@@ -37,10 +37,10 @@ import java.util.Map;
 
 public class RestManager implements RestInterface{
     private RequestQueue mRequestQueue ;
-    AppInfra mAppInfra;
+    private AppInfra mAppInfra;
 
-    ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
+    private ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
     public final static String LANGUAGE="language";
     public final static String COUNTRY="country";
     enum RequestData {StringRequest,JsonObjectRequest,ImageRequest};
@@ -65,7 +65,12 @@ public class RestManager implements RestInterface{
             AppConfigurationInterface mAppConfigurationInterface;
             mAppConfigurationInterface = mAppInfra.getConfigInterface();
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-            Integer cacheSizeinKB = (Integer)mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB","appinfra",configError);
+            Integer cacheSizeinKB =null;
+            try {
+                cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
+            }catch(IllegalArgumentException i){
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"CONFIG ERROR",i.toString());
+            }
             if(cacheSizeinKB==null  ) {
                 cacheSizeinKB = 1024; // default fall back
             }
@@ -80,7 +85,7 @@ public class RestManager implements RestInterface{
         return mRequestQueue;
     }
 
-    protected Network getNetwork(){
+    private Network getNetwork(){
         return new BasicNetwork(new HurlStack());
     }
 
@@ -108,7 +113,7 @@ public class RestManager implements RestInterface{
                 public void onSuccess(URL url)  {
                     String urlString= url.toString();
                     if(null!=pathComponent){
-                        urlString.concat(pathComponent);
+                        urlString+=pathComponent;
                     }
                     try {
                         stringRequestWithURL(requestType,urlString,listener,headers,params);
@@ -129,7 +134,7 @@ public class RestManager implements RestInterface{
                 public void onSuccess(URL url) {
                     String urlString= url.toString();
                     if(null!=pathComponent){
-                        urlString.concat(pathComponent);
+                        urlString+=pathComponent;
                     }
                     try {
                         stringRequestWithURL(requestType,urlString,listener,headers,params);
@@ -157,7 +162,7 @@ public class RestManager implements RestInterface{
                 public void onSuccess(URL url)  {
                     String urlString= url.toString();
                     if(null!=pathComponent){
-                        urlString.concat(pathComponent);
+                        urlString+=pathComponent;
                     }
                     try {
                         jsonObjectRequestWithURL(requestType,urlString,listener,headers,params);
@@ -178,7 +183,7 @@ public class RestManager implements RestInterface{
                 public void onSuccess(URL url) {
                     String urlString= url.toString();
                     if(null!=pathComponent){
-                        urlString.concat(pathComponent);
+                        urlString+=pathComponent;
                     }
                     try {
                         jsonObjectRequestWithURL(requestType,urlString,listener,headers,params);
@@ -205,7 +210,7 @@ public class RestManager implements RestInterface{
                 public void onSuccess(URL url)  {
                     String urlString= url.toString();
                     if(null!=pathComponent){
-                        urlString.concat(pathComponent);
+                        urlString+=pathComponent;
                     }
                     try {
                         imageRequestWithURL(urlString,listener,headers,scaleType,decodeConfig,maxWidth,maxHeight);
@@ -226,7 +231,7 @@ public class RestManager implements RestInterface{
                 public void onSuccess(URL url) {
                     String urlString= url.toString();
                     if(null!=pathComponent){
-                        urlString.concat(pathComponent);
+                        urlString+=pathComponent;
                     }
                     try {
                         imageRequestWithURL(urlString,listener,headers,scaleType,decodeConfig,maxWidth,maxHeight);
@@ -245,7 +250,7 @@ public class RestManager implements RestInterface{
     }
 
 
-
+    // calls the actual stringRequest and send back response to caller
     private void stringRequestWithURL(final int requestType, String urlString, final ServiceIDCallback listener, final Map<String, String> headers,final  Map<String, String> params) throws HttpForbiddenException {
         StringRequest request=null;
         try {
@@ -253,7 +258,7 @@ public class RestManager implements RestInterface{
                 request= new StringRequest(requestType, "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    listener.onSuccess(response);
+                    listener.onSuccess(response); // pass back response to caller method
                 }
             },
                     new Response.ErrorListener()
@@ -293,6 +298,7 @@ public class RestManager implements RestInterface{
         getRequestQueue().add(request);
     }
 
+    // calls the actual jsonObjectRequest and send back response to caller
     private void  jsonObjectRequestWithURL(int requestType,String urlString,final ServiceIDCallback listener,final Map<String, String>headers, final Map<String, String>params) throws HttpForbiddenException{
         JSONObject jsonObjectParams =null;
         if (null != params && params.size() > 0){
@@ -303,7 +309,7 @@ public class RestManager implements RestInterface{
                 (requestType, urlString, jsonObjectParams, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        listener.onSuccess(response);
+                        listener.onSuccess(response);// pass back response to caller method
                     }
                 }, new Response.ErrorListener() {
 
@@ -330,13 +336,15 @@ public class RestManager implements RestInterface{
 
     }
 
+
+    // calls the actual imageRequest and send back response to caller
     private void imageRequestWithURL(String urlString, final ServiceIDCallback listener, Map<String, String> headers, ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, int maxWidth, int maxHeight) throws HttpForbiddenException{
         urlString = "http://i.imgur.com/7spzG.png";
         ImageRequest imageRequest = new ImageRequest(urlString,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
-                        listener.onSuccess(bitmap);
+                        listener.onSuccess(bitmap);// pass back response to caller method
                         //mImageView.setImageBitmap(bitmap);
                     }
                 }, maxWidth, maxHeight,scaleType, decodeConfig,
@@ -360,7 +368,7 @@ public class RestManager implements RestInterface{
     @Override
     public boolean isValidURL(String url) {
         boolean isValidurl=false;
-        String regex = "\\b(http?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+        String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
         if(null!=url && url.matches(regex) ) {
             isValidurl = true;
         }
