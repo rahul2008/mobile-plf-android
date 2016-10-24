@@ -50,8 +50,8 @@ allprojects {
     ext.mockitoVer = '1.10.19'
     ext.androidAssertJVer = '1.1.1'
     ext.minSdkVer = '19'
-    ext.buildSdkVer = 24
-    ext.targetSdkVer = 24
+    ext.buildSdkVer = 'android-N'
+    ext.targetSdkVer = 'N'
     ext.buildToolsVer = '24.0.0'
     ext.versionCode = 1
     ext.versionName = "0.1.0"
