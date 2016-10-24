@@ -6,9 +6,9 @@
 package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.philips.platform.appframework.introscreen.WelcomeActivity;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -29,7 +29,8 @@ public class WelcomeState extends UIState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), WelcomeActivity.class));
+        ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+                addFragment(new SettingsFragment(), SettingsFragment.TAG);
     }
 
     @Override

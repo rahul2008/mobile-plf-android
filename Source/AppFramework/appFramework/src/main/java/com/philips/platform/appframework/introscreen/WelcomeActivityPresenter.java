@@ -15,6 +15,7 @@ import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.URStateListener;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -91,7 +92,14 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
     @Override
     public void onLoad() {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        final SharedPreferenceUtility sharedPreferenceUtility = getSharedPreferenceUtility();
+        welcomeView.hideActionBar();
+        uiState = FlowManager.getInstance(appFrameworkApplication).getFirstState();
+        fragmentLauncher = getFragmentLauncher();
+        UIStateData homeStateData = new UIStateData();
+        homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
+        uiState.setUiStateData(homeStateData);
+        uiState.navigate(fragmentLauncher);
+        /*final SharedPreferenceUtility sharedPreferenceUtility = getSharedPreferenceUtility();
         if (sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED) || appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == UIState.UI_USER_REGISTRATION_STATE) {
             welcomeView.showActionBar();
             setState(UIState.UI_USER_REGISTRATION_STATE);
@@ -107,7 +115,7 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
             appFrameworkApplication.getFlowManager().getCurrentState().setStateID(UIState.UI_WELCOME_STATE);
             welcomeView.hideActionBar();
             welcomeView.loadWelcomeFragment();
-        }
+        }*/
     }
 
     @NonNull

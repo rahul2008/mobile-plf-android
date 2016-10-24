@@ -1,10 +1,10 @@
 package com.philips.platform.appframework.splash;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.introscreen.WelcomeActivity;
-import com.philips.platform.appframework.introscreen.WelcomeActivityPresenter;
 import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;

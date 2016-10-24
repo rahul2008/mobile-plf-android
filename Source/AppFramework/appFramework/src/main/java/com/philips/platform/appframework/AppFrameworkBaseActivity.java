@@ -22,11 +22,11 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     public UIBasePresenter presenter;
     private int cartItemCount = 0;
     private FragmentTransaction fragmentTransaction;
-
+    int containerId;
     public abstract int getContainerId();
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
-        int containerId = getContainerId();
+        containerId = getContainerId();
         try {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {
@@ -59,6 +59,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
         }
     }
 
+    public void addFragment(Fragment fragment, String fragmentTag){
+        containerId = getContainerId();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerId,fragment,fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragmentTransaction.commit();
+    }
     private void addToBackStack(int containerID, Fragment fragment,String fragmentTag){
         fragmentTransaction.replace(containerID,fragment,fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
