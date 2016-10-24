@@ -160,7 +160,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mTvErrDescriptionView.setVisibility(VISIBLE);
     }
 
-    private void showValidEmailAlert() {
+    public void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
         mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         mFlInvalidFieldAlert.setVisibility(GONE);

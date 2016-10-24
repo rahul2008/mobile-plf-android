@@ -61,7 +61,7 @@ import org.json.JSONObject;
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener,
         EventListener, ResendVerificationEmailHandler,
-        NetworStateListener,HttpClientServiceReceiver.Listener {
+        NetworStateListener, HttpClientServiceReceiver.Listener {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -310,11 +310,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchResetPasswordFragment() {
-        System.out.println("Country :"+RegistrationHelper.getInstance().getCountryCode());
+        System.out.println("Country :" + RegistrationHelper.getInstance().getCountryCode());
         if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
             getRegistrationFragment().addFragment(new ResetPasswordWebView());
 
-        }else {
+        } else {
             getRegistrationFragment().addResetPasswordFragment();
 
         }
@@ -694,10 +694,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 }
             }
         } else {
-            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())){
+            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt));
-            }else {
+            } else {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.Janrain_Error_Need_Mobile_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.Mobile_TraditionalSignIn_Instruction_lbltxt));
             }
@@ -753,9 +753,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(false);
         mBtnSignInAccount.setEnabled(false);
         mBtnForgot.setEnabled(false);
-        if(RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")){
-            createResendSMSIntent();
-        }else{
+        if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
+            getActivity().startService(createResendSMSIntent());
+        } else {
             mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
         }
     }
@@ -763,16 +763,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
+        if (response == null) {
+            updateResendUIState();
+            mEtEmail.showValidEmailAlert();
+            mRegError.setError(mContext.getResources().getString(R.string.URX_SMS_InternalServerError));
+            return;
+        }
         Log.i("onReceiveResult ", "Response Val = " + response);
         handleResendSMSRespone(response);
     }
 
-    private Intent createResendSMSIntent(){
+    private Intent createResendSMSIntent() {
 
         String url = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode?provider=" +
-                "JANRAIN-CN&locale="+RegistrationHelper.getInstance().getLocale(mContext)+"&phonenumber="+mEmail;
+                "JANRAIN-CN&locale=" + RegistrationHelper.getInstance().getLocale(mContext) + "&phonenumber=" + mEmail;
 
-        Intent httpServiceIntent = new Intent(mContext,HttpClientService.class);
+        Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
         RequestBody emptyBody = RequestBody.create(null, new byte[0]);
@@ -783,21 +789,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResendSMSRespone(String response) {
-        if(response!=null){
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getString("errorCode").toString().equals("0")){
-                    handleResendVerificationEmailSuccess();
-                }else{
-                    String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(),mContext);
-                    Log.i("SMS Resend failure ", "Val = " + response);
-                    mRegError.setError(errorMsg);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            if (jsonObject.getString("errorCode").toString().equals("0")) {
+                handleResendVerificationEmailSuccess();
+            } else {
+                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
+                Log.i("SMS Resend failure ", "Val = " + response);
+                mRegError.setError(errorMsg);
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

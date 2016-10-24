@@ -254,6 +254,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("errorCode").toString().equals("0")) {
                 mEtCodeNUmber.hideResendSpinner();
+                handleResendVerificationEmailSuccess();
             } else {
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
                 mEtCodeNUmber.hideResendSpinner();
@@ -265,6 +266,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleResendVerificationEmailSuccess() {
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
+                mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
     }
 
     private void handleActivate(String response) {
@@ -378,6 +386,14 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             mEtCodeNUmber.showResendSpinner();
             mBtnVerify.setEnabled(false);
             resendMobileNumberService();
+        }
+    };
+
+    private View.OnClickListener mContinueVerifyBtnClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            RegAlertDialog.dismissDialog();
         }
     };
 }
