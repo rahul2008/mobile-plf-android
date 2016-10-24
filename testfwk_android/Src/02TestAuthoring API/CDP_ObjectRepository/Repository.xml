@@ -35,11 +35,15 @@
     <AppFrameworkHomeScreen>com.philips.platform.referenceapp:id/af_actionbar_title</AppFrameworkHomeScreen>
     <!--<HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon> -->
     <!--<Settings>//android.widget.TextView[@text='Settings']</Settings> -->
-    <HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_imageview</HamburgerIcon>
+    <HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon>
     <Support>//android.widget.TextView[@text='Support']</Support>
     <Settings>//android.widget.TextView[@text='Settings']</Settings>
     <Connectivity>//android.widget.TextView[@text='Connectivity']</Connectivity>
+    <DatacoreErrorMsg>com.philips.platform.referenceapp:id/datacre_error_text</DatacoreErrorMsg>
     <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
+    <ALoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</ALoginButton>
+    <ALoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</ALoginContinue>
+    <ALoginContinueConfirm>com.philips.platform.referenceapp:id/btn_reg_continue</ALoginContinueConfirm>
     <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
     <VerticalSettings>com.philips.platform.referenceapp:id/ifo</VerticalSettings>
     <WelcomeScreen>com.philips.platform.referenceapp:id/decor_content_parent</WelcomeScreen>
