@@ -5,6 +5,7 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,55 +14,47 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentButtonsAllBinding;
+import com.philips.platform.uit.view.widget.Button;
 
 public class ButtonFragment extends Fragment {
+    public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
+
+    Drawable shareDrwable;
+    FragmentButtonsAllBinding fragmentBinding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentButtonsAllBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
-        binding.setFrag(this);
-        return binding.getRoot();
+        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
+        fragmentBinding.setFrag(this);
+        shareDrwable = getShareIcon();
+        fragmentBinding.imageShare.setImageDrawable(shareDrwable.mutate());
+        return fragmentBinding.getRoot();
     }
 
     public Drawable getShareIcon() {
         return VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
     }
 
-    private void setDisableSwitch(View view) {
-        Switch switchForDisable = (Switch) view.findViewById(R.id.disable_switch);
-        switchForDisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ViewGroup viewById = (ViewGroup) getActivity().findViewById(R.id.buttons_parent);
-                disableAllChildViews(isChecked, viewById);
-            }
-
-            private void disableAllChildViews(boolean isChecked, View view) {
-                if (view instanceof ViewGroup) {
-                    for (int i = 1; i < ((ViewGroup) view).getChildCount(); i++) {
-                        disableAllChildViews(isChecked, ((ViewGroup) view).getChildAt(i));
-                    }
-                } else {
-                    view.setEnabled(isChecked);
-                }
-            }
-        });
-    }
-
     public void toggleIcons(boolean isIconToggleChecked) {
-        Toast.makeText(getContext(), "" + isIconToggleChecked, Toast.LENGTH_SHORT).show();
+        ViewGroup buttonLayout = showExtraWideButtons.get()? fragmentBinding.groupExtraWide : fragmentBinding.groupDefault;
+        Drawable drawable = isIconToggleChecked ? shareDrwable : null;
+        for (int i = 0; i < buttonLayout.getChildCount() ; i++) {
+            View view = buttonLayout.getChildAt(i);
+            if(view instanceof Button) {
+                ((Button) view).setImageDrawable(drawable);
+            }
+        }
     }
 
     public void toggleExtraWideButtons(boolean toggle) {
-
+        showExtraWideButtons.set(toggle);
     }
 
-    public void disableAllButtons() {
-
+    public void disableButtons(boolean isChecked) {
+        isButtonsEnabled.set(!isChecked);
     }
 }
