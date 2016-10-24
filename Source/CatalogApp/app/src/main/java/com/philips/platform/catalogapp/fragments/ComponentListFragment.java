@@ -47,6 +47,7 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Buttons");
         itemsMap.put(1, "TextBox");
+        itemsMap.put(2, "ToggleSwitch");
         return sortMap(itemsMap);
     }
 
@@ -82,7 +83,10 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
                 break;
             case 1:
                 ((MainActivity) getActivity()).switchFragment(new TextEditBoxFragment());
-                break;
+            break;
+            case 2:
+                ((MainActivity) getActivity()).switchFragment(new ToggleSwitchFragment());
+            break;
         }
     }
 }
