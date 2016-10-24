@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClickListener,
+public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         OnFocusChangeListener {
 
     private Context mContext;
@@ -66,8 +66,6 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
         mBtResend = (Button) findViewById(R.id.btn_reg_resend);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_reg_verify_spinner);
 
-        mBtResend.setOnClickListener(this);
-        mEtVerify.setOnClickListener(this);
         mEtVerify.setOnFocusChangeListener(this);
         mEtVerify.addTextChangedListener(this);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_verify_err);
@@ -87,11 +85,6 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
     private void showResendCodeSpinner() {
         mProgressBar.setVisibility(View.VISIBLE);
         mBtResend.setEnabled(false);
-    }
-
-    private void hideResendcodeSpinner() {
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mBtResend.setEnabled(true);
     }
 
     public String getNumber() {
@@ -130,14 +123,6 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
     }
 
-   /* public void showEmailInvalidAlert() {
-        mIvEmailErrAlert.setVisibility(VISIBLE);
-    }
-
-    public void hideEmailInvalidAlert() {
-        mIvEmailErrAlert.setVisibility(GONE);
-    }*/
-
     private void showEmailIsInvalidAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
         mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
@@ -150,12 +135,6 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
         mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
-    }
-
-    public void showInvalidAlert() {
-        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
-        mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
-        mFlInvalidFieldAlert.setVisibility(VISIBLE);
     }
 
     public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -178,15 +157,6 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
                 handleOnFocusChanges();
             }
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        showResendCodeSpinner();
-    }
-
-    public void showErrPopUp() {
-        mTvErrDescriptionView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -255,5 +225,19 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClic
 
     public void setImeOptions(int option) {
         mEtVerify.setImeOptions(option);
+    }
+
+    public void showResendSpinner(){
+        mEtVerify.setEnabled(false);
+        mProgressBar.setVisibility(VISIBLE);
+    }
+
+    public void hideResendSpinner(){
+        mEtVerify.setEnabled(true);
+        mProgressBar.setVisibility(GONE);
+    }
+
+    public void setOnClickListener(View.OnClickListener resendBtnClickListener){
+        mBtResend.setOnClickListener(resendBtnClickListener);
     }
 }

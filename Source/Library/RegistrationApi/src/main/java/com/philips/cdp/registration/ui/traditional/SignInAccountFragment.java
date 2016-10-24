@@ -9,8 +9,11 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.HttpClientService;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
@@ -45,14 +50,18 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.squareup.okhttp.RequestBody;
+
+import org.json.JSONObject;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener,
         EventListener, ResendVerificationEmailHandler,
-        NetworStateListener {
+        NetworStateListener,HttpClientServiceReceiver.Listener {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -744,6 +753,51 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(false);
         mBtnSignInAccount.setEnabled(false);
         mBtnForgot.setEnabled(false);
-        mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
+        if(RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")){
+            createResendSMSIntent();
+        }else{
+            mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
+        }
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        String response = resultData.getString("responseStr");
+        Log.i("onReceiveResult ", "Response Val = " + response);
+        handleResendSMSRespone(response);
+    }
+
+    private Intent createResendSMSIntent(){
+
+        String url = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode?provider=" +
+                "JANRAIN-CN&locale="+RegistrationHelper.getInstance().getLocale(mContext)+"&phonenumber="+mEmail;
+
+        Intent httpServiceIntent = new Intent(mContext,HttpClientService.class);
+        HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
+        receiver.setListener(this);
+        RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+        httpServiceIntent.putExtra("receiver", receiver);
+        httpServiceIntent.putExtra("bodyContent", emptyBody.toString());
+        httpServiceIntent.putExtra("url", url);
+        return httpServiceIntent;
+    }
+
+    private void handleResendSMSRespone(String response) {
+        if(response!=null){
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getString("errorCode").toString().equals("0")){
+                    handleResendVerificationEmailSuccess();
+                }else{
+                    String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(),mContext);
+                    Log.i("SMS Resend failure ", "Val = " + response);
+                    mRegError.setError(errorMsg);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 }

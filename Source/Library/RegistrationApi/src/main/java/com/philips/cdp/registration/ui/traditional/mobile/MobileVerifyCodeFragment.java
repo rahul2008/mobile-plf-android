@@ -32,6 +32,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -41,7 +42,11 @@ import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegChinaConstants;
+import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONObject;
 
@@ -73,6 +78,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private final long startTime = 60 * 1000;
     private final long interval = 1 * 1000;
     private CountDownTimer countDownTimer;
+    private boolean isAccountActivate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +99,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         countDownTimer = new MyCountDownTimer(startTime, interval);
         countDownTimer.start();
         handleOrientation(view);
-
+        mEtCodeNUmber.setOnClickListener(mResendBtnClick);
         return view;
     }
 
@@ -197,14 +203,18 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         }
     }
 
-    public void verifyMobileNumberService() {
-
-        mPbSpinner.setVisibility(View.VISIBLE);
-        mBtnVerify.setEnabled(false);
-        getActivity().startService(createCallingIntent());
+    public void resendMobileNumberService() {
+        getActivity().startService(createResendSMSIntent());
     }
 
-    private Intent createCallingIntent() {
+    public void verifyMobileNumberService() {
+        isAccountActivate = true;
+        mPbSpinner.setVisibility(View.VISIBLE);
+        mBtnVerify.setEnabled(false);
+        getActivity().startService(createSMSActivationIntent());
+    }
+
+    private Intent createSMSActivationIntent() {
         String UUid = mUser.getJanrainUUID();
         String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid,mEtCodeNUmber.getNumber());
         String url = "https://philips-china-eu.eu-dev.janraincapture.com/access/useVerificationCode";
@@ -223,7 +233,33 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
         Log.i("onReceiveResult ", "Response Val = " + response);
-        handleActivate(response);
+        if(isAccountActivate){
+            handleActivate(response);
+        }else{
+            handleResendSMSRespone(response);
+        }
+    }
+
+    private void handleResendSMSRespone(String response) {
+        if(response!=null){
+            try {
+                countDownTimer.cancel();
+                countDownTimer.onFinish();
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getString("errorCode").toString().equals("0")){
+                    mEtCodeNUmber.hideResendSpinner();
+                }else{
+                    String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(),mContext);
+                    mEtCodeNUmber.hideResendSpinner();
+                    Log.i("SMS Resend failure ", "Val = " + response);
+                    mRegError.setError(errorMsg);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 
     private void handleActivate(String response ) {
@@ -237,6 +273,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 }else{
                     hideSpinner();
                     Log.i("SMS activation failure ", "Val = " + response);
+                    mRegError.setError(jsonObject.getString("error_description").toString());
                 }
 
             } catch (Exception e) {
@@ -308,4 +345,28 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             mEtCodeNUmber.setCountertimer(String.format("%02d", +millisUntilFinished / 1000)+"s");
         }
     }
+
+    private Intent createResendSMSIntent(){
+
+        String url = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode?provider=" +
+                "JANRAIN-CN&locale="+RegistrationHelper.getInstance().getLocale(mContext)+"&phonenumber="+mEtCodeNUmber.getNumber();
+
+        Intent httpServiceIntent = new Intent(mContext,HttpClientService.class);
+        HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
+        receiver.setListener(this);
+        RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+        httpServiceIntent.putExtra("receiver", receiver);
+        httpServiceIntent.putExtra("bodyContent", emptyBody.toString());
+        httpServiceIntent.putExtra("url", url);
+        return httpServiceIntent;
+    }
+
+    private View.OnClickListener mResendBtnClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            mEtCodeNUmber.showResendSpinner();
+            resendMobileNumberService();
+        }
+    };
 }
