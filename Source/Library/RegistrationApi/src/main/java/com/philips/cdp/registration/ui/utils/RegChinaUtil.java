@@ -15,7 +15,7 @@ public class RegChinaUtil {
 
         switch (errorCode) {
             case RegChinaConstants.URXSMSSuccessCode:
-               /* errorMsg = context.getResources().getString(R.string.URX_SMS_Success);
+               errorMsg = context.getResources().getString(R.string.URX_SMS_Success);
                 break;
             case RegChinaConstants.URXSMSInvalidNumber:
                 errorMsg = context.getResources().getString(R.string.URX_SMS_Invalid_PhoneNumber);
@@ -43,8 +43,7 @@ public class RegChinaUtil {
                 break;
 
             default:
-                return "";*/
-            break;
+                return "";
         }
         return errorMsg;
     }

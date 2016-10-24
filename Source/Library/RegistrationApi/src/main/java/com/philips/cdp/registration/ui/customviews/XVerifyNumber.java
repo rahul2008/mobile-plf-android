@@ -82,11 +82,6 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         mBtResend.setEnabled(true);
     }
 
-    private void showResendCodeSpinner() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mBtResend.setEnabled(false);
-    }
-
     public String getNumber() {
         return mEtVerify.getText().toString().trim();
     }
@@ -208,13 +203,6 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         }
     }
 
-    public void setClickableTrue(boolean isClickable) {
-        if (mEtVerify != null) {
-            mEtVerify.setClickable(isClickable);
-            mEtVerify.setEnabled(isClickable);
-        }
-    }
-
     public boolean isShown() {
         if (mEtVerify != null && mEtVerify.isShown()) {
             return true;
@@ -228,11 +216,13 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
     }
 
     public void showResendSpinner(){
+        mBtResend.setEnabled(false);
         mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(VISIBLE);
     }
 
     public void hideResendSpinner(){
+        mBtResend.setEnabled(true);
         mEtVerify.setEnabled(true);
         mProgressBar.setVisibility(GONE);
     }

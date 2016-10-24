@@ -21,5 +21,7 @@ public interface RegChinaConstants {
 
     int URXSMSNotSent = 70;
 
-    int URXSMSAlreadyVerifed =80;
+    int URXSMSAlreadyVerifed =90;
+
+    int URXInvalidVerificationCode =200;
 }

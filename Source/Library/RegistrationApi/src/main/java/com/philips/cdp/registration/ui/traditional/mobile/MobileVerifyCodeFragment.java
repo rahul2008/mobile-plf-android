@@ -50,7 +50,7 @@ import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONObject;
 
-public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler,HttpClientServiceReceiver.Listener {
+public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler, HttpClientServiceReceiver.Listener {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -216,13 +216,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private Intent createSMSActivationIntent() {
         String UUid = mUser.getJanrainUUID();
-        String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid,mEtCodeNUmber.getNumber());
+        String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid, mEtCodeNUmber.getNumber());
         String url = "https://philips-china-eu.eu-dev.janraincapture.com/access/useVerificationCode";
-        Intent httpServiceIntent = new Intent(mContext,HttpClientService.class);
+        Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
 
-        String bodyContent = "verification_code="+verifiedMobileNumber;
+        String bodyContent = "verification_code=" + verifiedMobileNumber;
         httpServiceIntent.putExtra("receiver", receiver);
         httpServiceIntent.putExtra("bodyContent", bodyContent);
         httpServiceIntent.putExtra("url", url);
@@ -231,51 +231,59 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
+        mBtnVerify.setEnabled(true);
         String response = resultData.getString("responseStr");
+        if (response == null) {
+            mEtCodeNUmber.hideResendSpinner();
+            mEtCodeNUmber.showEmailIsInvalidAlert();
+            mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.URX_SMS_InternalServerError));
+            return;
+        }
         Log.i("onReceiveResult ", "Response Val = " + response);
-        if(isAccountActivate){
+        if (isAccountActivate) {
             handleActivate(response);
-        }else{
+        } else {
             handleResendSMSRespone(response);
         }
     }
 
     private void handleResendSMSRespone(String response) {
-        if(response!=null){
-            try {
-                countDownTimer.cancel();
-                countDownTimer.onFinish();
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getString("errorCode").toString().equals("0")){
-                    mEtCodeNUmber.hideResendSpinner();
-                }else{
-                    String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(),mContext);
-                    mEtCodeNUmber.hideResendSpinner();
-                    Log.i("SMS Resend failure ", "Val = " + response);
-                    mEtCodeNUmber.showEmailIsInvalidAlert();
-                    mEtCodeNUmber.setErrDescription(errorMsg);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
+        try {
+            countDownTimer.cancel();
+            countDownTimer.onFinish();
+            JSONObject jsonObject = new JSONObject(response);
+            if (jsonObject.getString("errorCode").toString().equals("0")) {
+                mEtCodeNUmber.hideResendSpinner();
+            } else {
+                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
+                mEtCodeNUmber.hideResendSpinner();
+                Log.i("SMS Resend failure ", "Val = " + response);
+                mEtCodeNUmber.showEmailIsInvalidAlert();
+                mEtCodeNUmber.setErrDescription(errorMsg);
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void handleActivate(String response ) {
-        if(response!=null){
+    private void handleActivate(String response) {
+        if (response != null) {
             try {
                 countDownTimer.cancel();
                 countDownTimer.onFinish();
                 JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getString("stat").toString().equals("ok")){
+                if (jsonObject.getString("stat").toString().equals("ok")) {
                     mUser.refreshUser(this);
-                }else{
+                } else {
                     hideSpinner();
                     Log.i("SMS activation failure ", "Val = " + response);
+                    if (jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode))) {
+                        mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.Mobile_Verification_Invalid_Code));
+                    } else {
+                        mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());
+                    }
                     mEtCodeNUmber.showEmailIsInvalidAlert();
-                    mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());
                 }
 
             } catch (Exception e) {
@@ -324,7 +332,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
     }
 
-    private void hideSpinner(){
+    private void hideSpinner() {
         mPbSpinner.setVisibility(View.GONE);
         mBtnVerify.setEnabled(true);
     }
@@ -337,23 +345,23 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
         @Override
         public void onFinish() {
-             RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : counter");
+            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : counter");
             mEtCodeNUmber.setCounterFinish();
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : "+millisUntilFinished / 1000);
-            mEtCodeNUmber.setCountertimer(String.format("%02d", +millisUntilFinished / 1000)+"s");
+            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : " + millisUntilFinished / 1000);
+            mEtCodeNUmber.setCountertimer(String.format("%02d", +millisUntilFinished / 1000) + "s");
         }
     }
 
-    private Intent createResendSMSIntent(){
+    private Intent createResendSMSIntent() {
 
         String url = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode?provider=" +
-                "JANRAIN-CN&locale="+RegistrationHelper.getInstance().getLocale(mContext)+"&phonenumber="+mEtCodeNUmber.getNumber();
+                "JANRAIN-CN&locale=" + RegistrationHelper.getInstance().getLocale(mContext) + "&phonenumber=" + mEtCodeNUmber.getNumber();
 
-        Intent httpServiceIntent = new Intent(mContext,HttpClientService.class);
+        Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
         RequestBody emptyBody = RequestBody.create(null, new byte[0]);
@@ -368,6 +376,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         @Override
         public void onClick(View view) {
             mEtCodeNUmber.showResendSpinner();
+            mBtnVerify.setEnabled(false);
             resendMobileNumberService();
         }
     };

@@ -12,6 +12,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by 310190722 on 10/19/2016.
@@ -41,14 +42,18 @@ public class HttpClientService extends IntentService{
                 .build();
         String responseStr = null;
         Response response = null;
+        Bundle responseBundle = new Bundle();
         try {
             response = client.newCall(request).execute();
             responseStr = response.body().string();
-
-            Bundle responseBundle = new Bundle();
             responseBundle.putString("responseStr", responseStr);
             receiver.send(0, responseBundle);
-        } catch (IOException e) {
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            responseBundle.putString("responseStr", null);
+            receiver.send(0, responseBundle);
+            return;
+        }catch (IOException e) {
             e.printStackTrace();
         }
 
