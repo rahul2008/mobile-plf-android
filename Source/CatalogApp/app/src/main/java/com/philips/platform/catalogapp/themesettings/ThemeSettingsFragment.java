@@ -88,7 +88,7 @@ public class ThemeSettingsFragment extends BaseFragment {
             contentSelectedPosition = savedInstanceState.getInt(UITHelper.CONTENT_TONAL_RANGE, getTonalRangeAdapter(colorRange).getSelectedPosition());
             navigationSelectedPosition = savedInstanceState.getInt(UITHelper.NAVIGATION_RANGE, getNavigationListAdapter(colorRange).getSelectedPosition());
             colorRange = ColorRange.values()[colorRangeSelectedPosition];
-            EventBus.getDefault().postSticky(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
+            EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
 
             initNavigationColor(navigationSelectedPosition);
             initContentColor(contentSelectedPosition);
@@ -157,7 +157,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
-                EventBus.getDefault().postSticky(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
+                EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
             }
         }, colorPickerWidth);
         colorRangeAdapter.setSelected(colorRangeSelectedPosition == 0 ? colorRange.ordinal() : colorRangeSelectedPosition);
@@ -184,7 +184,7 @@ public class ThemeSettingsFragment extends BaseFragment {
             @Override
             public void onThemeSettingsChanged(final String tonalRangeChanged) {
                 contentColor = getContentTonalRangeByPosition();
-                EventBus.getDefault().postSticky(new TonalRangeChangedEvent(contentColor.name().toString(), contentColor));
+                EventBus.getDefault().post(new TonalRangeChangedEvent(contentColor.name().toString(), contentColor));
             }
         }, colorPickerWidth);
         tonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
@@ -225,7 +225,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private void notifyNavigationSettingsChanged() {
-        EventBus.getDefault().postSticky(new NavigationColorChangedEvent(contentColor.name().toString(), navigationColor));
+        EventBus.getDefault().post(new NavigationColorChangedEvent(contentColor.name().toString(), navigationColor));
     }
 
     private void initNavigationColor(final int selectedPosition) {
