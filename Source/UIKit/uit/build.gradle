@@ -44,7 +44,7 @@ dependencies {
     compile("com.android.support:appcompat-v7:24.2.0") {
         exclude module: "com.android.support"
     }
-    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
 
     //test
     androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
