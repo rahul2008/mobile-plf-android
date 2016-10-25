@@ -15,7 +15,14 @@ public enum EventStates {
     WELCOME_SKIP("welcome_skip"),
     WELCOME_DONE("welcome_done"),
     WELCOME_HOME("welcome_home"),
-    REGISTRATION("welcome_registration"),;
+    REGISTRATION("welcome_registration"),
+    HOME_FRAGMENT("home_fragment"),
+    HOME_SUPPORT("support"),
+    HOME_IAP("iap"),
+    HOME_ABOUT("about"),
+    HOME_PR("pr"),
+    HOME_SHOPPING_CART("shopping_cart"),
+    HOME_SETTINGS("settings"),;
 
     //Map to hold the Enum and its corresponding values.
     private static final Map<String, EventStates> ENUM_MAP;

@@ -5,12 +5,9 @@
 */
 package com.philips.platform.appframework.introscreen;
 
-import android.support.annotation.NonNull;
-
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -99,11 +96,6 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
         uiState.setUiStateData(homeStateData);
         uiState.navigate(fragmentLauncher);
-    }
-
-    @NonNull
-    protected SharedPreferenceUtility getSharedPreferenceUtility() {
-        return new SharedPreferenceUtility(welcomeView.getFragmentActivity());
     }
 
     @Override

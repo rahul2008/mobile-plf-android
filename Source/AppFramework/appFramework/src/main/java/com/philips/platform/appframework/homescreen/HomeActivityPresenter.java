@@ -7,18 +7,17 @@ package com.philips.platform.appframework.homescreen;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.flowmanager.jsonstates.AppStates;
+import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
-import com.philips.platform.modularui.stateimpl.AboutScreenState;
-import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
-import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
-import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -32,11 +31,6 @@ import java.util.Arrays;
 public class HomeActivityPresenter extends UIBasePresenter implements UIStateListener {
 
     public static final int MENU_OPTION_HOME = 0;
-    private final int MENU_OPTION_SETTINGS = 1;
-    private final int MENU_OPTION_SHOP = 2;
-    private final int MENU_OPTION_SUPPORT = 3;
-    private final int MENU_OPTION_ABOUT = 4;
-    private final int MENU_OPTION_DEBUG = 5;
     private final int PRODUCT_REGISTRATION = 6;
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
@@ -56,8 +50,10 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        uiState = getUiState(componentID);
+        EventStates eventStates = getEventState(componentID);
+        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.HOME, eventStates);
         uiState.setPresenter(this);
+        uiState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
         if (uiState instanceof SupportFragmentState) {
             ((SupportFragmentState) uiState).registerUIStateListener(this);
@@ -65,60 +61,44 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
     }
 
-    protected UIState getUiState(final int componentID) {
+    protected UIStateData setStateData(final int componentID) {
+        final int MENU_OPTION_SETTINGS = 1;
+        final int MENU_OPTION_SHOP = 2;
+        final int MENU_OPTION_SUPPORT = 3;
+        final int MENU_OPTION_ABOUT = 4;
         switch (componentID) {
             case MENU_OPTION_HOME:
-                uiState = new HomeFragmentState();
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
-                uiState.setUiStateData(homeStateData);
-                break;
+                return homeStateData;
             case MENU_OPTION_SETTINGS:
-                uiState = new SettingsFragmentState();
                 UIStateData settingsStateData = new UIStateData();
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                uiState.setUiStateData(settingsStateData);
-                break;
+                return settingsStateData;
             case MENU_OPTION_SHOP:
-                uiState = new IAPState();
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                uiState.setUiStateData(iapStateData);
-                break;
+                return iapStateData;
             case MENU_OPTION_SUPPORT:
-                uiState = new SupportFragmentState();
                 SupportFragmentState.ConsumerCareData supportStateData = new SupportFragmentState().new ConsumerCareData();
                 supportStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                uiState.setUiStateData(supportStateData);
-                break;
+                return supportStateData;
             case MENU_OPTION_ABOUT:
-                uiState = new AboutScreenState();
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                uiState.setUiStateData(aboutStateData);
-                break;
-            case MENU_OPTION_DEBUG:
-                uiState = new DebugTestFragmentState();
-                UIStateData debugStateData = new UIStateData();
-                debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                uiState.setUiStateData(debugStateData);
-                break;
+                return aboutStateData;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                uiState = new IAPState();
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
-                uiState.setUiStateData(uiStateDataModel);
-                break;
-            case PRODUCT_REGISTRATION:
-                uiState = new ProductRegistrationState();
-                break;
+                return uiStateDataModel;
             default:
-                uiState = new HomeFragmentState();
+                homeStateData = new UIStateData();
+                homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
+                return homeStateData;
         }
-        return uiState;
     }
 
     protected FragmentLauncher getFragmentLauncher() {
@@ -134,11 +114,36 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = getUiState(PRODUCT_REGISTRATION);
+//        this.uiState = setStateData(PRODUCT_REGISTRATION);
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
         this.uiState.setUiStateData(uiStateDataModel);
         this.uiState.setPresenter(this);
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+    }
+
+    public EventStates getEventState(int componentID) {
+        final int MENU_OPTION_SETTINGS = 1;
+        final int MENU_OPTION_SHOP = 2;
+        final int MENU_OPTION_SUPPORT = 3;
+        final int MENU_OPTION_ABOUT = 4;
+        switch (componentID) {
+            case MENU_OPTION_HOME:
+                return EventStates.HOME_FRAGMENT;
+            case MENU_OPTION_SETTINGS:
+                return EventStates.HOME_SETTINGS;
+            case MENU_OPTION_SHOP:
+                return EventStates.HOME_IAP;
+            case MENU_OPTION_SUPPORT:
+                return EventStates.HOME_SUPPORT;
+            case MENU_OPTION_ABOUT:
+                return EventStates.HOME_ABOUT;
+            case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
+                return EventStates.HOME_SUPPORT;
+            case PRODUCT_REGISTRATION:
+                return EventStates.HOME_PR;
+            default:
+                return EventStates.HOME_FRAGMENT;
+        }
     }
 }

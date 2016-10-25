@@ -57,14 +57,14 @@ public class HomeActivityPresenterTest extends TestCase {
     }
 
     public void testGetUiState() {
-        assertEquals(true, homeActivityPresenter.getUiState(0) instanceof HomeFragmentState);
-        assertEquals(true, homeActivityPresenter.getUiState(1) instanceof SettingsFragmentState);
-        assertEquals(true, homeActivityPresenter.getUiState(2) instanceof IAPState);
-        assertEquals(true, homeActivityPresenter.getUiState(3) instanceof SupportFragmentState);
-        assertEquals(true, homeActivityPresenter.getUiState(4) instanceof AboutScreenState);
-        assertEquals(true, homeActivityPresenter.getUiState(5) instanceof DebugTestFragmentState);
-        assertEquals(true, homeActivityPresenter.getUiState(-1) instanceof HomeFragmentState);
-        assertFalse(homeActivityPresenter.getUiState(5) instanceof AboutScreenState);
+        assertEquals(true, homeActivityPresenter.setStateData(0) instanceof HomeFragmentState);
+        assertEquals(true, homeActivityPresenter.setStateData(1) instanceof SettingsFragmentState);
+        assertEquals(true, homeActivityPresenter.setStateData(2) instanceof IAPState);
+        assertEquals(true, homeActivityPresenter.setStateData(3) instanceof SupportFragmentState);
+        assertEquals(true, homeActivityPresenter.setStateData(4) instanceof AboutScreenState);
+        assertEquals(true, homeActivityPresenter.setStateData(5) instanceof DebugTestFragmentState);
+        assertEquals(true, homeActivityPresenter.setStateData(-1) instanceof HomeFragmentState);
+        assertFalse(homeActivityPresenter.setStateData(5) instanceof AboutScreenState);
     }
 
     public void testOnClick() {
@@ -78,7 +78,7 @@ public class HomeActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIState getUiState(final int componentID) {
+            protected UIState setStateData(final int componentID) {
                 return uiStateMock;
             }
 
@@ -106,7 +106,7 @@ public class HomeActivityPresenterTest extends TestCase {
             }
 
             @Override
-            protected UIState getUiState(final int componentID) {
+            protected UIState setStateData(final int componentID) {
                 return uiStateMock;
             }
 

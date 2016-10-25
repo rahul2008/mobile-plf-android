@@ -73,11 +73,11 @@
         "state": "home",
         "events": [
           {
-            "eventId": "homeFragment",
+            "eventId": "home_fragment",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "homeFragment"
+                "nextState": "home_fragment"
               }
             ]
           },
