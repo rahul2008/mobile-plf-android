@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.introscreen.WelcomeActivity;
+import com.philips.platform.appframework.introscreen.LaunchActivity;
 import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -24,10 +24,10 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
  * All rights reserved.
  */
 public class SplashFragment extends Fragment implements WelcomeView{
-    private boolean isVisible = false;
+    public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
-    public static String TAG = WelcomeActivity.class.getSimpleName();
     UIBasePresenter presenter;
+    private boolean isVisible = false;
 
     @Nullable
     @Override
@@ -81,25 +81,25 @@ public class SplashFragment extends Fragment implements WelcomeView{
 
     @Override
     public void showActionBar() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.showActionBar();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        launchActivity.showActionBar();
     }
 
     @Override
     public void hideActionBar() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.hideActionBar();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        launchActivity.hideActionBar();
     }
 
     @Override
     public void finishActivityAffinity() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.finishAffinity();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        launchActivity.finishAffinity();
     }
 
     @Override
     public ActionBarListener getActionBarListener() {
-        return (WelcomeActivity) getActivity();
+        return (LaunchActivity) getActivity();
     }
 
     @Override
@@ -109,7 +109,7 @@ public class SplashFragment extends Fragment implements WelcomeView{
 
     @Override
     public FragmentActivity getFragmentActivity() {
-        return (WelcomeActivity)getActivity();
+        return getActivity();
     }
 
 }

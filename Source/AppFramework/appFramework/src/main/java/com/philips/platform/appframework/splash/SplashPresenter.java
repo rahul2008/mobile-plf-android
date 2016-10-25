@@ -9,12 +9,10 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.introscreen.WelcomeView;
-import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -45,14 +43,11 @@ public class SplashPresenter extends UIBasePresenter {
     public void onLoad() {
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
         final UIState uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.SPLASH, EventStates.APP_START);
-        UIStateData homeStateData = new UIStateData();
-        homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
-        uiState.setUiStateData(homeStateData);
-        if(uiState instanceof UserRegistrationState) {
-            uiView.showActionBar();
-        }
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
         if (null != uiState) {
+            if (uiState instanceof UserRegistrationState) {
+                uiView.showActionBar();
+            }
             uiState.setPresenter(this);
             appFrameworkApplication.getFlowManager().setCurrentState(uiState);
             uiState.navigate(fragmentLauncher);

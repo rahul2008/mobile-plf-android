@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.introscreen.WelcomeActivity;
+import com.philips.platform.appframework.introscreen.LaunchActivity;
 import com.philips.platform.appframework.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -37,7 +37,7 @@ import com.shamanland.fonticon.FontIconView;
  */
 public class WelcomeFragment extends Fragment implements View.OnClickListener, WelcomeFragmentView {
 
-    public static String TAG = WelcomeActivity.class.getSimpleName();
+    public static String TAG = LaunchActivity.class.getSimpleName();
 
     private FontIconView leftArrow;
     private FontIconView rightArrow;
@@ -128,25 +128,25 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
 
     @Override
     public void showActionBar() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.showActionBar();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        launchActivity.showActionBar();
     }
 
     @Override
     public void hideActionBar() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.hideActionBar();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        launchActivity.hideActionBar();
     }
 
     @Override
     public void finishActivityAffinity() {
-        final WelcomeActivity welcomeActivity = (WelcomeActivity) getActivity();
-        welcomeActivity.finishAffinity();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        launchActivity.finishAffinity();
     }
 
     @Override
     public ActionBarListener getActionBarListener() {
-        return (WelcomeActivity) getActivity();
+        return (LaunchActivity) getActivity();
     }
 
     @Override

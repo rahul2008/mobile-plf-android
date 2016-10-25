@@ -11,7 +11,6 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,8 +23,6 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.introscreen.welcomefragment.WelcomeFragment;
-import com.philips.platform.appframework.splash.SplashFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -36,18 +33,13 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionBarListener, WelcomeView {
-    private ImageView arrowImage;
+public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBarListener, WelcomeView {
     private TextView textView;
-    private FragmentManager fragmentManager;
-    private WelcomeFragment welcomeScreenFragment;
-    private SplashFragment splashFragment;
-    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomeActivityPresenter(this);
+        presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_activity);
         presenter.onLoad();
@@ -78,7 +70,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
                     onBackPressed();
                 }
             });
-            arrowImage = (ImageView) mCustomView
+            final ImageView arrowImage = (ImageView) mCustomView
                     .findViewById(R.id.home_action_bar_arrow_left);
             textView = (TextView) mCustomView.findViewById(R.id.home_action_bar_text);
             arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));

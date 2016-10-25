@@ -24,9 +24,9 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class WelcomeActivityPresenterTest extends TestCase {
+public class LaunchActivityPresenterTest extends TestCase {
 
-    private WelcomeActivityPresenter welcomeActivityPresenter;
+    private LaunchActivityPresenter launchActivityPresenter;
     private WelcomeView welcomeViewMock;
     private FragmentActivity fragmentActivityMock;
 
@@ -36,14 +36,14 @@ public class WelcomeActivityPresenterTest extends TestCase {
         welcomeViewMock = mock(WelcomeView.class);
         fragmentActivityMock = mock(FragmentActivity.class);
         when(welcomeViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        welcomeActivityPresenter = new WelcomeActivityPresenter(welcomeViewMock);
+        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock);
     }
 
     public void testOnClick() throws Exception {
         final UIState uiStateMock = mock(UIState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        welcomeActivityPresenter = new WelcomeActivityPresenter(welcomeViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
             @Override
             public void setState(final int stateID) {
                 super.setState(UIState.UI_HOME_STATE);
@@ -66,9 +66,9 @@ public class WelcomeActivityPresenterTest extends TestCase {
         when(uiFlowManagerMock.getCurrentState()).thenReturn(uiStateMock);
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        welcomeActivityPresenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT);
+        launchActivityPresenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT);
         verify(welcomeViewMock).finishActivityAffinity();
-        verify(uiStateMock).setPresenter(welcomeActivityPresenter);
+        verify(uiStateMock).setPresenter(launchActivityPresenter);
         verify(uiFlowManagerMock).navigateToState(uiStateMock, fragmentLauncherMock);
     }
 
@@ -76,7 +76,7 @@ public class WelcomeActivityPresenterTest extends TestCase {
         final UIState uiStateMock = mock(UIState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        welcomeActivityPresenter = new WelcomeActivityPresenter(welcomeViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
             @Override
             public void setState(final int stateID) {
                 super.setState(UIState.UI_HOME_STATE);
@@ -100,14 +100,14 @@ public class WelcomeActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final UIState uiStateThisMock = mock(UIState.class);
-        welcomeActivityPresenter.onStateComplete(uiStateThisMock);
+        launchActivityPresenter.onStateComplete(uiStateThisMock);
         verify(welcomeViewMock).finishActivityAffinity();
-        verify(uiStateMock).setPresenter(welcomeActivityPresenter);
+        verify(uiStateMock).setPresenter(launchActivityPresenter);
         verify(uiFlowManagerMock).navigateToState(uiStateMock, fragmentLauncherMock);
     }
 
     public void testGetUiState() {
-        assertTrue(welcomeActivityPresenter.getUiState(Constants.BACK_BUTTON_CLICK_CONSTANT) instanceof HomeActivityState);
+        assertTrue(launchActivityPresenter.getUiState(Constants.BACK_BUTTON_CLICK_CONSTANT) instanceof HomeActivityState);
     }
 
     public void testOnLoad() {
@@ -115,7 +115,7 @@ public class WelcomeActivityPresenterTest extends TestCase {
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final SharedPreferenceUtility sharedPreferenceUtilityMock = mock(SharedPreferenceUtility.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        welcomeActivityPresenter = new WelcomeActivityPresenter(welcomeViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
             @Override
             public void setState(final int stateID) {
                 super.setState(UIState.UI_HOME_STATE);
@@ -146,15 +146,15 @@ public class WelcomeActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
 
-        welcomeActivityPresenter.onLoad();
+        launchActivityPresenter.onLoad();
         verify(welcomeViewMock).hideActionBar();
-        verify(welcomeViewMock).loadWelcomeFragment();
+//        verify(welcomeViewMock).loadWelcomeFragment();
 
         when(sharedPreferenceUtilityMock.getPreferenceBoolean(Constants.DONE_PRESSED)).thenReturn(true);
         when(uiStateMock.getStateID()).thenReturn(UIState.UI_USER_REGISTRATION_STATE);
-        welcomeActivityPresenter.onLoad();
+        launchActivityPresenter.onLoad();
         verify(welcomeViewMock).showActionBar();
-        verify(uiStateMock).setPresenter(welcomeActivityPresenter);
+        verify(uiStateMock).setPresenter(launchActivityPresenter);
         verify(uiFlowManagerMock).navigateToState(uiStateMock, fragmentLauncherMock);
     }
 }

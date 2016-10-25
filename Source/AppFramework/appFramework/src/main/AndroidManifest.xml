@@ -20,7 +20,8 @@
         android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
         tools:replace="android:theme,android:label">
 
-        <activity android:name=".introscreen.WelcomeActivity"
+        <activity
+            android:name=".introscreen.LaunchActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
