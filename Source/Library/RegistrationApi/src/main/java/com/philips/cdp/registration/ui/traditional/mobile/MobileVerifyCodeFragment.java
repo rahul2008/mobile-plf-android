@@ -31,6 +31,7 @@ import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -240,11 +241,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.URX_SMS_InternalServerError));
             return;
         }
+        RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + isAccountActivate);
         if (isAccountActivate) {
             handleActivate(response);
         } else {
             handleResendSMSRespone(response);
         }
+        isAccountActivate = false;
     }
 
     private void handleResendSMSRespone(String response) {
@@ -366,9 +369,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private Intent createResendSMSIntent() {
 
-        String url = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode?provider=" +
-                "JANRAIN-CN&locale=" + RegistrationHelper.getInstance().getLocale(mContext) + "&phonenumber=" + mEtCodeNUmber.getNumber();
+        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
 
+        String url = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode?provider=" +
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mUser.getMobile();
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
@@ -384,6 +388,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         @Override
         public void onClick(View view) {
             mEtCodeNUmber.showResendSpinner();
+            mEtCodeNUmber.showValidEmailAlert();
             mBtnVerify.setEnabled(false);
             resendMobileNumberService();
         }

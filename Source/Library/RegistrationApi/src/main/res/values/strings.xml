@@ -13,7 +13,7 @@
     <string name="reg_SocialAccountMerger_ErrorMsg" formatted="false">You have already registered with another %s account, please log in to %s account.</string>
     <string name="reg_Janrain_Error_Need_Email_Verification">Please verify your email address through the activation link sent to your email account</string>
     <string name="reg_JanRain_Invalid_Input">Invalid input ,Please check and enter correct details.</string>
-    <string name="reg_JanRain_Invalid_Credentials">The email address or password you entered is incorrect.</string>
+    <string name="reg_JanRain_Invalid_Credentials">The username or password you entered is incorrect.</string>
     <string name="reg_JanRain_Error_Check_Internet">Problem in network connection.</string>
     <string name="reg_JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
     <string name="reg_JanRain_Server_Connection_Failed">Failed to connect to the server, Please try again after some time.</string>
@@ -190,9 +190,9 @@
     <string name="URX_SMS_Limit_Reached">The limit has been reached for phone number. Please try again after some time.</string>
     <string name="URX_SMS_InternalServerError">Internal server error sending SMS. Please try again later.</string>
     <string name="URX_SMS_NoInformation_Available">No information available.</string>
-    <string name="URX_SMS_Not_Sent">No information available.</string>
-    <string name="URX_SMS_Already_Verified">The phone number or password you entered is incorrect.</string>
-    <string name="URX_Invalid_Credentials">No information available.</string>
-    <string name="Mobile_Verification_Invalid_Code">Invalid verification code</string>
+    <string name="URX_SMS_Not_Sent">SMS has not been sent.</string>
+    <string name="URX_SMS_Already_Verified">SMS not sent. Account already verified.</string>
+    <string name="URX_Invalid_Credentials">The phone number or password you entered is incorrect.</string>
+    <string name="Mobile_Verification_Invalid_Code">Invaild verification code.</string>
 
 </resources>

@@ -90,9 +90,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             jumpConfig.engageAppId = "bdbppnbjfcibijknnfkk";
             jumpConfig.captureAppId = "euwkgsf83m56hqknjxgnranezh";
             // previews it was "eupac7ugz25x8dwahvrbpmndf8"
-        } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.TESTING))) {
+        } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.TESTING)) ||
+                appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.TEST))) {
             jumpConfig.engageAppId = "fhbmobeahciagddgfidm";
-            jumpConfig.captureAppId = "x7nftvwfz8e8vcutz49p8eknqp";
+            jumpConfig.captureAppId = "vdgkb3z57jpv93mxub34x73mqu";
         }
 
         initServiceDiscovery(locale);
@@ -113,9 +114,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
         @Override
         public void onSuccess(URL url) {
-            String janrainURL = url.toString().substring(8);
+            String janrainURL = url.toString().substring(8);//Please don't remove this line.
             // Hard coded the url for china will be replsed by service disover
-            jumpConfig.captureDomain = "philips-china-eu.eu-dev.janraincapture.com";
+            //jumpConfig.captureDomain = "philips-china-eu.eu-dev.janraincapture.com";
+            jumpConfig.captureDomain = "philips-china-test.eu-dev.janraincapture.com";//Testing
             //previews it was like this
             //janrainURL.toString();
             RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);

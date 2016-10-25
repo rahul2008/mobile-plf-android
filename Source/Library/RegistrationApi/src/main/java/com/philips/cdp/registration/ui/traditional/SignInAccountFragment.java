@@ -45,6 +45,7 @@ import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.ResetPasswordWebView;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -293,7 +294,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtPassword.clearFocus();
             if (mEtEmail.getEmailId().length() == 0) {
                 launchResetPasswordFragment();
+            } else if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
+                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in US");
+                getRegistrationFragment().addFragment(new ResetPasswordWebView());
             } else {
+                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in ELSE");
                 resetPassword();
             }
         } else if (id == R.id.btn_reg_resend) {
@@ -437,10 +442,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             } else {
                 //Need to show password errors only
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-                    mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+                if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
+                    mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
                 } else {
-                    mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+                    if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
+                        mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+                    } else {
+                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+                    }
                 }
                 trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
             }
@@ -653,8 +662,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 handleResendVerificationEmailFailed(userRegistrationFailureInfo);
             }
         });
-
-
     }
 
     private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -689,7 +696,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     launchAlmostDoneScreenForTermsAcceptance();
                 } else {
-
                     launchWelcomeFragment();
                 }
             }
@@ -773,10 +779,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleResendSMSRespone(response);
     }
 
-    private Intent createResendSMSIntent() {
-
-        String url = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode?provider=" +
+    /*
+    String url = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode?provider=" +
                 "JANRAIN-CN&locale=" + RegistrationHelper.getInstance().getLocale(mContext) + "&phonenumber=" + mEmail;
+     */
+
+    private Intent createResendSMSIntent() {
+        String url = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode?provider=" +
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mEtEmail.getEmailId();
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
@@ -792,8 +802,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         try {
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("errorCode").toString().equals("0")) {
-                handleResendVerificationEmailSuccess();
+                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
             } else {
+                updateResendUIState();
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
                 RLog.i("SignInAccountFragment ", "SMS Resend failure Val = " + response);
                 mRegError.setError(errorMsg);

@@ -125,7 +125,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         mTvErrDescriptionView.setVisibility(VISIBLE);
     }
 
-    private void showValidEmailAlert() {
+    public void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
         mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
         mFlInvalidFieldAlert.setVisibility(GONE);

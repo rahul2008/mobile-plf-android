@@ -14,6 +14,7 @@ public enum Configuration {
     STAGING("STAGING"),
     EVALUATION("EVALUATION"), DEVELOPMENT("DEVELOPMENT"),
     TESTING("TESTING"),
+    TEST("TEST"),
     PRODUCTION("PRODUCTION");
 
     private String value;
