@@ -175,12 +175,12 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         return sendRestRequest("GET", apiEndpoint, queryParams, headers, null);
     }
 
-    public DhpAuthenticationResponse loginSocialProviders(String email, String socialAccessToken) {
+    public DhpAuthenticationResponse loginSocialProviders(String email, String socialAccessToken,String secret) {
         String apiEndpoint = "/authentication/login/social";
         String queryParams = "applicationName="+ dhpApplicationName;
         Map<String, String> headers = new LinkedHashMap<String, String>();
         headers.put("accessToken",socialAccessToken);
-
+        headers.put("refreshSecret",secret);
         Map<String, String> body = new LinkedHashMap<String, String>();
         body.put("loginId",email);
         DhpResponse dhpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);
