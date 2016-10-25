@@ -7,12 +7,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTimeConstants;
 
 import javax.inject.Inject;
 
-import cdp.philips.com.mydemoapp.DataSyncApplication;
+import cdp.philips.com.mydemoapp.database.OrmCreator;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -24,8 +25,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
 
     public static final String ACTION_USER_DATA_FETCH = "ACTION_USER_DATA_FETCH";
 
-    @Inject
-    DataServicesManager mTracker;
+    DataServicesManager mDataServices;
 
     @Inject
     public BaseAppBroadcastReceiver() {
@@ -34,14 +34,14 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        ((DataSyncApplication) context.getApplicationContext()).getAppComponent().injectReciever(this);
+        mDataServices = DataServicesManager.getInstance();
         String action = intent.getAction();
         if (action == null) {
             return;
         }
         //TODO: review changing connection
         if (isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
-            mTracker.syncData();
+            mDataServices.syncData();
         }
     }
 

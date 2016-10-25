@@ -6,11 +6,14 @@
 
 package com.philips.platform.core.trackers;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.core.BackendIdProvider;
+import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Measurement;
@@ -21,19 +24,43 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
-import com.philips.platform.core.events.WriteDataToBackendRequest;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.injection.ApplicationModule;
+import com.philips.platform.core.injection.BackendModule;
+import com.philips.platform.core.injection.DaggerAppComponent;
+import com.philips.platform.core.monitors.DBMonitors;
+import com.philips.platform.core.monitors.DeletingMonitor;
+import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.monitors.ExceptionMonitor;
+import com.philips.platform.core.monitors.FetchingMonitor;
+import com.philips.platform.core.monitors.LoggingMonitor;
+import com.philips.platform.core.monitors.SavingMonitor;
+import com.philips.platform.core.monitors.UpdatingMonitor;
+import com.philips.platform.core.utils.EventingImpl;
+import com.philips.platform.datasync.Backend;
+import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
+import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
-import org.joda.time.DateTimeConstants;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -44,8 +71,7 @@ public class DataServicesManager {
     @NonNull
     private final Eventing eventing;
 
-    @NonNull
-    private final BaseAppDataCreator dataCreator;
+    private BaseAppDataCreator dataCreator;
 
     @Inject
     DataPullSynchronise mDataPullSynchronise;
@@ -53,13 +79,44 @@ public class DataServicesManager {
     @Inject
     DataPushSynchronise mDataPushSynchronise;
 
-    private BackendIdProvider backendIdProvider;
+    @Inject
+    SharedPreferences mSharedPreferences;
 
     @Inject
-    public DataServicesManager(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator dataCreator, @NonNull final BackendIdProvider backendIdProvider) {
-        this.eventing = eventing;
-        this.dataCreator = dataCreator;
-        this.backendIdProvider = backendIdProvider;
+    LoggingMonitor mLoggingMonitor;
+
+    @Inject
+    ExceptionMonitor mExceptionMonitor;
+
+    @Inject
+    Backend mBackend;
+    AppComponent appComponent;
+
+    private BackendIdProvider backendIdProvider;
+
+    DBMonitors mDbMonitors;
+
+    private static DataServicesManager mDataServicesManager;
+    private Context mContext;
+
+    @Singleton
+    private DataServicesManager() {
+        this.eventing = new EventingImpl(new EventBus(), new Handler());
+    }
+
+    public static DataServicesManager getInstance() {
+        if (mDataServicesManager == null) {
+            return mDataServicesManager = new DataServicesManager();
+        }
+        return mDataServicesManager;
+    }
+
+    public UCoreAccessProvider getUCoreAccessProvider(){
+        return (UCoreAccessProvider) backendIdProvider;
+    }
+
+    public BaseAppDataCreator getDataCreater(){
+        return dataCreator;
     }
 
     @NonNull
@@ -138,5 +195,40 @@ public class DataServicesManager {
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
         monitor.start(eventing);
+    }
+
+    public void initializeDBMonitors(DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+        SavingMonitor savingMonitor = new SavingMonitor(savingInterface);
+        FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
+        DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
+        UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
+
+        mDbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
+    }
+
+    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
+
+        mContext = context;
+        this.dataCreator = creator;
+        this.backendIdProvider = new UCoreAccessProvider(facade);
+
+        prepareInjectionsGraph(context);
+        appComponent.injectApplication(this);
+        backendIdProvider.injectSaredPrefs(mSharedPreferences);
+
+        List<EventMonitor> monitors = new ArrayList<>();
+        monitors.add(mLoggingMonitor);
+        monitors.add(mExceptionMonitor);
+
+        BaseAppCore core = new BaseAppCore(eventing,dataCreator,mBackend,monitors,mDbMonitors);
+        core.start();
+    }
+
+    protected void prepareInjectionsGraph(Context context) {
+        BackendModule backendModule = new BackendModule(eventing);
+        final ApplicationModule applicationModule = new ApplicationModule(context);
+
+        // initiating all application module events
+        appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
     }
 }

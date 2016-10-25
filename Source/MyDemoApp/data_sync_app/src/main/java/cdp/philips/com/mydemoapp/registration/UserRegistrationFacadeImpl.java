@@ -16,7 +16,6 @@ import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.UserCredentials;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.events.DataClearRequest;
@@ -41,9 +40,6 @@ import retrofit.RetrofitError;
  */
 @Singleton
 public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
-    public static final boolean USE_COPPA_FLOW = false;
-    public static final boolean TAGGING_ENABLED = true;
-    public final static int ACCESS_TOKEN_KEEP_ALIVE_TIME_IN_HOURS = 1;
     static final String KEY_PROFILE_PHOTO_SET = "PROFILE_PHOTO_SET";
 
     // TODO: This I do not want
@@ -52,12 +48,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     @NonNull
     private final User user;
-
-    @NonNull
-    private final RegistrationHelper registrationHelper;
-
-    @NonNull
-    private final Eventing eventing;
 
 
     @NonNull
@@ -91,7 +81,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
         }
     };
     private RegistrationConfiguration registrationConfiguration;
-    private HSDPInfo hsdpInfo;
 
     @Nullable
     private String email;
@@ -99,19 +88,9 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     @Inject
     public UserRegistrationFacadeImpl(
             @NonNull final Context context,
-            @NonNull final User user,
-            @NonNull final RegistrationHelper registrationHelper,
-
-            @NonNull final Eventing eventing,
-            @NonNull final RegistrationConfiguration registrationConfiguration,
-            @NonNull final HSDPInfo hsdpInfo) {
+            @NonNull final User user) {
         this.context = context;
         this.user =  user;
-        this.registrationHelper = registrationHelper;
-
-        this.eventing = eventing;
-        this.hsdpInfo = hsdpInfo;
-        this.registrationConfiguration = registrationConfiguration;
         EventHelper.getInstance().registerURNotification(EventHelper.UR,this);
     }
 
@@ -125,14 +104,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     @NonNull
     private User getUser(final Context context) {
         return new User(context);
-    }
-
-    public void init() {
-        //This is as per Common component requirement think before removing
-        PILLocaleManager pilLocaleManager = new PILLocaleManager(context);
-        pilLocaleManager.setInputLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
-        registrationHelper.initializeUserRegistration(context.getApplicationContext());
-
     }
 
     @Override
@@ -205,12 +176,12 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
       //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
     }
 
-    public void clearUserData() {
+/*    public void clearUserData() {
       //  accessTokenRefreshTime = null;
         eventing.post(new DataClearRequest());
         clearPreferences();
         email = null;
-    }
+    }*/
 
 
 
@@ -224,17 +195,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
         return new UserCredentials(user.getHsdpUUID(), user.getHsdpAccessToken(), user.getJanrainUUID(), user.getAccessToken());
     }
 
-    @Override
-    public void setHsdpUrl() {
-
-       /* hsdpInfo.setBaseURL("https://sandbox-ds-syncclient.cloud.pcftest.com");
-        hsdpInfo.setApplicationName("DataCore");
-        hsdpInfo.setSharedId("");
-        hsdpInfo.setSecreteId("");
-
-        RegistrationConfiguration.getInstance().setHSDPInfo(Configuration.DEVELOPMENT, hsdpInfo);*/
-    }
-
     @Nullable
     private Map<String, String> getQueryParams(final String url, final int baseUrlIndex) {
         Map<String, String> paramsMap = parseQueryParameters(url.substring(baseUrlIndex + 1));
@@ -242,29 +202,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
             return null;
         }
         return paramsMap;
-    }
-
-    private Configuration getEnvironment(String janrainEnv) {
-        Configuration configuration = Configuration.DEVELOPMENT;
-        switch (janrainEnv) {
-            case "Development":
-                configuration = Configuration.DEVELOPMENT;
-                break;
-            case "Production":
-                configuration = Configuration.PRODUCTION;
-                break;
-            case "Evaluation":
-                configuration = Configuration.EVALUATION;
-                break;
-            case "Staging":
-                configuration = Configuration.STAGING;
-                break;
-            case "Testing":
-                configuration = Configuration.TESTING;
-                break;
-            default:
-        }
-        return configuration;
     }
 
     private Map<String, String> parseQueryParameters(String query) {

@@ -4,7 +4,7 @@
  * the written consent of the copyright holder.
  */
 
-package cdp.philips.com.mydemoapp.injection;
+package com.philips.platform.core.injection;
 
 import android.content.Context;
 import android.content.SharedPreferences;

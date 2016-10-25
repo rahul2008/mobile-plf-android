@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BackendIdProvider;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
 import javax.inject.Inject;
@@ -27,13 +28,12 @@ public class UCoreAccessProvider implements BackendIdProvider {
     public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
     public static final String ACTIVE_BABY_ID_KEY = "ACTIVE_BABY_ID_KEY";
-    @Inject
+
     SharedPreferences sharedPreferences;
 
     @NonNull
     private final UserRegistrationFacade userRegistrationFacade;
 
-    @Inject
     public UCoreAccessProvider(@NonNull final UserRegistrationFacade userRegistrationFacade) {
         this.userRegistrationFacade = userRegistrationFacade;
     }
@@ -49,6 +49,11 @@ public class UCoreAccessProvider implements BackendIdProvider {
     @Override
     public String getUserId() {
         return userRegistrationFacade.getUserProfile().getGUid();
+    }
+
+    @Override
+    public void injectSaredPrefs(SharedPreferences sharedPreferences){
+        this.sharedPreferences = sharedPreferences;
     }
 
     @Override

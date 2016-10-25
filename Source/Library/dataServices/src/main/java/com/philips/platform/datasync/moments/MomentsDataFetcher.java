@@ -9,6 +9,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -35,15 +36,21 @@ public class MomentsDataFetcher extends DataFetcher {
     @NonNull
     private final GsonConverter gsonConverter;
 
+    @NonNull
+    protected final UCoreAccessProvider accessProvider;
+
+    DataServicesManager mDataServicesManager;
+
     @Inject
     public MomentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
-                              @NonNull final UCoreAccessProvider accessProvider,
                               @NonNull final MomentsConverter converter,
                               @NonNull final Eventing eventing,
                               @NonNull final GsonConverter gsonConverter) {
-        super(uCoreAdapter, accessProvider, eventing);
+        super(uCoreAdapter, eventing);
         this.converter = converter;
         this.gsonConverter = gsonConverter;
+        mDataServicesManager = DataServicesManager.getInstance();
+        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
     }
 
     @Override

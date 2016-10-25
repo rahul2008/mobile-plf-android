@@ -16,6 +16,7 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
@@ -56,12 +57,14 @@ public class DataPullSynchronise {
     @NonNull
     private final AtomicInteger numberOfRunningFetches = new AtomicInteger(0);
 
+    DataServicesManager mDataServicesManager;
+
     @Inject
-    public DataPullSynchronise(@NonNull final UCoreAccessProvider accessProvider,
-                               @NonNull final MomentsDataFetcher fetcher,
+    public DataPullSynchronise(@NonNull final MomentsDataFetcher fetcher,
                                @NonNull final Executor executor,
                                @NonNull final Eventing  eventing) {
-        this.accessProvider = accessProvider;
+        mDataServicesManager = DataServicesManager.getInstance();
+        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
         this.mMomentsDataFetcher = fetcher;
         this.executor = executor;
         this.eventing = eventing;
@@ -111,11 +114,11 @@ public class DataPullSynchronise {
         }
     }
 
-    public void unRegisterEvent() {
+ /*   public void unRegisterEvent() {
         if (eventing.isRegistered(this)) {
             eventing.unregister(this);
         }
-    }
+    }*/
 
     private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
         Log.i("**SPO**","In Data Pull Synchronize preformFetch");
@@ -174,6 +177,6 @@ public class DataPullSynchronise {
         Log.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
         final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
         fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments);
-        unRegisterEvent();
+       // unRegisterEvent();
     }
 }

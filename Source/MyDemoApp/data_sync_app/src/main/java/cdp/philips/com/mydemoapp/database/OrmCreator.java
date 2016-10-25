@@ -21,6 +21,8 @@ import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
 
+import javax.inject.Singleton;
+
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -39,6 +41,7 @@ public class OrmCreator implements BaseAppDataCreator {
 
     private final UuidGenerator uuidGenerator;
 
+    @Singleton
     public OrmCreator(UuidGenerator uuidGenerator) {
         this.uuidGenerator = uuidGenerator;
     }

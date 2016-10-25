@@ -4,14 +4,13 @@
  * the written consent of the copyright holder.
  */
 
-package cdp.philips.com.mydemoapp.injection;
+package com.philips.platform.core.injection;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
@@ -44,6 +43,13 @@ import retrofit.converter.GsonConverter;
 @Module
 public class BackendModule {
 
+    @NonNull
+    private final Eventing eventing;
+
+    public BackendModule(@NonNull final Eventing eventing) {
+        this.eventing = eventing;
+    }
+
     @Provides
     OkHttpClient provideOkHttpClient(@NonNull final List<Interceptor> interceptors) {
         final OkHttpClient okHttpClient = new OkHttpClient();
@@ -68,20 +74,17 @@ public class BackendModule {
     @Provides
     @Singleton
     DataPullSynchronise providesDataSynchronise(
-            @NonNull final UCoreAccessProvider uCoreAccessProvider,
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final Eventing eventing, @NonNull final ExecutorService executor) {
-        return new DataPullSynchronise(uCoreAccessProvider,momentsDataFetcher,executor,eventing);
+        return new DataPullSynchronise(momentsDataFetcher,executor,eventing);
     }
 
     @Provides
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
-            @NonNull final UCoreAccessProvider uCoreAccessProvider,
             @NonNull final MomentsDataSender momentsDataSender,
             @NonNull final Eventing eventing) {
-        return new DataPushSynchronise(uCoreAccessProvider,
-                Arrays.asList(momentsDataSender),
+        return new DataPushSynchronise(Arrays.asList(momentsDataSender),
                 null, eventing);
     }
 
@@ -102,7 +105,8 @@ public class BackendModule {
     }
 
     @Provides
-    HSDPInfo providedHSDPInfo() {
-        return new HSDPInfo();
+    @Singleton
+    public Eventing provideEventing() {
+        return eventing;
     }
 }
