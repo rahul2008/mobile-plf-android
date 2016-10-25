@@ -43,8 +43,7 @@ public class UIStateFactory {
      * Build an immutable map of UI states type and corresponding class object pairs.
      */
     static {
-        final Map<AppStates, UIState> map = new ConcurrentHashMap<AppStates, UIState>();
-        //map.put(AppStates.SPLASH,new UIStateSplash());
+        final Map<AppStates, UIState> map = new ConcurrentHashMap<>();
         map.put(AppStates.WELCOME, new WelcomeState());
         map.put(AppStates.REGISTRATION, new UserRegistrationState());
         map.put(AppStates.HOMEFRAGMENT, new HomeFragmentState());

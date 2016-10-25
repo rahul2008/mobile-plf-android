@@ -1,5 +1,7 @@
 package com.philips.platform.modularui.statecontroller;
 
+import android.content.Context;
+
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
@@ -8,6 +10,12 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  */
 
 public abstract class BaseUiFlowManager {
+
+    private Context context;
+
+    public BaseUiFlowManager(final Context context) {
+        this.context = context;
+    }
 
     public abstract void initFlowManager();
 

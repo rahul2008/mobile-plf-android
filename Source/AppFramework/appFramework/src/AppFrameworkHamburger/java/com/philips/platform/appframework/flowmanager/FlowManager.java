@@ -40,9 +40,10 @@ public class FlowManager extends BaseUiFlowManager {
     private Context mContext;
 
     private FlowManager(Context context) {
+        super(context);
         mContext = context;
-        mUIStateFactory = new UIStateFactory();
-        mConditionFactory = new ConditionFactory();
+//        mUIStateFactory = new UIStateFactory();
+//        mConditionFactory = new ConditionFactory();
         getAppFlowStates(context);
     }
 
