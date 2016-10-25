@@ -93,6 +93,7 @@ public class DataServicesManager {
     AppComponent appComponent;
 
     private BackendIdProvider backendIdProvider;
+    BaseAppCore core;
 
     DBMonitors mDbMonitors;
 
@@ -220,7 +221,7 @@ public class DataServicesManager {
         monitors.add(mLoggingMonitor);
         monitors.add(mExceptionMonitor);
 
-        BaseAppCore core = new BaseAppCore(eventing,dataCreator,mBackend,monitors,mDbMonitors);
+        core = new BaseAppCore(eventing,dataCreator,mBackend,monitors,mDbMonitors);
         core.start();
     }
 
@@ -230,5 +231,9 @@ public class DataServicesManager {
 
         // initiating all application module events
         appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+    }
+
+    public void stopCore() {
+        core.stop();
     }
 }

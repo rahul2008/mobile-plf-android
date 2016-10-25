@@ -82,6 +82,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStop() {
         super.onStop();
         cancelPendingIntent();
+        mDataServicesManager.stopCore();
     }
 
     @Override
