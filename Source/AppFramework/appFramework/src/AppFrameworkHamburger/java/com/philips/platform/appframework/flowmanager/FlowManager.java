@@ -2,17 +2,11 @@ package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
 
-import com.philips.platform.flowmanager.AppFrameworkDataParser;
 import com.philips.platform.flowmanager.condition.AppConditions;
 import com.philips.platform.flowmanager.condition.BaseCondition;
-import com.philips.platform.flowmanager.condition.ConditionFactory;
 import com.philips.platform.flowmanager.condition.ConditionIsDonePressed;
 import com.philips.platform.flowmanager.condition.ConditionIsLoggedIn;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.flowmanager.jsonstates.EventStates;
-import com.philips.platform.flowmanager.pojo.AppFlowEvent;
-import com.philips.platform.flowmanager.pojo.AppFlowModel;
-import com.philips.platform.flowmanager.pojo.AppFlowNextState;
 import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
@@ -26,9 +20,7 @@ import com.philips.platform.modularui.stateimpl.SplashState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.modularui.stateimpl.WelcomeState;
-import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import java.util.List;
 import java.util.Map;
 
 /**

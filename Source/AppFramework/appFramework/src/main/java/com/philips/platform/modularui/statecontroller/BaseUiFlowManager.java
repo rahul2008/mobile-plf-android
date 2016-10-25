@@ -1,6 +1,7 @@
 package com.philips.platform.modularui.statecontroller;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
 
 import com.philips.platform.flowmanager.AppFrameworkDataParser;
 import com.philips.platform.flowmanager.condition.AppConditions;
@@ -38,7 +39,9 @@ public abstract class BaseUiFlowManager {
     //Object to hold first state of the app flow.
     private static AppStates mFirstState;
 
-    public BaseUiFlowManager(final Context context, final int jsonPath) {
+    private static AppStates currentState;
+
+    public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
         this.context = context;
         appConditionsBaseConditionMap = new TreeMap<>();
         appStatesUIStateMap = new TreeMap<>();
@@ -129,14 +132,20 @@ public abstract class BaseUiFlowManager {
         return appConditionsBaseConditionMap.get(conditions);
     }
 
-    private void mapAppFlowStates(final int jsonPath) {
+    private void mapAppFlowStates(@IdRes final int jsonPath) {
         final AppFlowModel appFlowModel = AppFrameworkDataParser.getAppFlow(context, jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             mFirstState = AppStates.get(appFlowModel.getAppFlow().getFirstState());
+            setCurrentState(mFirstState);
             mAppFlowMap = AppFrameworkDataParser.getAppFlowMap(appFlowModel.getAppFlow());
         }
     }
 
+    public AppStates getCurrentState() {
+        return currentState;
+    }
 
-
+    public void setCurrentState(final AppStates currentState) {
+        BaseUiFlowManager.currentState = currentState;
+    }
 }

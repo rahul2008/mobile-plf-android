@@ -23,9 +23,6 @@ import java.util.Map;
 
 public class AppFrameworkDataParser {
 
-    private static AppFlowModel appFlow;
-    private static HashMap<AppStates, List<AppFlowEvent>> appFlowMap;
-
     /**
      * This method will return the object of AppFlow class or 'null'.
      * It request 'getJsonFromURL' to download the AppFlow json by sending the server URL.
@@ -38,6 +35,7 @@ public class AppFrameworkDataParser {
     public static AppFlowModel getAppFlow(Context context, @IdRes int jsonPath) {
         String appFlowResponse;
         final JSONHelper jsonHelper = new JSONHelper(context);
+        AppFlowModel appFlow;
         try {
             appFlowResponse = jsonHelper.getJsonForAppFlow(jsonPath);
             appFlow = new Gson().fromJson(appFlowResponse, AppFlowModel.class);
@@ -57,6 +55,7 @@ public class AppFrameworkDataParser {
      * @return Map of state to array of next states.
      */
     public static Map<AppStates, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
+        HashMap<AppStates, List<AppFlowEvent>> appFlowMap = null;
         if (appFlow.getStates() != null) {
             appFlowMap = new HashMap<>();
             for (final AppFlowState states : appFlow.getStates()) {
