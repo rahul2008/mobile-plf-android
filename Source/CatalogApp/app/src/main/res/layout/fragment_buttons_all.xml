@@ -98,7 +98,7 @@
                 android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
 
                 <com.philips.platform.uit.view.widget.Button
-                    style="@style/UITExtraWideImageTextButton.Center"
+                    style="@style/UITExtraWideButton.Center"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/button_first_last_element_gap"
                     android:text="@string/buttons_text_primary"
@@ -107,7 +107,7 @@
                     android:enabled="@{frag.isButtonsEnabled}"/>
 
                 <com.philips.platform.uit.view.widget.Button
-                    style="@style/UITExtraWideImageTextButton.Center"
+                    style="@style/UITExtraWideButton.Center"
                     android:layout_height="wrap_content"
                     app:uitComponentType="Secondary"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"

@@ -40,8 +40,12 @@ public class ButtonFragment extends Fragment {
     }
 
     public void toggleIcons(boolean isIconToggleChecked) {
-        ViewGroup buttonLayout = showExtraWideButtons.get()? fragmentBinding.groupExtraWide : fragmentBinding.groupDefault;
         Drawable drawable = isIconToggleChecked ? shareDrwable : null;
+        setIcons(fragmentBinding.groupExtraWide, drawable);
+        setIcons(fragmentBinding.groupDefault, drawable);
+    }
+
+    private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
         for (int i = 0; i < buttonLayout.getChildCount() ; i++) {
             View view = buttonLayout.getChildAt(i);
             if(view instanceof Button) {
