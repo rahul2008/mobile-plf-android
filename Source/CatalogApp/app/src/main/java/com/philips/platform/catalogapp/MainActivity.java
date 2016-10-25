@@ -23,6 +23,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
+import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
+import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
@@ -34,14 +37,20 @@ import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
 import com.philips.platform.uit.thememanager.UITHelper;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements ThemeSettingsChanged {
+public class MainActivity extends AppCompatActivity {
 
+    private static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
+    private static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
     @Bind(R.id.hamburger)
     ImageView hamburgerIcon;
 
@@ -62,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
     private NavigationColor navigationColor;
     private ThemeHelper themeHelper;
     private SharedPreferences defaultSharedPreferences;
+    private boolean hamburgerIconVisible;
+    private boolean themeSettingsIconVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +101,17 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
 
             initDemoListFragment();
         } else {
+            initIconState(savedInstanceState);
             processBackButton();
+            if (hamburgerIconVisible) {
+                showHamburgerIcon();
+            }
+
+            if (themeSettingsIconVisible) {
+                toggle(themeSettingsIcon, setThemeTextView);
+            } else {
+                toggle(setThemeTextView, themeSettingsIcon);
+            }
         }
     }
 
@@ -105,6 +126,35 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
                 }
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(TonalRangeChangedEvent event) {
+        Log.i("Event", "Settings changed" + event.getMessage());
+        contentColor = event.getContentColor();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(ColorRangeChangedEvent event) {
+        Log.i("Event", "Settings changed" + event.getMessage());
+        colorRange = event.getColorRange();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(NavigationColorChangedEvent event) {
+        navigationColor = event.getNavigationColor();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initSetThemeSettings(final Toolbar toolbar) {
@@ -135,17 +185,41 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
         });
     }
 
+    @Override
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        initIconState(savedInstanceState);
+    }
+
+    private void initIconState(final Bundle savedInstanceState) {
+        hamburgerIconVisible = savedInstanceState.getBoolean(HAMBURGER_BUTTON_DISPLAYED);
+        themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
+    }
+
     private void initDemoListFragment() {
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.add(R.id.mainContainer, new ComponentListFragment());
         transaction.commit();
         toggle(themeSettingsIcon, setThemeTextView);
+        themeSettingsIconVisible(true);
+    }
+
+    private void themeSettingsIconVisible(final boolean visible) {
+        themeSettingsIconVisible = visible;
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        outState.putBoolean(HAMBURGER_BUTTON_DISPLAYED, hamburgerIconVisible);
+        outState.putBoolean(THEMESETTINGS_BUTTON_DISPLAYED, themeSettingsIconVisible);
+
+        super.onSaveInstanceState(outState);
     }
 
     public ThemeConfiguration getThemeConfig() {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
-        contentColor = themeHelper.initTonalRange();
+        contentColor = themeHelper.initContentTonalRange();
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 
@@ -182,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
 
     private void toggleHamburgerIcon() {
         hamburgerIcon.setImageResource(R.drawable.ic_back_icon);
+        hamburgerIconVisible = false;
     }
 
     @Override
@@ -191,11 +266,11 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
 
     private void loadThemeSettingsPage() {
         final ThemeSettingsFragment themeSettingsFragment = new ThemeSettingsFragment();
-        themeSettingsFragment.setThemeSettingsChanged(this);
         final boolean switchedFragment = switchFragment(themeSettingsFragment);
         if (switchedFragment) {
             setTitle(R.string.page_tittle_theme_settings);
             toggle(setThemeTextView, themeSettingsIcon);
+            themeSettingsIconVisible(false);
         }
     }
 
@@ -230,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
 
     private void showHamburgerIcon() {
         hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
+        hamburgerIconVisible = true;
         title.setText(R.string.catalog_app_name);
         toggle(themeSettingsIcon, setThemeTextView);
     }
@@ -248,20 +324,5 @@ public class MainActivity extends AppCompatActivity implements ThemeSettingsChan
         final FragmentManager.BackStackEntry backStackEntry = supportFragmentManager.getBackStackEntryAt(index);
         final String name = backStackEntry.getName();
         return supportFragmentManager.findFragmentByTag(name);
-    }
-
-    @Override
-    public void onContentColorChanged(final ContentColor contentColor) {
-        this.contentColor = contentColor;
-    }
-
-    @Override
-    public void onNavigationColorChanged(final NavigationColor navigationColor) {
-        this.navigationColor = navigationColor;
-    }
-
-    @Override
-    public void onColorRangeChanged(final ColorRange colorRange) {
-        this.colorRange = colorRange;
     }
 }

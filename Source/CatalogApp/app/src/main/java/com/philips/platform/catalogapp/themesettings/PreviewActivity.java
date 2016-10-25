@@ -77,7 +77,7 @@ public class PreviewActivity extends AppCompatActivity {
     public ThemeConfiguration getThemeConfig() {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
-        contentColor = themeHelper.initTonalRange();
+        contentColor = themeHelper.initContentTonalRange();
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 }
