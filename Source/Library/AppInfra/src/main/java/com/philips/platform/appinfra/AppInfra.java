@@ -189,8 +189,7 @@ public class AppInfra implements AppInfraInterface {
             Log.v("APPINFRA INT", "AppConfig Intitialization Done");
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
             Log.v("APPINFRA INT", "TimeSync Intitialization Done");
-            ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
-            Log.v("APPINFRA INT", "Tagging Intitialization Done");
+
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             Log.v("APPINFRA INT", "SecureStorage Intitialization Done");
@@ -228,6 +227,10 @@ public class AppInfra implements AppInfraInterface {
             ai.setRestInterface(mRestInterface == null ? new RestManager(ai) : mRestInterface);
             Log.v("APPINFRA INT", "Rest Intitialization Done");
             Log.v("APPINFRA INT", "AI Intitialization Done");
+
+            ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
+            Log.v("APPINFRA INT", "Tagging Intitialization Done");
+
             return ai;
         }
     }

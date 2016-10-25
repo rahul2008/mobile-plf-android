@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by 310200764 on 9/1/2015.
@@ -33,33 +34,39 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     @Override
     public void onActivityResumed(Activity activity) {
 
-//        if (isInBackground) {
+        if (isInBackground) {
 
         mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in ForeGround");
+        Log.i("AppleResumed", "Resumed");
 
-//            isInBackground = false;
-//        }
+            isInBackground = false;
+        }
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
         mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in Background");
+        Log.i("LifePaused", "Paused");
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
+        Log.i("LifeStopped", "Stopped");
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+        Log.i("LifeStopped", "Stopped");
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
+        Log.i("LifeDestroyed", "Destroyed");
     }
 
     @Override
     public void onConfigurationChanged(Configuration configuration) {
+        Log.i("LifeConfiguration", "ConfigurationChanged");
     }
 
     @Override
@@ -68,11 +75,11 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onTrimMemory(int i) {
-//        if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-//            Log.i("AppisInBackground", "AppisInBackground");
-//
+        if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            Log.i("AppleBackground", "AppisInBackground");
+
 //            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
-//            isInBackground = true;
-//        }
+            isInBackground = true;
+        }
     }
 }

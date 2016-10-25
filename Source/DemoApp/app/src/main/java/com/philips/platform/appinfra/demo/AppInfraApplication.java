@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.net.URL;
 
@@ -26,9 +27,12 @@ public class AppInfraApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        LeakCanary.install(this);
+
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
+        mAIAppTaggingInterface.setPrivacyConsentForSensitiveData(true);
         gAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
