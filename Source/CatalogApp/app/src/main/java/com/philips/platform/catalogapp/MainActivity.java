@@ -11,11 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,10 +24,8 @@ import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
-import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
-import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
@@ -41,8 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -51,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
     private static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
+    protected static final String TITLE_TEXT = "TITLE_TEXT";
     @Bind(R.id.hamburger)
     ImageView hamburgerIcon;
 
@@ -74,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean hamburgerIconVisible;
     private boolean themeSettingsIconVisible;
 
+    private int titleText;
+
+    private NavigationController navigationController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -84,34 +82,27 @@ public class MainActivity extends AppCompatActivity {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
         }
+        EventBus.getDefault().register(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
         toolbar.setTitle(R.string.catalog_app_name);
+        supportFragmentManager = getSupportFragmentManager();
+        navigationController = new NavigationController(themeSettingsIcon, setThemeTextView, supportFragmentManager,
+                hamburgerIcon, hamburgerIconVisible, themeSettingsIconVisible, this, title, titleText);
+        navigationController.initSetThemeSettings(toolbar);
 
-        initSetThemeSettings(toolbar);
-
-        initThemeSettingsIcon(toolbar);
+        navigationController.initThemeSettingsIcon(toolbar);
 
         initBackButton();
-        supportFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             setSupportActionBar(toolbar);
 
-            initDemoListFragment();
+            navigationController.initDemoListFragment();
         } else {
-            initIconState(savedInstanceState);
-            processBackButton();
-            if (hamburgerIconVisible) {
-                showHamburgerIcon();
-            }
-
-            if (themeSettingsIconVisible) {
-                toggle(themeSettingsIcon, setThemeTextView);
-            } else {
-                toggle(setThemeTextView, themeSettingsIcon);
-            }
+            navigationController.showUiFromPreviousState(savedInstanceState);
         }
     }
 
@@ -119,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         hamburgerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if (hasBackStack()) {
+                if (navigationController.hasBackStack()) {
                     onBackPressed();
                 } else {
                     Snackbar.make(view, "Hamburger is not ready yet", Snackbar.LENGTH_SHORT).show();
@@ -128,46 +119,38 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(TonalRangeChangedEvent event) {
         Log.i("Event", "Settings changed" + event.getMessage());
         contentColor = event.getContentColor();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(ColorRangeChangedEvent event) {
         Log.i("Event", "Settings changed" + event.getMessage());
         colorRange = event.getColorRange();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(NavigationColorChangedEvent event) {
+        Log.i("Event", "Settings changed" + event.getMessage());
         navigationColor = event.getNavigationColor();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    private void initSetThemeSettings(final Toolbar toolbar) {
-        setThemeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                saveThemeValues(UITHelper.COLOR_RANGE, colorRange.name());
-                saveThemeValues(UITHelper.NAVIGATION_RANGE, navigationColor.name());
-                saveThemeValues(UITHelper.CONTENT_TONAL_RANGE, contentColor.name());
-
-                restartActivity();
-            }
-        });
     }
 
     void restartActivity() {
@@ -176,43 +159,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, PreviewActivity.class));
     }
 
-    private void initThemeSettingsIcon(final Toolbar toolbar) {
-        themeSettingsIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                loadThemeSettingsPage();
-            }
-        });
-    }
-
     @Override
     protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         initIconState(savedInstanceState);
     }
 
-    private void initIconState(final Bundle savedInstanceState) {
+    protected void initIconState(final Bundle savedInstanceState) {
         hamburgerIconVisible = savedInstanceState.getBoolean(HAMBURGER_BUTTON_DISPLAYED);
         themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
-    }
-
-    private void initDemoListFragment() {
-        FragmentTransaction transaction = supportFragmentManager.beginTransaction();
-        transaction.add(R.id.mainContainer, new ComponentListFragment());
-        transaction.commit();
-        toggle(themeSettingsIcon, setThemeTextView);
-        themeSettingsIconVisible(true);
-    }
-
-    private void themeSettingsIconVisible(final boolean visible) {
-        themeSettingsIconVisible = visible;
     }
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
         outState.putBoolean(HAMBURGER_BUTTON_DISPLAYED, hamburgerIconVisible);
         outState.putBoolean(THEMESETTINGS_BUTTON_DISPLAYED, themeSettingsIconVisible);
-
+        outState.putInt(TITLE_TEXT, titleText);
         super.onSaveInstanceState(outState);
     }
 
@@ -229,34 +191,10 @@ public class MainActivity extends AppCompatActivity {
         edit.commit();
     }
 
-    public boolean switchFragment(BaseFragment fragment) {
-
-        final List<Fragment> fragments = supportFragmentManager.getFragments();
-        if (fragments != null && fragments.size() > 0) {
-            for (Fragment fragmentFromList : fragments) {
-                if (fragmentFromList instanceof ThemeSettingsFragment && fragment instanceof ThemeSettingsFragment) {
-                    return false;
-                }
-            }
-        }
-        FragmentTransaction transaction = supportFragmentManager.beginTransaction();
-        transaction.replace(R.id.mainContainer, fragment, fragment.getClass().getName());
-        transaction.addToBackStack(null);
-        transaction.commit();
-        toggle(themeSettingsIcon, setThemeTextView);
-        toggleHamburgerIcon();
-        setTitle(fragment.getPageTitle());
-        return true;
-    }
-
     @Override
     public void setTitle(final int titleId) {
         title.setText(titleId);
-    }
-
-    private void toggleHamburgerIcon() {
-        hamburgerIcon.setImageResource(R.drawable.ic_back_icon);
-        hamburgerIconVisible = false;
+        titleText = titleId;
     }
 
     @Override
@@ -264,65 +202,23 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private void loadThemeSettingsPage() {
-        final ThemeSettingsFragment themeSettingsFragment = new ThemeSettingsFragment();
-        final boolean switchedFragment = switchFragment(themeSettingsFragment);
-        if (switchedFragment) {
-            setTitle(R.string.page_tittle_theme_settings);
-            toggle(setThemeTextView, themeSettingsIcon);
-            themeSettingsIconVisible(false);
-        }
-    }
-
-    private void toggle(final View visibleView, final View goneView) {
-        if (visibleView != null) {
-            visibleView.setVisibility(View.VISIBLE);
-        }
-        if (goneView != null) {
-            goneView.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        processBackButton();
+        navigationController.processBackButton();
     }
 
-    private void processBackButton() {
-        if (hasBackStack()) {
-            final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
-            if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
-                toggle(themeSettingsIcon, setThemeTextView);
-                toggleHamburgerIcon();
-            } else {
-                showHamburgerIcon();
-            }
-        } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
-            showHamburgerIcon();
-        }
+    public void showThemeSettingsIcon() {
+        navigationController.toggle(themeSettingsIcon, setThemeTextView);
     }
 
-    private void showHamburgerIcon() {
-        hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
-        hamburgerIconVisible = true;
-        title.setText(R.string.catalog_app_name);
-        toggle(themeSettingsIcon, setThemeTextView);
+    public void saveThemeSettings() {
+        saveThemeValues(UITHelper.COLOR_RANGE, colorRange.name());
+        saveThemeValues(UITHelper.NAVIGATION_RANGE, navigationColor.name());
+        saveThemeValues(UITHelper.CONTENT_TONAL_RANGE, contentColor.name());
     }
 
-    private boolean hasBackStack() {
-        return supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() > 0;
-    }
-
-    @NonNull
-    private Fragment getFragmentAtTopOfBackStack() {
-        return getFragmentAtBackStackIndex(supportFragmentManager.getBackStackEntryCount() - 1);
-    }
-
-    @NonNull
-    private Fragment getFragmentAtBackStackIndex(final int index) {
-        final FragmentManager.BackStackEntry backStackEntry = supportFragmentManager.getBackStackEntryAt(index);
-        final String name = backStackEntry.getName();
-        return supportFragmentManager.findFragmentByTag(name);
+    public void showFragment(final BaseFragment fragment) {
+        navigationController.switchFragment(fragment);
     }
 }

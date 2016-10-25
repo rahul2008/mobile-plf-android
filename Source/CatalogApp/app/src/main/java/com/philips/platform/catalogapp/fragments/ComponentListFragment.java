@@ -73,10 +73,10 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         // TODO: 9/13/2016 : Handle this properly with enums. Right now enable so that we can test buttons
         switch (key) {
             case 0:
-                ((MainActivity) getActivity()).switchFragment(new ButtonFragment());
+                ((MainActivity) getActivity()).showFragment(new ButtonFragment());
                 break;
             case 1:
-                ((MainActivity) getActivity()).switchFragment(new TextEditBoxFragment());
+                ((MainActivity) getActivity()).showFragment(new TextEditBoxFragment());
                 break;
         }
     }

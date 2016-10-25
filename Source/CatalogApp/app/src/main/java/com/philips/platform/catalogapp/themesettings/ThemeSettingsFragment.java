@@ -53,7 +53,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private ThemeColorHelper themeColorHelper;
 
-    int colorPickerWidth = 48;
+    private int colorPickerWidth = 48;
 
     private SharedPreferences defaultSharedPreferences;
     private ThemeColorAdapter colorRangeAdapter;
@@ -67,6 +67,11 @@ public class ThemeSettingsFragment extends BaseFragment {
     private int colorRangeSelectedPosition;
     private int contentSelectedPosition;
     private int navigationSelectedPosition;
+
+    @Override
+    public boolean showThemeSettingsIcon() {
+        return false;
+    }
 
     @Nullable
     @Override
@@ -83,8 +88,11 @@ public class ThemeSettingsFragment extends BaseFragment {
             contentSelectedPosition = savedInstanceState.getInt(UITHelper.CONTENT_TONAL_RANGE, getTonalRangeAdapter(colorRange).getSelectedPosition());
             navigationSelectedPosition = savedInstanceState.getInt(UITHelper.NAVIGATION_RANGE, getNavigationListAdapter(colorRange).getSelectedPosition());
             colorRange = ColorRange.values()[colorRangeSelectedPosition];
+            EventBus.getDefault().postSticky(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
+
             initNavigationColor(navigationSelectedPosition);
             initContentColor(contentSelectedPosition);
+            notifyNavigationSettingsChanged();
         } else {
             colorRange = themeHelper.initColorRange();
             navigationColor = themeHelper.initNavigationRange();
@@ -110,6 +118,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void initContentColor(final int colorRangeSelectedPosition) {
         contentColor = ContentColor.values()[colorRangeSelectedPosition];
+        EventBus.getDefault().post(new TonalRangeChangedEvent(contentColor.name(), contentColor));
     }
 
     @Override
@@ -148,7 +157,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
-                EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
+                EventBus.getDefault().postSticky(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
             }
         }, colorPickerWidth);
         colorRangeAdapter.setSelected(colorRangeSelectedPosition == 0 ? colorRange.ordinal() : colorRangeSelectedPosition);
@@ -175,7 +184,7 @@ public class ThemeSettingsFragment extends BaseFragment {
             @Override
             public void onThemeSettingsChanged(final String tonalRangeChanged) {
                 contentColor = getContentTonalRangeByPosition();
-                EventBus.getDefault().post(new TonalRangeChangedEvent(contentColor.name().toString(), contentColor));
+                EventBus.getDefault().postSticky(new TonalRangeChangedEvent(contentColor.name().toString(), contentColor));
             }
         }, colorPickerWidth);
         tonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
@@ -184,9 +193,9 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private ContentColor getContentTonalRangeByPosition() {
         final ThemeColorAdapter adapter = (ThemeColorAdapter) tonalRangeListview.getAdapter();
-        final int selectedPosition = adapter.getSelectedPosition();
+        contentSelectedPosition = adapter.getSelectedPosition();
         final ContentColor[] values = ContentColor.values();
-        return values[values.length - selectedPosition - 1];
+        return values[values.length - contentSelectedPosition - 1];
     }
 
     private int getSelectedContentTonalRangePosition() {
@@ -205,14 +214,18 @@ public class ThemeSettingsFragment extends BaseFragment {
             @Override
             public void onThemeSettingsChanged(final String changedColorRange) {
                 final ThemeColorAdapter adapter = (ThemeColorAdapter) notificationBarListview.getAdapter();
-                final int selectedPosition = adapter.getSelectedPosition();
+                navigationSelectedPosition = adapter.getSelectedPosition();
 
-                initNavigationColor(selectedPosition);
-                EventBus.getDefault().post(new NavigationColorChangedEvent(contentColor.name().toString(), navigationColor));
+                initNavigationColor(navigationSelectedPosition);
+                notifyNavigationSettingsChanged();
             }
         }, colorPickerWidth);
         navigationListAdapter.setSelected(getSelectedNavigationPosition());
         return navigationListAdapter;
+    }
+
+    private void notifyNavigationSettingsChanged() {
+        EventBus.getDefault().postSticky(new NavigationColorChangedEvent(contentColor.name().toString(), navigationColor));
     }
 
     private void initNavigationColor(final int selectedPosition) {
