@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="buttonStyle">@style/UITDefaultButton</item>
+        <item name="imageButtonStyle">@style/UITImageButton</item>
+        <item name="editTextStyle">@style/UITTextEditBoxStyle</item>
+        <item name="actionBarStyle">@style/UITNavigationBar</item>
+        <item name="android:statusBarColor">?attr/uitNavigationPrimaryColor</item>
+        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
+        <item name="android:colorPrimary">?attr/uitNavigationSecondaryColor</item>
+        <item name="android:colorPrimaryDark">?attr/uitNavigationPrimaryColor</item>
+        <item name="android:colorAccent">?attr/uitNavigationPrimaryColor</item>
+    </style>
+</resources>

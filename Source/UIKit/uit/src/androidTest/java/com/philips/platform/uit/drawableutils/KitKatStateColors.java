@@ -6,7 +6,7 @@ package com.philips.platform.uit.drawableutils;
 
 import android.graphics.drawable.Drawable;
 
-public class KitKatStateColors extends BaseColorStateImpl {
+public class KitKatStateColors extends BaseStateColorsImpl {
     private final static String GRADIENT_SOLID_COLOR = "mSolidColor";
     private final static String STROKE_SOLID_COLOR = "mStrokeColor";
 

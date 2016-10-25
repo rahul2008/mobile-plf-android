@@ -4,10 +4,7 @@
  */
 package com.philips.platform.uit.matcher;
 
-
 import android.view.View;
-
-import com.philips.platform.uit.matcher.BaseTypeSafteyMatcher;
 
 import org.hamcrest.Matcher;
 

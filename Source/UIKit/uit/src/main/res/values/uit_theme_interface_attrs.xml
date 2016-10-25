@@ -25,7 +25,7 @@
         <attr name="uitImageButtonDrawableColorList" format="reference"/>
         <attr name="uitImageButtonColorList" format="reference"/>
     </declare-styleable>
-    
+
     <declare-styleable name="UITTextEditBox">
         <attr name="uitInputTextFillColor" format="reference|color"/>
         <attr name="uitInputTextFillPressedColor" format="reference|color"/>
@@ -51,5 +51,9 @@
         <attr name="uitInputTextHintTextDisabledAlpha" format="reference|float"/>
         <attr name="uitInputTextTextSelector" format="reference"/>
         <attr name="uitInputTextHintTextSelector" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="UITActionBar">
+        <attr name="uitActionBarBackground" format="reference|color"/>
     </declare-styleable>
 </resources>

@@ -9,13 +9,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-public class DrawableWrapperStateColor extends BaseColorStateImpl {
+public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
 
     private static final String TINT_COLOR_FIELD = "mTint";
 
     private Drawable.ConstantState gradientConstantState;
 
-    public DrawableWrapperStateColor(Drawable drawable) {
+    public DrawableStateColorsWrapper(Drawable drawable) {
         super(drawable);
         gradientConstantState = (Drawable.ConstantState) GradientDrawableUtils.getField(constantState, "mDrawableState");
     }
@@ -42,7 +42,7 @@ public class DrawableWrapperStateColor extends BaseColorStateImpl {
 
     private ColorStateList getColorStateList() {
         Drawable.ConstantState wrappedConstantState = constantState;
-        if(Build.VERSION.SDK_INT >=21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             wrappedConstantState = gradientConstantState;
         }
         return (ColorStateList) GradientDrawableUtils.getField(wrappedConstantState, TINT_COLOR_FIELD);

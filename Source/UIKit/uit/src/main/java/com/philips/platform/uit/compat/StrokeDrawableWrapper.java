@@ -33,7 +33,6 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
         setVisible(delegateDrawable.isVisible(), true);
         setLevel(delegateDrawable.getLevel());
         invalidateSelf();
-
     }
 
     @Override
@@ -180,7 +179,7 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
     }
 
     public int getstateColor(final int attr) {
-        if(tintList != null) {
+        if (tintList != null) {
             return tintList.getColorForState(new int[]{attr}, Color.MAGENTA);
         }
         return Color.MAGENTA;

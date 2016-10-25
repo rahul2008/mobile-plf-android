@@ -18,4 +18,6 @@
     <dimen name="button_category_text_size">12sp</dimen>
     <dimen name="button_gap">12dp</dimen>
     <dimen name="button_first_last_element_gap">24dp</dimen>
+    <dimen name="theme_settings_pagemargin">48dp</dimen>
+    <dimen name="done_button_width">12dp</dimen>
 </resources>

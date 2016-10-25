@@ -19,7 +19,7 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentButtonsAllBinding;
 import com.philips.platform.uit.view.widget.Button;
 
-public class ButtonFragment extends Fragment {
+public class ButtonFragment extends BaseFragment {
     public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
 
@@ -60,5 +60,10 @@ public class ButtonFragment extends Fragment {
 
     public void disableButtons(boolean isChecked) {
         isButtonsEnabled.set(!isChecked);
+    }
+
+    @Override
+    public int getPageTitle() {
+        return R.string.page_tittle_buttons;
     }
 }

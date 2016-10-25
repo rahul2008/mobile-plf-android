@@ -13,9 +13,11 @@
         android:layout_marginStart="@dimen/button_layout_padding"
         android:orientation="vertical"
         android:paddingTop="@dimen/button_layout_padding">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <Switch
                 android:id="@+id/disable_switch"
                 android:layout_width="wrap_content"
@@ -29,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/category_divider_width"

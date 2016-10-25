@@ -6,7 +6,7 @@ package com.philips.platform.uit.drawableutils;
 
 import android.graphics.drawable.Drawable;
 
-public abstract class BaseColorStateImpl implements GradientDrawableUtils.StateColors {
+public abstract class BaseStateColorsImpl implements GradientDrawableUtils.StateColors {
 
     protected Drawable drawable;
     protected Drawable.ConstantState constantState;
@@ -15,7 +15,7 @@ public abstract class BaseColorStateImpl implements GradientDrawableUtils.StateC
     private static final String CORNER_RADIUS = "mRadius";
     private static final String STROKE_WIDTH = "mStrokeWidth";
 
-    public BaseColorStateImpl(Drawable drawable) {
+    public BaseStateColorsImpl(Drawable drawable) {
         this.drawable = drawable;
         constantState = drawable.getConstantState();
     }

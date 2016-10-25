@@ -1,4 +1,10 @@
-package com.philips.platform.uit.activity;
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
+
+package com.philips.platform.uit.components;
 
 import android.support.test.runner.AndroidJUnit4;
 
