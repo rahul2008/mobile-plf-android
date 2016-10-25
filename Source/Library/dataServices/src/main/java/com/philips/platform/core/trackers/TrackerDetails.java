@@ -61,11 +61,11 @@ public class TrackerDetails {
         this.duration = duration;
     }
 
-    public void applyDuration(@NonNull final Tracker tracker, @NonNull final Moment moment) {
+    public void applyDuration(@NonNull final DataServicesManager tracker, @NonNull final Moment moment) {
         applyDuration(tracker, moment, dateTime);
     }
 
-    public void applyDuration(@NonNull final Tracker tracker, @NonNull final Moment moment, @NonNull final DateTime dateTime) {
+    public void applyDuration(@NonNull final DataServicesManager tracker, @NonNull final Moment moment, @NonNull final DateTime dateTime) {
         if (getDuration() > 0) {
             Measurement measurement = tracker.createMeasurement(MeasurementType.DURATION, moment);
             measurement.setDateTime(dateTime);

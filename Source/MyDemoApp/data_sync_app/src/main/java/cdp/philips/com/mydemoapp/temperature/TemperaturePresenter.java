@@ -12,7 +12,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
-import com.philips.platform.core.trackers.Tracker;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTime;
 
@@ -26,7 +26,7 @@ import cdp.philips.com.mydemoapp.DataSyncApplication;
  */
 public class TemperaturePresenter {
     @Inject
-    Tracker tracker;
+    DataServicesManager tracker;
 
     Moment mMoment;
     Measurement mMeasurement;
