@@ -39,7 +39,7 @@ import javax.inject.Inject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class Tracker {
+public class DataServicesManager {
 
     @NonNull
     private final Eventing eventing;
@@ -56,7 +56,7 @@ public class Tracker {
     private BackendIdProvider backendIdProvider;
 
     @Inject
-    public Tracker(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator dataCreator, @NonNull final BackendIdProvider backendIdProvider) {
+    public DataServicesManager(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator dataCreator, @NonNull final BackendIdProvider backendIdProvider) {
         this.eventing = eventing;
         this.dataCreator = dataCreator;
         this.backendIdProvider = backendIdProvider;
@@ -122,7 +122,7 @@ public class Tracker {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.i("***SPO***", "In Tracker.sendPushEvent");
+                Log.i("***SPO***", "In DataServicesManager.sendPushEvent");
                 eventing.post(new WriteDataToBackendRequest());
             }
         }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
@@ -130,12 +130,12 @@ public class Tracker {
     }*/
 
     private void sendPullDataEvent() {
-        Log.i("***SPO***", "In Tracker.sendPullDataEvent");
+        Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
         eventing.post(new ReadDataFromBackendRequest(null));
     }
 
     private void synchronize() {
-        Log.i("***SPO***", "In Tracker.Synchronize");
+        Log.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
         monitor.start(eventing);
     }

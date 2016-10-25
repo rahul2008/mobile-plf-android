@@ -3,11 +3,10 @@ package cdp.philips.com.mydemoapp.reciever;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import com.philips.platform.core.trackers.Tracker;
+
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTimeConstants;
 
@@ -26,7 +25,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
     public static final String ACTION_USER_DATA_FETCH = "ACTION_USER_DATA_FETCH";
 
     @Inject
-    Tracker mTracker;
+    DataServicesManager mTracker;
 
     @Inject
     public BaseAppBroadcastReceiver() {

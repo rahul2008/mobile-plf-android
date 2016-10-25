@@ -21,7 +21,7 @@ import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.trackers.Tracker;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
     @Inject
-    Tracker tracker;
+    DataServicesManager tracker;
 
 
     public
