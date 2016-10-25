@@ -255,7 +255,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     }
 
     private void clearParamsAndHeaders(){
-        headers=null;
-        params=null;
+        headers.clear();
+        params.clear();
     }
 }
