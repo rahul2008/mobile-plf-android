@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.SecureRandom;
 import java.util.Map;
 
 /**
@@ -291,7 +292,7 @@ public class HsdpUser {
                 @Override
                 public void run() {
                     DhpAuthenticationManagementClient authenticationManagementClient = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.loginSocialProviders(email, accessToken);
+                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.loginSocialProviders(email, accessToken ,generateRefreshSecret());
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override
@@ -376,6 +377,18 @@ public class HsdpUser {
     private interface UserFileWriteListener {
         void onFileWriteSuccess();
         void onFileWriteFailure();
+    }
+
+    private  String generateRefreshSecret() {
+        final int SECRET_LENGTH = 40;
+        SecureRandom random = new SecureRandom();
+        StringBuilder buffer = new StringBuilder();
+
+        while (buffer.length() < SECRET_LENGTH) {
+            buffer.append(Integer.toHexString(random.nextInt()));
+        }
+        String refreshSecret = buffer.toString().substring(0, SECRET_LENGTH);
+        return refreshSecret;
     }
 
     /**
