@@ -13,6 +13,7 @@ import com.philips.platform.flowmanager.jsonstates.EventStates;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.URStateListener;
+import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -43,6 +44,9 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         }
         uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
         uiState.setPresenter(this);
+        if (uiState instanceof UserRegistrationState)
+            ((UserRegistrationState) uiState).registerUIStateListener(this);
+
         fragmentLauncher = getFragmentLauncher();
         appFrameworkApplication.getFlowManager().setCurrentState(uiState);
         uiState.navigate(fragmentLauncher);
