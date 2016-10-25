@@ -11,14 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
@@ -36,8 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,30 +37,16 @@ public class MainActivity extends AppCompatActivity {
     private static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
     private static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
     protected static final String TITLE_TEXT = "TITLE_TEXT";
-    @Bind(R.id.hamburger)
-    ImageView hamburgerIcon;
-
-    @Bind(R.id.theme_settings)
-    ImageView themeSettingsIcon;
-
-    @Bind(R.id.set_theme_settings)
-    TextView setThemeTextView;
-
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
-    TextView title;
 
     private ContentColor contentColor;
     private ColorRange colorRange;
-    private FragmentManager supportFragmentManager;
     private NavigationColor navigationColor;
     private ThemeHelper themeHelper;
     private SharedPreferences defaultSharedPreferences;
-    private boolean hamburgerIconVisible;
-    private boolean themeSettingsIconVisible;
+    boolean hamburgerIconVisible;
+    boolean themeSettingsIconVisible;
 
-    private int titleText;
+    int titleText;
 
     private NavigationController navigationController;
 
@@ -87,36 +65,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
-        toolbar.setTitle(R.string.catalog_app_name);
-        supportFragmentManager = getSupportFragmentManager();
-        navigationController = new NavigationController(themeSettingsIcon, setThemeTextView, supportFragmentManager,
-                hamburgerIcon, hamburgerIconVisible, themeSettingsIconVisible, this, title, titleText);
-        navigationController.initSetThemeSettings(toolbar);
-
-        navigationController.initThemeSettingsIcon(toolbar);
-
-        initBackButton();
-        if (savedInstanceState == null) {
-            setSupportActionBar(toolbar);
-
-            navigationController.initDemoListFragment();
-        } else {
-            navigationController.showUiFromPreviousState(savedInstanceState);
-        }
-    }
-
-    private void initBackButton() {
-        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (navigationController.hasBackStack()) {
-                    onBackPressed();
-                } else {
-                    Snackbar.make(view, "Hamburger is not ready yet", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        });
+        navigationController = new NavigationController(this);
+        navigationController.init(savedInstanceState);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
@@ -190,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void setTitle(final int titleId) {
-        title.setText(titleId);
+        navigationController.setTitleText(titleId);
         titleText = titleId;
     }
 
@@ -202,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        navigationController.processBackButton();
+//        navigationController.processBackButton();
     }
 
     public void showThemeSettingsIcon() {
-        navigationController.toggle(themeSettingsIcon, setThemeTextView);
+        navigationController.showThemeSettings();
     }
 
     public void saveThemeSettings() {

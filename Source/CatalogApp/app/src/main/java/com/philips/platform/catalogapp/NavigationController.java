@@ -2,6 +2,7 @@ package com.philips.platform.catalogapp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,34 +17,32 @@ import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class NavigationController {
 
-    private View themeSettingsIcon;
-    private View setThemeTextView;
     private FragmentManager supportFragmentManager;
-    private ImageView hamburgerIcon;
-    private boolean hamburgerIconVisible;
-    private boolean themeSettingsIconVisible;
 
-    public NavigationController(final View themeSettingsIcon, final View setThemeTextView,
-                                final FragmentManager supportFragmentManager, final ImageView hamburgerIcon,
-                                final boolean hamburgerIconVisible, final boolean themeSettingsIconVisible,
-                                final MainActivity mainActivity,
-                                final TextView title, final int titleText) {
-        this.themeSettingsIcon = themeSettingsIcon;
-        this.setThemeTextView = setThemeTextView;
-        this.supportFragmentManager = supportFragmentManager;
-        this.hamburgerIcon = hamburgerIcon;
-        this.hamburgerIconVisible = hamburgerIconVisible;
-        this.themeSettingsIconVisible = themeSettingsIconVisible;
-        this.mainActivity = mainActivity;
-        this.title = title;
-        this.titleText = titleText;
-    }
+    @Bind(R.id.hamburger)
+    ImageView hamburgerIcon;
+
+    @Bind(R.id.theme_settings)
+    ImageView themeSettingsIcon;
+
+    @Bind(R.id.set_theme_settings)
+    TextView setThemeTextView;
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.toolbar_title)
+    TextView title;
 
     private MainActivity mainActivity;
-    private TextView title;
-    private int titleText;
+
+    public NavigationController(final MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
 
     protected void processBackButton() {
         if (hasBackStack()) {
@@ -61,7 +60,7 @@ public class NavigationController {
 
     private void toggleHamburgerIcon() {
         hamburgerIcon.setImageResource(R.drawable.ic_back_icon);
-        hamburgerIconVisible = false;
+        mainActivity.hamburgerIconVisible = false;
     }
 
     protected void initDemoListFragment() {
@@ -73,7 +72,7 @@ public class NavigationController {
     }
 
     private void themeSettingsIconVisible(final boolean visible) {
-        themeSettingsIconVisible = visible;
+        mainActivity.themeSettingsIconVisible = visible;
     }
 
     protected void initSetThemeSettings(final Toolbar toolbar) {
@@ -100,11 +99,11 @@ public class NavigationController {
     protected void showUiFromPreviousState(final Bundle savedInstanceState) {
         mainActivity.initIconState(savedInstanceState);
         processBackButton();
-        if (hamburgerIconVisible) {
+        if (mainActivity.hamburgerIconVisible) {
             showHamburgerIcon();
         }
 
-        if (themeSettingsIconVisible) {
+        if (mainActivity.themeSettingsIconVisible) {
             toggle(themeSettingsIcon, setThemeTextView);
         } else {
             toggle(setThemeTextView, themeSettingsIcon);
@@ -141,9 +140,9 @@ public class NavigationController {
 
     private void showHamburgerIcon() {
         hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
-        hamburgerIconVisible = true;
+        mainActivity.hamburgerIconVisible = true;
         title.setText(R.string.catalog_app_name);
-        titleText = R.string.catalog_app_name;
+        mainActivity.titleText = R.string.catalog_app_name;
         toggle(themeSettingsIcon, setThemeTextView);
     }
 
@@ -179,5 +178,44 @@ public class NavigationController {
                 loadThemeSettingsPage();
             }
         });
+    }
+
+    public void init(final Bundle savedInstanceState) {
+        this.supportFragmentManager = mainActivity.getSupportFragmentManager();
+        ButterKnife.bind(this, mainActivity);
+        initSetThemeSettings(toolbar);
+
+        initThemeSettingsIcon(toolbar);
+        if (savedInstanceState == null) {
+            mainActivity.setSupportActionBar(toolbar);
+
+            initDemoListFragment();
+            mainActivity.setTitle(R.string.catalog_app_name);
+        } else {
+            showUiFromPreviousState(savedInstanceState);
+        }
+        initBackButton();
+    }
+
+    private void initBackButton() {
+        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                if (hasBackStack()) {
+                    mainActivity.onBackPressed();
+                    processBackButton();
+                } else {
+                    Snackbar.make(view, "Hamburger is not ready yet", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void setTitleText(final int titleId) {
+        title.setText(titleId);
+    }
+
+    public void showThemeSettings() {
+        toggle(themeSettingsIcon, setThemeTextView);
     }
 }
