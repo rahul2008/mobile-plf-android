@@ -1,8 +1,8 @@
 /**
- * (C) Koninklijke Philips N.V., 2016.
+ * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.uit.activity;
+package com.philips.platform.uit.components.Buttons;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,6 +13,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
@@ -36,7 +37,6 @@ public class PrimaryButtonWithTextOnlyTest {
 
     private Resources testResources;
     private Context instrumentationContext;
-    private IdlingResource idlingResource;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);

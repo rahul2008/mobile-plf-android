@@ -3,7 +3,6 @@
  * All rights reserved.
  *
  */
-
 package com.philips.platform.uit.components;
 
 import android.support.test.runner.AndroidJUnit4;

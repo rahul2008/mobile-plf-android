@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.uit.activity;
+package com.philips.platform.uit.components.Buttons;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,6 +10,7 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
+import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
@@ -28,8 +29,6 @@ import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 public class PrimaryButtonWithIconOnlyTest {
 
     private Resources testResources;
-    private Context instrumentationContext;
-    private IdlingResource idlingResource;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
@@ -38,7 +37,6 @@ public class PrimaryButtonWithIconOnlyTest {
     public void setUp() {
         mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
         testResources = getInstrumentation().getContext().getResources();
-        instrumentationContext = getInstrumentation().getContext();
     }
 
     /************************************************

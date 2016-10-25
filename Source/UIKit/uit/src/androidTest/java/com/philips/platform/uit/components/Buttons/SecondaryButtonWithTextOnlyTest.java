@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.platform.uit.activity;
+package com.philips.platform.uit.components.Buttons;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,6 +13,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
@@ -34,9 +35,7 @@ import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class SecondaryButtonWithTextOnlyTest {
 
-    private Resources testResources;
     private Context instrumentationContext;
-    private IdlingResource idlingResource;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
@@ -44,7 +43,6 @@ public class SecondaryButtonWithTextOnlyTest {
     @Before
     public void setUp() {
         mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
-        testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
     }
 
