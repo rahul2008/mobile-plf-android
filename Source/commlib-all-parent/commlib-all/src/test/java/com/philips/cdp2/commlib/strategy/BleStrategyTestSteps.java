@@ -73,7 +73,7 @@ public class BleStrategyTestSteps {
         deviceCache.deviceFound(null, info);
     }
 
-    @When("^the mock device with id \"(.*?)\" receives data \"(.*?)\"")
+    @When("^the mock device with id \"(.*?)\" receives data \"(.*?)\"$")
     public void mock_device_receives_data(final String id, final String data) {
         final Set<ResultListener<SHNDataRaw>> listeners = rawDataListeners.get(id);
 
@@ -88,7 +88,7 @@ public class BleStrategyTestSteps {
         }
     }
 
-    @Then("^data \"(.*?)\" was written to mock device with id \"(.*?)\"")
+    @Then("^data \"(.*?)\" was written to mock device with id \"(.*?)\"$")
     public void mock_device_data_written(final String data, final String deviceId) {
         CapabilityDiComm capability = (CapabilityDiComm) deviceCache
                 .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
