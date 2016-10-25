@@ -14,7 +14,6 @@
         <item name="uitButtonNormalColor">?attr/uitControlPrimaryAlternateEnabledColor</item>
         <item name="uitButtonPressedColor">?attr/uitControlPrimaryAlternatePressedColor</item>
         <item name="uitButtonDisabledColor">?attr/uitControlPrimaryAlternateEnabledColor</item>
-        <item name="uitButtonTextColor">?attr/uitControlPrimaryAlternateTextColor</item>
     </style>
 
     <style name="UITPrimaryControl.Secondary">

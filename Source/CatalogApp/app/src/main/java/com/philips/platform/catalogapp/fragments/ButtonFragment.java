@@ -19,7 +19,7 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentButtonsAllBinding;
 import com.philips.platform.uit.view.widget.Button;
 
-public class ButtonFragment extends Fragment {
+public class ButtonFragment extends BaseFragment {
     public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
 
@@ -40,8 +40,12 @@ public class ButtonFragment extends Fragment {
     }
 
     public void toggleIcons(boolean isIconToggleChecked) {
-        ViewGroup buttonLayout = showExtraWideButtons.get()? fragmentBinding.groupExtraWide : fragmentBinding.groupDefault;
         Drawable drawable = isIconToggleChecked ? shareDrwable : null;
+        setIcons(fragmentBinding.groupExtraWide, drawable);
+        setIcons(fragmentBinding.groupDefault, drawable);
+    }
+
+    private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
         for (int i = 0; i < buttonLayout.getChildCount() ; i++) {
             View view = buttonLayout.getChildAt(i);
             if(view instanceof Button) {
@@ -56,5 +60,10 @@ public class ButtonFragment extends Fragment {
 
     public void disableButtons(boolean isChecked) {
         isButtonsEnabled.set(!isChecked);
+    }
+
+    @Override
+    public int getPageTitle() {
+        return R.string.page_tittle_buttons;
     }
 }

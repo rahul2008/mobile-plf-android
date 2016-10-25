@@ -12,7 +12,7 @@ import com.philips.platform.uit.R;
 /**
  * This class is used to set the theme type of application
  */
-public enum TonalRange {
+public enum ContentColor {
 
     ULTRA_LIGHT {
         @Override
@@ -38,7 +38,7 @@ public enum TonalRange {
             injectTonalRange(theme, R.style.Bright);
         }
     },
-    VERYDARK {
+    VERY_DARK {
         @Override
         public void injectTonalRange(Resources.Theme theme) {
             injectTonalRange(theme, R.style.VeryDark);

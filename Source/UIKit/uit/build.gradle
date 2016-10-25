@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'spoon'
 
 android {
     compileSdkVersion 24
@@ -48,4 +47,5 @@ dependencies {
         exclude module: "com.android.support"
     }
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
+
 }
