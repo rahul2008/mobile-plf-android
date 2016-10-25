@@ -85,11 +85,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
@@ -147,12 +142,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        navigationController.processBackButton();
     }
 
     public void showThemeSettingsIcon() {
