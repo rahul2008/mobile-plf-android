@@ -35,9 +35,10 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
 
     public void testAppTaggingErrors() {
 
-        synchronized(this){//synchronized block
+        try {
 
-            try {
+            synchronized(this){//synchronized block
+
                 RegistrationHelper.getInstance().setAppInfraInstance( new AppInfra.Builder().build(mContext));
                 appTaggingErrors.trackActionRegisterError(111);
                 appTaggingErrors.trackActionRegisterError(390);
@@ -59,8 +60,8 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
 
                 assertNotNull(appTaggingErrors);
 
-
+            }
         }catch(Exception e){System.out.println(e);}
-    }
+
     }
 }
