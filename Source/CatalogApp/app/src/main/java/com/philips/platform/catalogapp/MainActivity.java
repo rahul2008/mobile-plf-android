@@ -121,19 +121,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(TonalRangeChangedEvent event) {
-        Log.i("Event", "Settings changed" + event.getMessage());
         contentColor = event.getContentColor();
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(ColorRangeChangedEvent event) {
-        Log.i("Event", "Settings changed" + event.getMessage());
         colorRange = event.getColorRange();
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(NavigationColorChangedEvent event) {
-        Log.i("Event", "Settings changed" + event.getMessage());
         navigationColor = event.getNavigationColor();
     }
 
