@@ -5,10 +5,9 @@
 package com.philips.platform.uit.matcher;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
-
-import com.philips.platform.uit.matcher.BaseTypeSafteyMatcher;
 
 import org.hamcrest.Matcher;
 
@@ -40,4 +39,56 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<View> isSameCompoundDrwablePadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    setValues(String.valueOf(((TextView) view).getCompoundDrawablePadding()), String.valueOf(expectedValue));
+                    return ((TextView) view).getCompoundDrawablePadding() == expectedValue;
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+
+    public static Matcher<View> isSameCompoundDrawableHeight(final int index, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+
+                if (view instanceof TextView) {
+                    Drawable[] drawables = ((TextView) view).getCompoundDrawables();
+                    if (drawables != null && drawables[index] != null) {
+                        final BaseTypeSafteyMatcher<Drawable> heightMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameHeight(expectedValue);
+                        boolean result =  heightMatcher.matches(drawables[index]);
+                        setValues(heightMatcher.actual, heightMatcher.expected);
+                        return result;
+                    }
+                    return false;
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<View> isSameCompoundDrawableColor(final int index, final int expectedValue, final int state) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    Drawable[] drawables = ((TextView) view).getCompoundDrawables();
+                    final BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
+                    boolean result =  colorMatcher.matches(drawables[index]);
+
+                    setValues(colorMatcher.actual, colorMatcher.expected);
+                    return result;
+                }
+                throw new RuntimeException("expected TextView got " +view.getClass().getName());
+            }
+        };
+    }
+
 }

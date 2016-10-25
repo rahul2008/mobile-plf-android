@@ -46,7 +46,7 @@
     </style>
 
     <style name="VeryLight">
-        <item name="uitContentPrimaryColor">?attr/uitColorLevel20</item>
+                <item name="uitContentPrimaryColor">?attr/uitColorLevel20</item>
         <item name="uitContentSecondaryColor">?attr/uitColorLevel25</item>
 
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel05</item>
