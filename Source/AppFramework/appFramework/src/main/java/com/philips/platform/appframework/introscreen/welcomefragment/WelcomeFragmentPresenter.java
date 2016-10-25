@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.homescreen.HomeActivityPresenter;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
@@ -57,6 +56,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
     }
 
+    // TODO: Deepthi, revisit this switch
     private EventStates getEventState(final int componentID) {
         switch (componentID) {
             case R.id.welcome_skip_button:
@@ -74,6 +74,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
 
     }
 
+    // TODO: Deepthi, check for condition and event and then take decision, can we move to json, pls check.
     @Override
     public void onStateComplete(final UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();

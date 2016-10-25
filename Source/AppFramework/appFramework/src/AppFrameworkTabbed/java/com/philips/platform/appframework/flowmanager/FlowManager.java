@@ -43,6 +43,15 @@ public class FlowManager extends BaseUiFlowManager {
         return flowManager;
     }
 
+    // TODO :Deepthi Not able to see difference in state ids, state objects , flow in respective flows
+    // Where different state ids, objects are defined? is there any difference in json?
+    // where is tabbed activity here ? NOt integrated yet?
+    // Flow manager is not the only expected difference in different flows
+    // So it is not show casing any difference at first time for me
+    // It is filled with static blocks every where, so there is no clear message for verticals to do in neat steps
+    // I also see lot of static veriables in new piece of code, can we optimise, this is not accepatable for release.
+    //
+
     @Override
     public void addStateMap(final Map<AppStates, UIState> appStatesUIStateMap) {
         appStatesUIStateMap.put(AppStates.WELCOME, new WelcomeState());

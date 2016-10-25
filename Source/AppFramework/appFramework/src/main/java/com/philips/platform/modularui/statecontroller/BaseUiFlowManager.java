@@ -24,6 +24,7 @@ import java.util.TreeMap;
 
 public abstract class BaseUiFlowManager {
 
+    // TODO: Deepthi can we not have these static variables? Not recommended
     private static Map<AppStates, List<AppFlowEvent>> mAppFlowMap;
     private static Map<AppConditions, BaseCondition> appConditionsBaseConditionMap;
     //Map to hold the Enum and its corresponding values.
@@ -38,6 +39,8 @@ public abstract class BaseUiFlowManager {
         appConditionsBaseConditionMap = new TreeMap<>();
         appStatesUIStateMap = new TreeMap<>();
         mapAppFlowStates(jsonPath);
+        // TODO: Unless propositions see this code , they are not aware that when should they add these states .
+        // we have put it in static blocks, propositions may not accept this path.
         addConditionMap(appConditionsBaseConditionMap);
         addStateMap(appStatesUIStateMap);
     }

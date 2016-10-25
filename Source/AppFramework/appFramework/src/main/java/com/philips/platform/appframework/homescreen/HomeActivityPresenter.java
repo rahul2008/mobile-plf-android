@@ -7,7 +7,6 @@ package com.philips.platform.appframework.homescreen;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.jsonstates.EventStates;
@@ -61,6 +60,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         uiState.navigate(fragmentLauncher);
     }
 
+    // TODO: Deepthi, when we already know that we need to set certain data for each menu click and that too for which component, why do we ask flow manager to give only state?
+    // So here atleast i see launch type is already causing problems + data models was anyways a concern.
     protected UIStateData setStateData(final int componentID) {
         final int MENU_OPTION_SETTINGS = 1;
         final int MENU_OPTION_SHOP = 2;
@@ -111,6 +112,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
 
     }
 
+    // TODO: Deepthi, This seems to be hardcoded without even checking the uistate, we are taking decision here.
+    // cant we move this to json ?
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
@@ -122,6 +125,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         this.uiState.navigate(fragmentLauncher);
     }
 
+    // TODO: Deepthi, is this expected? deviation from ios i think.
     public EventStates getEventState(int componentID) {
         final int MENU_OPTION_SETTINGS = 1;
         final int MENU_OPTION_SHOP = 2;

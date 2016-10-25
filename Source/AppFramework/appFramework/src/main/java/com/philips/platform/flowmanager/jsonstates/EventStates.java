@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public enum EventStates {
 
+    // TODO: Deepthi Event map can be generated dynamically after json is parsed, should we really need this enums? check with ios.
     APP_START("onAppStartEvent"),
     WELCOME_SKIP("welcome_skip"),
     WELCOME_DONE("welcome_done"),
