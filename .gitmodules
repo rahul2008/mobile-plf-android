@@ -1,0 +1,4 @@
+[submodule "Source/commlib-all-parent/commlib-all/src/test/features/commlib-bdd"]
+	path = Source/commlib-all-parent/commlib-all/src/test/features/commlib-bdd
+	url = ssh://git@atlas.natlab.research.philips.com:7999/com/commlib-bdd.git
+	branch = develop
