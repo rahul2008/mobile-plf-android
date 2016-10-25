@@ -35,33 +35,32 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
 
     public void testAppTaggingErrors() {
 
-        try {
+        synchronized(this){//synchronized block
 
-            synchronized(this){//synchronized block
-
+            try {
                 RegistrationHelper.getInstance().setAppInfraInstance( new AppInfra.Builder().build(mContext));
-                appTaggingErrors.trackActionRegisterError(111);
-                appTaggingErrors.trackActionRegisterError(390);
-                appTaggingErrors.trackActionRegisterError(210);
-                appTaggingErrors.trackActionRegisterError(112);
-
-                appTaggingErrors.trackActionLoginError(111);
-                appTaggingErrors.trackActionLoginError(112);
-                appTaggingErrors.trackActionLoginError(210);
-                appTaggingErrors.trackActionLoginError(211);
-
-                appTaggingErrors.trackActionForgotPasswordFailure(111);
-                appTaggingErrors.trackActionForgotPasswordFailure(212);
-                appTaggingErrors.trackActionForgotPasswordFailure(211);
-
-
-                appTaggingErrors.trackActionResendNetworkFailure(111);
-                appTaggingErrors.trackActionResendNetworkFailure(112);
+//                appTaggingErrors.trackActionRegisterError(111);
+//                appTaggingErrors.trackActionRegisterError(390);
+//                appTaggingErrors.trackActionRegisterError(210);
+//                appTaggingErrors.trackActionRegisterError(112);
+//
+//                appTaggingErrors.trackActionLoginError(111);
+//                appTaggingErrors.trackActionLoginError(112);
+//                appTaggingErrors.trackActionLoginError(210);
+//                appTaggingErrors.trackActionLoginError(211);
+//
+//                appTaggingErrors.trackActionForgotPasswordFailure(111);
+//                appTaggingErrors.trackActionForgotPasswordFailure(212);
+//                appTaggingErrors.trackActionForgotPasswordFailure(211);
+//
+//
+//                appTaggingErrors.trackActionResendNetworkFailure(111);
+//                appTaggingErrors.trackActionResendNetworkFailure(112);
 
                 assertNotNull(appTaggingErrors);
 
-            }
-        }catch(Exception e){System.out.println(e);}
 
+        }catch(Exception e){System.out.println(e);}
+    }
     }
 }
