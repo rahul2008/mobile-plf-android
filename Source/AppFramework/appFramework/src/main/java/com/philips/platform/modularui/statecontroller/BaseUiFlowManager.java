@@ -2,6 +2,7 @@ package com.philips.platform.modularui.statecontroller;
 
 import android.content.Context;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 
 import com.philips.platform.flowmanager.AppFrameworkDataParser;
 import com.philips.platform.flowmanager.condition.AppConditions;
@@ -23,23 +24,14 @@ import java.util.TreeMap;
 
 public abstract class BaseUiFlowManager {
 
-    private Context context;
-
-    public abstract void addStateMap(Map<AppStates, UIState> appStatesUIStateMap);
-
-    public abstract void addConditionMap(final Map<AppConditions, BaseCondition> appConditionsBaseConditionMap);
-
     private static Map<AppStates, List<AppFlowEvent>> mAppFlowMap;
-
     private static Map<AppConditions, BaseCondition> appConditionsBaseConditionMap;
-
     //Map to hold the Enum and its corresponding values.
     private static Map<AppStates, UIState> appStatesUIStateMap;
-
     //Object to hold first state of the app flow.
     private static AppStates mFirstState;
-
     private static AppStates currentState;
+    private Context context;
 
     public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
         this.context = context;
@@ -49,6 +41,10 @@ public abstract class BaseUiFlowManager {
         addConditionMap(appConditionsBaseConditionMap);
         addStateMap(appStatesUIStateMap);
     }
+
+    public abstract void addStateMap(Map<AppStates, UIState> appStatesUIStateMap);
+
+    public abstract void addConditionMap(final Map<AppConditions, BaseCondition> appConditionsBaseConditionMap);
 
     /**
      * This method will creates and return the object of type of BaseUIState depending upon stateID
@@ -67,40 +63,46 @@ public abstract class BaseUiFlowManager {
      * @return Object to next UIState if available or 'null'.
      */
     public UIState getNextState(AppStates currentState, EventStates event) {
-        //Getting the list of all possible next state for the give 'currentState'.
         final List<AppFlowEvent> appFlowEvents = mAppFlowMap.get(currentState);
-
         if (appFlowEvents != null) {
-            //Looping through all the possible next states and returning the state which satisfies
-            // any entry condition.
             for (final AppFlowEvent appFlowEvent : appFlowEvents) {
-                //boolean to hold the status of entry condition for the 'appFlowEvent'.
-
                 final EventStates eventStates = EventStates.get(appFlowEvent.getEventId());
                 if (appFlowEvent.getEventId() != null && eventStates == event) {
                     final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
-                    //Getting list of all possible entry conditions
-                    for (AppFlowNextState appFlowNextState : appFlowNextStates) {
-                        boolean isConditionSatisfies = true;
-                        List<String> conditionsTypes = appFlowNextState.getCondition();
-                        if (conditionsTypes != null && conditionsTypes.size() > 0) {
-                            for (final String conditionType : conditionsTypes) {
-                                BaseCondition condition = getCondition(AppConditions.get(conditionType));
-                                isConditionSatisfies = condition.isConditionSatisfies(context);
-                                if (isConditionSatisfies)
-                                    break;
-                            }
-                        }
-                        //Return the UIState if the entry condition is satisfies.
-                        if (isConditionSatisfies) {
-                            return getUIState(AppStates.get(appFlowNextState.getNextState()));
-                        }
-                    }
+                    UIState appFlowNextState = getUiState(appFlowNextStates);
+                    if (appFlowNextState != null) return appFlowNextState;
                     break;
                 }
             }
         }
         return null;
+    }
+
+    @Nullable
+    private UIState getUiState(final List<AppFlowNextState> appFlowNextStates) {
+        for (AppFlowNextState appFlowNextState : appFlowNextStates) {
+            List<String> conditionsTypes = appFlowNextState.getCondition();
+            boolean isConditionSatisfies = true;
+            if (conditionsTypes != null && conditionsTypes.size() > 0) {
+                isConditionSatisfies = isConditionSatisfies(conditionsTypes);
+            }
+            //Return the UIState if the entry condition is satisfies.
+            if (isConditionSatisfies) {
+                return getUIState(AppStates.get(appFlowNextState.getNextState()));
+            }
+        }
+        return null;
+    }
+
+    private boolean isConditionSatisfies(final List<String> conditionsTypes) {
+        boolean isConditionSatisfies = true;
+        for (final String conditionType : conditionsTypes) {
+            BaseCondition condition = getCondition(AppConditions.get(conditionType));
+            isConditionSatisfies = condition.isConditionSatisfies(context);
+            if (isConditionSatisfies)
+                break;
+        }
+        return isConditionSatisfies;
     }
 
     /**
