@@ -58,7 +58,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         if (uiState instanceof SupportFragmentState) {
             ((SupportFragmentState) uiState).registerUIStateListener(this);
         }
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+        uiState.navigate(fragmentLauncher);
     }
 
     protected UIStateData setStateData(final int componentID) {
@@ -114,12 +114,12 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-//        this.uiState = setStateData(PRODUCT_REGISTRATION);
+        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.SUPPORT, EventStates.SUPPORT_PR);
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
         this.uiState.setUiStateData(uiStateDataModel);
         this.uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        this.uiState.navigate(fragmentLauncher);
     }
 
     public EventStates getEventState(int componentID) {
@@ -141,7 +141,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return EventStates.HOME_SUPPORT;
             case PRODUCT_REGISTRATION:
-                return EventStates.HOME_PR;
+                return EventStates.SUPPORT_PR;
             default:
                 return EventStates.HOME_FRAGMENT;
         }

@@ -73,7 +73,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return EventStates.WELCOME_HOME;
             case USER_REGISTRATION_STATE:
-                return EventStates.REGISTRATION;
+                return EventStates.WELCOME_REGISTRATION;
         }
         return null;
     }

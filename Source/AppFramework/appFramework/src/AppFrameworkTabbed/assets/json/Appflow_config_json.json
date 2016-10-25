@@ -116,6 +116,70 @@
                 "nextState": "iap"
               }
             ]
+          },
+          {
+            "eventId": "shopping_cart",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "shopping_cart"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "support",
+        "events": [
+          {
+            "eventId": "pr",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "pr"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "settings",
+        "events": [
+          {
+            "eventId": "order_history",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "login",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "registration"
+              }
+            ]
+          },
+          {
+            "eventId": "settings_registration",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
           }
         ]
       }

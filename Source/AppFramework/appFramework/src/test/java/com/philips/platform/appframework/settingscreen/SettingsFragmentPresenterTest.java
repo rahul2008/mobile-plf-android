@@ -51,7 +51,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIState getUiState(final int componentID) {
+            protected UIState setStateData(final int componentID) {
                 return uiStateMock;
             }
 
@@ -81,7 +81,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIState getUiState(final int componentID) {
+            protected UIState setStateData(final int componentID) {
                 return uiStateMock;
             }
 
@@ -111,7 +111,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIState getUiState(final int componentID) {
+            protected UIState setStateData(final int componentID) {
                 return uiStateMock;
             }
 
@@ -132,8 +132,8 @@ public class SettingsFragmentPresenterTest extends TestCase {
     }
 
     public void testGetUIState() {
-        assertTrue(settingsFragmentPresenter.getUiState(Constants.LOGOUT_BUTTON_CLICK_CONSTANT) instanceof HomeFragmentState);
-        assertTrue(settingsFragmentPresenter.getUiState(999) instanceof UserRegistrationState);
-        assertTrue(settingsFragmentPresenter.getUiState(998) instanceof HomeActivityState);
+        assertTrue(settingsFragmentPresenter.setStateData(Constants.LOGOUT_BUTTON_CLICK_CONSTANT) instanceof HomeFragmentState);
+        assertTrue(settingsFragmentPresenter.setStateData(999) instanceof UserRegistrationState);
+        assertTrue(settingsFragmentPresenter.setStateData(998) instanceof HomeActivityState);
     }
 }

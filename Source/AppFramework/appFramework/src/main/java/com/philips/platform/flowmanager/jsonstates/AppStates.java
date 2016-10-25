@@ -15,7 +15,7 @@ public enum AppStates {
     WELCOME("welcome"),
     REGISTRATION("registration"),
     HOME("home"),
-    HOMEFRAGMENT("homeFragment"),
+    HOMEFRAGMENT("home_fragment"),
     ABOUT("about"),
     DEBUG("debug"),
     IAP("iap"),
