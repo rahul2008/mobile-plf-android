@@ -41,7 +41,6 @@ public class ABTestClientManager implements ABTestClientInterface {
     private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private boolean isAppRestarted = false;
     private String previousVersion;
-    private boolean isRefreshed = false;
     private SharedPreferences mSharedPreferences;
 
 
@@ -60,7 +59,6 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
     private void loadfromDisk() {
-        boolean shouldRefresh = false;
         ArrayList<String> testList = new ArrayList<>();
         if (getCachefromPreference() != null && getCachefromPreference().getTestValues() != null
                 && getCachefromPreference().getTestValues().size() > 0) {
@@ -80,7 +78,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             //         testList.contains(
             for (String test : testList) {
                 if (mCacheStatusValue != null && mCacheStatusValue.containsKey(test)) {
-                    shouldRefresh = false;
+                    // shouldRefresh = false;
                 } else {
                     CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
                     valueModel.setTestValue(null);
@@ -89,17 +87,15 @@ public class ABTestClientManager implements ABTestClientInterface {
                     mCacheStatusValue.put(test, valueModel);
                     mCacheModel.setTestValues(mCacheStatusValue);
 
-                    shouldRefresh = true;
+                    //shouldRefresh = true;
                 }
             }
-        } else {
-            mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
         }
 
-        if (shouldRefresh || !isRefreshed) {
-            mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
+        if (testList != null && testList.size() == 0) {
+            mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
         } else {
-            mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_UPDATED;
+            mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
         }
     }
 
@@ -151,7 +147,6 @@ public class ABTestClientManager implements ABTestClientInterface {
      * @return cacheStauts
      */
     public CACHESTATUSVALUES getCacheStatus() {
-        // loadfromDisk();
         return mCachestatusvalues;
     }
 
@@ -177,7 +172,8 @@ public class ABTestClientManager implements ABTestClientInterface {
             if (getCachefromPreference() != null && updateType.name().equals
                     (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
                 HashMap<String, CacheModel.ValueModel> model = getCachefromPreference().getTestValues();
-                if (model.get(testName).getTestValue() != null) {
+
+                if (model != null && model.get(testName) != null && model.get(testName).getTestValue() != null) {
                     testValue = model.get(testName).getTestValue();
                 } else {
                     testValue = defaultValue;
@@ -187,10 +183,6 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         }
 
-//        HashMap<String , CacheModel.ValueModel> model = mCacheModel.getTestValues();
-//        CacheModel.ValueModel val = new CacheModel.ValueModel();
-//        val.setTestValue(testValue);
-//        model.put(testName , )
         updateMemorycacheForTestName(testName, testValue, updateType);
         if (updateType.name().equals
                 (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
@@ -242,7 +234,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     private String getTestValueFromMemoryCache(String requestName) {
         String exp = null;
         if (mCacheStatusValue.size() == 0) {
-            mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
+            mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
         } else if (mCacheStatusValue.containsKey(requestName)) {
             CacheModel.ValueModel value = mCacheStatusValue.get(requestName);
             exp = value.getTestValue();
@@ -286,8 +278,6 @@ public class ABTestClientManager implements ABTestClientInterface {
             String appVersion = getAppVersion();
             previousVersion = getAppVerionfromPref();
             if (previousVersion.isEmpty()) {
-                //mCacheModel.setAppVersion(appVersion); // first launch
-                // saveCachetoPreference(mCacheModel);
                 return true;
             } else if (previousVersion.equalsIgnoreCase(appVersion)) {
                 return false; // same version.
@@ -325,13 +315,11 @@ public class ABTestClientManager implements ABTestClientInterface {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    //   System.out.println("VARIABLE TYPE" + " " + getVariableType());
                     refreshForVariableType(getVariableType());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
                             if (listener != null) {
-                                isRefreshed = true;
                                 listener.onSuccess();
                             }
                         }
@@ -422,12 +410,6 @@ public class ABTestClientManager implements ABTestClientInterface {
                     updateMemorycacheForTestName(requestName, content, updatetypes);
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                             content);
-//                    CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
-//                    valueModel.setTestValue(content);
-//                    valueModel.setUpdateType(updatetypes.name());
-//                    valueModel.setAppVersion(getAppVersion());
-//                    mCacheStatusValue.put(requestName, valueModel);
-//                    mCacheModel.setTestValues(mCacheStatusValue);
                 }
                 done.countDown();
             }
