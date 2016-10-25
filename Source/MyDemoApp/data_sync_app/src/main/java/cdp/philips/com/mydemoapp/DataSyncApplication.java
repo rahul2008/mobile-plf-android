@@ -39,14 +39,6 @@ import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
 
 public class DataSyncApplication extends Application{
 
-    @Inject
-    BaseAppCore core;
-
-    @Inject
-    Eventing eventing;
-
-    @Inject
-    UserRegistrationFacade userRegistrationFacade;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
 
