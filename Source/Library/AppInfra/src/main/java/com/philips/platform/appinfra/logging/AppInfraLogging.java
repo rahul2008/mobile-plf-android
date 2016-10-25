@@ -116,23 +116,12 @@ public class AppInfraLogging implements LoggingInterface {
         }
     }
 
-
+    /**
+     * @param isEnabled
+     * @deprecated
+     */
     @Deprecated
-    @Override
     public void enableConsoleLog(boolean isEnabled) {
-        String enabled ;
-        AppConfigurationInterface.AppConfigurationError configurationError = new
-                AppConfigurationInterface.AppConfigurationError();
-        if(mAppInfra != null) {
-            appConfigurationInterface = mAppInfra.getConfigInterface();
-            try {
-                enabled =  (String) appConfigurationInterface.getPropertyForKey("logging.enablefilelog" ,
-                        "appinfra" , configurationError);
-            } catch (Exception e) {
-                Log.e("Logging Error" , e.toString());
-            }
-
-        }
 
         if (isEnabled) {
             if (null == consoleHandler) {
@@ -159,6 +148,7 @@ public class AppInfraLogging implements LoggingInterface {
 
 
     @Override
+    @Deprecated
     public void enableFileLog(boolean pFileLogEnabled) {
         if (pFileLogEnabled) {
             if (null == fileHandler) {// add file log
