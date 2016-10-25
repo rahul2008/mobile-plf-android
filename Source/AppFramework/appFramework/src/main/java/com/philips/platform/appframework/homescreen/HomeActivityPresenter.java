@@ -51,7 +51,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         EventStates eventStates = getEventState(componentID);
-        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.HOME, eventStates);
+        uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.HOME, eventStates);
         uiState.setPresenter(this);
         uiState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
@@ -114,7 +114,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.SUPPORT, EventStates.SUPPORT_PR);
+        this.uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SUPPORT, EventStates.SUPPORT_PR);
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
         this.uiState.setUiStateData(uiStateDataModel);

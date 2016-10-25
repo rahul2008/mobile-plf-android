@@ -6,6 +6,7 @@
 package com.philips.platform.flowmanager;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -34,11 +35,11 @@ public class AppFrameworkDataParser {
      *                or {@link android.app.Activity} object.
      * @return Object to 'AppFlowModel' class or 'null'
      */
-    public static AppFlowModel getAppFlow(Context context) {
+    public static AppFlowModel getAppFlow(Context context, @IdRes int jsonPath) {
         String appFlowResponse;
         final JSONHelper jsonHelper = new JSONHelper(context);
         try {
-            appFlowResponse = jsonHelper.getJsonForAppFlow(R.string.com_philips_app_fmwk_app_flow_url);
+            appFlowResponse = jsonHelper.getJsonForAppFlow(jsonPath);
             appFlow = new Gson().fromJson(appFlowResponse, AppFlowModel.class);
         } catch (JsonSyntaxException e) {
             // This code has been added to handle the cases of JSON parsing error/exception

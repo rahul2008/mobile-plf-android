@@ -25,17 +25,6 @@ public class ConditionFactory {
     private static final Map<AppConditions, BaseCondition> CONDITIONS_MAP;
 
     /**
-     * This method will creates and return the object of BaseCondition depending upon Condition ID.
-     *
-     * @param conditions Condition ID for which the BaseCondition type object need to be created.
-     * @return Object of BaseCondition type.
-     */
-    public BaseCondition getCondition(AppConditions conditions) {
-
-        return CONDITIONS_MAP.get(conditions);
-    }
-
-    /**
      * Build an immutable map of Condition type and corresponding class object pairs.
      */
     static {

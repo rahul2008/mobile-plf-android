@@ -60,7 +60,7 @@ public enum AppStates {
      * Build an immutable map of String name to enum pairs.
      */
     static {
-        final Map<String, AppStates> map = new ConcurrentHashMap<String, AppStates>();
+        final Map<String, AppStates> map = new ConcurrentHashMap<>();
         for (final AppStates instance : AppStates.values()) {
             map.put(instance.getStateValue(), instance);
         }

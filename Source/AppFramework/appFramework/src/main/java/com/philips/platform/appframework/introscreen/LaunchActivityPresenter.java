@@ -45,7 +45,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.showActionBar();
         EventStates eventState = getEventState(componentID);
-        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
+        uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         if (appFrameworkApplication.getFlowManager().getCurrentState().getStateID() == (UIState.UI_USER_REGISTRATION_STATE)) {
@@ -90,7 +90,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     public void onLoad() {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.hideActionBar();
-        uiState = FlowManager.getInstance(appFrameworkApplication).getFirstState();
+        uiState = appFrameworkApplication.getTargetFlowManager().getFirstState();
         fragmentLauncher = getFragmentLauncher();
         UIStateData homeStateData = new UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
@@ -102,7 +102,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         EventStates eventId = getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT);
-        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventId);
+        this.uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventId);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeView.finishActivityAffinity();

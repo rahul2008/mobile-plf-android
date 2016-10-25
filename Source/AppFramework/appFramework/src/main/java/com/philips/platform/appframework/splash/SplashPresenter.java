@@ -42,7 +42,7 @@ public class SplashPresenter extends UIBasePresenter {
     @Override
     public void onLoad() {
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
-        final UIState uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.SPLASH, EventStates.APP_START);
+        final UIState uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SPLASH, EventStates.APP_START);
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
         if (null != uiState) {
             if (uiState instanceof UserRegistrationState) {

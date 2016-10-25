@@ -57,7 +57,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
         final UIStateData uiStateData = setStateData(componentID);
         EventStates eventState = getEventState(componentID);
-        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.SETTINGS, eventState);
+        uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
         uiState.setPresenter(this);
         uiState.setUiStateData(uiStateData);
         if (eventState == EventStates.SETTINGS_LOGIN) {
@@ -102,7 +102,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     @Override
     public void onStateComplete(UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
-        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.SETTINGS, EventStates.SETTINGS_REGISTRATION);
+        this.uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SETTINGS, EventStates.SETTINGS_REGISTRATION);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         settingsView.finishActivityAffinity();
@@ -115,7 +115,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
             appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
-            uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.SETTINGS, EventStates.SETTINGS_LOGOUT);
+            uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SETTINGS, EventStates.SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
             uiState.setPresenter(this);
             uiState.navigate(fragmentLauncher);

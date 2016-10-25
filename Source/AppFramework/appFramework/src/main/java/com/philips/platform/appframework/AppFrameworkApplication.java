@@ -20,6 +20,7 @@ import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
 import java.util.Locale;
+
 /**
  * Application class is used for initialization
  */
@@ -37,11 +38,9 @@ public class AppFrameworkApplication extends Application {
         return context;
     }
 
-     /**
+    /**
      * @return instance of this class
      */
-
-
 
     @SuppressWarnings("deprecation")
     @Override
@@ -50,29 +49,27 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         flowManager = new UIFlowManager();
-        targetFlowManager = FlowManager.getInstance(context);
+        targetFlowManager = FlowManager.getInstance(context, R.string.com_philips_app_fmwk_app_flow_url);
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        userRegistrationState= new UserRegistrationState();
+        userRegistrationState = new UserRegistrationState();
         userRegistrationState.init(this);
-        productRegistrationState= new ProductRegistrationState();
+        productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         iapState = new IAPState();
         iapState.init(this);
     }
 
-    public IAPState getIap(){
+    public IAPState getIap() {
         return iapState;
     }
 
-/**
- * Method for initializing IAP
- *
- */
-
+    /**
+     * Method for initializing IAP
+     */
 
     private void setLocale() {
         String languageCode = Locale.getDefault().getLanguage();
@@ -94,5 +91,4 @@ public class AppFrameworkApplication extends Application {
     public FlowManager getTargetFlowManager() {
         return targetFlowManager;
     }
-
-    }
+}

@@ -42,7 +42,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
-        uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
+        uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         uiState.setPresenter(this);
         if (uiState instanceof UserRegistrationState)
             ((UserRegistrationState) uiState).registerUIStateListener(this);
@@ -78,7 +78,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     public void onStateComplete(final UIState uiState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
         EventStates eventState = getEventState(HomeActivityPresenter.MENU_OPTION_HOME);
-        this.uiState = FlowManager.getInstance(appFrameworkApplication).getNextState(AppStates.WELCOME, eventState);
+        this.uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         this.uiState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();
