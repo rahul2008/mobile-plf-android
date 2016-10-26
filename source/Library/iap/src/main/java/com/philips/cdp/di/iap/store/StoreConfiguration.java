@@ -6,24 +6,24 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.platform.appinfra.AppInfra;
 
-/**
- * This class having responsible for Store configuration
- */
-public class StoreConfiguration  {
-    private static final String SUFFIX_INAPPCONFIG = "inAppConfig";
+public class StoreConfiguration {
+    private static final String SUFFIX_CONFIGURATION = "inAppConfig";
+    private final IAPSettings mIAPSettings;
 
     private final HybrisStore mStore;
-    private final VerticalAppConfig mVerticalAppConfig;
-    private final WebStoreConfig mWebStoreConfig;
+    private final StoreController mWebStoreConfig;
 
-    public StoreConfiguration(Context context, HybrisStore store, IAPDependencies iapDependencies) {
+    public StoreConfiguration(Context context, HybrisStore store, IAPSettings iapSettings) {
         mStore = store;
-        mVerticalAppConfig = getVerticalAppConfig(iapDependencies);
+        mIAPSettings = iapSettings;
         mWebStoreConfig = getWebStoreConfig(context);
+    }
+
+    StoreController getWebStoreConfig(final Context context) {
+        return new StoreController(context, this);
     }
 
     void initConfig(final String language, String countryCode, RequestListener listener) {
@@ -31,42 +31,31 @@ public class StoreConfiguration  {
     }
 
     public String getHostPort() {
-        return mVerticalAppConfig.getHostPort();
+        return mIAPSettings.getHostPort();
+    }
+
+    public String getProposition() {
+        return mIAPSettings.getProposition();
     }
 
     public String getSite() {
         return mWebStoreConfig.getSiteID();
     }
 
-    public String getProposition() {
-        return mVerticalAppConfig.getProposition();
-    }
-
-    VerticalAppConfig getVerticalAppConfig(final IAPDependencies iapDependencies) {
-        return new VerticalAppConfig(iapDependencies);
-    }
-
-    WebStoreConfig getWebStoreConfig(final Context context) {
-        return new WebStoreConfig(context, this);
+    public String getLocale() {
+        return mWebStoreConfig.getLocale();
     }
 
     public String getRawConfigUrl() {
-       final StringBuilder builder = new StringBuilder(HybrisStore.HTTPS);
-        builder.append(getHostPort()).append(HybrisStore.SEPERATOR);
-        builder.append(HybrisStore.WEB_ROOT).append(HybrisStore.SEPERATOR);
-        builder.append(HybrisStore.V2).append(HybrisStore.SEPERATOR);
-        builder.append(SUFFIX_INAPPCONFIG).append(HybrisStore.SEPERATOR);
+        final StringBuilder builder = new StringBuilder(getHostPort());
+        builder.append(HybrisStore.WEBROOT).append(HybrisStore.SEPERATOR).append(HybrisStore.V2).append(HybrisStore.SEPERATOR);
+        builder.append(SUFFIX_CONFIGURATION).append(HybrisStore.SEPERATOR);
         builder.append(mWebStoreConfig.getLocale()).append(HybrisStore.SEPERATOR);
         builder.append(getProposition());
-
         return builder.toString();
     }
 
     public void generateStoreUrls() {
         mStore.generateStoreUrls();
-    }
-
-    public String getLocale() {
-        return mWebStoreConfig.getLocale();
     }
 }

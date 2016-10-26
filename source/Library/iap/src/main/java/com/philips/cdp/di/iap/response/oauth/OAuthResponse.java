@@ -1,43 +1,30 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.response.oauth;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.philips.cdp.di.iap.utils.IAPLog;
-
 public class OAuthResponse {
-
-    @SerializedName("access_token")
-    @Expose
-    private String accessToken;
-    @SerializedName("token_type")
-    @Expose
-    private String tokenType;
-    @SerializedName("refresh_token")
-    @Expose
-    private String refreshToken;
-    @SerializedName("expires_in")
-    @Expose
-    private int expiresIn;
-    @SerializedName("scope")
-    @Expose
+    private String access_token;
+    private String token_type;
+    private String refresh_token;
+    private int expires_in;
     private String scope;
 
     public String getAccessToken() {
-        IAPLog.d(IAPLog.LOG, "OAauth Access Token = "+accessToken);
-        return accessToken;
+        return access_token;
     }
 
     public String getTokenType() {
-        return tokenType;
+        return token_type;
     }
 
     public String getRefreshToken() {
-        IAPLog.d(IAPLog.LOG, "OAauth Refresh Access Token = "+refreshToken);
-        return refreshToken;
+        return refresh_token;
     }
 
     public int getExpiresIn() {
-        return expiresIn;
+        return expires_in;
     }
 
     public String getScope() {

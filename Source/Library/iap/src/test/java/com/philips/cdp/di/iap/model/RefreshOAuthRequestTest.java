@@ -3,13 +3,14 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
-import com.philips.cdp.di.iap.store.HybrisStore;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +20,6 @@ import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
 
 public class RefreshOAuthRequestTest {
 
@@ -34,7 +33,7 @@ public class RefreshOAuthRequestTest {
 
     @Before
     public void setUp() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig("en", "US", null);
         mModel = new RefreshOAuthRequest(mStore, new HashMap<String, String>());
     }
@@ -55,13 +54,14 @@ public class RefreshOAuthRequestTest {
     }
 
     @Test
-    public void testParseResponseIsNull() {
-        assertNull(mModel.parseResponse(mock(HybrisStore.class)));
+    public void isValidResponse() {
+        String validResponse = TestUtils.readFile(RefreshOAuthRequestTest.class, "OAuthResponse.txt");
+        Object response = mModel.parseResponse(validResponse);
+        assertEquals(response.getClass(), OAuthResponse.class);
     }
 
     @Test
     public void isValidUrl() {
         assertEquals(mModel.getUrl(), NetworkURLConstants.OAUTH_REFRESH_URL);
     }
-
 }

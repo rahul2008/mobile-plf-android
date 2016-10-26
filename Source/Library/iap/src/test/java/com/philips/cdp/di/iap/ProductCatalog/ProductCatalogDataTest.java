@@ -1,6 +1,6 @@
 package com.philips.cdp.di.iap.ProductCatalog;
 
-import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
+import com.philips.cdp.di.iap.products.ProductCatalogData;
 
 import junit.framework.TestCase;
 

@@ -22,16 +22,15 @@ public class IAPUser implements UserRegistrationListener {
     private HybrisStore mStore;
     private boolean mTokenRefreshSuccessful;
 
-    //Track the locking. It should not lock if the call back was received earlier than locking
     private volatile boolean mLockReleaseRequested;
+
+    public IAPUser() {
+    }
 
     public IAPUser(final Context context, final HybrisStore store) {
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mStore = store;
         mJanRainUser = new User(context);
-    }
-
-    public IAPUser() {
     }
 
     public String getJanRainID() {
@@ -93,9 +92,8 @@ public class IAPUser implements UserRegistrationListener {
 
     @Override
     public void onUserLogoutSuccess() {
-        IAPLog.e(IAPLog.LOG, "IAPUser ====onUserLogoutSuccess");
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
-        mStore.setUserLogout(true);
+        mStore.setNewUser(true);
     }
 
     @Override

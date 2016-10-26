@@ -8,12 +8,12 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ContactCallRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
-import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
@@ -32,7 +32,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
     private Context mContext;
     private OrderListener mOrderListener;
     private HybrisDelegate mDelegate;
-    private StoreSpec mStore;
+    private StoreListener mStore;
 
     public interface OrderListener {
         void onGetOrderList(Message msg);
@@ -107,7 +107,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
                 ctnToBeRequested.add(entry.getProduct().getCode());
             }
         }
-        PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnToBeRequested, listener);
+        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnToBeRequested, listener);
         builder.preparePRXDataRequest();
 
     }
@@ -158,11 +158,11 @@ public class OrderController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    public void setStore(StoreSpec store) {
+    public void setStore(StoreListener store) {
         mStore = store;
     }
 
-    StoreSpec getStore() {
+    StoreListener getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }

@@ -3,8 +3,8 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
@@ -24,12 +24,12 @@ import static org.mockito.Mockito.mock;
 
 public class UpdateAddressRequestTest {
     @Mock
-    private StoreSpec mStore;
+    private StoreListener mStore;
     private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPDependencies());
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
         mStore.initStoreConfig("en", "us", null);
         mModel = new UpdateAddressRequest(mStore, null, null);
     }

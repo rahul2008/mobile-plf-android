@@ -38,7 +38,7 @@ public class IAPConstant {
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
     public static final String IAP_LANDING_SCREEN = "IAP_LANDING_SCREEN";
-    public static final String IAP_PRODUCT_CATALOG_NUMBER = "IAP_PRODUCT_CATALOG_NUMBER";
+    public static final String IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL = "IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL";
     public static final String IS_PRODUCT_CATALOG = "IS_PRODUCT_CATALOG";
     public static final String IAP_LAUNCH_PRODUCT_DETAIL = "IAP_LAUNCH_PRODUCT_DETAIL";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG = "IAP_LAUNCH_PRODUCT_CATALOG";
@@ -101,4 +101,8 @@ public class IAPConstant {
     public static final String TWO_BUTTON_DIALOG_DESCRIPTION = "TWO_BUTTON_DIALOG_DESCRIPTION";
     public static final String TWO_BUTTON_DIALOG_POSITIVE_TEXT = "TWO_BUTTON_DIALOG_POSITIVE_TEXT";
     public static final String TWO_BUTTON_DIALOG_NEGATIVE_TEXT = "TWO_BUTTON_DIALOG_NEGATIVE_TEXT";
+
+    //Service discover key constants
+    public static final String IAP_IS_STORE_AVAILABLE = "iap.get.isStoreAvailable";
+    public static final String IAP_BASE_URL = "iap.baseUrl";
 }

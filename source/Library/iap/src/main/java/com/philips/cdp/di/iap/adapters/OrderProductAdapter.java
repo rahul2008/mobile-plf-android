@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.philips.cdp.di.iap.Fragments.DeliveryModeDialog;
+import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
+import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController.AddressListener;
@@ -38,7 +38,7 @@ import java.util.List;
 
 
 public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        ShoppingCartPresenter.LoadListener<ShoppingCartData>, DeliveryModeDialog.DialogListener {
+        ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, DeliveryModeDialog.DialogListener {
     private final static String TAG = OrderProductAdapter.class.getSimpleName();
 
     private List<ShoppingCartData> mShoppingCartDataList;
@@ -195,7 +195,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onLoadListenerError(Message msg) {
+    public void onLoadError(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {

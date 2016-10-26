@@ -35,6 +35,10 @@ public class Products {
         return products;
     }
 
+    public void setProducts(List<ProductsEntity> products) {
+        this.products = products;
+    }
+
     public List<SortsEntity> getSorts() {
         return sorts;
     }

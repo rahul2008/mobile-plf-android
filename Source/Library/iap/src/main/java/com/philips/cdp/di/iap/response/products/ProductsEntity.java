@@ -24,6 +24,10 @@ public class ProductsEntity {
         return code;
     }
 
+    public void setCode(String ctn){
+        code = ctn;
+    }
+
     public DiscountPriceEntity getDiscountPrice() {
         return discountPrice;
     }

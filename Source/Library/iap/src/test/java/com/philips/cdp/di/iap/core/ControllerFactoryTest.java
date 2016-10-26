@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.core;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.controller.ControllerFactory;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,30 +21,30 @@ public class ControllerFactoryTest {
 
     @Test
     public void shouldDisplayCartIconReturnFalse() throws Exception {
-        boolean shouldDisplay = ControllerFactory.getInstance().shouldDisplayCartIcon();
+        boolean shouldDisplay = !ControllerFactory.getInstance().isPlanB();
         Assert.assertFalse(shouldDisplay);
     }
 
     @Test
     public void createObjectForLocalShoppingCartPresenter() throws Exception {
-        ControllerFactory.getInstance().init(0);
+        ControllerFactory.getInstance().init(true);
         Assert.assertNotNull(ControllerFactory.getInstance().getShoppingCartPresenter(mContext, null));
     }
     @Test
     public void createObjectForShoppingCartPresenter() throws Exception {
-        ControllerFactory.getInstance().init(1);
+        ControllerFactory.getInstance().init(false);
         Assert.assertNotNull(ControllerFactory.getInstance().getShoppingCartPresenter(mContext, null));
     }
 
     @Test
     public void createObjectForLocalProductCatalog() throws Exception {
-        ControllerFactory.getInstance().init(0);
+        ControllerFactory.getInstance().init(true);
         Assert.assertNotNull(ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null));
     }
 
     @Test
     public void createObjectForProductCatalogPresenter() throws Exception {
-        ControllerFactory.getInstance().init(1);
+        ControllerFactory.getInstance().init(false);
         Assert.assertNotNull(ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null));
     }
 }

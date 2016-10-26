@@ -31,7 +31,7 @@ public class MockSynchronizedNetwork extends SynchronizedNetwork {
     }
 
     @Override
-    public void performRequest(final IAPJsonRequest request, final SynchronizedNetworkCallBack callBack) {
+    public void performRequest(final IAPJsonRequest request, final SynchronizedNetworkListener callBack) {
         if (mResponseObject != null && callBack != null) {
             try {
                 HashMap<String,String> params = new HashMap<>();

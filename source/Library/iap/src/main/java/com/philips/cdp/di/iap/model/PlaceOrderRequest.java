@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  * All rights reserved.
  */
 public class PlaceOrderRequest extends AbstractModel {
-    public PlaceOrderRequest(final StoreSpec store, final Map<String, String> query, final DataLoadListener listener) {
+    public PlaceOrderRequest(final StoreListener store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
     }
 

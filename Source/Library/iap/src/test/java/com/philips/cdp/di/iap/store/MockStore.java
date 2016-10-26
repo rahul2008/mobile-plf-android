@@ -6,8 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 
 import org.mockito.Mockito;
 
@@ -31,32 +30,28 @@ public class MockStore {
         when(mUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
     }
 
-    public StoreSpec getStore(IAPDependencies pIAPDependencies) {
-        HybrisStore hybrisStore = new HybrisStore(mContext, pIAPDependencies) {
+    public StoreListener getStore(IAPSettings pIAPSettings) {
+        HybrisStore hybrisStore = new HybrisStore(mContext, pIAPSettings) {
             @Override
-            protected StoreConfiguration getStoreConfig(final Context context, final IAPDependencies mIAPDependencies) {
-                return getStoreConfiguration(this, mIAPDependencies);
+            protected StoreConfiguration getStoreConfig(final Context context, final IAPSettings mIapSettings) {
+                return getStoreConfiguration(this, mIapSettings);
             }
 
             @Override
-            IAPUser initIAPUser(final Context context) {
+            IAPUser createUser(final Context context) {
                 return mUser;
             }
         };
-        hybrisStore.setNewUser(mContext);
+        hybrisStore.createNewUser(mContext);
         return hybrisStore;
     }
 
-    private StoreConfiguration getStoreConfiguration(HybrisStore hybrisStore, IAPDependencies pIAPDependencies) {
-        return new StoreConfiguration(mContext, hybrisStore, pIAPDependencies) {
-            @Override
-            VerticalAppConfig getVerticalAppConfig(final IAPDependencies iapDependencies) {
-                return new MockVerticalAppConfig(iapDependencies);
-            }
+    private StoreConfiguration getStoreConfiguration(HybrisStore hybrisStore, IAPSettings pIapSettings) {
+        return new StoreConfiguration(mContext, hybrisStore, pIapSettings) {
 
             @Override
-            WebStoreConfig getWebStoreConfig(final Context context) {
-                return new MockWebStoreConfig(mContext, this);
+            StoreController getWebStoreConfig(final Context context) {
+                return new MockStoreController(mContext, this);
             }
         };
     }

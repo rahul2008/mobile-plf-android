@@ -2,15 +2,14 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.NetworkEssentials;
-import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 public class HybrisDelegate {
 
@@ -22,13 +21,6 @@ public class HybrisDelegate {
     private HybrisDelegate() {
     }
 
-    public NetworkController getNetworkController(Context context) {
-        if (controller == null) {
-            controller = new NetworkController(context);
-        }
-        return controller;
-    }
-
     public static HybrisDelegate getInstance(Context context) {
         if (delegate.controller == null) {
             delegate.mContext = context.getApplicationContext();
@@ -37,20 +29,26 @@ public class HybrisDelegate {
         return delegate;
     }
 
-
-    public static HybrisDelegate getDelegateWithNetworkEssentials(Context context,
-                                                                  NetworkEssentials networkEssentials, IAPDependencies iapDependencies) {
-        delegate.mContext = context;
-        delegate.controller = new NetworkController(context, networkEssentials,iapDependencies);
-        return delegate;
-    }
-
     public static HybrisDelegate getInstance() {
         return delegate;
     }
 
+    public NetworkController getNetworkController(Context context) {
+        if (controller == null) {
+            controller = new NetworkController(context);
+        }
+        return controller;
+    }
+
     public static NetworkController getNetworkController() {
         return delegate.controller;
+    }
+
+    public static HybrisDelegate getDelegateWithNetworkEssentials(NetworkEssentials networkEssentials,
+                                                                  IAPSettings iapSettings) {
+        delegate.mContext = iapSettings.getContext();
+        delegate.controller = new NetworkController(iapSettings.getContext(), networkEssentials, iapSettings);
+        return delegate;
     }
 
     public void sendRequest(int requestCode, AbstractModel model, final RequestListener
@@ -58,7 +56,7 @@ public class HybrisDelegate {
         controller.sendHybrisRequest(requestCode, model, requestListener);
     }
 
-    public StoreSpec getStore() {
+    public StoreListener getStore() {
         return controller.getStore();
     }
 }

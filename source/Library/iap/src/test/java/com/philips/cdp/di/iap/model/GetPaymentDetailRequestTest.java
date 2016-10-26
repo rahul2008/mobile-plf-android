@@ -8,8 +8,8 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -32,7 +32,7 @@ public class GetPaymentDetailRequestTest {
 
     @Before
     public void setUP() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig("en", "US", null);
         mModel = new GetPaymentDetailRequest(mStore, null, null);
     }

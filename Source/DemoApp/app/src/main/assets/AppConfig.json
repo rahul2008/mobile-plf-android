@@ -45,10 +45,6 @@
     "appidentity.sector": "b2c",
     "appidentity.appState": "PRODUCTION",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION"
-  },
-  "IAP": {
-    "hostport": "www.occ.shop.philips.com",
-    "propositionid": "Tuscany2016"
   }
 }
 

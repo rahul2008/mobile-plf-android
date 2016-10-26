@@ -5,14 +5,14 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 import java.util.Map;
 
 public class DeleteCartRequest extends AbstractModel {
 
 
-    public DeleteCartRequest(StoreSpec store, Map<String, String> query, DataLoadListener listener) {
+    public DeleteCartRequest(StoreListener store, Map<String, String> query, DataLoadListener listener) {
         super(store, query, listener);
     }
 

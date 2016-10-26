@@ -10,23 +10,22 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
-import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
-import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
-import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
-import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
+import com.philips.cdp.di.iap.screens.BuyDirectFragment;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
+import com.philips.cdp.di.iap.screens.ProductCatalogFragment;
+import com.philips.cdp.di.iap.screens.ProductDetailFragment;
+import com.philips.cdp.di.iap.screens.PurchaseHistoryFragment;
+import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.applocal.AppLocalHandler;
+import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.core.ControllerFactory;
-import com.philips.cdp.di.iap.core.IAPExposedAPI;
-import com.philips.cdp.di.iap.core.NetworkEssentials;
-import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
-import com.philips.cdp.di.iap.hybris.HybrisHandler;
+import com.philips.cdp.di.iap.controller.ControllerFactory;
+import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentialsFactory;
+import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -42,20 +41,56 @@ class IAPHandler {
     private IAPDependencies mIAPDependencies;
     private IAPSettings mIAPSetting;
 
-    IAPHandler(IAPDependencies mIAPDependencies, IAPSettings pIapSettings) {
-        this.mIAPDependencies = mIAPDependencies;
+    IAPHandler(IAPDependencies pIAPDependencies, IAPSettings pIapSettings) {
+        mIAPDependencies = pIAPDependencies;
         mIAPSetting = pIapSettings;
+        initPreRequisite();
     }
 
-    void initTaggingLogging() {
+    void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
+        initControllerFactory();
+        initHybrisDelegate();
+        setLangAndCountry();
     }
 
+    protected void initControllerFactory() {
+        ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());
+    }
 
-    void initIAP() {
-        initHybrisDelegate(mIAPSetting, mIAPDependencies);
-        initControllerFactory(mIAPSetting);
-        setLangAndCountry(mIAPSetting);
+    private void initHybrisDelegate() {
+        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
+        HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
+    }
+
+    protected void setLangAndCountry() {
+        PILLocaleManager localeManager = new PILLocaleManager(mIAPSetting.getContext());
+        String[] localeArray;
+        String localeAsString = localeManager.getInputLocale();
+        localeArray = localeAsString.split("_");
+        Locale locale = new Locale(localeArray[0], localeArray[1]);
+        CartModelContainer.getInstance().setLanguage(locale.getLanguage());
+        CartModelContainer.getInstance().setCountry(locale.getCountry());
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
+    }
+
+    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
+        final IAPListener iapListener = pLaunchInput.getIapListener();
+
+        //User logged off scenario
+        HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
+        delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(),
+                CartModelContainer.getInstance().getCountry(), new RequestListener() {
+                    @Override
+                    public void onSuccess(final Message msg) {
+                        onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
+                    }
+
+                    @Override
+                    public void onError(final Message msg) {
+                        onFailureOfInitialization(msg, iapListener);
+                    }
+                });
     }
 
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
@@ -64,23 +99,6 @@ class IAPHandler {
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
         }
-    }
-
-    void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
-        final IAPListener iapListener = pLaunchInput.getIapListener();
-        //User logged off scenario
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
-        delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(), CartModelContainer.getInstance().getCountry(), new RequestListener() {
-            @Override
-            public void onSuccess(final Message msg) {
-                onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
-            }
-
-            @Override
-            public void onError(final Message msg) {
-                onFailureOfInitialization(msg, iapListener);
-            }
-        });
     }
 
     protected void onFailureOfInitialization(Message msg, IAPListener iapListener) {
@@ -101,7 +119,6 @@ class IAPHandler {
         }
     }
 
-    //IAPListener is necessary to inject for vertical.
     protected void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
         InAppBaseFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher, iapLaunchInput.getIapListener());
@@ -119,12 +136,12 @@ class IAPHandler {
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                 fragment = new ProductDetailFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, iapFlowInput.getProductCTN());
+                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapFlowInput.getProductCTN());
                 fragment.setArguments(bundle);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                 fragment = new BuyDirectFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER, iapFlowInput.getProductCTN());
+                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapFlowInput.getProductCTN());
                 break;
             default:
                 //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
@@ -137,7 +154,7 @@ class IAPHandler {
     }
 
     protected void launchActivity(Context pContext, IAPLaunchInput pLaunchInput,
-                                ActivityLauncher activityLauncher) {
+                                  ActivityLauncher activityLauncher) {
         Intent intent = new Intent(pContext, IAPActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, pLaunchInput.mLandingView);
@@ -149,7 +166,7 @@ class IAPHandler {
                     || pLaunchInput.mIAPFlowInput.getProductCTN().equalsIgnoreCase("")) {
                 throw new RuntimeException("Please Pass CTN");
             } else {
-                intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
+                intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
                         pLaunchInput.mIAPFlowInput.getProductCTN());
             }
         }
@@ -176,46 +193,14 @@ class IAPHandler {
                 + tag + ")");
     }
 
-    protected IAPExposedAPI getExposedAPIImplementor(IAPSettings iapSettings) {
+    protected IAPExposedAPI getExposedAPIImplementor() {
         IAPExposedAPI api;
-        if (iapSettings.isUseLocalData()) {
-            api = new AppLocalHandler(iapSettings.getContext());
+        if (mIAPSetting.isUseLocalData()) {
+            api = new LocalHandler();
         } else {
-            api = new HybrisHandler(iapSettings.getContext());
+            api = new HybrisHandler(mIAPSetting.getContext());
         }
         return api;
-    }
-
-    private void initHybrisDelegate(IAPSettings iapSettings, IAPDependencies iapDependencies) {
-        int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
-        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(requestCode);
-        HybrisDelegate.getDelegateWithNetworkEssentials(iapSettings.getContext(), essentials, iapDependencies);
-    }
-
-
-    protected int getNetworkEssentialReqeustCode(boolean useLocalData) {
-        int requestCode = NetworkEssentialsFactory.LOAD_HYBRIS_DATA;
-        if (useLocalData) {
-            requestCode = NetworkEssentialsFactory.LOAD_LOCAL_DATA;
-        }
-
-        return requestCode;
-    }
-
-    protected void initControllerFactory(IAPSettings iapSettings) {
-        int requestCode = getNetworkEssentialReqeustCode(iapSettings.isUseLocalData());
-        ControllerFactory.getInstance().init(requestCode);
-    }
-
-    protected void setLangAndCountry(IAPSettings pIAPSetting) {
-        PILLocaleManager localeManager = new PILLocaleManager(pIAPSetting.getContext());
-        String[] localeArray;
-        String localeAsString = localeManager.getInputLocale();
-        localeArray = localeAsString.split("_");
-        Locale locale = new Locale(localeArray[0], localeArray[1]);
-        CartModelContainer.getInstance().setLanguage(locale.getLanguage());
-        CartModelContainer.getInstance().setCountry(locale.getCountry());
-        HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
     }
 
     protected boolean isStoreInitialized(Context pContext) {

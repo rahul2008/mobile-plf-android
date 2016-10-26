@@ -12,14 +12,13 @@ import android.support.v4.app.FragmentManager;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
+import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
-import com.philips.cdp.di.iap.prx.MockPRXDataBuilder;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -45,25 +44,23 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
-public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadListener<ShoppingCartData> {
+public class ShoppingCartPresenterTest implements ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData> {
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     private ShoppingCartPresenter mShoppingCartPresenter;
-    private MockPRXDataBuilder mMockPRXDataBuilder;
+    private MockPRXSummaryExecutor mMockPRXDataBuilder;
     @Mock
     private FragmentManager mFragmentManager;
 
     @Mock
     private Context mContext;
-    @Mock
-    private IAPDependencies mIAPDependencies;
 
     ArrayList<String> mCTNS = new ArrayList<>();
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext, new MockIAPDependencies());
+        mNetworkController = new MockNetworkController(mContext, new MockIAPSetting(mContext));
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
         mCTNS.add("HX9033/64");
@@ -73,7 +70,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     @Test
     public void getCurrentCartDetailsVerifySuccess() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mShoppingCartPresenter);
+        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getCurrentCartDetails();
 
@@ -102,19 +99,19 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     private void makePRXData() throws JSONException {
         PrxRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
 
-        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
         CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
                 .class, "get_prx_success_response_HX9023_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
         CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
                 .class, "get_prx_success_response_HX9003_64.txt"));
         responseData = mProductSummaryBuilder.getResponseData(obj);
         CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);
@@ -286,7 +283,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
     }
 
     @Override
-    public void onLoadListenerError(final Message msg) {
+    public void onLoadError(final Message msg) {
         boolean isHybrisError = msg.obj instanceof IAPNetworkError;
         assert (isHybrisError);
         assertEquals(((IAPNetworkError) msg.obj).getStatusCode(), ((IAPNetworkError) msg.obj).getIAPErrorCode());

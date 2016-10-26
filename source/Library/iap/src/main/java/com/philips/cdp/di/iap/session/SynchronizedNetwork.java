@@ -23,7 +23,7 @@ public class SynchronizedNetwork {
         mBasicNetwork = new BasicNetwork(hurlStack);
     }
 
-    public void performRequest(IAPJsonRequest request, SynchronizedNetworkCallBack callBack) {
+    public void performRequest(IAPJsonRequest request, SynchronizedNetworkListener callBack) {
         try {
             NetworkResponse response = mBasicNetwork.performRequest(request);
             successResponse(request, callBack, response);
@@ -33,7 +33,7 @@ public class SynchronizedNetwork {
         }
     }
 
-    protected void successResponse(IAPJsonRequest request, SynchronizedNetworkCallBack callBack, NetworkResponse response) {
+    protected void successResponse(IAPJsonRequest request, SynchronizedNetworkListener callBack, NetworkResponse response) {
         Response<JSONObject> jsonObjectResponse = request.parseNetworkResponse(response);
         callBack.onSyncRequestSuccess(jsonObjectResponse);
     }

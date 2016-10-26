@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
-import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.prxclient.error.PrxError;
@@ -31,18 +31,18 @@ import static junit.framework.Assert.assertTrue;
  */
 @RunWith(RobolectricTestRunner.class)
 public class ProductAssetBuilderTest implements
-        PRXProductAssetBuilder.AssetListener {
+        PRXAssetExecutor.AssetListener {
 
     @Mock
     Context mContext;
-    MockProductAssetBuilder builder;
+    MockPRXAssetExecutor builder;
     MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext, new MockIAPDependencies());
+        mNetworkController = new MockNetworkController(mContext, new MockIAPSetting(mContext));
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
     }
@@ -50,7 +50,7 @@ public class ProductAssetBuilderTest implements
     @Test
     public void makeAssetRequestSuccess() throws JSONException {
         PrxRequest productAssetRequest = new ProductAssetRequest("125", null);
-        builder = new MockProductAssetBuilder(mContext, "HX9033/64", this);
+        builder = new MockPRXAssetExecutor(mContext, "HX9033/64", this);
         builder.build();
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductAssetBuilderTest
@@ -63,14 +63,14 @@ public class ProductAssetBuilderTest implements
 
     @Test
     public void makeAssetRequestError() throws JSONException {
-        builder = new MockProductAssetBuilder(mContext, "HX9033/64", this);
+        builder = new MockPRXAssetExecutor(mContext, "HX9033/64", this);
         builder.build();
         builder.sendFailure(new PrxError("fail", 500));
     }
 
     @Test
     public void makeAssetRequestNoInternet() throws JSONException {
-        builder = new MockProductAssetBuilder(mContext, "HX9033/64", this);
+        builder = new MockPRXAssetExecutor(mContext, "HX9033/64", this);
         builder.build();
         PrxError fail = new PrxError("fail", PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getId());
         builder.sendFailure(fail);
@@ -78,7 +78,7 @@ public class ProductAssetBuilderTest implements
 
     @Test
     public void makeAssetRequestTimeOut() throws JSONException {
-        builder = new MockProductAssetBuilder(mContext, "HX9033/64", this);
+        builder = new MockPRXAssetExecutor(mContext, "HX9033/64", this);
         builder.build();
         PrxError fail = new PrxError("fail", PrxError.PrxErrorType.TIME_OUT.getId());
         builder.sendFailure(fail);

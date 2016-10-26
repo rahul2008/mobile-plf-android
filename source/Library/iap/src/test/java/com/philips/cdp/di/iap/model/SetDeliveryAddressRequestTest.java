@@ -7,9 +7,9 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
@@ -38,7 +38,7 @@ public class SetDeliveryAddressRequestTest {
 
     @Before
     public void setUP() {
-        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPDependencies());
+        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig("en", "US", null);
         mModel = new SetDeliveryAddressRequest(mStore, null, null);
     }

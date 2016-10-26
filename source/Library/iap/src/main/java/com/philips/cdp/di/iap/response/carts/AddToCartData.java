@@ -5,8 +5,6 @@
 
 package com.philips.cdp.di.iap.response.carts;
 
-import com.philips.cdp.di.iap.response.carts.EntriesEntity;
-
 public class AddToCartData {
 
     private EntriesEntity entry;

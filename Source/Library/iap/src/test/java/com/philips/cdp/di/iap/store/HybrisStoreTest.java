@@ -2,8 +2,8 @@ package com.philips.cdp.di.iap.store;//package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
@@ -31,16 +31,17 @@ public class HybrisStoreTest {
     StoreConfiguration mStoreConfig;
     @Mock
     AppInfra mAppInfra;
-    private StoreSpec mStore;
-    private MockIAPDependencies mockIAPDependencies;
+    private StoreListener mStore;
+    private MockIAPSetting mockIAPSetting;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
-        mockIAPDependencies = new MockIAPDependencies(mAppInfra);
-        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPDependencies);
+        mockIAPSetting = new MockIAPSetting(mContext);
+        mockIAPSetting.setUseLocalData(false);
+        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);
 
         mStore.initStoreConfig("en", "US", null);
     }
@@ -144,13 +145,13 @@ public class HybrisStoreTest {
 
     @Test
     public void verifyUserLogOut() {
-        mStore.setUserLogout(true);
-        assertTrue(mStore.isUserLoggedOut());
+        mStore.setNewUser(true);
+        assertTrue(mStore.isNewUser());
     }
 
     @Test
     public void checkSetNewUserNotSameAsMockedUser() {
-        mStore.setNewUser(mContext);
+        mStore.createNewUser(mContext);
     }
 
     @Test

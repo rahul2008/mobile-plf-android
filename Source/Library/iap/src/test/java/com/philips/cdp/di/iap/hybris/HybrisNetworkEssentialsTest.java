@@ -3,7 +3,8 @@ package com.philips.cdp.di.iap.hybris;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.MockIAPDependencies;
-import com.philips.cdp.di.iap.session.OAuthHandler;
+import com.philips.cdp.di.iap.networkEssential.HybrisNetworkEssentials;
+import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -14,14 +15,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
 public class HybrisNetworkEssentialsTest {
     HybrisNetworkEssentials mHybrisNetworkEssentials;
     MockIAPDependencies mockIAPDependencies;
-    OAuthHandler oAuthHandler;
+    OAuthListener oAuthHandler;
     @Mock
     AppInfra mAppInfra;
     @Mock
@@ -32,7 +30,7 @@ public class HybrisNetworkEssentialsTest {
         MockitoAnnotations.initMocks(this);
         mHybrisNetworkEssentials = new HybrisNetworkEssentials();
         mockIAPDependencies = new MockIAPDependencies(mAppInfra);
-        oAuthHandler = new OAuthHandler() {
+        oAuthHandler = new OAuthListener() {
             @Override
             public String getAccessToken() {
                 return null;
@@ -50,7 +48,7 @@ public class HybrisNetworkEssentialsTest {
         };
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void getHurlStackShouldNotNull() throws Exception {
         mHybrisNetworkEssentials.getHurlStack(mContext, oAuthHandler);
     }

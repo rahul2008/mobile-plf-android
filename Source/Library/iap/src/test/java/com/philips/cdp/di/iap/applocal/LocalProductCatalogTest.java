@@ -7,8 +7,9 @@ package com.philips.cdp.di.iap.applocal;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
-import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
+import com.philips.cdp.di.iap.products.LocalProductCatalog;
+import com.philips.cdp.di.iap.products.ProductCatalogData;
+import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.NetworkUtility;

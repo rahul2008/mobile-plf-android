@@ -11,7 +11,7 @@ import android.text.TextUtils;
 
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
+import com.philips.cdp.di.iap.screens.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -83,9 +83,6 @@ public class NetworkUtility {
             showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
                     getErrorDescriptionMessageFromErrorCode(context, error));
-        } else {
-            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
-                    context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong));
         }
     }
 

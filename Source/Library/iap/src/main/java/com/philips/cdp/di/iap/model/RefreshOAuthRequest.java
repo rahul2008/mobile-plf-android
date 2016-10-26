@@ -5,22 +5,23 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.google.gson.Gson;
+import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class RefreshOAuthRequest extends AbstractModel {
 
-    public RefreshOAuthRequest(final StoreSpec store, final Map<String, String> query) {
+    public RefreshOAuthRequest(final StoreListener store, final Map<String, String> query) {
         super(store, query);
     }
 
     @Override
     public Object parseResponse(final Object response) {
-        return null;
+        return new Gson().fromJson(response.toString(), OAuthResponse.class);
     }
 
     @Override
@@ -30,12 +31,12 @@ public class RefreshOAuthRequest extends AbstractModel {
 
     @Override
     public Map<String, String> requestBody() {
-        HashMap<String, String> body = new HashMap<>();
-        body.put("grant_type", "refresh_token");
-        body.put("refresh_token", params.get(ModelConstants.REFRESH_TOKEN));
-        body.put("client_id", "mobile_android");
-        body.put("client_secret", "secret");
-        return body;
+        HashMap<String, String> bodyParams = new HashMap<>();
+        bodyParams.put("grant_type", "refresh_token");
+        bodyParams.put("refresh_token", params.get(ModelConstants.REFRESH_TOKEN));
+        bodyParams.put("client_id", "mobile_android");
+        bodyParams.put("client_secret", "secret");
+        return bodyParams;
     }
 
     @Override

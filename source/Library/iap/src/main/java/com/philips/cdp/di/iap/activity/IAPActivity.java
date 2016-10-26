@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,20 +21,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
-import com.philips.cdp.di.iap.Fragments.BuyDirectFragment;
-import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
-import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
-import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
+import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.screens.BuyDirectFragment;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
+import com.philips.cdp.di.iap.screens.ProductCatalogFragment;
+import com.philips.cdp.di.iap.screens.ProductDetailFragment;
+import com.philips.cdp.di.iap.screens.PurchaseHistoryFragment;
+import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -80,7 +81,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     private void addLandingViews(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            setLocale();
+            updateConfigurationWithCurrentLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
             Bundle bundle = new Bundle();
@@ -99,25 +100,36 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                             InAppBaseFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
-                    if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-                        bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
-                                getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                    if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+                        bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
+                                getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
                         addFragment(ProductDetailFragment.createInstance(bundle,
                                 InAppBaseFragment.AnimationType.NONE), ProductDetailFragment.TAG);
                     }
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
-                    if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-                        bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
-                                getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                    if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+                        bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
+                                getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
                         addFragment(BuyDirectFragment.createInstance(bundle,
                                 InAppBaseFragment.AnimationType.NONE), BuyDirectFragment.TAG);
                     }
                     break;
             }
-        }else{
+        } else {
             setTitle(mTitle);
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void initTheme() {
@@ -128,7 +140,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         setTheme(themeIndex);
     }
 
-    private void setLocale() {
+    private void updateConfigurationWithCurrentLocale() {
         PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
         String localeAsString = localeManager.getInputLocale();
         if (localeAsString != null) {

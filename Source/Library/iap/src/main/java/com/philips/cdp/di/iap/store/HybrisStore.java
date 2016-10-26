@@ -6,17 +6,14 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.AbstractStoreSpec;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.Locale;
 
-public class HybrisStore extends AbstractStoreSpec {
+public class HybrisStore extends AbstractStore {
 
-    public static final String HTTPS = "https://";
-    public static final String WEB_ROOT = "pilcommercewebservices";
+    public static final String WEBROOT = "pilcommercewebservices";
     public static final String V2 = "v2";
     public static final String SEPERATOR = "/";
     private static final String USER = "users";
@@ -29,7 +26,7 @@ public class HybrisStore extends AbstractStoreSpec {
     //Oauth
     private static final String SUFFIX_OAUTH =
             "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret";
-    private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
+    private static final String SUFFIX_REFRESH_OAUTH = "oauth/token";
 
     //Requests
     private static final String SUFFIX_CARTS = "/carts";
@@ -54,7 +51,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String SUFFIX_PAY = "/pay";
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
-    private boolean mIsUserLoggedOut;
+    private boolean mIsNewUser;
 
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
@@ -94,26 +91,66 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mMakePaymentUrl;
     private String mPlaceOrderUrl;
 
-    public HybrisStore(Context context, IAPDependencies iapDependencies) {
-        mIAPUser = initIAPUser(context);
-        mStoreConfig = getStoreConfig(context, iapDependencies);
+    public HybrisStore(Context context, IAPSettings iapSettings) {
+        mIAPUser = createUser(context);
+        mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
-    IAPUser initIAPUser(Context context) {
-        mIsUserLoggedOut = false;
-        mIAPUser = new IAPUser(context, this);
-        IAPLog.i(IAPLog.LOG, "initIAPUser = " + mIAPUser.getJanRainID());
+    //User
+    @Override
+    public IAPUser getUser() {
         return mIAPUser;
     }
 
     @Override
-    public void setNewUser(Context context) {
-        initIAPUser(context);
+    public void setNewUser(boolean isNewUser) {
+        mIsNewUser = isNewUser;
+    }
+
+    @Override
+    public boolean isNewUser() {
+        return mIsNewUser;
+    }
+
+    IAPUser createUser(Context context) {
+        mIsNewUser = false;
+        mIAPUser = new IAPUser(context, this);
+        return mIAPUser;
+    }
+
+    @Override
+    public void createNewUser(Context context) {
+        createUser(context);
         generateStoreUrls();
     }
 
-    StoreConfiguration getStoreConfig(final Context context, IAPDependencies iapDependencies) {
-        return new StoreConfiguration(context, this, iapDependencies);
+    //Called when janrain token is changed
+    void updateJanRainIDBasedUrls() {
+        createOauthUrl();
+    }
+
+    @Override
+    public String getJanRainEmail() {
+        return mIAPUser.getJanRainEmail();
+    }
+
+    //Locale
+    @Override
+    public String getCountry() {
+        if (mCountry != null) {
+            return mCountry;
+        }
+        return "";
+    }
+
+    @Override
+    public String getLocale() {
+        return mStoreConfig.getLocale();
+    }
+
+    //Store
+    StoreConfiguration getStoreConfig(final Context context, IAPSettings iapSettings) {
+        return new StoreConfiguration(context, this, iapSettings);
     }
 
     @Override
@@ -124,48 +161,44 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     void generateStoreUrls() {
+        setStoreInitialized(true);
+        createOauthUrl();
+        createOAuthRefreshUrl();
         createBaseUrl();
         createBaseUrlForProductCatalog();
-        createOauthUrl();
         generateGenericUrls();
     }
 
-    private void createBaseUrlForProductCatalog() {
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
-        builder.append(V2).append(SEPERATOR);
-        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-
-        mBaseURlForProductCatalog = builder.toString();
-    }
-
-    private void createBaseUrl() {
-        setStoreInitialized(true);
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
-        builder.append(V2).append(SEPERATOR);
-        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-        builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
-
-        mBaseURl = builder.toString();
-    }
-
     private void createOauthUrl() {
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
-        builder.append(SUFFIX_OAUTH);
-
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH);
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
+    private void createOAuthRefreshUrl() {
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_REFRESH_OAUTH);
+        mOauthRefreshUrl = builder.toString();
+    }
+
+    private void createBaseUrl() {
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
+        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
+        builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
+        mBaseURl = builder.toString();
+    }
+
+    private void createBaseUrlForProductCatalog() {
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
+        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
+        mBaseURlForProductCatalog = builder.toString();
+    }
+
     private String createRegionsUrl() {
-        StringBuilder builder = new StringBuilder(HTTPS);
-        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
-        builder.append(WEB_ROOT).append(SEPERATOR);
-        builder.append(V2).append(SEPERATOR);
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
         builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
@@ -173,9 +206,6 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     protected void generateGenericUrls() {
-        //OAuth
-        mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
-                .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
 
         //Carts
         String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);
@@ -217,50 +247,6 @@ public class HybrisStore extends AbstractStoreSpec {
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }
 
-    @Override
-    public String getCountry() {
-        if (mCountry != null) {
-            return mCountry;
-        }
-        return "";
-    }
-
-    @Override
-    public String getLocale() {
-        return mStoreConfig.getLocale();
-    }
-
-    //Package level access
-    //Called when janrain token is changed
-    void updateJanRainIDBasedUrls() {
-        createOauthUrl();
-    }
-
-    @Override
-    public String getJanRainEmail() {
-        return mIAPUser.getJanRainEmail();
-    }
-
-    @Override
-    public IAPUser getUser() {
-        return mIAPUser;
-    }
-
-    @Override
-    public void refreshLoginSession() {
-        mIAPUser.refreshLoginSession();
-    }
-
-    @Override
-    public void setUserLogout(boolean userLoggedout) {
-        this.mIsUserLoggedOut = userLoggedout;
-    }
-
-    @Override
-    public boolean isUserLoggedOut() {
-        return mIsUserLoggedOut;
-    }
-
     //OAuth
     @Override
     public String getOauthUrl() {
@@ -270,6 +256,11 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getOauthRefreshUrl() {
         return mOauthRefreshUrl;
+    }
+
+    @Override
+    public void refreshLoginSession() {
+        mIAPUser.refreshLoginSession();
     }
 
     //Product

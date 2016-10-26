@@ -59,26 +59,9 @@ public class VerticalImplementation extends MockIAPListener {
 
     @Test
     public void setIsLocaleTrue() throws Exception {
-        IAPSettings iapSettings = new IAPSettings(mContext);
-        iapSettings.setUseLocalData(false);
-        boolean isLocalData = iapSettings.isUseLocalData();
-        Assert.assertFalse(isLocalData);
+        mockIAPSetting.setUseLocalData(true);
+        Assert.assertTrue(mockIAPSetting.isUseLocalData());
     }
-
-//    @Test
-//    public void launchIAPCatalogFlow() throws Exception {
-//        mockIAPSetting.setUseLocalData(false);
-//        mockIAPLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null);
-//        mockIAPInterface.launch(new ActivityLauncher
-//                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 0), mockIAPLaunchInput);
-//    }
-//
-//    @Test
-//    public void launchIAPShoppingCartFlow() throws Exception {
-//        mockIAPLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
-//        mockIAPInterface.launch(new ActivityLauncher
-//                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 0), mockIAPLaunchInput);
-//    }
 
     @Test
     public void getProductCartCount() throws Exception {
