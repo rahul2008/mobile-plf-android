@@ -6,7 +6,6 @@
 package com.philips.platform.appframework.splash;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.jsonstates.EventStates;
@@ -43,7 +42,7 @@ public class SplashPresenter extends UIBasePresenter {
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
         final UIState uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SPLASH, EventStates.APP_START);
         // TODO: Deepthi, container id seems to be hardcoded here.
-        final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
+        final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
         if (null != uiState) {
             if (uiState instanceof UserRegistrationState) {
                 uiView.showActionBar();
