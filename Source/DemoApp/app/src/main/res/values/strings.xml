@@ -302,5 +302,7 @@
         <item>JANRAIN</item>
     </string-array>
     <string name="title_activity_config">ConfigActivity</string>
+    <string name="experience">Experience</string>
+    <string name="mbox">mBox</string>
 
 </resources>

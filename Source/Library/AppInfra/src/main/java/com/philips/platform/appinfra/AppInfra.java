@@ -8,6 +8,9 @@ package com.philips.platform.appinfra;
 import android.content.Context;
 import android.util.Log;
 
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
+
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
@@ -43,6 +46,7 @@ public class AppInfra implements AppInfraInterface {
     private TimeInterface mTimeSyncInterface;
     private AppConfigurationInterface configInterface;
     private RestInterface mRestInterface;
+    private ABTestClientInterface mAbtesting;
 
 
     /**
@@ -63,6 +67,7 @@ public class AppInfra implements AppInfraInterface {
         private InternationalizationInterface local;
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
         private TimeInterface mTimeSyncInterfaceBuilder;
+        private ABTestClientInterface aIabtesting;
 
 
         private AppConfigurationInterface configInterface;
@@ -153,13 +158,18 @@ public class AppInfra implements AppInfraInterface {
             return this;
         }
 
+        public Builder setAbTesting(ABTestClientInterface abtesting) {
+            aIabtesting = abtesting;
+            return this;
+        }
+
         /**
          * Sets Builder time sync overriding the default implementation.
          *
          * @param timeSyncSntpClient the time sync sntp client
          * @return the time sync
          */
-        public Builder setTimeSync(TimeSyncSntpClient timeSyncSntpClient) {
+        public Builder setTimeSync(TimeInterface timeSyncSntpClient) {
             mTimeSyncInterfaceBuilder = timeSyncSntpClient;
             return this;
         }
@@ -187,6 +197,7 @@ public class AppInfra implements AppInfraInterface {
             Log.v("APPINFRA INT", "Logging Intitialization Done");
             // ai.setLogging(new AppInfraLogging(ai));
 
+            ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             Log.v("APPINFRA INT", "AppIdentity Intitialization Done");
@@ -254,6 +265,7 @@ public class AppInfra implements AppInfraInterface {
         return logger;
     }
 
+
     @Override
     public ServiceDiscoveryInterface getServiceDiscovery() {
         return mServiceDiscoveryInterface;
@@ -267,6 +279,11 @@ public class AppInfra implements AppInfraInterface {
     @Override
     public RestInterface getRestClient() {
         return mRestInterface;
+    }
+
+    @Override
+    public ABTestClientInterface getAbTesting() {
+        return mAbtesting;
     }
 
     public AppInfra(Context pContext) {
@@ -300,6 +317,10 @@ public class AppInfra implements AppInfraInterface {
     private void setAppIdentity(AppIdentityInterface identity) {
         appIdentity = identity;
 
+    }
+
+    private void setAbTesting(ABTestClientInterface abTesting) {
+        mAbtesting = abTesting;
     }
 
     private void setLocal(InternationalizationInterface locale) {

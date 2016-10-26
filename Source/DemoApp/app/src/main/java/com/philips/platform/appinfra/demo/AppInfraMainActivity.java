@@ -5,8 +5,6 @@
  */
 package com.philips.platform.appinfra.demo;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,21 +18,19 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    public static boolean isInBackground = true;
-    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client"};
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "AppIdentity",
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,9 +194,13 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 9:
 
                 Intent restClientActivity = new Intent(AppInfraMainActivity.this,
-                        RestClientActivity.class);
+                        RestMenuActivity.class);
                 startActivity(restClientActivity);
                 break;
+
+            case 10:
+                Intent abTesting = new Intent(AppInfraMainActivity.this, AbTestingDemo.class);
+                startActivity(abTesting);
         }
     }
 

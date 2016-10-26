@@ -186,7 +186,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         }
     }
 
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
