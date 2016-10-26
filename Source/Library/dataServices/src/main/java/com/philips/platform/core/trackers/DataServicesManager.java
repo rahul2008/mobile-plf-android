@@ -48,8 +48,10 @@ import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
@@ -125,7 +127,6 @@ public class DataServicesManager {
         eventing.post(new MomentSaveRequest(moment));
         return moment;
     }
-
     public Moment update(@NonNull final Moment moment) {
         eventing.post(new MomentUpdateRequest(moment));
         return moment;
@@ -170,10 +171,14 @@ public class DataServicesManager {
         eventing.post((new MomentUpdateRequest(moment)));
     }
 
-    public void syncData(){
-        synchronize();
-      //  sendPushEvent();
+    public void synchchronize(){
         sendPullDataEvent();
+    }
+
+    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
+        Log.i("***SPO***", "In DataServicesManager.Synchronize");
+        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
+        monitor.start(eventing);
     }
 
  /*   private void sendPushEvent() {
@@ -190,12 +195,6 @@ public class DataServicesManager {
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
         eventing.post(new ReadDataFromBackendRequest(null));
-    }
-
-    private void synchronize() {
-        Log.i("***SPO***", "In DataServicesManager.Synchronize");
-        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
-        monitor.start(eventing);
     }
 
     public void initializeDBMonitors(DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {

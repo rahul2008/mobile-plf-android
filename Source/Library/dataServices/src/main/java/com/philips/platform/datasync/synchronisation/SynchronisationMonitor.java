@@ -14,6 +14,7 @@ import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -27,6 +28,7 @@ public class SynchronisationMonitor extends EventMonitor {
     @NonNull
     private final DataPushSynchronise pushSynchronise;
 
+    @Singleton
     @Inject
     public SynchronisationMonitor(@NonNull final DataPullSynchronise pullSynchronise, final @NonNull DataPushSynchronise pushSynchronise) {
         this.pullSynchronise = pullSynchronise;

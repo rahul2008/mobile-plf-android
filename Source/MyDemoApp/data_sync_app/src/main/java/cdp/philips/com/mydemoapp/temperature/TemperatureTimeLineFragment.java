@@ -70,7 +70,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     SwipeRefreshLayout mSwipeRefreshLayout;
     TemperaturePresenter mTemperaturePresenter;
-    private ProgressDialog mProgressDialog = null;
+
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -196,6 +196,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
         mDataServicesManager.initialize(getContext(), creator, new UserRegistrationFacadeImpl(getContext(), new User(getContext())));
+        mDataServicesManager.initializeSyncMonitors(null,null);
 
         alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);

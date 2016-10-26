@@ -13,12 +13,8 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
-
-import cdp.philips.com.mydemoapp.DataSyncApplication;
-import cdp.philips.com.mydemoapp.database.OrmCreator;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -87,6 +83,6 @@ public class TemperaturePresenter {
 
     public void startSync() {
         Log.i("***SPO***", "In Presenter");
-        mDataServices.syncData();
+        mDataServices.synchchronize();
     }
 }
