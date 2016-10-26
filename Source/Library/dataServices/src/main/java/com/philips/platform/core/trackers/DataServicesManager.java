@@ -136,6 +136,10 @@ public class DataServicesManager {
         eventing.post(new LoadMomentsRequest(type[0]));
     }
 
+    public void fetchAllData(){
+        eventing.post(new LoadMomentsRequest());
+    }
+
     @NonNull
     public Moment createMoment(@NonNull final MomentType type) {
         return dataCreator.createMoment(backendIdProvider.getUserId(), backendIdProvider.getSubjectId(), type);
