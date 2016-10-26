@@ -3,7 +3,6 @@ package cdp.philips.com.mydemoapp.temperature;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -88,7 +87,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_data_sync_fragment, container, false);
-        mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(),mData);
+        mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(),mData, mTemperaturePresenter);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -98,97 +97,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton.setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
-    }
-
-    private void addMoment() {
-
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
-        dialog.setTitle("Create A Moment");
-        final EditText temperature = (EditText) dialog.findViewById(R.id.temperature_detail);
-        final EditText location = (EditText) dialog.findViewById(R.id.location_detail);
-        final EditText phase = (EditText) dialog.findViewById(R.id.phase_detail);
-        final Button dialogButton = (Button) dialog.findViewById(R.id.save);
-        dialogButton.setEnabled(false);
-
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                createAndSaveMoment(phase.getText().toString(), temperature.getText().toString(),
-                        location.getText().toString()   );
-                dialog.dismiss();
-            }
-        });
-
-        phase.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        temperature.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        location.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        dialog.show();
-    }
-
-    private void createAndSaveMoment(final String phaseInput, final String temperatureInput, final String locationInput) {
-        mTemperaturePresenter.createMoment(phaseInput, temperatureInput, locationInput);
-        mTemperaturePresenter.saveRequest();
     }
 
     private void init() {
@@ -265,7 +173,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.add:
-                addMoment();
+                mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD,null);
                 break;
         }
     }

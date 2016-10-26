@@ -18,5 +18,6 @@
     <string name="af_digital_care">digitalcare</string>
     <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
     <string name="synced">Not Synced</string>
+    <string name="create_moment">Create moment</string>
 
 </resources>

@@ -1,37 +1,27 @@
 package cdp.philips.com.mydemoapp.temperature;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.UuidGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.database.OrmCreator;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
 /**
@@ -49,10 +39,12 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private static final int UPDATE = 1;
     @Inject
     DataServicesManager mDataServices;
+    private final TemperaturePresenter mTemperaturePresenter;
 
 
     public
-    TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data) {
+    TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data, TemperaturePresenter mTemperaturePresenter) {
+        this.mTemperaturePresenter = mTemperaturePresenter;
         mDataServices = DataServicesManager.getInstance();
         mData = data;
         mContext = context;
@@ -77,17 +69,10 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
-
-            /*if(!moment.isSynced()){
-             mSyncViewHolder.mIsSynced.setVisibility(View.VISIBLE);
-            }else {
-                mSyncViewHolder.mIsSynced.setVisibility(View.GONE);
-            }*/
-
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    bindDeleteOrUpdatePopUP(view, position);
+                    mTemperaturePresenter.bindDeleteOrUpdatePopUP(TemperatureTimeLineFragmentcAdapter.this,mData,view, position);
                 }
             });
         }
@@ -122,156 +107,9 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
         }
     }
 
-    private void removeMoment(int adapterPosition) {
-        try {
-            mDataServices.deleteMoment(mData.get(adapterPosition));
-            mData.remove(adapterPosition);
-            notifyItemRemoved(adapterPosition);
-            notifyDataSetChanged();
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateMoment(final int position) {
-
-        final Moment moment = mData.get(position);
-        TemperatureMomentHelper helper = new TemperatureMomentHelper();
-
-        final Dialog dialog = new Dialog(mContext);
-        dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
-        dialog.setTitle("Create A Moment");
-
-        final EditText temperature = (EditText) dialog.findViewById(R.id.temperature_detail);
-        final EditText location = (EditText) dialog.findViewById(R.id.location_detail);
-        final EditText phase = (EditText) dialog.findViewById(R.id.phase_detail);
-        final Button dialogButton = (Button) dialog.findViewById(R.id.save);
-        dialogButton.setEnabled(false);
-
-        temperature.setText(String.valueOf(helper.getTemperature(moment)));
-        location.setText(helper.getNotes(moment));
-        phase.setText(helper.getTime(moment));
-
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-              //  final String mydate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-                updateAndSaveMoment(phase.getText().toString(), temperature.getText().toString(),
-                        location.getText().toString(), position);
-                dialog.dismiss();
-            }
-        });
-
-        phase.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        temperature.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        location.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        dialog.show();
-    }
-
-    private void updateAndSaveMoment(final String phaseInput, final String temperatureInput, final String locationInput, int position) {
-
-        try {
-            final Moment moment;
-            TemperatureMomentHelper helper = new TemperatureMomentHelper();
-            moment = helper.updateMoment(mData.get(position), phaseInput, temperatureInput, locationInput);
-            mDataServices.update(moment);
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-
-        }
-    }
-
     private void initDrawables() {
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.dots);
     }
 
-    private void bindDeleteOrUpdatePopUP(final View view, final int selectedItem) {
-        List<RowItem> rowItems = new ArrayList<>();
-
-        final String delete = mResources.getString(R.string.delete);
-        String update = mResources.getString(R.string.update);
-        final String[] descriptions = new String[]{delete, update};
-
-        rowItems.add(new RowItem(descriptions[0]));
-        rowItems.add(new RowItem(descriptions[1]));
-        mPopupWindow = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
-
-        mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                switch (position) {
-                    case DELETE:
-                        removeMoment(selectedItem);
-                        mPopupWindow.dismiss();
-                        break;
-                    case UPDATE:
-                        updateMoment(selectedItem);
-                        mPopupWindow.dismiss();
-                        break;
-                    default:
-                }
-            }
-        });
-        mPopupWindow.show();
-    }
 
 }
