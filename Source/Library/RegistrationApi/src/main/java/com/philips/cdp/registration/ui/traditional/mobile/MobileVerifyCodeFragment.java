@@ -233,9 +233,18 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
-        mBtnVerify.setEnabled(true);
         String response = resultData.getString("responseStr");
         RLog.i("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
+        try{
+            String timer = String.valueOf(mEtCodeNUmber.getTimer().charAt(0));
+            if(Integer.parseInt(timer) < 1){
+                countDownTimer.onFinish();
+            }
+        }catch (NumberFormatException ignore){
+
+        }
+        mBtnVerify.setEnabled(true);
+
         if (response == null) {
             mEtCodeNUmber.hideResendSpinner();
             mEtCodeNUmber.showEmailIsInvalidAlert();

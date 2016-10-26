@@ -46,6 +46,8 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     private FrameLayout mFlInvalidFieldAlert;
 
+    private String mTimer;
+
     public XVerifyNumber(Context context) {
         super(context);
         this.mContext = context;
@@ -73,9 +75,14 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_verify_field_err);
     }
 
-    public void setCountertimer(String mTimer) {
-        mBtResend.setText(mTimer);
+    public void setCountertimer(String timer) {
+        mTimer = timer;
+        mBtResend.setText(timer);
         mBtResend.setEnabled(false);
+    }
+
+    public String getTimer(){
+        return mTimer;
     }
 
     public void setCounterFinish() {
@@ -218,18 +225,15 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     public void showResendSpinner(){
         mBtResend.setEnabled(false);
-        mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(VISIBLE);
     }
 
     public void hideResendSpinner(){
-        mEtVerify.setEnabled(true);
         mProgressBar.setVisibility(GONE);
     }
 
     public void disableResendSpinner(){
         mBtResend.setEnabled(false);
-        mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(GONE);
     }
 
