@@ -7,7 +7,6 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +47,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Buttons");
         itemsMap.put(1, "TextBox");
+        itemsMap.put(2, getString(R.string.page_tittle_settings));
         return sortMap(itemsMap);
     }
 
@@ -80,7 +80,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 ((MainActivity) getActivity()).showFragment(new TextEditBoxFragment());
                 break;
             case 2:
-                ((MainActivity) getActivity()).switchFragment(new ToggleSwitchFragment());
+                ((MainActivity) getActivity()).showFragment(new ToggleSwitchFragment());
                 break;
         }
     }
