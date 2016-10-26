@@ -45,7 +45,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onActivityPaused(Activity activity) {
-        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in Background");
+
         Log.i("onPaused", "Paused");
     }
 
@@ -76,6 +76,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onTrimMemory(int i) {
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             Log.i("AppleBackground", "AppisInBackground");
+            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in Background");
             isInBackground = true;
         }
     }

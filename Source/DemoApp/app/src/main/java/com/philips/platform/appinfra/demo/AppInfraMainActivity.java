@@ -33,6 +33,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
+    public static boolean isInBackground = true;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client"};
 
     @Override
@@ -54,49 +55,6 @@ public class AppInfraMainActivity extends AppCompatActivity {
         arryaLsit.add("userreg.janrain.cdn");
         arryaLsit.add("userreg.landing.emailverif");
         arryaLsit.add("userreg.landing.resetpass");
-
-        getApplication().registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-                Log.i("AppCycle", "Resumed");
-                Map<String, Object> map =  new HashMap();
-                map.put("App State", "Foreground");
-              AppInfraApplication.gAppInfra.getTagging().collectLifecycleInfo(activity, map);
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-                Log.i("AppCycle", "Paused");
-                Map<String, Object> map =  new HashMap();
-                map.put("App State", "Foreground");
-                AppInfraApplication.gAppInfra.getTagging().pauseLifecycleInfo();
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
-            }
-        });
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
