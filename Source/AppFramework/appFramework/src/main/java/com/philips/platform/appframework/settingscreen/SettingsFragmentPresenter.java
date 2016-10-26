@@ -10,8 +10,8 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -59,7 +59,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SETTINGS, eventState);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SETTINGS, eventState);
         baseState.setPresenter(this);
         baseState.setUiStateData(uiStateData);
         if (eventState == SETTINGS_LOGIN) {
@@ -104,7 +104,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     @Override
     public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SETTINGS, SETTINGS_REGISTRATION);
+        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_REGISTRATION);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);
         settingsView.finishActivityAffinity();
@@ -117,7 +117,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
             appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
-            baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SETTINGS, SETTINGS_LOGOUT);
+            baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);

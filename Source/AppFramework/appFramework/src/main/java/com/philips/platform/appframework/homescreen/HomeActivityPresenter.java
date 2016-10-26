@@ -7,8 +7,8 @@ package com.philips.platform.appframework.homescreen;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -55,7 +55,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.HOME, eventState);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.HOME, eventState);
         baseState.setPresenter(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
@@ -122,7 +122,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SUPPORT, SUPPORT_PR);
+        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SUPPORT, SUPPORT_PR);
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
         this.baseState.setUiStateData(uiStateDataModel);
