@@ -197,5 +197,7 @@
 
     <string name="Resend_SMS_title">Resend SMS</string>
     <string name="Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
+    <string name="reg_merge_validate_password_mismatch_errortxt">The password is incorrect</string>
+
 
 </resources>
