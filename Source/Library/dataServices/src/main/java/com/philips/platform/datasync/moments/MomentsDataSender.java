@@ -7,6 +7,7 @@
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.core.BaseAppDataCreator;
@@ -32,6 +33,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
+import retrofit.client.Header;
 import retrofit.client.Response;
 
 /**
@@ -60,6 +62,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     protected final Set<Integer> momentIds = new HashSet<>();
 
     DataServicesManager mDataServicesManager;
+    private int eTagIndex=2;
 
     @Inject
     public MomentsDataSender(
@@ -169,9 +172,15 @@ public class MomentsDataSender implements DataSender<Moment> {
             String momentGuid = getMomentGuid(moment.getSynchronisationData());
             Response response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
                     momentsConverter.convertToUCoreMoment(moment));
+            List<Header> responseHeaders = response.getHeaders();
+
+
+            Header eTag=responseHeaders.get(eTagIndex);
             if (isResponseSuccess(response)) {
-                int currentVersion = moment.getSynchronisationData().getVersion();
-                moment.getSynchronisationData().setVersion(currentVersion + 1);
+                //int currentVersion = moment.getSynchronisationData().getVersion();
+                if(!TextUtils.isEmpty(eTag.getValue())) {
+                    moment.getSynchronisationData().setVersion(Integer.parseInt(eTag.getValue()));
+                }
                 postOk(Collections.singletonList(moment));
             }
             return false;

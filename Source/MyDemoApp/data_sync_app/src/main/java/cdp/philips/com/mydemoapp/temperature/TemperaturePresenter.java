@@ -56,7 +56,7 @@ public class TemperaturePresenter {
 
     public void createMeasurement(String value){
         mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, mMoment);
-        mMeasurement.setValue(Integer.parseInt(value));
+        mMeasurement.setValue(Double.valueOf(value));
         mMeasurement.setDateTime(DateTime.now());
     }
 
