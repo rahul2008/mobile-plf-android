@@ -6,7 +6,7 @@
         <item name="imageButtonStyle">@style/UITImageButton</item>
         <item name="editTextStyle">@style/UITTextEditBoxStyle</item>
         <item name="actionBarStyle">@style/UITNavigationBar</item>
-        <item name="android:windowBackground">?attr/uitApplicationBackground</item>
+        <item name="android:windowBackground">?attr/uitContentPrimary</item>
     </style>
 
 </resources>

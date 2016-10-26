@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveThemeValues(final String key, final String name) {
         final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
         edit.putString(key, name);
+        edit.commit();
         edit.apply();
     }
 
