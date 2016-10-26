@@ -12,24 +12,23 @@ import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.platform.appframework.database.DatabaseHelper;
-import com.philips.platform.appframework.injection.AppComponent;
-import com.philips.platform.appframework.injection.ApplicationModule;
-import com.philips.platform.appframework.injection.BackendModule;
-import com.philips.platform.appframework.injection.CoreModule;
-import com.philips.platform.appframework.injection.DaggerAppComponent;
-import com.philips.platform.appframework.injection.DatabaseModule;
-import com.philips.platform.appframework.injection.MonitorModule;
-import com.philips.platform.appframework.injection.RegistrationModule;
-import com.philips.platform.appframework.utility.EventingImpl;
+
+import com.philips.platform.datasevices.injection.AppComponent;
+import com.philips.platform.datasevices.injection.ApplicationModule;
+import com.philips.platform.datasevices.injection.BackendModule;
+import com.philips.platform.datasevices.injection.CoreModule;
+import com.philips.platform.datasevices.injection.DaggerAppComponent;
+import com.philips.platform.datasevices.injection.DatabaseModule;
+import com.philips.platform.datasevices.injection.MonitorModule;
+import com.philips.platform.datasevices.injection.RegistrationModule;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasevices.database.DatabaseHelper;
+import com.philips.platform.datasevices.utility.EventingImpl;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
@@ -42,8 +41,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 /**
  * Application class is used for initialization

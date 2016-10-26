@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.temperature.TemperatureTimeLineFragment;
+import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
