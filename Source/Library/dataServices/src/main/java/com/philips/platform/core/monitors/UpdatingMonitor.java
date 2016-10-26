@@ -50,7 +50,7 @@ public class UpdatingMonitor extends EventMonitor{
         }
             dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
             dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
-            //eventing.post(new MomentChangeEvent(requestId, moment));
+            eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
     public void onEventBackgroundThread(final BackendResponse error) {

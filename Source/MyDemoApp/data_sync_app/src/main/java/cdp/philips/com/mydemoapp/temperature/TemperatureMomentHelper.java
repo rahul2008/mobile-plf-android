@@ -53,10 +53,11 @@ public class TemperatureMomentHelper {
         }
     }
 
-    Moment updateMoment(Moment moment,String time, String temperature, String notes){
+    Moment updateMoment(Moment moment,String phase, String temperature, String notes){
         ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
-        MomentDetail momentDetail = momentDetails.get(0);
-        momentDetail.setValue(time);
+        int momentDetailsSize=momentDetails.size();
+        MomentDetail momentDetail = momentDetails.get(momentDetailsSize-1);
+        momentDetail.setValue(phase);
 
         ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
         Measurement measurement = measurements.get(0);
