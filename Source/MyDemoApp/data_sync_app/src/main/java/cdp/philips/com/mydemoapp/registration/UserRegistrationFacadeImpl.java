@@ -53,7 +53,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     @NonNull
     private SharedPreferences sharedPreferences;
     //private DateTime accessTokenRefreshTime;
-    private boolean accessTokenRefreshInProgress = false;
+    private boolean accessTokenRefreshInProgress;
     private String accessToken = "";
     private Runnable refreshLoginSessionRunnable = new Runnable() {
         @Override
@@ -151,6 +151,9 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     // TODO: We may have to ask the common component to take care of this
     private synchronized void refreshAccessTokenUsingWorkAround() {
+        if(accessTokenRefreshInProgress){
+            return;
+        }
         Log.d("***SPO***","refreshAccessTokenUsingWorkAround()");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
