@@ -11,8 +11,6 @@ import com.philips.platform.core.datatypes.UserProfile;
  */
 public interface UserRegistrationFacade {
 
-    void init();
-
     boolean isUserLoggedIn();
 
     @NonNull
@@ -23,11 +21,7 @@ public interface UserRegistrationFacade {
 
     void setUserSkippedOrAddedPhoto();
 
-    void clearUserData();
-
     boolean isSameUser();
 
     UserCredentials getUserCredentials();
-
-    void setHsdpUrl();
 }

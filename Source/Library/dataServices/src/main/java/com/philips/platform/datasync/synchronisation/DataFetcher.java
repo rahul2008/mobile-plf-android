@@ -27,16 +27,11 @@ public abstract class DataFetcher {
     protected final UCoreAdapter uCoreAdapter;
 
     @NonNull
-    protected final UCoreAccessProvider accessProvider;
-
-    @NonNull
     protected final Eventing eventing;
 
     public DataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
-                       @NonNull final UCoreAccessProvider accessProvider,
                        @NonNull final Eventing eventing) {
         this.uCoreAdapter = uCoreAdapter;
-        this.accessProvider = accessProvider;
         this.eventing = eventing;
     }
 
@@ -48,9 +43,9 @@ public abstract class DataFetcher {
         return fetchDataSince(null);
     }
 
-    protected boolean isUserInvalid() {
+    /*protected boolean isUserInvalid() {
         final String accessToken = accessProvider.getAccessToken();
         return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
-    }
+    }*/
 }
 

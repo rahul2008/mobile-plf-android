@@ -4,7 +4,7 @@
  * the written consent of the copyright holder.
  */
 
-package cdp.philips.com.mydemoapp.utility;
+package com.philips.platform.core.utils;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -13,6 +13,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.Event;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.greenrobot.event.EventBus;
 
@@ -29,6 +30,7 @@ public class EventingImpl implements Eventing {
     private Handler handler;
 
     @Inject
+    @Singleton
     public EventingImpl(@NonNull final EventBus eventBus, @NonNull final Handler handler) {
         this.eventBus = eventBus;
         this.handler = handler;

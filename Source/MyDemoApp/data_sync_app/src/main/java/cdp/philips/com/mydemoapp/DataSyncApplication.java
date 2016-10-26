@@ -2,9 +2,10 @@ package cdp.philips.com.mydemoapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.os.Handler;
+
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -17,8 +18,8 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
 import java.util.ArrayList;
@@ -27,16 +28,8 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
-import cdp.philips.com.mydemoapp.injection.AppComponent;
-import cdp.philips.com.mydemoapp.injection.ApplicationModule;
-import cdp.philips.com.mydemoapp.injection.BackendModule;
-import cdp.philips.com.mydemoapp.injection.CoreModule;
-import cdp.philips.com.mydemoapp.injection.DaggerAppComponent;
-import cdp.philips.com.mydemoapp.injection.DatabaseModule;
-import cdp.philips.com.mydemoapp.injection.MonitorModule;
-import cdp.philips.com.mydemoapp.injection.RegistrationModule;
-import cdp.philips.com.mydemoapp.utility.EventingImpl;
-import de.greenrobot.event.EventBus;
+import cdp.philips.com.mydemoapp.database.OrmCreator;
+import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -46,19 +39,6 @@ import de.greenrobot.event.EventBus;
 
 public class DataSyncApplication extends Application{
 
-    @Inject
-    Backend backend;
-
-    @Inject
-    BaseAppCore core;
-
-    @Inject
-    Eventing eventing;
-
-    AppComponent appComponent;
-
-    @Inject
-    UserRegistrationFacade userRegistrationFacade;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
 
@@ -77,10 +57,6 @@ public class DataSyncApplication extends Application{
        // Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
-
-        prepareInjectionsGraph();
-        appComponent.injectApplication(this);
-        core.start();
     }
 
     /**For doing dynamic initialisation Of User registration
@@ -328,23 +304,5 @@ public class DataSyncApplication extends Application{
                 "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
                 //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
                 configError);
-    }
-
-    protected void prepareInjectionsGraph() {
-        final DatabaseModule databaseModule = new DatabaseModule();
-        final MonitorModule monitorModule = new MonitorModule(this);
-        final RegistrationModule registrationModule = new RegistrationModule();
-        BackendModule backendModule = new BackendModule();
-        final CoreModule coreModule = new CoreModule(new EventingImpl(new EventBus(), new Handler()));
-        final ApplicationModule applicationModule = new ApplicationModule(this);
-
-        // initiating all application module events
-
-
-        appComponent = DaggerAppComponent.builder().databaseModule(databaseModule).backendModule(backendModule).registrationModule(registrationModule).coreModule(coreModule).monitorModule(monitorModule).applicationModule(applicationModule).build();
-    }
-
-    public AppComponent getAppComponent() {
-        return appComponent;
     }
 }

@@ -16,6 +16,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -58,18 +59,20 @@ public class MomentsDataSender implements DataSender<Moment> {
 
     protected final Set<Integer> momentIds = new HashSet<>();
 
+    DataServicesManager mDataServicesManager;
+
     @Inject
     public MomentsDataSender(
-            @NonNull final UCoreAccessProvider accessProvider,
             @NonNull final UCoreAdapter uCoreAdapter,
             @NonNull final MomentsConverter momentsConverter,
-            @NonNull final BaseAppDataCreator baseAppDataCreater,
             @NonNull final MomentGsonConverter momentGsonConverter,
             @NonNull final Eventing eventing) {
-        this.accessProvider = accessProvider;
+        mDataServicesManager = DataServicesManager.getInstance();
+        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
         this.uCoreAdapter = uCoreAdapter;
         this.momentsConverter = momentsConverter;
-        this.baseAppDataCreater = baseAppDataCreater;
+        DataServicesManager manager = DataServicesManager.getInstance();
+        this.baseAppDataCreater = manager.getDataCreater();
         this.momentGsonConverter = momentGsonConverter;
         this.eventing = eventing;
     }

@@ -23,17 +23,36 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
+import com.philips.cdp.registration.User;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.UuidGenerator;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.database.DatabaseHelper;
+import cdp.philips.com.mydemoapp.database.ORMDeletingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.ORMUpdatingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.OrmCreator;
+import cdp.philips.com.mydemoapp.database.OrmDeleting;
+import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.OrmSaving;
+import cdp.philips.com.mydemoapp.database.OrmUpdating;
+import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
-import retrofit.RetrofitError;
+import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -47,7 +66,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ArrayList<? extends Moment> mData = new ArrayList();
     private TemperatureTimeLineFragmentcAdapter mAdapter ;
     AlarmManager alarmManager;
-
+    DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
     SwipeRefreshLayout mSwipeRefreshLayout;
     TemperaturePresenter mTemperaturePresenter;
@@ -63,6 +82,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStop() {
         super.onStop();
         cancelPendingIntent();
+        mDataServicesManager.stopCore();
     }
 
     @Override
@@ -172,13 +192,44 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void init() {
+        OrmCreator creator = new OrmCreator(new UuidGenerator());
+        mDataServicesManager = DataServicesManager.getInstance();
+        injectDBInterfacesToCore();
+        mDataServicesManager.initialize(getContext(), creator, new UserRegistrationFacadeImpl(getContext(), new User(getContext())));
+
         alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
-        ((DataSyncApplication) getActivity().getApplication()).getAppComponent().injectFragment(this);
-        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT,this);
+        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
-         mTemperaturePresenter.fetchData();
+        mTemperaturePresenter.fetchData();
         setUpBackendSynchronizationLoop();
-        //mTemperaturePresenter.startSync();
+    }
+
+    void injectDBInterfacesToCore() {
+        final DatabaseHelper databaseHelper = new DatabaseHelper(getContext(), new UuidGenerator());
+        try {
+            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
+            Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
+            Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
+            Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
+            Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
+
+
+            OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
+                    synchronisationDataDao);
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao);
+            OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
+                    measurementDetailDao, synchronisationDataDao);
+            BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
+            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving,updating,fetching,deleting,uGrowDateTime);
+            ORMDeletingInterfaceImpl ORMDeletingInterfaceImpl = new ORMDeletingInterfaceImpl(deleting,saving);
+            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving,updating,fetching,deleting);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao);
+
+            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl,dbInterfaceOrmFetchingInterface,ORMSavingInterfaceImpl,dbInterfaceOrmUpdatingInterface);
+        } catch (SQLException exception) {
+            throw new IllegalStateException("Can not instantiate database");
+        }
     }
 
     private void setUpBackendSynchronizationLoop() {

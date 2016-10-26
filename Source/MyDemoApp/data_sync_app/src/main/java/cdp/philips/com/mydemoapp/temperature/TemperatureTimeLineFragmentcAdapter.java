@@ -22,6 +22,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.UuidGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import javax.inject.Inject;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.database.OrmCreator;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
 /**
@@ -46,12 +48,12 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
     @Inject
-    DataServicesManager tracker;
+    DataServicesManager mDataServices;
 
 
     public
     TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data) {
-        ((DataSyncApplication) context.getApplicationContext()).getAppComponent().injectTemperatureAdapter(this);
+        mDataServices = DataServicesManager.getInstance();
         mData = data;
         mContext = context;
         mResources = context.getResources();
@@ -122,7 +124,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
     private void removeMoment(int adapterPosition) {
         try {
-            tracker.deleteMoment(mData.get(adapterPosition));
+            mDataServices.deleteMoment(mData.get(adapterPosition));
             mData.remove(adapterPosition);
             notifyItemRemoved(adapterPosition);
             notifyDataSetChanged();
@@ -232,7 +234,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             final Moment moment;
             TemperatureMomentHelper helper = new TemperatureMomentHelper();
             moment = helper.updateMoment(mData.get(position), phaseInput, temperatureInput, locationInput);
-            tracker.update(moment);
+            mDataServices.update(moment);
         } catch (Exception ArrayIndexOutOfBoundsException) {
 
         }

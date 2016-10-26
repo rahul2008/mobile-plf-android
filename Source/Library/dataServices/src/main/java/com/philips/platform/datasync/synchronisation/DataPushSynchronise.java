@@ -14,12 +14,14 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import retrofit.RetrofitError;
@@ -43,11 +45,13 @@ public class DataPushSynchronise extends EventMonitor {
     @NonNull
     private final Eventing eventing;
 
-    public DataPushSynchronise(@NonNull final UCoreAccessProvider accessProvider,
-                               @NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataSender> senders,
+    DataServicesManager mDataServicesManager;
+
+    public DataPushSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataSender> senders,
                                @NonNull final Executor executor,
                                @NonNull final Eventing eventing) {
-        this.accessProvider = accessProvider;
+        mDataServicesManager = DataServicesManager.getInstance();
+        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
         this.senders = senders;
         this.executor = executor;
         this.eventing = eventing;

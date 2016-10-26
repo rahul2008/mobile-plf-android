@@ -17,6 +17,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.conversion.MeasurementDetailValueMap;
 import com.philips.platform.datasync.conversion.MomentTypeMap;
 
@@ -46,11 +47,11 @@ public class MomentsConverter {
 
     @Inject
     public MomentsConverter(@NonNull final MomentTypeMap momentTypeMap,
-                            @NonNull final MeasurementDetailValueMap measurementDetailValueMap,
-                            @NonNull final BaseAppDataCreator uGrowDataCreator) {
+                            @NonNull final MeasurementDetailValueMap measurementDetailValueMap) {
         this.momentTypeMap = momentTypeMap;
         this.measurementDetailValueMap = measurementDetailValueMap;
-        this.baseAppDataCreater = uGrowDataCreator;
+        DataServicesManager manager = DataServicesManager.getInstance();
+        this.baseAppDataCreater = manager.getDataCreater();
     }
 
     @NonNull
