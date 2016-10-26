@@ -32,7 +32,6 @@ buildscript {
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
-apply plugin: 'com.neenbedankt.android-apt'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
@@ -250,13 +249,6 @@ dependencies {
 
     // Module projects
 //    compile project(':dataServices')
-    // DAGGER
-    compile "com.google.dagger:dagger:2.0.2"
-    apt "com.google.dagger:dagger-compiler:2.0.2"
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    provided 'javax.annotation:jsr250-api:1.0'
-    compile 'javax.inject:javax.inject:1'
-    testApt "com.google.dagger:dagger-compiler:2.0.2"
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
 

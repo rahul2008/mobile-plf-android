@@ -3,6 +3,7 @@ package com.philips.platform.datasevices.temperature;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -17,15 +18,34 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
+import com.j256.ormlite.dao.Dao;
+import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasevices.database.DatabaseHelper;
+import com.philips.platform.datasevices.database.ORMDeletingInterfaceImpl;
+import com.philips.platform.datasevices.database.ORMSavingInterfaceImpl;
+import com.philips.platform.datasevices.database.ORMUpdatingInterfaceImpl;
+import com.philips.platform.datasevices.database.OrmCreator;
+import com.philips.platform.datasevices.database.OrmDeleting;
+import com.philips.platform.datasevices.database.OrmFetchingInterfaceImpl;
+import com.philips.platform.datasevices.database.OrmSaving;
+import com.philips.platform.datasevices.database.OrmUpdating;
+import com.philips.platform.datasevices.database.table.BaseAppDateTime;
+import com.philips.platform.datasevices.database.table.OrmMeasurement;
+import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
+import com.philips.platform.datasevices.database.table.OrmMoment;
+import com.philips.platform.datasevices.database.table.OrmMomentDetail;
+import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
 import com.philips.platform.datasevices.listener.DBChangeListener;
 import com.philips.platform.datasevices.listener.EventHelper;
 import com.philips.platform.datasevices.reciever.BaseAppBroadcastReceiver;
-import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
@@ -42,7 +62,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     ArrayList<? extends Moment> mData = new ArrayList();
     private TemperatureTimeLineFragmentcAdapter mAdapter ;
     AlarmManager alarmManager;
-
+    DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
     SwipeRefreshLayout mSwipeRefreshLayout;
     TemperaturePresenter mTemperaturePresenter;
@@ -68,7 +88,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onStop() {
         super.onStop();
         cancelPendingIntent();
-
+        mDataServicesManager.stopCore();
     }
 
     @Override
@@ -91,13 +111,44 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
 
     private void init() {
+        OrmCreator creator = new OrmCreator(new UuidGenerator());
+        mDataServicesManager = DataServicesManager.getInstance();
+        injectDBInterfacesToCore();
+        mDataServicesManager.initialize(getContext(), creator, new UserRegistrationFacadeImpl(getContext(), new User(getContext())));
+
         alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
-        ((AppFrameworkApplication) getActivity().getApplication()).getAppComponent().injectFragment(this);
-        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT,this);
-        mTemperaturePresenter = new TemperaturePresenter(this,getContext(), MomentType.TEMPERATURE);
+        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
+        mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
         mTemperaturePresenter.fetchData();
         setUpBackendSynchronizationLoop();
+    }
 
+    void injectDBInterfacesToCore() {
+        final DatabaseHelper databaseHelper = new DatabaseHelper(getContext(), new UuidGenerator());
+        try {
+            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
+            Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
+            Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
+            Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
+            Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
+
+
+            OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
+                    synchronisationDataDao);
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao);
+            OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
+                    measurementDetailDao, synchronisationDataDao);
+            BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
+            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving,updating,fetching,deleting,uGrowDateTime);
+            ORMDeletingInterfaceImpl ORMDeletingInterfaceImpl = new ORMDeletingInterfaceImpl(deleting,saving);
+            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving,updating,fetching,deleting);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao);
+
+            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl,dbInterfaceOrmFetchingInterface,ORMSavingInterfaceImpl,dbInterfaceOrmUpdatingInterface);
+        } catch (SQLException exception) {
+            throw new IllegalStateException("Can not instantiate database");
+        }
     }
 
     private void setUpBackendSynchronizationLoop() {

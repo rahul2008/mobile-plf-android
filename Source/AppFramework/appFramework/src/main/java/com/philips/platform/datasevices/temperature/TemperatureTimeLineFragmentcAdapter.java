@@ -36,15 +36,15 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private Drawable mOptionsDrawable;
     private Resources mResources;
     final TemperaturePresenter mTemperaturePresenter;
-    @Inject
-    Tracker tracker;
+
+     DataServicesManager mDataServices;
 
 
     public
     TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data, TemperaturePresenter mTemperaturePresenter) {
 
         this.mTemperaturePresenter = mTemperaturePresenter;
-        ((AppFrameworkApplication) context.getApplicationContext()).getAppComponent().injectTemperatureAdapter(this);
+        mDataServices = DataServicesManager.getInstance();
         mData = data;
         mContext = context;
         mResources = context.getResources();

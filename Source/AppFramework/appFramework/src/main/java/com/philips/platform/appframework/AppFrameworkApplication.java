@@ -12,15 +12,6 @@ import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
-
-import com.philips.platform.datasevices.injection.AppComponent;
-import com.philips.platform.datasevices.injection.ApplicationModule;
-import com.philips.platform.datasevices.injection.BackendModule;
-import com.philips.platform.datasevices.injection.CoreModule;
-import com.philips.platform.datasevices.injection.DaggerAppComponent;
-import com.philips.platform.datasevices.injection.DatabaseModule;
-import com.philips.platform.datasevices.injection.MonitorModule;
-import com.philips.platform.datasevices.injection.RegistrationModule;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -57,22 +48,6 @@ public class AppFrameworkApplication extends Application {
      * @return instance of this class
      */
 
-
-     @Inject
-     Backend backend;
-
-    @Inject
-    BaseAppCore core;
-
-    @Inject
-    Eventing eventing;
-
-    AppComponent appComponent;
-
-    @Inject
-    UserRegistrationFacade userRegistrationFacade;
-
-
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
@@ -85,10 +60,6 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-
-        prepareInjectionsGraph();
-        appComponent.injectApplication(this);
-        core.start();
 
         userRegistrationState= new UserRegistrationState();
         userRegistrationState.init(this);
@@ -104,29 +75,6 @@ public class AppFrameworkApplication extends Application {
 
 
 
-    }
-
-    public AppComponent getAppComponent() {
-        return appComponent;
-    }
-
-    public void setAppComponent(AppComponent appComponent) {
-        this.appComponent = appComponent;
-    }
-
-    protected void prepareInjectionsGraph() {
-        final DatabaseModule databaseModule = new DatabaseModule();
-        final MonitorModule monitorModule = new MonitorModule(this);
-        final RegistrationModule registrationModule = new RegistrationModule();
-        BackendModule backendModule = new BackendModule();
-        final CoreModule coreModule = new CoreModule(new EventingImpl(new EventBus(), new Handler()));
-        final ApplicationModule applicationModule = new ApplicationModule(this);
-
-        // initiating all application module events
-        appComponent = DaggerAppComponent.builder().databaseModule(databaseModule).registrationModule(registrationModule).
-                backendModule(backendModule).coreModule(coreModule).monitorModule(monitorModule).
-                applicationModule(applicationModule).build();
-        setAppComponent(appComponent);
     }
 
     public IAPState getIap(){

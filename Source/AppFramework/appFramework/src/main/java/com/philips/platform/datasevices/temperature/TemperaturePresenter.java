@@ -39,8 +39,7 @@ import javax.inject.Inject;
  * All rights reserved.
  */
 public class TemperaturePresenter  extends UIBasePresenter {
-    @Inject
-    Tracker tracker;
+   DataServicesManager mDataServices;
 
     Moment mMoment;
     Measurement mMeasurement;
@@ -53,20 +52,20 @@ public class TemperaturePresenter  extends UIBasePresenter {
 
     TemperaturePresenter(UIView uiView, Context context, MomentType momentType){
         super(uiView);
-        ((AppFrameworkApplication) context.getApplicationContext()).getAppComponent().injectTemperature(this);
+        mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
     }
 
     public void createMoment(String momemtDetail, String measurement, String measurementDetail){
-        mMoment= tracker.createMoment(mMomentType);
+        mMoment= mDataServices.createMoment(mMomentType);
         createMomentDetail(momemtDetail);
         createMeasurement(measurement);
         createMeasurementDetail(measurementDetail);
     }
 
     public void updateMoment(String momemtDetail, String measurement, String measurementDetail){
-        mMoment= tracker.createMoment(mMomentType);
+        mMoment= mDataServices.createMoment(mMomentType);
         mMoment.setDateTime(DateTime.now());
         createMomentDetail(momemtDetail);
         createMeasurement(measurement);
@@ -74,23 +73,23 @@ public class TemperaturePresenter  extends UIBasePresenter {
     }
 
     public void createMeasurementDetail(String value){
-        MeasurementDetail measurementDetail = tracker.createMeasurementDetail(MeasurementDetailType.LOCATION,mMeasurement);
+        MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION,mMeasurement);
         measurementDetail.setValue(value);
     }
 
     public void createMeasurement(String value){
-        mMeasurement = tracker.createMeasurement(MeasurementType.TEMPERATURE, mMoment);
+        mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, mMoment);
         mMeasurement.setValue(Double.valueOf(value));
         mMeasurement.setDateTime(DateTime.now());
     }
 
     public void createMomentDetail(String value){
-        MomentDetail momentDetail = tracker.createMomentDetail(MomentDetailType.PHASE, mMoment);
+        MomentDetail momentDetail = mDataServices.createMomentDetail(MomentDetailType.PHASE, mMoment);
         momentDetail.setValue(value);
     }
 
     public void fetchData(){
-        tracker.fetch(MomentType.TEMPERATURE);
+        mDataServices.fetch(MomentType.TEMPERATURE);
     }
 
     public Moment getMoment(){
@@ -101,13 +100,13 @@ public class TemperaturePresenter  extends UIBasePresenter {
         if(mMoment.getCreatorId()==null || mMoment.getSubjectId()==null){
             Toast.makeText(mContext,"Please Login again", Toast.LENGTH_SHORT).show();
         }else {
-            tracker.save(mMoment);
+            mDataServices.save(mMoment);
         }
     }
 
     public void startSync() {
         Log.i("***SPO***", "In Presenter");
-        tracker.syncData();
+        mDataServices.syncData();
     }
 
 
