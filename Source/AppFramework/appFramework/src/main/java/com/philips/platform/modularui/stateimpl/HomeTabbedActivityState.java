@@ -12,12 +12,11 @@ import com.philips.platform.appframework.homescreen.tabbedscreen.TabDependencies
 import com.philips.platform.appframework.homescreen.tabbedscreen.TabInterface;
 import com.philips.platform.appframework.homescreen.tabbedscreen.TabLaunchInput;
 import com.philips.platform.appframework.homescreen.tabbedscreen.TabSettings;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class HomeTabbedActivityState extends UIState {
+public class HomeTabbedActivityState extends BaseState {
 
     private FragmentLauncher fragmentLauncher;
 
@@ -25,7 +24,7 @@ public class HomeTabbedActivityState extends UIState {
      * constructor
      */
     public HomeTabbedActivityState() {
-        super(UIState.UI_HOME_TABBED_STATE);
+        super(BaseState.UI_HOME_TABBED_STATE);
     }
 
     /**
@@ -43,11 +42,6 @@ public class HomeTabbedActivityState extends UIState {
     @Override
     public void init(Context context) {
 
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.HOME;
     }
 
     private void launchTabScreen() {

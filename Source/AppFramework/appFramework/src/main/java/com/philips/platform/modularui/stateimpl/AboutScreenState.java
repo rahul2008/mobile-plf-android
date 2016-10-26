@@ -9,20 +9,19 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
-public class AboutScreenState  extends UIState {
+public class AboutScreenState extends BaseState {
 
     FragmentLauncher fragmentLauncher;
 
     public AboutScreenState() {
-        super(UIState.UI_ABOUT_SCREEN_STATE);
+        super(BaseState.UI_ABOUT_SCREEN_STATE);
     }
 
     /**
@@ -39,11 +38,6 @@ public class AboutScreenState  extends UIState {
     @Override
     public void init(Context context) {
 
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.ABOUT;
     }
 }
 

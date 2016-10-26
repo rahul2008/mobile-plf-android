@@ -19,8 +19,7 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -32,18 +31,18 @@ import java.util.List;
 /**
  * This class contains all initialization & Launching details of Product Registration
  */
-public class ProductRegistrationState extends UIState implements ProdRegUiListener {
+public class ProductRegistrationState extends BaseState implements ProdRegUiListener {
 
     private Context activityContext;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
 
     public ProductRegistrationState(){
-        super(UIState.UI_PROD_REGISTRATION_STATE);
+        super(BaseState.UI_PROD_REGISTRATION_STATE);
     }
 
     /**
-     * UIState overridden methods
+     * BaseState overridden methods
      * @param uiLauncher requires the UiLauncher object
      */
     @Override
@@ -60,11 +59,6 @@ public class ProductRegistrationState extends UIState implements ProdRegUiListen
 
         UappSettings uappSettings = new UappSettings(applicationContext);
         new PRInterface().init(prodRegDependencies, uappSettings);
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.PR;
     }
 
     /**

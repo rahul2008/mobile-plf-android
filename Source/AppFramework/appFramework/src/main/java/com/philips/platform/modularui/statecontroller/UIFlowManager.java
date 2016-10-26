@@ -11,13 +11,13 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * Flow manager class is used for navigating from one state to other state
  */
 public class UIFlowManager {
-    UIState currentState;
+    BaseState currentState;
 
     /** getter for current state
      *
      * @return
      */
-    public UIState getCurrentState() {
+    public BaseState getCurrentState() {
         return currentState;
     }
 
@@ -26,17 +26,17 @@ public class UIFlowManager {
      * @param currentState
      */
 
-    public void setCurrentState(UIState currentState) {
+    public void setCurrentState(BaseState currentState) {
         this.currentState = currentState;
     }
 
     /**
      * For naviating to next state
-     * @param uiState requires Uistate object
+     * @param baseState requires Uistate object
      * @param uiLauncher requires UiLauncher object
      */
-    public void navigateToState(UIState uiState, UiLauncher uiLauncher) {
-        uiState.navigate(uiLauncher);
-        setCurrentState(uiState);
+    public void navigateToState(BaseState baseState, UiLauncher uiLauncher) {
+        baseState.navigate(uiLauncher);
+        setCurrentState(baseState);
     }
 }

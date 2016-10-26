@@ -16,8 +16,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 /**
  * This class contains all initialization & Launching details of IAP
  */
-public class IAPState extends UIState{
+public class IAPState extends BaseState {
 
     /**
      IAP flow constants, values for IAP views should start from 4000 series
@@ -41,7 +40,7 @@ public class IAPState extends UIState{
     private FragmentLauncher fragmentLauncher;
 
     public IAPState() {
-        super(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+        super(BaseState.UI_IAP_SHOPPING_FRAGMENT_STATE);
     }
 
     public IAPInterface getIapInterface() {
@@ -87,11 +86,6 @@ public class IAPState extends UIState{
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
         iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.IAP;
     }
 
     /**

@@ -7,12 +7,11 @@ package com.philips.platform.appframework.homescreen;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.flowmanager.jsonstates.EventStates;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.IAPState;
@@ -31,15 +30,21 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
 
     public static final int MENU_OPTION_HOME = 0;
     private final int PRODUCT_REGISTRATION = 6;
+    private final String HOME_FRAGMENT = "home_fragment";
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
-    private UIState uiState;
+    private BaseState baseState;
+    private String HOME_SETTINGS = "settings";
+    private String HOME_IAP = "iap";
+    private String HOME_SUPPORT = "support";
+    private String HOME_ABOUT = "about";
+    private String SUPPORT_PR = "pr";
 
     public HomeActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(UIState.UI_HOME_STATE);
+        setState(BaseState.UI_HOME_STATE);
     }
 
     /**
@@ -49,15 +54,15 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     @Override
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        EventStates eventStates = getEventState(componentID);
-        uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.HOME, eventStates);
-        uiState.setPresenter(this);
-        uiState.setUiStateData(setStateData(componentID));
+        String eventState = getEventState(componentID);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.HOME, eventState);
+        baseState.setPresenter(this);
+        baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
-        if (uiState instanceof SupportFragmentState) {
-            ((SupportFragmentState) uiState).registerUIStateListener(this);
+        if (baseState instanceof SupportFragmentState) {
+            ((SupportFragmentState) baseState).registerUIStateListener(this);
         }
-        uiState.navigate(fragmentLauncher);
+        baseState.navigate(fragmentLauncher);
     }
 
     // TODO: Deepthi, when we already know that we need to set certain data for each menu click and that too for which component, why do we ask flow manager to give only state?
@@ -115,39 +120,39 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     // TODO: Deepthi, This seems to be hardcoded without even checking the uistate, we are taking decision here.
     // cant we move this to json ?
     @Override
-    public void onStateComplete(UIState uiState) {
+    public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SUPPORT, EventStates.SUPPORT_PR);
+        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SUPPORT, SUPPORT_PR);
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
-        this.uiState.setUiStateData(uiStateDataModel);
-        this.uiState.setPresenter(this);
-        this.uiState.navigate(fragmentLauncher);
+        this.baseState.setUiStateData(uiStateDataModel);
+        this.baseState.setPresenter(this);
+        this.baseState.navigate(fragmentLauncher);
     }
 
     // TODO: Deepthi, is this expected? deviation from ios i think.
-    public EventStates getEventState(int componentID) {
+    public String getEventState(int componentID) {
         final int MENU_OPTION_SETTINGS = 1;
         final int MENU_OPTION_SHOP = 2;
         final int MENU_OPTION_SUPPORT = 3;
         final int MENU_OPTION_ABOUT = 4;
         switch (componentID) {
             case MENU_OPTION_HOME:
-                return EventStates.HOME_FRAGMENT;
+                return HOME_FRAGMENT;
             case MENU_OPTION_SETTINGS:
-                return EventStates.HOME_SETTINGS;
+                return HOME_SETTINGS;
             case MENU_OPTION_SHOP:
-                return EventStates.HOME_IAP;
+                return HOME_IAP;
             case MENU_OPTION_SUPPORT:
-                return EventStates.HOME_SUPPORT;
+                return HOME_SUPPORT;
             case MENU_OPTION_ABOUT:
-                return EventStates.HOME_ABOUT;
+                return HOME_ABOUT;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return EventStates.HOME_SUPPORT;
+                return HOME_SUPPORT;
             case PRODUCT_REGISTRATION:
-                return EventStates.SUPPORT_PR;
+                return SUPPORT_PR;
             default:
-                return EventStates.HOME_FRAGMENT;
+                return HOME_FRAGMENT;
         }
     }
 }

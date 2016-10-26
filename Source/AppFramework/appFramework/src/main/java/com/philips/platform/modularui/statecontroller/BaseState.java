@@ -8,13 +8,12 @@ package com.philips.platform.modularui.statecontroller;
 import android.content.Context;
 import android.support.annotation.IntDef;
 
-import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-abstract public class UIState {
+abstract public class BaseState {
 
     public static final int UI_WELCOME_REGISTRATION_STATE = 1001;
     public static final int UI_SPLASH_STATE = 1002;
@@ -44,7 +43,8 @@ abstract public class UIState {
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIStateDef {
     }
-    @UIState.UIStateDef
+
+    @BaseState.UIStateDef
     int stateID;
     private UIBasePresenter uiBasePresenter;
     private UIStateData uiStateData;
@@ -54,7 +54,7 @@ abstract public class UIState {
      *
      * @param stateID pass the state Id
      */
-    public UIState(@UIState.UIStateDef int stateID) {
+    public BaseState(@BaseState.UIStateDef int stateID) {
         this.stateID = stateID;
     }
 
@@ -63,7 +63,7 @@ abstract public class UIState {
      *
      * @return stateID
      */
-    @UIState.UIStateDef
+    @BaseState.UIStateDef
     public int getStateID() {
         return stateID;
     }
@@ -74,7 +74,7 @@ abstract public class UIState {
      * @param stateID requirs the state ID
      */
 
-    public void setStateID(@UIState.UIStateDef int stateID) {
+    public void setStateID(@BaseState.UIStateDef int stateID) {
         this.stateID = stateID;
     }
 
@@ -119,6 +119,4 @@ abstract public class UIState {
     public void setUiStateData(UIStateData uiStateData) {
         this.uiStateData = uiStateData;
     }
-
-    public abstract AppStates getStateEnum();
 }

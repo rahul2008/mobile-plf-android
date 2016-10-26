@@ -26,16 +26,16 @@ public class UIFlowManagerTest extends TestCase {
     }
 
     public void testSetCurrentState() {
-        UIState uiState = mock(UIState.class);
-        uiFlowManager.setCurrentState(uiState);
-        assertEquals(uiState, uiFlowManager.getCurrentState());
+        BaseState baseState = mock(BaseState.class);
+        uiFlowManager.setCurrentState(baseState);
+        assertEquals(baseState, uiFlowManager.getCurrentState());
     }
 
     public void testNavigateToState() {
-        UIState uiState = mock(UIState.class);
+        BaseState baseState = mock(BaseState.class);
         UiLauncher uiLauncher = mock(UiLauncher.class);
-        uiFlowManager.navigateToState(uiState, uiLauncher);
-        verify(uiState).navigate(uiLauncher);
-        assertEquals(uiState, uiFlowManager.getCurrentState());
+        uiFlowManager.navigateToState(baseState, uiLauncher);
+        verify(baseState).navigate(uiLauncher);
+        assertEquals(baseState, uiFlowManager.getCurrentState());
     }
 }

@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -37,19 +37,19 @@ public class WelcomeFragmentPresenterTest extends TestCase {
     }
 
     public void testOnClick() throws Exception {
-        final UIState uiStateMock = mock(UIState.class);
+        final BaseState baseStateMock = mock(BaseState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock) {
             @Override
             public void setState(final int stateID) {
-                super.setState(UIState.UI_HOME_STATE);
+                super.setState(BaseState.UI_HOME_STATE);
             }
 
             @NonNull
             @Override
-            protected UIState getUiState(final int componentID) {
-                return uiStateMock;
+            protected BaseState getUiState(final int componentID) {
+                return baseStateMock;
             }
 
             @Override
@@ -63,22 +63,22 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         welcomeFragmentPresenter.onClick(R.id.welcome_skip_button);
         verify(welcomeFragmentViewMock).showActionBar();
-        verify(uiStateMock).setPresenter(welcomeFragmentPresenter);
-        verify(uiFlowManagerMock).navigateToState(uiStateMock, fragmentLauncherMock);
+        verify(baseStateMock).setPresenter(welcomeFragmentPresenter);
+        verify(uiFlowManagerMock).navigateToState(baseStateMock, fragmentLauncherMock);
     }
 
     public void testOnStateComplete() throws Exception {
-        final UIState uiStateMock = mock(UIState.class);
+        final BaseState baseStateMock = mock(BaseState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock) {
             @Override
             public void setState(final int stateID) {
-                super.setState(UIState.UI_WELCOME_STATE);
+                super.setState(BaseState.UI_WELCOME_STATE);
             }
 
             @Override
-            protected UIState getUiState(final int componentID) {
-                return uiStateMock;
+            protected BaseState getUiState(final int componentID) {
+                return baseStateMock;
             }
 
             @NonNull
@@ -92,13 +92,13 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
 
-        final UIState uiStateMockThis = mock(UIState.class);
+        final BaseState baseStateMockThis = mock(BaseState.class);
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         welcomeFragmentPresenter.onClick(6);
-        welcomeFragmentPresenter.onStateComplete(uiStateMockThis);
-        verify(uiStateMock, atLeastOnce()).setPresenter(welcomeFragmentPresenter);
-        verify(uiFlowManagerMock, atLeastOnce()).navigateToState(uiStateMock, fragmentLauncherMock);
+        welcomeFragmentPresenter.onStateComplete(baseStateMockThis);
+        verify(baseStateMock, atLeastOnce()).setPresenter(welcomeFragmentPresenter);
+        verify(uiFlowManagerMock, atLeastOnce()).navigateToState(baseStateMock, fragmentLauncherMock);
     }
 
     public void testGetUiState() {

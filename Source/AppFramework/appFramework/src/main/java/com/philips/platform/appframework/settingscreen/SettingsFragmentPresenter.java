@@ -10,11 +10,10 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.flowmanager.jsonstates.EventStates;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.URStateListener;
@@ -32,15 +31,19 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
 
     private static final int USER_REGISTRATION_STATE = 999;
     private static final int HOME_ACTIVITY_STATE = 998;
+    private static final String SETTINGS_LOGIN = "login";
     private final SettingsView settingsView;
     private AppFrameworkApplication appFrameworkApplication;
-    private UIState uiState;
+    private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
+    private String SETTINGS_REGISTRATION = "settings_registration";
+    private String SETTINGS_LOGOUT = "logout";
+    private String SETTINGS_ORDER_HISTORY = "order_history";
 
     public SettingsFragmentPresenter(final SettingsView settingsView) {
         super(settingsView);
         this.settingsView = settingsView;
-        setState(UIState.UI_SETTINGS_FRAGMENT_STATE);
+        setState(BaseState.UI_SETTINGS_FRAGMENT_STATE);
     }
 
     /**
@@ -55,15 +58,15 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
         final UIStateData uiStateData = setStateData(componentID);
-        EventStates eventState = getEventState(componentID);
-        uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
-        uiState.setPresenter(this);
-        uiState.setUiStateData(uiStateData);
-        if (eventState == EventStates.SETTINGS_LOGIN) {
-            ((UserRegistrationState) uiState).registerUIStateListener(this);
+        String eventState = getEventState(componentID);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SETTINGS, eventState);
+        baseState.setPresenter(this);
+        baseState.setUiStateData(uiStateData);
+        if (eventState == SETTINGS_LOGIN) {
+            ((UserRegistrationState) baseState).registerUIStateListener(this);
         }
         fragmentLauncher = getFragmentLauncher();
-        uiState.navigate(fragmentLauncher);
+        baseState.navigate(fragmentLauncher);
     }
 
     protected UIStateData setStateData(final int componentID) {
@@ -96,16 +99,16 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
 
     /**
      * For setting the next state
-     * @param uiState
+     * @param baseState
      */
     @Override
-    public void onStateComplete(UIState uiState) {
+    public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
-        this.uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SETTINGS, EventStates.SETTINGS_REGISTRATION);
+        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SETTINGS, SETTINGS_REGISTRATION);
         fragmentLauncher = getFragmentLauncher();
-        this.uiState.setPresenter(this);
+        this.baseState.setPresenter(this);
         settingsView.finishActivityAffinity();
-        this.uiState.navigate(fragmentLauncher);
+        this.baseState.navigate(fragmentLauncher);
     }
 
     @Override
@@ -114,10 +117,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
             appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
-            uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SETTINGS, EventStates.SETTINGS_LOGOUT);
+            baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SETTINGS, SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
-            uiState.setPresenter(this);
-            uiState.navigate(fragmentLauncher);
+            baseState.setPresenter(this);
+            baseState.navigate(fragmentLauncher);
         }
     }
 
@@ -126,14 +129,14 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
 
     }
 
-    protected EventStates getEventState(final int componentID) {
+    protected String getEventState(final int componentID) {
         switch (componentID) {
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
-                return EventStates.SETTINGS_LOGOUT;
+                return SETTINGS_LOGOUT;
             case Constants.IAP_PURCHASE_HISTORY:
-                return EventStates.SETTINGS_ORDER_HISTORY;
+                return SETTINGS_ORDER_HISTORY;
             case Constants.LOGIN_BUTTON_CLICK_CONSTANT:
-                return EventStates.SETTINGS_LOGIN;
+                return SETTINGS_LOGIN;
         }
         return null;
     }

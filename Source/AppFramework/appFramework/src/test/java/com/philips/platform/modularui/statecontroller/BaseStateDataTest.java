@@ -8,7 +8,7 @@ import org.junit.Before;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class UIStateDataTest extends TestCase {
+public class BaseStateDataTest extends TestCase {
 
     private UIStateData uiStateData;
 

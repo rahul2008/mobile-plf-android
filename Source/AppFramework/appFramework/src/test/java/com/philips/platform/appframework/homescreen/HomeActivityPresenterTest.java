@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
@@ -51,7 +51,7 @@ public class HomeActivityPresenterTest extends TestCase {
         homeActivityPresenter = new HomeActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final int stateID) {
-                super.setState(UIState.UI_HOME_STATE);
+                super.setState(BaseState.UI_HOME_STATE);
             }
         };
     }
@@ -68,18 +68,18 @@ public class HomeActivityPresenterTest extends TestCase {
     }
 
     public void testOnClick() {
-        final UIState uiStateMock = mock(UIState.class);
+        final BaseState baseStateMock = mock(BaseState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         homeActivityPresenter = new HomeActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final int stateID) {
-                super.setState(UIState.UI_HOME_STATE);
+                super.setState(BaseState.UI_HOME_STATE);
             }
 
             @NonNull
             @Override
-            protected UIState setStateData(final int componentID) {
-                return uiStateMock;
+            protected BaseState setStateData(final int componentID) {
+                return baseStateMock;
             }
 
             @Override
@@ -92,8 +92,8 @@ public class HomeActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         homeActivityPresenter.onClick(0);
-        verify(uiStateMock).setPresenter(homeActivityPresenter);
-        verify(uiFlowManagerMock).navigateToState(uiStateMock, fragmentLauncherMock);
+        verify(baseStateMock).setPresenter(homeActivityPresenter);
+        verify(uiFlowManagerMock).navigateToState(baseStateMock, fragmentLauncherMock);
     }
 
     public void testOnStateComplete() {
@@ -102,11 +102,11 @@ public class HomeActivityPresenterTest extends TestCase {
         homeActivityPresenter = new HomeActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final int stateID) {
-                super.setState(UIState.UI_HOME_STATE);
+                super.setState(BaseState.UI_HOME_STATE);
             }
 
             @Override
-            protected UIState setStateData(final int componentID) {
+            protected BaseState setStateData(final int componentID) {
                 return uiStateMock;
             }
 
@@ -120,11 +120,11 @@ public class HomeActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
 
-        final UIState uiStateMockThis = mock(UIState.class);
+        final BaseState baseStateMockThis = mock(BaseState.class);
         when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         homeActivityPresenter.onClick(6);
-        homeActivityPresenter.onStateComplete(uiStateMockThis);
+        homeActivityPresenter.onStateComplete(baseStateMockThis);
         verify(uiStateMock, atLeastOnce()).setPresenter(homeActivityPresenter);
         verify(uiFlowManagerMock, atLeastOnce()).navigateToState(uiStateMock, fragmentLauncherMock);
     }

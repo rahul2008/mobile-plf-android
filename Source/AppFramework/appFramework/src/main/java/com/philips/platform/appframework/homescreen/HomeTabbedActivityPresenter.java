@@ -8,9 +8,9 @@ package com.philips.platform.appframework.homescreen;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
@@ -38,12 +38,12 @@ public class HomeTabbedActivityPresenter extends UIBasePresenter implements UISt
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
-    private UIState uiState;
+    private BaseState baseState;
 
     public HomeTabbedActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(UIState.UI_HOME_TABBED_STATE);
+        setState(BaseState.UI_HOME_TABBED_STATE);
     }
 
     /**
@@ -55,50 +55,50 @@ public class HomeTabbedActivityPresenter extends UIBasePresenter implements UISt
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         switch (componentID) {
             case MENU_OPTION_HOME:
-                uiState = new HomeFragmentState();
+                baseState = new HomeFragmentState();
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                uiState.setUiStateData(homeStateData);
+                baseState.setUiStateData(homeStateData);
                 fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 break;
             case MENU_OPTION_SETTINGS:
-                uiState = new SettingsFragmentState();
+                baseState = new SettingsFragmentState();
                 UIStateData settingsStateData = new UIStateData();
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                uiState.setUiStateData(settingsStateData);
+                baseState.setUiStateData(settingsStateData);
                 fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 break;
             case MENU_OPTION_SUPPORT:
-                uiState = new SupportFragmentState();
+                baseState = new SupportFragmentState();
                 fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 SupportFragmentState.ConsumerCareData supportStateData = new SupportFragmentState().new ConsumerCareData();
                 supportStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                uiState.setUiStateData(supportStateData);
+                baseState.setUiStateData(supportStateData);
                 break;
             case MENU_OPTION_ABOUT:
-                uiState = new AboutScreenState();
+                baseState = new AboutScreenState();
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                uiState.setUiStateData(aboutStateData);
+                baseState.setUiStateData(aboutStateData);
                 fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 break;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                uiState = new IAPState();
+                baseState = new IAPState();
                 fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
-                uiState.setUiStateData(uiStateDataModel);
+                baseState.setUiStateData(uiStateDataModel);
                 break;
             default:
-                uiState = new HomeFragmentState();
+                baseState = new HomeFragmentState();
         }
-        uiState.setPresenter(this);
-        if (uiState instanceof SupportFragmentState) {
-            ((SupportFragmentState) uiState).registerUIStateListener(this);
+        baseState.setPresenter(this);
+        if (baseState instanceof SupportFragmentState) {
+            ((SupportFragmentState) baseState).registerUIStateListener(this);
         }
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+        appFrameworkApplication.getFlowManager().navigateToState(baseState, fragmentLauncher);
     }
 
     @Override
@@ -107,14 +107,14 @@ public class HomeTabbedActivityPresenter extends UIBasePresenter implements UISt
     }
 
     @Override
-    public void onStateComplete(UIState uiState) {
+    public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = new ProductRegistrationState();
+        this.baseState = new ProductRegistrationState();
         fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
         ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
         uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
-        this.uiState.setUiStateData(uiStateDataModel);
-        this.uiState.setPresenter(this);
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        this.baseState.setUiStateData(uiStateDataModel);
+        this.baseState.setPresenter(this);
+        appFrameworkApplication.getFlowManager().navigateToState(this.baseState, fragmentLauncher);
     }
 }

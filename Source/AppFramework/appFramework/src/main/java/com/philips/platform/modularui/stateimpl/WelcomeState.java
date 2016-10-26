@@ -9,17 +9,14 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.introscreen.welcomefragment.WelcomeFragment;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class WelcomeState extends UIState {
-
-    private FragmentLauncher fragmentLauncher;
+public class WelcomeState extends BaseState {
 
     public WelcomeState() {
-        super(UIState.UI_WELCOME_STATE);
+        super(BaseState.UI_WELCOME_STATE);
     }
 
     /**
@@ -28,7 +25,7 @@ public class WelcomeState extends UIState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
                 addFragment(new WelcomeFragment(), WelcomeFragment.TAG);
     }
@@ -36,10 +33,5 @@ public class WelcomeState extends UIState {
     @Override
     public void init(Context context) {
 
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.WELCOME;
     }
 }

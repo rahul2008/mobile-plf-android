@@ -6,11 +6,10 @@
 package com.philips.platform.appframework.splash;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.introscreen.WelcomeView;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.flowmanager.jsonstates.EventStates;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -20,11 +19,12 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class SplashPresenter extends UIBasePresenter {
     private final WelcomeView uiView;
+    private String APP_START = "onAppStartEvent";
 
     public SplashPresenter(WelcomeView uiView) {
         super(uiView);
         this.uiView = uiView;
-        setState(UIState.UI_SPLASH_STATE);
+        setState(BaseState.UI_SPLASH_STATE);
     }
 
     @Override
@@ -40,16 +40,16 @@ public class SplashPresenter extends UIBasePresenter {
     @Override
     public void onLoad() {
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
-        final UIState uiState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SPLASH, EventStates.APP_START);
+        final BaseState baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.SPLASH, APP_START);
         // TODO: Deepthi, container id seems to be hardcoded here.
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
-        if (null != uiState) {
-            if (uiState instanceof UserRegistrationState) {
+        if (null != baseState) {
+            if (baseState instanceof UserRegistrationState) {
                 uiView.showActionBar();
             }
-            uiState.setPresenter(this);
-            appFrameworkApplication.getFlowManager().setCurrentState(uiState);
-            uiState.navigate(fragmentLauncher);
+            baseState.setPresenter(this);
+            appFrameworkApplication.getFlowManager().setCurrentState(baseState);
+            baseState.navigate(fragmentLauncher);
         }
     }
 

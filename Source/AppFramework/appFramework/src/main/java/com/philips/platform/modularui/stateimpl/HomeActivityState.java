@@ -9,17 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class HomeActivityState extends UIState {
-
-    private FragmentLauncher fragmentLauncher;
+public class HomeActivityState extends BaseState {
 
     public HomeActivityState() {
-        super(UIState.UI_HOME_STATE);
+        super(BaseState.UI_HOME_STATE);
     }
 
     /**
@@ -28,17 +25,12 @@ public class HomeActivityState extends UIState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), HomeActivity.class));
     }
 
     @Override
     public void init(Context context) {
 
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.HOME;
     }
 }

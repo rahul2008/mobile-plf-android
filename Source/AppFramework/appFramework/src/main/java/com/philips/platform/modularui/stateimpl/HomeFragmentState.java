@@ -9,17 +9,14 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homescreen.HomeFragment;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class HomeFragmentState extends UIState {
-
-    private FragmentLauncher fragmentLauncher;
+public class HomeFragmentState extends BaseState {
 
     public HomeFragmentState() {
-        super(UIState.UI_HOME_FRAGMENT_STATE);
+        super(BaseState.UI_HOME_FRAGMENT_STATE);
     }
 
     /**
@@ -28,17 +25,12 @@ public class HomeFragmentState extends UIState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragment(), HomeFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     @Override
     public void init(Context context) {
 
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.HOMEFRAGMENT;
     }
 }

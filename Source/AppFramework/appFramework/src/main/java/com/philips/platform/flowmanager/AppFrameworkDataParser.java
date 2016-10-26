@@ -11,7 +11,6 @@ import android.support.annotation.IdRes;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.platform.appframework.R;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
 import com.philips.platform.flowmanager.pojo.AppFlow;
 import com.philips.platform.flowmanager.pojo.AppFlowEvent;
 import com.philips.platform.flowmanager.pojo.AppFlowModel;
@@ -54,12 +53,12 @@ public class AppFrameworkDataParser {
      * @param appFlow Object to AppFlow class which defines the app flow.
      * @return Map of state to array of next states.
      */
-    public static Map<AppStates, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
-        HashMap<AppStates, List<AppFlowEvent>> appFlowMap = null;
+    public static Map<String, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
+        HashMap<String, List<AppFlowEvent>> appFlowMap = null;
         if (appFlow.getStates() != null) {
             appFlowMap = new HashMap<>();
             for (final AppFlowState states : appFlow.getStates()) {
-                appFlowMap.put(AppStates.get(states.getState()), states.getEvents());
+                appFlowMap.put(states.getState(), states.getEvents());
             }
         }
         return appFlowMap;

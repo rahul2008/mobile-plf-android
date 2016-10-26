@@ -24,8 +24,7 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.flowmanager.jsonstates.AppStates;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -36,7 +35,7 @@ import java.util.Locale;
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public class UserRegistrationState extends UIState implements UserRegistrationListener ,ActionBarListener ,UserRegistrationUIEventListener{
+public class UserRegistrationState extends BaseState implements UserRegistrationListener, ActionBarListener, UserRegistrationUIEventListener {
 
     final String AI = "appinfra";
     private Context activityContext;
@@ -46,11 +45,11 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     private Context applicationContext;
 
     public UserRegistrationState() {
-        super(UIState.UI_USER_REGISTRATION_STATE);
+        super(BaseState.UI_USER_REGISTRATION_STATE);
     }
 
     /**
-     * UIState overridden methods
+     * BaseState overridden methods
      * @param uiLauncher requires the UiLauncher object
      */
     @Override
@@ -65,11 +64,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         this.applicationContext = context;
         initializeUserRegistrationLibrary(Configuration.STAGING);
 
-    }
-
-    @Override
-    public AppStates getStateEnum() {
-        return AppStates.REGISTRATION;
     }
 
     /**
