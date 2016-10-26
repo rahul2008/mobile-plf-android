@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
         <item name="buttonStyle">@style/UITDefaultButton</item>
         <item name="imageButtonStyle">@style/UITImageButton</item>
         <item name="editTextStyle">@style/UITTextEditBoxStyle</item>
