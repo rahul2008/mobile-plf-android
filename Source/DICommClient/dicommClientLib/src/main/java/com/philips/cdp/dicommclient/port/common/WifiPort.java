@@ -26,8 +26,8 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
     private static final String KEY_WIFIPASSWORD = "password";
     private static final String KEY_WIFISSID = "ssid";
 
-    public WifiPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-		super(networkNode, communicationStrategy);
+    public WifiPort(CommunicationStrategy communicationStrategy) {
+		super(communicationStrategy);
 	}
 
 	private final String WIFIPORT_NAME = "wifi";

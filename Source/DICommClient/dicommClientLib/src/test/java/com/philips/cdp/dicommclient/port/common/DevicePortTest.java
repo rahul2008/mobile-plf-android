@@ -35,7 +35,7 @@ public class DevicePortTest extends RobolectricTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        devicePort = new DevicePort(null, communicationStrategyMock);
+        devicePort = new DevicePort(communicationStrategyMock);
     }
 
     @Test

@@ -9,8 +9,8 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public class JaguarAirPort extends AirPort<JaguarAirportProperties> {
 
-    public JaguarAirPort(final NetworkNode networkNode, final CommunicationStrategy communicationStrategy) {
-        super(networkNode, communicationStrategy, JaguarAirportProperties.class);
+    public JaguarAirPort(final CommunicationStrategy communicationStrategy) {
+        super(communicationStrategy, JaguarAirportProperties.class);
     }
 
     @Override

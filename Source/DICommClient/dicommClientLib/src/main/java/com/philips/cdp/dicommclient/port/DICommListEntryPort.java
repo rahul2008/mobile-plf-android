@@ -16,9 +16,8 @@ abstract class DICommListEntryPort<T> extends DICommPort<T> {
 
 	public static final String BASE_ENTRY_PORT_NAME = "%s/%s";
 
-	public DICommListEntryPort(NetworkNode networkNode,
-			CommunicationStrategy communicationStrategy, String parentPortName, int parentPortProductId, String identifier) {
-		super(networkNode, communicationStrategy);
+	public DICommListEntryPort(CommunicationStrategy communicationStrategy, String parentPortName, int parentPortProductId, String identifier) {
+		super(communicationStrategy);
 		mParentPortName = parentPortName;
 		mParentPortProductId = parentPortProductId;
 		mIdentifier = identifier;

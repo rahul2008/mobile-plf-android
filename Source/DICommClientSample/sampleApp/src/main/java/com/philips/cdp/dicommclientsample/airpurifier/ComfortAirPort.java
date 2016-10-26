@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class ComfortAirPort extends AirPort<ComfortAirPortProperties> {
 
-    public ComfortAirPort(final NetworkNode networkNode, final CommunicationStrategy communicationStrategy) {
-        super(networkNode, communicationStrategy, ComfortAirPortProperties.class);
+    public ComfortAirPort(final CommunicationStrategy communicationStrategy) {
+        super(communicationStrategy, ComfortAirPortProperties.class);
     }
 
     @Override

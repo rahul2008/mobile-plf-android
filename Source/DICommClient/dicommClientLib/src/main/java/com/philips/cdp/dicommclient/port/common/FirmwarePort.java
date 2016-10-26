@@ -20,8 +20,8 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 	private final int FIRMWAREPORT_PRODUCTID = 0;
 
 
-	public FirmwarePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
-		super(networkNode,communicationStrategy);
+	public FirmwarePort(CommunicationStrategy communicationStrategy){
+		super(communicationStrategy);
 	}
 
 	@Override

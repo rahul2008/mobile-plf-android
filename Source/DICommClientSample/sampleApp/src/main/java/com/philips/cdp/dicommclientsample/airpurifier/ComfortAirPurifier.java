@@ -14,7 +14,7 @@ public class ComfortAirPurifier extends AirPurifier {
     public ComfortAirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
 
-        airPort = new ComfortAirPort(networkNode, communicationStrategy);
+        airPort = new ComfortAirPort(communicationStrategy);
         addPort(airPort);
     }
 }

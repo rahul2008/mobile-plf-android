@@ -25,8 +25,8 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
     private static final String KEY_SETUP = "setup";
     private static final String KEY_CONNECTION = "connection";
 
-    public WifiUIPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-		super(networkNode, communicationStrategy);
+    public WifiUIPort(CommunicationStrategy communicationStrategy) {
+		super(communicationStrategy);
 	}
 
 	@Override

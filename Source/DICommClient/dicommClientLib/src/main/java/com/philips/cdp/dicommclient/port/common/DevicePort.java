@@ -21,8 +21,8 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
 
     private static final String KEY_DEVICENAME = "name";
 
-    public DevicePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-        super(networkNode, communicationStrategy);
+    public DevicePort(CommunicationStrategy communicationStrategy) {
+        super(communicationStrategy);
     }
 
     @Override

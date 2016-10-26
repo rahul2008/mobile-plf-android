@@ -18,8 +18,8 @@ public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T>
     final Gson jsonParser;
     final Class<T> propertiesClass;
 
-    public AirPort(final NetworkNode networkNode, final CommunicationStrategy communicationStrategy, Class<T> propertiesClass) {
-        super(networkNode, communicationStrategy);
+    public AirPort(final CommunicationStrategy communicationStrategy, Class<T> propertiesClass) {
+        super(communicationStrategy);
         jsonParser = new Gson();
         this.propertiesClass = propertiesClass;
     }

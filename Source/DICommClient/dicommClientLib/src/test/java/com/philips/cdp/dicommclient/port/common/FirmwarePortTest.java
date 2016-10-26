@@ -111,7 +111,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     private FirmwarePortProperties parseFirmwarePortData(String parseData) {
-        FirmwarePort firmwarePort = new FirmwarePort(null, mock(CommunicationStrategy.class));
+        FirmwarePort firmwarePort = new FirmwarePort(mock(CommunicationStrategy.class));
         firmwarePort.processResponse(parseData);
         return firmwarePort.getPortProperties();
     }

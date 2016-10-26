@@ -21,8 +21,8 @@ public class PairingPort extends DICommPort<Object> {
     private static final String KEY_SETUP = "setup";
     private static final String KEY_CONNECTION = "connection";
 
-    public PairingPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-		super(networkNode, communicationStrategy);
+    public PairingPort(CommunicationStrategy communicationStrategy) {
+		super(communicationStrategy);
 	}
 
 	@Override

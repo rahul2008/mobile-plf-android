@@ -27,7 +27,6 @@ public abstract class DICommPort<T> {
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
 
-    protected final NetworkNode mNetworkNode;
     protected CommunicationStrategy mCommunicationStrategy;
     private WrappedHandler mResubscriptionHandler;
 
@@ -44,8 +43,7 @@ public abstract class DICommPort<T> {
 
     private List<DICommPortListener> mPortListeners;
 
-    public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-        mNetworkNode = networkNode;
+    public DICommPort(CommunicationStrategy communicationStrategy) {
         mCommunicationStrategy = communicationStrategy;
         mPutPropertiesMap = new HashMap<String, Object>();
         mPortListeners = new ArrayList<DICommPortListener>();

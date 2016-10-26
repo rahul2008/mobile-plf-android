@@ -44,8 +44,8 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     public static final int MAX_SCHEDULES_REACHED = 1;
     public static final int DEFAULT_ERROR = 999;
 
-    public ScheduleListPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-        super(networkNode, communicationStrategy);
+    public ScheduleListPort(CommunicationStrategy communicationStrategy) {
+        super(communicationStrategy);
     }
 
     @Override

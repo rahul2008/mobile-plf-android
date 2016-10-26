@@ -18,9 +18,8 @@ abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPo
 	private Map<String, T> mListEntryPorts;
 	private List<DICommListPortChangedListener> mListPortChangedListeners;
 
-	public DICommListPort(NetworkNode networkNode,
-			CommunicationStrategy communicationStrategy) {
-		super(networkNode, communicationStrategy);
+	public DICommListPort(CommunicationStrategy communicationStrategy) {
+		super(communicationStrategy);
 		mListEntryPorts = new HashMap<String, T>();
 		mListPortChangedListeners = new ArrayList<DICommListPortChangedListener>();
 	}

@@ -39,11 +39,11 @@ public abstract class DICommAppliance {
         mNetworkNode = networkNode;
         mCommunicationStrategy = communicationStrategy;
 
-        mDevicePort = new DevicePort(mNetworkNode, mCommunicationStrategy);
-        mFirmwarePort = new FirmwarePort(mNetworkNode, mCommunicationStrategy);
-        mPairingPort = new PairingPort(mNetworkNode, mCommunicationStrategy);
-        mWifiPort = new WifiPort(mNetworkNode, mCommunicationStrategy);
-        mWifiUIPort = new WifiUIPort(mNetworkNode, mCommunicationStrategy);
+        mDevicePort = new DevicePort(mCommunicationStrategy);
+        mFirmwarePort = new FirmwarePort(mCommunicationStrategy);
+        mPairingPort = new PairingPort(mCommunicationStrategy);
+        mWifiPort = new WifiPort(mCommunicationStrategy);
+        mWifiUIPort = new WifiUIPort(mCommunicationStrategy);
 
         addPort(mDevicePort);
         addPort(mFirmwarePort);

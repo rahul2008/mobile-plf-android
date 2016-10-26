@@ -12,7 +12,7 @@ public class JaguarAirPurifier extends AirPurifier {
     public JaguarAirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
 
-        airPort = new JaguarAirPort(networkNode, communicationStrategy);
+        airPort = new JaguarAirPort(communicationStrategy);
         addPort(airPort);
     }
 }

@@ -54,10 +54,9 @@ public class DICommPortTest extends RobolectricTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        final NetworkNode mNetworkNode = mock(NetworkNode.class);
         mCommunicationStrategy = mock(CommunicationStrategy.class);
         mHandler = mock(WrappedHandler.class);
-        mDICommPort = new DICommPortImpl(mNetworkNode, mCommunicationStrategy, mHandler);
+        mDICommPort = new DICommPortImpl(mCommunicationStrategy, mHandler);
     }
 
     @Test
@@ -642,9 +641,8 @@ public class DICommPortTest extends RobolectricTest {
 
         private WrappedHandler hander;
 
-        public DICommPortImpl(NetworkNode networkNode,
-                              CommunicationStrategy communicationStrategy, WrappedHandler hander) {
-            super(networkNode, communicationStrategy);
+        public DICommPortImpl(CommunicationStrategy communicationStrategy, WrappedHandler hander) {
+            super(communicationStrategy);
             this.hander = hander;
         }
 
