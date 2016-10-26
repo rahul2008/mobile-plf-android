@@ -7,7 +7,6 @@ public class IAPAnalyticsConstant {
     public static final String PRODUCT_CATALOG_PAGE_NAME = "ProductCatalogPage";
     public static final String PRODUCT_DETAIL_PAGE_NAME = "ProductDetailPage";
     public static final String RETAILERS_LIST_PAGE_NAME = "SelectRetailerPage";
-    public static final String RETAILER_WEB_PAGE_NAME = "RetailerWebPage";
     public static final String SHOPPING_CART_PAGE_NAME = "ShoppingCartPage";
     public static final String SHOPPING_CART_ITEM_DETAIL_PAGE_NAME = "ShoppingCartItemDetailPage";
     public static final String SHIPPING_ADDRESS_PAGE_NAME = "ShippingAddressPage";

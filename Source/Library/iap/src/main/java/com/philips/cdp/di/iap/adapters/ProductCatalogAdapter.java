@@ -109,6 +109,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void tagProducts() {
+        String productPrice = "";
         if (mProductCatalogList.size() != 0) {
             StringBuilder products = new StringBuilder();
             for (int i = 0; i < mProductCatalogList.size(); i++) {
@@ -116,9 +117,13 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 if (i > 0) {
                     products = products.append(",");
                 }
+
+                if(catalogData.getPriceValue() != null)
+                    productPrice = catalogData.getPriceValue();
+
                 products = products.append("Tuscany_Campaign").append(";")
                         .append(catalogData.getProductTitle()).append(";").append(";")
-                        .append(catalogData.getPriceValue());
+                        .append(productPrice);
             }
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PRODUCTS, products.toString());

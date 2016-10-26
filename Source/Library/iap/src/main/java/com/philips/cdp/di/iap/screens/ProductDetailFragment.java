@@ -177,11 +177,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void tagProduct() {
+        String productPrice = "";
         HashMap<String, String> contextData = new HashMap<>();
         StringBuilder product = new StringBuilder();
+        if (mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE) != null)
+            productPrice = mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE);
         product = product.append("Tuscany_Campaign").append(";")
                 .append(mProductTitle).append(";").append(";")
-                .append(mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE));
+                .append(productPrice);
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
         contextData.put(IAPAnalyticsConstant.PRODUCTS, product.toString());
         IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);

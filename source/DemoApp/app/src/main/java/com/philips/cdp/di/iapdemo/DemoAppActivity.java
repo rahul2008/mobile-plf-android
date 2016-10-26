@@ -84,6 +84,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPLog.enableLogging(true);
 
         mApplicationContext = (DemoApplication) getApplicationContext();
+        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+
         addActionBar();
         setContentView(R.layout.demo_app_layout);
         showAppVersion();
@@ -120,7 +122,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mAddCtn.setOnClickListener(this);
 
         setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
-        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
 
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 

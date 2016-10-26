@@ -14,8 +14,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -50,7 +48,6 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     public void onResume() {
         super.onResume();
         String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE_NAME);
         setTitleAndBackButtonVisibility(title, true);
         mWebView.onResume();
     }
