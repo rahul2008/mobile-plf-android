@@ -315,10 +315,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchResetPasswordFragment() {
-        System.out.println("Country :" + RegistrationHelper.getInstance().getCountryCode());
         if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
             getRegistrationFragment().addFragment(new ResetPasswordWebView());
-
         } else {
             getRegistrationFragment().addResetPasswordFragment();
 

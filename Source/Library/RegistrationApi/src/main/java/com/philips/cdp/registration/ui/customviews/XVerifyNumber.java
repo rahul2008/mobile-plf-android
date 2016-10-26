@@ -68,6 +68,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
         mEtVerify.setOnFocusChangeListener(this);
         mEtVerify.addTextChangedListener(this);
+        mEtVerify.setFocusable(true);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_verify_err);
         mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_verify_field_err);
     }
@@ -222,8 +223,13 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
     }
 
     public void hideResendSpinner(){
-        mBtResend.setEnabled(true);
         mEtVerify.setEnabled(true);
+        mProgressBar.setVisibility(GONE);
+    }
+
+    public void disableResendSpinner(){
+        mBtResend.setEnabled(false);
+        mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(GONE);
     }
 

@@ -212,6 +212,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         isAccountActivate = true;
         mPbSpinner.setVisibility(View.VISIBLE);
         mBtnVerify.setEnabled(false);
+        mEtCodeNUmber.disableResendSpinner();
         getActivity().startService(createSMSActivationIntent());
     }
 
@@ -252,12 +253,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private void handleResendSMSRespone(String response) {
         try {
-            countDownTimer.cancel();
-            countDownTimer.onFinish();
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("errorCode").toString().equals("0")) {
                 mEtCodeNUmber.hideResendSpinner();
                 handleResendVerificationEmailSuccess();
+                resetTimer();
             } else {
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
                 mEtCodeNUmber.hideResendSpinner();
@@ -271,18 +271,24 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         }
     }
 
+    private void resetTimer(){
+        countDownTimer.onFinish();
+        countDownTimer.cancel();
+        countDownTimer = null;
+        countDownTimer = new MyCountDownTimer(startTime, interval);
+        countDownTimer.start();
+    }
+
     private void handleResendVerificationEmailSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
-                mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Resend_SMS_title),
+                mContext.getResources().getString(R.string.Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
     }
 
     private void handleActivate(String response) {
         if (response != null) {
             try {
-                countDownTimer.cancel();
-                countDownTimer.onFinish();
                 JSONObject jsonObject = new JSONObject(response);
                 if (jsonObject.getString("stat").toString().equals("ok")) {
                     mUser.refreshUser(this);
@@ -322,8 +328,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             }
             mBtnVerify.setEnabled(true);
         } else {
-            countDownTimer.cancel();
-            countDownTimer.onFinish();
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mBtnVerify.setEnabled(false);
@@ -350,7 +354,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     public class MyCountDownTimer extends CountDownTimer {
         public MyCountDownTimer(long startTime, long interval) {
-
             super(startTime, interval);
         }
 
@@ -390,6 +393,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             mEtCodeNUmber.showResendSpinner();
             mEtCodeNUmber.showValidEmailAlert();
             mBtnVerify.setEnabled(false);
+            mPbSpinner.setVisibility(View.GONE);
             resendMobileNumberService();
         }
     };

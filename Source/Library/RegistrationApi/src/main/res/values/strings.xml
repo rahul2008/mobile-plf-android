@@ -195,4 +195,7 @@
     <string name="URX_Invalid_Credentials">The phone number or password you entered is incorrect.</string>
     <string name="Mobile_Verification_Invalid_Code">Invaild verification code.</string>
 
+    <string name="Resend_SMS_title">Resend SMS</string>
+    <string name="Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
+
 </resources>
