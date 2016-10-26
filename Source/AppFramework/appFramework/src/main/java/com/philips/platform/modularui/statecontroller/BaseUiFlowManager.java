@@ -24,14 +24,11 @@ import java.util.TreeMap;
 
 public abstract class BaseUiFlowManager {
 
-    // TODO: Deepthi can we not have these static variables? Not recommended
-    private static Map<AppStates, List<AppFlowEvent>> mAppFlowMap;
-    private static Map<AppConditions, BaseCondition> appConditionsBaseConditionMap;
-    //Map to hold the Enum and its corresponding values.
-    private static Map<AppStates, UIState> appStatesUIStateMap;
-    //Object to hold first state of the app flow.
-    private static AppStates mFirstState;
-    private static AppStates currentState;
+    private Map<AppStates, List<AppFlowEvent>> mAppFlowMap;
+    private Map<AppConditions, BaseCondition> appConditionsBaseConditionMap;
+    private Map<AppStates, UIState> appStatesUIStateMap;
+    private AppStates mFirstState;
+    private AppStates currentState;
     private Context context;
 
     public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
@@ -151,6 +148,6 @@ public abstract class BaseUiFlowManager {
     }
 
     public void setCurrentState(final AppStates currentState) {
-        BaseUiFlowManager.currentState = currentState;
+        this.currentState = currentState;
     }
 }
