@@ -21,8 +21,11 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
-        setUseLocalData(true);
-//        initServiceDiscovery();
+
+        if (!isUseLocalData()) {
+            mHostPort = "https://acc.occ.shop.philips.com/";
+            mProposition = "Tuscany2016";
+        }
     }
 
     public boolean isUseLocalData() {
