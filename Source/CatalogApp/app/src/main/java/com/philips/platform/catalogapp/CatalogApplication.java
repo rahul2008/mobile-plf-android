@@ -1,3 +1,8 @@
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
 package com.philips.platform.catalogapp;
 
 import android.app.Application;

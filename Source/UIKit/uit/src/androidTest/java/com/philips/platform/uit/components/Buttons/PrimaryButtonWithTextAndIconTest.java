@@ -1,9 +1,16 @@
-package com.philips.platform.uit.activity;
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
+
+package com.philips.platform.uit.components.buttons.button;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
 
+import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.view.widget.Button;
 
 import org.junit.Before;
@@ -25,7 +32,7 @@ public class PrimaryButtonWithTextAndIconTest {
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         button = new Button(mActivityTestRule.getActivity());
         backgroundDrawable = button.getBackground();
         testResources = getInstrumentation().getContext().getResources();
@@ -33,11 +40,6 @@ public class PrimaryButtonWithTextAndIconTest {
 
     /************************************************Layout************************************************/
 
-
     /************************************************Theming************************************************/
 
-
-
-
-
-        }
+}

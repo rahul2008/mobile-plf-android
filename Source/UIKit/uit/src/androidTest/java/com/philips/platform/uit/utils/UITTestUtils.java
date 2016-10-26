@@ -20,9 +20,29 @@ public class UITTestUtils {
         if (typedArray != null) {
             color = typedArray.getColor(0, Color.WHITE);
             typedArray.recycle();
-
         }
         return color;
+    }
+
+    public static float getAttributeAlpha(Context context, int attribute) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});
+        float alpha = Color.MAGENTA;
+        if (typedArray != null) {
+            alpha = typedArray.getFloat(0, 0f);
+            typedArray.recycle();
+        }
+        return alpha;
+    }
+
+    public static int getColorWithAlphaFromAttrs(Context context, int colorAttr, int alphaAttr) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{colorAttr, alphaAttr});
+        if (typedArray != null) {
+            int color = typedArray.getColor(0, Color.WHITE);
+            float alpha = typedArray.getFloat(1, 0f);
+            typedArray.recycle();
+            return modulateColorAlpha(color, alpha);
+        }
+        throw new RuntimeException("the typed array doesn't contain color and alpha attr");
     }
 
     public static int modulateColorAlpha(int color, float alphaMod) {
@@ -39,7 +59,6 @@ public class UITTestUtils {
         return drawable;
     }
 
-
     public static ColorStateList getColorStateListWithReflection(Object object, String funcName) {
         ColorStateList colorList;
         try {
@@ -53,6 +72,7 @@ public class UITTestUtils {
     /**
      * Avoid using until really necessary to call it.
      * We can't avoid waiting in few situations, where we need actual view must be drawn before we start asserting.
+     *
      * @param object
      * @param milliSecs
      */

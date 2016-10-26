@@ -13,6 +13,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UITHelper {
 
+    public static final String CONTENT_TONAL_RANGE = "CONTENT_TONAL_RANGE";
+    public static final String COLOR_RANGE = "COLOR_RANGE";
+    public static final String NAVIGATION_RANGE = "NAVIGATION_RANGE";
+
     public static void injectCalligraphyFonts() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/centralesansbook.ttf")
@@ -23,7 +27,10 @@ public class UITHelper {
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
         Resources.Theme theme = themeConfiguration.context.getTheme();
         themeConfiguration.colorRange.injectColorRange(theme);
-        themeConfiguration.tonalRange.injectTonalRange(theme);
-        themeConfiguration.controlType.injectPrimaryControlColors(theme);
+        themeConfiguration.contentColor.injectTonalRange(theme);
+        if (themeConfiguration.controlType != null) {
+            themeConfiguration.controlType.injectPrimaryControlColors(theme);
+        }
+        themeConfiguration.navigationColor.injectNavigationColor(theme);
     }
 }

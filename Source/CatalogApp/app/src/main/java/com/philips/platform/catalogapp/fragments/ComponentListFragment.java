@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
+ *
  */
 package com.philips.platform.catalogapp.fragments;
 
@@ -24,7 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ComponentListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ComponentListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     ListView listView;
 
@@ -47,17 +48,11 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Buttons");
         itemsMap.put(1, "TextBox");
-        itemsMap.put(2, "ToggleSwitch");
         return sortMap(itemsMap);
     }
 
     private Map<Integer, String> sortMap(final HashMap<Integer, String> map) {
-        TreeMap<Integer, String> sortedMap = new TreeMap<>(new Comparator<Integer>() {
-            @Override
-            public int compare(final Integer key1, final Integer key2) {
-                return map.get(key1).compareTo(map.get(key2));
-            }
-        });
+        TreeMap<Integer, String> sortedMap = new TreeMap<>(new IntegerComparator(map));
 
         sortedMap.putAll(map);
 
@@ -79,14 +74,32 @@ public class ComponentListFragment extends Fragment implements AdapterView.OnIte
         // TODO: 9/13/2016 : Handle this properly with enums. Right now enable so that we can test buttons
         switch (key) {
             case 0:
-                ((MainActivity) getActivity()).switchFragment(new ButtonFragment());
+                ((MainActivity) getActivity()).showFragment(new ButtonFragment());
                 break;
             case 1:
-                ((MainActivity) getActivity()).switchFragment(new TextEditBoxFragment());
-            break;
+                ((MainActivity) getActivity()).showFragment(new TextEditBoxFragment());
+                break;
             case 2:
                 ((MainActivity) getActivity()).switchFragment(new ToggleSwitchFragment());
-            break;
+                break;
+        }
+    }
+
+    @Override
+    public int getPageTitle() {
+        return R.string.catalog_app_name;
+    }
+
+    private static class IntegerComparator implements Comparator<Integer> {
+        private final HashMap<Integer, String> map;
+
+        public IntegerComparator(final HashMap<Integer, String> map) {
+            this.map = map;
+        }
+
+        @Override
+        public int compare(final Integer key1, final Integer key2) {
+            return map.get(key1).compareTo(map.get(key2));
         }
     }
 }

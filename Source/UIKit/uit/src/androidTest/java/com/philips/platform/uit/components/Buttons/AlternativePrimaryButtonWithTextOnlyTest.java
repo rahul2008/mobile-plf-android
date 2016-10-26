@@ -1,20 +1,26 @@
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
+
 /**
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.platform.uit.activity;
+package com.philips.platform.uit.components.buttons.button;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
-
 import com.philips.platform.uit.R;
+import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
@@ -31,21 +37,21 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.GroupBlue35;
-import static com.philips.platform.uit.test.R.color.GroupBlue45;
 import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
-public class PrimaryButtonWithTextOnlyTest {
+public class AlternativePrimaryButtonWithTextOnlyTest {
 
     private Resources testResources;
     private Context instrumentationContext;
-    private IdlingResource idlingResource;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
     public void setUp() {
-        mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
+
+        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
     }
@@ -55,7 +61,7 @@ public class PrimaryButtonWithTextOnlyTest {
      *********************************************/
 
     @Test
-    public void verifyButtonHeight() {
+    public void verifyAltButtonHeight() {
         UITTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_height);
         getPrimaryButton()
@@ -63,46 +69,43 @@ public class PrimaryButtonWithTextOnlyTest {
     }
 
     @Test
-    public void verifyButtonLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_left_padding);
+    public void verifyAltButtonLeftPadding() {
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
-    public void verifyButtonRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_right_padding);
+    public void verifyAltButtonRightPadding() {
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_right_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
-    public void verifyButtonCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
+    public void verifyAltButtonCornerRadius() {
+        float radius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_cornerradius);
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
-
-
     // TODO: 9/14/2016
     @Ignore
-    public void verifyButtonFontType() {
+    public void verifyAltButtonFontType() {
 
     }
 
     @Test
-    public void verifyButtonFontSize() {
-        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
+    public void verifyAltButtonFontSize() {
+        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_font_size);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
-
-
 
     /*******************************************************
      * Theming
      ******************************************************/
 
     @Test
-    public void verifyPrimaryTextOnlyButtonControlColorULTone() {
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+    public void verifyAltPrimaryTextOnlyButtonControlColorULTone() {
+        TypedArray typedArray = mActivityTestRule.getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uitColorLevel75});
+        final int expectedColor = typedArray.getColor(0, Color.MAGENTA);
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
@@ -118,7 +121,7 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyPrimaryTextOnlyDisabledButtonControlColorULTone() {
-        final int disabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.25f);
+        final int disabledColor = modulateColorAlpha(Color.parseColor("#1C2D66"), 0.25f);
         disableAllViews();
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
@@ -143,11 +146,10 @@ public class PrimaryButtonWithTextOnlyTest {
     }
 
     private ViewInteraction getPrimaryButton() {
-        return onView(withId(com.philips.platform.uit.test.R.id.primary_button));
+        return onView(withId(com.philips.platform.uit.test.R.id.alt_primary_button));
     }
 
     private void disableAllViews() {
         onView(withId(com.philips.platform.uit.test.R.id.disable_switch)).perform(ViewActions.click());
     }
 }
-

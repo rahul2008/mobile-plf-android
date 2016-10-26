@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
+ *
  */
 package com.philips.platform.catalogapp.fragments;
 
@@ -8,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.uit.view.widget.Button;
 import com.philips.platform.uit.view.widget.ImageButton;
 
-public class ButtonFragment extends Fragment {
+public class ButtonFragment extends BaseFragment {
     ImageButton imageButton;
     Button imageTextButton;
 
@@ -57,5 +57,10 @@ public class ButtonFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public int getPageTitle() {
+        return R.string.page_tittle_buttons;
     }
 }

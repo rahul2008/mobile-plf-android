@@ -1,8 +1,30 @@
 <resources>
     <string name="catalog_app_name">Catalog App DLS</string>
     <string name="demo_primary_button">Primary button</string>
+    <string name="color_ranges_label">Color range</string>
+    <string name="tonal_range_label">Content tonal range</string>
+    <string name="for_content_area_text">For Contents Area</string>
+    <string name="for_navigation_area_text">For Navigation Area</string>
+    <string name="for_primary_controls_text">For Primary controls</string>
+    <string name="for_dim_text">For Dim</string>
+    <string name="accent_color_range_text">Accent color range</string>
+    <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
     <string name="buttons_with_icons">Buttons with icon</string>
     <string name="individual_buttons_label">Individual Buttons</string>
     <string name="alternate_primary_label">Alternate Primary Button</string>
     <string name="secondary_button_label">Secondary Button</string>
+    <string name="set_theme_settings">Set</string>
+    <string name="page_tittle_theme_settings">Theme Setting</string>
+    <string name="page_tittle_preview">Preview</string>
+    <string name="page_tittle_buttons">Buttons</string>
+    <string name="page_tittle_textbox">TextBox</string>
+    <string name="hint_text">Hint text</string>
+    <string name="hamburger_menu">Hamburger</string>
+    <string name="hint_text_multi_lines">Hint text multi lines</string>
+    <string name="filled_text">Filled text</string>
+    <string name="content_desc_back">back</string>
+    <string name="content_desc_disabled">Disabled</string>
+    <string name="content_desc_enabled">Enabled</string>
+    <string name="content_desc_close">close</string>
+    <string name="preview">Preview</string>
 </resources>
