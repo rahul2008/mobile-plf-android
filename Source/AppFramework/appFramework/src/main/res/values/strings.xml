@@ -116,5 +116,6 @@
     <string name="save">Save</string>
     <string name="synced">Not Synced</string>
     <string name="ds_screen_title">Data Services</string>
+    <string name="create_moment">Create moment</string>
 
 </resources>

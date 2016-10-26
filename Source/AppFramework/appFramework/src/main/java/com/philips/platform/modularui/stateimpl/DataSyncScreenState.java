@@ -8,7 +8,7 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.temperature.TemperatureTimeLineFragment;
+import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
