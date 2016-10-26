@@ -7,7 +7,6 @@ package com.philips.platform.uit.components.Buttons;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -76,12 +75,6 @@ public class PrimaryButtonWithTextOnlyTest {
     public void verifyButtonCornerRadius() {
         float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
-    }
-
-    // TODO: 9/14/2016
-    @Ignore
-    public void verifyButtonFontType() {
-
     }
 
     @Test
