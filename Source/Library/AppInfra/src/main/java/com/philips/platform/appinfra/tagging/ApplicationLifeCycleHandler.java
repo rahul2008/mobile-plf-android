@@ -37,7 +37,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
         if (isInBackground) {
 
         mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in ForeGround");
-        Log.i("AppleResumed", "Resumed");
+        Log.i("onResumed", "Resumed");
 
             isInBackground = false;
         }
@@ -46,17 +46,17 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     @Override
     public void onActivityPaused(Activity activity) {
         mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in Background");
-        Log.i("LifePaused", "Paused");
+        Log.i("onPaused", "Paused");
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        Log.i("LifeStopped", "Stopped");
+        Log.i("onStopped", "Stopped");
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-        Log.i("LifeStopped", "Stopped");
+        Log.i("onStopped", "Stopped");
     }
 
     @Override
@@ -66,7 +66,6 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onConfigurationChanged(Configuration configuration) {
-        Log.i("LifeConfiguration", "ConfigurationChanged");
     }
 
     @Override
@@ -77,8 +76,6 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onTrimMemory(int i) {
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             Log.i("AppleBackground", "AppisInBackground");
-
-//            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
             isInBackground = true;
         }
     }

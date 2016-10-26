@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.demo;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,18 +20,20 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client"};
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,84 +55,123 @@ public class AppInfraMainActivity extends AppCompatActivity {
         arryaLsit.add("userreg.landing.emailverif");
         arryaLsit.add("userreg.landing.resetpass");
 
+        getApplication().registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                Log.i("AppCycle", "Resumed");
+                Map<String, Object> map =  new HashMap();
+                map.put("App State", "Foreground");
+              AppInfraApplication.gAppInfra.getTagging().collectLifecycleInfo(activity, map);
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+                Log.i("AppCycle", "Paused");
+                Map<String, Object> map =  new HashMap();
+                map.put("App State", "Foreground");
+                AppInfraApplication.gAppInfra.getTagging().pauseLifecycleInfo();
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
+
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
-                for (int i = 0; i < urlMap.size(); i++)
-                {
-                    Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+                for (int i = 0; i < urlMap.size(); i++) {
+                    Log.i("SDTest", "" + urlMap.get(arryaLsit.get(i)).getConfigUrls());
                 }
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.i("SD", ""+message);
+                Log.i("SD", "" + message);
             }
         });
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
-                for (int i = 0; i < urlMap.size(); i++)
-                {
-                    Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+                for (int i = 0; i < urlMap.size(); i++) {
+                    Log.i("SDTest", "" + urlMap.get(arryaLsit.get(i)).getConfigUrls());
                 }
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.i("SD", ""+message);
+                Log.i("SD", "" + message);
             }
         });
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
-                for (int i = 0; i < urlMap.size(); i++)
-                {
-                    Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+                for (int i = 0; i < urlMap.size(); i++) {
+                    Log.i("SD", "" + urlMap.get(arryaLsit.get(i)).getConfigUrls());
                 }
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.i("SD", ""+message);
+                Log.i("SD", "" + message);
             }
         });
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
-                for (int i = 0; i < urlMap.size(); i++)
-                {
-                    Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
+                for (int i = 0; i < urlMap.size(); i++) {
+                    Log.i("SD", "" + urlMap.get(arryaLsit.get(i)).getConfigUrls());
                 }
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.i("SD", ""+message);
+                Log.i("SD", "" + message);
             }
         });
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                Log.i("SD", ""+url);
+                Log.i("SD", "" + url);
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.i("SD", ""+message);
+                Log.i("SD", "" + message);
             }
         });
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference("userreg.janrain.cdn", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                Log.i("SD", ""+url);
+                Log.i("SD", "" + url);
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.i("SD", ""+message);
+                Log.i("SD", "" + message);
             }
         });
 
