@@ -58,7 +58,7 @@ public class AppTagging implements AppTaggingInterface {
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
-        init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
+        init(Locale.getDefault(), mAppInfra.getAppInfraContext());
 
         mAppTaggingInterface = mAppInfra.getTagging();
         // Class shall not presume appInfra to be completely initialized at this point.
@@ -66,10 +66,9 @@ public class AppTagging implements AppTaggingInterface {
 
     }
 
-    private void init(Locale locale, Context context, String appName) {
+    private void init(Locale locale, Context context) {
         mlocale = locale;
         mcontext = context;
-        prevPage = appName;
         Config.setContext(context);
 
     }
