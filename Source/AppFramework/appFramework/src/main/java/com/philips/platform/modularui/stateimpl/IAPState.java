@@ -13,7 +13,7 @@ import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.modularui.statecontroller.BaseState;
