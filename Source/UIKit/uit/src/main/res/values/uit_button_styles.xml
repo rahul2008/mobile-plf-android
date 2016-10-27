@@ -26,7 +26,6 @@
     </style>
 
     <style name="UITDefaultButton.UITImageTextButton">
-        <item name="android:paddingLeft">@dimen/uit_image_text_button_padding_left</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:drawablePadding">@dimen/uit_imagebutton_padding</item>
     </style>
