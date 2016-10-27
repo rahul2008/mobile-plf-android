@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.homescreen;
+package com.philips.platform.appframework.flowmanager.homescreen;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

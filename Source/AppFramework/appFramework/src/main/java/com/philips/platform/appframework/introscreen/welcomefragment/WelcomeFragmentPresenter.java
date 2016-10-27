@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivityPresenter;
+import com.philips.platform.appframework.flowmanager.homescreen.HomeActivityPresenter;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.BaseAppState;

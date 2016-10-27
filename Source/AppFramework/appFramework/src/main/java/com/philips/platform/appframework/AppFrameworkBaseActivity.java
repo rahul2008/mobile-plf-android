@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.appframework.homescreen.HomeFragment;
+import com.philips.platform.appframework.homefragment.HomeFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -20,9 +20,10 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
+    int containerId;
     private int cartItemCount = 0;
     private FragmentTransaction fragmentTransaction;
-    int containerId;
+
     public abstract int getContainerId();
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {

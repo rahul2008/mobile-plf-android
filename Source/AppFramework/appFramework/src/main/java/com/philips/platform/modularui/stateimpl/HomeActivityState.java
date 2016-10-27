@@ -8,7 +8,7 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.appframework.flowmanager.homescreen.HomeActivity;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;

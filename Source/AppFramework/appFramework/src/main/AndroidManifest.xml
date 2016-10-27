@@ -34,7 +34,7 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.Philips.DarkBlue.Gradient.NoActionBar"/>
         <activity
-            android:name=".homescreen.HomeActivity"
+            android:name=".flowmanager.homescreen.HomeActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
         <!--<receiver-->
