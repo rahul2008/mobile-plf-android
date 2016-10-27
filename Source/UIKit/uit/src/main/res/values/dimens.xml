@@ -16,9 +16,9 @@
     <dimen name="uit_switch_thumb_radius_pressed">40dp</dimen>
     <dimen name="uit_switch_thumb_radius_pressed_unpressed_diff">16dp</dimen>
     <dimen name="uit_switch_track_radius">16dp</dimen>
-    <dimen name="uit_switch_track_width">36dp</dimen>
-    <dimen name="uit_switch_track_height">40dp</dimen>
-    <dimen name="uit_switch_track_transparent_height">24dp</dimen>
+    <dimen name="uit_switch_track_width">40dp</dimen>
+    <dimen name="uit_switch_track_height">24dp</dimen>
+    <dimen name="uit_switch_track_transparent_height">8dp</dimen>
 
     <!--Text only button-->
     <dimen name="uit_button_min_height">40dp</dimen>
