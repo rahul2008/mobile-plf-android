@@ -116,7 +116,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
 
     @Override
     public int getContainerId() {
-        return R.id.frame_container;
+        final AppFrameworkBaseActivity activity = (AppFrameworkBaseActivity) getActivity();
+        return activity.getContainerId();
     }
 
     @Override

@@ -4,7 +4,7 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.appframework.homescreen.tabbedscreen;
+package com.philips.platform.appframework.tabbedscreen;
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
