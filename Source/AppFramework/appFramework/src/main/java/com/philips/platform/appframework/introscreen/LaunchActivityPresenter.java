@@ -90,7 +90,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     public void onLoad() {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.hideActionBar();
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SPLASH, onAppStartEvent);
+        baseState = appFrameworkApplication.getTargetFlowManager().getFirstState();
         fragmentLauncher = getFragmentLauncher();
         UIStateData homeStateData = new UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);

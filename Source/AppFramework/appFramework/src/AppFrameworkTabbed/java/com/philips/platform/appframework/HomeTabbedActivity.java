@@ -91,7 +91,7 @@ public class HomeTabbedActivity extends AppFrameworkBaseActivity implements Frag
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_on, 0);
-        utils.setTitle(tab, "Shop");
+        utils.setTitle(tab, "Philips Shop");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
