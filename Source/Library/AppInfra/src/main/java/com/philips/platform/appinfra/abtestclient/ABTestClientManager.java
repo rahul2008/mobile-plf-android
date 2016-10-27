@@ -52,7 +52,6 @@ public class ABTestClientManager implements ABTestClientInterface {
         Config.setDebugLogging(true);
         mCacheModel = new CacheModel();
         loadfromDisk();
-        System.out.println("ENUM ITEM" + " " + UPDATETYPES.EVERY_APP_START.getValue());
         mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
                 Context.MODE_PRIVATE);
 
@@ -75,7 +74,6 @@ public class ABTestClientManager implements ABTestClientInterface {
                     e.toString());
         }
         if (testList != null && testList.size() > 0) {
-            //         testList.contains(
             for (String test : testList) {
                 if (mCacheStatusValue != null && mCacheStatusValue.containsKey(test)) {
                     // shouldRefresh = false;
@@ -183,6 +181,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         }
 
+
         updateMemorycacheForTestName(testName, testValue, updateType);
         if (updateType.name().equals
                 (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
@@ -198,7 +197,7 @@ public class ABTestClientManager implements ABTestClientInterface {
 
         if (mCachestatusvalues != null && mCacheStatusValue.containsKey(testName)) {
             CacheModel.ValueModel val = mCacheStatusValue.get(testName);
-            if (val.getTestValue() != null && val.getUpdateType().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
+            if (val.getTestValue() != null && updateType.name().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
                 //value is already there in cache ignoring the new value
             } else {
                 CacheModel.ValueModel updatedVal = new CacheModel.ValueModel();
@@ -239,7 +238,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             CacheModel.ValueModel value = mCacheStatusValue.get(requestName);
             exp = value.getTestValue();
             String valueType = value.getUpdateType();
-            mCacheModel.setTestValues(mCacheStatusValue);
+           // mCacheModel.setTestValues(mCacheStatusValue);
 //            if (valueType.equalsIgnoreCase("ONLY_AT_APP_UPDATE")) {
 //                saveCachetoPreference(mCacheModel);
 //            }
@@ -255,10 +254,8 @@ public class ABTestClientManager implements ABTestClientInterface {
      */
     private int getVariableType() {
         if (isAppUpdated()) {
-            System.out.println("APP UPDATED");
             return UPDATETYPES.ONLY_AT_APP_UPDATE.getValue();
         } else if (isAppRestarted) {
-            System.out.println("APP RESTART ");
             return UPDATETYPES.EVERY_APP_START.getValue();
         } else {
             return 0;
@@ -406,7 +403,6 @@ public class ABTestClientManager implements ABTestClientInterface {
             public void call(final String content) {
                 if (content != null) {
                     mExperience = content;
-                    Log.e("ABTESTING", content);
                     updateMemorycacheForTestName(requestName, content, updatetypes);
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                             content);
@@ -458,7 +454,6 @@ public class ABTestClientManager implements ABTestClientInterface {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(model);
-        Log.e("JSON", json);
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                 json);
         editor.putString("cacheobject", json);
@@ -484,7 +479,6 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void saveAppVeriontoPref(String mAppVerion) {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
-        Log.e("mApversio ", mAppVerion);
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                 mAppVerion);
         editor.putString("APPVERSION", mAppVerion);
