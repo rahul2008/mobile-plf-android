@@ -25,7 +25,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -113,6 +116,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                     adapter.notifyDataSetChanged();
                     sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
+
                 }
             }
         });
@@ -126,6 +130,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         philipsDrawerLayout.closeDrawer(navigationView);
         presenter.onClick(position);
     }
+
+    public HamburgerAdapter getHamburgerAdapter()
+    {
+        return this.adapter;
+    }
+
 
     /**
      * To set the actionbar
