@@ -1,5 +1,6 @@
 package com.philips.platform.appinfra;
 
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
@@ -77,5 +78,9 @@ public interface AppInfraInterface {
      */
     public RestInterface getRestClient();
 
-
+    /**
+     *  Gets the A/B testing Manager.
+     * @return the config
+     */
+    public ABTestClientInterface getAbTesting();
 }

@@ -29,7 +29,8 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity", "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client"};
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity",
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +48,9 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
         final ArrayList arryaLsit = new ArrayList();
         arryaLsit.add("appinfra.testing.service");
-//        arryaLsit.add("userreg.janrain.cdn");
-//        arryaLsit.add("userreg.landing.emailverif");
-//        arryaLsit.add("userreg.landing.resetpass");
+        arryaLsit.add("userreg.janrain.cdn");
+        arryaLsit.add("userreg.landing.emailverif");
+        arryaLsit.add("userreg.landing.resetpass");
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
@@ -197,9 +198,13 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 9:
 
                 Intent restClientActivity = new Intent(AppInfraMainActivity.this,
-                        RestClientActivity.class);
+                        RestMenuActivity.class);
                 startActivity(restClientActivity);
                 break;
+
+            case 10 :
+                Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestingDemo.class );
+                startActivity(abTesting);
         }
     }
 

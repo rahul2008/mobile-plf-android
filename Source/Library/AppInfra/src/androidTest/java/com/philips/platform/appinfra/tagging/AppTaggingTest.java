@@ -1,17 +1,24 @@
 package com.philips.platform.appinfra.tagging;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -29,6 +36,8 @@ public class AppTaggingTest extends MockitoTestCase {
 
     AppConfigurationManager mConfigInterface;
 
+    AppTagging mAppTagging;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -38,12 +47,22 @@ public class AppTaggingTest extends MockitoTestCase {
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
         testConfig("Staging");
+        testAdobeJsonConfig(true);
         mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent
-                ("Component name","Component ID");
+                ("Component name", "Component ID");
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
     }
 
 
+    public void testSetPreviousPage() {
+        doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                return null;
+            }
+        }).when(mockAppTaggingInterface).setPreviousPage("SomePreviousPage");
+
+    }
 
     public void testConfig(final String value) {
 
@@ -89,17 +108,40 @@ public class AppTaggingTest extends MockitoTestCase {
     }
 
 
-    public void testSetPreviousPage(){
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                return null;
+    public void testAdobeJsonConfig(final boolean value) {
+
+        mAppTagging= new AppTagging(mAppInfra) {
+            @Override
+            protected JSONObject getMasterADBMobileConfig() {
+                JSONObject result = null;
+
+                JSONObject obj = new JSONObject();
+
+                try {
+                    obj.put("ssl", new Boolean(true));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    String testJson =   "{\n" +
+                            "  \"analytics\": {\n" +
+                            "\n" +
+                            " \"ssl\"  : \""+value+"\",\n" +
+                            "\n";
+
+                    result = new JSONObject();
+                    result.put("analytics", obj);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
             }
-        }).when(mockAppTaggingInterface).setPreviousPage("SomePreviousPage");
 
+        };
+        mAppInfra = new AppInfra.Builder().setTagging(mAppTagging).build(context);
     }
-
-    public void testPrivacyConsent(){
+    public void testPrivacyConsent() {
         mAIAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, mAIAppTaggingInterface.getPrivacyConsent());
         mAIAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
@@ -164,7 +206,7 @@ public class AppTaggingTest extends MockitoTestCase {
         }
     }
 
-    public void testLifecycle(){
+    public void testLifecycle() {
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAIAppTaggingInterface);
         Application mockApplication = mock(Application.class);
 
@@ -186,18 +228,18 @@ public class AppTaggingTest extends MockitoTestCase {
     }
 
 
-    public void testEmumValues(){
-        assertEquals("facebook",AppTaggingInterface.SocialMedium.Facebook.toString());
-        assertEquals("twitter",AppTaggingInterface.SocialMedium.Twitter.toString());
-        assertEquals("mail",AppTaggingInterface.SocialMedium.Mail.toString());
-        assertEquals("airdrop",AppTaggingInterface.SocialMedium.AirDrop.toString());
+    public void testEmumValues() {
+        assertEquals("facebook", AppTaggingInterface.SocialMedium.Facebook.toString());
+        assertEquals("twitter", AppTaggingInterface.SocialMedium.Twitter.toString());
+        assertEquals("mail", AppTaggingInterface.SocialMedium.Mail.toString());
+        assertEquals("airdrop", AppTaggingInterface.SocialMedium.AirDrop.toString());
     }
 
     public void testTrackVideoStart() {
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                assertEquals(((String)args[0]),"Bindas");
+                assertEquals(((String) args[0]), "Bindas");
                 return null;
             }
         }).when(mockAppTaggingInterface).trackVideoStart("Bindas");
@@ -208,7 +250,7 @@ public class AppTaggingTest extends MockitoTestCase {
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                assertEquals(((String)args[0]),"Bindas");
+                assertEquals(((String) args[0]), "Bindas");
                 return null;
             }
         }).when(mockAppTaggingInterface).trackVideoEnd("Bindas");
@@ -219,17 +261,17 @@ public class AppTaggingTest extends MockitoTestCase {
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                assertEquals(((String)args[1]),"Bindas");
+                assertEquals(((String) args[1]), "Bindas");
                 return null;
             }
-        }).when(mockAppTaggingInterface).trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook,"Bindas");
+        }).when(mockAppTaggingInterface).trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Bindas");
     }
 
     public void testTrackLinkExternal() {
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                assertEquals(((String)args[0]),"http://www.philips.co.in/");
+                assertEquals(((String) args[0]), "http://www.philips.co.in/");
                 return null;
             }
         }).when(mockAppTaggingInterface).trackLinkExternal("http://www.philips.co.in/");
@@ -239,10 +281,122 @@ public class AppTaggingTest extends MockitoTestCase {
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                assertEquals(((String)args[0]),"Bindas");
+                assertEquals(((String) args[0]), "Bindas");
                 return null;
             }
         }).when(mockAppTaggingInterface).trackFileDownload("Bindas");
     }
 
-}
+
+    public void testTimedActionStart() {
+        Method method = null;
+
+        try {
+            testConfig("Production");
+            method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "TestData");
+
+            method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "TestData");
+
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testVideostartactions() {
+        Method method = null;
+        try {
+            method = AppTagging.class.getDeclaredMethod("trackVideoStart", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "Start");
+
+
+            method = AppTagging.class.getDeclaredMethod("trackVideoEnd", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "Start");
+
+
+            method = AppTagging.class.getDeclaredMethod("trackLinkExternal", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "Start");
+
+
+            method = AppTagging.class.getDeclaredMethod("trackFileDownload", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "Start");
+
+            method = AppTagging.class.getDeclaredMethod("setPrivacyConsentForSensitiveData", boolean.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, true);
+
+            method = AppTagging.class.getDeclaredMethod("getPrivacyConsentForSensitiveData");
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface);
+            mAIAppTaggingInterface.setPrivacyConsentForSensitiveData(true);
+            assertTrue(mAIAppTaggingInterface.getPrivacyConsentForSensitiveData());
+            assertNotNull(mAIAppTaggingInterface.getPrivacyConsentForSensitiveData());
+
+            method = AppTagging.class.getDeclaredMethod("trackLinkExternal", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "Start");
+
+            method = AppTagging.class.getDeclaredMethod("setPreviousPage", String.class);
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, "setPreviousPage");
+
+            method = AppTagging.class.getDeclaredMethod("pauseLifecycleInfo");
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface);
+
+            method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", Activity.class);
+            method.setAccessible(true);
+            Testclass tTestclass =new Testclass();
+            method.invoke(mAIAppTaggingInterface, (Activity)tTestclass);
+
+            method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", new Class[]{Activity.class,Map.class});
+            method.setAccessible(true);
+            Map map =new HashMap();
+            map.put("Test1", "Test2");
+            method.invoke(mAIAppTaggingInterface, new Object[]{(Activity)tTestclass, map});
+
+
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public class Testclass extends Activity{
+        Testclass(){
+            Log.i("Example","Example");
+        }
+    }
+
+    public void testSocialSharing(){
+        Method method = null;
+        try{
+            method = AppTagging.class.getDeclaredMethod("trackSocialSharing",new Class[]{AppTaggingInterface.SocialMedium.class,String.class});
+            method.setAccessible(true);
+            method.invoke(mAIAppTaggingInterface, new Object[]{AppTaggingInterface.SocialMedium.Facebook, "TestSocial"});
+
+        }catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    }

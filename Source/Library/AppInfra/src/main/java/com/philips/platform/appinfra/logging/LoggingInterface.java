@@ -34,12 +34,14 @@ public interface LoggingInterface {
      * Enable file log of application.
      * @param enable File
      */
+    @Deprecated
     public void enableFileLog(boolean enable);
 
     /**
      * Enable console log of application.
      * @param enable Console
      */
+    @Deprecated
     public void enableConsoleLog(boolean enable );
 
 }
