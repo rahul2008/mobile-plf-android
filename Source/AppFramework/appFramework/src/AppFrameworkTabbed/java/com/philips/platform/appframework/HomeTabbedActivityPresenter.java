@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework;
 
+import com.philips.platform.appframework.flowmanager.TabbedAppState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -48,7 +49,7 @@ public class HomeTabbedActivityPresenter extends UIBasePresenter implements UISt
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.HOME, eventState);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(TabbedAppState.TAB_HOME, eventState);
         baseState.setPresenter(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();

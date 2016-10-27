@@ -6,7 +6,6 @@ import java.util.TreeMap;
 public class BaseAppState {
 
     public static final String WELCOME = "welcome";
-    public static final String HOME = "home";
     public static final String SUPPORT = "support";
     public static final String SPLASH = "splash";
     public static final String REGISTRATION = "registration";

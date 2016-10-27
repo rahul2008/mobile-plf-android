@@ -22,9 +22,9 @@ public abstract class BaseUiFlowManager {
 
     protected BaseAppState baseAppState;
     protected BaseAppCondition baseAppCondition;
-    private Map<String, List<AppFlowEvent>> mAppFlowMap;
+    private Map<String, List<AppFlowEvent>> appFlowMap;
     private Context context;
-    private String mFirstState;
+    private String firstState;
 
     public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
         this.context = context;
@@ -48,7 +48,7 @@ public abstract class BaseUiFlowManager {
      * @return Object to next BaseState if available or 'null'.
      */
     public final BaseState getNextState(String currentState, String event) {
-        final List<AppFlowEvent> appFlowEvents = mAppFlowMap.get(currentState);
+        final List<AppFlowEvent> appFlowEvents = appFlowMap.get(currentState);
         if (appFlowEvents != null) {
             for (final AppFlowEvent appFlowEvent : appFlowEvents) {
                 final String string = appFlowEvent.getEventId();
@@ -118,12 +118,12 @@ public abstract class BaseUiFlowManager {
     private void mapAppFlowStates(@IdRes final int jsonPath) {
         final AppFlowModel appFlowModel = AppFrameworkDataParser.getAppFlow(context, jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
-            mAppFlowMap = AppFrameworkDataParser.getAppFlowMap(appFlowModel.getAppFlow());
-            mFirstState = appFlowModel.getAppFlow().getFirstState();
+            appFlowMap = AppFrameworkDataParser.getAppFlowMap(appFlowModel.getAppFlow());
+            firstState = appFlowModel.getAppFlow().getFirstState();
         }
     }
 
     public final BaseState getFirstState() {
-        return getUIState(mFirstState);
+        return getUIState(firstState);
     }
 }
