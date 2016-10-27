@@ -40,7 +40,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -284,9 +283,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 getRegistrationApiVersion());
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
 
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
-                getAppTaggingInterface();
-        aiAppTaggingInterface.setPreviousPage("demoapp:home");
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
