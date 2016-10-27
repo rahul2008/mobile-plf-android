@@ -129,6 +129,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         presenter.onClick(position);
     }
 
+    public HamburgerAdapter getHamburgerAdapter()
+    {
+        return this.adapter;
+    }
+
+
     /**
      * To set the actionbar
      * @param actionBar : Requires the actionbar obejct

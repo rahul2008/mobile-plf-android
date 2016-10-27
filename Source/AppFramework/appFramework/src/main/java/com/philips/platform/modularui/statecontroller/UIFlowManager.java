@@ -36,7 +36,8 @@ public class UIFlowManager {
      * @param uiLauncher requires UiLauncher object
      */
     public void navigateToState(UIState uiState, UiLauncher uiLauncher) {
-        uiState.navigate(uiLauncher);
         setCurrentState(uiState);
+        uiState.navigate(uiLauncher);
+
     }
 }
