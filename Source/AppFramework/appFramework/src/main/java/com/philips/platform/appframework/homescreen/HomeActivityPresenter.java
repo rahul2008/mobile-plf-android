@@ -29,16 +29,10 @@ import java.util.Arrays;
 public class HomeActivityPresenter extends UIBasePresenter implements UIStateListener {
 
     public static final int MENU_OPTION_HOME = 0;
-    private final int PRODUCT_REGISTRATION = 6;
-    private final String HOME_FRAGMENT = "home_fragment";
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
-    private String HOME_SETTINGS = "settings";
-    private String HOME_IAP = "iap";
-    private String HOME_SUPPORT = "support";
-    private String HOME_ABOUT = "about";
     private String SUPPORT_PR = "pr";
 
     public HomeActivityPresenter(final FragmentView fragmentView) {
@@ -136,6 +130,14 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
         final int MENU_OPTION_SHOP = 2;
         final int MENU_OPTION_SUPPORT = 3;
         final int MENU_OPTION_ABOUT = 4;
+
+        final String HOME_SETTINGS = "settings";
+        final String HOME_IAP = "iap";
+        final String HOME_SUPPORT = "support";
+        final String HOME_ABOUT = "about";
+        final int PRODUCT_REGISTRATION = 6;
+        final String HOME_FRAGMENT = "home_fragment";
+
         switch (componentID) {
             case MENU_OPTION_HOME:
                 return HOME_FRAGMENT;

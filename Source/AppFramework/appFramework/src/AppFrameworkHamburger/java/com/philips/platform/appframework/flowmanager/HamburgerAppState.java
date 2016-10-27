@@ -18,6 +18,8 @@ import java.util.Map;
 
 public class HamburgerAppState extends BaseAppState {
 
+    public static final String HAMBURGER_HOME = "home";
+
     public HamburgerAppState() {
         addMap(stateMap);
     }
@@ -26,7 +28,7 @@ public class HamburgerAppState extends BaseAppState {
         uiStateMap.put(WELCOME, new WelcomeState());
         uiStateMap.put(REGISTRATION, new UserRegistrationState());
         uiStateMap.put(HOME_FRAGMENT, new HomeFragmentState());
-        uiStateMap.put(HOME, new HomeActivityState());
+        uiStateMap.put(HAMBURGER_HOME, new HomeActivityState());
         uiStateMap.put(ABOUT, new AboutScreenState());
         uiStateMap.put(DEBUG, new DebugTestFragmentState());
         uiStateMap.put(SETTINGS, new SettingsFragmentState());

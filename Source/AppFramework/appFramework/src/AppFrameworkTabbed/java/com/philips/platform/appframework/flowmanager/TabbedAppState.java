@@ -1,11 +1,11 @@
 package com.philips.platform.appframework.flowmanager;
 
+import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
@@ -18,16 +18,7 @@ import java.util.Map;
 
 public class TabbedAppState extends BaseAppState {
 
-    public static final String SPLASH = "splash";
-    public static final String REGISTRATION = "registration";
-    public static final String HOME = "home";
-    public static final String HOME_FRAGMENT = "home_fragment";
-    public static final String ABOUT = "about";
-    public static final String DEBUG = "debug";
-    public static final String IAP = "iap";
-    public static final String PR = "pr";
-    public static final String SUPPORT = "support";
-    public static final String SETTINGS = "settings";
+    public static final String TAB_HOME = "home";
 
     public TabbedAppState() {
         addMap(stateMap);
@@ -37,7 +28,7 @@ public class TabbedAppState extends BaseAppState {
         uiStateMap.put(WELCOME, new WelcomeState());
         uiStateMap.put(REGISTRATION, new UserRegistrationState());
         uiStateMap.put(HOME_FRAGMENT, new HomeFragmentState());
-        uiStateMap.put(HOME, new HomeTabbedActivityState());
+        uiStateMap.put(TAB_HOME, new HomeTabbedActivityState());
         uiStateMap.put(ABOUT, new AboutScreenState());
         uiStateMap.put(DEBUG, new DebugTestFragmentState());
         uiStateMap.put(SETTINGS, new SettingsFragmentState());
