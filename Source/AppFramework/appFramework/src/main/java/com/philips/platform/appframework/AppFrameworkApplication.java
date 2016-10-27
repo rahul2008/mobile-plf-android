@@ -6,7 +6,6 @@
 package com.philips.platform.appframework;
 
 import android.app.Application;
-import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -27,16 +26,11 @@ import java.util.Locale;
 public class AppFrameworkApplication extends Application {
     public static AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
-    private static Context context;
     public UIFlowManager flowManager;
     protected FlowManager targetFlowManager;
     UserRegistrationState userRegistrationState;
     IAPState iapState;
     ProductRegistrationState productRegistrationState;
-
-    public static Context getContext() {
-        return context;
-    }
 
     /**
      * @return instance of this class
@@ -47,9 +41,8 @@ public class AppFrameworkApplication extends Application {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        context = getApplicationContext();
         flowManager = new UIFlowManager();
-        targetFlowManager = FlowManager.getInstance(context, R.string.com_philips_app_fmwk_app_flow_url);
+        targetFlowManager = FlowManager.getInstance( getApplicationContext(), R.string.com_philips_app_fmwk_app_flow_url);
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
