@@ -74,13 +74,14 @@ public class ImageButton extends AppCompatButton {
     }
 
     public void setImageDrawable(Drawable drawable) {
+        Drawable wrappedDrawable = drawable;
         if (drawableColorlist != null && drawable != null) {
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            drawable.invalidateSelf();
-            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+            wrappedDrawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
         }
-        setCompoundDrawables(drawable, null, null, null);
+        setCompoundDrawables(wrappedDrawable, null, null, null);
+        invalidate();
     }
 
     private ColorStateList getColorStateListFromResourceID(int backgroundColorStateID) {

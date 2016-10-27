@@ -25,14 +25,33 @@ public class ButtonFragment extends BaseFragment {
 
     Drawable shareDrwable;
     FragmentButtonsAllBinding fragmentBinding;
+    boolean showingIcons;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
         fragmentBinding.setFrag(this);
         shareDrwable = getShareIcon();
+        restoreViews(savedInstanceState);
         fragmentBinding.imageShare.setImageDrawable(shareDrwable.mutate());
         return fragmentBinding.getRoot();
+    }
+
+    private void restoreViews(Bundle savedInstance) {
+        if (savedInstance != null) {
+            toggleIcons(savedInstance.getBoolean("showingIcons"));
+            toggleExtraWideButtons(savedInstance.getBoolean("showExtraWideButtons"));
+            disableButtons(!savedInstance.getBoolean("isButtonsEnabled"));
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putBoolean("showingIcons", showingIcons);
+        outState.putBoolean("showExtraWideButtons", showExtraWideButtons.get());
+        outState.putBoolean("isButtonsEnabled", isButtonsEnabled.get());
+        super.onSaveInstanceState(outState);
     }
 
     public Drawable getShareIcon() {
@@ -40,16 +59,22 @@ public class ButtonFragment extends BaseFragment {
     }
 
     public void toggleIcons(boolean isIconToggleChecked) {
+        showingIcons = isIconToggleChecked;
         Drawable drawable = isIconToggleChecked ? shareDrwable : null;
         setIcons(fragmentBinding.groupExtraWide, drawable);
         setIcons(fragmentBinding.groupDefault, drawable);
+        setIcons(fragmentBinding.groupLeftAlignedExtraWide, drawable);
     }
 
     private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
         for (int i = 0; i < buttonLayout.getChildCount() ; i++) {
             View view = buttonLayout.getChildAt(i);
+            Drawable mutateDrawable = drawable;
+            if (drawable != null) {
+                mutateDrawable = drawable.getConstantState().newDrawable().mutate();
+            }
             if(view instanceof Button) {
-                ((Button) view).setImageDrawable(drawable);
+                ((Button) view).setImageDrawable(mutateDrawable);
             }
         }
     }
