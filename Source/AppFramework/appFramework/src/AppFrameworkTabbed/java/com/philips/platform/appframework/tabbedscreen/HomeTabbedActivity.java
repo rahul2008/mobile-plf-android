@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework;
+package com.philips.platform.appframework.tabbedscreen;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.utils.TabUtils;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.uappframework.listener.ActionBarListener;

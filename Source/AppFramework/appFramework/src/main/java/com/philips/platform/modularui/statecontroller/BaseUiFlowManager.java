@@ -86,7 +86,7 @@ public abstract class BaseUiFlowManager {
      * @param condition Condition ID for which the BaseCondition type object need to be created.
      * @return Object of BaseCondition type.
      */
-    private BaseCondition getCondition(String condition) {
+    public final BaseCondition getCondition(String condition) {
         return baseAppCondition.getCondition(condition);
     }
 

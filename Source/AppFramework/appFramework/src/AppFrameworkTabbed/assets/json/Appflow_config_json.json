@@ -10,6 +10,12 @@
             "nextStates": [
               {
                 "condition": [
+                  "conditionAppLaunch"
+                ],
+                "nextState": "registration"
+              },
+              {
+                "condition": [
                   "isLoggedIn"
                 ],
                 "nextState": "home"

@@ -9,7 +9,6 @@ package com.philips.platform.appframework.tabbedscreen;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.platform.appframework.HomeTabbedActivity;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

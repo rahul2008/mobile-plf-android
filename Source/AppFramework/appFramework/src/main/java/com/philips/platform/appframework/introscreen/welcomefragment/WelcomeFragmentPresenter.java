@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.homescreen.HomeActivityPresenter;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
@@ -20,6 +19,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class WelcomeFragmentPresenter extends UIBasePresenter implements URStateListener {
 
+    private final int MENU_OPTION_HOME = 0;
     private AppFrameworkApplication appFrameworkApplication;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private BaseState baseState;
@@ -64,7 +64,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
                 return WELCOME_SKIP;
             case R.id.welcome_start_registration_button:
                 return WELCOME_DONE;
-            case HomeActivityPresenter.MENU_OPTION_HOME:
+            case MENU_OPTION_HOME:
                 return WELCOME_HOME;
         }
         return null;
@@ -79,7 +79,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     @Override
     public void onStateComplete(final BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
-        String eventState = getEventState(HomeActivityPresenter.MENU_OPTION_HOME);
+        String eventState = getEventState(MENU_OPTION_HOME);
         this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);

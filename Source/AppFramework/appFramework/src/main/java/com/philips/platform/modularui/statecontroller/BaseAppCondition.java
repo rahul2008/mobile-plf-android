@@ -7,6 +7,9 @@ import java.util.TreeMap;
 
 public class BaseAppCondition {
 
+    public static final String IS_LOGGED_IN = "isLoggedIn";
+    public static final String IS_DONE_PRESSED = "isDonePressed";
+    public static final String CONDITION_APP_LAUNCH = "conditionAppLaunch";
     protected Map<String, BaseCondition> baseConditionMap;
 
     public BaseAppCondition() {
