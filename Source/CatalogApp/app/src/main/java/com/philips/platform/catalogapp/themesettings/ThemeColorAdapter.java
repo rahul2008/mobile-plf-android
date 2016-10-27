@@ -80,16 +80,20 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
             @Override
             public void onClick(final View view) {
                 selectedPosition = adapterPosition;
-                notifyDataSetChanged();
-                if (themeChangedListener != null) {
-                    final ColorModel colorModel = colorRangeList.get(adapterPosition);
-
-                    if (colorModel.getName() != null) {
-                        themeChangedListener.onThemeSettingsChanged(colorModel.getName());
-                    }
-                }
+                notifySelection(adapterPosition);
             }
         });
+    }
+
+    private void notifySelection(final int adapterPosition) {
+        notifyDataSetChanged();
+        if (themeChangedListener != null) {
+            final ColorModel colorModel = colorRangeList.get(adapterPosition);
+
+            if (colorModel.getName() != null) {
+                themeChangedListener.onThemeSettingsChanged(colorModel.getName());
+            }
+        }
     }
 
     private void setPickerTextColor(final @NonNull ViewHolder holder, final ColorModel colorModel, final Context context) {

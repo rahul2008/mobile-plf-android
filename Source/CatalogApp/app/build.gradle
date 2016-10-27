@@ -10,13 +10,13 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 24
     buildToolsVersion "${buildToolsVer}"
 
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
         minSdkVersion "${minSdkVer}"
-        targetSdkVersion 23
+        targetSdkVersion targetSdkVer
         versionCode versionCode
         versionName "${versionName}"
 
@@ -108,5 +108,5 @@ dependencies {
         exclude module: "com.android.support"
     }
 
-    compile 'org.greenrobot:eventbus:3.0.0'
+    compile "org.greenrobot:eventbus:${eventbusVer}"
 }
