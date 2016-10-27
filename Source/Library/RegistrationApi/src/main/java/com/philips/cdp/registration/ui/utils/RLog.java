@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -47,17 +46,16 @@ public class RLog {
 
     public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
-    private static Context mContext;
 
     public static void enableLogging() {
         isLoggingEnabled = true;
     }
 
-    public static void init(final Context context){
-        mContext = context;
+    public static void init(){
         mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().
                 getLogging().createInstanceForComponent("Registration","Registration");
     }
+
 
     public static void disableLogging() {
         isLoggingEnabled = false;

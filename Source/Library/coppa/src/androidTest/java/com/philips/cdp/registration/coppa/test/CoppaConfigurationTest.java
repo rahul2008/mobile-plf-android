@@ -507,7 +507,7 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
                 if(RegistrationHelper.getInstance().getAppInfraInstance() == null){
                         RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
                 }
-                RLog.init(context);
+                RLog.init();
 
 
 

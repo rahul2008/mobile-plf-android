@@ -251,7 +251,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
                         getAppInfraInstance().getTagging();
-                aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -269,7 +268,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
                         getAppInfraInstance().getTagging();
-                aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 // replaceWithLogoutFragment();
                 //replace with welcome

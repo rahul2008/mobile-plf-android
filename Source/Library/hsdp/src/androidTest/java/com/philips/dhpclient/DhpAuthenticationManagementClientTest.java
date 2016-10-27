@@ -1,6 +1,5 @@
 package com.philips.dhpclient;
 
-import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
 
 import com.philips.dhpclient.response.DhpResponse;
@@ -10,12 +9,9 @@ import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/21/2016.
@@ -44,7 +40,7 @@ public class DhpAuthenticationManagementClientTest extends InstrumentationTestCa
         mDhpAuthenticationManagementClient.validateToken("userId","accessToken");
         mDhpAuthenticationManagementClient.validateToken(null,null);
         mDhpAuthenticationManagementClient.validateToken("","");
-try  {mDhpAuthenticationManagementClient.loginSocialProviders("email","socialaccesstoken");}
+try  {mDhpAuthenticationManagementClient.loginSocialProviders("email","socialaccesstoken","asjdbwdbwdbejkwfbjkewbwejkdw");}
 catch(Exception e){}
         mDhpAuthenticationManagementClient.logout("sample","sample");
         mDhpAuthenticationManagementClient.logout(null,null);

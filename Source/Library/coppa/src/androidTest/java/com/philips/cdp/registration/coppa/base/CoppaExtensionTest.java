@@ -69,7 +69,7 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
                         setAppInfraInstance(new AppInfra.Builder().build(mContext));
             }catch(Exception e){System.out.println(e);}
         }
-        RLog.init(mContext);
+        RLog.init();
 
             Method method = null;
             try {

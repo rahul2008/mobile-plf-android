@@ -33,7 +33,7 @@ public class RegistrationSettingsURLTest extends InstrumentationTestCase{
             }catch(Exception e){
                 System.out.println(e);}
         }
-        RLog.init(mContext);
+        RLog.init();
         try{
             registrationSettingsURL.initialiseConfigParameters("en-US");}
         catch(Exception e){

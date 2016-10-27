@@ -30,7 +30,7 @@ public class RLogTest extends InstrumentationTestCase{
 
             }catch(Exception e){System.out.println(e);}
         }
-        RLog.init(context);
+        RLog.init();
 
     }
     public void testRLog(){
@@ -41,7 +41,7 @@ public class RLogTest extends InstrumentationTestCase{
         RLog.e("tag","message");
         RLog.i("tag","message");
         RLog.v("tag","message");
-        try{RLog.init(context);}
+        try{RLog.init();}
         catch(Exception e){}
         RLog.disableLogging();
         assertFalse(RLog.isLoggingEnabled());
