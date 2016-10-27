@@ -30,14 +30,17 @@ public class PrimaryButtonWithIconOnlyTest {
 
     private Resources testResources;
     private Context instrumentationContext;
+    private Context activityContext;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
     public void setUp() {
-        mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
+        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
         testResources = getInstrumentation().getContext().getResources();
+        activityContext = activity;
     }
 
     /************************************************
@@ -82,7 +85,7 @@ public class PrimaryButtonWithIconOnlyTest {
     public void verifyButtonWithIconLeftPadding() {
         int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
         getIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
-            }
+    }
 
 
     @Test
@@ -106,7 +109,6 @@ public class PrimaryButtonWithIconOnlyTest {
     // TODO: 9/27/2016
     @Test
     public void verifyIconButtonDefaultIconColor() {
-
 
     }
 

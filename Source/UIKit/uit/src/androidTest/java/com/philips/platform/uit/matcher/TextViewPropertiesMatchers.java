@@ -54,13 +54,19 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameCompoundDrwablePadding(final int expectedValue) {
+    public static Matcher<View> isSameCompoundDrwablePadding(final int index,final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    setValues(String.valueOf(((TextView) view).getCompoundPaddingRight()), String.valueOf(expectedValue));
-                    return ((TextView) view).getCompoundDrawablePadding() == expectedValue;
+                    Drawable[] drawables = ((TextView) view).getCompoundDrawables();
+                    if (drawables != null && drawables[index] != null) {
+                        final BaseTypeSafteyMatcher<View> paddingMatcher = (BaseTypeSafteyMatcher<View>) ViewPropertiesMatchers.isSameLeftPadding(expectedValue);
+                        boolean result =  paddingMatcher.matches(drawables[index]);
+                        setValues(paddingMatcher.actual, paddingMatcher.expected);
+                        return result;
+                    }
+                    return false;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
@@ -114,12 +120,12 @@ public class TextViewPropertiesMatchers {
                 if (view instanceof TextView) {
                     Drawable[] drawables = ((TextView) view).getCompoundDrawables();
                     if (drawables != null && drawables[index] != null){
-                    final BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
-                    boolean result =  colorMatcher.matches(drawables[index]);
+                        final BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
+                        boolean result =  colorMatcher.matches(drawables[index]);
 
-                    setValues(colorMatcher.actual, colorMatcher.expected);
-                    return result;
-                }
+                        setValues(colorMatcher.actual, colorMatcher.expected);
+                        return result;
+                    }
                     return false;}
                 throw new RuntimeException("expected TextView got " +view.getClass().getName());
             }
