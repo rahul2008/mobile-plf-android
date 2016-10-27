@@ -30,7 +30,8 @@
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "PRODUCTION",
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
-    "tagging.sensitiveData": ["bundleId, language" ]
+    "tagging.sensitiveData": ["bundleId, language" ],
+    "contentLoader.limitSize":2
 
   }
 }

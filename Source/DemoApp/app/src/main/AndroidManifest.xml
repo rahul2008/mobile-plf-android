@@ -102,6 +102,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".ContentLoaderActivity"
+            android:label="ContentLoader"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".AndroidMediaPlayerExample"
             android:label="AndroidMediaPlayerExample"
             android:screenOrientation="portrait"
