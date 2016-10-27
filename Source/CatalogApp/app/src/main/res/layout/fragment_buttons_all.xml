@@ -129,6 +129,35 @@
                     app:uitComponentType="Secondary"/>
             </LinearLayout>
 
+            <!--Left aligned extra wide buttons[start]-->
+
+            <LinearLayout
+                android:id="@+id/groupLeftAlignedExtraWide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
+            <include layout="@layout/divider_layout"/>
+
+            <TextView
+                style="@style/ButtonsCategoryStyle"
+                android:text="@string/buttons_text_left_aligned_category"/>
+
+                <com.philips.platform.uit.view.widget.Button
+                    style="@style/UITDefaultButton.UITImageTextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_first_last_element_gap"
+                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/buttons_text_left_aligned"
+                    app:uitComponentType="Secondary"/>
+            </LinearLayout>
+            <!--Left aligned extra wide buttons[end]-->
+
             <!--Defualt buttons-->
             <LinearLayout
                 android:id="@+id/groupDefault"

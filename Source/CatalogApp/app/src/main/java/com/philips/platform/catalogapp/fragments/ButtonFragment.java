@@ -63,6 +63,7 @@ public class ButtonFragment extends BaseFragment {
         Drawable drawable = isIconToggleChecked ? shareDrwable : null;
         setIcons(fragmentBinding.groupExtraWide, drawable);
         setIcons(fragmentBinding.groupDefault, drawable);
+        setIcons(fragmentBinding.groupLeftAlignedExtraWide, drawable);
     }
 
     private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
