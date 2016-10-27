@@ -159,4 +159,15 @@
     <string name="Activation_explain_value_to_user"></string>
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="LegalNoticeForPrivacy">Please read our %s</string>
+
+    <!--New add for Marketing -->
+
+    <string name="Opt_In_No_Thanks">No thanks</string>
+    <string name="Opt_In_Count_Me_In">Ok, count me in</string>
+    <string name="Opt_In_Join_Now">Join now </string>
+    <string name="Opt_In_Over_Peers">over 140,000 of your peers!</string>
+    <string name="Opt_In_Be_The_First">Be the first to know!</string>
+    <string name="Opt_In_What_Are_You_Going_To_Get">What are you going to get?</string>
+    <string name="Opt_In_Special_Offers">Special offers, promotions and first hand information about new product releases. Tailored for you!</string>
+    <string name="Opt_In_Receive_Promotional">Receive promotional communications of Philips based on my preferences and online behavior\n%s</string>
 </resources>

@@ -290,6 +290,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 .findViewById(R.id.ll_reg_create_account_fields);
         mLlCreateAccountContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
+        if (RegConstants.AB_TESTING.equals(false)){
+            mLlCreateAccountContainer.setVisibility(View.GONE);
+        }else {
+            mLlCreateAccountContainer.setVisibility(View.VISIBLE);
+        }
 
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
@@ -398,7 +403,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     private void handleUiAcceptTerms() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-            mViewLine.setVisibility(View.VISIBLE);
+            if (RegConstants.AB_TESTING.equals(false)) {
+                mViewLine.setVisibility(View.GONE);
+            } else {
+                mViewLine.setVisibility(View.VISIBLE);
+            }
         } else {
             mLlAcceptTermsContainer.setVisibility(View.GONE);
             mViewLine.setVisibility(View.GONE);
@@ -424,10 +433,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         trackCheckMarketing();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            launchAccountActivateFragment();
-        } else {
-            launchWelcomeFragment();
+        if (RegConstants.AB_TESTING.equals(false)){
+            getRegistrationFragment().replaceWelcomeFragmentOnLogin(new MarketingAccountFragment());
+
+        }else {
+            if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+                launchAccountActivateFragment();
+            } else {
+                launchWelcomeFragment();
+            }
         }
 
         if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
