@@ -18,13 +18,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.request.AIImageRequest;
+import com.philips.platform.appinfra.rest.request.AIJsonObjectRequest;
+import com.philips.platform.appinfra.rest.request.AIStringRequest;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
-import com.philips.platform.appinfra.rest.request.ImageRequest;
-import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
-import com.philips.platform.appinfra.rest.request.StringRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
@@ -251,10 +253,10 @@ public class RestManager implements RestInterface {
 
     // calls the actual stringRequest and send back response to caller
     private void stringRequestWithURL(final int requestType, String urlString, final ServiceIDCallback listener, final Map<String, String> headers, final Map<String, String> params) throws HttpForbiddenException {
-        StringRequest request = null;
+        AIStringRequest request = null;
         try {
             // request= new StringRequest(requestType, urlString, new Response.Listener<String>() {
-            request = new StringRequest(requestType, "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json", new Response.Listener<String>() {
+            request = new AIStringRequest(requestType, "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     listener.onSuccess(response); // pass back response to caller method
@@ -308,9 +310,9 @@ public class RestManager implements RestInterface {
             jsonObjectParams = new JSONObject(params);
         }
         urlString = "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json";
-        JsonObjectRequest jsObjRequest = null;
+        AIJsonObjectRequest jsObjRequest = null;
         try {
-            jsObjRequest = new JsonObjectRequest
+            jsObjRequest = new AIJsonObjectRequest
                     (requestType, urlString, jsonObjectParams, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -352,9 +354,9 @@ public class RestManager implements RestInterface {
     // calls the actual imageRequest and send back response to caller
     private void imageRequestWithURL(String urlString, final ServiceIDCallback listener, Map<String, String> headers, ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, int maxWidth, int maxHeight) throws HttpForbiddenException {
         urlString = "http://i.imgur.com/7spzG.png";
-        ImageRequest imageRequest = null;
+        AIImageRequest imageRequest = null;
         try {
-            imageRequest = new ImageRequest(urlString,
+            imageRequest = new AIImageRequest(urlString,
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {

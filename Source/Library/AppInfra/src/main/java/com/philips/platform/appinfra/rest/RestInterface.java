@@ -57,9 +57,9 @@ public interface RestInterface {
         void onSuccess(String url);
     }
 
-    public  void stringRequestWithServiceID(final int requestType, String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, Map<String, String> headers, Map<String, String> params ) throws HttpForbiddenException;
-    public  void jsonObjectRequestWithServiceID(final int requestType, String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, Map<String, String> headers, Map<String, String> params ) throws HttpForbiddenException;
-    public  void imageRequestWithServiceID( String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, Map<String, String> headers, final ImageView.ScaleType scaleType, final Bitmap.Config decodeConfig, int maxWidth, int maxHeight ) throws HttpForbiddenException;
+    public  void stringRequestWithServiceID(final int requestType, String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, Map<String, String> headers, Map<String, String> params) throws HttpForbiddenException;
+    public  void jsonObjectRequestWithServiceID(final int requestType, String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, Map<String, String> headers, Map<String, String> params) throws HttpForbiddenException;
+    public  void imageRequestWithServiceID(String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, Map<String, String> headers, final ImageView.ScaleType scaleType, final Bitmap.Config decodeConfig, int maxWidth, int maxHeight) throws HttpForbiddenException;
 
     public interface ServiceIDCallback{
         void onSuccess(Object response);

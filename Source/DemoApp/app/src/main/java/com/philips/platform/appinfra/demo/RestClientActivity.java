@@ -21,8 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
+import com.philips.platform.appinfra.rest.request.AIStringRequest;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
-import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -105,7 +105,7 @@ public class RestClientActivity extends AppCompatActivity {
                 }
 
                 if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")) {
-                    StringRequest putRequest = null;
+                    AIStringRequest putRequest = null;
                     if(!mRestInterface.isValidURL(urlInput.getText().toString().trim())){ // if invalid url
                         showAlertDialog("URL Error","Invalid URL");
                         return ;
@@ -115,7 +115,7 @@ public class RestClientActivity extends AppCompatActivity {
                             showAlertDialog("URL Error","Invalid URL");
                             return ;
                         }
-                        putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id="+idInput.getText().toString().trim(),
+                        putRequest = new AIStringRequest(Request.Method.PUT, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id="+idInput.getText().toString().trim(),
                                 new Response.Listener<String>()
                                 {
                                     @Override
@@ -170,9 +170,9 @@ public class RestClientActivity extends AppCompatActivity {
                         showAlertDialog("URL Error","Invalid URL");
                         return ;
                     }
-                    StringRequest mStringRequest = null;
+                    AIStringRequest mStringRequest = null;
                     try {
-                        mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id="+idInput.getText().toString().trim(), new Response.Listener<String>() {
+                        mStringRequest = new AIStringRequest(methodType, urlInput.getText().toString().trim()+"/RCT/test.php?action=data&id="+idInput.getText().toString().trim(), new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 Log.i("LOG", "" + response);
@@ -243,9 +243,9 @@ public class RestClientActivity extends AppCompatActivity {
                     showAlertDialog("URL Error","Invalid URL");
                     return ;
                 }
-                StringRequest mStringRequest = null;
+                AIStringRequest mStringRequest = null;
                 try {
-                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authtoken", new Response.Listener<String>() {
+                    mStringRequest = new AIStringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authtoken", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Log.i("LOG", "" + response);
@@ -294,9 +294,9 @@ public class RestClientActivity extends AppCompatActivity {
                     showAlertDialog("URL Error","Invalid URL");
                     return ;
                 }
-                StringRequest mStringRequest = null;
+                AIStringRequest mStringRequest = null;
                 try {
-                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authcheck",
+                    mStringRequest = new AIStringRequest(Request.Method.GET, urlInput.getText().toString().trim()+"/RCT/test.php?action=authcheck",
                             new Response.Listener<String>()
                             {
                                 @Override
