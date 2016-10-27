@@ -98,7 +98,6 @@ public class AppTagging implements AppTaggingInterface {
 
     private void init(Locale locale, Context context) {
         mLocale = locale;
-        prevPage = "TaggingPageInitialization";
         Config.setContext(context);
 
     }
