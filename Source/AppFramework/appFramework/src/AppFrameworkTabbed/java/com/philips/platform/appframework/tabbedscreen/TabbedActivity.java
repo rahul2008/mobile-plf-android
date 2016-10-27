@@ -31,8 +31,8 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeTabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView, IAPListener {
-    private static String TAG = HomeTabbedActivity.class.getSimpleName();
+public class TabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView, IAPListener {
+    private static String TAG = TabbedActivity.class.getSimpleName();
     private TabLayout topLayout;
 
     /**
@@ -44,7 +44,7 @@ public class HomeTabbedActivity extends AppFrameworkBaseActivity implements Frag
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_home_tab_top);
-        presenter = new HomeTabbedActivityPresenter(this);
+        presenter = new TabbedActivityPresenter(this);
 
         TabUtils.disableActionbarShadow(this);
         setTopBar();

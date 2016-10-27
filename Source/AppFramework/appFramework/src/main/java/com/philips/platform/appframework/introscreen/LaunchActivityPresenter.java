@@ -6,14 +6,12 @@
 package com.philips.platform.appframework.introscreen;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.stateimpl.HomeActivityState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.URStateListener;
-import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -54,18 +52,6 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);
         }
-    }
-
-    protected BaseState getUiState(final int componentID) {
-        switch (componentID) {
-            case Constants.BACK_BUTTON_CLICK_CONSTANT:
-                baseState = new HomeActivityState();
-                break;
-            case USER_REGISTRATION_STATE:
-                baseState = new UserRegistrationState();
-                break;
-        }
-        return baseState;
     }
 
     private String getEventState(final int componentID) {

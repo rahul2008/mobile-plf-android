@@ -42,11 +42,11 @@ public class TabInterface implements UappInterface {
     }
 
     private void invokeTabScreenAsActivity(ActivityLauncher activityLauncher, TabLaunchInput launchInput) {
-        context.startActivity(new Intent(context, HomeTabbedActivity.class));
+        context.startActivity(new Intent(context, TabbedActivity.class));
     }
 
     private void invokeTabScreenAsFragment(FragmentLauncher fragmentLauncher, TabLaunchInput launchInput) {
-        context.startActivity(new Intent(context, HomeTabbedActivity.class));
+        context.startActivity(new Intent(context, TabbedActivity.class));
     }
 }
 

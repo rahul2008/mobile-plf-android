@@ -30,11 +30,11 @@
             </intent-filter>
             </activity>
         <activity
-            android:name=".tabbedscreen.HomeTabbedActivity"
+            android:name=".tabbedscreen.TabbedActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.Philips.DarkBlue.Gradient.NoActionBar"/>
         <activity
-            android:name=".flowmanager.homescreen.HomeActivity"
+            android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
         <!--<receiver-->

@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.flowmanager;
 
 import com.philips.platform.flowmanager.condition.BaseCondition;
+import com.philips.platform.flowmanager.condition.ConditionAppLaunch;
 import com.philips.platform.flowmanager.condition.ConditionIsDonePressed;
 import com.philips.platform.flowmanager.condition.ConditionIsLoggedIn;
 import com.philips.platform.modularui.statecontroller.BaseAppCondition;
