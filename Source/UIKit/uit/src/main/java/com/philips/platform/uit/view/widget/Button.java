@@ -80,14 +80,15 @@ public class Button extends AppCompatButton {
      * @param drawable
      */
     public void setImageDrawable(Drawable drawable) {
+        Drawable wrappedDrawable = drawable;
         if (drawableColorlist != null && drawable != null) {
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            drawable.invalidateSelf();
-            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+            wrappedDrawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
         }
         final Drawable[] compoundDrawables = getCompoundDrawables();
-        setCompoundDrawables(drawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+        setCompoundDrawables(wrappedDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+        invalidate();
     }
 
     @Override

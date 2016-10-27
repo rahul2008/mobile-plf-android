@@ -4,8 +4,12 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View"/>
-        <variable name="frag" type="com.philips.platform.catalogapp.fragments.ButtonFragment"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.ButtonFragment"/>
     </data>
 
     <ScrollView
@@ -31,9 +35,9 @@
                     android:id="@+id/toggleicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:onCheckedChanged="@{(v, isChecked) -> frag.toggleIcons(isChecked)}"/>
             </LinearLayout>
 
@@ -54,10 +58,10 @@
                     android:id="@+id/toggleextraWide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|end"
-                    android:checked="true"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:gravity="center_vertical|end"
                     android:onCheckedChanged="@{(v, isChecked) -> frag.toggleExtraWideButtons(isChecked)}"/>
             </LinearLayout>
 
@@ -78,9 +82,9 @@
                     android:id="@+id/toggleDisable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:onCheckedChanged="@{(v, isChecked) -> frag.disableButtons(isChecked)}"/>
 
             </LinearLayout>
@@ -101,24 +105,28 @@
                 android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
 
                 <com.philips.platform.uit.view.widget.Button
-                    style="@style/UITExtraWideButton.Center"
+                    style="@style/UITDefaultButton.UITImageTextButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/button_first_last_element_gap"
-                    android:text="@string/buttons_text_primary"
+                    app:uidButtonCenter="true"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
-                    android:enabled="@{frag.isButtonsEnabled}"/>
+                    android:layout_marginTop="@dimen/button_first_last_element_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/buttons_text_primary"/>
 
                 <com.philips.platform.uit.view.widget.Button
-                    style="@style/UITExtraWideButton.Center"
+                    style="@style/UITDefaultButton.UITImageTextButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:uitComponentType="Secondary"
+                    app:uidButtonCenter="true"
+                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
-                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/buttons_text_secondary"
-                    android:enabled="@{frag.isButtonsEnabled}"/>
+                    app:uitComponentType="Secondary"/>
             </LinearLayout>
 
             <!--Defualt buttons-->
@@ -126,8 +134,8 @@
                 android:id="@+id/groupDefault"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:visibility="@{frag.showExtraWideButtons ? View.GONE : View.VISIBLE}">
 
                 <com.philips.platform.uit.view.widget.Button
@@ -135,19 +143,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/button_first_last_element_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
                     android:gravity="center"
-                    android:text="@string/buttons_text_primary"
-                    android:enabled="@{frag.isButtonsEnabled}"/>
+                    android:text="@string/buttons_text_primary"/>
 
                 <com.philips.platform.uit.view.widget.Button
                     style="@style/UITDefaultButton.UITImageTextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/button_gap"
                     android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
                     android:gravity="center"
                     android:text="@string/buttons_text_secondary"
-                    android:enabled="@{frag.isButtonsEnabled}"/>
+                    app:uitComponentType="Secondary"/>
             </LinearLayout>
 
             <include layout="@layout/divider_layout"/>
