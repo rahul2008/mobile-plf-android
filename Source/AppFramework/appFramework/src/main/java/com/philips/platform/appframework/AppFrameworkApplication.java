@@ -13,7 +13,6 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -26,7 +25,6 @@ import java.util.Locale;
 public class AppFrameworkApplication extends Application {
     public static AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
-    public UIFlowManager flowManager;
     protected FlowManager targetFlowManager;
     UserRegistrationState userRegistrationState;
     IAPState iapState;
@@ -41,7 +39,6 @@ public class AppFrameworkApplication extends Application {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        flowManager = new UIFlowManager();
         targetFlowManager = FlowManager.getInstance( getApplicationContext(), R.string.com_philips_app_fmwk_app_flow_url);
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
@@ -76,10 +73,6 @@ public class AppFrameworkApplication extends Application {
     /**
      * Initializing Product registration
      */
-
-    public UIFlowManager getFlowManager() {
-        return flowManager;
-    }
 
     public FlowManager getTargetFlowManager() {
         return targetFlowManager;

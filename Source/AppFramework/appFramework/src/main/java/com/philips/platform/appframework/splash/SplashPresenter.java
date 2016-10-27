@@ -48,7 +48,6 @@ public class SplashPresenter extends UIBasePresenter {
                 uiView.showActionBar();
             }
             baseState.setPresenter(this);
-            appFrameworkApplication.getFlowManager().setCurrentState(baseState);
             baseState.navigate(fragmentLauncher);
         }
     }

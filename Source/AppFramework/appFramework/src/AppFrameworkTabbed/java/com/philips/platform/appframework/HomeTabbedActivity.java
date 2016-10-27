@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager;
+package com.philips.platform.appframework;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -14,21 +14,22 @@ import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.utils.TabUtils;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+
+import java.util.ArrayList;
 
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeTabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView {
+public class HomeTabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView, IAPListener {
     private static String TAG = HomeTabbedActivity.class.getSimpleName();
     private TabLayout topLayout;
 
@@ -86,15 +87,15 @@ public class HomeTabbedActivity extends AppFrameworkBaseActivity implements Frag
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_radio, 0);
-        utils.setTitle(tab, "Support");
-        topLayout.addTab(tab);
-
-        tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_on, 0);
         utils.setTitle(tab, "Settings");
         topLayout.addTab(tab);
 
+        tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_on, 0);
+        utils.setTitle(tab, "Shop");
+        topLayout.addTab(tab);
+
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
-        utils.setTitle(tab, "About");
+        utils.setTitle(tab, "Support");
         topLayout.addTab(tab);
     }
 
@@ -203,5 +204,35 @@ public class HomeTabbedActivity extends AppFrameworkBaseActivity implements Frag
     @Override
     public FragmentActivity getFragmentActivity() {
         return this;
+    }
+
+    @Override
+    public void onGetCartCount(final int i) {
+
+    }
+
+    @Override
+    public void onUpdateCartCount() {
+
+    }
+
+    @Override
+    public void updateCartIconVisibility(final boolean b) {
+
+    }
+
+    @Override
+    public void onGetCompleteProductList(final ArrayList<String> arrayList) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onFailure(final int i) {
+
     }
 }

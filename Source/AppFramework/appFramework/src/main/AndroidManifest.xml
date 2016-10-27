@@ -30,7 +30,7 @@
             </intent-filter>
             </activity>
         <activity
-            android:name=".flowmanager.HomeTabbedActivity"
+            android:name=".HomeTabbedActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.Philips.DarkBlue.Gradient.NoActionBar"/>
         <activity
