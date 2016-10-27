@@ -71,8 +71,6 @@ public class AppFrameworkApplication extends Application {
         databaseHelper.getWritableDatabase();
          Stetho.initializeWithDefaults(this);
 
-        //initializeUserRegistrationLibrary(Configuration.DEVELOPMENT);
-
 
 
     }

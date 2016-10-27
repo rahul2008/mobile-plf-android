@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.core.trackers.Tracker;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTimeConstants;
 
@@ -40,7 +39,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
         }
         //TODO: review changing connection
         if (isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
-            mDataServices.syncData();
+            mDataServices.synchchronize();
         }
     }
 

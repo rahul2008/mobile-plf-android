@@ -15,9 +15,9 @@ import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasevices.database.table.OrmMoment;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.trackers.Tracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +35,11 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private UIKitListPopupWindow mPopupWindow;
     private Drawable mOptionsDrawable;
     private Resources mResources;
-    final TemperaturePresenter mTemperaturePresenter;
-
-     DataServicesManager mDataServices;
+    private static final int DELETE = 0;
+    private static final int UPDATE = 1;
+    
+    DataServicesManager mDataServices;
+    private final TemperaturePresenter mTemperaturePresenter;
 
 
     public

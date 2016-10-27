@@ -3,7 +3,6 @@ package com.philips.platform.datasevices.temperature;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.database.SQLException;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -48,6 +47,7 @@ import com.philips.platform.datasevices.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -115,10 +115,11 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
         mDataServicesManager.initialize(getContext(), creator, new UserRegistrationFacadeImpl(getContext(), new User(getContext())));
+        mDataServicesManager.initializeSyncMonitors(null,null);
 
         alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
+        mTemperaturePresenter = new TemperaturePresenter(this,getContext(), MomentType.TEMPERATURE);
         mTemperaturePresenter.fetchData();
         setUpBackendSynchronizationLoop();
     }
@@ -183,7 +184,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.add:
-                mTemperaturePresenter.addOrUpdateMoment(mTemperaturePresenter.ADD,null);
+                mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD,null);
                 break;
         }
     }

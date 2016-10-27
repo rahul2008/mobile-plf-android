@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -23,7 +22,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
-import com.philips.platform.core.trackers.Tracker;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIView;
 
@@ -31,8 +30,6 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -106,7 +103,7 @@ public class TemperaturePresenter  extends UIBasePresenter {
 
     public void startSync() {
         Log.i("***SPO***", "In Presenter");
-        mDataServices.syncData();
+        mDataServices.synchchronize();
     }
 
 
@@ -157,7 +154,7 @@ public class TemperaturePresenter  extends UIBasePresenter {
 
     private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter, final List<? extends Moment> mData, int adapterPosition) {
         try {
-            tracker.deleteMoment(mData.get(adapterPosition));
+            mDataServices.deleteMoment(mData.get(adapterPosition));
             mData.remove(adapterPosition);
             adapter.notifyItemRemoved(adapterPosition);
             adapter.notifyDataSetChanged();
@@ -172,7 +169,7 @@ public class TemperaturePresenter  extends UIBasePresenter {
         try {
             TemperatureMomentHelper helper = new TemperatureMomentHelper();
             moment = helper.updateMoment(moment, phaseInput, temperatureInput, locationInput);
-            tracker.update(moment);
+            mDataServices.update(moment);
         } catch (Exception ArrayIndexOutOfBoundsException) {
 
         }
