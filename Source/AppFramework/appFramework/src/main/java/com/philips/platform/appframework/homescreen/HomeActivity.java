@@ -114,6 +114,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                     adapter.notifyDataSetChanged();
                     sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
+                    
                 }
             }
         });
