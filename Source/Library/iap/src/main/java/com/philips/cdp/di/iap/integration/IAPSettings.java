@@ -21,19 +21,16 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
-
-        if (!isUseLocalData()) {
-            mHostPort = "https://acc.occ.shop.philips.com/";
-            mProposition = "Tuscany2016";
-        }
+        mHostPort = "https://www.occ.shop.philips.com/";
+//        initServiceDiscovery();
     }
 
     public boolean isUseLocalData() {
         return mUseLocalData;
     }
 
-    public void setUseLocalData(boolean mUseLocalData) {
-        this.mUseLocalData = mUseLocalData;
+    public void setUseLocalData(boolean isLocalData) {
+        mUseLocalData = isLocalData;
     }
 
     public String getProposition() {
@@ -55,7 +52,7 @@ public class IAPSettings extends UappSettings {
     }
 
     private void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.getbaseurl", new
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("iap.baseurl", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override

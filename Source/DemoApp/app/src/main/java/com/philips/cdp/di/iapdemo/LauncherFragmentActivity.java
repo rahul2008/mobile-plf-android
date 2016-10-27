@@ -20,7 +20,6 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -28,7 +27,6 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class LauncherFragmentActivity extends UiKitActivity
         implements ActionBarListener, IAPListener, View.OnClickListener {
@@ -58,7 +56,6 @@ public class LauncherFragmentActivity extends UiKitActivity
 
         mProductCTNs = new ArrayList<>();
         mProductCTNs.add("HX8331/11");
-        setLocale(Locale.getDefault().getLanguage(), "US");
 
         if (savedInstanceState == null)
             launchInAppAsFragment();
@@ -156,11 +153,6 @@ public class LauncherFragmentActivity extends UiKitActivity
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
-    }
-
-    private void setLocale(String languageCode, String countryCode) {
-        PILLocaleManager localeManager = new PILLocaleManager(LauncherFragmentActivity.this);
-        localeManager.setInputLocale(languageCode, countryCode);
     }
 
     @Override
