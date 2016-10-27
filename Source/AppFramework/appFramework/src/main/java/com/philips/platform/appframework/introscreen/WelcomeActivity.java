@@ -141,7 +141,7 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements ActionB
             isConsumed = ((BackEventListener) fragment).handleBackEvent();
         }
 
-        if(welcomeScreenFragment != null && fragment instanceof WelcomeFragment) {
+        if(fragment != null && fragment instanceof WelcomeFragment) {
             welcomeScreenFragment.onBackPressed();
         }
         else if(!isConsumed) {
