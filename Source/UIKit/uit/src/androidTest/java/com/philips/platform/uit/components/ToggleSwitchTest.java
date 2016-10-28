@@ -45,9 +45,9 @@ public class ToggleSwitchTest {
         testResources = getInstrumentation().getContext().getResources();
         activityContext = activity;
 
-        trackDrawable = toggleSwitch.getTrackDrawable();
-        thumbDrawable = toggleSwitch.getThumbDrawable();
-        testResources = getInstrumentation().getContext().getResources();
+//        trackDrawable = toggleSwitch.getTrackDrawable();
+//        thumbDrawable = toggleSwitch.getThumbDrawable();
+//        testResources = getInstrumentation().getContext().getResources();
     }
 
     //*********************************Toggle Switch Layout TestScenarios**************************//
