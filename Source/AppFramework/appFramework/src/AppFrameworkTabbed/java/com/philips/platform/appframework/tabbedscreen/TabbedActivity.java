@@ -14,7 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.utils.TabUtils;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
