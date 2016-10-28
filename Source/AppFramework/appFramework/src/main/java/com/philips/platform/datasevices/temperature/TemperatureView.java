@@ -1,4 +1,5 @@
 package com.philips.platform.datasevices.temperature;
+
 import com.philips.platform.modularui.statecontroller.FragmentView;
 
 /**

@@ -7,21 +7,15 @@ package com.philips.platform.appframework;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
 import android.support.multidex.MultiDex;
 
-import com.facebook.stetho.Stetho;
+
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.core.BaseAppCore;
-import com.philips.platform.core.Eventing;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasevices.database.DatabaseHelper;
-import com.philips.platform.datasevices.utility.EventingImpl;
-import com.philips.platform.datasync.Backend;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
@@ -29,9 +23,6 @@ import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 
 import java.util.Locale;
 
-import javax.inject.Inject;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * Application class is used for initialization
@@ -44,7 +35,8 @@ public class AppFrameworkApplication extends Application {
     UserRegistrationState userRegistrationState;
     IAPState iapState;
     ProductRegistrationState productRegistrationState;
-     /**
+
+    /**
      * @return instance of this class
      */
 
@@ -61,27 +53,25 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableFileLog(true);
         setLocale();
 
-        userRegistrationState= new UserRegistrationState();
+        userRegistrationState = new UserRegistrationState();
         userRegistrationState.init(this);
-        productRegistrationState= new ProductRegistrationState();
+        productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         iapState = new IAPState();
         iapState.init(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
-         Stetho.initializeWithDefaults(this);
-
 
 
     }
 
-    public IAPState getIap(){
+    public IAPState getIap() {
         return iapState;
     }
-/**
- * Method for initializing IAP
- *
- */
+
+    /**
+     * Method for initializing IAP
+     */
 
 
     private void setLocale() {
@@ -107,4 +97,4 @@ public class AppFrameworkApplication extends Application {
     }
 
 
-    }
+}

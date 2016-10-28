@@ -35,8 +35,8 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TemperaturePresenter  extends UIBasePresenter {
-   DataServicesManager mDataServices;
+public class TemperaturePresenter extends UIBasePresenter {
+    DataServicesManager mDataServices;
 
     Moment mMoment;
     Measurement mMeasurement;
@@ -47,56 +47,56 @@ public class TemperaturePresenter  extends UIBasePresenter {
     public static final int ADD = 2;
 
 
-    TemperaturePresenter(UIView uiView, Context context, MomentType momentType){
+    TemperaturePresenter(UIView uiView, Context context, MomentType momentType) {
         super(uiView);
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
     }
 
-    public void createMoment(String momemtDetail, String measurement, String measurementDetail){
-        mMoment= mDataServices.createMoment(mMomentType);
+    public void createMoment(String momemtDetail, String measurement, String measurementDetail) {
+        mMoment = mDataServices.createMoment(mMomentType);
         createMomentDetail(momemtDetail);
         createMeasurement(measurement);
         createMeasurementDetail(measurementDetail);
     }
 
-    public void updateMoment(String momemtDetail, String measurement, String measurementDetail){
-        mMoment= mDataServices.createMoment(mMomentType);
+    public void updateMoment(String momemtDetail, String measurement, String measurementDetail) {
+        mMoment = mDataServices.createMoment(mMomentType);
         mMoment.setDateTime(DateTime.now());
         createMomentDetail(momemtDetail);
         createMeasurement(measurement);
         createMeasurementDetail(measurementDetail);
     }
 
-    public void createMeasurementDetail(String value){
-        MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION,mMeasurement);
+    public void createMeasurementDetail(String value) {
+        MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, mMeasurement);
         measurementDetail.setValue(value);
     }
 
-    public void createMeasurement(String value){
+    public void createMeasurement(String value) {
         mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, mMoment);
         mMeasurement.setValue(Double.valueOf(value));
         mMeasurement.setDateTime(DateTime.now());
     }
 
-    public void createMomentDetail(String value){
+    public void createMomentDetail(String value) {
         MomentDetail momentDetail = mDataServices.createMomentDetail(MomentDetailType.PHASE, mMoment);
         momentDetail.setValue(value);
     }
 
-    public void fetchData(){
+    public void fetchData() {
         mDataServices.fetch(MomentType.TEMPERATURE);
     }
 
-    public Moment getMoment(){
+    public Moment getMoment() {
         return mMoment;
     }
 
-    public void saveRequest(){
-        if(mMoment.getCreatorId()==null || mMoment.getSubjectId()==null){
-            Toast.makeText(mContext,"Please Login again", Toast.LENGTH_SHORT).show();
-        }else {
+    public void saveRequest() {
+        if (mMoment.getCreatorId() == null || mMoment.getSubjectId() == null) {
+            Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
+        } else {
             mDataServices.save(mMoment);
         }
     }
@@ -125,7 +125,7 @@ public class TemperaturePresenter  extends UIBasePresenter {
     public void bindDeleteOrUpdatePopUP(final TemperatureTimeLineFragmentcAdapter adapter, final List<? extends Moment> mData, final View view, final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<>();
 
-        final String delete =mContext.getResources().getString(R.string.delete);
+        final String delete = mContext.getResources().getString(R.string.delete);
         String update = mContext.getResources().getString(R.string.update);
         final String[] descriptions = new String[]{delete, update};
 
@@ -138,11 +138,11 @@ public class TemperaturePresenter  extends UIBasePresenter {
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        removeMoment(adapter,mData,selectedItem);
+                        removeMoment(adapter, mData, selectedItem);
                         mPopupWindow.dismiss();
                         break;
                     case UPDATE:
-                        addOrUpdateMoment(UPDATE,mData.get(selectedItem));
+                        addOrUpdateMoment(UPDATE, mData.get(selectedItem));
                         mPopupWindow.dismiss();
                         break;
                     default:
@@ -185,7 +185,7 @@ public class TemperaturePresenter  extends UIBasePresenter {
         final Button dialogButton = (Button) dialog.findViewById(R.id.save);
         dialogButton.setEnabled(false);
 
-        if(moment!=null){
+        if (moment != null) {
             TemperatureMomentHelper helper = new TemperatureMomentHelper();
             temperature.setText(String.valueOf(helper.getTemperature(moment)));
             location.setText(helper.getNotes(moment));
@@ -196,22 +196,22 @@ public class TemperaturePresenter  extends UIBasePresenter {
             @Override
             public void onClick(final View v) {
 
-               boolean isValid= validateInputFields(phase.getText().toString(),
+                boolean isValid = validateInputFields(phase.getText().toString(),
                         temperature.getText().toString(), location.getText().toString());
 
-                if(!isValid){
+                if (!isValid) {
                     temperature.setText("");
-                    Toast.makeText(mContext,R.string.invalid_temperature,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.invalid_temperature, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                switch (addOrUpdate){
+                switch (addOrUpdate) {
                     case ADD:
                         createAndSaveMoment(phase.getText().toString(),
                                 temperature.getText().toString(), location.getText().toString());
                         break;
                     case UPDATE:
-                        updateAndSaveMoment(moment,phase.getText().toString(), temperature.getText().toString(),
+                        updateAndSaveMoment(moment, phase.getText().toString(), temperature.getText().toString(),
                                 location.getText().toString());
                         break;
                 }
@@ -227,9 +227,9 @@ public class TemperaturePresenter  extends UIBasePresenter {
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
+                if (phase.getText().toString() != null && !phase.getText().toString().isEmpty() && temperature.getText().toString() != null && !temperature.getText().toString().isEmpty() && location.getText().toString() != null && !location.getText().toString().isEmpty()) {
                     dialogButton.setEnabled(true);
-                }else{
+                } else {
                     dialogButton.setEnabled(false);
                 }
             }
@@ -248,9 +248,9 @@ public class TemperaturePresenter  extends UIBasePresenter {
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
+                if (phase.getText().toString() != null && !phase.getText().toString().isEmpty() && temperature.getText().toString() != null && !temperature.getText().toString().isEmpty() && location.getText().toString() != null && !location.getText().toString().isEmpty()) {
                     dialogButton.setEnabled(true);
-                }else{
+                } else {
                     dialogButton.setEnabled(false);
                 }
             }
@@ -269,9 +269,9 @@ public class TemperaturePresenter  extends UIBasePresenter {
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
+                if (phase.getText().toString() != null && !phase.getText().toString().isEmpty() && temperature.getText().toString() != null && !temperature.getText().toString().isEmpty() && location.getText().toString() != null && !location.getText().toString().isEmpty()) {
                     dialogButton.setEnabled(true);
-                }else{
+                } else {
                     dialogButton.setEnabled(false);
                 }
             }
@@ -290,7 +290,7 @@ public class TemperaturePresenter  extends UIBasePresenter {
         try {
             Double.valueOf(temperature);
             return true;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }

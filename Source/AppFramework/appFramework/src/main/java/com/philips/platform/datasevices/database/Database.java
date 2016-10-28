@@ -23,8 +23,6 @@ import com.philips.platform.datasevices.database.table.OrmMomentDetail;
 
 import org.joda.time.DateTime;
 
-/*import org.joda.time.DateTime;*/
-
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -47,7 +45,7 @@ public class Database implements BaseAppDataCreator {
     @NonNull
     @Override
     public Moment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final MomentType type) {
-        return creator.createMomentWithoutUUID(creatorId ,subjectId, type);
+        return creator.createMomentWithoutUUID(creatorId, subjectId, type);
     }
 
     @Override
