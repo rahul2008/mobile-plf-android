@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:bottom="4dp"
-        android:end="4dp"
-        android:start="4dp"
-        android:top="4dp">
-        <shape
-            android:shape="rectangle">
-            <solid android:color="@android:color/white"/>
-            <corners android:radius="8dp"/>
-            <size
-                android:width="@dimen/uit_switch_track_width"
-                android:height="@dimen/uit_switch_track_height"/>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:bottom="4dp"
+          android:drawable="@drawable/uid_switch_track_drawable"
+          android:end="4dp"
+          android:start="4dp"
+          android:state_checked="true" android:top="4dp">
 
-        </shape>
     </item>
-</layer-list>
+    <item android:bottom="4dp"
+          android:drawable="@drawable/uid_switch_track_drawable"
+          android:end="4dp"
+          android:start="4dp"
+          android:state_checked="false" android:top="4dp">
+    </item>
+</selector>

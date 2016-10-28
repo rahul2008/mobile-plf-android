@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
@@ -37,6 +38,8 @@ public class Switch extends SwitchCompat {
     private void applyTrackTint(final TypedArray typedArray, final Resources.Theme theme, final AttributeSet attrs) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchTrackColorList, -1);
         if (textColorStateID != -1) {
+            setTrackDrawable(DrawableCompat.wrap(getTrackDrawable()));
+
             setTrackTintList(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
         }
     }
@@ -44,6 +47,8 @@ public class Switch extends SwitchCompat {
     private void applyThumbTint(final TypedArray typedArray, final Resources.Theme theme, final AttributeSet attrs) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchThumbColorList, -1);
         if (textColorStateID != -1) {
+            setThumbDrawable(DrawableCompat.wrap(getThumbDrawable()));
+
             setThumbTintList(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
         }
     }
