@@ -25,7 +25,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
-
 public class PrimaryButtonWithIconOnlyTest {
 
     private Resources testResources;
@@ -55,30 +54,26 @@ public class PrimaryButtonWithIconOnlyTest {
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
 
-
     @Test
-    public void verifyIconOnlyButtonWidth(){
+    public void verifyIconOnlyButtonWidth() {
         waitFor(testResources, 750);
         int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_width);
         getIconOnlyButton()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
-
     }
 
     @Test
-    public void verifyIconHeight(){
+    public void verifyIconHeight() {
         waitFor(testResources, 750);
         int expectedIconHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.icon_height);
-        getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0,expectedIconHeight)));
-
+        getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
-    public void verifyIconWidth(){
+    public void verifyIconWidth() {
         waitFor(testResources, 750);
         int expectedIconWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.icon_width);
-        getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0,expectedIconWidth)));
-
+        getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
 
     @Test
@@ -87,13 +82,11 @@ public class PrimaryButtonWithIconOnlyTest {
         getIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
-
     @Test
     public void verifyButtonWithIconRightPadding() {
         int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_right_padding);
         getIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
-
 
     @Test
     public void verifyButtonCornerRadius() {
@@ -101,32 +94,11 @@ public class PrimaryButtonWithIconOnlyTest {
         getIconOnlyButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
-
     /************************************************
      * Theming
      ************************************************/
 
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconButtonDefaultIconColor() {
-
-    }
-
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconButtonPressedIconColor() {
-
-    }
-
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconButtonDisabledIconColor() {
-
-    }
-
     private ViewInteraction getIconOnlyButton() {
         return onView(withId(com.philips.platform.uit.test.R.id.demo_image_button));
     }
-
-
 }

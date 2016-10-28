@@ -5,9 +5,7 @@
 package com.philips.platform.uit.components.Buttons;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -31,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.GroupBlue15;
 import static com.philips.platform.uit.test.R.color.GroupBlue35;
 import static com.philips.platform.uit.test.R.color.GroupBlue45;
+import static com.philips.platform.uit.test.R.color.GroupBlue75;
 import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class SecondaryButtonWithTextOnlyTest {
@@ -68,7 +67,7 @@ public class SecondaryButtonWithTextOnlyTest {
 
     @Test
     public void verifySecTextOnlyButtonFontColor() {
-        final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue45);
+        final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue75);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedFontColor)));
     }
 
@@ -89,7 +88,7 @@ public class SecondaryButtonWithTextOnlyTest {
     @Test
     public void verifySecTextOnlyDisabledButtonFontColor() {
         disableAllViews();
-        final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue45);
+        final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue75);
         final int disabledTextColor = UITTestUtils.modulateColorAlpha(expectedFontColor, 0.25f);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
     }
