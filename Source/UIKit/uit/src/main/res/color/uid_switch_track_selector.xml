@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:alpha="?attr/uidSwitchTrackDisabledAlpha" android:color="?attr/uidSwitchTrackDisabledColor" android:state_enabled="false"/>
-    <item android:alpha="?attr/uidSwitchTrackOffAlpha" android:color="?attr/uidSwitchTrackOffColor" android:state_checked="false"/>
-    <item android:color="?attr/uidSwitchTrackOnColor" android:state_checked="true"/>
+    <item android:color="?attr/uidSwitchTrackOnColor" android:state_checked="true" android:state_enabled="true" android:state_selected="true"/>
+    <item android:alpha="?attr/uidSwitchTrackOffAlpha" android:color="?attr/uidSwitchTrackOffColor" android:state_checked="false" android:state_enabled="true" android:state_selected="false"/>
     <item android:color="?attr/uidSwitchTrackOnColor"/>
 </selector>

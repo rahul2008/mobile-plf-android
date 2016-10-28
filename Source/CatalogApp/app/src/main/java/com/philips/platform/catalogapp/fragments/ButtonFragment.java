@@ -23,8 +23,8 @@ public class ButtonFragment extends BaseFragment {
     public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
 
     Drawable shareDrawable;
-    FragmentButtonsAllBinding fragmentBinding;
     boolean showingIcons;
+    private FragmentButtonsAllBinding fragmentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

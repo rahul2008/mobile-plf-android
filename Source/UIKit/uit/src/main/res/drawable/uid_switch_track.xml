@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:bottom="4dp"
+          android:drawable="@drawable/uid_switch_track_drawable"
+          android:end="4dp"
+          android:start="4dp"
+          android:state_checked="true" android:top="4dp">
+
+    </item>
+    <item android:bottom="4dp"
+          android:drawable="@drawable/uid_switch_track_drawable"
+          android:end="4dp"
+          android:start="4dp"
+          android:state_checked="false" android:top="4dp">
+    </item>
+</selector>
