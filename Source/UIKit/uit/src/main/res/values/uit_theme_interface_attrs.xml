@@ -15,6 +15,7 @@
         <attr name="uitButtonImageDrawableHeight" format="dimension"/>
         <attr name="uitButtonImageDrawableWidth" format="dimension"/>
         <attr name="uitButtonImageDrawableSrc" format="reference"/>
+        <attr name="uidButtonCenter" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="UITImageButton">

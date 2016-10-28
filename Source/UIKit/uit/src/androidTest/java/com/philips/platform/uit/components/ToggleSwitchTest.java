@@ -3,7 +3,6 @@
  * All rights reserved.
  *
  */
-
 package com.philips.platform.uit.components;
 
 import android.content.Context;

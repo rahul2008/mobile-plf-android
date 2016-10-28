@@ -70,7 +70,7 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(stateColors.getStateColor(state)), String.valueOf(expectedValue));
+                setValues(String.valueOf(Integer.toHexString(stateColors.getStateColor(state))), Integer.toHexString(expectedValue));
                 return stateColors.getStateColor(state) == expectedValue;
             }
         };

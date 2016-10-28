@@ -6,6 +6,18 @@
 
     <!--Textbox dimensions-->
     <dimen name="texteditbox_width">200dp</dimen>
+
+    <!--Base layout margins-->
+    <dimen name="layout_margin_left_right">24dp</dimen>
+    <dimen name="layout_height">48dp</dimen>
+
+    <!--Button test page-->
+    <dimen name="button_toggle_text_size">16sp</dimen>
+    <dimen name="button_layout_divider">1dp</dimen>
+    <dimen name="button_category_divider_height">32dp</dimen>
+    <dimen name="button_category_text_size">12sp</dimen>
+    <dimen name="button_gap">12dp</dimen>
+    <dimen name="button_first_last_element_gap">24dp</dimen>
     <dimen name="theme_settings_pagemargin">48dp</dimen>
     <dimen name="done_button_width">12dp</dimen>
 </resources>

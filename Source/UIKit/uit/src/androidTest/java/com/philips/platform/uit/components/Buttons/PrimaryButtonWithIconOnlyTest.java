@@ -1,21 +1,17 @@
-/*
- * (C) Koninklijke Philips N.V., 2016.
- * All rights reserved.
- *
- */
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.uit.components.buttons.button;
+package com.philips.platform.uit.components.Buttons;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
 
@@ -30,15 +26,20 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
 public class PrimaryButtonWithIconOnlyTest {
+
     private Resources testResources;
+    private Context instrumentationContext;
+    private Context activityContext;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
     public void setUp() {
-        mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
+        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
         testResources = getInstrumentation().getContext().getResources();
+        activityContext = activity;
     }
 
     /************************************************
@@ -46,77 +47,58 @@ public class PrimaryButtonWithIconOnlyTest {
      ************************************************/
 
     @Test
-    public void verifyButtonHeight() {
+    public void verifyIconOnlyButtonHeight() {
         waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_height);
-        getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
-    }
-
-    private ViewInteraction getPrimaryButton() {
-        return onView(withId(com.philips.platform.uit.test.R.id.demo_image_button));
+        getIconOnlyButton()
+                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
 
     @Test
-    public void verifyButtonWithIconWidth() {
+    public void verifyIconOnlyButtonWidth() {
         waitFor(testResources, 750);
         int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_width);
-        getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
+        getIconOnlyButton()
+                .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
     }
 
-    // TODO: 9/27/2016
     @Test
     public void verifyIconHeight() {
-
+        waitFor(testResources, 750);
+        int expectedIconHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.icon_height);
+        getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
-    // TODO: 9/27/2016
     @Test
     public void verifyIconWidth() {
-
-    }
-
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconContainer() {
-
+        waitFor(testResources, 750);
+        int expectedIconWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.icon_width);
+        getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
 
     @Test
     public void verifyButtonWithIconLeftPadding() {
-        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
-        getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
+        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
+        getIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
-    // TODO: 9/27/2016
     @Test
     public void verifyButtonWithIconRightPadding() {
+        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_right_padding);
+        getIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyButtonCornerRadius() {
-        float radius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_cornerradius);
-        getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
+        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
+        getIconOnlyButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
     /************************************************
      * Theming
      ************************************************/
 
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconButtonDefaultIconColor() {
-
-    }
-
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconButtonPressedIconColor() {
-
-    }
-
-    // TODO: 9/27/2016
-    @Test
-    public void verifyIconButtonDisabledIconColor() {
-
+    private ViewInteraction getIconOnlyButton() {
+        return onView(withId(com.philips.platform.uit.test.R.id.demo_image_button));
     }
 }

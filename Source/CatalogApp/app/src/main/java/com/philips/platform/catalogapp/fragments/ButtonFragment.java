@@ -1,10 +1,11 @@
-/*
+/**
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
- *
  */
 package com.philips.platform.catalogapp.fragments;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,51 +13,77 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.databinding.FragmentButtonsAllBinding;
 import com.philips.platform.uit.view.widget.Button;
-import com.philips.platform.uit.view.widget.ImageButton;
-import com.philips.platform.uit.view.widget.Switch;
 
 public class ButtonFragment extends BaseFragment {
-    ImageButton imageButton;
-    Button imageTextButton;
+    public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
+
+    Drawable shareDrawable;
+    FragmentButtonsAllBinding fragmentBinding;
+    boolean showingIcons;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_buttons, container, false);
-        imageButton = (ImageButton) view.findViewById(R.id.demo_image_button);
-        imageTextButton = (Button) view.findViewById(R.id.demo_image_text_button);
-        imageButton.setImageDrawable(getShareIcon());
-        imageTextButton.setImageDrawable(getShareIcon());
-        setDisableSwitch(view);
-        return view;
+        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
+        fragmentBinding.setFrag(this);
+        shareDrawable = getShareIcon();
+        restoreViews(savedInstanceState);
+        fragmentBinding.imageShare.setImageDrawable(shareDrawable.mutate());
+        return fragmentBinding.getRoot();
+    }
+
+    private void restoreViews(Bundle savedInstance) {
+        if (savedInstance != null) {
+            toggleIcons(savedInstance.getBoolean("showingIcons"));
+            toggleExtraWideButtons(savedInstance.getBoolean("showExtraWideButtons"));
+            disableButtons(!savedInstance.getBoolean("isButtonsEnabled"));
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putBoolean("showingIcons", showingIcons);
+        outState.putBoolean("showExtraWideButtons", showExtraWideButtons.get());
+        outState.putBoolean("isButtonsEnabled", isButtonsEnabled.get());
+        super.onSaveInstanceState(outState);
     }
 
     public Drawable getShareIcon() {
         return VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
     }
 
-    private void setDisableSwitch(View view) {
-        Switch switchForDisable = (Switch) view.findViewById(R.id.disable_switch);
-        switchForDisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ViewGroup viewById = (ViewGroup) getActivity().findViewById(R.id.buttons_parent);
-                disableAllChildViews(isChecked, viewById);
-            }
+    public void toggleIcons(boolean isIconToggleChecked) {
+        showingIcons = isIconToggleChecked;
+        Drawable drawable = isIconToggleChecked ? shareDrawable : null;
+        setIcons(fragmentBinding.groupExtraWide, drawable);
+        setIcons(fragmentBinding.groupDefault, drawable);
+        setIcons(fragmentBinding.groupLeftAlignedExtraWide, drawable);
+    }
 
-            private void disableAllChildViews(boolean isChecked, View view) {
-                if (view instanceof ViewGroup) {
-                    for (int i = 1; i < ((ViewGroup) view).getChildCount(); i++) {
-                        disableAllChildViews(isChecked, ((ViewGroup) view).getChildAt(i));
-                    }
-                } else {
-                    view.setEnabled(isChecked);
-                }
+    private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
+        for (int i = 0; i < buttonLayout.getChildCount() ; i++) {
+            View view = buttonLayout.getChildAt(i);
+            Drawable mutateDrawable = drawable;
+            if (drawable != null) {
+                mutateDrawable = drawable.getConstantState().newDrawable().mutate();
             }
-        });
+            if(view instanceof Button) {
+                ((Button) view).setImageDrawable(mutateDrawable);
+            }
+        }
+    }
+
+    public void toggleExtraWideButtons(boolean toggle) {
+        showExtraWideButtons.set(toggle);
+    }
+
+    public void disableButtons(boolean isChecked) {
+        isButtonsEnabled.set(!isChecked);
     }
 
     @Override
