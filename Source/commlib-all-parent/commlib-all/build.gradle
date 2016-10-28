@@ -74,6 +74,7 @@ dependencies {
     compatCompile project(":bluelib")
     compatCompile project(":commlib")
     compatCompile 'com.philips.cdp:cloudcontroller-api:2.0.2'
+    compatCompile 'com.google.code.gson:gson:2.7'
 
     debugCompile blueLib
     debugCompile commLib

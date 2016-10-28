@@ -6,6 +6,9 @@ package com.philips.cdp2.commlib.strategy;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.datatypes.DatatypeConverter;
 import com.philips.pins.shinelib.ResultListener;
@@ -18,15 +21,21 @@ import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 import cucumber.api.java.Before;
-import cucumber.api.java.en.*;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -37,13 +46,14 @@ public class BleStrategyTestSteps {
     private final BleDeviceCache deviceCache = new BleDeviceCache();
     private BleStrategy strategy;
     private final Map<String, Set<ResultListener<SHNDataRaw>>> rawDataListeners = new HashMap();
+    private final Queue<ResponseHandler> responseQueue = new LinkedList<>();
 
     @Before
     public void setup() {
         initMocks(this);
     }
 
-    @Given("^a mock device is found with id \"(.*?)\"$")
+    @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) throws Throwable {
         SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
         SHNDevice device = mock(SHNDevice.class);
@@ -73,7 +83,7 @@ public class BleStrategyTestSteps {
         deviceCache.deviceFound(null, info);
     }
 
-    @When("^the mock device with id \"(.*?)\" receives data \"(.*?)\"$")
+    @When("^the mock device with id '(.*?)' receives data$")
     public void mock_device_receives_data(final String id, final String data) {
         final Set<ResultListener<SHNDataRaw>> listeners = rawDataListeners.get(id);
 
@@ -88,8 +98,8 @@ public class BleStrategyTestSteps {
         }
     }
 
-    @Then("^data \"(.*?)\" was written to mock device with id \"(.*?)\"$")
-    public void mock_device_data_written(final String data, final String deviceId) {
+    @Then("^write occurred to mock device with id '(.*?)' with data '([0-9A-F]*?)'$")
+    public void mock_device_data_written(final String deviceId, final String data) {
         CapabilityDiComm capability = (CapabilityDiComm) deviceCache
                 .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
 
@@ -98,7 +108,7 @@ public class BleStrategyTestSteps {
         verify(capability).writeData(dataBytes);
     }
 
-    @Given("^the BleStrategy is initialized with id \"(.*?)\"$")
+    @Given("^the BleStrategy is initialized with id '(.*?)'$")
     public void the_BleStrategy_is_initialized_with_id(String deviceId) throws Throwable {
         strategy = new BleStrategy(deviceId, deviceCache);
     }
@@ -111,5 +121,44 @@ public class BleStrategyTestSteps {
     @Then("^the BleStrategy is not available$")
     public void theBleStrategyIsNotAvailable() throws Throwable {
         assertFalse(strategy.isAvailable());
+    }
+
+    @SuppressWarnings("unchecked")
+    @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with data$")
+    public void doingAPutPropertiesForProductidAndPortWithData(int productId, String port, String data) throws Throwable {
+        ResponseHandler handler = mock(ResponseHandler.class);
+        responseQueue.add(handler);
+
+        Map<String, Object> objData = new Gson().fromJson(data, HashMap.class);
+
+        strategy.putProperties(objData, port, productId, handler);
+    }
+
+    @When("^doing a get-properties for productid '(\\d+) and port '(.*?)'")
+    public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
+        ResponseHandler handler = mock(ResponseHandler.class);
+        responseQueue.add(handler);
+
+        strategy.getProperties(port, productId, handler);
+    }
+
+    @Then("^the result is success with data '(.*?)'$")
+    public void theResultIsSuccessWithDataTestData(String data) throws Throwable {
+        verify(responseQueue.remove()).onSuccess(data);
+    }
+
+    @Then("^the result is an error '(.*?)' with data '(.*?)'$")
+    public void theResultIsAnErrorThisErrorWithDataTestData(String error, String data) throws Throwable {
+        verify(responseQueue.remove()).onError(Error.valueOf(error), data);
+    }
+
+    @Then("^the result is success$")
+    public void theResultIsSuccess() throws Throwable {
+        verify(responseQueue.remove()).onSuccess(anyString());
+    }
+
+    @Then("^the result is an error$")
+    public void theResultIsAnError() throws Throwable {
+        verify(responseQueue.remove()).onError(any(Error.class), anyString());
     }
 }
