@@ -39,17 +39,19 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
         welcomeFragmentView.showActionBar();
         String eventState = getEventState(componentID);
-        if (eventState == WELCOME_DONE) {
+        if (eventState.equals(WELCOME_DONE)) {
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
-        baseState.setPresenter(this);
-        if (baseState instanceof UserRegistrationState)
-            ((UserRegistrationState) baseState).registerUIStateListener(this);
+        if(baseState!=null) {
+            baseState.setPresenter(this);
+            if (baseState instanceof UserRegistrationState)
+                ((UserRegistrationState) baseState).registerUIStateListener(this);
 
-        fragmentLauncher = getFragmentLauncher();
-        baseState.navigate(fragmentLauncher);
+            fragmentLauncher = getFragmentLauncher();
+            baseState.navigate(fragmentLauncher);
+        }
     }
 
     @NonNull
@@ -67,7 +69,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
             case MENU_OPTION_HOME:
                 return WELCOME_HOME;
         }
-        return null;
+        return WELCOME_HOME;
     }
 
     @Override

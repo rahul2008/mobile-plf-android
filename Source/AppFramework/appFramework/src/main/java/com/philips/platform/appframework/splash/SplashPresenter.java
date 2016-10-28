@@ -41,7 +41,6 @@ public class SplashPresenter extends UIBasePresenter {
     public void onLoad() {
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
         final BaseState baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SPLASH, APP_START);
-        // TODO: Deepthi, container id seems to be hardcoded here.
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
         if (null != baseState) {
             if (baseState instanceof UserRegistrationState) {

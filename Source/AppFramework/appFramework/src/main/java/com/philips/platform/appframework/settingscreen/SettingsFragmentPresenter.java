@@ -60,13 +60,15 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SETTINGS, eventState);
-        baseState.setPresenter(this);
-        baseState.setUiStateData(uiStateData);
-        if (eventState == SETTINGS_LOGIN) {
-            ((UserRegistrationState) baseState).registerUIStateListener(this);
+        if (baseState != null) {
+            baseState.setPresenter(this);
+            baseState.setUiStateData(uiStateData);
+            if (eventState.equals(SETTINGS_LOGIN)) {
+                ((UserRegistrationState) baseState).registerUIStateListener(this);
+            }
+            fragmentLauncher = getFragmentLauncher();
+            baseState.navigate(fragmentLauncher);
         }
-        fragmentLauncher = getFragmentLauncher();
-        baseState.navigate(fragmentLauncher);
     }
 
     protected UIStateData setStateData(final int componentID) {
