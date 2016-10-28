@@ -1,5 +1,5 @@
 /**
- * (C) Koninklijke Philips N.V., 2015.
+ * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
 package com.philips.platform.catalogapp.fragments;
@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ public class ButtonFragment extends BaseFragment {
     public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
 
-    Drawable shareDrwable;
+    Drawable shareDrawable;
     FragmentButtonsAllBinding fragmentBinding;
     boolean showingIcons;
 
@@ -31,9 +30,9 @@ public class ButtonFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
         fragmentBinding.setFrag(this);
-        shareDrwable = getShareIcon();
+        shareDrawable = getShareIcon();
         restoreViews(savedInstanceState);
-        fragmentBinding.imageShare.setImageDrawable(shareDrwable.mutate());
+        fragmentBinding.imageShare.setImageDrawable(shareDrawable.mutate());
         return fragmentBinding.getRoot();
     }
 
@@ -60,7 +59,7 @@ public class ButtonFragment extends BaseFragment {
 
     public void toggleIcons(boolean isIconToggleChecked) {
         showingIcons = isIconToggleChecked;
-        Drawable drawable = isIconToggleChecked ? shareDrwable : null;
+        Drawable drawable = isIconToggleChecked ? shareDrawable : null;
         setIcons(fragmentBinding.groupExtraWide, drawable);
         setIcons(fragmentBinding.groupDefault, drawable);
         setIcons(fragmentBinding.groupLeftAlignedExtraWide, drawable);
