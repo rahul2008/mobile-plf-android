@@ -27,6 +27,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -38,6 +39,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -83,6 +85,11 @@ public class BleStrategyTestSteps {
         deviceCache.deviceFound(null, info);
     }
 
+    @When("^the mock device with id '(.*?)' receives data '([0-9A-F]*?)'")
+    public void mock_device_receives_data_inline(final String id, final String data) {
+        mock_device_receives_data(id, data);
+    }
+
     @When("^the mock device with id '(.*?)' receives data$")
     public void mock_device_receives_data(final String id, final String data) {
         final Set<ResultListener<SHNDataRaw>> listeners = rawDataListeners.get(id);
@@ -124,6 +131,12 @@ public class BleStrategyTestSteps {
     }
 
     @SuppressWarnings("unchecked")
+    @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' without data$")
+    public void doingAPutPropertiesForProductidAndPortWithoutData(int productId, String port) throws Throwable {
+        doingAPutPropertiesForProductidAndPortWithData(productId, port, "{}");
+    }
+
+    @SuppressWarnings("unchecked")
     @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with data$")
     public void doingAPutPropertiesForProductidAndPortWithData(int productId, String port, String data) throws Throwable {
         ResponseHandler handler = mock(ResponseHandler.class);
@@ -142,14 +155,29 @@ public class BleStrategyTestSteps {
         strategy.getProperties(port, productId, handler);
     }
 
+    @Then("^the result is an error '(.*?)' with data '(.*?)'$")
+    public void theResultIsAnErrorThisErrorWithDataTestData(String error, String data) throws Throwable {
+        verify(responseQueue.remove()).onError(Error.valueOf(error), data);
+    }
+
+    @Then("^the result is an error '(.*?)'$")
+    public void theResultIsAnErrorThisError(String error) throws Throwable {
+        verify(responseQueue.remove()).onError(Error.valueOf(error), anyString());
+    }
+
+    @Then("^the result is an error$")
+    public void theResultIsAnError() throws Throwable {
+        verify(responseQueue.remove()).onError(any(Error.class), anyString());
+    }
+
     @Then("^the result is success with data '(.*?)'$")
     public void theResultIsSuccessWithDataTestData(String data) throws Throwable {
         verify(responseQueue.remove()).onSuccess(data);
     }
 
-    @Then("^the result is an error '(.*?)' with data '(.*?)'$")
-    public void theResultIsAnErrorThisErrorWithDataTestData(String error, String data) throws Throwable {
-        verify(responseQueue.remove()).onError(Error.valueOf(error), data);
+    @Then("^the result is success with data$")
+    public void theResultIsSuccessWithLongDataTestData(String data) throws Throwable {
+        verify(responseQueue.remove()).onSuccess(data);
     }
 
     @Then("^the result is success$")
@@ -157,8 +185,11 @@ public class BleStrategyTestSteps {
         verify(responseQueue.remove()).onSuccess(anyString());
     }
 
-    @Then("^the result is an error$")
-    public void theResultIsAnError() throws Throwable {
-        verify(responseQueue.remove()).onError(any(Error.class), anyString());
+    @And("^no write occurred to mock device with id '(.*?)'$")
+    public void noWriteOccurredToMockDeviceWithIdP(String deviceId) throws Throwable {
+        CapabilityDiComm capability = (CapabilityDiComm) deviceCache
+                .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+
+        verify(capability, times(0)).writeData((byte[]) any());
     }
 }
