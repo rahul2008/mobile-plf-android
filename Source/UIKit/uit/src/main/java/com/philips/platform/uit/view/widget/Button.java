@@ -8,12 +8,17 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatButton;
+import android.text.Layout;
 import android.util.AttributeSet;
+import android.view.Gravity;
 
 import com.philips.platform.uit.R;
 import com.philips.platform.uit.thememanager.ThemeUtils;
@@ -23,6 +28,8 @@ public class Button extends AppCompatButton {
     private ColorStateList drawableColorlist;
     private int drawableWidth;
     private int drawableHeight;
+    private boolean isCenterLayoutRequested;
+    private Rect compoundRect = new Rect();
 
     public Button(Context context) {
         this(context, null);
@@ -45,6 +52,7 @@ public class Button extends AppCompatButton {
         applyBackgroundTinting(typedArray, theme);
         applyTextColorTinting(typedArray, theme);
         applyDrawable(typedArray);
+        setCenterLayoutFlag(typedArray);
         typedArray.recycle();
     }
 
@@ -72,14 +80,46 @@ public class Button extends AppCompatButton {
      * @param drawable
      */
     public void setImageDrawable(Drawable drawable) {
+        Drawable wrappedDrawable = drawable;
         if (drawableColorlist != null && drawable != null) {
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            drawable.invalidateSelf();
-            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+            wrappedDrawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
         }
         final Drawable[] compoundDrawables = getCompoundDrawables();
-        setCompoundDrawables(drawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+        setCompoundDrawables(wrappedDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+        invalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (isCenterLayoutRequested) {
+            final float availableWidth = getWidth() - getPaddingLeft() - getPaddingRight();
+
+            float textWidth = 0f;
+            final Layout layout = getLayout();
+            if (layout != null) {
+                for (int i = 0; i < layout.getLineCount(); i++) {
+                    textWidth = Math.max(textWidth, layout.getLineRight(i));
+                }
+            }
+
+            Drawable leftDrawable = getCompoundDrawables()[0];
+            int drawableAdjustments = 0;
+
+            if (leftDrawable != null) {
+                leftDrawable.copyBounds(compoundRect);
+                drawableAdjustments = compoundRect.width() + getCompoundDrawablePadding();
+            }
+
+            canvas.save();
+            canvas.translate((availableWidth - drawableAdjustments - textWidth) / 2, 0);
+        }
+        super.onDraw(canvas);
+
+        if (isCenterLayoutRequested) {
+            canvas.restore();
+        }
     }
 
     private void applyDrawable(TypedArray typedArray) {
@@ -100,6 +140,14 @@ public class Button extends AppCompatButton {
         int resourceId = typedArray.getResourceId(R.styleable.UITButton_uitButtonDrawableColorList, -1);
         if (resourceId != -1) {
             drawableColorlist = getColorStateList(resourceId, theme);
+        }
+    }
+
+    //We need to set gravity to left and center vertical so that we can translate the canvas later and get proper values.
+    private void setCenterLayoutFlag(TypedArray typedArray) {
+        isCenterLayoutRequested = typedArray.getBoolean(R.styleable.UITButton_uidButtonCenter, false);
+        if (isCenterLayoutRequested) {
+            setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         }
     }
 }

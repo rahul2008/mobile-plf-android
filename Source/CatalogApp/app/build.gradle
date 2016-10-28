@@ -25,7 +25,9 @@ android {
 
         multiDexEnabled true
     }
-
+    dataBinding {
+        enabled = true
+    }
     signingConfigs {
         TestPhilipsStore {
             keyAlias 'philips'

@@ -1,19 +1,12 @@
-/*
- * (C) Koninklijke Philips N.V., 2016.
- * All rights reserved.
- *
- */
-
 /**
- * (C) Koninklijke Philips N.V., 2016.
+ * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.uit.components.buttons.button;
+package com.philips.platform.uit.components.Buttons;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -43,7 +36,6 @@ public class PrimaryButtonWithTextOnlyTest {
 
     private Resources testResources;
     private Context instrumentationContext;
-    private IdlingResource idlingResource;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
@@ -69,31 +61,25 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonLeftPadding() {
-        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_left_padding);
+        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_left_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyButtonRightPadding() {
-        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_right_padding);
+        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_right_padding);
         getPrimaryButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyButtonCornerRadius() {
-        float radius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_cornerradius);
+        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_cornerradius));
         getPrimaryButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
-    }
-
-    // TODO: 9/14/2016
-    @Ignore
-    public void verifyButtonFontType() {
-
     }
 
     @Test
     public void verifyButtonFontSize() {
-        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_font_size);
+        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.button_font_size));
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
@@ -118,14 +104,6 @@ public class PrimaryButtonWithTextOnlyTest {
     }
 
     @Test
-    public void verifyPrimaryTextOnlyDisabledButtonControlColorULTone() {
-        final int disabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.25f);
-        disableAllViews();
-        getPrimaryButton().check(matches(FunctionDrawableMatchers
-                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
-    }
-
-    @Test
     public void verifyPrimaryTextOnlyButtonFontColor() {
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, Color.WHITE)));
     }
@@ -134,6 +112,14 @@ public class PrimaryButtonWithTextOnlyTest {
     @Test
     public void verifyPrimaryTextOnlyPressedButtonFontColor() {
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_pressed, Color.WHITE)));
+    }
+
+    @Test
+    public void verifyPrimaryTextOnlyDisabledButtonControlColorULTone() {
+        final int disabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.25f);
+        disableAllViews();
+        getPrimaryButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
     }
 
     @Test

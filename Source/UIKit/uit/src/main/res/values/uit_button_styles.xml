@@ -26,7 +26,6 @@
     </style>
 
     <style name="UITDefaultButton.UITImageTextButton">
-        <item name="android:paddingLeft">@dimen/uit_image_text_button_padding_left</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:drawablePadding">@dimen/uit_imagebutton_padding</item>
     </style>
@@ -41,5 +40,13 @@
         <item name="uitImageButtonDrawableHeight">@dimen/uit_imagebutton_image_size</item>
         <item name="uitImageButtonDrawableColorList">@color/uit_default_button_text_selector</item>
         <item name="uitImageButtonColorList">@color/uit_default_button_background_selector</item>
+    </style>
+
+    <style name="UITExtraWideButton" parent="UITDefaultButton">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="UITExtraWideButton.Center">
+        <item name="uidButtonCenter">true</item>
     </style>
 </resources>
