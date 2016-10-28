@@ -38,6 +38,7 @@
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
+                    android:enabled="@{frag.isButtonsEnabled}"
                     android:onCheckedChanged="@{(v, isChecked) -> frag.toggleIcons(isChecked)}"/>
             </LinearLayout>
 
