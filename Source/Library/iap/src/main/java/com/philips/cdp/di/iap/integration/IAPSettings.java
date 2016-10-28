@@ -20,8 +20,8 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
-//        mHostPort = "https://www.occ.shop.philips.com/";
-        initServiceDiscovery();
+        mHostPort = "https://acc.occ.shop.philips.com/";
+//        initServiceDiscovery();
     }
 
     public boolean isUseLocalData() {
@@ -51,7 +51,7 @@ public class IAPSettings extends UappSettings {
     }
 
     private void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("iap.baseurl", new
+        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
@@ -66,7 +66,7 @@ public class IAPSettings extends UappSettings {
                             setUseLocalData(true);
                         } else {
                             setUseLocalData(false);
-                            String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US"
+                            String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
                             mHostPort = urlPort.substring(0, urlPort.length() - 5);
                         }
                     }

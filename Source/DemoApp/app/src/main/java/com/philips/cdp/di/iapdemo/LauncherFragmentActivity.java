@@ -79,6 +79,8 @@ public class LauncherFragmentActivity extends UiKitActivity
         mIapLaunchInput = new IAPLaunchInput();
         IAPSettings iapSettings = new IAPSettings(this);
         iapSettings.setProposition("Tuscany2016");
+        iapSettings.setUseLocalData(true);
+
         DemoApplication application = (DemoApplication) getApplicationContext();
         IAPDependencies iapDependencies = new IAPDependencies(application.getAppInfra());
         iapFlowInput = new IAPFlowInput(mProductCTNs);
