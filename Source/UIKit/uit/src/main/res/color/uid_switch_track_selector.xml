@@ -2,6 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:color="?attr/uidSwitchTrackOnColor" android:state_checked="true" android:state_enabled="true" android:state_selected="true"/>
-    <item android:alpha="?attr/uidSwitchTrackOffAlpha" android:color="?attr/uidSwitchTrackOffColor" android:state_checked="false" android:state_enabled="true" android:state_selected="false"/>
+    <item android:alpha="?attr/uidSwitchTrackOffAlpha" android:color="?attr/uidSwitchTrackOffColor" android:state_checked="false"
+          android:state_enabled="true" android:state_selected="false"/>
     <item android:color="?attr/uidSwitchTrackOnColor"/>
 </selector>
