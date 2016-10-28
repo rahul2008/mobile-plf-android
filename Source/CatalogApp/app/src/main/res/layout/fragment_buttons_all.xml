@@ -31,7 +31,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/with_icon"/>
 
-                <Switch
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/extra_wide"/>
 
-                <Switch
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleextraWide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/disabled"/>
 
-                <Switch
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleDisable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,11 +138,12 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
-            <include layout="@layout/divider_layout"/>
 
-            <TextView
-                style="@style/ButtonsCategoryStyle"
-                android:text="@string/buttons_text_left_aligned_category"/>
+                <include layout="@layout/divider_layout"/>
+
+                <TextView
+                    style="@style/ButtonsCategoryStyle"
+                    android:text="@string/buttons_text_left_aligned_category"/>
 
                 <com.philips.platform.uit.view.widget.Button
                     style="@style/UITDefaultButton.UITImageTextButton"

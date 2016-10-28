@@ -41,7 +41,6 @@ public class ButtonFragment extends BaseFragment {
             toggleIcons(savedInstance.getBoolean("showingIcons"));
             toggleExtraWideButtons(savedInstance.getBoolean("showExtraWideButtons"));
             disableButtons(!savedInstance.getBoolean("isButtonsEnabled"));
-
         }
     }
 
@@ -66,13 +65,13 @@ public class ButtonFragment extends BaseFragment {
     }
 
     private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
-        for (int i = 0; i < buttonLayout.getChildCount() ; i++) {
+        for (int i = 0; i < buttonLayout.getChildCount(); i++) {
             View view = buttonLayout.getChildAt(i);
             Drawable mutateDrawable = drawable;
             if (drawable != null) {
                 mutateDrawable = drawable.getConstantState().newDrawable().mutate();
             }
-            if(view instanceof Button) {
+            if (view instanceof Button) {
                 ((Button) view).setImageDrawable(mutateDrawable);
             }
         }

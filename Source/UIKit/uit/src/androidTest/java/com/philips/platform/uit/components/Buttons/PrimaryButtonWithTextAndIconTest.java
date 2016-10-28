@@ -24,7 +24,7 @@ public class PrimaryButtonWithTextAndIconTest {
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         button = new Button(mActivityTestRule.getActivity());
     }
 
@@ -33,12 +33,7 @@ public class PrimaryButtonWithTextAndIconTest {
 
     /************************************************Theming************************************************/
 
-
-
     private ViewInteraction getIconandTextButton() {
         return onView(withId(com.philips.platform.uit.test.R.id.demo_image_text_button));
     }
-
-
-
-        }
+}
