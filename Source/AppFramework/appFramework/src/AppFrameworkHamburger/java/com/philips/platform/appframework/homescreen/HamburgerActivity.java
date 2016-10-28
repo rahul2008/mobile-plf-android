@@ -51,8 +51,8 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
-    private static String TAG = HomeActivity.class.getSimpleName();
+public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
+    private static String TAG = HamburgerActivity.class.getSimpleName();
     private static HamburgerUtil hamburgerUtil;
     protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
@@ -83,7 +83,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        presenter = new HomeActivityPresenter(this);
+        presenter = new HamburgerActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -301,7 +301,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                 }
             });
         } else {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HamburgerActivity.this, R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -3,9 +3,11 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework;
+package com.philips.platform.appframework.homescreen;
 
-import com.philips.platform.appframework.flowmanager.TabbedAppState;
+import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -25,20 +27,19 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class HomeTabbedActivityPresenter extends UIBasePresenter implements UIStateListener {
+public class HamburgerActivityPresenter extends UIBasePresenter implements UIStateListener {
 
-    private final int MENU_OPTION_HOME = 0;
-    private String SUPPORT_PR = "pr";
-
+    public static final int MENU_OPTION_HOME = 0;
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
+    private String SUPPORT_PR = "pr";
 
-    public HomeTabbedActivityPresenter(final FragmentView fragmentView) {
+    public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(BaseState.UI_HOME_TABBED_STATE);
+        setState(BaseState.UI_HOME_STATE);
     }
 
     /**
@@ -49,7 +50,7 @@ public class HomeTabbedActivityPresenter extends UIBasePresenter implements UISt
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(TabbedAppState.TAB_HOME, eventState);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.HAMBURGER_HOME, eventState);
         baseState.setPresenter(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
@@ -125,7 +126,7 @@ public class HomeTabbedActivityPresenter extends UIBasePresenter implements UISt
     }
 
     // TODO: Deepthi, is this expected? deviation from ios i think.
-    private String getEventState(int componentID) {
+    public String getEventState(int componentID) {
         final int MENU_OPTION_SETTINGS = 1;
         final int MENU_OPTION_SHOP = 2;
         final int MENU_OPTION_SUPPORT = 3;

@@ -32,16 +32,6 @@ public abstract class BaseUiFlowManager {
     }
 
     /**
-     * This method will creates and return the object of type of BaseUIState depending upon stateID
-     *
-     * @param state StateID for which the object need to be created
-     * @return Objects 'BaseUIState' based on StateID
-     */
-    private BaseState getUIStateState(String state) {
-        return baseAppState.getState(state);
-    }
-
-    /**
      * Method to get object of next BaseState based on the current state of the App.
      *
      * @param currentState current state of the app.
@@ -73,7 +63,7 @@ public abstract class BaseUiFlowManager {
             }
             //Return the BaseState if the entry condition is satisfies.
             if (isConditionSatisfies) {
-                return getUIState(appFlowNextState.getNextState());
+                return getBaseState(appFlowNextState.getNextState());
             }
         }
         return null;
@@ -96,7 +86,7 @@ public abstract class BaseUiFlowManager {
      * @param condition Condition ID for which the BaseCondition type object need to be created.
      * @return Object of BaseCondition type.
      */
-    private BaseCondition getCondition(String condition) {
+    public final BaseCondition getCondition(String condition) {
         return baseAppCondition.getCondition(condition);
     }
 
@@ -107,12 +97,8 @@ public abstract class BaseUiFlowManager {
      * @param state state ID.
      * @return Object to BaseState if available or 'null'.
      */
-    private BaseState getUIState(String state) {
-        BaseState baseState = null;
-        if (state != null) {
-            baseState = getUIStateState(state);
-        }
-        return baseState;
+    private BaseState getBaseState(String state) {
+        return baseAppState != null ? baseAppState.getState(state) : null;
     }
 
     private void mapAppFlowStates(@IdRes final int jsonPath) {
@@ -124,6 +110,6 @@ public abstract class BaseUiFlowManager {
     }
 
     public final BaseState getFirstState() {
-        return getUIState(firstState);
+        return getBaseState(firstState);
     }
 }

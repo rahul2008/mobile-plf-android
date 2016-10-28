@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework;
+package com.philips.platform.appframework.tabbedscreen;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.session.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.utils.TabUtils;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -29,8 +31,8 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeTabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView, IAPListener {
-    private static String TAG = HomeTabbedActivity.class.getSimpleName();
+public class TabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView, IAPListener {
+    private static String TAG = TabbedActivity.class.getSimpleName();
     private TabLayout topLayout;
 
     /**
@@ -42,7 +44,7 @@ public class HomeTabbedActivity extends AppFrameworkBaseActivity implements Frag
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_home_tab_top);
-        presenter = new HomeTabbedActivityPresenter(this);
+        presenter = new TabbedActivityPresenter(this);
 
         TabUtils.disableActionbarShadow(this);
         setTopBar();

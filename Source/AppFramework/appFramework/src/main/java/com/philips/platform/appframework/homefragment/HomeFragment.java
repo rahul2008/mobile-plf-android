@@ -4,7 +4,7 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.appframework.homescreen;
+package com.philips.platform.appframework.homefragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -28,14 +28,14 @@ public class HomeTabbedActivityState extends BaseState {
     }
 
     /**
-     * Navigate to HomeActivity
+     * Navigate to HamburgerActivity
      *
      * @param uiLauncher requires UiLauncher
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-//        fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), HomeTabbedActivity.class));
+//        fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), TabbedActivity.class));
         launchTabScreen();
     }
 
