@@ -18,13 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Switch
+            <com.philips.platform.uit.view.widget.Switch
                 android:id="@+id/disable_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:textOff="@string/content_desc_disabled"
-                android:textOn="@string/content_desc_enabled"/>
+                app:showText="@null"/>
         </LinearLayout>
 
         <LinearLayout

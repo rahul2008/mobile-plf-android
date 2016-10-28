@@ -13,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.uit.view.widget.Button;
 import com.philips.platform.uit.view.widget.ImageButton;
+import com.philips.platform.uit.view.widget.Switch;
 
 public class ButtonFragment extends BaseFragment {
     ImageButton imageButton;

@@ -4,9 +4,22 @@
     <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
         <item name="buttonStyle">@style/UITDefaultButton</item>
         <item name="imageButtonStyle">@style/UITImageButton</item>
-        <item name="editTextStyle">@style/UITTextEditBoxStyle</item>
+        <item name="editTextStyle">@style/UITTextEditBox</item>
         <item name="actionBarStyle">@style/UITNavigationBar</item>
         <item name="android:windowBackground">?attr/uitContentPrimary</item>
+        <item name="switchStyle">@style/UIDSwitchStyle</item>
+    </style>
+
+    <style name="UIDSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:track">@drawable/uit_switch_track</item>
+        <item name="track">@drawable/uit_switch_track</item>
+        <item name="android:thumb">@drawable/uit_switch_thumb</item>
+<!--
+        <item name="thumb">@drawable/uit_switch_thumb</item>
+-->
+        <item name="android:background">@null</item>
+        <item name="uidSwitchThumbColorList">@color/uid_switch_thumb_selector</item>
+        <item name="uidSwitchTrackColorList">@color/uid_switch_track_selector</item>
     </style>
 
 </resources>
