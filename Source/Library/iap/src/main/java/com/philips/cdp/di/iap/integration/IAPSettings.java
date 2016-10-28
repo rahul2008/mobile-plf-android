@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.integration;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -21,8 +20,8 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
-        mHostPort = "https://www.occ.shop.philips.com/";
-//        initServiceDiscovery();
+//        mHostPort = "https://www.occ.shop.philips.com/";
+        initServiceDiscovery();
     }
 
     public boolean isUseLocalData() {
@@ -57,8 +56,8 @@ public class IAPSettings extends UappSettings {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
-                        IAPLog.d("Baseurl onError", s);
-                        //Throw Runtime exception so that vertical can handle
+                        setUseLocalData(true);
+//                        throw new RuntimeException("Cannot fetch base url");
                     }
 
                     @Override
@@ -66,9 +65,8 @@ public class IAPSettings extends UappSettings {
                         if (url.toString().isEmpty()) {
                             setUseLocalData(true);
                         } else {
-                            IAPLog.d("Baseurl onSuccess URL = ", url.toString());
                             setUseLocalData(false);
-                            String urlPort = "https://acc.occ.shop.philips.com/en_US"; // has to be removed once the xls is uploaded add url.toString()
+                            String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US"
                             mHostPort = urlPort.substring(0, urlPort.length() - 5);
                         }
                     }

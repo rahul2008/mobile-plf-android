@@ -28,7 +28,6 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
     private Context mContext;
     private RecyclerView mRecyclerView;
-    private BuyFromRetailersAdapter mAdapter;
     private ArrayList<StoreEntity> mStoreEntity;
 
     public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
@@ -69,7 +68,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_retailer_title, true);
         if (mStoreEntity != null) {
-            mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
+            BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }

@@ -118,17 +118,19 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
-        //Integration interface
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
-        mIAPSettings = new IAPSettings(this);
-        mIAPSettings.setProposition("Tuscany2016");
-        mIAPSettings.setUseLocalData(false);
-        mIapInterface = new IAPInterface();
-        mIapInterface.init(mIapDependencies, mIAPSettings);
         mCategorizedProductList = new ArrayList<>();
 
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
 
+        //Integration interface
+        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
+
+        mIAPSettings = new IAPSettings(this);
+        mIAPSettings.setProposition("Tuscany2016");
+        mIAPSettings.setUseLocalData(false);
+
+        mIapInterface = new IAPInterface();
+        mIapInterface.init(mIapDependencies, mIAPSettings);
     }
 
     @Override
@@ -395,9 +397,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (count > 0) {
             mCountText.setText(String.valueOf(count));
             mCountText.setVisibility(View.VISIBLE);
-        } else {
+        } else if(count == 0){
             mCountText.setVisibility(View.GONE);
+        } else if (count == -1) {
+            //Plan B
+            mShoppingCart.setVisibility(View.GONE);
         }
+
         dismissProgressDialog();
         mIapInterface.getCompleteProductList(this);
     }

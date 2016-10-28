@@ -23,27 +23,26 @@ import java.util.ArrayList;
 
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
     private Context mContext;
-    private ArrayList<StoreEntity> mStoreEntities;
     private FragmentManager mFragmentManager;
     private int mThemeBaseColor;
     private final ImageLoader mImageLoader;
+    private ArrayList<StoreEntity> mStoreList;
     private BuyFromRetailersListener mBuyFromRetailersListener;
 
-
-    public interface BuyFromRetailersListener { // create an interface
-        void onClickAtRetailer(String buyURL, String name); // create callback function
+    public interface BuyFromRetailersListener {
+        void onClickAtRetailer(String buyURL, String name);
     }
 
-    public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager, ArrayList<StoreEntity> storeEntities, BuyFromRetailersListener pBuyFromRetailersListener) {
+    public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager,
+                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener) {
         mContext = context;
         mFragmentManager = fragmentManager;
-        mStoreEntities = storeEntities;
         mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
+        mStoreList = storeList;
         mBuyFromRetailersListener = pBuyFromRetailersListener;
     }
-
 
     @Override
     public RetailerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -53,17 +52,18 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     @Override
     public void onBindViewHolder(final RetailerViewHolder holder, final int position) {
-        final StoreEntity storeEntity = mStoreEntities.get(position);
+        final StoreEntity storeEntity = mStoreList.get(position);
         String imageURL = storeEntity.getLogoURL();
         holder.mStoreName.setText(storeEntity.getName());
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
-        String availability = storeEntity.getAvailability();
-        if (availability.equalsIgnoreCase("yes")) {
-            holder.mAvailibility.setText(mContext.getString(R.string.iap_in_stock));
-            holder.mAvailibility.setTextColor(mThemeBaseColor);
+        String productAvailability = storeEntity.getAvailability();
+
+        if (productAvailability.equalsIgnoreCase("yes")) {
+            holder.mProductAvailability.setText(mContext.getString(R.string.iap_in_stock));
+            holder.mProductAvailability.setTextColor(mThemeBaseColor);
         } else {
-            holder.mAvailibility.setText(mContext.getString(R.string.iap_out_of_stock));
-            holder.mAvailibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
+            holder.mProductAvailability.setText(mContext.getString(R.string.iap_out_of_stock));
+            holder.mProductAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
         }
 
         final String buyURL = storeEntity.getBuyURL();
@@ -71,8 +71,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             @Override
             public void onClick(final View v) {
                 if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
-                    NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
-                    return;
+                    NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager,
+                            mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
                 } else {
                     tagOnSelectRetailer(storeEntity);
                     mBuyFromRetailersListener.onClickAtRetailer(buyURL, storeEntity.getName());
@@ -97,20 +97,20 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     @Override
     public int getItemCount() {
-        return mStoreEntities.size();
+        return mStoreList.size();
     }
 
     public class RetailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mLogo;
         TextView mStoreName;
-        TextView mAvailibility;
+        TextView mProductAvailability;
         FontIconTextView mArrow;
 
         public RetailerViewHolder(View itemView) {
             super(itemView);
             mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
             mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
-            mAvailibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
+            mProductAvailability = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
             itemView.setOnClickListener(this);
         }
@@ -119,13 +119,12 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         public void onClick(final View v) {
             if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
                 NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
-                return;
             } else {
-                final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
+                final String buyURL = mStoreList.get(getAdapterPosition()).getBuyURL();
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.RETAILER_SELECTED,
-                        mStoreEntities.get(getAdapterPosition()).getName());
-                mBuyFromRetailersListener.onClickAtRetailer(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
+                        mStoreList.get(getAdapterPosition()).getName());
+                mBuyFromRetailersListener.onClickAtRetailer(buyURL, mStoreList.get(getAdapterPosition()).getName());
             }
         }
     }

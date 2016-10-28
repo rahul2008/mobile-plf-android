@@ -1,11 +1,9 @@
-package com.philips.cdp.di.iap.response.retailers;
-
-import java.util.List;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+package com.philips.cdp.di.iap.response.retailers;
+
 public class OnlineStoresForProductEntity {
     private String excludePhilipsShopInWTB;
     private String showPrice;

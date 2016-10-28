@@ -297,16 +297,19 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
-
     private void buyFromRetailers(ArrayList<StoreEntity> storeEntities) {
         if (!isNetworkConnected()) return;
-
         Bundle bundle = new Bundle();
-        bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, storeEntities);
-        addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
-                BuyFromRetailersFragment.TAG);
+        if (storeEntities.size() == 1 && (storeEntities.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
+            bundle.putString(IAPConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
+            bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
+            addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG);
+        } else {
+            bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, storeEntities);
+            addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
+                    BuyFromRetailersFragment.TAG);
+        }
     }
-
 
     @Override
     public void onFetchAssetSuccess(final Message msg) {

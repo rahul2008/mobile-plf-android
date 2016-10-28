@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
@@ -15,23 +16,23 @@ import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.store.StoreListener;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @SuppressWarnings("rawtypes")
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
+    protected static final String PHILIPS_STORE = "Y";
     protected Context mContext;
-    protected ArrayList<StoreEntity> mStoreEntities;
+    protected HybrisDelegate mHybrisDelegate;
+    protected ArrayList<StoreEntity> mStoreList;
     protected StoreListener mStore;
     protected ShoppingCartListener mLoadListener;
-    protected HybrisDelegate mHybrisDelegate;
 
     public interface ShoppingCartListener<T> {
         void onLoadFinished(ArrayList<T> data);
@@ -50,8 +51,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     }
 
     protected void handleModelDataError(final Message msg) {
-        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
         dismissProgressDialog();
         if (mLoadListener != null) {
             mLoadListener.onLoadError(msg);
@@ -60,7 +59,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
 
     @Override
     public void getRetailersInformation(String ctn) {
-
         Map<String, String> query = new HashMap<>();
         query.put(ModelConstants.PRODUCT_CODE, String.valueOf(ctn));
 
@@ -69,24 +67,32 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                     @Override
                     public void onModelDataLoadFinished(Message msg) {
                         WebResults webResults = null;
+
                         if (msg.obj instanceof WebResults) {
                             webResults = (WebResults) msg.obj;
                         }
-                        if(webResults==null){
-                            mLoadListener.onRetailerError(NetworkUtility.getInstance().createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
+
+                        if (webResults == null) {
+                            mLoadListener.onRetailerError(NetworkUtility.getInstance().
+                                    createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             return;
                         }
-                        if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
+
+                        if (webResults.getWrbresults().getOnlineStoresForProduct() == null ||
+                                webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null ||
+                                webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
                             dismissProgressDialog();
                             if (mLoadListener != null) {
-                                mLoadListener.onRetailerError(NetworkUtility.getInstance().createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
+                                mLoadListener.onRetailerError(NetworkUtility.getInstance().
+                                        createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             }
                             return;
                         }
-                        mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
-                       // filterOutPhilipsStore();
-                        refreshList(mStoreEntities);
 
+                        mStoreList = (ArrayList<StoreEntity>) webResults.getWrbresults().
+                                getOnlineStoresForProduct().getStores().getStore();
+                        handlePhilipsFlagShipStore();
+                        refreshList(mStoreList);
                         dismissProgressDialog();
                     }
 
@@ -99,15 +105,16 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         getHybrisDelegate().sendRequest(0, model, model);
     }
 
-  /*  private void filterOutPhilipsStore() {
-        Iterator<StoreEntity> iterator = mStoreEntities.iterator();
+    private void handlePhilipsFlagShipStore() {
+        Iterator<StoreEntity> iterator = mStoreList.iterator();
         while (iterator.hasNext()) {
             StoreEntity entity = iterator.next();
-            if (PHILIPS_STORE_YES.equalsIgnoreCase(entity.getIsPhilipsStore())) {
+            if (PHILIPS_STORE.equalsIgnoreCase(entity.getIsPhilipsStore())
+                    && !ControllerFactory.getInstance().isPlanB()) {
                 iterator.remove();
             }
         }
-    }*/
+    }
 
     protected void dismissProgressDialog() {
         if (Utility.isProgressDialogShowing())
@@ -135,5 +142,4 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         }
         return mStore;
     }
-
 }
