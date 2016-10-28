@@ -11,11 +11,11 @@
     </style>
 
     <style name="UIDSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:track">@drawable/uit_switch_track</item>
-        <item name="track">@drawable/uit_switch_track</item>
-        <item name="android:thumb">@drawable/uit_switch_thumb</item>
+        <item name="android:track">@drawable/uid_switch_track</item>
+        <item name="track">@drawable/uid_switch_track</item>
+        <item name="android:thumb">@drawable/uid_switch_thumb</item>
 <!--
-        <item name="thumb">@drawable/uit_switch_thumb</item>
+        <item name="thumb">@drawable/uid_switch_thumb</item>
 -->
         <item name="android:background">@null</item>
         <item name="uidSwitchThumbColorList">@color/uid_switch_thumb_selector</item>
