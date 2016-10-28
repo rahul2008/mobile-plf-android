@@ -52,9 +52,9 @@ public class ContentArticle implements ContentInterface {
     // endregion ContentInterface
 
     // region sub types
-    public enum RENDERTYPE {XS, S, M, L};
-    public enum ASSETTYPE {IMAGE, YOUTUBEVIDEO, SCENE7VIDEO};
-    public class ASSET {
+    private enum RENDERTYPE {XS, S, M, L};
+    private enum ASSETTYPE {IMAGE, YOUTUBEVIDEO, SCENE7VIDEO};
+    private class ASSET {
         private RENDERTYPE Rendition;
         private ASSETTYPE type;
         private URL original;

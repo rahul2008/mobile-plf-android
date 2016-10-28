@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /*
  * Created by 310209604 on 2016-08-10.
@@ -42,6 +43,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mRestInterface = mAppInfra.getRestClient();
         mParams= new HashMap<String,String>();
         mHeaders= new HashMap<String,String>();
+        downloadInProgress = new AtomicBoolean(false);
     }
     // endregion
 
@@ -49,29 +51,38 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     @Override
     public void refresh(final OnRefreshListener refreshListener) {
 
-        try {
+        if (downloadInProgress.compareAndSet(false, true)) {
+            try {
 
+               // mAppInfra.
+                mRestInterface.jsonObjectRequestWithServiceID(Request.Method.GET, mServiceId, RestManager.LANGUAGE, getOffsetPath(0), new RestInterface.ServiceIDCallback() {
+                            @Override
+                            public void onSuccess(Object response) {
+                                JSONObject serviceResponse = (JSONObject) response;
+                                Log.i("CL REFRSH RESP", "" + serviceResponse);
+                                clearParamsAndHeaders();// clear headerd and params from rest client
+                                refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
+                                downloadInProgress.set(false);
 
-            mRestInterface.jsonObjectRequestWithServiceID(Request.Method.GET, mServiceId, RestManager.LANGUAGE, getOffsetPath(0), new RestInterface.ServiceIDCallback() {
-                        @Override
-                        public void onSuccess(Object response) {
-                            JSONObject serviceResponse=(JSONObject)response;
-                            Log.i("CL REFRSH RESP", "" + serviceResponse);
-                            clearParamsAndHeaders();// clear headerd and params from rest client
-                            refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
-                        }
+                            }
 
-                        @Override
-                        public void onErrorResponse(String error) {
-                            Log.i("CL Error:", "" + error);
-                            clearParamsAndHeaders();// clear headerd and params from rest client
-                            refreshListener.onError(ERROR.SERVER_ERROR,error.toString());
-                        }
-                    },
-                    mHeaders,mParams);
-        } catch (HttpForbiddenException e) {
-            Log.e("LOG REST SD", e.toString() );
-            e.printStackTrace();
+                            @Override
+                            public void onErrorResponse(String error) {
+                                Log.i("CL REFRSH Error:", "" + error);
+                                clearParamsAndHeaders();// clear headerd and params from rest client
+                                refreshListener.onError(ERROR.SERVER_ERROR, error);
+                                downloadInProgress.set(false);
+                            }
+                        },
+                        mHeaders, mParams);
+            } catch (HttpForbiddenException e) {
+                Log.e("LOG REST SD", e.toString());
+                e.printStackTrace();
+            }
+        }else{
+            Log.i("CL REFRSH ERR", "" + "download already in progress");
+            refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
+
         }
 
     }
@@ -95,7 +106,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         List<Content> result = new ArrayList<Content>(1);
         try {
             Content a = mClassType.newInstance();
-            if (a.parseInput("{\"id\":\"blaat\"}") == false) {
+           // if (a.parseInput("{\"id\":\"blaat\"}") == false) {
+            if(!a.parseInput("{\"id\":\"blaat\"}")){
                 listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
                 return;
             }
@@ -124,6 +136,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     // endregion
 
     // region Private members
+    private AtomicBoolean downloadInProgress;
     private final String mServiceId;
     private URL mServiceURL;
     private Class<Content> mClassType;
@@ -131,8 +144,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private STATE mState;
     private AppInfraInterface mAppInfra;
     private RestInterface mRestInterface;
-    HashMap<String,String> mParams;
-    HashMap<String,String> mHeaders;
+    private HashMap<String,String> mParams;
+    private HashMap<String,String> mHeaders;
     // endregion
 
     private void clearParamsAndHeaders(){

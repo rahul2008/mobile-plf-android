@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ContentLoaderInterface<Content extends ContentInterface> {
     enum STATE {NOT_INITIALIZED, INITIALIZING, CACHED_DATA_AVAILABLE, CACHED_DATA_OUTDATED, REFRESHING, CONFIGURATION_ERROR};
-    enum ERROR {CONFIGURATION_ERROR, SERVER_UNAVAILABLE, SERVER_ERROR};
+    enum ERROR {CONFIGURATION_ERROR, SERVER_UNAVAILABLE, SERVER_ERROR, DOWNLOAD_IN_PROGRESS};
     enum OPERATOR {AND, OR};
 
     interface OnResultListener<Result> {
@@ -23,7 +23,7 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
     }
 
     interface OnRefreshListener {
-        enum REFRESH_RESULT {LOADED_FROM_LOCAL_CACHE, REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED};
+        enum REFRESH_RESULT {LOADED_FROM_LOCAL_CACHE, REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED,REFRESHED_FAILED};
         void onError(ERROR error, String message);
         void onSuccess(REFRESH_RESULT result);
     }
