@@ -9,7 +9,7 @@ node ('Android && 25.0.0 && Ubuntu'){
   stage 'Checkout'
   checkout scm
 
-  stage 'Build Catalog app’
+  stage 'Build Catalog app'
   sh '''
     cd Source\CatalogApp
     ./gradlw assembleDebug
