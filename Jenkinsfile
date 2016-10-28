@@ -11,8 +11,8 @@ node ('Android && 25.0.0 && Ubuntu'){
 
   stage 'Build Catalog app'
   sh '''
-    cd Source\CatalogApp
-    ./gradlw assembleDebug
+    cd Source/CatalogApp
+    ./gradlew assembleDebug
 
   '''
 
