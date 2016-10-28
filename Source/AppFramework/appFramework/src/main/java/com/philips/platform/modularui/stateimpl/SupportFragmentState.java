@@ -57,7 +57,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
 
     }
 
-    void launchCC()
+    private void launchCC()
     {
         String[] ctnList = new String[((ConsumerCareData)getUiStateData()).getCtnList().size()];
         ctnList = ((ConsumerCareData)getUiStateData()).getCtnList().toArray(ctnList);

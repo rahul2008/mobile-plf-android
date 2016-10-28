@@ -136,6 +136,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         final String HOME_SETTINGS = "settings";
         final String HOME_IAP = "iap";
         final String HOME_SUPPORT = "support";
+        final String SHOPPING_CART = "shopping_cart";
         final String HOME_ABOUT = "about";
         final int PRODUCT_REGISTRATION = 6;
         final String HOME_FRAGMENT = "home_fragment";
@@ -152,7 +153,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
             case MENU_OPTION_ABOUT:
                 return HOME_ABOUT;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return HOME_SUPPORT;
+                return SHOPPING_CART;
             case PRODUCT_REGISTRATION:
                 return SUPPORT_PR;
             default:
