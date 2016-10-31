@@ -147,7 +147,7 @@ public class BleStrategyTestSteps {
         strategy.putProperties(objData, port, productId, handler);
     }
 
-    @When("^doing a get-properties for productid '(\\d+) and port '(.*?)'")
+    @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'")
     public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
         ResponseHandler handler = mock(ResponseHandler.class);
         responseQueue.add(handler);
