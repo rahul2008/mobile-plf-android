@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.text.Layout;
 import android.util.AttributeSet;
@@ -147,7 +146,7 @@ public class Button extends AppCompatButton {
     private void setCenterLayoutFlag(TypedArray typedArray) {
         isCenterLayoutRequested = typedArray.getBoolean(R.styleable.UITButton_uidButtonCenter, false);
         if (isCenterLayoutRequested) {
-            setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+            setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         }
     }
 }
