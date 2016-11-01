@@ -113,7 +113,6 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextandIconButtonCompoundPadding() {
-
     }
 
     /*******************************************************
