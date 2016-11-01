@@ -7,7 +7,6 @@ package com.philips.platform.uit.components.Buttons;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
@@ -111,6 +110,12 @@ public class QuietButtonTest {
         int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconbutton_right_padding);
         getQuietIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
+
+    @Test
+    public void verifyQuietTextandIconButtonCompoundPadding() {
+
+    }
+
     /*******************************************************
      * Theming
      ******************************************************/
@@ -129,7 +134,6 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextOnlyDisabledButtonFontColor() {
-        disableAllViews();
         final int disabledTextColor = UITTestUtils.modulateColorAlpha(GroupBlue45, 0.35f);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
     }
@@ -141,9 +145,6 @@ public class QuietButtonTest {
     private ViewInteraction getQuietIconOnlyButton() {
         return onView(withId(com.philips.platform.uit.test.R.id.quiet_icon_only));
     }
-
-    private void disableAllViews() {
-        onView(withId(com.philips.platform.uit.test.R.id.disable_switch)).perform(ViewActions.click());
-    }
 }
+
 
