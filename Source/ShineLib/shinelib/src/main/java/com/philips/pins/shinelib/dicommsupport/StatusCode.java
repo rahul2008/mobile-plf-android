@@ -1,6 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
-enum StatusCode {
+public enum StatusCode {
     NoError(0),
     NotUnderstood(1),
     OutOfMemory(2),

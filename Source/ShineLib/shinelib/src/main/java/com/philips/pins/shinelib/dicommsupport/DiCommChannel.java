@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
 import android.support.annotation.NonNull;
@@ -8,7 +13,6 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-import java.nio.ByteBuffer;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,7 +30,17 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
 
     private Set<DiCommPort> diCommPorts = new HashSet<>();
     private List<RequestInfo> pendingRequests = new ArrayList<>();
-    private byte[] receiveBuffer = new byte[0];
+
+    @NonNull
+    private DiCommByteStreamReader mDiCommByteStreamReader;
+
+    private DiCommByteStreamReader.DiCommMessageListener mDiCommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
+        @Override
+        public void onMessage(DiCommMessage message) {
+            parseResponse(message);
+            executeNextRequest();
+        }
+    };
 
     private final Timer requestTimer;
 
@@ -45,38 +59,14 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
                 requestTimedOut();
             }
         }, timeOut);
+
+        mDiCommByteStreamReader = new DiCommByteStreamReader(mDiCommMessageListener);
     }
 
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
     @Override
     public void onDataReceived(byte[] data) {
-        appendReceivedData(data);
-        ByteBuffer byteBuffer = ByteBuffer.wrap(receiveBuffer);
-
-        try {
-            DiCommMessage diCommMessage = new DiCommMessage(byteBuffer);
-            parseResponse(diCommMessage);
-            executeNextRequest();
-
-            reduceReceivedBuffer(byteBuffer);
-        } catch (InvalidParameterException ignored) {
-            // can not detect a message
-        }
-    }
-
-    private void reduceReceivedBuffer(ByteBuffer byteBuffer) {
-        byte[] reducedBuffer = new byte[byteBuffer.remaining()];
-        byteBuffer.get(reducedBuffer);
-        receiveBuffer = reducedBuffer;
-    }
-
-    private void appendReceivedData(byte[] data) {
-        byte[] newReceivedBuffer = new byte[receiveBuffer.length + data.length];
-        ByteBuffer byteBuffer = ByteBuffer.wrap(newReceivedBuffer);
-
-        byteBuffer.put(receiveBuffer);
-        byteBuffer.put(data);
-        receiveBuffer = newReceivedBuffer;
+        mDiCommByteStreamReader.onBytes(data);
     }
 
     private void executeNextRequest() {
@@ -161,7 +151,8 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
                 }
                 pendingRequests.clear();
                 requestTimer.stop();
-                receiveBuffer = new byte[0];
+
+                mDiCommByteStreamReader = new DiCommByteStreamReader(mDiCommMessageListener);
             }
         }
     }

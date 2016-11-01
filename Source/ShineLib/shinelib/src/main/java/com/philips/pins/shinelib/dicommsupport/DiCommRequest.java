@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
 import android.support.annotation.NonNull;
@@ -10,7 +15,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-class DiCommRequest {
+public class DiCommRequest {
 
     public static final String DATA_KEY = "data";
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
 import org.json.JSONException;
@@ -10,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-class DiCommResponse {
+public class DiCommResponse {
 
     private static final int MIN_PAYLOAD_SIZE = 1;
     private MessageType type = MessageType.GenericResponse;

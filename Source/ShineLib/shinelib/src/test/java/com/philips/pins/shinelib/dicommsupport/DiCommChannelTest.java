@@ -44,11 +44,12 @@ public class DiCommChannelTest {
     private static final String PORT_NAME = "port";
     private static final String PRODUCT_NAME = "0";
 
-    private byte firstDataByte = (byte) 0xCA;
-    private byte secondDataByte = (byte) 0xFE;
-    private byte thirdByte = (byte) 0xFE;
+    private final byte firstDataByte = (byte) 0xCA;
+    private final byte secondDataByte = (byte) 0xFE;
+    private final byte thirdByte = (byte) 0xFE;
+    private final byte endByte = (byte) 0x00;
 
-    private byte[] validMessageData = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 2, firstDataByte, secondDataByte};
+    private byte[] validMessageData = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 3, firstDataByte, secondDataByte, endByte};
 
     @Mock
     private SHNProtocolMoonshineStreaming shnProtocolMoonshineStreamingMock;
@@ -255,7 +256,7 @@ public class DiCommChannelTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
-        byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
+        byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 3, firstDataByte, secondDataByte, endByte};
 
         diCommChannel.onDataReceived(data);
         diCommChannel.onDataReceived(data2);
@@ -358,7 +359,7 @@ public class DiCommChannelTest {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
-        byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
+        byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 4, firstDataByte, secondDataByte, thirdByte, endByte};
 
         diCommChannel.onDataReceived(data);
         diCommChannel.onDataReceived(data2);
