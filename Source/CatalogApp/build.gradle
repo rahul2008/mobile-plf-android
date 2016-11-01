@@ -13,7 +13,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.2.2'
         //Dagger dependencies
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-
+        classpath "com.android.databinding:dataBinder:1.0-rc1"
     }
 }
 
@@ -42,6 +42,7 @@ allprojects {
             url "https://plugins.gradle.org/m2/"
         }
         jcenter()
+
     }
 
     ext.supportLibraryVer = '24.2.0';
