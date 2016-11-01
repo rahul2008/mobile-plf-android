@@ -58,19 +58,15 @@ public class Button extends AppCompatButton {
     private void applyTextColorTinting(@NonNull TypedArray typedArray, final Resources.Theme theme) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UITButton_uitButtonTextColorList, -1);
         if (textColorStateID != -1) {
-            setTextColor(getColorStateList(textColorStateID, theme));
+            setTextColor(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
         }
     }
 
     private void applyBackgroundTinting(@NonNull TypedArray typedArray, final Resources.Theme theme) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UITButton_uitButtonBackgroundColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            setSupportBackgroundTintList(getColorStateList(backGroundListID, theme));
+            setSupportBackgroundTintList(ThemeUtils.buildColorStateList(getResources(), theme, backGroundListID));
         }
-    }
-
-    private ColorStateList getColorStateList(final int backgroundColorStateID, final @NonNull Resources.Theme theme) {
-        return ThemeUtils.buildColorStateList(getContext().getResources(), theme, backgroundColorStateID);
     }
 
     /**
@@ -128,7 +124,9 @@ public class Button extends AppCompatButton {
             Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
             final Drawable[] compoundDrawables = getCompoundDrawables();
-            setCompoundDrawables(drawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+            Drawable compat = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTintList(compat, drawableColorlist);
+            setCompoundDrawables(compat, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
         }
     }
 
@@ -138,7 +136,7 @@ public class Button extends AppCompatButton {
         //Store the color state list
         int resourceId = typedArray.getResourceId(R.styleable.UITButton_uitButtonDrawableColorList, -1);
         if (resourceId != -1) {
-            drawableColorlist = getColorStateList(resourceId, theme);
+            drawableColorlist = ThemeUtils.buildColorStateList(getResources(), theme, resourceId);
         }
     }
 

@@ -60,21 +60,24 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:paddingLeft">@dimen/uit_quiet_button_padding_left_right</item>
         <item name="android:paddingRight">@dimen/uit_quiet_button_padding_left_right</item>
-        <item name="uitButtonTextColorList">@color/uit_default_button_text_selector</item>
+        <item name="uitButtonTextColorList">@color/uit_quiet_button_text_selector</item>
+        <item name="uitButtonDrawableColorList">@color/uit_quiet_button_text_selector</item>
+        <item name="uitImageButtonDrawableColorList">@color/uit_quiet_button_text_selector</item>
+        <item name="uitImageButtonColorList">@color/uit_quiet_button_text_selector</item>
     </style>
 
     <style name="UIDQuietIconButton" parent="UITImageButton">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:paddingLeft">@dimen/uit_quiet_button_padding_left_right</item>
         <item name="android:paddingRight">@dimen/uit_quiet_button_padding_left_right</item>
-        <item name="uitImageButtonDrawableColorList">@color/uit_default_button_text_selector</item>
+        <item name="uitImageButtonDrawableColorList">@color/uit_quiet_button_text_selector</item>
     </style>
 
     <style name="UITExtraWideQuietButton" parent="UIDQuietButton">
         <item name="android:layout_width">match_parent</item>
     </style>
 
-    <style name="UIDExtraWideIconQuietButton" parent="UIDQuietIconButton">
+    <style name="UIDExtraWideIconQuietButton" parent="UIDQuietButton">
         <item name="android:layout_width">match_parent</item>
     </style>
 

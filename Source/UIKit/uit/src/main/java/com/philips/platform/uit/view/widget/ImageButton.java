@@ -52,14 +52,14 @@ public class ImageButton extends AppCompatButton {
         //Store the color state list
         int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableColorList, -1);
         if (resourceId != -1) {
-            drawableColorlist = getColorStateListFromResourceID(resourceId);
+            drawableColorlist = ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), resourceId);
         }
     }
 
     private void applyBackgroundTinting(TypedArray typedArray) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            ViewCompat.setBackgroundTintList(this, getColorStateListFromResourceID(backGroundListID));
+            ViewCompat.setBackgroundTintList(this, ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backGroundListID));
         }
     }
 
@@ -82,9 +82,5 @@ public class ImageButton extends AppCompatButton {
         }
         setCompoundDrawables(wrappedDrawable, null, null, null);
         invalidate();
-    }
-
-    private ColorStateList getColorStateListFromResourceID(int backgroundColorStateID) {
-        return ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backgroundColorStateID);
     }
 }
