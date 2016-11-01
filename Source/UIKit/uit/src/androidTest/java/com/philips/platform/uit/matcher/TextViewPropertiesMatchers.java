@@ -54,19 +54,14 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameCompoundDrwablePadding(final int index,final int expectedValue) {
+    public static Matcher<View> isSameCompoundDrawablePadding(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    Drawable[] drawables = ((TextView) view).getCompoundDrawables();
-                    if (drawables != null && drawables[index] != null) {
-                        final BaseTypeSafteyMatcher<View> paddingMatcher = (BaseTypeSafteyMatcher<View>) ViewPropertiesMatchers.isSameLeftPadding(expectedValue);
-                        boolean result =  paddingMatcher.matches(drawables[index]);
-                        setValues(paddingMatcher.actual, paddingMatcher.expected);
-                        return result;
-                    }
-                    return false;
+                    setValues(String.valueOf(((TextView) view).getCompoundDrawablePadding()), String.valueOf(expectedValue));
+                    return ((TextView) view).getCompoundDrawablePadding()== expectedValue;
+
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }

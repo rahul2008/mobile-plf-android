@@ -19,6 +19,9 @@
     <dimen name="iconbutton_right_padding">8dp</dimen>
     <dimen name="iconbutton_cornerradius">2dp</dimen>
 
+    <dimen name="iconandtextbutton_compoundpadding">8dp</dimen>
+
+
     <dimen name="quietbutton_left_padding">12dp</dimen>
     <dimen name="quietbutton_right_padding">12dp</dimen>
 
