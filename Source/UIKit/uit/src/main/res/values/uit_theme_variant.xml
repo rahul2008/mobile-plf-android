@@ -49,6 +49,8 @@
 
         <item name="uidSwitchTrackDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidSwitchBorderColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_20</item>
     </style>
 
     <style name="UltraLight">
@@ -176,8 +178,7 @@
 
         <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel65</item>
-
-
+        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_25</item>
     </style>
 
     <style name="VeryDark">
@@ -209,7 +210,7 @@
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel55</item>
         <item name="uidSwitchTrackOffAlpha">@dimen/uit_alpha_per_50</item>
-
+        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_35</item>
     </style>
 
 </resources>

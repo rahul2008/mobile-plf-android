@@ -3,24 +3,21 @@
 
     <!--Percentage for opacity-->
     <item name="uit_alpha_per_100" format="float" type="dimen">1</item>
+    <item name="uit_alpha_per_20" format="float" type="dimen">0.20</item>
+    <item name="uit_alpha_per_25" format="float" type="dimen">0.25</item>
     <item name="uit_alpha_per_30" format="float" type="dimen">0.30</item>
     <item name="uit_alpha_per_35" format="float" type="dimen">0.35</item>
     <item name="uit_alpha_per_50" format="float" type="dimen">0.50</item>
     <item name="uit_alpha_per_70" format="float" type="dimen">0.70</item>
 
     <!--Switch dimensions-->
-    <item name="uit_switch_off_alpha" format="float" type="dimen">0.1</item>
-    <dimen name="uit_switch_padding_top">12dp</dimen>
-    <dimen name="uit_switch_padding_bottom">12dp</dimen>
-    <dimen name="uit_switch_padding_end">12dp</dimen>
-    <dimen name="uit_switch_thumb_radius">24dp</dimen>
-    <dimen name="uit_switch_thumb_width">23dp</dimen>
-    <dimen name="uit_switch_thumb_radius_pressed">40dp</dimen>
-    <dimen name="uit_switch_thumb_radius_pressed_unpressed_diff">16dp</dimen>
-    <dimen name="uit_switch_track_radius">16dp</dimen>
-    <dimen name="uit_switch_track_width">32dp</dimen>
-    <dimen name="uit_switch_track_height">16dp</dimen>
-    <dimen name="uit_switch_track_transparent_height">8dp</dimen>
+    <dimen name="uid_switch_thumb_radius">24dp</dimen>
+    <dimen name="uid_switch_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_switch_track_radius">16dp</dimen>
+    <dimen name="uid_switch_track_width">32dp</dimen>
+    <dimen name="uid_switch_track_height">16dp</dimen>
+    <dimen name="uid_switch_track_inset_vertical">4dp</dimen>
+    <dimen name="uid_switch_thumb_inset_horizontal">8dp</dimen>
 
     <!--Text only button-->
     <dimen name="uit_button_min_height">40dp</dimen>
@@ -53,6 +50,4 @@
     <item name="uit_texteditbox_border_20_alpha" format="float" type="dimen">0.20</item>
     <item name="uit_texteditbox_border_25_alpha" format="float" type="dimen">0.25</item>
     <item name="uit_texteditbox_border_35_alpha" format="float" type="dimen">0.35</item>
-
-
 </resources>

@@ -66,5 +66,8 @@
         <attr name="uidSwitchTrackColorList" format="reference|color"/>
         <attr name="uidSwitchTrackDisabledColor" format="reference|color"/>
         <attr name="uidSwitchTrackDisabledAlpha" format="reference|float"/>
+        <attr name="uidSwitchBorderColor" format="reference|color"/>
+        <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
+        <attr name="uidSwitchBorderColorList" format="reference|color"/>
     </declare-styleable>
 </resources>
