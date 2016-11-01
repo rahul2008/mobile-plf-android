@@ -6,9 +6,12 @@
 package com.philips.cdp2.commlib.strategy;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp.dicommclient.request.LocalRequestType;
+import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.BleDeviceCache;
+import com.philips.cdp2.commlib.request.BleRequest;
 
 import java.util.Map;
 
@@ -24,6 +27,8 @@ public class BleStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
+        final Request request = new BleRequest(deviceCache.getDeviceMap().get(cppId), portName, productId, LocalRequestType.GET, responseHandler);
+        request.execute();
     }
 
     @Override
@@ -53,8 +58,7 @@ public class BleStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableCommunication(
-            SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
     }
 
     @Override
