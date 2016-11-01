@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <!--With Icon layout-->
             <LinearLayout
@@ -105,10 +105,9 @@
                 android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
 
                 <com.philips.platform.uit.view.widget.Button
-                    style="@style/UITDefaultButton.UITImageTextButton"
+                    style="@style/UITImageTextButton.Center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:uidButtonCenter="true"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_marginTop="@dimen/button_first_last_element_gap"
@@ -116,17 +115,27 @@
                     android:text="@string/buttons_text_primary"/>
 
                 <com.philips.platform.uit.view.widget.Button
-                    style="@style/UITDefaultButton.UITImageTextButton"
+                    style="@style/UITImageTextButton.Center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:uidButtonCenter="true"
-                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_marginTop="@dimen/button_gap"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/buttons_text_secondary"
                     app:uitComponentType="Secondary"/>
+
+                <com.philips.platform.uit.view.widget.Button
+                    style="@style/UIDExtraWideIconQuietButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_quiet"/>
             </LinearLayout>
 
             <!--Left aligned extra wide buttons[start]-->
@@ -138,20 +147,21 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
-            <include layout="@layout/divider_layout"/>
 
-            <TextView
-                style="@style/ButtonsCategoryStyle"
-                android:text="@string/buttons_text_left_aligned_category"/>
+                <include layout="@layout/divider_layout"/>
+
+                <TextView
+                    style="@style/ButtonsCategoryStyle"
+                    android:text="@string/buttons_text_left_aligned_category"/>
 
                 <com.philips.platform.uit.view.widget.Button
                     style="@style/UITDefaultButton.UITImageTextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_marginTop="@dimen/button_first_last_element_gap"
-                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/buttons_text_left_aligned"
                     app:uitComponentType="Secondary"/>
@@ -180,12 +190,21 @@
                     style="@style/UITDefaultButton.UITImageTextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:layout_marginTop="@dimen/button_gap"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:gravity="center"
                     android:text="@string/buttons_text_secondary"
                     app:uitComponentType="Secondary"/>
+
+                <com.philips.platform.uit.view.widget.Button
+                    style="@style/UIDQuietButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_quiet"/>
             </LinearLayout>
 
             <include layout="@layout/divider_layout"/>
@@ -202,12 +221,25 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_left_right"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
 
                 <com.philips.platform.uit.view.widget.ImageButton
                     android:id="@+id/imageShare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="24dp"
+                    android:enabled="@{frag.isButtonsEnabled}"/>
+
+                <com.philips.platform.uit.view.widget.ImageButton
+                    android:id="@+id/quiet_icon_only"
+                    style="@style/UIDQuietIconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="24dp"
                     android:enabled="@{frag.isButtonsEnabled}"/>
             </LinearLayout>
         </LinearLayout>
