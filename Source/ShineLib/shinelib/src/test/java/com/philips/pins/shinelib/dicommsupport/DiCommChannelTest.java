@@ -42,7 +42,7 @@ public class DiCommChannelTest {
 
     private static final int TIME_OUT = 1000;
     private static final String PORT_NAME = "port";
-    private static final String PRODUCT_NAME = "0";
+    private static final String PRODUCT_NAME = "1";
 
     private byte firstDataByte = (byte) 0xCA;
     private byte secondDataByte = (byte) 0xFE;
@@ -215,7 +215,6 @@ public class DiCommChannelTest {
 
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        verify(diCommRequestMock).putPropsRequestDataWithProduct(PRODUCT_NAME, PORT_NAME, properties);
         verify(shnProtocolMoonshineStreamingMock).sendData(any(byte[].class));
     }
 
@@ -515,6 +514,26 @@ public class DiCommChannelTest {
         diCommChannel.onDataReceived(validMessageData);
 
         verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNOk));
+    }
+
+    @Test
+    public void whenSendPropertiesIsCalledForNonFirmwarePortThenPropertiesArePutForProduct1() throws Exception {
+        diCommChannel.onProtocolAvailable();
+
+        diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
+
+        verify(diCommRequestMock).putPropsRequestDataWithProduct(PRODUCT_NAME, PORT_NAME, properties);
+    }
+
+    @Test
+    public void whenSendPropertiesIsCalledForFirmwarePortThenPropertiesArePutForProduct0() throws Exception {
+        String FIRMWARE_PORT = "firmware";
+
+        diCommChannel.onProtocolAvailable();
+
+        diCommChannel.sendProperties(properties, FIRMWARE_PORT, resultListenerMock);
+
+        verify(diCommRequestMock).putPropsRequestDataWithProduct("0", FIRMWARE_PORT, properties);
     }
 
     private class DiCommChannelForTest extends DiCommChannel {
