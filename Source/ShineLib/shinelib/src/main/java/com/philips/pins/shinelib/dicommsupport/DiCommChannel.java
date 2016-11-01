@@ -19,7 +19,6 @@ import java.util.Set;
 public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener {
 
     private static final String TAG = "DiCommChannel";
-    public static final String PRODUCT = "0";
 
     private final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
     private boolean isAvailable;
@@ -181,7 +180,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     public void reloadProperties(String port, SHNMapResultListener<String, Object> resultListener) {
         SHNLogger.d(TAG, "reloadProperties");
         DiCommRequest diCommRequest = getDiCommRequest();
-        DiCommMessage diCommMessage = diCommRequest.getPropsRequestDataWithProduct(PRODUCT, port);
+        DiCommMessage diCommMessage = diCommRequest.getPropsRequestDataWithProduct(getProduct(port), port);
 
         performRequest(diCommMessage, resultListener);
     }
@@ -190,7 +189,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
         SHNLogger.d(TAG, "sendProperties");
 
         DiCommRequest diCommRequest = getDiCommRequest();
-        DiCommMessage diCommMessage = diCommRequest.putPropsRequestDataWithProduct(PRODUCT, port, properties);
+        DiCommMessage diCommMessage = diCommRequest.putPropsRequestDataWithProduct(getProduct(port), port, properties);
 
         if (diCommMessage != null) {
             performRequest(diCommMessage, resultListener);
@@ -236,5 +235,12 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
         public SHNMapResultListener<String, Object> getResultListener() {
             return resultListener;
         }
+    }
+
+    // Current DiComm implementation supports only firmware port on product "0"
+    // all other ports are assumed to be on product "1".
+    @NonNull
+    private String getProduct(@NonNull String port) {
+        return (port.equals("firmware") ? "0" : "1");
     }
 }
