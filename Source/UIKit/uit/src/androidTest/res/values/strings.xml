@@ -5,6 +5,8 @@
     <string name="individual_buttons_label">Individual Buttons</string>
     <string name="alternate_primary_label">Alternate Primary Button</string>
     <string name="secondary_button_label">Secondary Button</string>
+    <string name="quiet_button_label">Quiet Button</string>
+
 
     <!--TextBox-->
     <string name="textbox_dummy_string">TextBox</string>
