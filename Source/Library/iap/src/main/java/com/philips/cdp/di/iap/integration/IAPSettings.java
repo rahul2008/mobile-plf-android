@@ -6,8 +6,10 @@ package com.philips.cdp.di.iap.integration;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -20,8 +22,20 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
-        mHostPort = "https://acc.occ.shop.philips.com/";
+        loadCofigParams();
 //        initServiceDiscovery();
+    }
+
+    private void loadCofigParams() {
+        AppConfigurationInterface mConfigInterface = RegistrationHelper.getInstance().getAppInfraInstance().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+
+        mHostPort = (String) mConfigInterface.getPropertyForKey("hostport", "IAP", configError);
+        mProposition = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
+
+        if (configError.getErrorCode() != null) {
+            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
+        }
     }
 
     public boolean isUseLocalData() {

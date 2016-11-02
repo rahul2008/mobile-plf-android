@@ -531,4 +531,18 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean handleBackEvent() {
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            int count = getFragmentManager().getBackStackEntryCount();
+            for (int i = 0; i < count; i++) {
+                getFragmentManager().popBackStack();
+            }
+            finishActivity();
+        }else{
+            getFragmentManager().popBackStack();
+        }
+        return super.handleBackEvent();
+    }
 }

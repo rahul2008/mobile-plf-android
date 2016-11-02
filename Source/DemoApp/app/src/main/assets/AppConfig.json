@@ -40,6 +40,10 @@
       234
     ]
   },
+  "IAP": {
+    "hostport": "https://www.occ.shop.philips.com/",
+    "propositionid": "Tuscany2016"
+  },
   "appinfra": {
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
