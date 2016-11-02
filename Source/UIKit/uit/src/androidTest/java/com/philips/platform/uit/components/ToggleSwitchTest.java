@@ -93,10 +93,8 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchTrackOnColorTest() {
         final int expectedTrackEnabledColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
-        getToggleSwitch().perform(click());
-        UITTestUtils.waitFor(testResources, 750);
         getToggleSwitch().check(matches(FunctionDrawableMatchers
-                .isSameColor(trackFunction(), android.R.attr.enabled, expectedTrackEnabledColor, trackID())));
+                .isSameColor(trackFunction(), android.R.attr.checked, expectedTrackEnabledColor, trackID())));
     }
 
     @Test
