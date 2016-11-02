@@ -2,7 +2,6 @@ package com.philips.platform.appinfra.demo;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.appinfra.rest.RestManager;
+import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
+import com.philips.platform.appinfra.rest.request.AIStringRequest;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -29,16 +29,16 @@ import java.util.HashMap;
  * Created by 310238114 on 10/20/2016.
  */
 public class RestClientServiceIdActivity extends AppCompatActivity {
-    String[] requestTypeOption  ={"GET","POST","PUT","DELETE"};
-    String[] requestDataOption  ={"StringRequest","jsonObjectRequest","imageRequest"};
+    String[] requestTypeOption = {"GET", "POST", "PUT", "DELETE"};
+    String[] requestDataOption = {"StringRequest", "jsonObjectRequest", "imageRequest"};
     // String url = "https://hashim.herokuapp.com/RCT/test.php?action=data&id=aa";
     //String baseURL= "https://www.oldchaphome.nl";
     String serviceIdString;
 
     private Spinner requestTypeSpinner;
     private Spinner requestDataSpinner;
-    HashMap<String,String> params;
-    HashMap<String,String> headers;
+    HashMap<String, String> params;
+    HashMap<String, String> headers;
     EditText serviceIDInput;
     EditText pathComponentInput;
     RestInterface mRestInterface;
@@ -46,43 +46,44 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     ImageView mImageView;
 
     TextView urlFired;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_service_id);
 
-        params= new HashMap<String,String>();
-        headers= new HashMap<String,String>();
+        params = new HashMap<String, String>();
+        headers = new HashMap<String, String>();
         mRestInterface = AppInfraApplication.gAppInfra.getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
-        serviceIDInput= (EditText)findViewById(R.id.editTextServiceID);
+        serviceIDInput = (EditText) findViewById(R.id.editTextServiceID);
         serviceIDInput.setText("userreg.janrain.api");
-        pathComponentInput= (EditText)findViewById(R.id.editTextPathComponent);
-        mResponse= (TextView) findViewById(R.id.textViewResponse);
+        pathComponentInput = (EditText) findViewById(R.id.editTextPathComponent);
+        mResponse = (TextView) findViewById(R.id.textViewResponse);
         mImageView = (ImageView) findViewById(R.id.responseImageId);
-        serviceIdString= serviceIDInput.getText().toString();
+        serviceIdString = serviceIDInput.getText().toString();
 
 
-        final Button setHeaders = (Button)findViewById(R.id.buttonSetHeadersSID);
+        final Button setHeaders = (Button) findViewById(R.id.buttonSetHeadersSID);
         setHeaders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showParamorheaderDialog(headers,"Enter Headers");
+                showParamorheaderDialog(headers, "Enter Headers");
             }
 
         });
 
-        Button setParams = (Button)findViewById(R.id.buttonSetParamsSID);
+        Button setParams = (Button) findViewById(R.id.buttonSetParamsSID);
         setParams.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showParamorheaderDialog(params,"Enter Params");
+                showParamorheaderDialog(params, "Enter Params");
             }
 
         });
 
 
-        Button invoke = (Button)findViewById(R.id.buttonInvokeSID);
+        Button invoke = (Button) findViewById(R.id.buttonInvokeSID);
         invoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,119 +91,133 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                 mImageView.setImageBitmap(null);
                 int methodType = Request.Method.GET;
 
-                if(headers != null) {
-                    for(String  key: headers.keySet() ){
+                if (headers != null) {
+                    for (String key : headers.keySet()) {
 
                     }
                 }
 
-                if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("GET")){
+                if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("GET")) {
                     methodType = Request.Method.GET;
 
-                }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("POST")){
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("POST")) {
                     methodType = Request.Method.POST;
-                }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")){
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("PUT")) {
                     methodType = Request.Method.PUT;
-                }else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("DELETE")){
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("DELETE")) {
                     methodType = Request.Method.DELETE;
                 }
+                AIStringRequest mStringRequest = null;
 
 
-                if(requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[0])){ // string
-                     try {
-                        mRestInterface.stringRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
-                            @Override
-                            public void onSuccess(Object response) {
-                                String serviceResponse=(String)response;
-                                Log.i("LOG REST SD", "" + serviceResponse);
-                                mResponse.setText(serviceResponse);
-                                clearParamsAndHeaders();// clear headerd and params from rest client
-                            }
-
-                            @Override
-                            public void onErrorResponse(String error) {
-                                Log.i("LOG REST SD", "" + error);
-                                mResponse.setText(error);
-                                clearParamsAndHeaders();// clear headerd and params from rest client
-                            }
-                        },
-                                headers,params);
-                    } catch (HttpForbiddenException e) {
-                        Log.e("LOG REST SD", e.toString() );
-                        e.printStackTrace();
-                    }
-                }else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])){ //json
+                if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[0])) { // string
                     try {
-                        mRestInterface.jsonObjectRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
-                                    @Override
-                                    public void onSuccess(Object response) {
-                                        JSONObject serviceResponse=(JSONObject)response;
-                                        Log.i("LOG REST SD", "" + serviceResponse);
-                                        mResponse.setText(serviceResponse.toString());
-                                        clearParamsAndHeaders();// clear headerd and params from rest client
-                                    }
+                        mStringRequest = new AIStringRequest(methodType,
+                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE, ServiceIDUrlFormatting.BYLANGUAGEPREFIX
+                                , new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.i("LOG", "" + response);
+                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                showAlertDialog("Success Response", response);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("LOG", "" + error);
 
-                                    @Override
-                                    public void onErrorResponse(String error) {
-                                        Log.i("LOG REST ", "" + error);
-                                        mResponse.setText(error);
-                                        clearParamsAndHeaders();// clear headerd and params from rest client
-                                    }
-                                },
-                                headers,params);
+                                //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+                                showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
+                            }
+                        });
+
                     } catch (HttpForbiddenException e) {
-                        Log.e("LOG REST SD", e.toString() );
+                        Log.e("LOG REST SD", e.toString());
                         e.printStackTrace();
                     }
-                } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])){ //image
-
-                    try {
-                        mRestInterface.imageRequestWithServiceID(serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
-                            @Override
-                            public void onSuccess(Object response) {
-                                Bitmap bitmap = (Bitmap)response;
-                                mImageView.setImageBitmap(bitmap);
-                                Log.i("LOG REST ", "image downloaded");
-                                clearParamsAndHeaders();// clear headerd and params from rest client
-                            }
-
-                            @Override
-                            public void onErrorResponse(String error) {
-                                mResponse.setText(error);
-                                Log.i("LOG REST ", "" + error);
-                                clearParamsAndHeaders();// clear headerd and params from rest client
-                            }
-                        },headers,null, Bitmap.Config.RGB_565,0,0
-                        );
-                    } catch (HttpForbiddenException e) {
-                        e.printStackTrace();
+                    if (mStringRequest.getCacheEntry() != null) {
+                        String cachedResponse = new String(mStringRequest.getCacheEntry().data);
+                        Log.i("CACHED DATA: ", "" + cachedResponse);
                     }
+                    // mStringRequest.setShouldCache(false); // set false to disable cache
 
+                    if (null != mStringRequest) {
+                      //  urlFired.setText(mStringRequest.getUrl());
+                        mRestInterface.getRequestQueue().add(mStringRequest);
+                    }
                 }
+//                else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])){ //json
+//                    try {
+//                        mRestInterface.jsonObjectRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
+//                                    @Override
+//                                    public void onSuccess(Object response) {
+//                                        JSONObject serviceResponse=(JSONObject)response;
+//                                        Log.i("LOG REST SD", "" + serviceResponse);
+//                                        mResponse.setText(serviceResponse.toString());
+//                                        clearParamsAndHeaders();// clear headerd and params from rest client
+//                                    }
+//
+//                                    @Override
+//                                    public void onErrorResponse(String error) {
+//                                        Log.i("LOG REST ", "" + error);
+//                                        mResponse.setText(error);
+//                                        clearParamsAndHeaders();// clear headerd and params from rest client
+//                                    }
+//                                },
+//                                headers,params);
+//                    } catch (HttpForbiddenException e) {
+//                        Log.e("LOG REST SD", e.toString() );
+//                        e.printStackTrace();
+//                    }
+//                } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])){ //image
+//
+//                    try {
+//                        mRestInterface.imageRequestWithServiceID(serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
+//                            @Override
+//                            public void onSuccess(Object response) {
+//                                Bitmap bitmap = (Bitmap)response;
+//                                mImageView.setImageBitmap(bitmap);
+//                                Log.i("LOG REST ", "image downloaded");
+//                                clearParamsAndHeaders();// clear headerd and params from rest client
+//                            }
+//
+//                            @Override
+//                            public void onErrorResponse(String error) {
+//                                mResponse.setText(error);
+//                                Log.i("LOG REST ", "" + error);
+//                                clearParamsAndHeaders();// clear headerd and params from rest client
+//                            }
+//                        },headers,null, Bitmap.Config.RGB_565,0,0
+//                        );
+//                    } catch (HttpForbiddenException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
 
             }
 
         });
 
-        requestTypeSpinner =(Spinner)findViewById(R.id.spinnerRequestType);
+        requestTypeSpinner = (Spinner) findViewById(R.id.spinnerRequestType);
 
         ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, requestTypeOption);
         requestTypeSpinner.setAdapter(input_adapter);
 
 
-        requestDataSpinner =(Spinner)findViewById(R.id.spinnerRequestData);
+        requestDataSpinner = (Spinner) findViewById(R.id.spinnerRequestData);
 
         ArrayAdapter<String> input_data_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, requestDataOption);
         requestDataSpinner.setAdapter(input_data_adapter);
 
 
-
-
     }
 
-    void showParamorheaderDialog(final HashMap<String, String> keyValue,String title ){
+    void showParamorheaderDialog(final HashMap<String, String> keyValue, String title) {
 
         final Dialog dialog = new Dialog(RestClientServiceIdActivity.this);
         dialog.setContentView(R.layout.rest_client_input_param);
@@ -213,9 +228,9 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null==name.getText() || name.getText().toString().isEmpty() || null==value.getText() || value.getText().toString().isEmpty()){
+                if (null == name.getText() || name.getText().toString().isEmpty() || null == value.getText() || value.getText().toString().isEmpty()) {
                     Toast.makeText(RestClientServiceIdActivity.this, "name or value incorrect", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     keyValue.put(name.getText().toString(), value.getText().toString());
                     dialog.dismiss();
                 }
@@ -225,7 +240,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    void showAlertDialog(String title, String msg){
+    void showAlertDialog(String title, String msg) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(RestClientServiceIdActivity.this);
         builder1.setTitle(title);
         builder1.setMessage(msg);
@@ -246,15 +261,15 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     }
 
     // get path component to be appended at base url returned by SD
-    String getPathComponentString(){
-        String path="";
-        if(null!=pathComponentInput.getText() && null!=pathComponentInput.getText().toString()){
-            path=pathComponentInput.getText().toString().trim();
+    String getPathComponentString() {
+        String path = "";
+        if (null != pathComponentInput.getText() && null != pathComponentInput.getText().toString()) {
+            path = pathComponentInput.getText().toString().trim();
         }
         return path;
     }
 
-    private void clearParamsAndHeaders(){
+    private void clearParamsAndHeaders() {
         headers.clear();
         params.clear();
     }
